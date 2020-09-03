@@ -22,18 +22,19 @@
       </div>
     </div>
     <div class="text-holder text-dark text-medium">
-      <h4 class="font-weight-bold" [translate]="'create_account.change_display_name'">Change Your Display Name</h4>
+      <h4 class="font-weight-bold" [translate]="'create_account.change_display_name'">Your Display Name</h4>
       <p [translate]="'create_account.with_email_address'">This is the display name that will be shown next to your email address. </p>
       <div class="form">
         <div class="form-group form-group">
           <input class="form-control text-dark display-name-input" id="displayName" autocomplete="off"
                  maxlength="32"
+                 required
                  [placeholder]="'create_account.enter_display_name'| translate" type="text" name="displayName"
                  formControlName="username"/>
           <span *ngIf="changeDisplayNameForm.controls['username'].errors && changeDisplayNameForm.controls['username'].touched"
                 class="validate-message"
-          [translate]="'create_account.display_name_req'">Enter a valid display name with maximum 32 characters.
-                </span>
+                [translate]="'create_account.display_name_req'">Enter a valid display name with maximum 32 characters.
+          </span>
         </div>
       </div>
       <p><span [translate]="'common.email'">Email</span>: "{{changeDisplayNameForm.controls['username'].value}} <{{email}}>".

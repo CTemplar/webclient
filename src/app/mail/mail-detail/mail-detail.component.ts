@@ -507,6 +507,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             : this.mail.receiver;
       }
     }
+    console.log('wwwwwwwwwwwwwwwwwwwwwwwww', mail, this.composeMailData)
     this.composeMailData[mail.id].action = MailAction.REPLY;
     this.setActionParent(mail, isChildMail, mainReply);
     this.mailOptions[mail.id].isComposeMailVisible = true;

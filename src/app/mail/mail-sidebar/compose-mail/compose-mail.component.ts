@@ -888,7 +888,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
     }
-    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
     const invalidAddress = receivers.find(receiver => !this.rfcStandardValidateEmail(receiver));
     if (invalidAddress) {
       this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
@@ -1183,7 +1182,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
-
     this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.name ? `${receiver.name} <${receiver.email}>` : receiver.email);
     this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
     this.draftMail.cc = this.mailData.cc.map(cc => cc.name ? `${cc.name} <${cc.email}>` : cc.email);
@@ -1322,15 +1320,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.resetDeadManTimerValues();
     this.mailData = {
       receiver: this.receivers ?
-        this.receivers.map(receiver => ({ display: receiver, value: receiver })) :
+        this.receivers.map(receiver => ({ display: receiver, value: receiver, email: receiver })) :
         this.draftMail && this.draftMail.receiver ?
-          this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver })) :
+          this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver, email: receiver })) :
           [],
-      cc: this.cc ? this.cc.map(address => ({ display: address, value: address })) :
+      cc: this.cc ? this.cc.map(address => ({ display: address, value: address, email: address })) :
         this.draftMail && this.draftMail.cc ?
-          this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver })) :
+          this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver, email: receiver })) :
           [],
-      bcc: this.draftMail && this.draftMail.bcc ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver })) : [],
+      bcc: this.draftMail && this.draftMail.bcc ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver, email: receiver })) : [],
       subject: (this.draftMail && this.draftMail.is_subject_encrypted) ? '' :
         (this.subject ? this.subject : this.draftMail ? this.draftMail.subject : ''),
       content: ''

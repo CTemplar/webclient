@@ -170,10 +170,17 @@
         <div class="mail-composer-actions-col mail-composer-actions-col-lg"
           [ngClass]="{'composer-footer' : !isFullScreen && !isMailDetailPage}">
           <ul class="mail-composer-actions d-flex align-items-center">
-            <li class="send-mail-item"> <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
-                (click)="sendEmailCheck()" [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0"
-                role="button" placement="top"> <i class="hidden-sm-up icon icon-paper-plane"></i><span
-                  class="hidden-xs-down">{{"settings.compose.send"| translate}}</span> </button> </li>
+            <li class="send-mail-item"> 
+              <button 
+                class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
+                (click)="sendEmailCheck()" 
+                [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0"
+                role="button" 
+                placement="top"> 
+                  <i class="hidden-sm-up icon icon-paper-plane"></i>
+                  <span class="hidden-xs-down">{{"settings.compose.send"| translate}}</span> 
+              </button> 
+            </li>
             <li class="pr-0">
               <div *ngIf="!draftMail?.is_html; else textFormatter"
                 ngbTooltip="Text formatting is not available in plain text editor" class="dropdown"> <button

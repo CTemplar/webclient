@@ -78,7 +78,6 @@ export class ComposeMailService {
                     hasSshEncryption = true;
                     publicKeys.push(draftMail.draft.encryption.public_key);
                   }
-
                   if (draftMail.usersKeys.encrypt || hasSshEncryption) {
                     draftMail.draft.is_encrypted = true;
                     publicKeys = [...publicKeys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];

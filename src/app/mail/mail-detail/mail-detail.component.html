@@ -215,10 +215,12 @@
                 <span class="text-secondary"> </span>
                 <a class="text-gray-dark text-muted">
                   <ng-container
-                    *ngIf="mail.sender_display_name || (mail.sender_display.name!==mail.sender_display.email && mail.sender_display.name!==mail.sender_display.email.split('@')[0])">
-                    {{mail.sender_display_name ? mail.sender_display_name : mail.sender_display?.name}}
+                    *ngIf="mail.sender_display_name || (mail.sender_display.name!==mail.sender_display.email && mail.sender_display.name!==mail.sender_display.email.split('@')[0]); else onlySenderEmail">
+                    {{mail.sender_display_name ? mail.sender_display_name : mail.sender_display?.name}} <{{mail.sender_display.email}}>
                   </ng-container>
-                  <{{mail.sender_display.email}}>
+                  <ng-template #onlySenderEmail>
+                    {{mail.sender_display.email}}
+                  </ng-template>
                 </a>
                 <span class="position-relative">
                   <i *ngIf="mail.last_action" class="fas fa-{{mail.last_action | lastAction}} last-action"></i>
@@ -230,10 +232,13 @@
                   <span class="text-secondary"> </span>
                   <a class="text-muted">
                     <ng-container
-                      *ngIf="receiver.name!==receiver.email && receiver.name!==receiver.email.split('@')[0]">
-                      {{receiver.name}}
+                      *ngIf="receiver.name!==receiver.email && receiver.name!==receiver.email.split('@')[0]; else onlyReceiverEmail">
+                      {{receiver.name}} <{{receiver.email}}>
                     </ng-container>
-                    <{{receiver.email}}>
+                    <ng-template #onlyReceiverEmail>
+                      {{receiver.email}}
+                    </ng-template>
+                    
                   </a>
                   <!--Comma as a separator-->
                   <span *ngIf=" i < mail.receiver?.length-1">, </span>
@@ -243,7 +248,7 @@
                 Cc:
                 <ng-container *ngFor="let cc of mail.cc; let i = index;">
                   <span class="text-secondary"> </span>
-                  <a class="text-muted">&lt;{{cc}}&gt;</a>
+                  <a class="text-muted">{{cc}}</a>
                   <!--Comma as a separator-->
                   <span *ngIf=" i < mail.cc?.length-1">, </span>
                 </ng-container>
@@ -252,7 +257,7 @@
                 Bcc:
                 <ng-container *ngFor="let bcc of mail.bcc_display; let i = index;">
                   <span class="text-secondary"> </span>
-                  <a class="text-muted">&lt;{{bcc.email}}&gt;</a>
+                  <a class="text-muted">{{bcc.email}}</a>
                   <!--Comma as a separator-->
                   <span *ngIf=" i < mail.bcc_display?.length-1">, </span>
                 </ng-container>
@@ -406,10 +411,12 @@
                           <span class="text-secondary"> </span>
                           <a class="text-muted text-gray-dark">
                             <ng-container
-                              *ngIf="childMail.sender_display_name || (childMail.sender_display.name!==childMail.sender_display.email && childMail.sender_display.name!==childMail.sender_display.email.split('@')[0])">
-                              {{childMail.sender_display_name ? childMail.sender_display_name : childMail.sender_display?.name}}
+                              *ngIf="childMail.sender_display_name || (childMail.sender_display.name!==childMail.sender_display.email && childMail.sender_display.name!==childMail.sender_display.email.split('@')[0]); else onlySenderEmailForChild">
+                              {{childMail.sender_display_name ? childMail.sender_display_name : childMail.sender_display?.name}} <{{childMail.sender_display.email}}>
                             </ng-container>
-                            <{{childMail.sender_display.email}}>
+                            <ng-template #onlySenderEmailForChild>
+                              {{childMail.sender_display.email}}
+                            </ng-template>
                           </a>
                           <span class="position-relative">
                             <i *ngIf="childMail.last_action"
@@ -422,10 +429,12 @@
                             <span class="text-secondary"> </span>
                             <a class="text-muted">
                               <ng-container
-                                *ngIf="receiver.name!==receiver.email && receiver.name!==receiver.email.split('@')[0]">
-                                {{receiver.name}}
+                                *ngIf="receiver.name!==receiver.email && receiver.name!==receiver.email.split('@')[0]; else onlyReceiverEmailForChild">
+                                {{receiver.name}} <{{receiver.email}}>
                               </ng-container>
-                              <{{receiver.email}}>
+                              <ng-template #onlyReceiverEmailForChild>
+                                {{receiver.email}}
+                              </ng-template>
                             </a>
                             <!--Comma as a separator-->
                             <span *ngIf=" i < childMail.receiver?.length-1">, </span>
@@ -435,7 +444,7 @@
                           Cc:
                           <ng-container *ngFor="let cc of childMail.cc; let i = index;">
                             <span class="text-secondary"> </span>
-                            <a class="text-muted">&lt;{{cc}}&gt;</a>
+                            <a class="text-muted">{{cc}}</a>
                             <!--Comma as a separator-->
                             <span *ngIf=" i < childMail.cc?.length-1">, </span>
                           </ng-container>
@@ -444,7 +453,7 @@
                           Bcc:
                           <ng-container *ngFor="let bcc of childMail.bcc_display; let i = index;">
                             <span class="text-secondary"> </span>
-                            <a class="text-muted">&lt;{{bcc.email}}&gt;</a>
+                            <a class="text-muted">{{bcc.email}}</a>
                             <span *ngIf=" i < childMail.bcc_display?.length-1">, </span>
                           </ng-container>
                         </li>
@@ -631,13 +640,21 @@
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2"
       *ngIf="mailOptions[mail.id]?.isComposeMailVisible && !draftNew?.id">
-      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers" [cc]="composeMailData[mail.id]?.cc"
-        [content]="composeMailData[mail.id]?.content" [messageHistory]="composeMailData[mail.id]?.messageHistory"
-        [action]="composeMailData[mail.id]?.action" [action_parent]="composeMailData[mail.id].action_parent_id"
-        [subject]="composeMailData[mail.id]?.subject" [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox"
+      <app-compose-mail 
+        [receivers]="composeMailData[mail.id]?.receivers" 
+        [cc]="composeMailData[mail.id]?.cc"
+        [content]="composeMailData[mail.id]?.content" 
+        [messageHistory]="composeMailData[mail.id]?.messageHistory"
+        [action]="composeMailData[mail.id]?.action" 
+        [action_parent]="composeMailData[mail.id].action_parent_id"
+        [subject]="composeMailData[mail.id]?.subject" 
+        [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox"
         [parentId]="composeMailData[mail.id]?.parentId"
-        [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId" [showSaveButton]="false"
-        [isMailDetailPage]="true" (hide)="onComposeMailHide(mail)" (popUpChange)="onChangePopup($event)">
+        [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId" 
+        [showSaveButton]="false"
+        [isMailDetailPage]="true" 
+        (hide)="onComposeMailHide(mail)" 
+        (popUpChange)="onChangePopup($event)">
       </app-compose-mail>
     </div>
     <div *ngIf="isReplyContext && draftNew?.id && draftNew.folder!== mailFolderTypes.TRASH &&
