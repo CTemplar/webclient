@@ -48,9 +48,7 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuillModule } from 'ngx-quill';
 
 @NgModule({
-  entryComponents: [
-    ComposeMailDialogComponent,
-  ],
+  entryComponents: [ComposeMailDialogComponent],
   declarations: [
     AddressesSignatureComponent,
     ComposeMailComponent,
@@ -73,7 +71,7 @@ import { QuillModule } from 'ngx-quill';
     OrganizationUsersComponent,
     SaveContactComponent,
     SaveListContactComponent,
-    SecurityComponent,
+    SecurityComponent
   ],
   imports: [
     CommonModule,
@@ -89,16 +87,9 @@ import { QuillModule } from 'ngx-quill';
     NgbModule,
     QuillModule.forRoot(),
     ReactiveFormsModule,
-    SharedModule,
+    SharedModule
   ],
-  exports: [
-    MailFooterComponent
-  ],
-  providers: [
-    MailSettingsService,
-    ComposeMailService,
-    WebsocketService,
-    PushNotificationService,
-  ],
+  exports: [MailFooterComponent],
+  providers: [MailSettingsService, ComposeMailService, WebsocketService, PushNotificationService]
 })
-export class MailModule { }
+export class MailModule {}

@@ -1,7 +1,7 @@
 <aside id="mailbox-sidebar" (clickOutside)="toggleMenu($event)" class="mailbox-sidebar is-sidebar-expandedx"
     role="complementary" [ngClass]="{'is-sidebar-expanded': isSidebarOpened}">
     <div class="mailbox-sidebar-inner" [class.sidebar-opened]="isSidebarOpened">
-
+        <!-- Ctemplar Logo Section -->
         <div class="mailbox-brand">
             <button class="navbar-toggler hidden-md-up" role="button" (click)="toggleMenu()">
                 <span class="navbar-toggler-icon"></span>
@@ -21,7 +21,7 @@
                 <span class="prime-account-text">{{currentPlan}}</span>
             </div>
         </div>
-
+        <!-- Compose button -->
         <div class="mail-compose-section display-unset hidden-xs-down">
             <button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon" role="button"
                 (click)="openComposeMailDialog();">
@@ -29,9 +29,10 @@
                 <span class="mailbox-btn-text hidden-sm-down">{{"common.compose"| translate}}</span>
             </button>
         </div>
-
+        <!-- Folders list section -->
         <nav class="mailbox-sidebar-navbar">
             <ul class="mailbox-sidebar-nav folders-list">
+                <!-- Inbox -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.INBOX">
                     <a routerLink="/mail/inbox/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
@@ -44,6 +45,7 @@
                         </ng-container>
                     </a>
                 </li>
+                <!-- Draft -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.DRAFT">
                     <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
@@ -54,12 +56,14 @@
                         </span>
                     </a>
                 </li>
+                <!-- Sent -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.SENT">
                     <a routerLink="/mail/sent/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-paper-plane"></i>
                         <span class="mailbox-sidebar-nav-label">{{"mail_sidebar.sent"| translate}}</span>
                     </a>
                 </li>
+                <!-- Outbox -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.OUTBOX">
                     <a routerLink="/mail/outbox/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-draft"></i>
@@ -76,12 +80,14 @@
                         </span>
                     </a>
                 </li>
+                <!-- All emails -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.ALL_EMAILS">
                     <a routerLink="/mail/allmails/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
                         <span class="mailbox-sidebar-nav-label">{{"mail_sidebar.all_emails"| translate}}</span>
                     </a>
                 </li>
+                <!-- Unread -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.UNREAD">
                     <a routerLink="/mail/allunreadmails/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-inbox"></i>
@@ -94,18 +100,21 @@
                         </ng-container>
                     </a>
                 </li>
+                <!-- Starred -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.STARRED">
                     <a routerLink="/mail/starred/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-star"></i>
                         <span class="mailbox-sidebar-nav-label">{{"mail_sidebar.starred"| translate}}</span>
                     </a>
                 </li>
+                <!-- Archive -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.ARCHIVE">
                     <a routerLink="/mail/archive/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-archive"></i>
                         <span class="mailbox-sidebar-nav-label">{{"mail_sidebar.archive"| translate}}</span>
                     </a>
                 </li>
+                <!-- Spam -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.SPAM">
                     <a routerLink="/mail/spam/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-warning"></i>
@@ -116,6 +125,7 @@
                         </span>
                     </a>
                 </li>
+                <!-- Trash -->
                 <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.TRASH">
                     <a routerLink="/mail/trash/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
                         <i class="icon icon-garbage"></i>
@@ -155,7 +165,7 @@
                 </li>
             </ul>
         </nav>
-
+        <!-- Sidebar footer -->
         <div class="mailbox-sidebar-footer text-center mt-4 py-2">
             <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">
                 <span translate="mail_sidebar.used"></span>

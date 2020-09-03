@@ -1,7 +1,8 @@
 <div class="mailbox-content-outer">
     <app-mail-sidebar></app-mail-sidebar>
     <div class="banner row ml-lg-5 -align-center" *ngIf="autoresponder_status">
-        <p><span>{{"settings.autoresponder_active"| translate}}</span> &nbsp;
+        <p>
+            <span>{{"settings.autoresponder_active"| translate}}</span> &nbsp;
             <a (click)="endAutoResponder()">{{"settings.end_now"| translate}}</a>&nbsp;-
             <a [routerLink]="'./settings/forwarding-and-auto-responder'">{{"mail_header.settings"| translate}}</a>
         </p>

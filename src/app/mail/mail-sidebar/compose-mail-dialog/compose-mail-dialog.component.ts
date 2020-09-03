@@ -1,4 +1,14 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
@@ -33,11 +43,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   mailSubject = '';
   isPopupClosed: boolean;
 
-  constructor(
-    private modalService: NgbModal,
-    private cdr: ChangeDetectorRef,
-    private store: Store<AppState>
-  ) {}
+  constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     if (this.draft) {
@@ -46,10 +52,17 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     /**
      * Hide dialog when reply
      */
-    this.store.select(state => state).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state)
+      .pipe(untilDestroyed(this))
       .subscribe((appState: AppState) => {
         this.isPopupClosed = appState.mail.isComposerPopUp;
-        if (this.isPopupClosed !== undefined && !this.isPopupClosed && this.action === MailAction.REPLY && this.composeMail !== undefined) {
+        if (
+          this.isPopupClosed !== undefined &&
+          !this.isPopupClosed &&
+          this.action === MailAction.REPLY &&
+          this.composeMail !== undefined
+        ) {
           this.onHide();
         }
       });
@@ -67,9 +80,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   onClose() {
     if (this.action === MailAction.REPLY) {
       setTimeout(res => {
-        this.store.dispatch(new SetIsComposerPopUp(
-          false
-        ));
+        this.store.dispatch(new SetIsComposerPopUp(false));
       }, 2000);
     }
     /**
@@ -121,5 +132,4 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     }
     this.hide.emit(true);
   }
-
 }
