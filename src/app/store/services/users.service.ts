@@ -2,6 +2,7 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { distinctUntilChanged } from 'rxjs/operators';
 // Helpers
 import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY, JWT_AUTH_COOKIE } from '../../shared/config';
 // Models
@@ -9,7 +10,7 @@ import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState, AutoResponder, Contact, Settings } from '../datatypes';
+import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
 import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
 import { Filter } from '../models/filter.model';
@@ -24,8 +25,15 @@ export class UsersService {
     private store: Store<AppState>,
   ) {
     if (this.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE) && this.getUserKey() && !this.isTokenExpired()) {
-      this.store.dispatch(new LogInSuccess({}));
+      
     }
+    this.store.select(state => state.auth).pipe(
+      distinctUntilChanged((prev, cur) => prev.isAuthenticated === cur.isAuthenticated))
+      .subscribe((authState: AuthState) => {
+        if (authState.isAuthenticated && this.getUserKey()) {
+          this.store.dispatch(new LogInSuccess({}));
+        }
+      });
   }
 
   setTokenExpiration() {

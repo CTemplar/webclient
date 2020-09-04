@@ -118,13 +118,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       });
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
-      .subscribe((authState: AuthState) => {
-        if (!authState.isAuthenticated) {
-          this.websocketService.disconnect();
-          this.store.dispatch(new ClearMailsOnLogout());
-        }
-      });
   }
 
   ngOnInit() {

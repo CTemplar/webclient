@@ -64,7 +64,6 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
           anti_phishing_phrase: action.payload.anti_phishing_phrase
         };
       }
-
       return { ...state };
     }
     case AuthActionTypes.LOGIN_FAILURE: {
@@ -73,6 +72,16 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         errorMessage: action.payload || 'Incorrect username or password.',
         inProgress: false
       };
+    }
+    case AuthActionTypes.SET_AUTHENTICATED: {
+      if (state.isAuthenticated) {
+        return { ...state };
+      } else {
+        return {
+          ...state,
+          isAuthenticated: action.payload.isAuthenticated
+        }
+      }
     }
     case AuthActionTypes.SIGNUP_SUCCESS: {
       return {
