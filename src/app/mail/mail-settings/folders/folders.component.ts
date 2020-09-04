@@ -4,6 +4,7 @@ import { AppState, UserState, MailState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteFolder, UpdateFolderOrder, GetCustomFolderMessageCount } from '../../../store/actions';
+import { MAX_FOLDERS_COUNT } from '../../../shared/config';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';
 import { NotificationService } from '../../../store/services/notification.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -20,19 +21,25 @@ export class FoldersComponent implements OnInit, OnDestroy {
   @ViewChild('confirmationModal') confirmationModal;
   confirmModalRef: NgbModalRef;
   selectedFolder: Folder;
-
   reorder: boolean;
   reorderInProgress = false;
 
   private unmodifiedFolders: Array<Folder>;
   private mailState: MailState;
 
-  constructor(private store: Store<AppState>,
-              private modalService: NgbModal,
-              private notificationService: NotificationService) { }
+  constructor(
+    private store: Store<AppState>,
+    private modalService: NgbModal,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    /**
+     * Get list of customFolders for current user
+     */
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.store.dispatch(new GetCustomFolderMessageCount());
@@ -46,15 +53,19 @@ export class FoldersComponent implements OnInit, OnDestroy {
         }
         this.folders = [...user.customFolders];
       });
-
-    this.store.select(state => state.mail).pipe(untilDestroyed(this))
+    /**
+     * Add message count on each custom folder
+     */
+    this.store
+      .select(state => state.mail)
+      .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
         const mergeById = (a1, a2) =>
-            a1.map(itm => ({
-              ...itm,
-              ...a2.find((item) => (item.folder === itm.name) && item)
-            }));
+          a1.map(itm => ({
+            ...itm,
+            ...a2.find(item => item.folder === itm.name && item)
+          }));
 
         this.folders = mergeById(this.folders, this.mailState.customFolderMessageCount);
       });
@@ -77,17 +88,21 @@ export class FoldersComponent implements OnInit, OnDestroy {
   addFolder(folder: Folder = { id: null, name: '', color: '' }, edit?: boolean) {
     const options: any = {
       centered: true,
-      windowClass: 'modal-sm mailbox-modal create-folder-modal',
+      windowClass: 'modal-sm mailbox-modal create-folder-modal'
     };
 
-    if (this.userState.isPrime || (this.userState.customFolders === null || (this.userState.customFolders.length < 5 || edit))) {
+    if (
+      this.userState.isPrime ||
+      this.userState.customFolders === null ||
+      this.userState.customFolders.length < MAX_FOLDERS_COUNT ||
+      edit
+    ) {
       const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
       component.folder = folder;
     } else {
       this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
     }
   }
-
 
   deleteFolder() {
     this.store.dispatch(new DeleteFolder(this.selectedFolder));
@@ -126,7 +141,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
       data: {
         folder_list: this.folders.map(item => {
           return { folder_id: item.id, sort_order: item.sort_order };
-        }),
+        })
       }
     };
     this.store.dispatch(new UpdateFolderOrder(payload));
@@ -137,8 +152,5 @@ export class FoldersComponent implements OnInit, OnDestroy {
     this.folders = this.unmodifiedFolders;
   }
 
-
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }

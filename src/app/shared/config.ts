@@ -3,9 +3,7 @@ import { AppConfig } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
 export const apiUrl = getBaseUrl();
-export const PRIMARY_DOMAIN = AppConfig.production
-  ? 'ctemplar.com'
-  : 'dev.ctemplar.net';
+export const PRIMARY_DOMAIN = AppConfig.production ? 'ctemplar.com' : 'dev.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
 
 export const COLORS: string[] = [
@@ -122,6 +120,7 @@ export interface Language {
 }
 
 export const ESCAPE_KEYCODE = 27;
+export const MAX_FOLDERS_COUNT = 5;
 
 export const VALID_EMAIL_REGEX: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -133,8 +132,7 @@ export const PROMO_CODE_KEY = 'promo_code';
 export const REFFERAL_ID_KEY = 'cjevent';
 export const JWT_AUTH_COOKIE = 'jwt_auth_cookie';
 
-export const SummarySeparator =
-  '';
+export const SummarySeparator = '';
 
 import * as QuillNamespace from 'quill';
 const Quill: any = QuillNamespace;
@@ -160,10 +158,9 @@ export const QUILL_FORMATTING_MODULES = {
 function getBaseUrl() {
   if (AppConfig.production) {
     const config = getWindowConfig();
-    return config.host ===
-      'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion' ?
-      'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/' :
-      'https://api.ctemplar.com/';
+    return config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion'
+      ? 'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/'
+      : 'https://api.ctemplar.com/';
   } else if (AppConfig.local) {
     return 'http://127.0.0.1:8000/';
   }
