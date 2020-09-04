@@ -24,9 +24,6 @@ export class UsersService {
     private router: Router,
     private store: Store<AppState>,
   ) {
-    if (this.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE) && this.getUserKey() && !this.isTokenExpired()) {
-      
-    }
     this.store.select(state => state.auth).pipe(
       distinctUntilChanged((prev, cur) => prev.isAuthenticated === cur.isAuthenticated))
       .subscribe((authState: AuthState) => {
