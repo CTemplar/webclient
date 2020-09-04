@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, AuthState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
+import { AppState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -9,7 +9,6 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { NotificationService } from '../../store/services/notification.service';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import {
-  ClearMailsOnLogout,
   GetMails,
   GetMailsSuccess,
   GetUnreadMailsCount,
