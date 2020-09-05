@@ -14,7 +14,7 @@ release
 .DS_Store
 Thumbs.db
 TODO.md
-.prettierrc
+# .prettierrc
 
 # compiled output
 /tmp/
