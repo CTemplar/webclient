@@ -325,7 +325,7 @@ export class RefreshToken implements Action {
   constructor(public payload?: any) {}
 }
 
-export class SetAuthencatedState implements Action {
+export class SetAuthenticatedState implements Action {
   readonly type = AuthActionTypes.SET_AUTHENTICATED;
 
   constructor(public payload?: any) {}
@@ -374,4 +374,4 @@ export type AuthActionAll =
   | Update2FA
   | Update2FASuccess
   | RefreshToken
-  | SetAuthencatedState;
+  | SetAuthenticatedState;

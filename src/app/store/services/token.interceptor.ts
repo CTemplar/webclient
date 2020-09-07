@@ -3,7 +3,7 @@ import { Injectable, Injector } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
-import { Logout, PaymentFailure, StopGettingUnreadMailsCount, SetAuthencatedState, ClearMailsOnLogout } from '../actions';
+import { Logout, PaymentFailure, StopGettingUnreadMailsCount, SetAuthenticatedState, ClearMailsOnLogout } from '../actions';
 import { AppState, AuthState } from '../datatypes';
 
 import { UsersService } from './users.service';
@@ -39,7 +39,7 @@ export class TokenInterceptor implements HttpInterceptor {
             event.url.indexOf(apiUrl) >= 0 && 
             event.url.indexOf('auth/sign-out') < 0 && 
             !this.isAuthenticated) {
-            this.store.dispatch(new SetAuthencatedState({ isAuthenticated: true }))
+            this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }))
           }
         }
       }),
