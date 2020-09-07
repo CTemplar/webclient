@@ -67,7 +67,7 @@ textarea:disabled {
     text-overflow: ellipsis;
 }
 
-.compose-contacts-container {
+.compose-contacts-container { /* Contacts Hint Style */
     display: flex;
     align-items: center;
     line-height: normal;
@@ -83,7 +83,7 @@ textarea:disabled {
     }
 }
 
-.mail-composer-footer {
+.mail-composer-footer { /* Compose Footer Style */
     .actions-btn {
         &.more-btn {
             width: 2.25rem;

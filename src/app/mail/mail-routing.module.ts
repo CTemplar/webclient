@@ -11,14 +11,16 @@ import { AuthGuard } from '../store/services';
 
 const routes: Routes = [
   {
-    path: 'mail', component: MailComponent, canActivate: [AuthGuard],
+    path: 'mail',
+    component: MailComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
       { path: 'settings', component: MailSettingsComponent },
       { path: 'settings/:id', component: MailSettingsComponent },
       { path: 'contacts', component: MailContactComponent },
       { path: ':folder/page/:page', component: MailListComponent },
-      { path: ':folder/page/:page/message/:id', component: MailDetailComponent },
+      { path: ':folder/page/:page/message/:id', component: MailDetailComponent }
     ]
   }
 ];
@@ -27,5 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MailRoutingModule {
-}
+export class MailRoutingModule {}

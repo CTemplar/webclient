@@ -1,11 +1,7 @@
 <header class="ui-header ui-header-bordered">
-  <h5 class="ui-header-subtitle text-dark mb-0"><strong>Invitation codes</strong></h5>
-  <!-- <a href="{{primaryWebsite}}/faq/get-an-invitation-code/"
-     ngbTooltip="Learn more"
-     class="learn-more-info-icon"
-     target="_blank">
-    <i class="far fa-question-circle"></i>
-  </a> -->
+  <h5 class="ui-header-subtitle text-dark mb-0">
+    <strong>Invitation codes</strong>
+  </h5>
 </header>
 <div class="mailbox-section-body mailbox-section-body-sm position-relative">
   <div class="form-content-holder">
@@ -14,20 +10,17 @@
         <div>
           <div class="row">
             <div class="col mb-2" align="left">
-              <button type="button" ngbTooltip="Generate an invitation code"
-                      [disabled]="inProgress || !isPrime"
-                      (click)="generateCode()"
-                      class="btn btn-sm btn-secondary"><span>Generate a code</span>
+              <button type="button" ngbTooltip="Generate an invitation code" [disabled]="inProgress || !isPrime"
+                (click)="generateCode()" class="btn btn-sm btn-secondary">
+                <span>Generate a code</span>
               </button>
             </div>
             <app-loading-spinner class="loading-spinner" [showSpinner]="inProgress"></app-loading-spinner>
           </div>
           <div>
-
-          <div *ngIf="!isPrime" class="l-alert">
-            Note: Only paid customers can generate invitation codes.
-          </div>
-
+            <div *ngIf="!isPrime" class="l-alert">
+              Note: Only paid customers can generate invitation codes.
+            </div>
             <div *ngIf="inviteCodes?.length>0">
               <ul class="ui-list ui-list-styled list-styled users-list">
                 <li class="ui-list-item ui-list-item-xs-full">
@@ -48,8 +41,7 @@
                   <div class="row row-xs align-items-center">
                     <div class="col-6 text-dark col-item">
                       <span>{{inviteCode.code}}</span>
-                      <button mat-icon-button (click)="copyToClipboard(inviteCode.code)"
-                              class="copy-btn">
+                      <button mat-icon-button (click)="copyToClipboard(inviteCode.code)" class="copy-btn">
                         <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
                       </button>
                     </div>
@@ -58,7 +50,6 @@
                         {{inviteCode.expiration_date | date: 'medium'}}
                       </div>
                     </div>
-
                     <div class="col-3 text-dark col-item">
                       <div class="form-label text-dark mb-0">
                         {{inviteCode.is_used ? 'YES' : 'NO'}}
@@ -68,7 +59,6 @@
                 </li>
               </ul>
             </div>
-
           </div>
         </div>
       </div>

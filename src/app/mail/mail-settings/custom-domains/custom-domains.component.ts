@@ -5,7 +5,6 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { Store } from '@ngrx/store';
 
 import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } from '../../../store/actions';
-
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -18,7 +17,6 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
   styleUrls: ['./custom-domains.component.scss']
 })
 export class CustomDomainsComponent implements OnInit, OnDestroy {
-
   @Output() onGotoTab = new EventEmitter<string>();
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
@@ -29,7 +27,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   domains: Domain[] = [];
   newDomain: Domain;
   newDomainError: string;
-
   isAddingNewDomain = false;
   currentStep = 0;
   domainNameForm: FormGroup;
@@ -48,18 +45,23 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
-    private sharedService: SharedService,
+    private sharedService: SharedService
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
   }
 
   ngOnInit() {
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         if (!user.inProgress) {
@@ -76,18 +78,13 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     });
 
     this.verifyForm = this.formBuilder.group({});
-
     this.mxForm = this.formBuilder.group({});
-
     this.spfForm = this.formBuilder.group({});
-
     this.dkimForm = this.formBuilder.group({});
-
     this.dmarcForm = this.formBuilder.group({});
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   startAddingNewDomain(domain: any = null) {
     this.newDomainError = null;
@@ -96,7 +93,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       this.isEditing = true;
       this.newDomain = domain;
       this.isAddingNewDomain = true;
-
     } else if (!this.userState.inProgress) {
       this.currentStep = 0;
       domain = {};

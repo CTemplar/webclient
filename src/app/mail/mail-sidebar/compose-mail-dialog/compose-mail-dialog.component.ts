@@ -1,4 +1,14 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
@@ -18,7 +28,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public draft: Mail;
   @Input() action: MailAction;
   @Input() parentId: number;
-
   @Input() public isFullScreen: boolean;
   @Input() public receivers: Array<string>;
 
@@ -29,48 +38,54 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
   @ViewChild('input') input: ElementRef;
 
-
-  isMinimized: boolean;
   private confirmModalRef: NgbModalRef;
+  isMinimized: boolean;
   mailSubject = '';
   isPopupClosed: boolean;
-  constructor(private modalService: NgbModal,
-              private cdr: ChangeDetectorRef,
-              private store: Store<AppState>) {
-  }
+
+  constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     if (this.draft) {
       this.mailSubject = this.draft.subject;
     }
-    this.store.select(state => state).pipe(untilDestroyed(this))
+    /**
+     * Hide dialog when reply
+     */
+    this.store
+      .select(state => state)
+      .pipe(untilDestroyed(this))
       .subscribe((appState: AppState) => {
         this.isPopupClosed = appState.mail.isComposerPopUp;
-        if (this.isPopupClosed !== undefined && !this.isPopupClosed && this.action === MailAction.REPLY && this.composeMail !== undefined) {
+        if (
+          this.isPopupClosed !== undefined &&
+          !this.isPopupClosed &&
+          this.action === MailAction.REPLY &&
+          this.composeMail !== undefined
+        ) {
           this.onHide();
         }
       });
   }
 
   ngAfterViewInit(): void {
-
     if (this.mailSubject && this.action) {
       if (this.action === MailAction.REPLY) {
         this.mailSubject = 'Reply: ' + this.mailSubject;
       }
     }
     this.cdr.detectChanges();
-
   }
 
   onClose() {
     if (this.action === MailAction.REPLY) {
       setTimeout(res => {
-        this.store.dispatch(new SetIsComposerPopUp(
-          false
-        ));
+        this.store.dispatch(new SetIsComposerPopUp(false));
       }, 2000);
     }
+    /**
+     * Save draft when close compose dialog
+     */
     if (this.composeMail.hasData()) {
       this.saveInDrafts();
     } else if (this.composeMail.draftMail) {
@@ -91,9 +106,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   }
 
   onHide() {
-    this.store.dispatch(new SetIsComposerPopUp(
-      false
-    ));
+    this.store.dispatch(new SetIsComposerPopUp(false));
     this.hideMailComposeDialog();
   }
 
@@ -119,5 +132,4 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     }
     this.hide.emit(true);
   }
-
 }

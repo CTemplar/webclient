@@ -6,16 +6,17 @@
       <div class="mail-composer-title mr-4" (click)="toggleMinimized()">
         <span class="d-inline-block text-truncate" *ngIf="mailSubject; else newMessage"
           [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
-          {{mailSubject}}</span>
+          {{mailSubject}}
+        </span>
         <ng-template #newMessage>
           <span class="d-inline-block text-truncate"
             [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
-            {{"settings.compose.new_message"| translate}}</span>
+            {{"settings.compose.new_message"| translate}}
+          </span>
         </ng-template>
       </div>
       <div class="mail-composer-header-actions">
         <div class="mail-actions-list">
-
           <!--Minimize Modal-->
           <div class="mail-actions-item">
             <button role="button" placement="top"
@@ -24,7 +25,6 @@
               <i class="fas fa-minus"></i>
             </button>
           </div>
-
           <!--Maximize Modal-->
           <div class="mail-actions-item">
             <button role="button" placement="top"
@@ -33,7 +33,6 @@
               <i class="icon icon-maximize"></i>
             </button>
           </div>
-
           <!--Close Modal-->
           <div class="mail-actions-item">
             <button role="button" placement="top" [ngbTooltip]="('settings.compose.close'| translate)"
@@ -47,6 +46,7 @@
 
     <app-compose-mail #composeMail [draftMail]="draft" (hide)="onHide()" (subjectChanged)="subjectChanged($event)"
       [receivers]="receivers" [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"
-      [isReplyInPopup]="action === 'REPLY'? true: false"></app-compose-mail>
+      [isReplyInPopup]="action === 'REPLY'? true: false">
+    </app-compose-mail>
   </div>
 </div>
