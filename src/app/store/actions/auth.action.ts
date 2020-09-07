@@ -43,7 +43,8 @@ export enum AuthActionTypes {
   GET_2FA_SECRET_SUCCESS = '[Auth] Get 2FA otp secret Success',
   UPDATE_2FA = '[Auth] Enable 2FA',
   UPDATE_2FA_SUCCESS = '[Auth] Enable 2FA Success',
-  REFRESH_TOKEN = '[Auth] Refresh Token'
+  REFRESH_TOKEN = '[Auth] Refresh Token',
+  SET_AUTHENTICATED = '[Auth] Set Authenticated'
 }
 
 export class LogIn implements Action {
@@ -324,6 +325,12 @@ export class RefreshToken implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SetAuthenticatedState implements Action {
+  readonly type = AuthActionTypes.SET_AUTHENTICATED;
+
+  constructor(public payload?: any) {}
+}
+
 export type AuthActionAll =
   | LogIn
   | LogInSuccess
@@ -366,4 +373,5 @@ export type AuthActionAll =
   | Get2FASecretSuccess
   | Update2FA
   | Update2FASuccess
-  | RefreshToken;
+  | RefreshToken
+  | SetAuthenticatedState;
