@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, AuthState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
+import { AppState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
@@ -8,7 +8,6 @@ import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import {
-  ClearMailsOnLogout,
   GetMails,
   GetMailsSuccess,
   GetUnreadMailsCount,
@@ -115,13 +114,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
               read: webSocketState.message.marked_as_read,
             }));
           }
-        }
-      });
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
-      .subscribe((authState: AuthState) => {
-        if (!authState.isAuthenticated) {
-          this.websocketService.disconnect();
-          this.store.dispatch(new ClearMailsOnLogout());
         }
       });
   }

@@ -1,6 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { UsersService } from '../../store/services';
-import { AppState, UserState } from '../../store/datatypes';
+import { AppState, UserState, AuthState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
@@ -16,12 +15,19 @@ export class WebsocketService implements OnDestroy {
   private webSocket: WebSocket;
   private retryCount = 1;
   private userId: number = Date.now();
+  private isAuthenticated: boolean = false;
 
-  constructor(private authService: UsersService,
-    private store: Store<AppState>) {
+  constructor(
+    private store: Store<AppState>
+  ) {
     this.store.select(state => state.user).pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         this.userId = userState.id ? userState.id : this.userId;
+      });
+
+    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+      .subscribe((authState: AuthState) => {
+        this.isAuthenticated = authState.isAuthenticated;
       });
   }
 
@@ -40,7 +46,7 @@ export class WebsocketService implements OnDestroy {
     };
 
     this.webSocket.onclose = (e) => {
-      if (this.authService.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE)) {
+      if (this.isAuthenticated) {
         LoggerService.log(`Socket is closed. Reconnect will be attempted in ${(1000 + (this.retryCount * 1000))} second. ${e.reason}`);
         setTimeout(() => {
           this.connect();
