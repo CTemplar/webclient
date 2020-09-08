@@ -1,5 +1,5 @@
 export const node = {
-    path: true,
-    crypto: true,
-    fs: 'empty'
+  path: true,
+  crypto: true,
+  fs: 'empty'
 };
