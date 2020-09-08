@@ -1,9 +1,22 @@
 import { Observable, throwError as observableThrowError } from 'rxjs';
 import { Injectable, Injector } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse
+} from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
-import { Logout, PaymentFailure, StopGettingUnreadMailsCount, SetAuthenticatedState, ClearMailsOnLogout } from '../actions';
+import {
+  Logout,
+  PaymentFailure,
+  StopGettingUnreadMailsCount,
+  SetAuthenticatedState,
+  ClearMailsOnLogout
+} from '../actions';
 import { AppState, AuthState } from '../datatypes';
 
 import { UsersService } from './users.service';
@@ -12,19 +25,18 @@ import { catchError, tap } from 'rxjs/operators';
 import { apiUrl } from '../../shared/config';
 import { WebsocketService } from '../../shared/services/websocket.service';
 
-
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   private authService: UsersService;
-  private isAuthenticated: boolean = false;
-  constructor(private injector: Injector,
-              private store: Store<AppState>,
-              private websocketService: WebsocketService) {
-                this.store.select(state => state.auth).pipe()
-                  .subscribe((authState: AuthState) => {
-                    this.isAuthenticated = authState.isAuthenticated;
-                  });
-              }
+  private isAuthenticated = false;
+  constructor(private injector: Injector, private store: Store<AppState>, private websocketService: WebsocketService) {
+    this.store
+      .select(state => state.auth)
+      .pipe()
+      .subscribe((authState: AuthState) => {
+        this.isAuthenticated = authState.isAuthenticated;
+      });
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(UsersService);
@@ -33,13 +45,15 @@ export class TokenInterceptor implements HttpInterceptor {
     });
 
     return next.handle(request).pipe(
-      tap((event) => {
+      tap(event => {
         if (event instanceof HttpResponse) {
-          if(event.ok && 
-            event.url.indexOf(apiUrl) >= 0 && 
-            event.url.indexOf('auth/sign-out') < 0 && 
-            !this.isAuthenticated) {
-            this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }))
+          if (
+            event.ok &&
+            event.url.indexOf(apiUrl) >= 0 &&
+            event.url.indexOf('auth/sign-out') < 0 &&
+            !this.isAuthenticated
+          ) {
+            this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }));
           }
         }
       }),
@@ -60,6 +74,7 @@ export class TokenInterceptor implements HttpInterceptor {
           error.error = error.error.detail;
         }
         return observableThrowError(error);
-      }));
+      })
+    );
   }
 }

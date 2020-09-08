@@ -7,10 +7,8 @@ import { apiUrl } from '../../config';
   styleUrls: ['./bitcoin-form.component.scss']
 })
 export class BitcoinFormComponent implements OnInit {
-
   public apiUrl: string = apiUrl;
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

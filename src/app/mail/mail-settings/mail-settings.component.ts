@@ -117,6 +117,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
+
     /**
      * Get user's state and initialize
      */
@@ -169,6 +170,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       startWith(''),
       map(name => (name ? this._filterTimeZone(name) : this.timezones.slice()))
     );
+    
     /**
      * Save current settings tab
      */

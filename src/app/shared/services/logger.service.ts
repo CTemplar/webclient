@@ -1,8 +1,7 @@
 import { AppConfig } from '../../../environments/environment';
 
 export class LoggerService {
-
-  constructor() { }
+  constructor() {}
 
   public static log(message?: any, ...optionalParams: any[]) {
     if (AppConfig.production === false) {

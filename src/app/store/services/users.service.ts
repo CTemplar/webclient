@@ -4,7 +4,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs/operators';
 // Helpers
-import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY, JWT_AUTH_COOKIE } from '../../shared/config';
+import {
+  apiUrl,
+  PRIMARY_DOMAIN,
+  PROMO_CODE_KEY,
+  REFFERAL_CODE_KEY,
+  REFFERAL_ID_KEY,
+  JWT_AUTH_COOKIE
+} from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
@@ -19,13 +26,10 @@ import { Filter } from '../models/filter.model';
 export class UsersService {
   private userKey: string;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private store: Store<AppState>,
-  ) {
-    this.store.select(state => state.auth).pipe(
-      distinctUntilChanged((prev, cur) => prev.isAuthenticated === cur.isAuthenticated))
+  constructor(private http: HttpClient, private router: Router, private store: Store<AppState>) {
+    this.store
+      .select(state => state.auth)
+      .pipe(distinctUntilChanged((prev, cur) => prev.isAuthenticated === cur.isAuthenticated))
       .subscribe((authState: AuthState) => {
         if (authState.isAuthenticated && this.getUserKey()) {
           this.store.dispatch(new LogInSuccess({}));
@@ -34,7 +38,7 @@ export class UsersService {
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + (1000 * 60 * 60 * 3);  // set 3 hours expiration token time.
+    const expiration = new Date().getTime() + 1000 * 60 * 60 * 3; // set 3 hours expiration token time.
     localStorage.setItem('token_expiration', expiration.toString());
   }
 
@@ -117,7 +121,8 @@ export class UsersService {
   }
 
   onBeforeLoader(e) {
-    const confirmationMessage = 'If you close the window now all the progress will be lost and your account won\'t be created.';
+    const confirmationMessage =
+      "If you close the window now all the progress will be lost and your account won't be created.";
     (e || window.event).returnValue = confirmationMessage; // Gecko + IE
     return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
   }
@@ -307,8 +312,7 @@ export class UsersService {
   }
 
   getInviteCodes() {
-    return this.http.get<any>(`${apiUrl}users/invites/`)
-      .pipe(map(response => response.results));
+    return this.http.get<any>(`${apiUrl}users/invites/`).pipe(map(response => response.results));
   }
 
   generateInviteCodes() {
@@ -355,7 +359,10 @@ export class UsersService {
   }
 
   updateOrganizationUser(data: any): Observable<any> {
-    return this.http.post<any>(`${apiUrl}auth/update-user/`, { user_id: data.user_id, recovery_email: data.recovery_email });
+    return this.http.post<any>(`${apiUrl}auth/update-user/`, {
+      user_id: data.user_id,
+      recovery_email: data.recovery_email
+    });
   }
 
   deleteOrganizationUser(data: any): Observable<any> {
@@ -374,7 +381,9 @@ export class UsersService {
   private updateSignupDataWithPromo(data: any = {}) {
     // Get cookie for cjevent
     const referralId = document.cookie.split('; ').find(row => row.startsWith(REFFERAL_ID_KEY));
-    if (referralId) { data[REFFERAL_ID_KEY] = referralId.split('=')[1]; }
+    if (referralId) {
+      data[REFFERAL_ID_KEY] = referralId.split('=')[1];
+    }
     return data;
   }
 
@@ -454,11 +463,9 @@ export class UsersService {
     return this.http.get<any>(`${apiUrl}auth/captcha/`);
   }
 
-
   get2FASecret(): Observable<any> {
     return this.http.get<any>(`${apiUrl}auth/otp-secret/`);
   }
-
 
   update2FA(data: any): Observable<any> {
     data.password = this.hashData(data);
@@ -503,7 +510,7 @@ export class UsersService {
   // This part is almost trick, but would work perfectly, needs to update later
   doesHttpOnlyCookieExist(cookiename) {
     const d = new Date();
-    d.setTime(d.getTime() + (1000));
+    d.setTime(d.getTime() + 1000);
     const expires = 'expires=' + d.toUTCString();
 
     document.cookie = cookiename + '=new_value;path=/;' + expires;

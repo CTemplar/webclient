@@ -10,7 +10,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./countdown-timer.component.scss']
 })
 export class CountdownTimerComponent implements OnInit, OnDestroy {
-
   @Input() duration: number; // duration in seconds
 
   @Output() finished = new EventEmitter<boolean>();
@@ -20,15 +19,12 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   minutes: number;
   seconds: number;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     timer(0, 1000)
       .pipe(untilDestroyed(this))
-      .pipe(
-        takeWhile(() => this.duration > 0)
-      )
+      .pipe(takeWhile(() => this.duration > 0))
       .subscribe(res => {
         this.calculate();
         this.duration--;
@@ -49,7 +45,5 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     this.seconds = durationCopy % 60;
   }
 
-  ngOnDestroy() {
-  }
-
+  ngOnDestroy() {}
 }

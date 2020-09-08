@@ -39,12 +39,13 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   paymentTypeEnum = PaymentType;
   selectedPaymentType: PaymentType = PaymentType.ANNUALLY;
 
-  constructor(private sharedService: SharedService,
-              private store: Store<any>,
-              private router: Router,
-              private dynamicScriptLoader: DynamicScriptLoaderService,
-              private modalService: NgbModal) {
-  }
+  constructor(
+    private sharedService: SharedService,
+    private store: Store<any>,
+    private router: Router,
+    private dynamicScriptLoader: DynamicScriptLoaderService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -71,9 +72,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   toggleSlides(index) {
     this.selectedIndex = index;
     document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document
-      .querySelector('.package-prime-col')
-      .classList.remove('active-slide');
+    document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
 
   setPricingPlans() {
@@ -91,17 +90,19 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedPlan = plan;
     this.store.dispatch(new ClearSignUpState());
     this.store.dispatch(new ClearAuthErrorMessage());
-    this.store.dispatch(new UpdateSignupData({
-      plan_type: this.selectedPlan,
-      payment_type: this.paymentType,
-      payment_method: this.paymentMethod,
-      currency: this.selectedCurrency
-    }));
+    this.store.dispatch(
+      new UpdateSignupData({
+        plan_type: this.selectedPlan,
+        payment_type: this.paymentType,
+        payment_method: this.paymentMethod,
+        currency: this.selectedCurrency
+      })
+    );
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
         windowClass: 'modal-lg users-action-modal',
-        backdrop: 'static',
+        backdrop: 'static'
       });
     } else {
       if (plan === PlanType.FREE) {
@@ -113,12 +114,12 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   togglePaymentType() {
-    this.selectedPaymentType = this.selectedPaymentType === PaymentType.MONTHLY ? PaymentType.ANNUALLY : PaymentType.MONTHLY;
+    this.selectedPaymentType =
+      this.selectedPaymentType === PaymentType.MONTHLY ? PaymentType.ANNUALLY : PaymentType.MONTHLY;
     this.paymentType = this.selectedPaymentType;
   }
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
   }
-
 }

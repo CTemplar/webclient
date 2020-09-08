@@ -1,29 +1,10 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { AppState, AuthState } from '../../store/datatypes';
-import {
-  ClearAuthErrorMessage,
-  FinalLoading,
-  LogIn,
-  RecoverPassword,
-  ResetPassword
-} from '../../store/actions';
-import {
-  LOADING_IMAGE,
-  OpenPgpService,
-  SharedService,
-  UsersService
-} from '../../store/services';
+import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
+import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -178,9 +159,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   toggleRememberMe() {
-    this.loginForm.controls['rememberMe'].setValue(
-      !this.loginForm.controls['rememberMe'].value
-    );
+    this.loginForm.controls['rememberMe'].setValue(!this.loginForm.controls['rememberMe'].value);
   }
 
   continueLogin() {
@@ -247,9 +226,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .get(InputFields.USERNAME)
       .valueChanges.pipe(
         untilDestroyed(this),
-        filter(
-          value => this.isKeyboardOpened && value !== this.keyboard.getInput()
-        )
+        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput())
       )
       .subscribe(value => {
         this.onInputChange(value);
@@ -258,9 +235,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .get(InputFields.PASSWORD)
       .valueChanges.pipe(
         untilDestroyed(this),
-        filter(
-          value => this.isKeyboardOpened && value !== this.keyboard.getInput()
-        )
+        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput())
       )
       .subscribe(value => {
         this.onInputChange(value);

@@ -12,15 +12,12 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./mail-list.component.scss']
 })
 export class MailListComponent implements OnInit, OnDestroy {
-
   mailFolder: string = MailFolderType.INBOX;
   mailFolderTypes = MailFolderType;
   customFolders: Folder[] = [];
   private page = 1;
 
-  constructor(public route: ActivatedRoute,
-              private store: Store<AppState>) {
-  }
+  constructor(public route: ActivatedRoute, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
@@ -28,7 +25,9 @@ export class MailListComponent implements OnInit, OnDestroy {
       this.page = +params['page'];
     });
 
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
       });

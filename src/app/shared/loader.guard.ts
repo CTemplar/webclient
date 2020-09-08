@@ -4,8 +4,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class LoadGuard implements CanActivate {
-  constructor() {
-  }
+  constructor() {}
 
   canActivate() {
     return true;

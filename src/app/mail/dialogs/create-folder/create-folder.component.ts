@@ -25,21 +25,13 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   duplicateFoldername: boolean;
   callback: { self: any; method: string };
 
-  constructor(
-    private store: Store<AppState>,
-    private fb: FormBuilder,
-    public activeModal: NgbActiveModal
-  ) {}
+  constructor(private store: Store<AppState>, private fb: FormBuilder, public activeModal: NgbActiveModal) {}
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
       folderName: [
         this.folder.name,
-        [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/),
-          Validators.maxLength(30)
-        ]
+        [Validators.required, Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/), Validators.maxLength(30)]
       ],
       color: this.folder.color
     });
@@ -52,9 +44,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         if (this.userState && this.userState.inProgress && !user.inProgress) {
           if (this.callback) {
-            this.callback.self[this.callback.method](
-              this.customFolderForm.value.folderName
-            );
+            this.callback.self[this.callback.method](this.customFolderForm.value.folderName);
           }
           this.activeModal.close();
         }
@@ -88,9 +78,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   checkFolderExist(folderName: string) {
     if (
       this.userState.customFolders.filter(
-        folder =>
-          folder.name.toLowerCase() === folderName.toLowerCase() &&
-          folder.id !== this.folder.id
+        folder => folder.name.toLowerCase() === folderName.toLowerCase() && folder.id !== this.folder.id
       ).length > 0
     ) {
       this.duplicateFoldername = true;

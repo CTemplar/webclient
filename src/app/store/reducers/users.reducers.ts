@@ -74,7 +74,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS: {
       const cards = state.cards;
-      cards.forEach(card => card.is_primary = action.payload === card.id);
+      cards.forEach(card => (card.is_primary = action.payload === card.id));
       return {
         ...state,
         cards,
@@ -107,7 +107,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         whiteList: state.whiteList.concat(action.payload),
         inProgress: false,
         isError: false,
-        error: '',
+        error: ''
       };
     }
 
@@ -119,31 +119,27 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         blackList: state.blackList.concat(action.payload),
         inProgress: false,
-        isError: false,
+        isError: false
       };
     }
 
     case UsersActionTypes.WHITELIST_DELETE_SUCCESS: {
-      state.whiteList.splice(
-        state.whiteList.indexOf(state.whiteList.filter(item => item.id === action.payload)[0]),
-        1);
+      state.whiteList.splice(state.whiteList.indexOf(state.whiteList.filter(item => item.id === action.payload)[0]), 1);
       return {
         ...state,
         inProgress: false,
         isError: false,
-        error: '',
+        error: ''
       };
     }
 
     case UsersActionTypes.BLACKLIST_DELETE_SUCCESS: {
-      state.blackList.splice(
-        state.blackList.indexOf(state.blackList.filter(item => item.id === action.payload)[0]),
-        1);
+      state.blackList.splice(state.blackList.indexOf(state.blackList.filter(item => item.id === action.payload)[0]), 1);
       return {
         ...state,
         inProgress: false,
         isError: false,
-        error: '',
+        error: ''
       };
     }
 
@@ -153,7 +149,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: action.payload.non_field_errors ? action.payload.non_field_errors[0] : '',
+        error: action.payload.non_field_errors ? action.payload.non_field_errors[0] : ''
       };
     }
 
@@ -190,7 +186,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.SETTINGS_UPDATE_SUCCESS: {
       return {
         ...state,
-        settings: action.payload,
+        settings: action.payload
       };
     }
 
@@ -208,7 +204,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FOLDER: {
       return {
         ...state,
-        inProgress: true,
+        inProgress: true
       };
     }
 
@@ -227,21 +223,21 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
-        inProgress: false,
+        inProgress: false
       };
     }
 
     case UsersActionTypes.CREATE_FOLDER_FAILURE: {
       return {
         ...state,
-        inProgress: false,
+        inProgress: false
       };
     }
 
     case UsersActionTypes.DELETE_FOLDER: {
       return {
         ...state,
-        inProgress: true,
+        inProgress: true
       };
     }
 
@@ -249,14 +245,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       state.customFolders = state.customFolders.filter(folder => folder.id !== action.payload.id);
       return {
         ...state,
-        inProgress: false,
+        inProgress: false
       };
     }
 
     case UsersActionTypes.UPDATE_FOLDER_ORDER: {
       return {
         ...state,
-        inProgress: true,
+        inProgress: true
       };
     }
 
@@ -264,7 +260,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {
         ...state,
         inProgress: false,
-        customFolders: action.payload.folders,
+        customFolders: action.payload.folders
       };
     }
 
@@ -301,7 +297,9 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FILTER_FAILURE:
     case UsersActionTypes.UPDATE_FILTER_FAILURE:
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
-      const error = Object.keys(action.payload).map(key => `${key}: ${action.payload[key]}`).join(', ');
+      const error = Object.keys(action.payload)
+        .map(key => `${key}: ${action.payload[key]}`)
+        .join(', ');
       return { ...state, inProgress: false, filtersError: error };
     }
 
@@ -311,7 +309,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: true,
         isError: false,
         customDomainsLoaded: false,
-        newCustomDomainError: null,
+        newCustomDomainError: null
       };
     }
     case UsersActionTypes.GET_DOMAINS_SUCCESS: {
@@ -319,7 +317,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         customDomains: action.payload,
         customDomainsLoaded: true,
-        inProgress: false,
+        inProgress: false
       };
     }
 
@@ -332,7 +330,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isError: false,
         error: '',
         newCustomDomainError: null,
-        currentCreationStep: action.payload.currentStep,
+        currentCreationStep: action.payload.currentStep
       };
     }
 
@@ -367,7 +365,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: false,
-        newCustomDomain: action.payload,
+        newCustomDomain: action.payload
       };
     }
 
@@ -384,12 +382,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
-        customDomains: action.payload.reverify ? state.customDomains.map((item) => {
-          if (item.id === domain.id) {
-            return domain;
-          }
-          return item;
-        }) : state.customDomains,
+        customDomains: action.payload.reverify
+          ? state.customDomains.map(item => {
+              if (item.id === domain.id) {
+                return domain;
+              }
+              return item;
+            })
+          : state.customDomains,
         isError,
         inProgress: false,
         newCustomDomain: action.payload.res,
@@ -424,7 +424,9 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: Object.keys(action.payload.err).map(key => `${key}: ${action.payload.err[key]}`).join(', '),
+        error: Object.keys(action.payload.err)
+          .map(key => `${key}: ${action.payload.err[key]}`)
+          .join(', '),
         currentCreationStep: action.payload.step
       };
     }
@@ -433,7 +435,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       state.customDomains = state.customDomains.filter(domain => domain.id !== action.payload);
       return {
         ...state,
-        inProgress: false,
+        inProgress: false
       };
     }
 
@@ -442,7 +444,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: action.payload.detail,
+        error: action.payload.detail
       };
     }
 

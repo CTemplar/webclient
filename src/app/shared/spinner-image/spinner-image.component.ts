@@ -10,10 +10,7 @@ export class SpinnerImageComponent implements OnInit {
   @Input() src: string;
   @Input() class: string;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

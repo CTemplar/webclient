@@ -6,14 +6,19 @@ import { apiUrl, PRIMARY_DOMAIN } from '../config';
 import * as juice from 'juice';
 
 @Pipe({
-  name: 'safe',
+  name: 'safe'
 })
 export class SafePipe implements PipeTransform {
   static hasExternalImages: boolean;
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  public transform(value: any, type: string = '', disableExternalImages?: boolean, fromEmail?: string): SafeHtml | SafeUrl {
+  public transform(
+    value: any,
+    type: string = '',
+    disableExternalImages?: boolean,
+    fromEmail?: string
+  ): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
         value = this.removeTitle(value);
@@ -159,49 +164,61 @@ export class SafePipe implements PipeTransform {
       tr: [],
       u: [],
       ul: [],
-      i: [],
+      i: []
     };
-    const headingAttributes = [
-      'align', 'dir', 'id', 'style'
-    ];
+    const headingAttributes = ['align', 'dir', 'id', 'style'];
     const allowedAttributes = {
-      'a': ['href', 'style', 'target'],
-      'b': ['style'],
-      'br': ['style'],
-      'div': ['align', 'dir', 'style'],
-      'font': ['color', 'face', 'size', 'style'],
-      'h1': headingAttributes,
-      'h2': headingAttributes,
-      'h3': headingAttributes,
-      'h4': headingAttributes,
-      'h5': headingAttributes,
-      'h6': headingAttributes,
-      'hr': ['align', 'size', 'width'],
-      'img': [
-        'align', 'border', 'height', 'hspace',
-        'src', 'style', 'usemap', 'vspace', 'width'
+      a: ['href', 'style', 'target'],
+      b: ['style'],
+      br: ['style'],
+      div: ['align', 'dir', 'style'],
+      font: ['color', 'face', 'size', 'style'],
+      h1: headingAttributes,
+      h2: headingAttributes,
+      h3: headingAttributes,
+      h4: headingAttributes,
+      h5: headingAttributes,
+      h6: headingAttributes,
+      hr: ['align', 'size', 'width'],
+      img: ['align', 'border', 'height', 'hspace', 'src', 'style', 'usemap', 'vspace', 'width'],
+      label: ['id', 'style'],
+      li: ['dir', 'style', 'type'],
+      ol: ['dir', 'style', 'type'],
+      p: ['align', 'dir', 'style'],
+      span: ['style'],
+      strong: ['style'],
+      table: ['align', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'dir', 'frame', 'rules', 'style', 'width'],
+      td: [
+        'abbr',
+        'align',
+        'bgcolor',
+        'colspan',
+        'dir',
+        'height',
+        'lang',
+        'rowspan',
+        'scope',
+        'style',
+        'valign',
+        'width'
       ],
-      'label': ['id', 'style'],
-      'li': ['dir', 'style', 'type'],
-      'ol': ['dir', 'style', 'type'],
-      'p': ['align', 'dir', 'style'],
-      'span': ['style'],
-      'strong': ['style'],
-      'table': [
-        'align', 'bgcolor', 'border', 'cellpadding', 'cellspacing',
-        'dir', 'frame', 'rules', 'style', 'width'
+      th: [
+        'abbr',
+        'align',
+        'background',
+        'bgcolor',
+        'colspan',
+        'dir',
+        'height',
+        'lang',
+        'scope',
+        'style',
+        'valign',
+        'width'
       ],
-      'td': [
-        'abbr', 'align', 'bgcolor', 'colspan', 'dir',
-        'height', 'lang', 'rowspan', 'scope', 'style', 'valign', 'width'
-      ],
-      'th': [
-        'abbr', 'align', 'background', 'bgcolor', 'colspan',
-        'dir', 'height', 'lang', 'scope', 'style', 'valign', 'width'
-      ],
-      'tr': ['align', 'bgcolor', 'dir', 'style', 'valign'],
-      'u': ['style'],
-      'ul': ['dir', 'style']
+      tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
+      u: ['style'],
+      ul: ['dir', 'style']
     };
     // @ts-ignore
     value = xss(value, {
@@ -229,8 +246,8 @@ export class SafePipe implements PipeTransform {
   }
 
   replaceLinksInText(inputText: string) {
-    if (!(/<[a-z][\s\S]*>/i.test(inputText))) {
-      if (typeof (inputText) === 'string') {
+    if (!/<[a-z][\s\S]*>/i.test(inputText)) {
+      if (typeof inputText === 'string') {
         // http://, https://, ftp://
         const urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
 
@@ -260,6 +277,3 @@ export class SafePipe implements PipeTransform {
     return value;
   }
 }
-
-
-

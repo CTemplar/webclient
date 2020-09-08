@@ -74,6 +74,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
         validator: PasswordValidation.MatchPassword
       }
     );
+    
     /**
      * Get user's custom domains
      */
@@ -205,6 +206,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   private getEmail() {
     return this.addUserForm.controls['username'].value + '@' + this.addUserForm.controls['domain'].value;
   }
+  
   /**
    * Check username + domain can be used for new address
    */

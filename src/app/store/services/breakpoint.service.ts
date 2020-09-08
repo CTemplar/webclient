@@ -21,7 +21,6 @@ export class BreakpointsService {
   private breakpoints: BreakpointConfig = defaultBreakpoints;
 
   public getBreakpoint(): string {
-
     const currentSize: number = window.innerWidth;
     const keys = Object.keys(this.breakpoints);
     for (const key of keys) {

@@ -25,10 +25,7 @@ import { UsersService } from '../store/services';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  entryComponents: [
-    DisplayNameDialogComponent,
-    UserAccountInitDialogComponent,
-  ],
+  entryComponents: [DisplayNameDialogComponent, UserAccountInitDialogComponent],
   declarations: [
     DecryptMessageComponent,
     DisplayNameDialogComponent,
@@ -37,7 +34,7 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     UserAccountInitDialogComponent,
     UsersCreateAccountComponent,
     UsersSignInComponent,
-    UsersSignUpComponent,
+    UsersSignUpComponent
   ],
   imports: [
     CommonModule,
@@ -47,9 +44,9 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     SharedModule,
     TranslateModule,
-    UsersRoutingModule,
+    UsersRoutingModule
   ],
   exports: [UsersRoutingModule],
-  providers: [UsersService],
+  providers: [UsersService]
 })
-export class UsersModule { }
+export class UsersModule {}

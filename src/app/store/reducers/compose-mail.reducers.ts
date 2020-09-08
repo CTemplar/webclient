@@ -7,12 +7,15 @@ import { MailFolderType } from '../models';
 
 export function reducer(state: ComposeMailState = { drafts: {} }, action: ComposeMailActions): ComposeMailState {
   switch (action.type) {
-
     case ComposeMailActionTypes.SEND_MAIL:
     case ComposeMailActionTypes.CREATE_MAIL: {
       state.drafts[action.payload.id] = {
-        ...state.drafts[action.payload.id], isSaving: true,
-        inProgress: true, shouldSend: false, shouldSave: false, isSent: false,
+        ...state.drafts[action.payload.id],
+        isSaving: true,
+        inProgress: true,
+        shouldSend: false,
+        shouldSave: false,
+        isSent: false
       };
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -37,7 +40,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
         inProgress: false,
         isSent: false,
         draft: draftMail,
-        isSaving: false,
+        isSaving: false
       };
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -47,12 +50,12 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
       return { ...state, drafts: { ...state.drafts } };
     }
 
-
     case ComposeMailActionTypes.SEND_MAIL_FAILURE: {
       state.drafts[action.payload.id] = {
         ...state.drafts[action.payload.id],
         draft: { ...state.drafts[action.payload.id].draft, send: false, folder: MailFolderType.DRAFT },
-        inProgress: false, isSent: false,
+        inProgress: false,
+        isSent: false
       };
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -138,7 +141,10 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
             ...state.drafts[action.payload.draftId].attachments[index],
             inProgress: true
           };
-          state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments: true };
+          state.drafts[action.payload.draftId] = {
+            ...state.drafts[action.payload.draftId],
+            isProcessingAttachments: true
+          };
         }
       });
       return { ...state, drafts: { ...state.drafts } };
@@ -152,7 +158,10 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
               ...state.drafts[action.payload.draftId].attachments[index],
               inProgress: true
             };
-            state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments: true };
+            state.drafts[action.payload.draftId] = {
+              ...state.drafts[action.payload.draftId],
+              isProcessingAttachments: true
+            };
           }
         });
       } else {
@@ -160,7 +169,10 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
           ...state.drafts[action.payload.draftId].attachments,
           { ...action.payload, inProgress: true }
         ];
-        state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments: true };
+        state.drafts[action.payload.draftId] = {
+          ...state.drafts[action.payload.draftId],
+          isProcessingAttachments: true
+        };
       }
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -203,15 +215,20 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
           };
         }
       });
-      const isProcessingAttachments = !!state.drafts[data.draftId].attachments.find(attachment => attachment.inProgress);
+      const isProcessingAttachments = !!state.drafts[data.draftId].attachments.find(
+        attachment => attachment.inProgress
+      );
       state.drafts[data.draftId] = { ...state.drafts[data.draftId], isProcessingAttachments };
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_FAILURE: {
-      state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments
-        .filter(attachment => attachment.attachmentId !== action.payload.attachmentId);
-      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(attachment => attachment.inProgress);
+      state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments.filter(
+        attachment => attachment.attachmentId !== action.payload.attachmentId
+      );
+      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(
+        attachment => attachment.inProgress
+      );
       state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments };
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -231,8 +248,8 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     }
 
     case ComposeMailActionTypes.DELETE_ATTACHMENT_SUCCESS: {
-      state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments
-        .filter(attachment => {
+      state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments.filter(
+        attachment => {
           if (attachment.attachmentId === action.payload.attachmentId) {
             if (!attachment.id) {
               attachment.request.unsubscribe();
@@ -240,8 +257,11 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
             return false;
           }
           return true;
-        });
-      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(attachment => attachment.inProgress);
+        }
+      );
+      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(
+        attachment => attachment.inProgress
+      );
       state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments };
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -256,7 +276,9 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
           };
         }
       });
-      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(attachment => attachment.inProgress);
+      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(
+        attachment => attachment.inProgress
+      );
       state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments };
       return { ...state, drafts: { ...state.drafts } };
     }

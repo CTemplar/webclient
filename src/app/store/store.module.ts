@@ -19,10 +19,6 @@ import { logoutReducer } from './reducers/auth.reducers';
     StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
     StoreRouterConnectingModule.forRoot()
   ],
-  providers: [
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
-  ]
+  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }]
 })
-
-export class AppStoreModule {
-}
+export class AppStoreModule {}

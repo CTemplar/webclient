@@ -5,19 +5,14 @@ import { RouterModule } from '@angular/router';
 
 // Components
 import { HeaderComponent } from './header.component';
-import {SharedModule} from '../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 // Third-party
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [HeaderComponent],
-  imports: [
-    CommonModule,
-    NgbModule,
-    RouterModule,
-    SharedModule,
-  ],
+  imports: [CommonModule, NgbModule, RouterModule, SharedModule],
   exports: [HeaderComponent]
 })
-export class HeaderModule { }
+export class HeaderModule {}

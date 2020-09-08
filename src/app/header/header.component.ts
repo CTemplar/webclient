@@ -15,7 +15,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
-
 @UntilDestroy()
 @Component({
   selector: 'app-header',
@@ -40,15 +39,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     public usersService: UsersService,
     private store: Store<AppState>,
-    private translate: TranslateService,
+    private translate: TranslateService
   ) {
     this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }
 
   ngOnInit() {
     this.isLoggedIn = this.usersService.getUserKey() ? true : false;
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
-      .subscribe((data: AuthState) => this.isLoggedIn = data.isAuthenticated);
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
+      .subscribe((data: AuthState) => (this.isLoggedIn = data.isAuthenticated));
   }
 
   changeLanguage(lang: Language) {
@@ -58,7 +59,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   // == Setup click event to toggle mobile menu
-  toggleState() { // click handler
+  toggleState() {
+    // click handler
     const bool = this.menuIsOpened;
     this.menuIsOpened = bool === false ? true : false;
   }
@@ -85,5 +87,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {}
 }

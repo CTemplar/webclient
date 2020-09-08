@@ -28,11 +28,13 @@ export class AppComponent implements OnInit, OnDestroy {
   quote: object;
   isAuthenticated: boolean;
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     private sharedService: SharedService,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,
-    private translate: TranslateService) {
+    private translate: TranslateService
+  ) {
     // this.store.dispatch(new RefreshToken());
     this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
@@ -46,39 +48,41 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
     }, 3000);
 
-    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
-      .subscribe((params: any) => {
-        if (params) {
-          if (params.referral_code) {
-            localStorage.setItem(REFFERAL_CODE_KEY, params.referral_code);
-          }
-          const refferalId = params[REFFERAL_ID_KEY] || params[REFFERAL_ID_KEY.toUpperCase()];
-          if (refferalId) {
-            localStorage.setItem(REFFERAL_ID_KEY, refferalId);
-          }
-          const promoCode = params[PROMO_CODE_KEY] || params[PROMO_CODE_KEY.toUpperCase()];
-          if (promoCode) {
-            localStorage.setItem(PROMO_CODE_KEY, promoCode);
-          }
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((params: any) => {
+      if (params) {
+        if (params.referral_code) {
+          localStorage.setItem(REFFERAL_CODE_KEY, params.referral_code);
         }
-      });
+        const refferalId = params[REFFERAL_ID_KEY] || params[REFFERAL_ID_KEY.toUpperCase()];
+        if (refferalId) {
+          localStorage.setItem(REFFERAL_ID_KEY, refferalId);
+        }
+        const promoCode = params[PROMO_CODE_KEY] || params[PROMO_CODE_KEY.toUpperCase()];
+        if (promoCode) {
+          localStorage.setItem(PROMO_CODE_KEY, promoCode);
+        }
+      }
+    });
   }
 
   ngOnInit() {
     this.quote = quotes[Math.floor(Math.random() * quotes.length)];
-    this.store.select((state: AppState) => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select((state: AppState) => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
       });
   }
 
   private updateLoadingStatus(): void {
-    this.store.select(state => state.loading).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.loading)
+      .pipe(untilDestroyed(this))
       .subscribe((loadingState: LoadingState) => {
         this.isLoading = loadingState.Loading;
       });
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

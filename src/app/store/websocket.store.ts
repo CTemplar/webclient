@@ -10,7 +10,7 @@ import { of } from 'rxjs/internal/observable/of';
 
 export enum WebSocketActionTypes {
   WEB_SOCKET_NEW_MESSAGE = '[WEB_SOCKET] New Message',
-  WEB_SOCKET_CLOSE = '[WEB_SOCKET] Close',
+  WEB_SOCKET_CLOSE = '[WEB_SOCKET] Close'
 }
 
 export class WebSocketNewMessage implements Action {
@@ -25,36 +25,29 @@ export class WebSocketClose implements Action {
   constructor(public payload: any) {}
 }
 
-export type WebSocketActionAll =
-  | WebSocketNewMessage
-  | WebSocketClose;
-
+export type WebSocketActionAll = WebSocketNewMessage | WebSocketClose;
 
 @Injectable()
 export class WebSocketEffects {
-
-  constructor(
-    private actions: Actions) {}
+  constructor(private actions: Actions) {}
 
   @Effect()
-  webSocketNewMessage: Observable<any> = this.actions
-    .pipe(
-      ofType(WebSocketActionTypes.WEB_SOCKET_NEW_MESSAGE),
-      map((action: WebSocketNewMessage) => action.payload),
-      switchMap(payload => {
-        return of(EMPTY);
-      })
-    );
+  webSocketNewMessage: Observable<any> = this.actions.pipe(
+    ofType(WebSocketActionTypes.WEB_SOCKET_NEW_MESSAGE),
+    map((action: WebSocketNewMessage) => action.payload),
+    switchMap(payload => {
+      return of(EMPTY);
+    })
+  );
 
   @Effect()
-  webSocketClose: Observable<any> = this.actions
-    .pipe(
-      ofType(WebSocketActionTypes.WEB_SOCKET_CLOSE),
-      map((action: WebSocketClose) => action.payload),
-      switchMap(payload => {
-        return of(EMPTY);
-      })
-    );
+  webSocketClose: Observable<any> = this.actions.pipe(
+    ofType(WebSocketActionTypes.WEB_SOCKET_CLOSE),
+    map((action: WebSocketClose) => action.payload),
+    switchMap(payload => {
+      return of(EMPTY);
+    })
+  );
 }
 
 export interface WebSocketState {

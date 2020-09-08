@@ -1,6 +1,4 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
@@ -25,12 +23,12 @@ export class PushNotificationService {
     const self = this;
     if ('Notification' in window) {
       Notification.requestPermission(function (status) {
-        return self.permission = status;
+        return (self.permission = status);
       });
     }
   }
 
-  create(title: string, options ?: PushNotificationOptions): any {
+  create(title: string, options?: PushNotificationOptions): any {
     const self = this;
     return new Observable(function (obs) {
       if (!('Notification' in window)) {
@@ -38,7 +36,7 @@ export class PushNotificationService {
         obs.complete();
       }
       if (self.permission !== 'granted') {
-        console.log('The user hasn\'t granted you permission to send push notifications');
+        console.log("The user hasn't granted you permission to send push notifications");
         obs.complete();
       }
       const _notify = new Notification(title, options);
@@ -68,7 +66,7 @@ export class PushNotificationService {
 
   generateNotification(source: Array<any>): void {
     const self = this;
-    source.forEach((item) => {
+    source.forEach(item => {
       const options = {
         body: item.alertContent,
         icon: '../resource/images/bell-icon.png'

@@ -12,10 +12,18 @@ import { OrganizationEffects } from '../organization.store';
 import { ContactsEffects } from './contacts.effects';
 
 export const effects: any[] = [
-  RouterEffects, AuthEffects,
-  MailEffects, UsersEffects, TimezoneEffects, BitcoinEffects,
-  MailboxEffects, ComposeMailEffects, SecureMessageEffects,
-  DonateEffects, OrganizationEffects, ContactsEffects
+  RouterEffects,
+  AuthEffects,
+  MailEffects,
+  UsersEffects,
+  TimezoneEffects,
+  BitcoinEffects,
+  MailboxEffects,
+  ComposeMailEffects,
+  SecureMessageEffects,
+  DonateEffects,
+  OrganizationEffects,
+  ContactsEffects
 ];
 
 export * from './router.effect';

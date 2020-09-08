@@ -86,7 +86,7 @@ export const PaymentData: Payment[] = [
     monthlyFee: 0,
     selected: true,
     title: 'Pay Monthly',
-    totalAnnualFee: 0,
+    totalAnnualFee: 0
   },
   {
     id: 2,
@@ -96,6 +96,6 @@ export const PaymentData: Payment[] = [
     monthlyFee: 0,
     selected: false,
     title: 'Pay Annually',
-    totalAnnualFee: 0,
+    totalAnnualFee: 0
   }
 ];
