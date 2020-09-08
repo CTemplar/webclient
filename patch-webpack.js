@@ -10,4 +10,4 @@ fs.readFile(f, 'utf8', function (err, data) {
 	fs.writeFile(f, result, 'utf8', function (error) {
 		if (error) return console.log(error);
 	});
-});
+})
