@@ -74,7 +74,10 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
         validator: PasswordValidation.MatchPassword
       }
     );
-
+    
+    /**
+     * Get user's custom domains
+     */
     this.store
       .select(state => state.user)
       .pipe(untilDestroyed(this))
@@ -149,7 +152,6 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     if (this.addUserForm.invalid || this.newAddressOptions.usernameExists === true) {
       return false;
     }
-
     this.isAddingUserInProgress = true;
     this.openPgpService.generateUserKeys(
       this.addUserForm.value.username,
@@ -204,7 +206,10 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   private getEmail() {
     return this.addUserForm.controls['username'].value + '@' + this.addUserForm.controls['domain'].value;
   }
-
+  
+  /**
+   * Check username + domain can be used for new address
+   */
   private handleUsernameAvailability() {
     this.addUserForm
       .get('username')

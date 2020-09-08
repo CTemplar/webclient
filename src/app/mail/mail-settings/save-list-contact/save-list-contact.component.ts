@@ -15,11 +15,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class SaveListContactComponent implements OnInit, OnDestroy {
   @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
-
   @Input() public contact: WhiteList | BlackList = { email: '', name: '' };
-
   @Output() public closed = new EventEmitter();
-
   @ViewChild('modalContent') modalContent: any;
 
   public contactForm: FormGroup;
@@ -46,7 +43,9 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
 
     this.handleUserState();
   }
-
+  /**
+   * Display notification about saving contacts
+   */
   private handleUserState(): void {
     this.store
       .select(state => state.user)
@@ -61,10 +60,9 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
             this.closed.emit();
             this.modalRef.close();
           } else {
-            this.notificationService.showSnackBar(`Failed to ${this.contact.id ? 'update' : 'save'} ${
-              this.contactType
-            } contact.
-                          ${state.error}`);
+            this.notificationService.showSnackBar(
+              `Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.${state.error}`
+            );
           }
         }
       });
@@ -84,7 +82,9 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  /**
+   * Save to whitelist or blacklist according to contactType
+   */
   public addContact() {
     this.showFormErrors = true;
     if (this.contactForm.valid) {
