@@ -17,6 +17,7 @@ TODO.md
 # .prettierrc
 
 # compiled output
+electron-main.js*
 /tmp/
 
 # e2e
