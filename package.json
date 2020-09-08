@@ -24,7 +24,7 @@
     "build:ipfs": "ng build --prod --subresource-integrity --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
-    "lint:fix": "ng lint",
+    "lint:fix": "ng lint --fix",
     "e2e": "ng e2e",
     "postinstall": "ngcc && node patch-webpack.js"
   },
