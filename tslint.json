@@ -71,10 +71,13 @@
       "check-whitespace"
     ],
     "prefer-const": true,
-    "quotemark": [
-      true,
-      "single"
-    ],
+    "rules": {
+      "quotemark": [
+        true,
+        "single",
+        "avoid-escape"
+      ]
+    },
     "radix": true,
     "semicolon": [
       true,
