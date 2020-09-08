@@ -13,10 +13,10 @@ export interface Filter {
 export enum FilterParameter {
   RECIPIENT = 'recipient',
   SENDER = 'sender',
-  SUBJECT = 'subject',
+  SUBJECT = 'subject'
 }
 
 export enum FilterCondition {
   CONTAINS = 'contains',
-  STARTSWITH = 'startswith',
+  STARTSWITH = 'startswith'
 }

@@ -5,7 +5,6 @@ import { MailAction } from '../../store/datatypes';
   name: 'lastAction'
 })
 export class LastActionPipe implements PipeTransform {
-
   transform(value: MailAction, ...args: any[]): any {
     switch (value) {
       case MailAction.FORWARD:
@@ -16,5 +15,4 @@ export class LastActionPipe implements PipeTransform {
         return value.toLowerCase();
     }
   }
-
 }

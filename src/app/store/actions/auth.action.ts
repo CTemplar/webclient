@@ -126,197 +126,169 @@ export class CheckUsernameAvailabilityError implements Action {
 export class RecoverPassword implements Action {
   readonly type = AuthActionTypes.RECOVER_PASSWORD;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class RecoverPasswordSuccess implements Action {
   readonly type = AuthActionTypes.RECOVER_PASSWORD_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class RecoverPasswordFailure implements Action {
   readonly type = AuthActionTypes.RECOVER_PASSWORD_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ResetPassword implements Action {
   readonly type = AuthActionTypes.RESET_PASSWORD;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ResetPasswordSuccess implements Action {
   readonly type = AuthActionTypes.RESET_PASSWORD_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ResetPasswordFailure implements Action {
   readonly type = AuthActionTypes.RESET_PASSWORD_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpgradeAccount implements Action {
   readonly type = AuthActionTypes.UPGRADE_ACCOUNT;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpgradeAccountSuccess implements Action {
   readonly type = AuthActionTypes.UPGRADE_ACCOUNT_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpgradeAccountFailure implements Action {
   readonly type = AuthActionTypes.UPGRADE_ACCOUNT_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ChangePassword implements Action {
   readonly type = AuthActionTypes.CHANGE_PASSWORD;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ChangePasswordSuccess implements Action {
   readonly type = AuthActionTypes.CHANGE_PASSWORD_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ChangePasswordFailed implements Action {
   readonly type = AuthActionTypes.CHANGE_PASSWORD_FAILED;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class ChangePassphraseSuccess implements Action {
   readonly type = AuthActionTypes.CHANGE_PASSPHRASE_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteAccount implements Action {
   readonly type = AuthActionTypes.DELETE_ACCOUNT;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteAccountSuccess implements Action {
   readonly type = AuthActionTypes.DELETE_ACCOUNT_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class DeleteAccountFailure implements Action {
   readonly type = AuthActionTypes.DELETE_ACCOUNT_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ClearSignUpState implements Action {
   readonly type = AuthActionTypes.CLEAR_SIGNUP_STATE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class ClearAuthErrorMessage implements Action {
   readonly type = AuthActionTypes.CLEAR_AUTH_ERROR_MESSAGE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetCaptcha implements Action {
   readonly type = AuthActionTypes.GET_CAPTCHA;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetCaptchaSuccess implements Action {
   readonly type = AuthActionTypes.GET_CAPTCHA_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class VerifyCaptcha implements Action {
   readonly type = AuthActionTypes.VERIFY_CAPTCHA;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class VerifyCaptchaSuccess implements Action {
   readonly type = AuthActionTypes.VERIFY_CAPTCHA_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class VerifyCaptchaFailure implements Action {
   readonly type = AuthActionTypes.VERIFY_CAPTCHA_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ExpireSession implements Action {
   readonly type = AuthActionTypes.EXPIRE_SESSION;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class Get2FASecret implements Action {
   readonly type = AuthActionTypes.GET_2FA_SECRET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class Get2FASecretSuccess implements Action {
   readonly type = AuthActionTypes.GET_2FA_SECRET_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class Update2FA implements Action {
   readonly type = AuthActionTypes.UPDATE_2FA;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class Update2FASuccess implements Action {
   readonly type = AuthActionTypes.UPDATE_2FA_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class RefreshToken implements Action {

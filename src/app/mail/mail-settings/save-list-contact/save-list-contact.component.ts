@@ -14,7 +14,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./save-list-contact.component.scss']
 })
 export class SaveListContactComponent implements OnInit, OnDestroy {
-
   @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
 
   @Input() public contact: WhiteList | BlackList = { email: '', name: '' };
@@ -29,11 +28,12 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
 
   public inProgress: boolean;
 
-  constructor(private modalService: NgbModal,
-              private store: Store<AppState>,
-              private notificationService: NotificationService,
-              private formBuilder: FormBuilder) {
-  }
+  constructor(
+    private modalService: NgbModal,
+    private store: Store<AppState>,
+    private notificationService: NotificationService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.contactForm = this.formBuilder.group({
@@ -48,23 +48,26 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
   }
 
   private handleUserState(): void {
-    this.store.select((state) => state.user)
-      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
-      if (this.inProgress && !state.inProgress) {
-        this.inProgress = false;
-        if (!state.isError) {
-          this.notificationService
-            .showSnackBar(`${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`);
-          this.closed.emit();
-          this.modalRef.close();
-        } else {
-          this.notificationService
-            .showSnackBar(`Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
+      .subscribe((state: UserState) => {
+        if (this.inProgress && !state.inProgress) {
+          this.inProgress = false;
+          if (!state.isError) {
+            this.notificationService.showSnackBar(
+              `${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`
+            );
+            this.closed.emit();
+            this.modalRef.close();
+          } else {
+            this.notificationService.showSnackBar(`Failed to ${this.contact.id ? 'update' : 'save'} ${
+              this.contactType
+            } contact.
                           ${state.error}`);
+          }
         }
-
-      }
-    });
+      });
   }
 
   openModal() {
@@ -72,11 +75,14 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
       centered: true,
       windowClass: 'modal-sm'
     });
-    this.modalRef.result.then((result) => {
-      this.closed.emit();
-    }, (reason) => {
-      this.closed.emit();
-    });
+    this.modalRef.result.then(
+      result => {
+        this.closed.emit();
+      },
+      reason => {
+        this.closed.emit();
+      }
+    );
   }
 
   public addContact() {
@@ -91,7 +97,5 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }

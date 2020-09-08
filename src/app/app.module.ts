@@ -17,7 +17,14 @@ import { SharedModule } from './shared/shared.module';
 import { UsersModule } from './users/users.module';
 
 // Services
-import { AuthGuard, BitcoinService, MailService, OpenPgpService, SharedService, TokenInterceptor } from './store/services';
+import {
+  AuthGuard,
+  BitcoinService,
+  MailService,
+  OpenPgpService,
+  SharedService,
+  TokenInterceptor
+} from './store/services';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { DonationService } from './store/services/donation.service';
@@ -40,7 +47,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
-  constructor() { }
+  constructor() {}
   handleError(error) {
     Sentry.captureException(error.originalError || error);
     // Sentry.showReportDialog({ eventId });
@@ -70,7 +77,7 @@ export class SentryErrorHandler implements ErrorHandler {
       }
     }),
     SharedModule,
-    UsersModule,
+    UsersModule
   ],
   providers: [
     AuthGuard,
@@ -84,8 +91,8 @@ export class SentryErrorHandler implements ErrorHandler {
     SharedService,
     TimezoneService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    { provide: ErrorHandler, useClass: SentryErrorHandler }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

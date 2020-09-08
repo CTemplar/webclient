@@ -33,15 +33,7 @@ import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
 import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TagInputModule,
-    MatIconModule,
-    NgbModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, TagInputModule, MatIconModule, NgbModule],
   declarations: [
     SpinnerComponent,
     SpinnerImageComponent,
@@ -101,10 +93,6 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
     CreditCardNumberPipe,
     LineBreakToBrTag
   ],
-  entryComponents: [
-    CreateFolderComponent,
-    PaymentFailureNoticeComponent
-  ]
+  entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent]
 })
-export class SharedModule {
-}
+export class SharedModule {}

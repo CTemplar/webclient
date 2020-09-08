@@ -6,12 +6,9 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./progress-bar.component.scss']
 })
 export class ProgressBarComponent implements OnInit {
-
   @Input() active: boolean;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

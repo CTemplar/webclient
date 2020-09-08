@@ -4,11 +4,10 @@ import { AppState } from '../datatypes';
 import { Store } from '@ngrx/store';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MailSettingsService {
-
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {}
 
   updateSettings(settings: any, key?: string, value?: any) {
     if (key) {

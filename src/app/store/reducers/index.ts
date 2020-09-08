@@ -30,6 +30,5 @@ export const reducers: ActionReducerMap<AppState> = {
   search: search.reducer,
   secureMessage: secureMessage.reducer,
   webSocket: webSocket.reducer,
-  organization: organization.reducer,
+  organization: organization.reducer
 };
-

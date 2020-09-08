@@ -14,15 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgbModule,
-    PagesRoutingModule,
-    SharedModule
-  ],
-  declarations: [
-    PagesDonateComponent,
-    PaymentOptionsComponent,
-  ]
+  imports: [CommonModule, NgbModule, PagesRoutingModule, SharedModule],
+  declarations: [PagesDonateComponent, PaymentOptionsComponent]
 })
-export class PagesModule { }
+export class PagesModule {}

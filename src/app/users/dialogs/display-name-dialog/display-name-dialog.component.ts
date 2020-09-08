@@ -22,17 +22,21 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
 
   private selectedMailbox: Mailbox;
 
-  constructor(public activeModal: NgbActiveModal,
-              private store: Store<AppState>,
-              private sharedService: SharedService,
-              private formBuilder: FormBuilder) { }
+  constructor(
+    public activeModal: NgbActiveModal,
+    private store: Store<AppState>,
+    private sharedService: SharedService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.changeDisplayNameForm = this.formBuilder.group({
-      'username': ['', [Validators.required]]
+      username: ['', [Validators.required]]
     });
 
-    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.mailboxes)
+      .pipe(untilDestroyed(this))
       .subscribe((mailboxesState: MailBoxesState) => {
         this.inProgress = mailboxesState.inProgress;
         this.selectedMailbox = mailboxesState.currentMailbox;
@@ -42,7 +46,9 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
           this.email = mailboxesState.mailboxes[0].email;
         }
       });
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.recoveryKey = authState.recovery_key;
       });
@@ -56,7 +62,9 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
     const dispName = this.changeDisplayNameForm.controls['username'].value;
     if (this.changeDisplayNameForm.valid && dispName !== '') {
       this.selectedMailbox.display_name = dispName;
-      this.store.dispatch(new MailboxSettingsUpdate({ ...this.selectedMailbox, successMsg: 'Display name saved successfully.' }));
+      this.store.dispatch(
+        new MailboxSettingsUpdate({ ...this.selectedMailbox, successMsg: 'Display name saved successfully.' })
+      );
       this.close();
     }
   }
@@ -67,10 +75,7 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
 
   private close() {
     this.activeModal.dismiss();
-
   }
 
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }

@@ -53,7 +53,6 @@ Quill.register(ImageBlot);
   styleUrls: ['./reply-secure-message.component.scss']
 })
 export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDestroy {
-
   @Input() sourceMessage: Mail;
   @Input() hash: string;
   @Input() secret: string;
@@ -74,12 +73,12 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   private quill: any;
   private secureMessageState: SecureMessageState;
 
-  constructor(private store: Store<AppState>,
-              private openPgpService: OpenPgpService) {
-  }
+  constructor(private store: Store<AppState>, private openPgpService: OpenPgpService) {}
 
   ngOnInit() {
-    this.store.select(state => state.secureMessage).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.secureMessage)
+      .pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
         this.inProgress = state.inProgress || state.isEncryptionInProgress;
         if (this.secureMessageState) {
@@ -93,7 +92,9 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
             this.openPgpService.encryptSecureMessageContent(this.message.content, keys);
           } else if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
             this.message.content = state.encryptedContent;
-            this.store.dispatch(new SendSecureMessageReply({ hash: this.hash, secret: this.secret, message: this.message }));
+            this.store.dispatch(
+              new SendSecureMessageReply({ hash: this.hash, secret: this.secret, message: this.message })
+            );
           } else if (this.secureMessageState.inProgress && !state.inProgress) {
             if (!state.errorMessage) {
               this.replySuccess.emit(true);
@@ -108,8 +109,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
     this.initializeQuillEditor();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   initializeQuillEditor() {
     this.quill = new Quill(this.editor.nativeElement, {

@@ -30,33 +30,47 @@ export class ComposeMailService {
   composesWidth: number;
   countCommonCompose: number;
 
-  constructor(private store: Store<AppState>,
+  constructor(
+    private store: Store<AppState>,
     private openPgpService: OpenPgpService,
     private mailService: MailService,
-    private componentFactoryResolver: ComponentFactoryResolver) {
-    this.store.select((state: AppState) => state.composeMail)
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) {
+    this.store
+      .select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
-        Object.keys(response.drafts).forEach((key) => {
+        Object.keys(response.drafts).forEach(key => {
           const draftMail: Draft = response.drafts[key];
           if (draftMail.draft) {
-
-            if (draftMail.shouldSave && this.drafts[key] && this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress) {
+            if (
+              draftMail.shouldSave &&
+              this.drafts[key] &&
+              this.drafts[key].isPGPInProgress &&
+              !draftMail.isPGPInProgress
+            ) {
               this.setEncryptedContent(draftMail);
               this.store.dispatch(new CreateMail({ ...draftMail }));
-
             } else if (draftMail.shouldSend && this.drafts[key]) {
-              if ((this.drafts[key].isPGPInProgress && !draftMail.isPGPInProgress && !draftMail.isProcessingAttachments) ||
-                (this.drafts[key].isProcessingAttachments && !draftMail.isProcessingAttachments && !draftMail.isPGPInProgress)) {
+              if (
+                (this.drafts[key].isPGPInProgress &&
+                  !draftMail.isPGPInProgress &&
+                  !draftMail.isProcessingAttachments) ||
+                (this.drafts[key].isProcessingAttachments &&
+                  !draftMail.isProcessingAttachments &&
+                  !draftMail.isPGPInProgress)
+              ) {
                 this.setEncryptedContent(draftMail);
                 if (!draftMail.isSshInProgress) {
                   if (!draftMail.isSaving) {
                     this.store.dispatch(new SendMail({ ...draftMail }));
                   } else {
-                    this.store.dispatch(new SnackPush(
-                      { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
+                    this.store.dispatch(
+                      new SnackPush({
+                        message: 'Failed to send email, please try again. Email has been saved in draft.'
+                      })
+                    );
                   }
                 }
-
               } else if (this.drafts[key].isSshInProgress && !draftMail.isSshInProgress) {
                 if (!draftMail.getUserKeyInProgress) {
                   let keys = [];
@@ -65,11 +79,20 @@ export class ComposeMailService {
                   }
                   keys.push(draftMail.draft.encryption.public_key);
                   draftMail.attachments.forEach(attachment => {
-                    this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, keys);
+                    this.openPgpService.encryptAttachment(
+                      draftMail.draft.mailbox,
+                      attachment.decryptedDocument,
+                      attachment,
+                      keys
+                    );
                   });
-                  this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), keys);
+                  this.openPgpService.encrypt(
+                    draftMail.draft.mailbox,
+                    draftMail.id,
+                    new SecureContent(draftMail.draft),
+                    keys
+                  );
                 }
-
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 if (!draftMail.isSshInProgress) {
                   let publicKeys = [];
@@ -82,59 +105,91 @@ export class ComposeMailService {
 
                   if (draftMail.usersKeys.encrypt || hasSshEncryption) {
                     draftMail.draft.is_encrypted = true;
-                    publicKeys = [...publicKeys, ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)];
+                    publicKeys = [
+                      ...publicKeys,
+                      ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)
+                    ];
                   }
 
                   if (publicKeys.length > 0) {
                     draftMail.attachments.forEach(attachment => {
-                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment.decryptedDocument, attachment, publicKeys);
+                      this.openPgpService.encryptAttachment(
+                        draftMail.draft.mailbox,
+                        attachment.decryptedDocument,
+                        attachment,
+                        publicKeys
+                      );
                     });
-                    this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id, new SecureContent(draftMail.draft), publicKeys);
-
+                    this.openPgpService.encrypt(
+                      draftMail.draft.mailbox,
+                      draftMail.id,
+                      new SecureContent(draftMail.draft),
+                      publicKeys
+                    );
                   } else {
                     if (!draftMail.isSaving) {
-                      const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
+                      const encryptedAttachments = draftMail.attachments.filter(
+                        attachment => !!attachment.is_encrypted
+                      );
                       if (encryptedAttachments.length > 0) {
                         forkJoin(
                           ...encryptedAttachments.map(attachment => {
                             attachment.is_encrypted = false;
                             attachment.document = attachment.decryptedDocument;
                             return Observable.create(observer => {
-                              this.mailService.uploadFile(attachment)
+                              this.mailService
+                                .uploadFile(attachment)
                                 .pipe(finalize(() => observer.complete()))
-                                .subscribe(event => {
-                                  if (event instanceof HttpResponse) {
-                                    observer.next(event.body);
-                                  }
-                                },
-                                  error => observer.error(error));
+                                .subscribe(
+                                  event => {
+                                    if (event instanceof HttpResponse) {
+                                      observer.next(event.body);
+                                    }
+                                  },
+                                  error => observer.error(error)
+                                );
                             });
                           })
                         )
                           .pipe(take(1))
-                          .subscribe(responses => {
-                            if (publicKeys.length === 0) {
-                              this.store.dispatch(new SendMail({ ...draftMail }));
-                            } else {
-                              this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id,
-                                new SecureContent(draftMail.draft), publicKeys);
-                            }
-                          },
-                            error => this.store.dispatch(new SnackPush(
-                              { message: 'Failed to send email, please try again. Email has been saved in draft.' })));
-
+                          .subscribe(
+                            responses => {
+                              if (publicKeys.length === 0) {
+                                this.store.dispatch(new SendMail({ ...draftMail }));
+                              } else {
+                                this.openPgpService.encrypt(
+                                  draftMail.draft.mailbox,
+                                  draftMail.id,
+                                  new SecureContent(draftMail.draft),
+                                  publicKeys
+                                );
+                              }
+                            },
+                            error =>
+                              this.store.dispatch(
+                                new SnackPush({
+                                  message: 'Failed to send email, please try again. Email has been saved in draft.'
+                                })
+                              )
+                          );
                       } else {
                         if (publicKeys.length === 0) {
                           this.store.dispatch(new SendMail({ ...draftMail }));
                         } else {
-                          this.openPgpService.encrypt(draftMail.draft.mailbox, draftMail.id,
-                            new SecureContent(draftMail.draft), publicKeys);
+                          this.openPgpService.encrypt(
+                            draftMail.draft.mailbox,
+                            draftMail.id,
+                            new SecureContent(draftMail.draft),
+                            publicKeys
+                          );
                         }
                       }
-
                     } else {
-                      this.store.dispatch(new SnackPush(
-                        { message: 'Failed to send email, please try again. Email has been saved in draft.' }));
+                      this.store.dispatch(
+                        new SnackPush({
+                          message: 'Failed to send email, please try again. Email has been saved in draft.'
+                        })
+                      );
                     }
                   }
                 }
@@ -149,11 +204,11 @@ export class ComposeMailService {
         this.drafts = { ...response.drafts };
       });
 
-    this.store.select((state: AppState) => state.user)
+    this.store
+      .select((state: AppState) => state.user)
       .subscribe((user: UserState) => {
         this.userState = user;
       });
-
   }
 
   private setEncryptedContent(draftMail: Draft) {
@@ -172,8 +227,9 @@ export class ComposeMailService {
     this.componentRefList = [];
   }
 
-  getWindowWidth(width: any = {}) { // get current window's width
-    this.windowWidth = (width > 768 && width < 999) ? width - 68 : width;
+  getWindowWidth(width: any = {}) {
+    // get current window's width
+    this.windowWidth = width > 768 && width < 999 ? width - 68 : width;
     if (this.windowWidth > this.originWidth) {
       this.countCommonCompose =
         Math.trunc((this.windowWidth - this.originWidth) / this.minimizedWidth) + 1 > this.maxComposeCount
@@ -201,18 +257,18 @@ export class ComposeMailService {
     }
   }
 
-  getComposesWidth() { // get entire width of opened Compose windows
+  getComposesWidth() {
+    // get entire width of opened Compose windows
     let tempWidth = 0;
     this.componentRefList.forEach(componentRef => {
       if (componentRef.instance.isComposeVisible) {
-        tempWidth += componentRef.instance.isMinimized  ? this.minimizedWidth : this.originWidth;
+        tempWidth += componentRef.instance.isMinimized ? this.minimizedWidth : this.originWidth;
       }
     });
     this.composesWidth = tempWidth;
   }
 
   openComposeMailDialog(inputData: any = {}) {
-
     if (this.userState && this.componentRefList.length < this.maxComposeCount) {
       this.componentRefList.forEach(componentRef => {
         componentRef.instance.isMinimized = true;
@@ -220,7 +276,10 @@ export class ComposeMailService {
 
       if (inputData.draft) {
         const oldComponentRef = this.componentRefList.find(componentRef => {
-          return componentRef.instance.composeMail.draftMail && componentRef.instance.composeMail.draftMail.id === inputData.draft.id;
+          return (
+            componentRef.instance.composeMail.draftMail &&
+            componentRef.instance.composeMail.draftMail.id === inputData.draft.id
+          );
         });
         if (oldComponentRef) {
           oldComponentRef.instance.isMinimized = false;
@@ -228,7 +287,9 @@ export class ComposeMailService {
         }
       }
       const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
-      const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(factory);
+      const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(
+        factory
+      );
       this.componentRefList.push(newComponentRef);
       Object.keys(inputData).forEach(key => {
         newComponentRef.instance[key] = inputData[key];
@@ -249,30 +310,37 @@ export class ComposeMailService {
         this.destroyComponent(newComponentRef, index);
       });
       newComponentRef.instance.minimize.subscribe(isMinimized => {
-        if (!isMinimized) { // when Compose window is maximized
+        if (!isMinimized) {
+          // when Compose window is maximized
           this.componentRefList.forEach(componentRef => {
             componentRef.instance.isMinimized = true;
             componentRef.instance.isFullScreen = false;
             componentRef.instance.isComposeVisible = true;
           });
           newComponentRef.instance.isMinimized = false;
-          if (this.windowWidth < (this.minimizedWidth * (this.componentRefList.length - 1) + this.originWidth)) {
+          if (this.windowWidth < this.minimizedWidth * (this.componentRefList.length - 1) + this.originWidth) {
             let tempCount = 0;
-            for (let i = 0; i < (this.componentRefList.length); i++) {
-              if (tempCount === (this.componentRefList.length - this.countCommonCompose)) { break; }
-              if ( this.componentRefList[i].instance.isMinimized ) {
+            for (let i = 0; i < this.componentRefList.length; i++) {
+              if (tempCount === this.componentRefList.length - this.countCommonCompose) {
+                break;
+              }
+              if (this.componentRefList[i].instance.isMinimized) {
                 tempCount += 1;
-                this.componentRefList[i].instance.isComposeVisible = false; }
+                this.componentRefList[i].instance.isComposeVisible = false;
+              }
             }
           }
-        } else { // when Compose window is minimized
+        } else {
+          // when Compose window is minimized
           this.componentRefList.forEach(componentRef => {
             componentRef.instance.isMinimized = true;
             componentRef.instance.isComposeVisible = false;
           });
           let count = Math.trunc(this.windowWidth / this.minimizedWidth);
-          if (this.componentRefList.length < count) { count = this.componentRefList.length; }
-          for (let i = (this.componentRefList.length - 1); i >= (this.componentRefList.length - count); i--) {
+          if (this.componentRefList.length < count) {
+            count = this.componentRefList.length;
+          }
+          for (let i = this.componentRefList.length - 1; i >= this.componentRefList.length - count; i--) {
             this.componentRefList[i].instance.isComposeVisible = true;
           }
         }
@@ -311,5 +379,4 @@ export class ComposeMailService {
       }
     }
   }
-
 }

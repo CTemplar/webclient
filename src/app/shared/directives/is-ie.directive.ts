@@ -5,12 +5,11 @@ import { BrowserDetectorService } from '../services/browser-detector.service';
   selector: '[showInIE]'
 })
 export class IsIeDirective {
-
   constructor(
     private templateRef: TemplateRef<any>,
     private viewContainer: ViewContainerRef,
     private browserDetector: BrowserDetectorService
-  ) { }
+  ) {}
 
   @Input()
   set showInIE(val) {
@@ -27,7 +26,5 @@ export class IsIeDirective {
         this.viewContainer.clear();
       }
     }
-
   }
-
 }

@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
@@ -31,11 +39,7 @@ import {
   UserState,
   CardState
 } from '../../store/datatypes';
-import {
-  MoveTab,
-  ClearMailsOnConversationModeChange,
-  GetUnreadMailsCount
-} from '../../store/actions';
+import { MoveTab, ClearMailsOnConversationModeChange, GetUnreadMailsCount } from '../../store/actions';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
@@ -103,7 +107,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private sharedService: SharedService,
-    private creditcardnumber: CreditCardNumberPipe,
+    private creditcardnumber: CreditCardNumberPipe
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -117,11 +121,15 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.sharedService.loadPricingPlans();
 
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
@@ -147,30 +155,31 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.autosave_duration = 'none';
         }
       });
-    this.store.select(state => state.timezone).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.timezone)
+      .pipe(untilDestroyed(this))
       .subscribe((timezonesState: TimezonesState) => {
         this.timezones = timezonesState.timezones;
       });
 
     this.deleteAccountInfoForm = this.formBuilder.group({
-      'contact_email': ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
-      'password': ['', [Validators.required]]
+      contact_email: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
+      password: ['', [Validators.required]]
     });
-    this.route.params.subscribe(
-      params => {
-        if (params['id'] !== 'undefined') {
-          this.store.dispatch(new MoveTab(params['id']));
-        }
+    this.route.params.subscribe(params => {
+      if (params['id'] !== 'undefined') {
+        this.store.dispatch(new MoveTab(params['id']));
       }
+    });
+
+    this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges.pipe(
+      startWith(''),
+      map(name => (name ? this._filterTimeZone(name) : this.timezones.slice()))
     );
 
-    this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges
-      .pipe(
-        startWith(''),
-        map(name => name ? this._filterTimeZone(name) : this.timezones.slice())
-      );
-
-    this.store.select(state => state.mail).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.mail)
+      .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         if (mailState.currentSettingsTab) {
           if (this.selectedTabQueryParams === mailState.currentSettingsTab) {
@@ -227,18 +236,17 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleSlides(index) {
     this.selectedIndex = index;
     document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document
-      .querySelector('.package-prime-col')
-      .classList.remove('active-slide');
+    document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
 
   // == Methods related to ngbModal
 
-
   // == Open billing information NgbModal
 
   onAddNewCard() {
-    if (this.userState.inProgress) { return; }
+    if (this.userState.inProgress) {
+      return;
+    }
     this.isAddNewCard = true;
     this.modalService.open(this.billingInfoModal, {
       centered: true,
@@ -248,12 +256,16 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onDeleteCard(card: CardState) {
-    if (this.userState.inProgress) { return; }
+    if (this.userState.inProgress) {
+      return;
+    }
     this.store.dispatch(new CardDelete(card.id));
   }
 
   onMakePrimaryCard(card: CardState) {
-    if (this.userState.inProgress) { return; }
+    if (this.userState.inProgress) {
+      return;
+    }
     this.store.dispatch(new CardMakePrimary(card.id));
   }
 
@@ -295,14 +307,17 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   updateSettings(key?: string, value?: any) {
     if (key === 'autosave_duration') {
-      if (value.substr(-1) === 'm') { value = Number(value.slice(0, -1)) * 60000; }
-      if (value.substr(-1) === 's') { value = Number(value.slice(0, -1)) * 1000; }
+      if (value.substr(-1) === 'm') {
+        value = Number(value.slice(0, -1)) * 60000;
+      }
+      if (value.substr(-1) === 's') {
+        value = Number(value.slice(0, -1)) * 1000;
+      }
     }
     this.settingsService.updateSettings(this.settings, key, value);
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   onUpdateSettingsBtnClick() {
     this.store.dispatch(new SnackPush({ message: 'Settings updated successfully.' }));
@@ -362,14 +377,16 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     options.body = 'You have received a new email';
     options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
 
-    this.pushNotificationService.create('Test Notification', options).subscribe((notif) => {
-      if (notif.event.type === 'click') {
-        notif.notification.close();
-      }
-    },
-      (err) => {
+    this.pushNotificationService.create('Test Notification', options).subscribe(
+      notif => {
+        if (notif.event.type === 'click') {
+          notif.notification.close();
+        }
+      },
+      err => {
         console.log(err);
-      });
+      }
+    );
   }
 
   onViewInvoice(invoice: Invoice) {
@@ -523,8 +540,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         </div>
          <div style="margin-top:5rem">
-            <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${invoice.storage / (1024 * 1024)}GB</div>
-            <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${invoice.email_addresses}</div>
+            <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${
+              invoice.storage / (1024 * 1024)
+            }GB</div>
+            <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${
+              invoice.email_addresses
+            }</div>
             <div><b class="color-primary" style="padding-right: 76px;">Domains</b>${invoice.custom_domains}</div>
         </div>
     </div>
@@ -541,6 +562,4 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     popupWin.document.write(invoiceData);
     popupWin.document.close();
   }
-
-
 }

@@ -6,15 +6,12 @@ interface Scripts {
   src: string;
 }
 
-export const ScriptStore: Scripts[] = [
-  { name: 'stripe', src: 'https://js.stripe.com/v2/' },
-];
+export const ScriptStore: Scripts[] = [{ name: 'stripe', src: 'https://js.stripe.com/v2/' }];
 
 declare var document: any;
 
 @Injectable()
 export class DynamicScriptLoaderService {
-
   private scripts: any = {};
 
   constructor() {
@@ -33,7 +30,7 @@ export class DynamicScriptLoaderService {
 
   load(...scripts: string[]) {
     const promises: any[] = [];
-    scripts.forEach((script) => promises.push(this.loadScript(script)));
+    scripts.forEach(script => promises.push(this.loadScript(script)));
     return Promise.all(promises);
   }
 
@@ -62,7 +59,6 @@ export class DynamicScriptLoaderService {
       document.getElementsByTagName('body')[0].removeChild(document.getElementsByTagName('iframe')[0]);
       this.removeStripeFromDOM();
     } else {
-
       if (this.scripts['stripe'].loaded && document.getElementById('stripe')) {
         document.getElementsByTagName('head')[0].removeChild(document.getElementById('stripe'));
         this.scripts['stripe'].loaded = false;
@@ -73,5 +69,4 @@ export class DynamicScriptLoaderService {
       }
     }
   }
-
 }

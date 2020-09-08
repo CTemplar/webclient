@@ -93,13 +93,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   payment: Payment;
   isPrime: boolean;
 
-
   private checkTransactionResponse: CheckTransactionResponse;
   private timerObservable: Subscription;
   private modalRef: NgbModalRef;
   private btcTimer: Subscription;
 
-  constructor(private sharedService: SharedService,
+  constructor(
+    private sharedService: SharedService,
     private store: Store<AppState>,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -108,8 +108,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     private dynamicScriptLoader: DynamicScriptLoaderService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
-    private _zone: NgZone) {
-  }
+    private _zone: NgZone
+  ) {}
 
   ngOnInit() {
     let year = new Date().getFullYear();
@@ -125,7 +125,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.paymentMethod = null;
       }
     }
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         if (this.isUpgradeAccount) {
           this.upgradeAmount = userState.upgradeAmount;
@@ -137,10 +139,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       });
 
     this.billingForm = this.formBuilder.group({
-      'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]],
-      'promoCode': ''
+      cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]],
+      promoCode: ''
     });
-    this.store.select(state => state.bitcoin).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.bitcoin)
+      .pipe(untilDestroyed(this))
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
         if (this.promoCode.is_valid) {
@@ -148,20 +152,26 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
         }
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
-        if (this.checkTransactionResponse && (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
-          this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
-          this.checkTransactionResponse.status === TransactionStatus.SENT)) {
+        if (
+          this.checkTransactionResponse &&
+          (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
+            this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
+            this.checkTransactionResponse.status === TransactionStatus.SENT)
+        ) {
           this.paymentSuccess = true;
           return;
         }
       });
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
 
         const queryParams = this.activatedRoute.snapshot.queryParams;
         this.planType = this.planType || this.signupState.plan_type || queryParams.plan || PlanType.PRIME;
-        this.paymentType = this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
+        this.paymentType =
+          this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
         this.paymentMethod = this.paymentMethod || this.signupState.payment_method || PaymentMethod.STRIPE;
         this.currency = this.currency || this.signupState.currency || 'USD';
         if (!this.promoCode.value) {
@@ -203,8 +213,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     const timerRef: any = timer(1000, 1000);
     this.timerObservable = timerRef.pipe(untilDestroyed(this)).subscribe(t => {
-      this.seconds = ((3600 - t) % 60);
-      this.minutes = ((3600 - t - this.seconds) / 60);
+      this.seconds = (3600 - t) % 60;
+      this.minutes = (3600 - t - this.seconds) / 60;
     });
   }
 
@@ -219,45 +229,53 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       return;
     }
     this.isScriptsLoading = true;
-    this.dynamicScriptLoader.load('stripe').then(data => {
-      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
-        this.isScriptsLoaded = true;
-        this.isScriptsLoading = false;
-      });
-    }).catch(error => console.log(error));
+    this.dynamicScriptLoader
+      .load('stripe')
+      .then(data => {
+        this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
+          this.isScriptsLoaded = true;
+          this.isScriptsLoading = false;
+        });
+      })
+      .catch(error => console.log(error));
   }
 
   getToken() {
     this.inProgress = true;
-    (<any>window).Stripe.card.createToken({
-      number: this.cardNumber,
-      exp_month: this.expiryMonth,
-      exp_year: this.expiryYear,
-      cvc: this.cvc
-    }, (status: number, response: any) => {
-      // Wrapping inside the Angular zone
-      this._zone.run(() => {
-        this.inProgress = false;
-        if (status === 200) {
-          this.stripeSignup(response.id);
-        } else {
-          this.stripePaymentValidation = {
-            message: response.error.message,
-            param: response.error.param
-          };
-        }
-      });
-    });
+    (<any>window).Stripe.card.createToken(
+      {
+        number: this.cardNumber,
+        exp_month: this.expiryMonth,
+        exp_year: this.expiryYear,
+        cvc: this.cvc
+      },
+      (status: number, response: any) => {
+        // Wrapping inside the Angular zone
+        this._zone.run(() => {
+          this.inProgress = false;
+          if (status === 200) {
+            this.stripeSignup(response.id);
+          } else {
+            this.stripePaymentValidation = {
+              message: response.error.message,
+              param: response.error.param
+            };
+          }
+        });
+      }
+    );
   }
 
   getUpgradeAmount() {
     if (this.isUpgradeAccount) {
-      this.store.dispatch(new GetUpgradeAmount({
-        plan_type: this.planType,
-        payment_type: this.paymentType,
-        payment_method: this.paymentMethod,
-        is_renew: this.isRenew
-      }));
+      this.store.dispatch(
+        new GetUpgradeAmount({
+          plan_type: this.planType,
+          payment_type: this.paymentType,
+          payment_method: this.paymentMethod,
+          is_renew: this.isRenew
+        })
+      );
     }
   }
 
@@ -307,7 +325,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   bitcoinSignup() {
     if (this.bitcoinState.newWalletAddress) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress })));
+        this.store.dispatch(
+          new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress }))
+        );
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
@@ -315,7 +335,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.waitForPGPKeys({ ...this.signupState, from_address: this.bitcoinState.newWalletAddress });
       }
     } else {
-      this.store.dispatch(new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'));
+      this.store.dispatch(
+        new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.')
+      );
     }
   }
 
@@ -336,7 +358,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     const currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
     const currentLang = LANGUAGES.find(lang => {
-      if (lang.locale === currentLocale) { return true; }
+      if (lang.locale === currentLocale) {
+        return true;
+      }
     });
     return {
       ...data,
@@ -356,13 +380,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   checkTransaction() {
-    if (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
+    if (
+      this.checkTransactionResponse.status === TransactionStatus.PENDING ||
       this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
-      this.checkTransactionResponse.status === TransactionStatus.SENT) {
+      this.checkTransactionResponse.status === TransactionStatus.SENT
+    ) {
       this.paymentSuccess = true;
       return;
     }
-    const data: any = { 'from_address': this.bitcoinState.newWalletAddress };
+    const data: any = { from_address: this.bitcoinState.newWalletAddress };
     if (this.promoCode && this.promoCode.is_valid && this.promoCode.value) {
       data.promo_code = this.promoCode.value;
     }
@@ -388,9 +414,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.paymentSuccess = false;
     this.createNewWallet();
     this.btcTimer = timer(15000, 10000)
-      .pipe(
-        untilDestroyed(this),
-      )
+      .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.checkTransaction();
       });
@@ -409,12 +433,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   createNewWallet() {
-    this.store.dispatch(new CreateNewWallet({
-      payment_type: this.paymentType,
-      plan_type: this.planType,
-      payment_method: this.paymentMethod,
-      is_renew: this.isRenew,
-    }));
+    this.store.dispatch(
+      new CreateNewWallet({
+        payment_type: this.paymentType,
+        plan_type: this.planType,
+        payment_method: this.paymentMethod,
+        is_renew: this.isRenew
+      })
+    );
   }
 
   selectMonth(month) {
@@ -458,11 +484,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   validatePromoCode() {
     if (this.promoCode.value) {
-      this.store.dispatch(new ValidatePromoCode({
-        plan_type: this.planType,
-        payment_type: this.paymentType,
-        promo_code: this.promoCode.value
-      }));
+      this.store.dispatch(
+        new ValidatePromoCode({
+          plan_type: this.planType,
+          payment_type: this.paymentType,
+          promo_code: this.promoCode.value
+        })
+      );
     }
   }
 

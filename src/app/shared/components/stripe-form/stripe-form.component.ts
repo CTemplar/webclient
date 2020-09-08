@@ -37,31 +37,8 @@ export class StripeFormComponent implements OnInit {
   /**
    * For filling Month and Year dropdowns
    */
-  months = [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12'
-  ];
-  years = [
-    '2018',
-    '2019',
-    '2020',
-    '2021',
-    '2022',
-    '2023',
-    '2024',
-    '2025',
-    '2026'
-  ];
+  months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+  years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
 
   /**
    * Display loader on form submission
@@ -74,7 +51,6 @@ export class StripeFormComponent implements OnInit {
     private store: Store<AppState>,
     private donationService: DonationService
   ) {}
-
 
   /**
    * Initializing billing form and adding validation check of 16 digits length
@@ -117,7 +93,7 @@ export class StripeFormComponent implements OnInit {
     this.stripePaymentValidation.message = '';
     if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
       this.stripePaymentValidation.param = 'number';
-    } else if (!(<any>window).Stripe.card.validateExpiry( this.expiryMonth, this.expiryYear)) {
+    } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
       this.stripePaymentValidation.param = 'exp_year exp_month';
     } else if (!(<any>window).Stripe.card.validateCVC(this.cvc)) {
       this.stripePaymentValidation.param = 'cvc';
@@ -165,16 +141,14 @@ export class StripeFormComponent implements OnInit {
    */
   private performStripeDonationTransaction(token: any) {
     if (token) {
-      this.store.dispatch(new MakeStripDonation({
-        stripe_token: token,
-        amount: this.donationAmount
-      }));
-    } else {
       this.store.dispatch(
-        new SnackErrorPush(
-          'Cannot make donation, please reload page and try again.'
-        )
+        new MakeStripDonation({
+          stripe_token: token,
+          amount: this.donationAmount
+        })
       );
+    } else {
+      this.store.dispatch(new SnackErrorPush('Cannot make donation, please reload page and try again.'));
     }
   }
 }

@@ -4,19 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'filesize'
 })
 export class FilesizePipe implements PipeTransform {
-
-  private units = [
-    'B',
-    'KB',
-    'MB',
-    'GB',
-    'TB'
-  ];
-
+  private units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
   transform(bytes: any, preferredUnit?: any, precision: number = 2): any {
-
-    if ( isNaN( parseFloat( String(bytes) )) || ! isFinite( bytes ) ) {
+    if (isNaN(parseFloat(String(bytes))) || !isFinite(bytes)) {
       return '?';
     }
 
@@ -29,7 +20,7 @@ export class FilesizePipe implements PipeTransform {
       }
     }
 
-    while ( bytes >= 1024 ) {
+    while (bytes >= 1024) {
       bytes /= 1024;
 
       if (!preferredUnit) {
@@ -37,7 +28,6 @@ export class FilesizePipe implements PipeTransform {
       }
     }
 
-    return bytes.toFixed(+precision) + ' ' + this.units[ unit ];
+    return bytes.toFixed(+precision) + ' ' + this.units[unit];
   }
-
 }

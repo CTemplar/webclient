@@ -8,24 +8,25 @@ import { AppState, UserState } from '../datatypes';
 export class DateTimeUtilService {
   readonly ISO8601_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
   readonly preDefinedFormats = {
-    'short': 'M/D/YY, h:mm A',
-    'medium': 'MMM D, YYYY, h:mm:ss A',
-    'long': 'MMMM D, YYYY, h:mm:ss A Z',
-    'full': 'dddd, MMMM D, YYYY, h:mm:ss A Z',
-    'shortDate': 'M/D/YY',
-    'mediumDate': 'MMM D, YYYY',
-    'longDate': 'MMMM D, YYYY',
-    'fullDate': 'dddd, MMMM D, YYYY',
-    'shortTime': 'h:mm A',
-    'mediumTime': 'h:mm:ss A',
-    'longTime': 'h:mm:ss A Z',
-    'fullTime': 'h:mm:ss A Z'
+    short: 'M/D/YY, h:mm A',
+    medium: 'MMM D, YYYY, h:mm:ss A',
+    long: 'MMMM D, YYYY, h:mm:ss A Z',
+    full: 'dddd, MMMM D, YYYY, h:mm:ss A Z',
+    shortDate: 'M/D/YY',
+    mediumDate: 'MMM D, YYYY',
+    longDate: 'MMMM D, YYYY',
+    fullDate: 'dddd, MMMM D, YYYY',
+    shortTime: 'h:mm A',
+    mediumTime: 'h:mm:ss A',
+    longTime: 'h:mm:ss A Z',
+    fullTime: 'h:mm:ss A Z'
   };
 
   private timezone: string;
 
   constructor(private store: Store<AppState>) {
-    this.store.select(state => state.user)
+    this.store
+      .select(state => state.user)
       .subscribe((user: UserState) => {
         if (user.settings && user.settings.timezone !== this.timezone) {
           this.timezone = user.settings.timezone;
@@ -48,7 +49,7 @@ export class DateTimeUtilService {
     return moment([date.year, date.month - 1, date.day, time.hour, time.minute, time.second]).utc();
   }
 
-  getNgbDateTimeStructsFromDateTimeStr(dateTimeStr: string): { date: NgbDateStruct, time: NgbTimeStruct } {
+  getNgbDateTimeStructsFromDateTimeStr(dateTimeStr: string): { date: NgbDateStruct; time: NgbTimeStruct } {
     const datetime = moment(dateTimeStr);
     if (datetime) {
       return {
@@ -71,7 +72,7 @@ export class DateTimeUtilService {
   getNgbDateStructFromDateStr(dateStr: string, format: string): NgbDateStruct {
     const datetime = moment(dateStr, format);
     if (datetime) {
-      return {year: datetime.year(), month: datetime.month() + 1, day: datetime.date()};
+      return { year: datetime.year(), month: datetime.month() + 1, day: datetime.date() };
     } else {
       return null;
     }
@@ -80,18 +81,18 @@ export class DateTimeUtilService {
   getNgbTimeStructFromTimeStr(timeStr: string, format: string): NgbTimeStruct {
     const datetime = moment(timeStr, format);
     if (datetime) {
-      return {hour: datetime.hour(), minute: datetime.minute(), second: datetime.second()};
+      return { hour: datetime.hour(), minute: datetime.minute(), second: datetime.second() };
     } else {
       return null;
     }
   }
 
   createDateStrFromNgbDateStruct(date: NgbDateStruct, format: string): string {
-    return moment({year: date.year, month: date.month - 1, day: date.day}).format(format);
+    return moment({ year: date.year, month: date.month - 1, day: date.day }).format(format);
   }
 
   createTimeStrFromNgbTimeStruct(time: NgbTimeStruct, format: string): string {
-    return moment({hour: time.hour, minute: time.minute, second: time.second}).format(format);
+    return moment({ hour: time.hour, minute: time.minute, second: time.second }).format(format);
   }
 
   isDateTimeInPast(dateTimeStr: string): boolean {

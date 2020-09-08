@@ -9,10 +9,7 @@ export class LoadingSpinnerComponent implements OnInit {
   @Input() showSpinner: boolean;
   @Input() optionalClasses = '';
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

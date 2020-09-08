@@ -1,5 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -41,11 +42,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   public internalUser: boolean;
   private isContactsEncrypted: boolean;
 
-
-  constructor(private store: Store<AppState>,
-              private openpgp: OpenPgpService,
-              private cdr: ChangeDetectorRef) {
-  }
+  constructor(private store: Store<AppState>, private openpgp: OpenPgpService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.handleUserState();
@@ -64,24 +61,27 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     this.cdr.detectChanges();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   private handleUserState(): void {
-    this.store.select(state => state.user)
-      .pipe(untilDestroyed(this)).subscribe((userState: UserState) => {
-      this.isContactsEncrypted = userState.settings.is_contacts_encrypted;
-    });
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
+      .subscribe((userState: UserState) => {
+        this.isContactsEncrypted = userState.settings.is_contacts_encrypted;
+      });
 
-    this.store.select(state => state.contacts)
-      .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
-      if (this.inProgress && !contactsState.inProgress) {
-        this.inProgress = false;
-        if (!contactsState.isError) {
-          this.userSaved.emit(true);
+    this.store
+      .select(state => state.contacts)
+      .pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
+        if (this.inProgress && !contactsState.inProgress) {
+          this.inProgress = false;
+          if (!contactsState.isError) {
+            this.userSaved.emit(true);
+          }
         }
-      }
-    });
+      });
   }
 
   createNewContact() {

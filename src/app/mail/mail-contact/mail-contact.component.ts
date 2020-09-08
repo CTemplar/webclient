@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  HostListener
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AppState, Contact, ContactsState, PlanType, UserState, MailBoxesState } from '../../store/datatypes';
 import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush, ContactNotify } from '../../store';
@@ -62,7 +71,8 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   private notifyContactsModalRef: NgbModalRef;
   private searchText: string;
 
-  constructor(private store: Store<AppState>,
+  constructor(
+    private store: Store<AppState>,
     private modalService: NgbModal,
     private breakpointsService: BreakpointsService,
     private composeMailService: ComposeMailService,
@@ -70,18 +80,18 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     private translateService: TranslateService,
     config: NgbDropdownConfig,
     @Inject(DOCUMENT) private document: Document,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef
+  ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
 
   ngOnInit() {
     this.updateUsersStatus();
-    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
-      .subscribe((params) => {
-        this.searchText = params.search || '';
-        this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
-      });
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
+      this.searchText = params.search || '';
+      this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
+    });
 
     this.isMobile = window.innerWidth <= 768;
   }
@@ -95,17 +105,21 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {}
 
   private updateUsersStatus(): void {
-    this.store.select(state => state.user)
-      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
+      .subscribe((state: UserState) => {
         this.userState = state;
         this.currentPlan = state.settings.plan_type || PlanType.FREE;
       });
 
-    this.store.select(state => state.contacts)
-      .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
+    this.store
+      .select(state => state.contacts)
+      .pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
         this.contactsState = contactsState;
         this.inProgress = contactsState.inProgress;
         this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
@@ -114,7 +128,9 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
           this.contactsCount = null;
         }
       });
-      this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.mailboxes)
+      .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
         if (mailBoxesState.currentMailbox) {
           this.currentMailbox = mailBoxesState.currentMailbox;
@@ -124,7 +140,8 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  toggleMenu() { // click handler
+  toggleMenu() {
+    // click handler
     if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
       if (this.isMenuOpened) {
         this.document.body.classList.remove('menu-open');
@@ -149,17 +166,15 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addUserContactModalOpen(addUserContent) {
     this.isNewContact = true;
-    this.modalService.open(
-      addUserContent,
-      {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal',
-        beforeDismiss: () => {
-          this.isNewContact = false;
-          this.selectedContact = null;
-          return true;
-        },
-      });
+    this.modalService.open(addUserContent, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+      beforeDismiss: () => {
+        this.isNewContact = false;
+        this.selectedContact = null;
+        return true;
+      }
+    });
   }
 
   editContact(contact: Contact, addUserContent) {
@@ -212,9 +227,11 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   showComposeMailDialog() {
     this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
     if (this.selectedContacts.length > 10) {
-      this.store.dispatch(new SnackErrorPush({
-        message: 'Cannot open compose for more than 10 contacts'
-      }));
+      this.store.dispatch(
+        new SnackErrorPush({
+          message: 'Cannot open compose for more than 10 contacts'
+        })
+      );
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
       this.composeMailService.openComposeMailDialog({
@@ -225,7 +242,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleSelectAll() {
-    this.contactsState.contacts.forEach(item => item.markForDelete = this.selectAll);
+    this.contactsState.contacts.forEach(item => (item.markForDelete = this.selectAll));
   }
 
   openImportContactsModal() {
@@ -252,7 +269,9 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
     const contacts = this.selectedContacts.map(item => item.email);
-    const display_name = this.currentMailbox.display_name ? this.currentMailbox.display_name : this.currentMailbox.email;
+    const display_name = this.currentMailbox.display_name
+      ? this.currentMailbox.display_name
+      : this.currentMailbox.email;
     // generating mails
     this.notifyContactsMail = {
       mailbox: this.currentMailbox.id,
@@ -302,7 +321,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   nextPage() {
-    if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
+    if ((this.PAGE + 1) * this.LIMIT < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
       this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET, q: this.searchText }));

@@ -45,40 +45,52 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   private confirmDeleteModalRef: NgbModalRef;
   private isDeleteInProgress: boolean;
 
-
-  constructor(private modalService: NgbModal,
-              private store: Store<AppState>,
-              private usersService: UsersService,
-              private openPgpService: OpenPgpService,
-              private formBuilder: FormBuilder) { }
+  constructor(
+    private modalService: NgbModal,
+    private store: Store<AppState>,
+    private usersService: UsersService,
+    private openPgpService: OpenPgpService,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
-    this.addUserForm = this.formBuilder.group({
-      username: ['', [
-        Validators.required,
-        Validators.pattern(/^\w+([\.-]?\w+)*$/),
-        Validators.maxLength(128),
-        Validators.minLength(1),
-      ]],
-      domain: ['', Validators.required],
-      password: ['', [Validators.required, Validators.maxLength(128)]],
-      confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
-      recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
-    }, {
-      validator: PasswordValidation.MatchPassword
-    });
+    this.addUserForm = this.formBuilder.group(
+      {
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^\w+([\.-]?\w+)*$/),
+            Validators.maxLength(128),
+            Validators.minLength(1)
+          ]
+        ],
+        domain: ['', Validators.required],
+        password: ['', [Validators.required, Validators.maxLength(128)]],
+        confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
+        recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
+      },
+      {
+        validator: PasswordValidation.MatchPassword
+      }
+    );
 
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.customDomains = user.customDomains.filter((item) => item.is_domain_verified && item.is_mx_verified)
-          .map((item) => item.domain);
+        this.customDomains = user.customDomains
+          .filter(item => item.is_domain_verified && item.is_mx_verified)
+          .map(item => item.domain);
         if (this.customDomains.length > 0) {
           this.addUserForm.get('domain').setValue(this.customDomains[0]);
         }
       });
 
-    this.store.select(state => state.organization).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.organization)
+      .pipe(untilDestroyed(this))
       .subscribe((organizationState: OrganizationState) => {
         this.organizationState = organizationState;
         this.users = organizationState.users;
@@ -106,13 +118,16 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal org-user-add-modal',
-      backdrop: 'static',
+      backdrop: 'static'
     });
-    this.addUserModalRef.result.then((result) => {
-      this.addUserModalClosed();
-    }, (reason) => {
-      this.addUserModalClosed();
-    });
+    this.addUserModalRef.result.then(
+      result => {
+        this.addUserModalClosed();
+      },
+      reason => {
+        this.addUserModalClosed();
+      }
+    );
   }
 
   addUserModalClosed() {
@@ -136,7 +151,11 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     }
 
     this.isAddingUserInProgress = true;
-    this.openPgpService.generateUserKeys(this.addUserForm.value.username, this.addUserForm.value.password, this.addUserForm.value.domain);
+    this.openPgpService.generateUserKeys(
+      this.addUserForm.value.username,
+      this.addUserForm.value.password,
+      this.addUserForm.value.domain
+    );
     if (this.openPgpService.getUserKeys()) {
       this.addNewUser();
     } else {
@@ -145,7 +164,11 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   }
 
   addNewUser() {
-    const user = new OrganizationUser({ ...this.addUserForm.value, ...this.openPgpService.getUserKeys(), username: this.getEmail() });
+    const user = new OrganizationUser({
+      ...this.addUserForm.value,
+      ...this.openPgpService.getUserKeys(),
+      username: this.getEmail()
+    });
     this.store.dispatch(new AddOrganizationUser(user));
   }
 
@@ -182,30 +205,28 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     return this.addUserForm.controls['username'].value + '@' + this.addUserForm.controls['domain'].value;
   }
 
-
   private handleUsernameAvailability() {
-    this.addUserForm.get('username').valueChanges
-      .pipe(
-        debounceTime(1000),
-        untilDestroyed(this)
-      )
-      .subscribe((username) => {
+    this.addUserForm
+      .get('username')
+      .valueChanges.pipe(debounceTime(1000), untilDestroyed(this))
+      .subscribe(username => {
         this.userExistError = null;
         if (!username) {
           return;
         }
         if (!this.addUserForm.controls['username'].errors) {
           this.newAddressOptions.inProgress = true;
-          this.usersService.checkUsernameAvailability(this.getEmail())
-            .subscribe(response => {
-                this.newAddressOptions.usernameExists = response.exists;
-                this.newAddressOptions.inProgress = false;
-              },
-              error => {
-                this.userExistError = error.error;
-                this.newAddressOptions.inProgress = false;
-                this.newAddressOptions.usernameExists = null;
-              });
+          this.usersService.checkUsernameAvailability(this.getEmail()).subscribe(
+            response => {
+              this.newAddressOptions.usernameExists = response.exists;
+              this.newAddressOptions.inProgress = false;
+            },
+            error => {
+              this.userExistError = error.error;
+              this.newAddressOptions.inProgress = false;
+              this.newAddressOptions.usernameExists = null;
+            }
+          );
         }
       });
   }
@@ -218,7 +239,5 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
 
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }

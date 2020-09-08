@@ -34,18 +34,22 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   private isContactsPage: boolean;
   primaryWebsite = PRIMARY_WEBSITE;
 
-  constructor(private store: Store<AppState>,
-              config: NgbDropdownConfig,
-              private router: Router,
-              private translate: TranslateService,
-              private modalService: NgbModal,
-              @Inject(DOCUMENT) private document: Document,
-              private composeMailService: ComposeMailService) {
+  constructor(
+    private store: Store<AppState>,
+    config: NgbDropdownConfig,
+    private router: Router,
+    private translate: TranslateService,
+    private modalService: NgbModal,
+    @Inject(DOCUMENT) private document: Document,
+    private composeMailService: ComposeMailService
+  ) {
     config.autoClose = true;
   }
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         if (user.settings.language) {
           const language = this.languages.filter(item => item.name === user.settings.language)[0];
@@ -58,12 +62,18 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
       });
 
     this.setSearchPlaceholder(this.router.url);
-    this.router.events.pipe(untilDestroyed(this), filter(event => event instanceof NavigationEnd))
+    this.router.events
+      .pipe(
+        untilDestroyed(this),
+        filter(event => event instanceof NavigationEnd)
+      )
       .subscribe((event: NavigationEnd) => {
         this.setSearchPlaceholder(event.url);
       });
 
-    this.store.select(state => state.search).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.search)
+      .pipe(untilDestroyed(this))
       .subscribe((searchState: SearchState) => {
         this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
       });
@@ -85,7 +95,8 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   // == Setup click event to toggle mobile menu
-  toggleMenu() { // click handler
+  toggleMenu() {
+    // click handler
     const bool = this.menuIsOpened;
     this.menuIsOpened = bool === false ? true : false;
     this.document.body.classList.add('menu-open');
@@ -112,6 +123,5 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     this.composeMailService.openComposeMailDialog({ receivers });
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

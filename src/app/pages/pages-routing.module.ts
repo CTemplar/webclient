@@ -19,12 +19,11 @@ const routes: Routes = [
       { path: 'bitcoin', component: BitcoinFormComponent }
     ]
   },
-  { path: 'pricing', component: PricingPlansComponent },
+  { path: 'pricing', component: PricingPlansComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule {
-}
+export class PagesRoutingModule {}

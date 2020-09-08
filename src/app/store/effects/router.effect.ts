@@ -14,11 +14,7 @@ import { tap, map } from 'rxjs/operators';
 
 @Injectable()
 export class RouterEffects {
-  constructor(
-    private actions$: Actions,
-    private router: Router,
-    private location: Location
-  ) {}
+  constructor(private actions$: Actions, private router: Router, private location: Location) {}
 
   @Effect({ dispatch: false })
   navigate$ = this.actions$.pipe(
@@ -30,16 +26,14 @@ export class RouterEffects {
   );
 
   @Effect({ dispatch: false })
-  navigateBack$ = this.actions$
-    .pipe(
-      ofType(RouterActions.BACK),
-      tap(() => this.location.back())
-    );
+  navigateBack$ = this.actions$.pipe(
+    ofType(RouterActions.BACK),
+    tap(() => this.location.back())
+  );
 
   @Effect({ dispatch: false })
-  navigateForward$ = this.actions$
-    .pipe(
-      ofType(RouterActions.FORWARD),
-      tap(() => this.location.forward())
-    );
+  navigateForward$ = this.actions$.pipe(
+    ofType(RouterActions.FORWARD),
+    tap(() => this.location.forward())
+  );
 }

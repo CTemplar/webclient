@@ -9,11 +9,11 @@ export const quotes = [
   },
   {
     content: 'Safeguard the helpless',
-    author: '- Templar\'s honor code -'
+    author: "- Templar's honor code -"
   },
   {
     content: 'Do no wrong.',
-    author: '- Templar\'s honor code -'
+    author: "- Templar's honor code -"
   },
   {
     content: 'In a time of universal deceit, telling the truth is a revolutionary act.',
@@ -60,7 +60,8 @@ export const quotes = [
     author: '- George Orwell -'
   },
   {
-    content: 'The disappearance of a sense of morality is the most far-reaching consequence of submission to a system of authority.',
+    content:
+      'The disappearance of a sense of morality is the most far-reaching consequence of submission to a system of authority.',
     author: '- Stanley Milgram -'
   },
   {
@@ -68,7 +69,8 @@ export const quotes = [
     author: '- Voltaire -'
   },
   {
-    content: 'There is no greater tyranny than that which is perpetrated under the shield of the law and in the name of justice.',
+    content:
+      'There is no greater tyranny than that which is perpetrated under the shield of the law and in the name of justice.',
     author: '- Charles-Louis de Secondat -'
   },
   {
@@ -88,11 +90,13 @@ export const quotes = [
     author: '- Mahatma Gandhi -'
   },
   {
-    content: 'They who can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety.',
+    content:
+      'They who can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety.',
     author: '- Benjamin Franklin -'
   },
   {
-    content: 'A people that elect corrupt politicians, imposters, thieves and traitors are not victims, but accomplices.',
+    content:
+      'A people that elect corrupt politicians, imposters, thieves and traitors are not victims, but accomplices.',
     author: '- George Orwell -'
   },
   {
@@ -104,7 +108,8 @@ export const quotes = [
     author: '- William Binney, Whistleblower -'
   },
   {
-    content: 'Encryption works. Properly implemented strong crypto systems are one of the few things that you can rely on.',
+    content:
+      'Encryption works. Properly implemented strong crypto systems are one of the few things that you can rely on.',
     author: '- Edward Snowden -'
   },
   {
@@ -120,7 +125,8 @@ export const quotes = [
     author: '- Martin Luther King Jr. -'
   },
   {
-    content: 'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.',
+    content:
+      'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.',
     author: '- Martin Luther King Jr. -'
   },
   {
@@ -152,7 +158,8 @@ export const quotes = [
     author: '- Voltaire -'
   },
   {
-    content: 'There is no greater tyranny than that which is perpetrated under the shield of the law and in the name of justice.',
+    content:
+      'There is no greater tyranny than that which is perpetrated under the shield of the law and in the name of justice.',
     author: '- Charles-Louis de Secondat, baron de La Brède et de Montesquieu -'
   },
   {
@@ -184,7 +191,7 @@ export const quotes = [
     author: '- Jean-Jacques Rousseau -'
   },
   {
-    content: 'If we don\'t believe in freedom of expression for people we despise, we don\'t believe in it at all.',
+    content: "If we don't believe in freedom of expression for people we despise, we don't believe in it at all.",
     author: '- Noam Chomsky -'
   },
   {
@@ -196,7 +203,8 @@ export const quotes = [
     author: '- John F. Kennedy -'
   },
   {
-    content: 'If you become a target, they will retroactively analyze every phone call, every email, every financial transaction, everything electronic that you’ve ever done.',
+    content:
+      'If you become a target, they will retroactively analyze every phone call, every email, every financial transaction, everything electronic that you’ve ever done.',
     author: '- William Binney, Whistleblower -'
   },
   {
@@ -224,11 +232,13 @@ export const quotes = [
     author: '- Julian Assange -'
   },
   {
-    content: 'All administrations, governments, officials lie and nothing they say is to be believed. That\'s a pretty good rule.',
+    content:
+      "All administrations, governments, officials lie and nothing they say is to be believed. That's a pretty good rule.",
     author: '- Daniel Ellsberg, Whistleblower -'
   },
   {
-    content: 'Power is a thing of perception. They don/t need to be able to kill you. They just need you to think they are able to kill you.',
+    content:
+      'Power is a thing of perception. They don/t need to be able to kill you. They just need you to think they are able to kill you.',
     author: '- Julian Assange -'
   },
   {
@@ -248,7 +258,8 @@ export const quotes = [
     author: '- George Orwell -'
   },
   {
-    content: 'The world’s entire scientific and cultural heritage, is being digitized and locked up by a handful of private corporations.',
+    content:
+      'The world’s entire scientific and cultural heritage, is being digitized and locked up by a handful of private corporations.',
     author: '- Aaron Swartz, Reddit Co-Founder -'
   },
   {

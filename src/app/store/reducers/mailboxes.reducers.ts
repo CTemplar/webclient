@@ -10,13 +10,14 @@ export function reducer(
     currentMailbox: null,
     decryptKeyInProgress: false,
     encryptionInProgress: false
-  }, action: MailActions): MailBoxesState {
+  },
+  action: MailActions
+): MailBoxesState {
   switch (action.type) {
-
     case MailActionTypes.GET_MAILBOXES: {
       return {
         ...state,
-        inProgress: true,
+        inProgress: true
       };
     }
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
@@ -34,7 +35,7 @@ export function reducer(
     case MailActionTypes.SET_DECRYPT_INPROGRESS: {
       return {
         ...state,
-        decryptKeyInProgress: action.payload,
+        decryptKeyInProgress: action.payload
       };
     }
 
@@ -42,14 +43,14 @@ export function reducer(
       return {
         ...state,
         decryptKeyInProgress: false,
-        decryptedKey: action.payload.decryptedKey,
+        decryptedKey: action.payload.decryptedKey
       };
     }
 
     case MailActionTypes.SET_CURRENT_MAILBOX: {
       return {
         ...state,
-        currentMailbox: action.payload,
+        currentMailbox: action.payload
       };
     }
 
@@ -58,7 +59,7 @@ export function reducer(
       updatedCurrentMailBox.inProgress = false;
       let mailboxes: Mailbox[] = state.mailboxes;
 
-      mailboxes = mailboxes.map((mailbox) => {
+      mailboxes = mailboxes.map(mailbox => {
         if (mailbox.id === updatedCurrentMailBox.id) {
           return { ...updatedCurrentMailBox };
         }
@@ -72,13 +73,14 @@ export function reducer(
       return {
         ...state,
         mailboxes: mailboxes,
-        inProgress: false,
+        inProgress: false
       };
     }
 
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_FAILURE: {
       return {
-        ...state, mailboxes: state.mailboxes.map((mailbox) => {
+        ...state,
+        mailboxes: state.mailboxes.map(mailbox => {
           if (mailbox.id === action.payload.id) {
             mailbox.inProgress = false;
           }
@@ -104,7 +106,7 @@ export function reducer(
       const updatedCurrentMailBox: Mailbox = action.payload;
       const previousDefaultMailBox = state.mailboxes.find(mailbox => !!mailbox.is_default);
       let mailboxes: Mailbox[] = state.mailboxes;
-      mailboxes = mailboxes.map((mailbox) => {
+      mailboxes = mailboxes.map(mailbox => {
         if (mailbox.id === updatedCurrentMailBox.id) {
           return { ...updatedCurrentMailBox };
         } else if (mailbox.id === previousDefaultMailBox.id) {
@@ -134,7 +136,7 @@ export function reducer(
         ...state,
         mailboxes: action.payload.mailboxes,
         currentMailbox: action.payload.mailboxes[0],
-        isUpdatingOrder: false,
+        isUpdatingOrder: false
       };
     }
 

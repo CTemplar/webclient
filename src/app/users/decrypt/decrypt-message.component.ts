@@ -19,7 +19,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./decrypt-message.component.scss']
 })
 export class DecryptMessageComponent implements OnInit, OnDestroy {
-
   decryptForm: FormGroup;
   hash: string;
   secret: string;
@@ -35,13 +34,14 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   private secureMessageState: SecureMessageState;
 
-  constructor(private route: ActivatedRoute,
-              private store: Store<AppState>,
-              private formBuilder: FormBuilder,
-              private sharedService: SharedService,
-              private openPgpService: OpenPgpService,
-              private dateTimeUtilService: DateTimeUtilService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store<AppState>,
+    private formBuilder: FormBuilder,
+    private sharedService: SharedService,
+    private openPgpService: OpenPgpService,
+    private dateTimeUtilService: DateTimeUtilService
+  ) {}
 
   ngOnInit() {
     this.sharedService.hideEntireFooter.emit(true);
@@ -58,7 +58,9 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       this.store.dispatch(new GetMessage({ hash: this.hash, secret: this.secret }));
     });
 
-    this.store.select(state => state.secureMessage).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.secureMessage)
+      .pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
         this.isLoading = state.inProgress || state.isContentDecryptionInProgress;
         this.errorMessage = state.errorMessage;
@@ -70,7 +72,11 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
         }
         this.message = state.message;
         if (this.secureMessageState) {
-          if (this.secureMessageState.isKeyDecryptionInProgress && !state.isKeyDecryptionInProgress && !state.errorMessage) {
+          if (
+            this.secureMessageState.isKeyDecryptionInProgress &&
+            !state.isKeyDecryptionInProgress &&
+            !state.errorMessage
+          ) {
             this.openPgpService.decryptSecureMessageContent(state.decryptedKey, new SecureContent(this.message));
           } else if (this.secureMessageState.isContentDecryptionInProgress && !state.isContentDecryptionInProgress) {
             this.decryptedContent = state.decryptedContent.content;
@@ -112,5 +118,4 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   onExpired() {
     this.isMessageExpired = true;
   }
-
 }

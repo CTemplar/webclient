@@ -85,7 +85,6 @@ export interface Folder {
   sort_order?: number;
 }
 
-
 export enum MailFolderType {
   ALL_EMAILS = 'allmails',
   UNREAD = 'allunreadmails',
