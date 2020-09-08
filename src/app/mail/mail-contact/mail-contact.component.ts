@@ -259,7 +259,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
       sender: this.currentMailbox.email,
       receiver: contacts,
       display_name
-    }
+    };
     this.store.dispatch(new ContactNotify(this.notifyContactsMail));
   }
 

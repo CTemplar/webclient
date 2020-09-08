@@ -80,7 +80,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         return {
           ...state,
           isAuthenticated: action.payload.isAuthenticated
-        }
+        };
       }
     }
     case AuthActionTypes.SIGNUP_SUCCESS: {

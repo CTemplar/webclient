@@ -23,10 +23,10 @@ export class ComposeMailService {
   private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
 
   private userState: UserState;
-  minimizedWidth: number = 192;
-  originWidth: number = 640;
+  minimizedWidth = 192;
+  originWidth = 640;
   windowWidth: number;
-  maxComposeCount: number = 5;
+  maxComposeCount = 5;
   composesWidth: number;
   countCommonCompose: number;
 
@@ -185,11 +185,11 @@ export class ComposeMailService {
     let composesWidth = 0;
     if (this.componentRefList.length > 0) {
       for (let i = this.componentRefList.length - 1; i > -1; i--) {
-        composesWidth += this.componentRefList[i].instance.isMinimized ? this.minimizedWidth : this.originWidth;        
+        composesWidth += this.componentRefList[i].instance.isMinimized ? this.minimizedWidth : this.originWidth;
         if (composesWidth > this.windowWidth) {
           if (!this.componentRefList[i].instance.isMinimized) {
             this.componentRefList[i].instance.isComposeVisible = true;
-            this.componentRefList[i+1].instance.isComposeVisible = false;
+            this.componentRefList[i + 1].instance.isComposeVisible = false;
           } else {
             this.componentRefList[i].instance.isComposeVisible = false;
           }
@@ -248,7 +248,7 @@ export class ComposeMailService {
         const index = this.componentRefList.indexOf(newComponentRef);
         this.destroyComponent(newComponentRef, index);
       });
-      newComponentRef.instance.minimize.subscribe(isMinimized => { 
+      newComponentRef.instance.minimize.subscribe(isMinimized => {
         if (!isMinimized) { // when Compose window is maximized
           this.componentRefList.forEach(componentRef => {
             componentRef.instance.isMinimized = true;
@@ -259,10 +259,10 @@ export class ComposeMailService {
           if (this.windowWidth < (this.minimizedWidth * (this.componentRefList.length - 1) + this.originWidth)) {
             let tempCount = 0;
             for (let i = 0; i < (this.componentRefList.length); i++) {
-              if (tempCount === (this.componentRefList.length-this.countCommonCompose)) break;
+              if (tempCount === (this.componentRefList.length - this.countCommonCompose)) { break; }
               if ( this.componentRefList[i].instance.isMinimized ) {
                 tempCount += 1;
-                this.componentRefList[i].instance.isComposeVisible = false;}
+                this.componentRefList[i].instance.isComposeVisible = false; }
             }
           }
         } else { // when Compose window is minimized
@@ -270,7 +270,7 @@ export class ComposeMailService {
             componentRef.instance.isMinimized = true;
             componentRef.instance.isComposeVisible = false;
           });
-          let count = Math.trunc(this.windowWidth/this.minimizedWidth);
+          let count = Math.trunc(this.windowWidth / this.minimizedWidth);
           if (this.componentRefList.length < count) { count = this.componentRefList.length; }
           for (let i = (this.componentRefList.length - 1); i >= (this.componentRefList.length - count); i--) {
             this.componentRefList[i].instance.isComposeVisible = true;
@@ -305,9 +305,9 @@ export class ComposeMailService {
     this.getComposesWidth();
     let countNewCompose = (this.windowWidth - this.composesWidth) / this.minimizedWidth;
     for (let i = this.componentRefList.length; i > 0; i--) {
-      if (!this.componentRefList[i-1].instance.isComposeVisible && countNewCompose >= 1) {
+      if (!this.componentRefList[i - 1].instance.isComposeVisible && countNewCompose >= 1) {
         countNewCompose -= 1;
-        this.componentRefList[i-1].instance.isComposeVisible = true;
+        this.componentRefList[i - 1].instance.isComposeVisible = true;
       }
     }
   }

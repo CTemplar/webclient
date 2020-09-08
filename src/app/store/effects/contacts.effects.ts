@@ -127,7 +127,7 @@ export class ContactsEffects {
                 new ContactNotifyFailure({}),
               );
             }
-            return of( 
+            return of(
               new EmptyOnlyFolder({folder: 'sent'}),
               new ContactNotifySuccess(payload),
               new SnackPush({ message: 'Notification emails have been sent successfully.' })

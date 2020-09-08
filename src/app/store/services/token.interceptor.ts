@@ -16,7 +16,7 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   private authService: UsersService;
-  private isAuthenticated: boolean = false;
+  private isAuthenticated = false;
   constructor(private injector: Injector,
               private store: Store<AppState>,
               private websocketService: WebsocketService) {
@@ -35,11 +35,11 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap((event) => {
         if (event instanceof HttpResponse) {
-          if(event.ok && 
-            event.url.indexOf(apiUrl) >= 0 && 
-            event.url.indexOf('auth/sign-out') < 0 && 
+          if (event.ok &&
+            event.url.indexOf(apiUrl) >= 0 &&
+            event.url.indexOf('auth/sign-out') < 0 &&
             !this.isAuthenticated) {
-            this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }))
+            this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }));
           }
         }
       }),

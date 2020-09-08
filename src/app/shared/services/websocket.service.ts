@@ -15,7 +15,7 @@ export class WebsocketService implements OnDestroy {
   private webSocket: WebSocket;
   private retryCount = 1;
   private userId: number = Date.now();
-  private isAuthenticated: boolean = false;
+  private isAuthenticated = false;
 
   constructor(
     private store: Store<AppState>
