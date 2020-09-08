@@ -60,6 +60,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    /**
+     * Get user's settings
+     */
     this.store
       .select(state => state.user)
       .pipe(untilDestroyed(this))
@@ -69,6 +72,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
         this.planType = user.settings.plan_type || PlanType.FREE;
         this.isContactsEncrypted = this.settings.is_contacts_encrypted;
       });
+    
+    /**
+     * Change password using keys
+     */
     this.store
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
@@ -120,7 +127,10 @@ export class SecurityComponent implements OnInit, OnDestroy {
   updateSettings(key?: string, value?: any) {
     this.settingsService.updateSettings(this.settings, key, value);
   }
-
+  
+  /**
+   * Update anti phishing status
+   */
   updateAntiPhishing(status: boolean) {
     if (this.settings.is_anti_phishing_enabled !== status) {
       this.settings.anti_phishing_phrase =
@@ -175,7 +185,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     });
   }
 
-  // == Open encrypt contacts confirmation NgbModal
+  // == Open decrypt contacts confirmation NgbModal
   openDecryptContactsModal() {
     if (!this.settings.is_contacts_encrypted) {
       return;
@@ -194,7 +204,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.isContactsEncrypted = true;
     }, 100);
   }
-
+  
+  // == Open encrypt contacts confirmation NgbModal
   openConfirmEncryptContactsModal() {
     if (this.settings.is_contacts_encrypted) {
       return;
