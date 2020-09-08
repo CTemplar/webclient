@@ -31,7 +31,7 @@ function createWindow() {
 
   // open external links with web browser
   mainWindow.webContents.on('will-navigate', (e, reqUrl) => {
-    const getHost = url => require('url').parse(url).host;
+    const getHost = host => require('url').parse(host).host;
     const reqHost = getHost(reqUrl);
     const isExternal = reqHost && reqHost !== getHost(mainWindow.webContents.getURL());
     if (isExternal) {
