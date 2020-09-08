@@ -225,16 +225,16 @@ export class SafePipe implements PipeTransform {
       whiteList: allowedTags,
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
-      onIgnoreTagAttr: (tag, name, value, isWhiteAttr) => {
+      onIgnoreTagAttr: (tag, name, attr, isWhiteAttr) => {
         if (name !== 'class') {
           // get attr whitelist for specific tag
           const attrWhitelist = allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag
           if (attrWhitelist.indexOf(name) !== -1) {
             if (disableExternalImages && tag === 'img' && name === 'src') {
-              if (!(value.indexOf('https://' + PRIMARY_DOMAIN) === 0 || value.indexOf(apiUrl) === 0)) {
+              if (!(attr.indexOf('https://' + PRIMARY_DOMAIN) === 0 || attr.indexOf(apiUrl) === 0)) {
                 SafePipe.hasExternalImages = true;
-                return `${value}=""`;
+                return `${attr}=""`;
               }
             }
             return name + '="' + xss.escapeAttrValue(value) + '"';
