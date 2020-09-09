@@ -8,7 +8,7 @@ describe('UsersBillingInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [UsersBillingInfoComponent]
+      declarations: [UsersBillingInfoComponent],
     }).compileComponents();
   }));
 

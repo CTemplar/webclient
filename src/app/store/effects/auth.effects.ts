@@ -52,7 +52,7 @@ import {
   VerifyCaptchaSuccess,
   SettingsUpdateSuccess,
   GetMailboxes,
-  RefreshToken
+  RefreshToken,
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -65,7 +65,7 @@ export class AuthEffects {
     private actions: Actions,
     private authService: UsersService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
   ) {}
 
   @Effect()
@@ -75,9 +75,9 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.signIn(payload).pipe(
         map(response => new LogInSuccess(response)),
-        catchError((errorResponse: any) => of(new LogInFailure(errorResponse.error)))
+        catchError((errorResponse: any) => of(new LogInFailure(errorResponse.error))),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -87,7 +87,7 @@ export class AuthEffects {
       if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
         this.router.navigateByUrl('/mail');
       }
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -99,7 +99,7 @@ export class AuthEffects {
     map((action: RefreshToken) => action.payload),
     switchMap(() => {
       return this.authService.refreshToken();
-    })
+    }),
   );
 
   @Effect()
@@ -116,11 +116,11 @@ export class AuthEffects {
         catchError(errorResponse =>
           of(
             new SignUpFailure(errorResponse.error),
-            new SnackErrorPush({ message: 'Failed to signup, please try again.' })
-          )
-        )
+            new SnackErrorPush({ message: 'Failed to signup, please try again.' }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -128,7 +128,7 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGOUT),
     tap(action => {
       this.authService.signOut();
-    })
+    }),
   );
 
   @Effect()
@@ -138,9 +138,9 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.expireSession().pipe(
         switchMap(res => EMPTY),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to expire user session.' })))
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to expire user session.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -156,11 +156,11 @@ export class AuthEffects {
         catchError(error =>
           of(
             new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }),
-            new CheckUsernameAvailabilityError()
-          )
-        )
+            new CheckUsernameAvailabilityError(),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -170,9 +170,9 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.recoverPassword(payload).pipe(
         switchMap(res => of(new RecoverPasswordSuccess(res))),
-        catchError(error => of(new RecoverPasswordFailure(error.error)))
+        catchError(error => of(new RecoverPasswordFailure(error.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -182,9 +182,9 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.resetPassword(payload).pipe(
         switchMap(user => of(new LogInSuccess(user), new ResetPasswordSuccess(user))),
-        catchError(error => of(new ResetPasswordFailure(error.error)))
+        catchError(error => of(new ResetPasswordFailure(error.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -202,11 +202,11 @@ export class AuthEffects {
         catchError(error =>
           of(
             new UpgradeAccountFailure(error.error),
-            new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' })
-          )
-        )
+            new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -216,16 +216,16 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.changePassword(payload).pipe(
         switchMap(user =>
-          of(new ChangePasswordSuccess(payload), new SnackPush({ message: 'Password changed successfully.' }))
+          of(new ChangePasswordSuccess(payload), new SnackPush({ message: 'Password changed successfully.' })),
         ),
         catchError((response: any) =>
           of(
             new SnackErrorPush({ message: `Failed to change password, ${response.error}` }),
-            new ChangePasswordFailed(response)
-          )
-        )
+            new ChangePasswordFailed(response),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -235,7 +235,7 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.deleteAccount(payload).pipe(
         switchMap(user =>
-          of(new DeleteAccountSuccess(), new SnackPush({ message: 'Account deleted successfully.' }), new Logout())
+          of(new DeleteAccountSuccess(), new SnackPush({ message: 'Account deleted successfully.' }), new Logout()),
         ),
         catchError(errorResponse =>
           of(
@@ -244,12 +244,12 @@ export class AuthEffects {
               message:
                 errorResponse.error && errorResponse.error.detail
                   ? errorResponse.error.detail
-                  : 'Failed to delete account, please try again.'
-            })
-          )
-        )
+                  : 'Failed to delete account, please try again.',
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -265,12 +265,12 @@ export class AuthEffects {
               message:
                 errorResponse.error && errorResponse.error.detail
                   ? errorResponse.error.detail
-                  : 'Failed to load Captcha.'
-            })
-          )
-        )
+                  : 'Failed to load Captcha.',
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -292,12 +292,12 @@ export class AuthEffects {
               message:
                 errorResponse.error && errorResponse.error.detail
                   ? errorResponse.error.detail
-                  : 'Failed to verify Captcha.'
-            })
-          )
-        )
+                  : 'Failed to verify Captcha.',
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -310,12 +310,12 @@ export class AuthEffects {
         catchError(errorResponse =>
           of(
             new SnackErrorPush({
-              message: `Failed to load secret, ${errorResponse.error}`
-            })
-          )
-        )
+              message: `Failed to load secret, ${errorResponse.error}`,
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -329,20 +329,20 @@ export class AuthEffects {
             new Update2FASuccess(response),
             new SettingsUpdateSuccess(payload.settings),
             new SnackPush({
-              message: `2 Factor authentication ${payload.data.enable_2fa ? 'enabled' : 'disabled'} successfully.`
-            })
-          )
+              message: `2 Factor authentication ${payload.data.enable_2fa ? 'enabled' : 'disabled'} successfully.`,
+            }),
+          ),
         ),
         catchError(errorResponse =>
           of(
             new SnackErrorPush({
               message: `Failed to ${payload.data.enable_2fa ? 'enable' : 'disable'} 2FA, ${
                 errorResponse.error
-              } Please try again.`
-            })
-          )
-        )
+              } Please try again.`,
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 }

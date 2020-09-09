@@ -10,7 +10,7 @@ export const initialState: ContactsState = {
   totalContacts: 0,
   noOfDecryptedContacts: 0,
   loaded: false,
-  contactsToDecrypt: []
+  contactsToDecrypt: [],
 };
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
@@ -26,7 +26,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         contactsToDecrypt: action.payload.isDecrypting ? action.payload.results : [],
         totalContacts: action.payload.total_count,
         loaded: true,
-        inProgress: false
+        inProgress: false,
       };
     }
 
@@ -34,7 +34,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return {
         ...state,
         loaded: true,
-        inProgress: false
+        inProgress: false,
       };
     }
 
@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return {
         ...state,
         contactsToDecrypt: [],
-        noOfDecryptedContacts: action.payload && action.payload.clearCount ? 0 : state.noOfDecryptedContacts
+        noOfDecryptedContacts: action.payload && action.payload.clearCount ? 0 : state.noOfDecryptedContacts,
       };
     }
 
@@ -78,7 +78,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         ...state,
         contacts: sortByString(state.contacts.concat([action.payload]), 'name'),
         inProgress: false,
-        isError: false
+        isError: false,
       };
     }
     case ContactsActionTypes.CONTACT_ADD_ERROR: {

@@ -12,7 +12,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-create-folder',
   templateUrl: './create-folder.component.html',
-  styleUrls: ['./create-folder.component.scss']
+  styleUrls: ['./create-folder.component.scss'],
 })
 export class CreateFolderComponent implements OnInit, OnDestroy {
   @Input() folder: Folder = { id: null, name: '', color: '' };
@@ -31,9 +31,9 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     this.customFolderForm = this.fb.group({
       folderName: [
         this.folder.name,
-        [Validators.required, Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/), Validators.maxLength(30)]
+        [Validators.required, Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/), Validators.maxLength(30)],
       ],
-      color: this.folder.color
+      color: this.folder.color,
     });
     if (this.folder.color) {
       this.selectedColorIndex = this.folderColors.indexOf(this.folder.color);
@@ -66,7 +66,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     const customFolder: Folder = {
       id: this.folder.id,
       name: this.customFolderForm.value.folderName,
-      color: this.folderColors[this.selectedColorIndex]
+      color: this.folderColors[this.selectedColorIndex],
     };
     if (this.checkFolderExist(customFolder.name)) {
       return;
@@ -78,7 +78,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   checkFolderExist(folderName: string) {
     if (
       this.userState.customFolders.filter(
-        folder => folder.name.toLowerCase() === folderName.toLowerCase() && folder.id !== this.folder.id
+        folder => folder.name.toLowerCase() === folderName.toLowerCase() && folder.id !== this.folder.id,
       ).length > 0
     ) {
       this.duplicateFoldername = true;

@@ -8,7 +8,7 @@ describe('MailFooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MailFooterComponent]
+      declarations: [MailFooterComponent],
     }).compileComponents();
   }));
 

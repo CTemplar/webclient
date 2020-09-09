@@ -16,14 +16,14 @@ const routes: Routes = [
     children: [
       { path: '', component: PaymentOptionsComponent },
       { path: 'stripe', component: StripeFormComponent },
-      { path: 'bitcoin', component: BitcoinFormComponent }
-    ]
+      { path: 'bitcoin', component: BitcoinFormComponent },
+    ],
   },
-  { path: 'pricing', component: PricingPlansComponent }
+  { path: 'pricing', component: PricingPlansComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class PagesRoutingModule {}

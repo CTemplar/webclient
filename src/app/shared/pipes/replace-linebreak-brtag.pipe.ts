@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'linebreaktobrtag'
+  name: 'linebreaktobrtag',
 })
 export class LineBreakToBrTag implements PipeTransform {
   transform(mailContent: string): string {

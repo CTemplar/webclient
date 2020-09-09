@@ -3,7 +3,7 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
 import * as moment from 'moment-timezone';
 
 @Pipe({
-  name: 'momentDate'
+  name: 'momentDate',
 })
 export class MomentDatePipe implements PipeTransform {
   constructor(private dateTimeUtilService: DateTimeUtilService) {}

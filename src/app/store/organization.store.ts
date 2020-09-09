@@ -21,7 +21,7 @@ export enum OrganizationActionTypes {
   DELETE_ORGANIZATION_USER_FAILURE = '[ORGANIZATION] DELETE USER FAILURE',
   UPDATE_ORGANIZATION_USER = '[ORGANIZATION] UPDATE USER',
   UPDATE_ORGANIZATION_USER_SUCCESS = '[ORGANIZATION] UPDATE USER SUCCESS',
-  UPDATE_ORGANIZATION_USER_FAILURE = '[ORGANIZATION] UPDATE USER FAILURE'
+  UPDATE_ORGANIZATION_USER_FAILURE = '[ORGANIZATION] UPDATE USER FAILURE',
 }
 
 export class GetOrganizationUsers implements Action {
@@ -126,11 +126,11 @@ export class OrganizationEffects {
         catchError(response =>
           of(
             new GetOrganizationUsersFailure(response.error),
-            new SnackErrorPush({ message: 'Failed to load organization users.' })
-          )
-        )
+            new SnackErrorPush({ message: 'Failed to load organization users.' }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -143,12 +143,12 @@ export class OrganizationEffects {
           return of(
             new AddOrganizationUserSuccess({ ...payload, ...response }),
             new SnackErrorPush({ message: `User '${payload.username}' added successfully.` }),
-            new GetDomains()
+            new GetDomains(),
           );
         }),
-        catchError(response => of(new AddOrganizationUserFailure(response.error)))
+        catchError(response => of(new AddOrganizationUserFailure(response.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -161,12 +161,12 @@ export class OrganizationEffects {
           return of(
             new DeleteOrganizationUserSuccess(payload),
             new SnackErrorPush({ message: `User '${payload.username}' deleted successfully.` }),
-            new GetDomains()
+            new GetDomains(),
           );
         }),
-        catchError(response => of(new DeleteOrganizationUserFailure(response.error)))
+        catchError(response => of(new DeleteOrganizationUserFailure(response.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -178,17 +178,17 @@ export class OrganizationEffects {
         switchMap((response: any) => {
           return of(
             new UpdateOrganizationUserSuccess(payload),
-            new SnackErrorPush({ message: `Recovery email for user: '${payload.username}', updated successfully.` })
+            new SnackErrorPush({ message: `Recovery email for user: '${payload.username}', updated successfully.` }),
           );
         }),
         catchError(response =>
           of(
             new UpdateOrganizationUserFailure({ user: payload, error: response.error }),
-            new SnackErrorPush({ message: `Failed to update recovery email. ${response.error}` })
-          )
-        )
+            new SnackErrorPush({ message: `Failed to update recovery email. ${response.error}` }),
+          ),
+        ),
       );
-    })
+    }),
   );
 }
 
@@ -211,7 +211,7 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
       return {
         ...state,
         inProgress: false,
-        users: sortByString(action.payload, 'username')
+        users: sortByString(action.payload, 'username'),
       };
     }
 
@@ -228,7 +228,7 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
         ...state,
         isAddingUserInProgress: false,
         users: sortByString([...state.users, new OrganizationUser(action.payload)], 'username'),
-        isError: false
+        isError: false,
       };
     }
 
@@ -244,7 +244,7 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
       return {
         ...state,
         isDeleteInProgress: false,
-        users: state.users.filter(user => user.username !== action.payload.username)
+        users: state.users.filter(user => user.username !== action.payload.username),
       };
     }
 
@@ -262,7 +262,7 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
           }
           return user;
         }),
-        isError: false
+        isError: false,
       };
     }
 
@@ -277,7 +277,7 @@ export function reducer(state: OrganizationState = { users: [] }, action: Organi
           return user;
         }),
         error: action.payload.error,
-        isError: true
+        isError: true,
       };
     }
 

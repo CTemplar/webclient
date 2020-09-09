@@ -12,7 +12,7 @@ import {
   SnackPush,
   WhiteListDelete,
   CardDelete,
-  CardMakePrimary
+  CardMakePrimary,
 } from '../../store/actions';
 import {
   AppState,
@@ -28,7 +28,7 @@ import {
   Timezone,
   TimezonesState,
   UserState,
-  CardState
+  CardState,
 } from '../../store/datatypes';
 import { MoveTab, ClearMailsOnConversationModeChange, GetUnreadMailsCount } from '../../store/actions';
 import { OpenPgpService, SharedService } from '../../store/services';
@@ -44,7 +44,7 @@ import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
-  styleUrls: ['./mail-settings.component.scss']
+  styleUrls: ['./mail-settings.component.scss'],
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
@@ -98,7 +98,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private sharedService: SharedService,
-    private creditcardnumber: CreditCardNumberPipe
+    private creditcardnumber: CreditCardNumberPipe,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
@@ -158,7 +158,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.deleteAccountInfoForm = this.formBuilder.group({
       contact_email: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
     });
     this.route.params.subscribe(params => {
       if (params['id'] !== 'undefined') {
@@ -168,7 +168,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges.pipe(
       startWith(''),
-      map(name => (name ? this._filterTimeZone(name) : this.timezones.slice()))
+      map(name => (name ? this._filterTimeZone(name) : this.timezones.slice())),
     );
 
     /**
@@ -246,7 +246,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalService.open(this.billingInfoModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-lg'
+      windowClass: 'modal-lg',
     });
   }
 
@@ -268,7 +268,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isAddNewCard = false;
     this.modalService.open(billingInfoContent, {
       centered: true,
-      windowClass: 'modal-lg'
+      windowClass: 'modal-lg',
     });
   }
 
@@ -277,7 +277,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalService.open(this.billingInfoModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-lg'
+      windowClass: 'modal-lg',
     });
   }
 
@@ -326,7 +326,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deleteAccountInfoForm.reset();
     this.deleteAccountInfoModalRef = this.modalService.open(this.deleteAccountInfoModal, {
       centered: true,
-      windowClass: 'modal-sm'
+      windowClass: 'modal-sm',
     });
   }
 
@@ -336,7 +336,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.deleteAccountInfoModalRef.dismiss();
       this.confirmDeleteAccountModalRef = this.modalService.open(this.confirmDeleteAccountModal, {
         centered: true,
-        windowClass: 'modal-sm'
+        windowClass: 'modal-sm',
       });
     }
   }
@@ -352,7 +352,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   confirmDeleteAccount() {
     const data = {
       ...this.deleteAccountInfoForm.value,
-      username: this.userState.username
+      username: this.userState.username,
     };
     this.store.dispatch(new DeleteAccount(data));
     this.confirmDeleteAccountModalRef.dismiss();
@@ -383,7 +383,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       err => {
         console.log(err);
-      }
+      },
     );
   }
 

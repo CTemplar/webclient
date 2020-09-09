@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export enum SearchActionTypes {
-  CLEAR_SEARCH = '[SEARCH] update'
+  CLEAR_SEARCH = '[SEARCH] update',
 }
 
 export class ClearSearch implements Action {

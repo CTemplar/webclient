@@ -13,8 +13,8 @@ $error-red: #e94e4c;
 }
 
 .desc-card-holder {
-  @include media("<=sm") {
-    margin: .75rem -.938rem 0;
+  @include media('<=sm') {
+    margin: 0.75rem -0.938rem 0;
   }
 }
 
@@ -23,11 +23,11 @@ $error-red: #e94e4c;
   // == Large list
   &-lg {
     .info-list-label {
-      width: 200px;//~170px;
+      width: 200px; //~170px;
     }
 
     .info-list-val {
-      width: calc(100% - 200px - 1.25rem);//~calc(100% - 170px - 1.25rem);
+      width: calc(100% - 200px - 1.25rem); //~calc(100% - 170px - 1.25rem);
     }
 
     .info-list-detail {
@@ -37,7 +37,7 @@ $error-red: #e94e4c;
       }
       .info-list-action {
         margin-top: 1.5rem;
-        margin-left: -.5rem;
+        margin-left: -0.5rem;
       }
       .info-list-detail-content {
         margin-top: 1rem;
@@ -60,7 +60,7 @@ $error-red: #e94e4c;
     border-bottom: 0;
   }
 
-  @include media(">=ipad") {
+  @include media('>=ipad') {
     padding: 1.188rem 1.563rem;
   }
 }
@@ -117,7 +117,7 @@ $error-red: #e94e4c;
     border-radius: 0 4px 4px 0;
   }
 
-  @include media(">sm") {
+  @include media('>sm') {
     line-height: 1.25rem;
 
     .progress-bar {
@@ -136,22 +136,22 @@ $error-red: #e94e4c;
 
 // == Custom grid : 10px gutter
 .row-sm {
-  margin-right: -.75rem;
-  margin-left: -.75rem;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
 
-  > [class*="col-"] {
-    padding-right: .75rem;
-    padding-left: .75rem;
+  > [class*='col-'] {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
   }
 }
 
 .row-xs-sm {
-  margin-right: -.375rem;
-  margin-left: -.375rem;
+  margin-right: -0.375rem;
+  margin-left: -0.375rem;
 
-  > [class*="col-"] {
-    padding-right: .375rem;
-    padding-left: .375rem;
+  > [class*='col-'] {
+    padding-right: 0.375rem;
+    padding-left: 0.375rem;
   }
 }
 
@@ -170,7 +170,7 @@ $error-red: #e94e4c;
 
 .form-content-row-sm {
   &:not(:last-child) {
-    margin-bottom: .875rem;
+    margin-bottom: 0.875rem;
   }
 }
 
@@ -184,7 +184,7 @@ $error-red: #e94e4c;
 .form-content-holder {
   font-size: 14px;
 
-  @include media("<=sm") {
+  @include media('<=sm') {
     font-size: 0.875rem;
   }
 
@@ -193,14 +193,14 @@ $error-red: #e94e4c;
     padding-left: 0.75rem;
     font-size: 0.75rem;
 
-    @include media(">sm") {
+    @include media('>sm') {
       height: 2rem;
     }
   }
 }
 
 .form-control-contenteditable {
-  min-height: 5.750rem;
+  min-height: 5.75rem;
 }
 
 .dropdown.dropdown-sm {
@@ -218,7 +218,7 @@ $error-red: #e94e4c;
     }
 
     .form-content-holder & {
-      @include media("<=sm") {
+      @include media('<=sm') {
         font-size: 0.875rem;
         height: 2.625rem;
       }
@@ -228,14 +228,14 @@ $error-red: #e94e4c;
   .dropdown-item {
     line-height: 1;
 
-    @include media("<=sm") {
+    @include media('<=sm') {
       font-size: 0.875rem;
     }
   }
 }
 
 .form-label {
-  @include media("<=sm") {
+  @include media('<=sm') {
     margin-bottom: 0.75rem !important;
     font-size: 0.875rem;
     line-height: 1;
@@ -249,12 +249,12 @@ $error-red: #e94e4c;
 
 // == Settings action list
 .setting-actions-list {
-  margin-right: -.563rem;
-  margin-left: -.563rem;
+  margin-right: -0.563rem;
+  margin-left: -0.563rem;
 
   > li {
-    padding-right: .563rem;
-    padding-left: .563rem;
+    padding-right: 0.563rem;
+    padding-left: 0.563rem;
 
     .icon {
       color: $brand-light-gray;
@@ -270,9 +270,9 @@ $error-red: #e94e4c;
   line-height: 1;
 
   &-xs-full {
-    @include media("<=sm") {
-      margin-right: -.938rem;
-      margin-left: -.938rem;
+    @include media('<=sm') {
+      margin-right: -0.938rem;
+      margin-left: -0.938rem;
     }
   }
 }
@@ -299,22 +299,22 @@ $error-red: #e94e4c;
 }
 
 // == Modals
-[class*="col-"].form-content-right-stretch,
-[class*="col-"].add-filter-moveto-col {
+[class*='col-'].form-content-right-stretch,
+[class*='col-'].add-filter-moveto-col {
   flex: 0 0 calc(100% - 100px);
   max-width: calc(100% - 100px);
 
-  @include media(">sm") {
+  @include media('>sm') {
     flex: 0 0 72.83%; //~72.83%;
     max-width: 72.83%;
   }
 }
 
-[class*="col-"].add-filter-applylabel-col {
+[class*='col-'].add-filter-applylabel-col {
   flex: 0 0 calc(100% - 120px);
   max-width: calc(100% - 120px);
 
-  @include media(">sm") {
+  @include media('>sm') {
     flex: 0 0 68.7%;
     max-width: 68.7%;
   }
@@ -340,7 +340,7 @@ $error-red: #e94e4c;
   .icon {
     position: absolute;
     top: 50%;
-    right: .75rem;
+    right: 0.75rem;
     transform: translateY(-50%);
   }
 }
@@ -356,14 +356,14 @@ $error-red: #e94e4c;
   right: 0.8rem;
   background-color: $brand-blue;
 
-  @include media("<=sm"){
+  @include media('<=sm') {
     bottom: 6rem;
   }
 }
 
 .userame-field-group {
   .form-control {
-    @include media(">sm") {
+    @include media('>sm') {
       width: calc(70% - 50px);
 
       &.is-readonly {
@@ -371,7 +371,7 @@ $error-red: #e94e4c;
       }
     }
 
-    @include media("<=sm") {
+    @include media('<=sm') {
       &.is-readonly {
         width: calc(100% - 48px);
       }
@@ -489,7 +489,6 @@ $error-red: #e94e4c;
   min-width: 55vw;
 }
 
-
 .plan-details {
   .desc-card-body {
     background: #fafafa;
@@ -497,7 +496,7 @@ $error-red: #e94e4c;
   }
 
   .user-details {
-    @include media("<=sm") {
+    @include media('<=sm') {
       margin-right: 1rem;
     }
   }

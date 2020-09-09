@@ -5,40 +5,63 @@
         <h6 class="form-step-card-title text-dark mb-3 text-left">
           <strong [translate]="'billing_info.donation_amount'">Amount</strong>
         </h6>
-        <div class="d-flex justify-content-between btn-group btn-group-toggle text-left" ngbRadioGroup name="donationAmount"
-          [(ngModel)]="donationAmount" [ngModelOptions]="{standalone: true}">
+        <div
+          class="d-flex justify-content-between btn-group btn-group-toggle text-left"
+          ngbRadioGroup
+          name="donationAmount"
+          [(ngModel)]="donationAmount"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <label ngbButtonLabel class="btn-outline-secondary"> <input ngbButton type="radio" [value]="1" /> $1 </label>
+          <label ngbButtonLabel class="btn-outline-secondary"> <input ngbButton type="radio" [value]="5" /> $5 </label>
           <label ngbButtonLabel class="btn-outline-secondary">
-            <input ngbButton type="radio" [value]="1"> $1
-          </label>
-          <label ngbButtonLabel class="btn-outline-secondary">
-            <input ngbButton type="radio" [value]="5"> $5
-          </label>
-          <label ngbButtonLabel class="btn-outline-secondary">
-            <input ngbButton type="radio" [value]="10"> $10
+            <input ngbButton type="radio" [value]="10" /> $10
           </label>
           <div class="form-group mb-0">
             <label for="donationAmount" class="text-muted text-left hidden-sm-up">Other</label>
-            <input class="form-control" (click)="donationAmount = 0" [(ngModel)]="donationAmount" [ngModelOptions]="{standalone: true}"
-              [placeholder]="'settings.donate.select_amount'| translate" type="text">
+            <input
+              class="form-control"
+              (click)="donationAmount = 0"
+              [(ngModel)]="donationAmount"
+              [ngModelOptions]="{ standalone: true }"
+              [placeholder]="'settings.donate.select_amount' | translate"
+              type="text"
+            />
           </div>
         </div>
-
 
         <h6 class="form-step-card-title text-dark mb-3 text-left">
           <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
         </h6>
         <div class="form-group">
-          <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on
-            Card</label>
-          <input class="form-control" id="personName" [placeholder]="'settings.donate.name_on_card'| translate" type="text">
+          <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on Card</label>
+          <input
+            class="form-control"
+            id="personName"
+            [placeholder]="'settings.donate.name_on_card' | translate"
+            type="text"
+          />
         </div>
         <div class="form-group">
-          <span class="d-block text-right error-msg">Required field <sup class="font-weight-bold error-msg">*</sup></span>
-          <label for="cardName" class="d-block text-left hidden-sm-up label-error" [translate]="'settings.donate.card_number'">Card
-            Number
+          <span class="d-block text-right error-msg"
+            >Required field <sup class="font-weight-bold error-msg">*</sup></span
+          >
+          <label
+            for="cardName"
+            class="d-block text-left hidden-sm-up label-error"
+            [translate]="'settings.donate.card_number'"
+            >Card Number
           </label>
-          <input class="form-control stripe-error number" id="cardName" name="cardName" [placeholder]="'settings.donate.card_number'| translate"
-            type="text" formControlName="cardNumber" [(ngModel)]="cardNumber" (change)="checkStripeValidation()" />
+          <input
+            class="form-control stripe-error number"
+            id="cardName"
+            name="cardName"
+            [placeholder]="'settings.donate.card_number' | translate"
+            type="text"
+            formControlName="cardNumber"
+            [(ngModel)]="cardNumber"
+            (change)="checkStripeValidation()"
+          />
         </div>
         <div class="form-group form-group-3-col">
           <div class="form-group-row">
@@ -46,16 +69,16 @@
               <span class="d-block text-right error-msg font-weight-bold">*</span>
               <label class="d-block text-muted text-left hidden-sm-up" [translate]="'billing_info.month'">Month</label>
               <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                <div ngbDropdown class=" date-select-dropdown">
+                <div ngbDropdown class="date-select-dropdown">
                   <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle class="stripe-error exp_month">
-                    {{expiryMonth}}
+                    {{ expiryMonth }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
                     <a class="dropdown-item text-muted">
                       <em>Date</em>
                     </a>
                     <a class="dropdown-item text-muted" *ngFor="let month of months" (click)="selectMonth(month)">
-                      <em>{{month}}</em>
+                      <em>{{ month }}</em>
                     </a>
                   </div>
                 </div>
@@ -67,14 +90,14 @@
               <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                 <div ngbDropdown class="year-select-dropdown">
                   <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle class="stripe-error exp_year">
-                    {{expiryYear}}
+                    {{ expiryYear }}
                   </button>
                   <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                     <a class="dropdown-item text-muted" href="">
                       <em>Year</em>
                     </a>
                     <a class="dropdown-item text-muted" *ngFor="let year of years" (click)="selectYear(year)">
-                      <em>{{year}}</em>
+                      <em>{{ year }}</em>
                     </a>
                   </div>
                 </div>
@@ -82,20 +105,40 @@
             </div>
             <div class="form-group-col">
               <span class="d-block text-right error-msg font-weight-bold">&nbsp;</span>
-              <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" [translate]="'home_header.security'">
-                Security Code</label>
-              <input class="form-control stripe-error cvc p-2" id="securityCode" [placeholder]="'home_header.security'| translate"
-                type="text" [(ngModel)]="cvc" name="securityCode" [ngModelOptions]="{standalone: true}" (change)="checkStripeValidation()">
+              <label
+                for="securityCode"
+                class="d-block text-muted text-left hidden-sm-up"
+                [translate]="'home_header.security'"
+              >
+                Security Code</label
+              >
+              <input
+                class="form-control stripe-error cvc p-2"
+                id="securityCode"
+                [placeholder]="'home_header.security' | translate"
+                type="text"
+                [(ngModel)]="cvc"
+                name="securityCode"
+                [ngModelOptions]="{ standalone: true }"
+                (change)="checkStripeValidation()"
+              />
             </div>
           </div>
         </div>
 
         <!-- ERROR -->
-        <div *ngIf="stripePaymentValidation.message" class="l-alert l-alert-danger">{{stripePaymentValidation.message}}</div>
+        <div *ngIf="stripePaymentValidation.message" class="l-alert l-alert-danger">
+          {{ stripePaymentValidation.message }}
+        </div>
 
         <!-- SUBMIT BUTTON -->
         <div class="form-group text-center mt-3 mt-sm-4 mb-0">
-          <button class="btn btn-lg btn-secondary billing-submit-btn" role="button" [disabled]="inProgress" (click)="submitStripeForm()">
+          <button
+            class="btn btn-lg btn-secondary billing-submit-btn"
+            role="button"
+            [disabled]="inProgress"
+            (click)="submitStripeForm()"
+          >
             Donate
           </button>
           <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>

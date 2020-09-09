@@ -36,7 +36,7 @@ class ImageBlot extends QuillBlockEmbed {
   static value(node) {
     return {
       content_id: node.getAttribute('data-content-id'),
-      url: node.getAttribute('src')
+      url: node.getAttribute('src'),
     };
   }
 }
@@ -50,7 +50,7 @@ Quill.register(ImageBlot);
 @Component({
   selector: 'app-reply-secure-message',
   templateUrl: './reply-secure-message.component.html',
-  styleUrls: ['./reply-secure-message.component.scss']
+  styleUrls: ['./reply-secure-message.component.scss'],
 })
 export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() sourceMessage: Mail;
@@ -87,13 +87,13 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
               ...state.usersKeys
                 .filter(item => this.message.receiver.indexOf(item.email) > -1 && item.is_enabled)
                 .map(item => item.public_key),
-              this.sourceMessage.encryption.public_key
+              this.sourceMessage.encryption.public_key,
             ];
             this.openPgpService.encryptSecureMessageContent(this.message.content, keys);
           } else if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
             this.message.content = state.encryptedContent;
             this.store.dispatch(
-              new SendSecureMessageReply({ hash: this.hash, secret: this.secret, message: this.message })
+              new SendSecureMessageReply({ hash: this.hash, secret: this.secret, message: this.message }),
             );
           } else if (this.secureMessageState.inProgress && !state.inProgress) {
             if (!state.errorMessage) {
@@ -114,8 +114,8 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   initializeQuillEditor() {
     this.quill = new Quill(this.editor.nativeElement, {
       modules: {
-        toolbar: this.toolbar.nativeElement
-      }
+        toolbar: this.toolbar.nativeElement,
+      },
     });
   }
 
@@ -125,7 +125,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
         receiver: [this.sourceMessage.sender],
         subject: this.sourceMessage.subject,
         content: this.editor.nativeElement.firstChild.innerHTML,
-        sender: this.senderId
+        sender: this.senderId,
       };
       this.store.dispatch(new GetSecureMessageUserKeys({ hash: this.hash, secret: this.secret }));
     }

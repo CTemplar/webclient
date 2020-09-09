@@ -3,33 +3,33 @@
 */
 
 .square-card {
-    // position: relative;
-    // overflow: hidden;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    text-align: center;
+  // position: relative;
+  // overflow: hidden;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  text-align: center;
 
-    &::after {
-        display: block;
-        content: "";
-        padding-bottom: 100%;
-    }
+  &::after {
+    display: block;
+    content: '';
+    padding-bottom: 100%;
+  }
 
-    &.has-border {
-        border: 1px solid $input-border-color;
-    }
+  &.has-border {
+    border: 1px solid $input-border-color;
+  }
 }
 
 .square-card-content {
-    position: absolute;
-    top: 2.813rem;
-    padding: 0 1.25rem;
+  position: absolute;
+  top: 2.813rem;
+  padding: 0 1.25rem;
 }
 
 .square-card-footer {
-    position: absolute;
-    bottom: 0.938rem;
-    padding: 0 1.25rem;
-    font-size: 0.875rem;
+  position: absolute;
+  bottom: 0.938rem;
+  padding: 0 1.25rem;
+  font-size: 0.875rem;
 }

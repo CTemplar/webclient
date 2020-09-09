@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-    <strong >{{"settings.create_folder"| translate}}</strong>
+    <strong>{{ 'settings.create_folder' | translate }}</strong>
   </h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onHide()">
     <span aria-hidden="true">&times;</span>
@@ -13,12 +13,11 @@
         <div class="row align-items-center">
           <div class="col-sm-3">
             <label for="folderName" class="modal-form-label mb-2 mb-sm-0">
-              <span >{{"settings.folder_name"| translate}}</span>
+              <span>{{ 'settings.folder_name' | translate }}</span>
             </label>
           </div>
           <div class="col-sm-9">
-            <input class="form-control form-control-sm"
-                   id="folderName" type="text" formControlName="folderName"/>
+            <input class="form-control form-control-sm" id="folderName" type="text" formControlName="folderName" />
           </div>
           <div class="col-sm-3"></div>
           <div class="col-sm-9 errors-field">
@@ -31,17 +30,19 @@
         <div class="row">
           <div class="col-sm-3">
             <label for="colorSelection" class="modal-form-label mb-2 mb-sm-0 pt-sm-2">
-              <span >{{"settings.select_color"| translate}}</span>
+              <span>{{ 'settings.select_color' | translate }}</span>
             </label>
           </div>
           <div class="col-sm-9">
             <div class="color-boxes-holder">
               <ul class="color-boxes-group" id="colorSelection">
-                <li *ngFor="let color of folderColors; let i=index">
-                  <div class="color-shape"
-                       (click)="selectedColorIndex=i;"
-                       [class.is-active]="i===selectedColorIndex"
-                       [style.background]="color"></div>
+                <li *ngFor="let color of folderColors; let i = index">
+                  <div
+                    class="color-shape"
+                    (click)="selectedColorIndex = i"
+                    [class.is-active]="i === selectedColorIndex"
+                    [style.background]="color"
+                  ></div>
                 </li>
               </ul>
             </div>
@@ -50,10 +51,11 @@
       </div>
       <div class="modal-footer justify-content-center justify-content-sm-end pr-4">
         <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
-        <button type="submit" [disabled]="userState?.inProgress"
-                class="btn btn-secondary btn-sm">
-          <span *ngIf="folder.id; else create" >{{"settings.update"| translate}}</span>
-          <ng-template #create><span>{{"settings.create"| translate}}</span></ng-template>
+        <button type="submit" [disabled]="userState?.inProgress" class="btn btn-secondary btn-sm">
+          <span *ngIf="folder.id; else create">{{ 'settings.update' | translate }}</span>
+          <ng-template #create
+            ><span>{{ 'settings.create' | translate }}</span></ng-template
+          >
         </button>
       </div>
     </form>
@@ -61,19 +63,24 @@
 </div>
 
 <ng-template #folderNameErrors>
-  <span class="validate-message" *ngIf="duplicateFoldername">{{"settings.folder_messages.name_exist"| translate}}</span>
-  <ng-container *ngIf="customFolderForm.controls['folderName'].errors &&
-                                    (customFolderForm.controls['folderName'].touched || submitted)">
+  <span class="validate-message" *ngIf="duplicateFoldername">{{
+    'settings.folder_messages.name_exist' | translate
+  }}</span>
+  <ng-container
+    *ngIf="
+      customFolderForm.controls['folderName'].errors && (customFolderForm.controls['folderName'].touched || submitted)
+    "
+  >
     <span class="validate-message">
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.required">
-        <span> {{"settings.folder_messages.name_required"| translate}}</span>
+        <span> {{ 'settings.folder_messages.name_required' | translate }}</span>
       </ng-container>
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.pattern">
         <span> Folder name must start with an alphabet and can only contain </span>
         <em>a-z</em>, <em>A-Z</em>, <em>0-9</em>, <em>._-</em>
       </ng-container>
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.maxlength">
-        <span>{{"settings.folder_messages.name_len"| translate}}</span>
+        <span>{{ 'settings.folder_messages.name_len' | translate }}</span>
       </ng-container>
     </span>
   </ng-container>

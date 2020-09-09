@@ -35,7 +35,7 @@ export class PasswordValidation {
 @Component({
   selector: 'app-users-create-account',
   templateUrl: './users-create-account.component.html',
-  styleUrls: ['./users-create-account.component.scss']
+  styleUrls: ['./users-create-account.component.scss'],
 })
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isTextToggled = false;
@@ -66,7 +66,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private authService: UsersService,
     private notificationService: NotificationService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -81,16 +81,16 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
             Validators.required,
             Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
             Validators.minLength(4),
-            Validators.maxLength(64)
-          ]
+            Validators.maxLength(64),
+          ],
         ],
         password: ['', [Validators.required, Validators.maxLength(128)]],
         confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
-        recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
+        recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       },
       {
-        validator: PasswordValidation.MatchPassword
-      }
+        validator: PasswordValidation.MatchPassword,
+      },
     );
 
     this.store
@@ -155,7 +155,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       centered: true,
       windowClass: 'modal-sm',
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     });
   }
 
@@ -165,8 +165,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         recovery_email: this.signupForm.get('recoveryEmail').value,
         username: this.signupForm.get('username').value,
         password: this.signupForm.get('password').value,
-        recaptcha: this.signupForm.value.captchaResponse
-      })
+        recaptcha: this.signupForm.value.captchaResponse,
+      }),
     );
     this.router.navigateByUrl(`/billing-info?plan=${this.selectedPlan}&billing=${this.paymentType}`);
   }
@@ -179,7 +179,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.openAccountInitModal();
       this.openPgpService.generateUserKeys(
         this.signupForm.get('username').value,
-        this.signupForm.get('password').value
+        this.signupForm.get('password').value,
       );
       this.waitForPGPKeys();
     }
@@ -212,7 +212,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
       invite_code: this.inviteCode,
-      language: currentLang.name
+      language: currentLang.name,
     };
     this.store.dispatch(new SignUp(this.data));
   }

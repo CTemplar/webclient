@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PushNotificationService {
   public permission: Permission;
@@ -43,19 +43,19 @@ export class PushNotificationService {
       _notify.onshow = function (e) {
         return obs.next({
           notification: _notify,
-          event: e
+          event: e,
         });
       };
       _notify.onclick = function (e) {
         return obs.next({
           notification: _notify,
-          event: e
+          event: e,
         });
       };
       _notify.onerror = function (e) {
         return obs.error({
           notification: _notify,
-          event: e
+          event: e,
         });
       };
       _notify.onclose = function () {
@@ -69,7 +69,7 @@ export class PushNotificationService {
     source.forEach(item => {
       const options = {
         body: item.alertContent,
-        icon: '../resource/images/bell-icon.png'
+        icon: '../resource/images/bell-icon.png',
       };
       const notify = self.create(item.title, options).subscribe();
     });

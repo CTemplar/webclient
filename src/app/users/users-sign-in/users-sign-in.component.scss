@@ -45,12 +45,12 @@ $error-red: #e94e4c;
   &:focus + .input-group-addon {
     border-color: $dropdown-border-color !important;
   }
-  &[type="text"] {
+  &[type='text'] {
     + span .fa-eye {
       display: none;
     }
   }
-  &[type="password"] {
+  &[type='password'] {
     + span .fa-eye-slash {
       display: none;
     }
@@ -85,8 +85,7 @@ $error-red: #e94e4c;
 }
 
 .remember-me {
-  input[type="checkbox"].fancy-field-control-lg
-    + label.fancy-field-empty::after {
+  input[type='checkbox'].fancy-field-control-lg + label.fancy-field-empty::after {
     width: 6px !important;
     top: 4px !important;
     left: 7px !important;

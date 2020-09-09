@@ -11,43 +11,46 @@ $ff_val: $font-family-lato, $font-family-roboto;
 @include make_font_families($ff_list, $ff_val);
 
 // == Para
-p, .para, address, blockquote {
-    &:last-child {
-        margin-bottom: 0;
-    }
+p,
+.para,
+address,
+blockquote {
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .text-normal {
-    text-transform: none;
+  text-transform: none;
 }
 
 .small,
 .text-small {
-    font-size: 0.75rem;
+  font-size: 0.75rem;
 }
 
 .text-medium {
-    font-size: 0.875rem;
+  font-size: 0.875rem;
 }
 
 .text-case-normal {
-    text-transform: none !important;
+  text-transform: none !important;
 }
 
 .fw-light {
-    font-weight: 300;
+  font-weight: 300;
 }
 
 .fw-b {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 // == blockquote
 blockquote,
 .blockquote {
-    color: rgba(52, 73, 94, 0.87);
-    font-size: 1.25rem;
-    line-height: 1.6;
+  color: rgba(52, 73, 94, 0.87);
+  font-size: 1.25rem;
+  line-height: 1.6;
 }
 
 //
@@ -61,60 +64,65 @@ strong {
 
 // == Headings
 // h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
-    
+
 // }
 
-h1, .h1 {
-    margin-bottom: 0.75rem;
-    @include media("<=sm") {
-        font-size: 1.5rem;
-    }
+h1,
+.h1 {
+  margin-bottom: 0.75rem;
+  @include media('<=sm') {
+    font-size: 1.5rem;
+  }
 
-    @include media("<ipad", ">sm") {
-        margin-bottom: 1rem;
-        font-size: 2.188rem;//~1.875rem;
-    }
+  @include media('<ipad', '>sm') {
+    margin-bottom: 1rem;
+    font-size: 2.188rem; //~1.875rem;
+  }
 
-    @include media(">=ipad") {
-        margin-bottom: 1.25rem;
-    }
+  @include media('>=ipad') {
+    margin-bottom: 1.25rem;
+  }
 }
 
-h2, .h2 {
-    margin-bottom: 1.5rem;
-    @include media("<=sm") {
-        font-size: 1.25rem;
-    }
+h2,
+.h2 {
+  margin-bottom: 1.5rem;
+  @include media('<=sm') {
+    font-size: 1.25rem;
+  }
 }
 
-h3, .h3 {
-    margin-bottom: 1.75rem;
-    line-height: 1.5;
+h3,
+.h3 {
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
 
-    @include media("<=sm") {
-        font-size: 1rem;
-    }
+  @include media('<=sm') {
+    font-size: 1rem;
+  }
 
-    @include media("<ipad") {
-        font-size: 1.25rem;
-    }
+  @include media('<ipad') {
+    font-size: 1.25rem;
+  }
 }
 
-h4, .h4 {
-    margin-bottom: 0.938rem;
-    @include media("<=sm") {
-        font-size: 1rem;
-    }
+h4,
+.h4 {
+  margin-bottom: 0.938rem;
+  @include media('<=sm') {
+    font-size: 1rem;
+  }
 }
 
-h5, .h5 {
-    margin-bottom: 0.938rem;
-    
-    @include media("<=sm") {
-        font-size: 1rem;
-    }
+h5,
+.h5 {
+  margin-bottom: 0.938rem;
 
-    @include media("<ipad", ">sm") {
-        font-size: 1.125rem;
-    }
+  @include media('<=sm') {
+    font-size: 1rem;
+  }
+
+  @include media('<ipad', '>sm') {
+    font-size: 1.125rem;
+  }
 }

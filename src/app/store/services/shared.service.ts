@@ -58,7 +58,7 @@ export class SharedService {
   constructor(
     private http: HttpClient,
     private modalService: NgbModal,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {}
 
   sortByDate(data: any[], sortField: string): any[] {
@@ -83,7 +83,7 @@ export class SharedService {
   private openModal(callback: { self: any; method: string } = null) {
     const modal: NgbModalRef = this.modalService.open(CreateFolderComponent, {
       centered: true,
-      windowClass: 'modal-sm mailbox-modal create-folder-modal'
+      windowClass: 'modal-sm mailbox-modal create-folder-modal',
     });
     (<CreateFolderComponent>modal.componentInstance).callback = callback;
   }
@@ -110,7 +110,7 @@ export class SharedService {
         centered: true,
         windowClass: 'modal-sm',
         backdrop: 'static',
-        keyboard: false
+        keyboard: false,
       });
       this.paymentFailureModalRef.result.then(() => (this.paymentFailureModalRef = null));
     }

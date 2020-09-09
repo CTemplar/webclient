@@ -19,7 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   // Public property of boolean type set false by default
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     public usersService: UsersService,
     private store: Store<AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }

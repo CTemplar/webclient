@@ -8,7 +8,7 @@ describe('SpinnerImageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SpinnerImageComponent]
+      declarations: [SpinnerImageComponent],
     }).compileComponents();
   }));
 

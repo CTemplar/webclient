@@ -19,7 +19,7 @@ import { LOADING_IMAGE } from '../../store/services';
 @Component({
   selector: 'app-mail-header',
   templateUrl: './mail-header.component.html',
-  styleUrls: ['./mail-header.component.scss']
+  styleUrls: ['./mail-header.component.scss'],
 })
 export class MailHeaderComponent implements OnInit, OnDestroy {
   @ViewChild('logoutModal') logoutModal;
@@ -41,7 +41,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private modalService: NgbModal,
     @Inject(DOCUMENT) private document: Document,
-    private composeMailService: ComposeMailService
+    private composeMailService: ComposeMailService,
   ) {
     config.autoClose = true;
   }
@@ -65,7 +65,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         untilDestroyed(this),
-        filter(event => event instanceof NavigationEnd)
+        filter(event => event instanceof NavigationEnd),
       )
       .subscribe((event: NavigationEnd) => {
         this.setSearchPlaceholder(event.url);
@@ -107,7 +107,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(this.logoutModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-md change-password-modal'
+      windowClass: 'modal-md change-password-modal',
     });
     setTimeout(() => {
       this.store.dispatch(new ExpireSession());

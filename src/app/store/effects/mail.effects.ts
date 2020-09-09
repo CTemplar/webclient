@@ -35,7 +35,7 @@ import {
   SnackPush,
   StarMailSuccess,
   UndoDeleteMail,
-  UndoDeleteMailSuccess
+  UndoDeleteMailSuccess,
 } from '../actions';
 import { MailFolderType } from '../models';
 import { EMPTY } from 'rxjs/internal/observable/empty';
@@ -57,12 +57,12 @@ export class MailEffects {
             is_not_first_page: !!response['previous'],
             mails: response['results'],
             total_mail_count: response['total_count'],
-            is_from_socket: false
+            is_from_socket: false,
           });
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -74,9 +74,9 @@ export class MailEffects {
         map(response => {
           return new GetUnreadMailsCountSuccess(response);
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -88,9 +88,9 @@ export class MailEffects {
         map(response => {
           return new GetCustomFolderMessageCountSuccess(response);
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -115,8 +115,8 @@ export class MailEffects {
                 folder: payload.folder,
                 sourceFolder: payload.sourceFolder,
                 mail: payload.mail,
-                allowUndo: payload.allowUndo
-              })
+                allowUndo: payload.allowUndo,
+              }),
             );
           }
           if (payload.folder === MailFolderType.SPAM) {
@@ -124,9 +124,9 @@ export class MailEffects {
           }
           return of(...updateFolderActions);
         }),
-        catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })))
+        catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -136,9 +136,9 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.deleteMails(payload.ids, payload.parent_only).pipe(
         switchMap(res => of(new DeleteMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -148,11 +148,11 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.deleteMailForAll(payload.id).pipe(
         switchMap(res =>
-          of(new DeleteMailForAllSuccess(payload), new SnackErrorPush({ message: 'Mail deleted successfully.' }))
+          of(new DeleteMailForAllSuccess(payload), new SnackErrorPush({ message: 'Mail deleted successfully.' })),
         ),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -162,9 +162,9 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.markAsRead(payload.ids, payload.read, payload.folder).pipe(
         switchMap(res => of(new ReadMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to mark mail as read.' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to mark mail as read.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -174,9 +174,9 @@ export class MailEffects {
     mergeMap(payload => {
       return this.mailService.markAsStarred(payload.ids, payload.starred, payload.folder).pipe(
         switchMap(res => of(new StarMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to mark as starred.' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to mark as starred.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -185,7 +185,7 @@ export class MailEffects {
     map((action: GetMailDetail) => action.payload),
     switchMap(payload => {
       return this.mailService.getMessage(payload).pipe(switchMap(res => of(new GetMailDetailSuccess(res))));
-    })
+    }),
   );
 
   @Effect()
@@ -195,9 +195,9 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.moveMail(payload.ids, payload.sourceFolder, payload.sourceFolder).pipe(
         switchMap(res => of(new UndoDeleteMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` })))
+        catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -207,15 +207,15 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.emptyFolder(payload).pipe(
         switchMap(res =>
-          of(new EmptyFolderSuccess(payload), new SnackErrorPush({ message: `Mails deleted permanently.` }))
+          of(new EmptyFolderSuccess(payload), new SnackErrorPush({ message: `Mails deleted permanently.` })),
         ),
         catchError(err =>
           of(
             new SnackErrorPush({ message: `Failed to delete mails, please try again.` }),
-            new EmptyFolderFailure(err.error)
-          )
-        )
+            new EmptyFolderFailure(err.error),
+          ),
+        ),
       );
-    })
+    }),
   );
 }

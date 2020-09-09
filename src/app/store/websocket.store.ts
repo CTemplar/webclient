@@ -10,7 +10,7 @@ import { of } from 'rxjs/internal/observable/of';
 
 export enum WebSocketActionTypes {
   WEB_SOCKET_NEW_MESSAGE = '[WEB_SOCKET] New Message',
-  WEB_SOCKET_CLOSE = '[WEB_SOCKET] Close'
+  WEB_SOCKET_CLOSE = '[WEB_SOCKET] Close',
 }
 
 export class WebSocketNewMessage implements Action {
@@ -37,7 +37,7 @@ export class WebSocketEffects {
     map((action: WebSocketNewMessage) => action.payload),
     switchMap(payload => {
       return of(EMPTY);
-    })
+    }),
   );
 
   @Effect()
@@ -46,7 +46,7 @@ export class WebSocketEffects {
     map((action: WebSocketClose) => action.payload),
     switchMap(payload => {
       return of(EMPTY);
-    })
+    }),
   );
 }
 

@@ -13,6 +13,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [FooterComponent],
   imports: [CommonModule, NgbModule, RouterModule, TranslateModule],
-  exports: [FooterComponent]
+  exports: [FooterComponent],
 })
 export class FooterModule {}

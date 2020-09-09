@@ -7,7 +7,7 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Mail } from '../../../store/models';
@@ -21,7 +21,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-compose-mail-dialog',
   templateUrl: './compose-mail-dialog.component.html',
-  styleUrls: ['./compose-mail-dialog.component.scss', './../mail-sidebar.component.scss']
+  styleUrls: ['./compose-mail-dialog.component.scss', './../mail-sidebar.component.scss'],
 })
 export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;

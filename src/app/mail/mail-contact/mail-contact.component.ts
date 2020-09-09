@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  HostListener
+  HostListener,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AppState, Contact, ContactsState, PlanType, UserState, MailBoxesState } from '../../store/datatypes';
@@ -27,14 +27,14 @@ export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
   YAHOO = <any>'YAHOO',
   OUTLOOK = <any>'OUTLOOK',
-  OTHER = <any>'OTHER'
+  OTHER = <any>'OTHER',
 }
 
 @UntilDestroy()
 @Component({
   selector: 'app-mail-contact',
   templateUrl: './mail-contact.component.html',
-  styleUrls: ['./mail-contact.component.scss']
+  styleUrls: ['./mail-contact.component.scss'],
 })
 export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('importContactsModal') importContactsModal;
@@ -80,7 +80,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     private translateService: TranslateService,
     config: NgbDropdownConfig,
     @Inject(DOCUMENT) private document: Document,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
@@ -173,7 +173,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isNewContact = false;
         this.selectedContact = null;
         return true;
-      }
+      },
     });
   }
 
@@ -198,7 +198,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.confirmModalRef = this.modalService.open(modalRef, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -229,14 +229,14 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.selectedContacts.length > 10) {
       this.store.dispatch(
         new SnackErrorPush({
-          message: 'Cannot open compose for more than 10 contacts'
-        })
+          message: 'Cannot open compose for more than 10 contacts',
+        }),
       );
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
       this.composeMailService.openComposeMailDialog({
         receivers: receiverEmails,
-        isFullScreen: this.userState.settings.is_composer_full_screen
+        isFullScreen: this.userState.settings.is_composer_full_screen,
       });
     }
   }
@@ -250,7 +250,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.importContactsError = null;
     this.importContactsModalRef = this.modalService.open(this.importContactsModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -277,7 +277,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
       mailbox: this.currentMailbox.id,
       sender: this.currentMailbox.email,
       receiver: contacts,
-      display_name
+      display_name,
     };
     this.store.dispatch(new ContactNotify(this.notifyContactsMail));
   }
@@ -289,7 +289,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.notifyContactsModalRef = this.modalService.open(this.notifyContactsModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -303,7 +303,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     if (files.length === 1) {
       const data = {
         file: files[0],
-        provider: this.selectedContactsProvider
+        provider: this.selectedContactsProvider,
       };
       this.store.dispatch(new ContactImport(data));
       this.closeImportContactsModal();

@@ -5,7 +5,7 @@ export enum KeyboardActionTypes {
   KEYBOARD_FOCUSED = '[Keyboard] GetFocus',
   KEYBOARD_FOCUSED_OUT = '[Keyboard] GetFocusOut',
   KEY_PRESSED = '[Keyboard] KeyPressed',
-  FOCUSED_INPUT = '[Keyboard] FocusedInput'
+  FOCUSED_INPUT = '[Keyboard] FocusedInput',
 }
 
 export class KeyboardFocus implements Action {

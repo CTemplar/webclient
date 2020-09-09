@@ -13,7 +13,7 @@ import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
 @Component({
   selector: 'app-mail-autoresponder',
   templateUrl: './mail-autoresponder.component.html',
-  styleUrls: ['./mail-autoresponder.component.scss', '../mail-settings.component.scss']
+  styleUrls: ['./mail-autoresponder.component.scss', '../mail-settings.component.scss'],
 })
 export class MailAutoresponderComponent implements OnInit, OnDestroy {
   @ViewChild('startDatePicker') startDatePicker: NgbDatepicker;
@@ -33,7 +33,7 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private dateTimeUtilService: DateTimeUtilService
+    private dateTimeUtilService: DateTimeUtilService,
   ) {}
 
   ngOnInit() {
@@ -86,7 +86,7 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
     if (this.autoresponder.is_time_range_restricted) {
       this.autoresponder.start_time = this.dateTimeUtilService.createTimeStrFromNgbTimeStruct(
         this.startTime,
-        'HH:mm:ss'
+        'HH:mm:ss',
       );
       this.autoresponder.end_time = this.dateTimeUtilService.createTimeStrFromNgbTimeStruct(this.endTime, 'HH:mm:ss');
       if (this.dateTimeUtilService.isBefore(this.autoresponder.end_time, this.autoresponder.start_time, 'HH:mm:ss')) {

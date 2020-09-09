@@ -54,7 +54,7 @@ export class MailService {
     return this.http.get<Mail>(url).pipe(
       map(data => {
         return data['results'] ? data['results'][0] : null;
-      })
+      }),
     );
   }
 
@@ -75,7 +75,7 @@ export class MailService {
           return mailbox;
         });
         return newData;
-      })
+      }),
     );
   }
 
@@ -140,19 +140,19 @@ export class MailService {
     folder: string,
     sourceFolder: string,
     withChildren: boolean = true,
-    fromTrash: boolean = false
+    fromTrash: boolean = false,
   ): Observable<any[]> {
     if (ids === 'all') {
       return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, {
         folder: folder,
         with_children: withChildren,
-        from_trash: fromTrash
+        from_trash: fromTrash,
       });
     } else {
       return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, {
         folder: folder,
         with_children: withChildren,
-        from_trash: fromTrash
+        from_trash: fromTrash,
       });
     }
   }
@@ -180,11 +180,11 @@ export class MailService {
     let request;
     if (data.id) {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${data.id}/`, formData, {
-        reportProgress: true
+        reportProgress: true,
       });
     } else {
       request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
-        reportProgress: true
+        reportProgress: true,
       });
     }
 

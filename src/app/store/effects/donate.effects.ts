@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { DonationService } from '../services/donation.service';
 import { Observable } from 'rxjs';
-import {
-  DonationActionTypes,
-  MakeStripDonation,
-  MakeStripeDonationSuccess
-} from '../actions/donate.actions';
+import { DonationActionTypes, MakeStripDonation, MakeStripeDonationSuccess } from '../actions/donate.actions';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SnackErrorPush } from '../actions/users.action';
@@ -19,7 +15,7 @@ export class DonateEffects {
     private actions: Actions,
     private donationService: DonationService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
   ) {}
 
   @Effect()
@@ -29,9 +25,9 @@ export class DonateEffects {
     switchMap(payload => {
       return this.donationService.makeStripeDonation(payload).pipe(
         map(payment_success => new MakeStripeDonationSuccess(payment_success)),
-        catchError(errorResponse => of(new SnackErrorPush({ message: errorResponse.error.detail })))
+        catchError(errorResponse => of(new SnackErrorPush({ message: errorResponse.error.detail }))),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -39,9 +35,9 @@ export class DonateEffects {
     ofType(DonationActionTypes.MAKE_STRIPE_DONATION_SUCCESS),
     tap(response => {
       this.notificationService.showSnackBar('Donated Successfully. Thank you for your donation.', 'CLOSE', {
-        duration: 10000
+        duration: 10000,
       });
       this.router.navigateByUrl('/donate');
-    })
+    }),
   );
 }

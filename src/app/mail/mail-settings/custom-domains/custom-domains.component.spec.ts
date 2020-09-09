@@ -8,7 +8,7 @@ describe('CustomDomainsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CustomDomainsComponent]
+      declarations: [CustomDomainsComponent],
     }).compileComponents();
   }));
 

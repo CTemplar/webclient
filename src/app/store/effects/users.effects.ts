@@ -104,7 +104,7 @@ import {
   CardGet,
   CardReadSuccess,
   CardMakePrimary,
-  CardMakePrimarySuccess
+  CardMakePrimarySuccess,
 } from '../actions';
 
 import { Settings } from '../datatypes';
@@ -119,7 +119,7 @@ export class UsersEffects {
     private userService: UsersService,
     private notificationService: NotificationService,
     private mailService: MailService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
   ) {}
 
   @Effect()
@@ -130,9 +130,9 @@ export class UsersEffects {
       return this.userService.getAccounts('34324').pipe(
         map(user => {
           return new AccountsReadSuccess(user);
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -144,9 +144,9 @@ export class UsersEffects {
         map(user => {
           return new AccountDetailsGetSuccess(user[0]);
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -158,9 +158,9 @@ export class UsersEffects {
         map(whiteList => {
           return new WhiteListsReadSuccess(whiteList.results);
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -175,12 +175,12 @@ export class UsersEffects {
             new WhiteListAddSuccess(contact),
             new WhiteListGet(),
             new BlackListGet(),
-            new SnackPush({ message: 'Email added to whitelist successfully.' })
+            new SnackPush({ message: 'Email added to whitelist successfully.' }),
           );
         }),
-        catchError(err => of(new WhiteListAddError(err.error)))
+        catchError(err => of(new WhiteListAddError(err.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -192,12 +192,12 @@ export class UsersEffects {
         switchMap(res => {
           return of(
             new WhiteListDeleteSuccess(payload),
-            new SnackPush({ message: 'Whitelist contact deleted successfully.' })
+            new SnackPush({ message: 'Whitelist contact deleted successfully.' }),
           );
         }),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete whitelist contact' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete whitelist contact' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -209,9 +209,9 @@ export class UsersEffects {
         map(cardList => {
           return new CardReadSuccess(cardList);
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -225,9 +225,9 @@ export class UsersEffects {
         }),
         catchError(err => {
           return of(new CardAddError(err.error), new SnackPush({ message: err.error.msg || '' }));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -241,9 +241,9 @@ export class UsersEffects {
         }),
         catchError(err => {
           return of(new SnackPush({ message: err.error.msg || '' }));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -255,14 +255,14 @@ export class UsersEffects {
         switchMap(res => {
           return of(
             new CardMakePrimarySuccess(payload),
-            new SnackPush({ message: 'Primary card has been changed successfully.' })
+            new SnackPush({ message: 'Primary card has been changed successfully.' }),
           );
         }),
         catchError(err => {
           return of(new SnackPush({ message: err.error.msg || '' }));
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -274,9 +274,9 @@ export class UsersEffects {
         map(blackList => {
           return new BlackListsReadSuccess(blackList.results);
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -289,9 +289,9 @@ export class UsersEffects {
           contact.isUpdating = payload.id;
           return of(new BlackListAddSuccess(contact), new BlackListGet());
         }),
-        catchError(err => of(new BlackListAddError(err)))
+        catchError(err => of(new BlackListAddError(err))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -303,12 +303,12 @@ export class UsersEffects {
         switchMap(res => {
           return of(
             new BlackListDeleteSuccess(payload),
-            new SnackPush({ message: 'Blacklist contact deleted successfully.' })
+            new SnackPush({ message: 'Blacklist contact deleted successfully.' }),
           );
         }),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete blacklist contact' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete blacklist contact' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -320,9 +320,9 @@ export class UsersEffects {
         switchMap(res => {
           return of(new SettingsUpdateSuccess(payload));
         }),
-        catchError(err => of(new SnackErrorPush({ message: `Failed to save changes, ${err.error}` })))
+        catchError(err => of(new SnackErrorPush({ message: `Failed to save changes, ${err.error}` }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -351,7 +351,7 @@ export class UsersEffects {
         this.notificationService.showSnackBar('An error has occured');
       }
       return new SnackPushSuccess();
-    })
+    }),
   );
 
   @Effect()
@@ -362,7 +362,7 @@ export class UsersEffects {
         this.notificationService.showSnackBar(
           snackPushAction.payload.message,
           snackPushAction.payload.action || 'CLOSE',
-          { duration: snackPushAction.payload.duration || 5000 }
+          { duration: snackPushAction.payload.duration || 5000 },
         );
       } else {
         let message = 'An error has occured';
@@ -372,7 +372,7 @@ export class UsersEffects {
         this.notificationService.showSnackBar(message);
       }
       return new SnackErrorPushSuccess();
-    })
+    }),
   );
 
   @Effect()
@@ -385,8 +385,8 @@ export class UsersEffects {
           const actions: any[] = [
             new CreateFolderSuccess(res),
             new SnackErrorPush({
-              message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created'} successfully.`
-            })
+              message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created'} successfully.`,
+            }),
           ];
           if (folder.id) {
             actions.push(new GetUnreadMailsCount(), new GetFilters());
@@ -396,11 +396,11 @@ export class UsersEffects {
         catchError(err =>
           of(
             new SnackErrorPush({ message: err.error ? err.error : 'Failed to create folder.' }),
-            new CreateFolderFailure()
-          )
-        )
+            new CreateFolderFailure(),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -412,12 +412,12 @@ export class UsersEffects {
         switchMap(res => {
           return of(
             new DeleteFolderSuccess(folder),
-            new SnackErrorPush({ message: `'${folder.name}' folder deleted successfully.` })
+            new SnackErrorPush({ message: `'${folder.name}' folder deleted successfully.` }),
           );
         }),
-        catchError(err => of(new SnackErrorPush({ message: err.error ? err.error : 'Failed to delete folder.' })))
+        catchError(err => of(new SnackErrorPush({ message: err.error ? err.error : 'Failed to delete folder.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -429,14 +429,14 @@ export class UsersEffects {
         switchMap(res => {
           return of(
             new UpdateFolderOrderSuccess({ folders: payload.folders }),
-            new SnackErrorPush({ message: 'Sort order saved successfully.' })
+            new SnackErrorPush({ message: 'Sort order saved successfully.' }),
           );
         }),
         catchError(err =>
-          of(new SnackErrorPush({ message: err.error ? err.error : 'Failed to update folders sort order.' }))
-        )
+          of(new SnackErrorPush({ message: err.error ? err.error : 'Failed to update folders sort order.' })),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -446,9 +446,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getFilters(payload).pipe(
         switchMap(res => of(new GetFiltersSuccess(res.results))),
-        catchError(err => EMPTY)
+        catchError(err => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -460,19 +460,19 @@ export class UsersEffects {
         switchMap(res =>
           of(
             new CreateFilterSuccess(res),
-            new SnackErrorPush({ message: `The filter “${payload.name}” has been added.` })
-          )
+            new SnackErrorPush({ message: `The filter “${payload.name}” has been added.` }),
+          ),
         ),
         catchError(errorResponse =>
           of(
             new CreateFilterFailure(errorResponse.error),
             new SnackErrorPush({
-              message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.'
-            })
-          )
-        )
+              message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.',
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -484,19 +484,19 @@ export class UsersEffects {
         switchMap(res =>
           of(
             new UpdateFilterSuccess(res),
-            new SnackErrorPush({ message: `The filter “${payload.name}” has been updated.` })
-          )
+            new SnackErrorPush({ message: `The filter “${payload.name}” has been updated.` }),
+          ),
         ),
         catchError(errorResponse =>
           of(
             new UpdateFilterFailure(errorResponse.error),
             new SnackErrorPush({
-              message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.'
-            })
-          )
-        )
+              message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.',
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -508,17 +508,17 @@ export class UsersEffects {
         switchMap(res =>
           of(
             new DeleteFilterSuccess(filter),
-            new SnackErrorPush({ message: `The filter “${filter.name}” has been deleted.` })
-          )
+            new SnackErrorPush({ message: `The filter “${filter.name}” has been deleted.` }),
+          ),
         ),
         catchError(errorResponse =>
           of(
             new SnackErrorPush({ message: errorResponse.error ? errorResponse.error : 'Failed to delete filter.' }),
-            new DeleteFilterFailure(errorResponse.error)
-          )
-        )
+            new DeleteFilterFailure(errorResponse.error),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -530,9 +530,9 @@ export class UsersEffects {
         map(emailDomains => {
           return new GetDomainsSuccess(emailDomains.results.sort((a, b) => a.id - b.id));
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -542,9 +542,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.createDomain(payload).pipe(
         switchMap(res => of(new CreateDomainSuccess(res))),
-        catchError(errorResponse => of(new CreateDomainFailure(errorResponse.error)))
+        catchError(errorResponse => of(new CreateDomainFailure(errorResponse.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -558,12 +558,12 @@ export class UsersEffects {
           of(
             new UpdateDomainFailure(errorResponse.error),
             new SnackPush({
-              message: errorResponse.error ? errorResponse.error : 'Failed to update domain, please try again.'
-            })
-          )
-        )
+              message: errorResponse.error ? errorResponse.error : 'Failed to update domain, please try again.',
+            }),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -573,9 +573,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.readDomain(payload).pipe(
         switchMap(res => of(new ReadDomainSuccess(res))),
-        catchError(errorResponse => of(new ReadDomainFailure({ err: errorResponse.error })))
+        catchError(errorResponse => of(new ReadDomainFailure({ err: errorResponse.error }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -585,9 +585,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.deleteDomain(payload).pipe(
         switchMap(res => of(new DeleteDomainSuccess(payload), new GetOrganizationUsers())),
-        catchError(errorResponse => of(new DeleteDomainFailure(errorResponse.error)))
+        catchError(errorResponse => of(new DeleteDomainFailure(errorResponse.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -602,15 +602,15 @@ export class UsersEffects {
               res,
               step: payload.currentStep,
               gotoNextStep: payload.gotoNextStep,
-              reverify: payload.reverify
-            })
+              reverify: payload.reverify,
+            }),
           );
         }),
         catchError(errorResponse =>
-          of(new VerifyDomainFailure({ err: errorResponse.error, step: payload.currentStep }))
-        )
+          of(new VerifyDomainFailure({ err: errorResponse.error, step: payload.currentStep })),
+        ),
       );
-    })
+    }),
   );
 
   @Effect({ dispatch: false })
@@ -619,7 +619,7 @@ export class UsersEffects {
     map((action: PaymentFailure) => action.payload),
     tap(payload => {
       this.sharedService.showPaymentFailureDialog();
-    })
+    }),
   );
 
   @Effect()
@@ -629,9 +629,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.sendEmailForwardingCode(payload.email).pipe(
         switchMap(res => of(new SendEmailForwardingCodeSuccess(res))),
-        catchError(errorResponse => of(new SendEmailForwardingCodeFailure(errorResponse.error)))
+        catchError(errorResponse => of(new SendEmailForwardingCodeFailure(errorResponse.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -643,9 +643,9 @@ export class UsersEffects {
         switchMap(res => {
           return of(new AccountDetailsGet(), new VerifyEmailForwardingCodeSuccess(res));
         }),
-        catchError(errorResponse => of(new VerifyEmailForwardingCodeFailure(errorResponse.error)))
+        catchError(errorResponse => of(new VerifyEmailForwardingCodeFailure(errorResponse.error))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -660,11 +660,11 @@ export class UsersEffects {
         catchError(errorResponse =>
           of(
             new SnackErrorPush({ message: 'Failed to save autoresponder. Please try again.' }),
-            new SaveAutoResponderFailure(errorResponse.error)
-          )
-        )
+            new SaveAutoResponderFailure(errorResponse.error),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -674,9 +674,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getInvoices().pipe(
         switchMap(res => of(new GetInvoicesSuccess(res.results))),
-        catchError(err => EMPTY)
+        catchError(err => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -686,9 +686,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getUpgradeAmount(payload).pipe(
         switchMap(res => of(new GetUpgradeAmountSuccess(res))),
-        catchError(err => EMPTY)
+        catchError(err => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -698,9 +698,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.validatePromoCode(payload).pipe(
         switchMap(res => of(new ValidatePromoCodeSuccess(res))),
-        catchError(err => EMPTY)
+        catchError(err => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -710,9 +710,9 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getInviteCodes().pipe(
         switchMap(res => of(new GetInviteCodesSuccess(res))),
-        catchError(err => EMPTY)
+        catchError(err => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -727,13 +727,13 @@ export class UsersEffects {
             new SnackErrorPush({
               message: errorResponse.error
                 ? errorResponse.error
-                : 'Failed generate invite code, try again or contact support.'
+                : 'Failed generate invite code, try again or contact support.',
             }),
-            new GenerateInviteCodeFailure()
-          )
-        )
+            new GenerateInviteCodeFailure(),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -743,8 +743,8 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getUserNotifications().pipe(
         switchMap(resp => of(new GetNotificationSuccess(resp))),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 }

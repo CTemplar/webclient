@@ -12,7 +12,7 @@ import {
   AddOrganizationUser,
   DeleteOrganizationUser,
   OrganizationState,
-  UpdateOrganizationUser
+  UpdateOrganizationUser,
 } from '../../../../store/organization.store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MoveTab } from '../../../../store/actions';
@@ -21,7 +21,7 @@ import { MoveTab } from '../../../../store/actions';
 @Component({
   selector: 'app-organization-users',
   templateUrl: './organization-users.component.html',
-  styleUrls: ['./organization-users.component.scss']
+  styleUrls: ['./organization-users.component.scss'],
 })
 export class OrganizationUsersComponent implements OnInit, OnDestroy {
   @ViewChild('addUserModal') addUserModal;
@@ -50,7 +50,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private usersService: UsersService,
     private openPgpService: OpenPgpService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -62,17 +62,17 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
             Validators.required,
             Validators.pattern(/^\w+([\.-]?\w+)*$/),
             Validators.maxLength(128),
-            Validators.minLength(1)
-          ]
+            Validators.minLength(1),
+          ],
         ],
         domain: ['', Validators.required],
         password: ['', [Validators.required, Validators.maxLength(128)]],
         confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
-        recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
+        recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       },
       {
-        validator: PasswordValidation.MatchPassword
-      }
+        validator: PasswordValidation.MatchPassword,
+      },
     );
 
     /**
@@ -121,7 +121,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal org-user-add-modal',
-      backdrop: 'static'
+      backdrop: 'static',
     });
     this.addUserModalRef.result.then(
       result => {
@@ -129,7 +129,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
       },
       reason => {
         this.addUserModalClosed();
-      }
+      },
     );
   }
 
@@ -156,7 +156,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     this.openPgpService.generateUserKeys(
       this.addUserForm.value.username,
       this.addUserForm.value.password,
-      this.addUserForm.value.domain
+      this.addUserForm.value.domain,
     );
     if (this.openPgpService.getUserKeys()) {
       this.addNewUser();
@@ -169,7 +169,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     const user = new OrganizationUser({
       ...this.addUserForm.value,
       ...this.openPgpService.getUserKeys(),
-      username: this.getEmail()
+      username: this.getEmail(),
     });
     this.store.dispatch(new AddOrganizationUser(user));
   }
@@ -188,7 +188,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
       this.confirmDeleteModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
-        backdrop: 'static'
+        backdrop: 'static',
       });
     }
   }
@@ -230,7 +230,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
               this.userExistError = error.error;
               this.newAddressOptions.inProgress = false;
               this.newAddressOptions.usernameExists = null;
-            }
+            },
           );
         }
       });

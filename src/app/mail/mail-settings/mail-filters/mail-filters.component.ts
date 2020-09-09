@@ -12,14 +12,14 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-mail-filters',
   templateUrl: './mail-filters.component.html',
-  styleUrls: ['../mail-settings.component.scss']
+  styleUrls: ['../mail-settings.component.scss'],
 })
 export class MailFiltersComponent implements OnInit, OnDestroy {
   readonly folderIcons: any = {
     [MailFolderType.INBOX]: 'icon-inbox',
     [MailFolderType.ARCHIVE]: 'icon-archive',
     [MailFolderType.TRASH]: 'icon-garbage',
-    [MailFolderType.SPAM]: 'icon-warning'
+    [MailFolderType.SPAM]: 'icon-warning',
   };
 
   @ViewChild('customFilterModal') customFilterModal;
@@ -67,7 +67,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
       filterText: [''],
       moveTo: [false],
       markAsRead: [false],
-      markAsStarred: [false]
+      markAsStarred: [false],
     });
 
     this.createFilterForm
@@ -107,7 +107,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     }
     this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
       centered: true,
-      windowClass: 'modal-sm'
+      windowClass: 'modal-sm',
     });
   }
 
@@ -123,7 +123,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         filter_text: this.createFilterForm.get('filterText').value,
         move_to: this.createFilterForm.get('moveTo').value || false,
         mark_as_read: this.createFilterForm.get('markAsRead').value || false,
-        mark_as_starred: this.createFilterForm.get('markAsStarred').value || false
+        mark_as_starred: this.createFilterForm.get('markAsStarred').value || false,
       };
       if (!data.condition || !data.parameter) {
         this.errorMessage = 'Please select a condition.';
@@ -145,7 +145,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     this.selectedFilter = filter;
     this.deleteFilterModalRef = this.modalService.open(this.deleteFilterModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 

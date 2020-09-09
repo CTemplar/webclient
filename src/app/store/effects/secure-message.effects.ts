@@ -13,7 +13,7 @@ import {
   SendSecureMessageReply,
   SendSecureMessageReplySuccess,
   SnackErrorPush,
-  SnackPush
+  SnackPush,
 } from '../actions';
 import { MailService } from '../services';
 import { of } from 'rxjs/internal/observable/of';
@@ -30,9 +30,9 @@ export class SecureMessageEffects {
     switchMap(payload => {
       return this.mailService.getSecureMessage(payload.hash, payload.secret).pipe(
         switchMap(res => of(new GetMessageSuccess(res))),
-        catchError(error => of(new GetMessageFailure({ error: error.error })))
+        catchError(error => of(new GetMessageFailure({ error: error.error }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -45,13 +45,13 @@ export class SecureMessageEffects {
           return of(
             new SendSecureMessageReplySuccess({ data: payload, response: res }),
             new SnackPush({
-              message: `Reply sent successfully`
-            })
+              message: `Reply sent successfully`,
+            }),
           );
         }),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to send reply.' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to send reply.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -61,8 +61,8 @@ export class SecureMessageEffects {
     mergeMap((payload: any) => {
       return this.mailService.getSecureMessageKeys(payload.hash, payload.secret).pipe(
         switchMap(keys => of(new GetSecureMessageUserKeysSuccess(keys))),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 }

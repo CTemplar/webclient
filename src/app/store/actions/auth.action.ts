@@ -44,7 +44,7 @@ export enum AuthActionTypes {
   UPDATE_2FA = '[Auth] Enable 2FA',
   UPDATE_2FA_SUCCESS = '[Auth] Enable 2FA Success',
   REFRESH_TOKEN = '[Auth] Refresh Token',
-  SET_AUTHENTICATED = '[Auth] Set Authenticated'
+  SET_AUTHENTICATED = '[Auth] Set Authenticated',
 }
 
 export class LogIn implements Action {

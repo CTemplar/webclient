@@ -8,7 +8,7 @@ describe('PagesDonateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PagesDonateComponent]
+      declarations: [PagesDonateComponent],
     }).compileComponents();
   }));
 

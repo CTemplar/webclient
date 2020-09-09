@@ -52,7 +52,7 @@ export enum MailActionTypes {
   DELETE_MAILBOX_SUCCESS = '[MAILBOX] DELETE SUCCESS',
   SET_IS_COMPOSER_POPUP = '[MAIL] SET IS COMPOSERPOPUP ',
   MOVE_TAB = '[MAIL] MOVE TAB',
-  EMPTY_ONLY_FOLDER = '[Mail] EMPTY ONLY FOLDER'
+  EMPTY_ONLY_FOLDER = '[Mail] EMPTY ONLY FOLDER',
 }
 
 export class GetMails implements Action {

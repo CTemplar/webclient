@@ -8,7 +8,7 @@ import {
   Update2FA,
   Get2FASecret,
   ContactsGet,
-  ClearContactsToDecrypt
+  ClearContactsToDecrypt,
 } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService, SharedService } from '../../../store/services';
@@ -21,7 +21,7 @@ import { apiUrl } from '../../../shared/config';
 @Component({
   selector: 'app-settings-security',
   templateUrl: './security.component.html',
-  styleUrls: ['./../mail-settings.component.scss', './security.component.scss']
+  styleUrls: ['./../mail-settings.component.scss', './security.component.scss'],
 })
 export class SecurityComponent implements OnInit, OnDestroy {
   @ViewChild('changePasswordModal') changePasswordModal;
@@ -56,7 +56,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private openPgpService: OpenPgpService,
     private sharedService: SharedService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -116,11 +116,11 @@ export class SecurityComponent implements OnInit, OnDestroy {
       {
         oldPassword: ['', [Validators.required]],
         password: ['', [Validators.required]],
-        confirmPwd: ['', [Validators.required]]
+        confirmPwd: ['', [Validators.required]],
       },
       {
-        validator: PasswordValidation.MatchPassword
-      }
+        validator: PasswordValidation.MatchPassword,
+      },
     );
   }
 
@@ -143,7 +143,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.store.dispatch(new Get2FASecret());
     this.modalService.open(this.auth2FAModal, {
       centered: true,
-      windowClass: 'modal-md auth2fa-modal'
+      windowClass: 'modal-md auth2fa-modal',
     });
   }
 
@@ -155,8 +155,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new Update2FA({
         data: { ...this.auth2FAForm, enable_2fa, username: this.userState.username },
-        settings: { ...this.settings, enable_2fa }
-      })
+        settings: { ...this.settings, enable_2fa },
+      }),
     );
   }
 
@@ -164,7 +164,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.auth2FAForm = { auth2FAStep: 2, enable_2fa: false };
     this.modalService.open(this.auth2FAModal, {
       centered: true,
-      windowClass: 'modal-md auth2fa-modal'
+      windowClass: 'modal-md auth2fa-modal',
     });
   }
 
@@ -181,7 +181,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-md change-password-modal'
+      windowClass: 'modal-md change-password-modal',
     });
   }
 
@@ -194,7 +194,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.decryptContactsModalRef = this.modalService.open(this.decryptContactsModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-md change-password-modal'
+      windowClass: 'modal-md change-password-modal',
     });
     this.decryptContactsModalRef.result.then(reason => {
       this.isDecryptingContacts = false;
@@ -217,7 +217,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.modalService.open(this.confirmEncryptContactsModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-md change-password-modal'
+      windowClass: 'modal-md change-password-modal',
     });
   }
 
@@ -262,7 +262,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.openPgpService.changePassphrase(
         this.changePasswordForm.value.password,
         this.deleteData,
-        this.userState.username
+        this.userState.username,
       );
     }
   }
@@ -275,7 +275,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       password: data.password,
       confirm_password: data.confirmPwd,
       new_keys: this.updatedPrivateKeys,
-      delete_data: this.deleteData
+      delete_data: this.deleteData,
     };
     this.store.dispatch(new ChangePassword(requestData));
     this.inProgress = true;

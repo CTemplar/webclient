@@ -1,35 +1,24 @@
 <!-- PAGE SECTION -->
 <section
   class="l-block l-block-text bg-white text-center text-white gap-p-eq has-cover login-main"
-  style="background-image: url(assets/images/user-actions/login-bg.jpg);"
+  style="background-image: url(assets/images/user-actions/login-bg.jpg)"
 >
-  <div
-    class="container container-xs"
-    *ngIf="!authState.isAuthenticated || authState.anti_phishing_phrase"
-  >
+  <div class="container container-xs" *ngIf="!authState.isAuthenticated || authState.anti_phishing_phrase">
     <header class="l-block-header position-relative mb-md-2">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
           <h1
-            *ngIf="
-              !authState.auth2FA.show2FALogin && !authState.isAuthenticated
-            "
+            *ngIf="!authState.auth2FA.show2FALogin && !authState.isAuthenticated"
             class="l-block-title text-white text-uppercase"
           >
-            <strong [translate]="'login.user_login'" *showInIE="false"
-              >User Login</strong
-            >
+            <strong [translate]="'login.user_login'" *showInIE="false">User Login</strong>
           </h1>
-          <h2
-            *ngIf="authState.auth2FA.show2FALogin"
-            class="l-block-title text-white text-uppercase"
-          >
+          <h2 *ngIf="authState.auth2FA.show2FALogin" class="l-block-title text-white text-uppercase">
             <strong>2 Factor Authentication</strong>
           </h2>
           <h4 class="l-block-title text-white">
             <strong *showInIE="true"
-              >IE has limited support. For better experience use Chrome,
-              Firefox, Safari, Opera, Edge etc.</strong
+              >IE has limited support. For better experience use Chrome, Firefox, Safari, Opera, Edge etc.</strong
             >
           </h4>
         </div>
@@ -39,9 +28,7 @@
       <div class="l-content-holder l-form-content-holder mx-auto mt-md-0">
         <div class="form">
           <form
-            *ngIf="
-              !authState.auth2FA.show2FALogin && !authState.isAuthenticated
-            "
+            *ngIf="!authState.auth2FA.show2FALogin && !authState.isAuthenticated"
             class="login-form position-relative"
             [formGroup]="loginForm"
             #form="ngForm"
@@ -50,8 +37,7 @@
             <div
               class="form-group"
               [ngClass]="{
-                'is-validate':
-                  loginForm.controls.username.invalid && showFormErrors
+                'is-validate': loginForm.controls.username.invalid && showFormErrors
               }"
             >
               <label
@@ -85,9 +71,7 @@
                 id="email-valid"
                 class="validate-message"
               >
-                <span
-                  *ngIf="loginForm.controls['username'].errors.required"
-                  [translate]="'settings.username_required'"
+                <span *ngIf="loginForm.controls['username'].errors.required" [translate]="'settings.username_required'"
                   >The username is required.</span
                 >
               </span>
@@ -95,8 +79,7 @@
             <div
               class="form-group"
               [ngClass]="{
-                'is-validate':
-                  loginForm.controls.password.invalid && showFormErrors
+                'is-validate': loginForm.controls.password.invalid && showFormErrors
               }"
             >
               <label
@@ -134,13 +117,8 @@
                   <i class="fa fa-eye-slash"></i>
                 </span>
               </div>
-              <span
-                *ngIf="loginForm.controls['password'].errors && showFormErrors"
-                class="validate-message"
-              >
-                <span
-                  *ngIf="loginForm.controls['password'].errors.required"
-                  [translate]="'login.password_required'"
+              <span *ngIf="loginForm.controls['password'].errors && showFormErrors" class="validate-message">
+                <span *ngIf="loginForm.controls['password'].errors.required" [translate]="'login.password_required'"
                   >The password is required.</span
                 >
               </span>
@@ -156,33 +134,18 @@
                     type="checkbox"
                     formControlName="rememberMe"
                   />
-                  <label
-                    for="moreInfoCheckbox"
-                    class="fancy-field-empty"
-                  ></label>
+                  <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
                 </span>
-                <div
-                  class="checkbox-text lh-sm cursor-pointer"
-                  (click)="toggleRememberMe()"
-                >
-                  <span class="info-text" [translate]="'login.remember_me'">
-                    Remember me on this computer.
-                  </span>
+                <div class="checkbox-text lh-sm cursor-pointer" (click)="toggleRememberMe()">
+                  <span class="info-text" [translate]="'login.remember_me'"> Remember me on this computer. </span>
                 </div>
               </div>
             </div>
-            <div
-              *ngIf="errorMessage"
-              class="login-form__failed l-alert l-alert-danger"
-            >
+            <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">
               {{ errorMessage }}
             </div>
             <div class="form-group form-user-actions mt-4 pt-sm-2">
-              <button
-                class="btn btn-gradient-primary btn-lg login-btn"
-                role="button"
-                type="submit"
-              >
+              <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">
                 <span [translate]="'login.name'">Login</span>
               </button>
             </div>
@@ -192,32 +155,19 @@
 
         <div>
           <div *ngIf="authState.anti_phishing_phrase">
-            <div class="mb-4 text-justify" style="margin-top: -20px;">
-              Please verify your Anti-Phishing phrase. If it is missing or
-              incorrect, you may be the victim of phishing. You should
-              immediately confirm that you are visiting
-              <a href="https://ctemplar.com">https://ctemplar.com</a>. If you
-              are not, then a malicious site might have your login credentials
-              for your CTemplar account. To prevent harm to your account, you
-              should immediately visit
-              <a href="https://ctemplar.com">https://ctemplar.com</a> and change
-              your password.
+            <div class="mb-4 text-justify" style="margin-top: -20px">
+              Please verify your Anti-Phishing phrase. If it is missing or incorrect, you may be the victim of phishing.
+              You should immediately confirm that you are visiting
+              <a href="https://ctemplar.com">https://ctemplar.com</a>. If you are not, then a malicious site might have
+              your login credentials for your CTemplar account. To prevent harm to your account, you should immediately
+              visit <a href="https://ctemplar.com">https://ctemplar.com</a> and change your password.
               <div class="mt-2">
                 Your Anti-Phishing Phrase:
-                <b style="font-size: 20px;">{{
-                  authState.anti_phishing_phrase
-                }}</b>
+                <b style="font-size: 20px">{{ authState.anti_phishing_phrase }}</b>
               </div>
             </div>
-            <div
-              class="form-group form-user-actions mt-4 pt-sm-2"
-              *ngIf="!authState.auth2FA.show2FALogin"
-            >
-              <button
-                (click)="continueLogin()"
-                class="btn btn-gradient-primary btn-lg login-btn"
-                role="button"
-              >
+            <div class="form-group form-user-actions mt-4 pt-sm-2" *ngIf="!authState.auth2FA.show2FALogin">
+              <button (click)="continueLogin()" class="btn btn-gradient-primary btn-lg login-btn" role="button">
                 Continue Login
               </button>
             </div>
@@ -225,11 +175,7 @@
           <div *ngIf="authState.auth2FA.show2FALogin">
             <div class="mb-1 text-left">Enter code generated by app</div>
             <div class="form-group">
-              <label
-                for="code2FA"
-                class="d-block text-faded text-left hidden-sm-up"
-                >2FA Code</label
-              >
+              <label for="code2FA" class="d-block text-faded text-left hidden-sm-up">2FA Code</label>
               <div class="input-group">
                 <input
                   class="form-control form-control-lg border-right-0"
@@ -242,10 +188,7 @@
                   required
                 />
               </div>
-              <div
-                *ngIf="errorMessage"
-                class="login-form__failed l-alert l-alert-danger my-2"
-              >
+              <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger my-2">
                 {{ errorMessage }}
               </div>
               <div class="form-group form-user-actions mt-4 pt-sm-2">
@@ -264,11 +207,7 @@
         <div>
           <div class="form-alternative-content">
             <div class="reset-password mb-0 mb-sm-1">
-              <a
-                class="text-faded"
-                (click)="openResetPasswordModal()"
-                role="button"
-              >
+              <a class="text-faded" (click)="openResetPasswordModal()" role="button">
                 <small>
                   <u [translate]="'login.reset_password'">Reset Password</u>
                 </small>
@@ -287,63 +226,39 @@
     </div>
   </div>
   <!-- /.Site container ends -->
-  <div
-    class="simple-keyboard"
-    [style.visibility]="isKeyboardOpened ? 'visible' : 'hidden'"
-  ></div>
+  <div class="simple-keyboard" [style.visibility]="isKeyboardOpened ? 'visible' : 'hidden'"></div>
 
-  <div
-    align="center"
-    class="logged-in-spinner"
-    *ngIf="authState.isAuthenticated && !authState.anti_phishing_phrase"
-  >
-    <img
-      class="logo"
-      style="width: 400px; height: 300px;"
-      [src]="loadingImage | safe: 'url'"
-    />
+  <div align="center" class="logged-in-spinner" *ngIf="authState.isAuthenticated && !authState.anti_phishing_phrase">
+    <img class="logo" style="width: 400px; height: 300px" [src]="loadingImage | safe: 'url'" />
     <p class="quote">Loading your mailbox...</p>
   </div>
 </section>
 <!-- /.PAGE SECTION ENDS -->
 
-<img
-  *ngIf="isLoading && !authState.isAuthenticated"
-  class="loading-icon"
-  src="assets/icons/spinner.svg"
-/>
+<img *ngIf="isLoading && !authState.isAuthenticated" class="loading-icon" src="assets/icons/spinner.svg" />
 
 <ng-template #resetPasswordModal let-c="close" let-d="dismiss">
   <div class="modal-header text-center justify-content-center">
     <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
       <strong>Reset Password</strong>
     </h3>
-    <button
-      type="button"
-      class="close"
-      data-dismiss="modal"
-      aria-label="Close"
-      (click)="d()"
-    >
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div class="text-holder text-dark text-medium">
       <ng-container *ngIf="!isRecoveryCodeSent; else recoveryCodeSent">
+        <p>We will send a reset code to your <b>recovery email</b> to reset your password.</p>
         <p>
-          We will send a reset code to your <b>recovery email</b> to reset your
-          password.
-        </p>
-        <p>
-          Your encryption key is connected to your password. Because of this you
-          will not be able to decrypt old emails if you reset your password.
+          Your encryption key is connected to your password. Because of this you will not be able to decrypt old emails
+          if you reset your password.
         </p>
         <p>
           If you did not set a recovery email then you can use your
           <b>recovery key</b>
-          to reset your password. Your account is not recoverable if you didn't
-          set your recovery email and don't have recovery key as well.
+          to reset your password. Your account is not recoverable if you didn't set your recovery email and don't have
+          recovery key as well.
           <br />
           <a
             (click)="
@@ -364,11 +279,7 @@
               (submit)="recoverPassword(recoverPasswordForm.value)"
             >
               <div class="form-group">
-                <label
-                  for="recoverPasswordUsername"
-                  class="d-block text-muted text-left"
-                  >Username</label
-                >
+                <label for="recoverPasswordUsername" class="d-block text-muted text-left">Username</label>
                 <input
                   class="form-control form-control-lg"
                   id="recoverPasswordUsername"
@@ -378,17 +289,11 @@
                   required
                 />
                 <span
-                  *ngIf="
-                    recoverPasswordForm.controls['username'].errors &&
-                    showResetPasswordFormErrors
-                  "
+                  *ngIf="recoverPasswordForm.controls['username'].errors && showResetPasswordFormErrors"
                   id="recover-username-valid"
                   class="validate-message"
                 >
-                  <span
-                    *ngIf="
-                      recoverPasswordForm.controls['username'].errors.required
-                    "
+                  <span *ngIf="recoverPasswordForm.controls['username'].errors.required"
                     >The username is required.</span
                   >
                 </span>
@@ -410,26 +315,16 @@
                   required
                 />
                 <span
-                  *ngIf="
-                    recoverPasswordForm.controls['recovery_email'].errors &&
-                    showResetPasswordFormErrors
-                  "
+                  *ngIf="recoverPasswordForm.controls['recovery_email'].errors && showResetPasswordFormErrors"
                   id="recovery-email-valid"
                   class="validate-message"
                 >
-                  <span
-                    *ngIf="
-                      recoverPasswordForm.controls['recovery_email'].errors
-                        .email
-                    "
+                  <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors.email"
                     >The recovery email is invalid.</span
                   >
                 </span>
               </div>
-              <div
-                *ngIf="resetPasswordErrorMessage"
-                class="reset-form__failed l-alert l-alert-danger mb-3"
-              >
+              <div *ngIf="resetPasswordErrorMessage" class="reset-form__failed l-alert l-alert-danger mb-3">
                 {{ resetPasswordErrorMessage }}
               </div>
 
@@ -446,15 +341,11 @@
                     [(ngModel)]="isConfirmedPrivacy"
                     [ngModelOptions]="{ standalone: true }"
                   />
-                  <label
-                    for="termsConditionCheckbox"
-                    class="fancy-field-empty"
-                  ></label>
+                  <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
                 </span>
                 <div class="checkbox-text lh-sm">
                   <p [translate]="'settings.reset_password'">
-                    I understand that action will delete all data and generate a
-                    new encryption key.
+                    I understand that action will delete all data and generate a new encryption key.
                   </p>
                 </div>
               </div>
@@ -475,17 +366,13 @@
                 >
                   Reset Password
                 </button>
-                <app-loading-spinner
-                  [showSpinner]="isLoading"
-                ></app-loading-spinner>
+                <app-loading-spinner [showSpinner]="isLoading"></app-loading-spinner>
               </div>
             </form>
             <div class="text-center mt-2">
               <a
                 (click)="
-                  isRecoveryCodeSent = true;
-                  showResetPasswordFormErrors = false;
-                  resetPasswordErrorMessage = null
+                  isRecoveryCodeSent = true; showResetPasswordFormErrors = false; resetPasswordErrorMessage = null
                 "
                 role="button"
               >
@@ -498,21 +385,12 @@
         </div>
       </ng-container>
       <ng-template #recoveryCodeSent>
-        <p *ngIf="!isRecoveryKeyMode">
-          We have sent a reset code to your recovery email.
-        </p>
-        <p>
-          Please enter the {{ isRecoveryKeyMode ? 'recovery key' : 'code' }} and
-          your new password below.
-        </p>
+        <p *ngIf="!isRecoveryKeyMode">We have sent a reset code to your recovery email.</p>
+        <p>Please enter the {{ isRecoveryKeyMode ? 'recovery key' : 'code' }} and your new password below.</p>
 
         <div class="login-content-holder mx-auto mt-4 pt-sm-2">
           <div class="form">
-            <form
-              [formGroup]="resetPasswordForm"
-              #form="ngForm"
-              (submit)="resetPassword(resetPasswordForm.value)"
-            >
+            <form [formGroup]="resetPasswordForm" #form="ngForm" (submit)="resetPassword(resetPasswordForm.value)">
               <div class="form-group">
                 <label for="resetCode" class="d-block text-muted text-left">{{
                   isRecoveryKeyMode ? 'Recovery key' : 'Code'
@@ -526,25 +404,15 @@
                   required
                 />
                 <span
-                  *ngIf="
-                    resetPasswordForm.controls['code'].errors &&
-                    showResetPasswordFormErrors
-                  "
+                  *ngIf="resetPasswordForm.controls['code'].errors && showResetPasswordFormErrors"
                   id="reset-code-valid"
                   class="validate-message"
                 >
-                  <span
-                    *ngIf="resetPasswordForm.controls['code'].errors.required"
-                    >Reset code is required.</span
-                  >
+                  <span *ngIf="resetPasswordForm.controls['code'].errors.required">Reset code is required.</span>
                 </span>
               </div>
               <div class="form-group">
-                <label
-                  for="resetPasswordUsername"
-                  class="d-block text-muted text-left"
-                  >Username</label
-                >
+                <label for="resetPasswordUsername" class="d-block text-muted text-left">Username</label>
                 <input
                   class="form-control form-control-lg"
                   id="resetPasswordUsername"
@@ -554,27 +422,16 @@
                   required
                 />
                 <span
-                  *ngIf="
-                    resetPasswordForm.controls['username'].errors &&
-                    showResetPasswordFormErrors
-                  "
+                  *ngIf="resetPasswordForm.controls['username'].errors && showResetPasswordFormErrors"
                   id="username-valid"
                   class="validate-message"
                 >
-                  <span
-                    *ngIf="
-                      resetPasswordForm.controls['username'].errors.required
-                    "
-                    >The username is required.</span
-                  >
+                  <span *ngIf="resetPasswordForm.controls['username'].errors.required">The username is required.</span>
                 </span>
               </div>
 
               <div class="form-group">
-                <label
-                  for="resetPassword"
-                  class="d-block text-muted text-left"
-                  [translate]="'settings.new_password'"
+                <label for="resetPassword" class="d-block text-muted text-left" [translate]="'settings.new_password'"
                   >New Password</label
                 >
                 <div class="input-group">
@@ -598,19 +455,11 @@
                   </span>
                 </div>
                 <span
-                  *ngIf="
-                    resetPasswordForm.controls['password'].errors &&
-                    showResetPasswordFormErrors
-                  "
+                  *ngIf="resetPasswordForm.controls['password'].errors && showResetPasswordFormErrors"
                   id="reset-password-valid"
                   class="validate-message"
                 >
-                  <span
-                    *ngIf="
-                      resetPasswordForm.controls['password'].errors.required
-                    "
-                    >The password is required.</span
-                  >
+                  <span *ngIf="resetPasswordForm.controls['password'].errors.required">The password is required.</span>
                 </span>
               </div>
               <div class="form-group">
@@ -625,9 +474,7 @@
                     #resetConfirmPasswordInput
                     class="form-control form-control-lg"
                     id="resetConfirmPassword"
-                    [placeholder]="
-                      'create_account.confirm_password' | translate
-                    "
+                    [placeholder]="'create_account.confirm_password' | translate"
                     type="password"
                     aria-describedby="resetConfirmPasswordToggle"
                     name="confirm-password"
@@ -643,22 +490,14 @@
                   </span>
                 </div>
                 <span
-                  *ngIf="
-                    resetPasswordForm.controls['confirmPwd'].errors &&
-                    showResetPasswordFormErrors
-                  "
+                  *ngIf="resetPasswordForm.controls['confirmPwd'].errors && showResetPasswordFormErrors"
                   id="reset-confirm-password-valid"
                   class="validate-message"
                 >
-                  <span [translate]="'create_account.passwords_not_match'"
-                    >Passwords do not match.</span
-                  >
+                  <span [translate]="'create_account.passwords_not_match'">Passwords do not match.</span>
                 </span>
               </div>
-              <div
-                *ngIf="resetPasswordErrorMessage"
-                class="reset-form__failed l-alert l-alert-danger mb-3"
-              >
+              <div *ngIf="resetPasswordErrorMessage" class="reset-form__failed l-alert l-alert-danger mb-3">
                 {{ resetPasswordErrorMessage }}
               </div>
               <div class="form-group form-user-actions text-center mb-0">
@@ -670,9 +509,7 @@
                 >
                   Submit
                 </button>
-                <app-loading-spinner
-                  [showSpinner]="isGeneratingKeys || isLoading"
-                ></app-loading-spinner>
+                <app-loading-spinner [showSpinner]="isGeneratingKeys || isLoading"></app-loading-spinner>
               </div>
             </form>
           </div>

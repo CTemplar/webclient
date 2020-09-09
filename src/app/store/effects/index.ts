@@ -23,7 +23,7 @@ export const effects: any[] = [
   SecureMessageEffects,
   DonateEffects,
   OrganizationEffects,
-  ContactsEffects
+  ContactsEffects,
 ];
 
 export * from './router.effect';

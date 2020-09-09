@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 
 export enum TimezoneActionTypes {
   TIMEZONE_GET = '[TIMEZONE] GET',
-  TIMEZONE_GET_SUCCESS = '[TIMEZONE] GET SUCCESS'
+  TIMEZONE_GET_SUCCESS = '[TIMEZONE] GET SUCCESS',
 }
 
 export class TimezoneGet implements Action {

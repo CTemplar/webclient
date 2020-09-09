@@ -6,7 +6,7 @@ export function reducer(state = { timezones: [] }, action: TimezoneActionAll): T
     case TimezoneActionTypes.TIMEZONE_GET_SUCCESS: {
       return {
         ...state,
-        timezones: action.payload
+        timezones: action.payload,
       };
     }
     default: {

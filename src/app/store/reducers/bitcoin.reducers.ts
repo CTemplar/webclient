@@ -5,7 +5,7 @@ export const initialState: BitcoinState = {
   bitcoinRequired: 0.0021,
   newWalletAddress: null,
   loaded: false,
-  checkTransactionResponse: { status: TransactionStatus.WAITING }
+  checkTransactionResponse: { status: TransactionStatus.WAITING },
 };
 
 export function reducer(state = initialState, action: BitcoinActionAll): BitcoinState {
@@ -13,7 +13,7 @@ export function reducer(state = initialState, action: BitcoinActionAll): Bitcoin
     case BitcoinActionTypes.CREATE_NEW_WALLET: {
       return {
         ...state,
-        loaded: false
+        loaded: false,
       };
     }
     case BitcoinActionTypes.CREATE_NEW_WALLET_SUCCESS: {
@@ -21,18 +21,18 @@ export function reducer(state = initialState, action: BitcoinActionAll): Bitcoin
         ...state,
         loaded: true,
         newWalletAddress: action.payload.address,
-        bitcoinRequired: action.payload.amount
+        bitcoinRequired: action.payload.amount,
       };
     }
     case BitcoinActionTypes.CHECK_TRANSACTION_SUCCESS: {
       return {
         ...state,
-        checkTransactionResponse: action.payload
+        checkTransactionResponse: action.payload,
       };
     }
     case BitcoinActionTypes.CLEAR_WALLET: {
       return {
-        ...initialState
+        ...initialState,
       };
     }
 

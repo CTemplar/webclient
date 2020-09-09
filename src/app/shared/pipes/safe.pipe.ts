@@ -6,7 +6,7 @@ import { apiUrl, PRIMARY_DOMAIN } from '../config';
 import * as juice from 'juice';
 
 @Pipe({
-  name: 'safe'
+  name: 'safe',
 })
 export class SafePipe implements PipeTransform {
   static hasExternalImages: boolean;
@@ -17,7 +17,7 @@ export class SafePipe implements PipeTransform {
     value: any,
     type: string = '',
     disableExternalImages?: boolean,
-    fromEmail?: string
+    fromEmail?: string,
   ): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
@@ -25,7 +25,7 @@ export class SafePipe implements PipeTransform {
         const cssFilter = new cssfilter.FilterCSS({
           onIgnoreAttr: (styleName, styleValue, opts) => {
             const blackList = {
-              position: ['fixed']
+              position: ['fixed'],
             };
             if (blackList.hasOwnProperty(styleName)) {
               const blackValList = blackList[styleName];
@@ -39,7 +39,7 @@ export class SafePipe implements PipeTransform {
               return styleName + ':' + safeAttrValue;
             }
             return '';
-          }
+          },
         });
         // @ts-ignore
         let xssValue = xss(value, {
@@ -120,7 +120,7 @@ export class SafePipe implements PipeTransform {
               }
             }
             // Return nothing, means keep the default handling measure
-          }
+          },
         });
         xssValue = this.replaceLinksInText(xssValue);
         return this.sanitizer.bypassSecurityTrustHtml(xssValue);
@@ -164,7 +164,7 @@ export class SafePipe implements PipeTransform {
       tr: [],
       u: [],
       ul: [],
-      i: []
+      i: [],
     };
     const headingAttributes = ['align', 'dir', 'id', 'style'];
     const allowedAttributes = {
@@ -200,7 +200,7 @@ export class SafePipe implements PipeTransform {
         'scope',
         'style',
         'valign',
-        'width'
+        'width',
       ],
       th: [
         'abbr',
@@ -214,11 +214,11 @@ export class SafePipe implements PipeTransform {
         'scope',
         'style',
         'valign',
-        'width'
+        'width',
       ],
       tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
       u: ['style'],
-      ul: ['dir', 'style']
+      ul: ['dir', 'style'],
     };
     // @ts-ignore
     value = xss(value, {
@@ -240,7 +240,7 @@ export class SafePipe implements PipeTransform {
             return name + '="' + xss.escapeAttrValue(value) + '"';
           }
         }
-      }
+      },
     });
     return value;
   }

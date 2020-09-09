@@ -20,13 +20,13 @@ const routes: Routes = [
       { path: 'settings/:id', component: MailSettingsComponent },
       { path: 'contacts', component: MailContactComponent },
       { path: ':folder/page/:page', component: MailListComponent },
-      { path: ':folder/page/:page/message/:id', component: MailDetailComponent }
-    ]
-  }
+      { path: ':folder/page/:page/message/:id', component: MailDetailComponent },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MailRoutingModule {}

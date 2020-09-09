@@ -32,7 +32,7 @@ import {
   UploadAttachmentFailure,
   UploadAttachmentProgress,
   UploadAttachmentRequest,
-  UploadAttachmentSuccess
+  UploadAttachmentSuccess,
 } from '../actions';
 import { Draft } from '../datatypes';
 import { MailFolderType } from '../models';
@@ -53,12 +53,12 @@ export class ComposeMailEffects {
           of(
             new CreateMailSuccess({ draft: payload, response: res }),
             new UpdateCurrentFolder(res),
-            new GetUnreadMailsCount()
-          )
+            new GetUnreadMailsCount(),
+          ),
         ),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to save mail.' })))
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to save mail.' }))),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -83,11 +83,11 @@ export class ComposeMailEffects {
             err => {
               observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' }));
               observer.next(new UploadAttachmentFailure(payload));
-            }
+            },
           );
         observer.next(new UploadAttachmentRequest({ ...payload, request }));
       });
-    })
+    }),
   );
 
   @Effect()
@@ -99,13 +99,13 @@ export class ComposeMailEffects {
         return this.mailService.deleteAttachment(payload).pipe(
           switchMap(res => of(new DeleteAttachmentSuccess(payload))),
           catchError(err =>
-            of(new SnackErrorPush({ message: 'Failed to delete attachment.' }), new DeleteAttachmentFailure(payload))
-          )
+            of(new SnackErrorPush({ message: 'Failed to delete attachment.' }), new DeleteAttachmentFailure(payload)),
+          ),
         );
       } else {
         return of(new DeleteAttachmentSuccess(payload));
       }
-    })
+    }),
   );
 
   @Effect()
@@ -135,7 +135,7 @@ export class ComposeMailEffects {
         switchMap((res: any) => {
           res.last_action_data = {
             last_action: payload.draft.last_action,
-            last_action_parent_id: payload.draft.last_action_parent_id
+            last_action_parent_id: payload.draft.last_action_parent_id,
           };
           res.folder = MailFolderType.SENT;
           const events: any[] = [
@@ -144,9 +144,9 @@ export class ComposeMailEffects {
             new UpdateMailDetailChildren(res),
             new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true, isMailDetailPage: payload.isMailDetailPage }),
             new SnackPush({
-              message
+              message,
             }),
-            new GetUnreadMailsCount()
+            new GetUnreadMailsCount(),
           ];
           return events;
         }),
@@ -154,13 +154,13 @@ export class ComposeMailEffects {
           of(
             new SnackErrorPush({
               message: errorResponse.error || 'Failed to send mail.',
-              duration: 10000
+              duration: 10000,
             }),
-            new SendMailFailure(payload)
-          )
-        )
+            new SendMailFailure(payload),
+          ),
+        ),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -170,8 +170,8 @@ export class ComposeMailEffects {
     mergeMap((payload: any) => {
       return this.mailService.getUsersPublicKeys(payload.emails).pipe(
         switchMap(keys => of(new GetUsersKeysSuccess({ draftId: payload.draftId, data: keys }))),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 }

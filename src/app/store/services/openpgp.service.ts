@@ -19,7 +19,7 @@ import {
   UpdateSecureMessageContent,
   UpdateSecureMessageEncryptedContent,
   UpdateSecureMessageKey,
-  UploadAttachment
+  UploadAttachment,
 } from '../actions';
 import {
   AppState,
@@ -29,7 +29,7 @@ import {
   MailBoxesState,
   SecureContent,
   Settings,
-  UserState
+  UserState,
 } from '../datatypes';
 import { Attachment, Mailbox } from '../models';
 import { UsersService } from './users.service';
@@ -112,7 +112,7 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({
       decryptPrivateKeys: true,
       privkeys: Object.keys(this.privkeys).map(key => ({ mailboxId: key, privkey: this.privkeys[key] })),
-      user_key: atob(userKey)
+      user_key: atob(userKey),
     });
   }
 
@@ -125,8 +125,8 @@ export class OpenPgpService {
             new UpdatePGPSshKeys({
               isSshInProgress: false,
               keys: event.data.keys,
-              draftId: event.data.callerId
-            })
+              draftId: event.data.callerId,
+            }),
           );
         } else {
           this.userKeys = event.data.keys;
@@ -140,20 +140,20 @@ export class OpenPgpService {
             id: event.data.callerId,
             isPGPInProgress: false,
             decryptedContent: event.data.decryptedContent,
-            isDecryptingAllSubjects: event.data.isDecryptingAllSubjects
-          })
+            isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+          }),
         );
       } else if (event.data.decryptSecureMessageKey) {
         this.store.dispatch(
           new UpdateSecureMessageKey({
             decryptedKey: event.data.decryptedKey,
             inProgress: false,
-            error: event.data.error
-          })
+            error: event.data.error,
+          }),
         );
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(
-          new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false })
+          new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
         );
       } else if (event.data.changePassphrase) {
         event.data.keys.forEach(item => {
@@ -165,14 +165,14 @@ export class OpenPgpService {
           new UpdatePGPEncryptedContent({
             isPGPInProgress: false,
             encryptedContent: event.data.encryptedContent,
-            draftId: event.data.callerId
-          })
+            draftId: event.data.callerId,
+          }),
         );
       } else if (event.data.encryptedAttachment) {
         const oldDocument = event.data.attachment.decryptedDocument;
         const newDocument = new File([event.data.encryptedContent.buffer], oldDocument.name, {
           type: oldDocument.type,
-          lastModified: oldDocument.lastModified
+          lastModified: oldDocument.lastModified,
         });
         const attachment: Attachment = { ...event.data.attachment, document: newDocument, is_encrypted: true };
         this.store.dispatch(new UploadAttachment({ ...attachment }));
@@ -181,7 +181,7 @@ export class OpenPgpService {
         const newDocument = new File(
           [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
           event.data.fileInfo.attachment.name,
-          { type: event.data.fileInfo.type }
+          { type: event.data.fileInfo.type },
         );
         const newAttachment: Attachment = { ...event.data.fileInfo.attachment, decryptedDocument: newDocument };
         this.subjects[event.data.subjectId].next(newAttachment);
@@ -191,8 +191,8 @@ export class OpenPgpService {
         this.store.dispatch(
           new UpdateSecureMessageEncryptedContent({
             inProgress: false,
-            encryptedContent: event.data.encryptedContent
-          })
+            encryptedContent: event.data.encryptedContent,
+          }),
         );
       } else if (event.data.encryptJson) {
         if (event.data.isAddContact) {
@@ -200,8 +200,8 @@ export class OpenPgpService {
             new ContactAdd({
               id: event.data.id,
               encrypted_data: event.data.encryptedContent,
-              is_encrypted: true
-            })
+              is_encrypted: true,
+            }),
           );
         }
       } else if (event.data.decryptJson) {
@@ -215,8 +215,8 @@ export class OpenPgpService {
               new ContactsGet({
                 limit: 20,
                 offset: totalDecryptedContacts,
-                isDecrypting: true
-              })
+                isDecrypting: true,
+              }),
             );
           }
         }
@@ -243,7 +243,7 @@ export class OpenPgpService {
       email: contact.email,
       publicKeys: this.pubkeysArray,
       encryptJson: true,
-      id: contact.id
+      id: contact.id,
     });
   }
 
@@ -254,7 +254,7 @@ export class OpenPgpService {
         content,
         mailboxId: this.primaryMailbox.id,
         decryptJson: true,
-        isContact: true
+        isContact: true,
       });
     } else {
       setTimeout(() => {
@@ -299,8 +299,8 @@ export class OpenPgpService {
           isDecryptingAllSubjects,
           id: mailId,
           isPGPInProgress: true,
-          decryptedContent: {}
-        })
+          decryptedContent: {},
+        }),
       );
       this.pgpWorker.postMessage({ mailboxId, mailData, isDecryptingAllSubjects, decrypt: true, callerId: mailId });
     } else {
@@ -332,7 +332,7 @@ export class OpenPgpService {
       fileData: pgpMessage,
       decryptSecureMessageAttachment: true,
       fileInfo,
-      subjectId
+      subjectId,
     });
     return subject.asObservable();
   }
@@ -363,7 +363,7 @@ export class OpenPgpService {
     const options = {
       userIds: [{ name: `${username}_${domain}`, email: `${username}@${domain}` }],
       numBits: 4096,
-      passphrase: password
+      passphrase: password,
     };
     this.pgpWorker.postMessage({ options, generateKeys: true });
   }
@@ -373,7 +373,7 @@ export class OpenPgpService {
     const options = {
       userIds: [{ name: `${draftId}` }],
       numBits: 4096,
-      passphrase: password
+      passphrase: password,
     };
     this.pgpWorker.postMessage({ options, generateKeys: true, forEmail: true, callerId: draftId });
   }
@@ -415,7 +415,7 @@ export class OpenPgpService {
               contacts,
               mailboxId: this.primaryMailbox.id,
               decryptJson: true,
-              isContactsArray: true
+              isContactsArray: true,
             });
           }
         });

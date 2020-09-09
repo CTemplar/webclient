@@ -20,8 +20,8 @@ export class TimezoneEffects {
         map(timezones => {
           return new TimezoneGetSuccess(timezones);
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 }

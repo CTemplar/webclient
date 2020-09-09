@@ -71,7 +71,7 @@ import { QuillModule } from 'ngx-quill';
     OrganizationUsersComponent,
     SaveContactComponent,
     SaveListContactComponent,
-    SecurityComponent
+    SecurityComponent,
   ],
   imports: [
     CommonModule,
@@ -87,9 +87,9 @@ import { QuillModule } from 'ngx-quill';
     NgbModule,
     QuillModule.forRoot(),
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [MailFooterComponent],
-  providers: [MailSettingsService, ComposeMailService, WebsocketService, PushNotificationService]
+  providers: [MailSettingsService, ComposeMailService, WebsocketService, PushNotificationService],
 })
 export class MailModule {}

@@ -1,16 +1,16 @@
 @import '../../../../styles/vendors/include-media/include-media';
 @import '../../../../styles/config/include-media-config';
-.account-creation{
+.account-creation {
   padding: 0 !important;
   border-radius: 4px;
 }
-.account-creation-info{
+.account-creation-info {
   overflow: hidden;
   position: relative;
   min-height: 300px;
   border-radius: 0 0 4px 4px;
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.38);
-  div{
+  div {
     padding: 2rem 3.75rem;
     position: absolute;
     top: 0;
@@ -28,7 +28,7 @@
     margin-bottom: 1rem;
     color: rgba(33, 33, 33, 0.87);
   }
-  ul{
+  ul {
     margin: 0;
     padding: 0;
     li {
@@ -39,18 +39,18 @@
       color: rgba(0, 0, 0, 0.54);
     }
   }
-  @include media("<=xmd") {
+  @include media('<=xmd') {
     min-height: 330px;
-    h3{
+    h3 {
       line-height: 1.33;
     }
-    div{
+    div {
       padding: 1rem 2rem;
     }
   }
 }
 .info-box3 {
-  li{
+  li {
     i {
       color: #e74c3c;
       font-size: 14px;
@@ -60,7 +60,7 @@
   }
 }
 .info-box2 {
-  li{
+  li {
     padding-left: 25px;
     position: relative;
     list-style-type: none;

@@ -21,7 +21,7 @@ export enum ContactsActionTypes {
   GET_EMAIL_CONTACTS_SUCCESS = '[Contacts] GET EMAIL CONTACTS SUCCESS',
   CLEAR_CONTACTS_TO_DECRYPT = '[Contacts] CLEAR CONTACTS TO DECRYPT',
   CONTACT_BATCH_UPDATE = '[Contacts] Batch update',
-  CONTACT_BATCH_UPDATE_SUCCESS = '[Contacts] Batch update Success'
+  CONTACT_BATCH_UPDATE_SUCCESS = '[Contacts] Batch update Success',
 }
 
 export class ContactsGet implements Action {

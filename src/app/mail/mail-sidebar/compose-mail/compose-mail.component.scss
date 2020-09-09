@@ -1,106 +1,108 @@
 .ql-container {
-    font-size: 14px;
+  font-size: 14px;
 }
 
-.from-text{
-    font-size: 14px;
+.from-text {
+  font-size: 14px;
 }
 .label-subject {
-    min-width: 55px;
+  min-width: 55px;
 }
 .label-from {
-    min-width: 40px;
+  min-width: 40px;
 }
 
 .plain-editor {
-    min-height: 380px;
-    border: 0;
-    width: 100%;
-    padding: 12px 15px;
-    resize: none;
-    font-size: 14px;
+  min-height: 380px;
+  border: 0;
+  width: 100%;
+  padding: 12px 15px;
+  resize: none;
+  font-size: 14px;
 }
 
 textarea:disabled {
-    background: transparent !important;
+  background: transparent !important;
 }
 
 .from-dropdown {
-    overflow-y: auto;
-    max-height: 310px;
+  overflow-y: auto;
+  max-height: 310px;
 }
 
 .learn-more-info-icon {
-    margin-top: -5px;
+  margin-top: -5px;
 }
 .menu-btn {
-    button {
-        font-size: inherit !important;
-        height: inherit !important;
-        color: rgba(0, 0, 0, 0.38);
-    }
-    .btn-more {
-        background: #f5f5f5;
-        border-radius: 2px;
-    }
-    .dropdown-size {
-        min-width: 152px;
-        max-width: 152px;
-    }
-    a {
-        color: black;
-    }
-    .item {
-        margin-left: -25px;
-    }
+  button {
+    font-size: inherit !important;
+    height: inherit !important;
+    color: rgba(0, 0, 0, 0.38);
+  }
+  .btn-more {
+    background: #f5f5f5;
+    border-radius: 2px;
+  }
+  .dropdown-size {
+    min-width: 152px;
+    max-width: 152px;
+  }
+  a {
+    color: black;
+  }
+  .item {
+    margin-left: -25px;
+  }
 }
 
 .pop-up-reply {
-    button {
-        padding: 0 !important;
-        height: 33px;
-    }
+  button {
+    padding: 0 !important;
+    height: 33px;
+  }
 }
 
 .mail-compose-control {
-    outline: none;
-    text-overflow: ellipsis;
+  outline: none;
+  text-overflow: ellipsis;
 }
 
-.compose-contacts-container { /* Contacts Hint Style */
-    display: flex;
-    align-items: center;
-    line-height: normal;
-    height: 100%;
+.compose-contacts-container {
+  /* Contacts Hint Style */
+  display: flex;
+  align-items: center;
+  line-height: normal;
+  height: 100%;
 
-    img {
-        height: 70%;
-    }
-    .compose-contacts-userinfo {
-        margin-left: 10px;
-        height: 70%;
-        font-size: 12px;
-    }
+  img {
+    height: 70%;
+  }
+  .compose-contacts-userinfo {
+    margin-left: 10px;
+    height: 70%;
+    font-size: 12px;
+  }
 }
 
-.mail-composer-footer { /* Compose Footer Style */
-    .actions-btn {
-        &.more-btn {
-            width: 2.25rem;
-            display: flex;
-            justify-content: center;
-            background: #fafafa;
-        }
-        &:disabled {
-            background-color: inherit;
-            i {
-                color: grey;
-                opacity: 0.7;
-            }
-        }
-        border: none;
-        i {
-            color: black;
-        }
+.mail-composer-footer {
+  /* Compose Footer Style */
+  .actions-btn {
+    &.more-btn {
+      width: 2.25rem;
+      display: flex;
+      justify-content: center;
+      background: #fafafa;
     }
+    &:disabled {
+      background-color: inherit;
+      i {
+        color: grey;
+        opacity: 0.7;
+      }
+    }
+    border: none;
+    i {
+      color: black;
+    }
+  }
 }

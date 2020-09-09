@@ -6,527 +6,529 @@
 $mail_composer_padding_x: 0.75rem;
 
 a {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .keyboard-open {
-	bottom: 255px !important;
+  bottom: 255px !important;
 }
 
-.compose-mail-container{
-	position: fixed;
-	bottom: 0px;
-	right: 0px;
-	z-index: 100;
-	display: flex;
-	align-items: flex-end;
-	flex-direction: row;
-	@include media(">sm") {
-		> .ng-star-inserted {
-			width: 100%;
-		}
-	}
-    @include media(">=ipad") {
-        left: auto;
-        right: 0;
-        bottom: 0;
-        > .ng-star-inserted {
-            width: auto;
-        }
+.compose-mail-container {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+  @include media('>sm') {
+    > .ng-star-inserted {
+      width: 100%;
     }
+  }
+  @include media('>=ipad') {
+    left: auto;
+    right: 0;
+    bottom: 0;
+    > .ng-star-inserted {
+      width: auto;
+    }
+  }
 }
 
 .minimize-compose-title {
-	max-width: 80px;
+  max-width: 80px;
 }
 
 .maximize-compose-title {
-	max-width: 400px;
+  max-width: 400px;
 }
 
 .mail-composer.is-sticky {
-	position: relative;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	float: right;
-	z-index: $zindex-default + 999;
-	overflow-x: hidden;
-	overflow-y: auto;
-	display: none;
-	font-size: 0.875rem;
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  float: right;
+  z-index: $zindex-default + 999;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: none;
+  font-size: 0.875rem;
 
-	// == is-minimized
-	&.is-active {
-		display: block;
-	}
+  // == is-minimized
+  &.is-active {
+    display: block;
+  }
 
-	@include media(">sm") {
-		top: auto;
-		left: auto;
-		overflow: inherit;
-		width: 40rem;
-		&.is-minimized {
-			width: 12rem;
-		}
-	}
+  @include media('>sm') {
+    top: auto;
+    left: auto;
+    overflow: inherit;
+    width: 40rem;
+    &.is-minimized {
+      width: 12rem;
+    }
+  }
 
-	@include media("<sm") {
-		position: fixed;
-		.mail-compose-editable-body {
-			margin-top: 0;
-			max-height: unset;
-            position: relative;
-		}
+  @include media('<sm') {
+    position: fixed;
+    .mail-compose-editable-body {
+      margin-top: 0;
+      max-height: unset;
+      position: relative;
+    }
 
-		.mail-compose-box {
-			max-height: unset;			
-		}
+    .mail-compose-box {
+      max-height: unset;
+    }
 
-		.mail-compose-box-inner {
-			height: 82.5vh;
-			width: 100vw;
-			padding-top: 50px;
-		}
+    .mail-compose-box-inner {
+      height: 82.5vh;
+      width: 100vw;
+      padding-top: 50px;
+    }
 
-		.mail-compose-editable-box {
-			 height: unset; 
-			max-height: unset;
-		}
-	}
-	.mail-composer-dialog{
-		box-shadow: 0px 20px 15px 0px rgba(0, 0, 0, 0.5);
-		background: white;
-	}
-    @include media(">=ipad") {
-      width: 40rem;
-	}
+    .mail-compose-editable-box {
+      height: unset;
+      max-height: unset;
+    }
+  }
+  .mail-composer-dialog {
+    box-shadow: 0px 20px 15px 0px rgba(0, 0, 0, 0.5);
+    background: white;
+  }
+  @include media('>=ipad') {
+    width: 40rem;
+  }
 
-	.mail-composer-body {
-		@include media(">sm") {
-			max-height: calc(100vh - 48px);
-		}
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-	}
+  .mail-composer-body {
+    @include media('>sm') {
+      max-height: calc(100vh - 48px);
+    }
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
 }
 
 .shadow {
-	box-shadow: $shadow;
+  box-shadow: $shadow;
 }
 
 // == Mail compose is-bordered
 .mail-composer.is-borderd {
-	border: 1px solid $dropdown-border-color;
+  border: 1px solid $dropdown-border-color;
 }
 
 // == Is minimized
 .mail-composer.is-minimized {
-	.mail-composer-body,
-	.mail-composer-footer {
-		display: none;
-	}
+  .mail-composer-body,
+  .mail-composer-footer {
+    display: none;
+  }
 }
 
-
 .mail-composer.is-maximized {
-
-    @include media(">sm") {
-	  position: fixed;
-      right: 1.563rem;
-      left: 1.563rem;
-      width: 80%;
-      margin: auto;
-      top: 3rem;
-      bottom: auto;
-      .mail-compose-editable-box {
-        background: #ffffff;
-      }
-
-	  .mail-composer-body {
-		  max-height: calc(100vh - 48px - 3rem);
-		  display: flex;
-		  flex-direction: column;
-		  justify-content: flex-end;
-
-		  .mail-compose-box {
-			  max-height: none;
-
-			  .ql-editor { min-height: 640.867px; }
-			  .plain-editor { min-height: 635px; }
-		  }
-	  }
+  @include media('>sm') {
+    position: fixed;
+    right: 1.563rem;
+    left: 1.563rem;
+    width: 80%;
+    margin: auto;
+    top: 3rem;
+    bottom: auto;
+    .mail-compose-editable-box {
+      background: #ffffff;
     }
-  
-	.mail-composer-footer {
-		display: block;
-	}
+
+    .mail-composer-body {
+      max-height: calc(100vh - 48px - 3rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      .mail-compose-box {
+        max-height: none;
+
+        .ql-editor {
+          min-height: 640.867px;
+        }
+        .plain-editor {
+          min-height: 635px;
+        }
+      }
+    }
+  }
+
+  .mail-composer-footer {
+    display: block;
+  }
 }
 
 // == Is full screen
 .mail-composer.is-fullscreen {
-	// top: 5.12rem;
-	@include media(">sm") {
-		width: calc(100% - 340px);
+  // top: 5.12rem;
+  @include media('>sm') {
+    width: calc(100% - 340px);
 
-		.mail-compose-box-inner {
-			min-height: 100vh;
-		}
-	}
+    .mail-compose-box-inner {
+      min-height: 100vh;
+    }
+  }
 }
 
 .mail-composer-header {
-	position: relative;
-	padding: 1.063rem $mail_composer_padding_x;
-	background: $brand-secondary;
+  position: relative;
+  padding: 1.063rem $mail_composer_padding_x;
+  background: $brand-secondary;
 
-	@include media(">sm") {
-		padding: 0.625rem $mail_composer_padding_x;
-	}
+  @include media('>sm') {
+    padding: 0.625rem $mail_composer_padding_x;
+  }
 }
 
-.mail-composer-title {	
-	color: $brand-white;
-	line-height: 1.33;
+.mail-composer-title {
+  color: $brand-white;
+  line-height: 1.33;
 
-	@include media(">sm") {
-		padding: 0.9375rem;
-	}
+  @include media('>sm') {
+    padding: 0.9375rem;
+  }
 }
 
 .mail-actions-list {
-	position: absolute;
-	top: 50%;
-	right: $mail_composer_padding_x;
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	color: #a1abb5;
-	transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: $mail_composer_padding_x;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #a1abb5;
+  transform: translateY(-50%);
 }
 
 .mail-actions-item {
-	cursor: pointer;
-	&:not(:last-of-type) {
-		margin-right: 1.25rem;
-	}
+  cursor: pointer;
+  &:not(:last-of-type) {
+    margin-right: 1.25rem;
+  }
 
-	[role="button"] {
-		padding: 0 0;
-		background: none;
-		border: none;
-		color: #a1abb5;
-	}
+  [role='button'] {
+    padding: 0 0;
+    background: none;
+    border: none;
+    color: #a1abb5;
+  }
 
-	i {
-		display: block;
-		font-size: .813rem;//~0.875rem;
-		line-height: 1;
-	}
+  i {
+    display: block;
+    font-size: 0.813rem; //~0.875rem;
+    line-height: 1;
+  }
 }
 
 // == Mail tag list
 .list-label-tag {
-	position: relative;
-	padding: 2px 25px 3px 5px;
-	text-align: left;
-	background: #f6f6f6;
-	border: 1px solid #dadada;
-	border-radius: 4px;
-	line-height: 1.15;
+  position: relative;
+  padding: 2px 25px 3px 5px;
+  text-align: left;
+  background: #f6f6f6;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  line-height: 1.15;
 
-	.tag-close {
-		position: absolute;
-		top: 50%;
-		right: 5px;
-		line-height: 1;
-		transform: translateY(-50%);
-	}
+  .tag-close {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
 }
 
 // == Mail compose fields
 .mail-compose-field {
-	display: flex;
-	align-items: center;
-	position: relative;
-	padding: 0.2rem $mail_composer_padding_x;
-	background: $brand-white;
-	border-bottom: 1px solid $input-border-color;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.2rem $mail_composer_padding_x;
+  background: $brand-white;
+  border-bottom: 1px solid $input-border-color;
 
-	@include media(">sm") {
-		font-size: 0.75rem;
-	}
+  @include media('>sm') {
+    font-size: 0.75rem;
+  }
 
-	.mail-label {
-		display: block;
-		margin-right: 0.5rem;
-		color: rgba(0, 0, 0, 0.38);
-		line-height: 1;
-	}
+  .mail-label {
+    display: block;
+    margin-right: 0.5rem;
+    color: rgba(0, 0, 0, 0.38);
+    line-height: 1;
+  }
 
-	.mail-compose-control {
-		margin-right: 3.125rem;
-		padding: 0.5rem 0;
-		border: 0;
-		line-height: 1.3;
-		resize: none;
-		width: 100%;
-		overflow: hidden;
+  .mail-compose-control {
+    margin-right: 3.125rem;
+    padding: 0.5rem 0;
+    border: 0;
+    line-height: 1.3;
+    resize: none;
+    width: 100%;
+    overflow: hidden;
 
-		@include media(">sm") {
-			padding: 0.688rem 0 0.5rem;
-		}
-	}
-    @include media("<sm") {
-      &.mail-compose-field-to{
-        position: relative;
-        padding-left: 38px;
-        .label-to{
-          position: absolute;
-          top: 11px;
-          left: 12px;
-        }
+    @include media('>sm') {
+      padding: 0.688rem 0 0.5rem;
+    }
+  }
+  @include media('<sm') {
+    &.mail-compose-field-to {
+      position: relative;
+      padding-left: 38px;
+      .label-to {
+        position: absolute;
+        top: 11px;
+        left: 12px;
       }
     }
+  }
 }
 
 .extra-mail-label {
-	position: absolute;
-	top: 12px;
-	right: 0.625rem;
-	display: flex;
-	align-items: right;
+  position: absolute;
+  top: 12px;
+  right: 0.625rem;
+  display: flex;
+  align-items: right;
 
-	.mail-label {
-		cursor: pointer;
-	}
+  .mail-label {
+    cursor: pointer;
+  }
 
-	.mail-label:not(:last-of-type) {
-		margin-right: 0.5rem;
-	}
+  .mail-label:not(:last-of-type) {
+    margin-right: 0.5rem;
+  }
 }
 
 .mail-compose-editable-body {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-	@include media("<=sm") {
-		margin-top: 49px;
-	}
+  @include media('<=sm') {
+    margin-top: 49px;
+  }
 }
 
 .mail-compose-box {
-	overflow-x: hidden;
-	overflow-y: auto;
-	line-height: 1.67rem;
-	background: white;
-	max-height: 50vh;
-	overflow-y: auto;
-	
-	@include media(">sm") {
-		font-size: 0.75rem;
-	}
+  overflow-x: hidden;
+  overflow-y: auto;
+  line-height: 1.67rem;
+  background: white;
+  max-height: 50vh;
+  overflow-y: auto;
+
+  @include media('>sm') {
+    font-size: 0.75rem;
+  }
 }
 
 .mail-compose-box-inner {
-	background: $brand-white;
+  background: $brand-white;
 }
 
 .mail-compose-editable-box {
-	background: $brand-white;
+  background: $brand-white;
 
-	&[contenteditable]:focus {
-		outline: 0;
-	}
+  &[contenteditable]:focus {
+    outline: 0;
+  }
 
-	.ql-editor {
-		min-height: 385.867px;
-		line-height: inherit;
-		color: black;
-		.originalblock {
-			border-left: 1px solid rgb(204, 204, 204);
-			padding-left: 1ex;
-		}
-		p {
-			font-size: 14px;
-		}
-	}
+  .ql-editor {
+    min-height: 385.867px;
+    line-height: inherit;
+    color: black;
+    .originalblock {
+      border-left: 1px solid rgb(204, 204, 204);
+      padding-left: 1ex;
+    }
+    p {
+      font-size: 14px;
+    }
+  }
 }
 
 // Mail composer footer
 .mail-composer-footer {
-	padding: 0.5rem $mail_composer_padding_x;
-	background: $brand-faded;
-	border: 1px solid $input-border-color;
-	margin-bottom: -26px;
+  padding: 0.5rem $mail_composer_padding_x;
+  background: $brand-faded;
+  border: 1px solid $input-border-color;
+  margin-bottom: -26px;
 
-	@include media("<=sm") {
-		position: absolute;
-		top: 0;
-		right: 0;
-		left: 0;
-		border-top: 0;
-	}
+  @include media('<=sm') {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    border-top: 0;
+  }
 }
 
 .mail-composer-actions-row {
-	margin: 0 -0.625rem;
+  margin: 0 -0.625rem;
 }
 
 .mail-composer-actions-col {
-	padding: 0 0.625rem;
-	
-	&-lg {
-		flex: 0 0 70%;
-		max-width: 70%;
-	}
+  padding: 0 0.625rem;
 
-	&-sm {
-		flex: 0 0 30%;
-		max-width: 30%;
-	}
+  &-lg {
+    flex: 0 0 70%;
+    max-width: 70%;
+  }
+
+  &-sm {
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
 }
 .composer-footer {
-	margin-bottom: 1.4rem;
+  margin-bottom: 1.4rem;
 }
 .mail-composer-actions {
-	margin: 0 -.375rem;
-	padding: 0 0;
-	list-style: none;
+  margin: 0 -0.375rem;
+  padding: 0 0;
+  list-style: none;
 
-	>li {
-		padding: 0 .375rem;
-		line-height: 1;
+  > li {
+    padding: 0 0.375rem;
+    line-height: 1;
 
-		@include media("<=sm") {
-			&:last-of-type {
-				padding: 0;
-			}
-		}
-	}
-
-	.btn-mail-send,
-	.btn {
-		font-size: 0.75rem;
-		min-width: 85px;
-	}
-    .dropdown-menu{
-      @include media("<=sm") {
-        top: 43px !important;
-        border-top: none;
-        border-radius: 0 4px 4px;
-        bottom: auto;
+    @include media('<=sm') {
+      &:last-of-type {
+        padding: 0;
       }
     }
+  }
+
+  .btn-mail-send,
+  .btn {
+    font-size: 0.75rem;
+    min-width: 85px;
+  }
+  .dropdown-menu {
+    @include media('<=sm') {
+      top: 43px !important;
+      border-top: none;
+      border-radius: 0 4px 4px;
+      bottom: auto;
+    }
+  }
 }
 
 .actions-btn {
-	position: relative;
-	padding: 1rem 0.5rem;
-	background: $brand-faded;
-	border: 1px solid $input-border-color;
-	border-radius: 2px;
-	color: $brand-light-gray;
-	height: 2rem;
-	width: 2.25rem;
+  position: relative;
+  padding: 1rem 0.5rem;
+  background: $brand-faded;
+  border: 1px solid $input-border-color;
+  border-radius: 2px;
+  color: $brand-light-gray;
+  height: 2rem;
+  width: 2.25rem;
 
-	.show > & {
-		background: $brand-white;
-		box-shadow: 0 2px 9px 0 rgba($brand-black, 0.15);
-	}
+  .show > & {
+    background: $brand-white;
+    box-shadow: 0 2px 9px 0 rgba($brand-black, 0.15);
+  }
 
-	.icon,
-	&.dropdown-toggle.hide-arrow .icon {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		font-size: 1rem;
-		transform: translateX(-50%) translateY(-50%);
-	}
+  .icon,
+  &.dropdown-toggle.hide-arrow .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1rem;
+    transform: translateX(-50%) translateY(-50%);
+  }
 
-	&.dropdown-toggle .icon {
-		left: 0.375rem;
-		transform: translateY(-50%);	
-	}
+  &.dropdown-toggle .icon {
+    left: 0.375rem;
+    transform: translateY(-50%);
+  }
 
-	&.insert-link-btn {
-		padding: 3px;
-		height: 2.11rem;
-	}
+  &.insert-link-btn {
+    padding: 3px;
+    height: 2.11rem;
+  }
 }
 
 .mail-actions-form-title .actions-btn {
-	margin-left: -5px;
+  margin-left: -5px;
 }
 
 // == Attachment uploader
 .disabled {
-	pointer-events: none !important;
+  pointer-events: none !important;
 }
 
 .attach-uploader-holder {
-	padding: 1rem;
+  padding: 1rem;
 }
 
 .attach-uploader {
-	position: relative;
-	margin-bottom: 0.5rem;
-	padding: 0.563rem 1.563rem 0.563rem 0.75rem;
-	background: $brand-faded;
-	border: 1px solid $input-border-color;
-	border-radius: 2px;
-	line-height: 1;
-	max-width: 90%;
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding: 0.563rem 1.563rem 0.563rem 0.75rem;
+  background: $brand-faded;
+  border: 1px solid $input-border-color;
+  border-radius: 2px;
+  line-height: 1;
+  max-width: 90%;
 
-	&:last-of-type {
-		margin-bottom: 0;
-	}
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 
-	// == Progress bar
-	.progress {
-		position: absolute;
-		top: 50%;
-		right: 1.875rem;
-		background: $brand-white;
-		border: 1px solid $input-border-color;
-		border-radius: 0;
-		width: 55px;
-		transform: translateY(-50%);
+  // == Progress bar
+  .progress {
+    position: absolute;
+    top: 50%;
+    right: 1.875rem;
+    background: $brand-white;
+    border: 1px solid $input-border-color;
+    border-radius: 0;
+    width: 55px;
+    transform: translateY(-50%);
 
-		@include media(">sm") {
-			width: 95px;
-		}
-	}
+    @include media('>sm') {
+      width: 95px;
+    }
+  }
 
-	.progress-bar {
-		height: 0.875rem;
-		background: $brand-secondary;
-	}
+  .progress-bar {
+    height: 0.875rem;
+    background: $brand-secondary;
+  }
 }
 
 .attach-uploader-close {
-	position: absolute;
-	top: 50%;
-	right: 0.75rem;
-	margin-top: .063rem;
-	padding: 0 0;
-	background: transparent;
-	border: 0;
-	color: $brand-light-gray;
-	font-size: .613rem;
-	transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  margin-top: 0.063rem;
+  padding: 0 0;
+  background: transparent;
+  border: 0;
+  color: $brand-light-gray;
+  font-size: 0.613rem;
+  transform: translateY(-50%);
 }
 
 .attach-name {
-	color: #34495e;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  color: #34495e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.file-name{
+.file-name {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -544,248 +546,247 @@ a {
 }
 
 .send-mail-item {
-	@include media("<=sm") {
-		position: fixed;
-		right: 0.938rem;
-		bottom: 5.625rem;
-	}
+  @include media('<=sm') {
+    position: fixed;
+    right: 0.938rem;
+    bottom: 5.625rem;
+  }
 }
 
 // == Typo actions holder
 .left-0 {
-	left: 0 !important;
+  left: 0 !important;
 }
 
 .is-centered.typo-actions-dropdown-menu {
-	left: 50% !important;
-	margin-left: 30px;
-	transform: translateX(-50%) translateY(10px) !important;
+  left: 50% !important;
+  margin-left: 30px;
+  transform: translateX(-50%) translateY(10px) !important;
 }
 
-.show>.is-centered.typo-actions-dropdown-menu {
-	transform: translateX(-50%) translateY(0%) !important;
+.show > .is-centered.typo-actions-dropdown-menu {
+  transform: translateX(-50%) translateY(0%) !important;
 }
 
 .typo-actions-dropdown-menu .typo-actions-dropdown-menu {
-	margin-left: 0 !important;
+  margin-left: 0 !important;
 }
 
 .dropup .dropdown-menu {
-	margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 .mail-comopser-typo-actions-holder {
-	padding: 0.625rem 0.75rem;
+  padding: 0.625rem 0.75rem;
 }
 
 .actions-btn.dropdown-toggle:not(.hide-arrow) {
-	width: 3.25rem;
-	text-align: left;
+  width: 3.25rem;
+  text-align: left;
 
-	&.actions-btn-sm {
-		width: 2.750rem;
-	}
+  &.actions-btn-sm {
+    width: 2.75rem;
+  }
 }
 
 // == Color picker
 .dropdown-menu {
-	.color-picker-holder {
-		padding: 1.125rem 1.563rem;
-		width: 352px;//~370px;
-	}
+  .color-picker-holder {
+    padding: 1.125rem 1.563rem;
+    width: 352px; //~370px;
+  }
 }
 
 .color-picker-title {
-	margin-bottom: 0.875rem;
-	color: $brand-black;
-	font-size: 0.75rem;
-	line-height: 1;
+  margin-bottom: 0.875rem;
+  color: $brand-black;
+  font-size: 0.75rem;
+  line-height: 1;
 }
 
 .color-picker-list {
-	margin: 0 -2px;
-	padding: 0 0;
-	list-style: none;
+  margin: 0 -2px;
+  padding: 0 0;
+  list-style: none;
 
-	>li {
-		margin-bottom: 4px;
-		padding: 0 2px;
-		.color-shape {
-			position: relative;
-			border-radius: 0;
-			height: 1rem;
-			width: 1rem;
-			cursor: pointer;
+  > li {
+    margin-bottom: 4px;
+    padding: 0 2px;
+    .color-shape {
+      position: relative;
+      border-radius: 0;
+      height: 1rem;
+      width: 1rem;
+      cursor: pointer;
 
-			&.is-selected {
-				border: 2px solid #9b9b9b !important;
-			}
-		}
-	}
+      &.is-selected {
+        border: 2px solid #9b9b9b !important;
+      }
+    }
+  }
 }
 
 // == Typo dropdown
 .typo-holder {
-	padding: 1.125rem 2.188rem;
+  padding: 1.125rem 2.188rem;
 }
 
 .typo-family-dropdown-menu {
-	left: 0 !important;
-	margin-left: -0.75rem;
-	width: 245px;
+  left: 0 !important;
+  margin-left: -0.75rem;
+  width: 245px;
 }
 
 .typo-size-dropdown-menu {
-	left: 0 !important;
-	width: 180px;
+  left: 0 !important;
+  width: 180px;
 }
 
 .typo-list {
-	font-size: 0.875rem;
-	line-height: 1;
-	
-	>li {
-		&:not(:last-of-type) {
-			margin-bottom: 0.938rem;
-		}
+  font-size: 0.875rem;
+  line-height: 1;
 
-      button{
-        border: 0;
-        cursor: pointer;
-      }
-	}
+  > li {
+    &:not(:last-of-type) {
+      margin-bottom: 0.938rem;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+  }
 }
 
 .typo-select-link {
-	position: relative;
-	color: rgba(0, 0, 0, 0.87);
-	&:hover {
-		color: darken(rgba(0, 0, 0, 0.87), 5%);
-	}
+  position: relative;
+  color: rgba(0, 0, 0, 0.87);
+  &:hover {
+    color: darken(rgba(0, 0, 0, 0.87), 5%);
+  }
 
-	&.is-active, &.ql-active {
-		font-weight: 600;
+  &.is-active,
+  &.ql-active {
+    font-weight: 600;
 
-		&::before {
-			position: absolute;
-			top: 0.235rem;
-			left: -1.125rem;
-			content: "\f00c";
-			-moz-osx-font-smoothing: grayscale;
-			-webkit-font-smoothing: antialiased;
-			display: inline-block;
-			font-family: 'Font Awesome 5 Free';
-			font-weight: 900;
-			font-size: 0.718rem;
-			font-style: normal;
-			font-variant: normal;
-			text-rendering: auto;
-			line-height: 1;
-		}
-	}
+    &::before {
+      position: absolute;
+      top: 0.235rem;
+      left: -1.125rem;
+      content: '\f00c';
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      font-size: 0.718rem;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+    }
+  }
 
-	// == typo sizes
-	&.is-small {
-		font-size: .688rem;
-	}
+  // == typo sizes
+  &.is-small {
+    font-size: 0.688rem;
+  }
 
-	&.is-normal {
-		font-size: 0.875rem;
-	}
+  &.is-normal {
+    font-size: 0.875rem;
+  }
 
-	&.is-large {
-		font-size: 1.375rem;
-	}
+  &.is-large {
+    font-size: 1.375rem;
+  }
 
-	&.is-huge {
-		font-size: 2.25rem;
-	}
+  &.is-huge {
+    font-size: 2.25rem;
+  }
 }
-
 
 // == Timer dropdown
 .timer-dropdown-menu:not(.left-0) {
-	width: 290px;
-	left: 50% !important;
-	font-size: 0.875rem;
-	transform: translateX(-50%) translateY(10px) !important;
+  width: 290px;
+  left: 50% !important;
+  font-size: 0.875rem;
+  transform: translateX(-50%) translateY(10px) !important;
 
-	.show > & {
-		transform: translateX(-50%) translateY(0px) !important;
-	}
+  .show > & {
+    transform: translateX(-50%) translateY(0px) !important;
+  }
 
-	.close {
-		position: absolute;
-		top: 1.125rem;
-		right: 0.938rem;
-		opacity: 1;
-		color: $brand-black;
-		font-size: 0.875rem;
-	}
+  .close {
+    position: absolute;
+    top: 1.125rem;
+    right: 0.938rem;
+    opacity: 1;
+    color: $brand-black;
+    font-size: 0.875rem;
+  }
 }
 
 .dropdown-header {
-	padding: 1.125rem 1.5rem;
-	border-bottom: 1px solid #f5f5f5;
+  padding: 1.125rem 1.5rem;
+  border-bottom: 1px solid #f5f5f5;
 }
 
 .dropdown-body {
-	padding: 0.75rem 1.5rem 1rem;
+  padding: 0.75rem 1.5rem 1rem;
 }
 
 .timer-set-row {
-	margin-right: -.75rem;
-	margin-left: -.75rem
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
 }
 
 .timer-set-col {
-	padding-right: .75rem;
-	padding-left: .75rem;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
 }
 
 .timer-set-content {
-	.timer-set-title,
-	.timer-set-label {
-		font-size: 0.75rem;
-	}
+  .timer-set-title,
+  .timer-set-label {
+    font-size: 0.75rem;
+  }
 
-	.timer-set-title {
-		margin-bottom: 0.625rem;
-		line-height: 1.5;
-	}
+  .timer-set-title {
+    margin-bottom: 0.625rem;
+    line-height: 1.5;
+  }
 
-	.timer-set-label {
-		margin-right: 0.375rem;
-		margin-left: 0.375rem;
-	}
+  .timer-set-label {
+    margin-right: 0.375rem;
+    margin-left: 0.375rem;
+  }
 }
 
 .timer-dropdown-menu {
-	.dropdown-link {
-		display: block;
-		padding: 0.5rem 0.75rem;
-		color: $brand-gray;
-		font-size: 0.813rem;
-		text-align: center;
+  .dropdown-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: $brand-gray;
+    font-size: 0.813rem;
+    text-align: center;
 
-		&:hover {
-			background: $brand-faded;
-		}
-	}
+    &:hover {
+      background: $brand-faded;
+    }
+  }
 }
 
 .dropdown-footer {
-	padding: 1rem 1.5rem;
-	background: #f5f5f5;
+  padding: 1rem 1.5rem;
+  background: #f5f5f5;
 }
-
 
 /* Toolbar selected button css.*/
 .ql-active {
-	background: white !important;
-	font-weight: bold !important;
+  background: white !important;
+  font-weight: bold !important;
 
-	i {
-		font-weight: bold !important;
-	}
+  i {
+    font-weight: bold !important;
+  }
 }

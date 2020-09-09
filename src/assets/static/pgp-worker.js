@@ -25,7 +25,7 @@ onmessage = async function (event) {
         decryptedContent: content,
         decryptedAttachment: true,
         fileInfo: event.data.fileInfo,
-        subjectId: event.data.subjectId
+        subjectId: event.data.subjectId,
       });
     });
   } else if (event.data.encryptSecureMessageReply) {
@@ -38,7 +38,7 @@ onmessage = async function (event) {
         generateKeys: true,
         keys: data,
         callerId: event.data.callerId,
-        forEmail: !!event.data.forEmail
+        forEmail: !!event.data.forEmail,
       });
     });
   } else if (event.data.decryptSecureMessageKey) {
@@ -73,7 +73,7 @@ onmessage = async function (event) {
         decryptedContent: content,
         decryptedSecureMessageAttachment: true,
         fileInfo: event.data.fileInfo,
-        subjectId: event.data.subjectId
+        subjectId: event.data.subjectId,
       });
     });
   } else if (event.data.decryptPrivateKeys) {
@@ -101,19 +101,19 @@ onmessage = async function (event) {
                       decryptedContent: { incomingHeaders, content, subject, content_plain },
                       decrypted: true,
                       callerId: event.data.callerId,
-                      isDecryptingAllSubjects: event.data.isDecryptingAllSubjects
+                      isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
                     });
-                  }
+                  },
                 );
               } else {
                 postMessage({
                   decryptedContent: { incomingHeaders, content, subject, content_plain: '' },
                   decrypted: true,
                   callerId: event.data.callerId,
-                  isDecryptingAllSubjects: event.data.isDecryptingAllSubjects
+                  isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
                 });
               }
-            }
+            },
           );
         });
       });
@@ -146,7 +146,7 @@ onmessage = async function (event) {
             ...event.data.contacts[i],
             ...JSON.parse(data[i]),
             encrypted_data: null,
-            is_encrypted: false
+            is_encrypted: false,
           };
         }
         postMessage({ ...event.data });
@@ -164,7 +164,7 @@ function generateKeys(options) {
     return {
       public_key: key.publicKeyArmored,
       private_key: key.privateKeyArmored,
-      fingerprint: (await openpgp.key.readArmored(key.publicKeyArmored)).keys[0].primaryKey.getFingerprint()
+      fingerprint: (await openpgp.key.readArmored(key.publicKeyArmored)).keys[0].primaryKey.getFingerprint(),
     };
   });
 }
@@ -175,7 +175,7 @@ async function generateNewKeys(mailboxes, password, username) {
     const options = {
       userIds: [{ name: username, email: mailboxes[i].email }],
       numBits: 4096,
-      passphrase: password
+      passphrase: password,
     };
     const keys = await generateKeys(options);
     newKeys.push({ ...keys, mailbox_id: mailboxes[i].id });
@@ -190,7 +190,7 @@ async function changePassphrase(passphrase) {
       await decryptedPrivKeys[key].encrypt(passphrase);
       privkeys.push({
         mailbox_id: key,
-        private_key: decryptedPrivKeys[key].armor()
+        private_key: decryptedPrivKeys[key].armor(),
       });
       decryptedPrivKeys[key].decrypt(passphrase);
     }
@@ -205,11 +205,11 @@ async function encryptContent(data, publicKeys) {
   const pubkeys = await Promise.all(
     publicKeys.map(async key => {
       return (await openpgp.key.readArmored(key)).keys[0];
-    })
+    }),
   );
   const options = {
     message: openpgp.message.fromText(data),
-    publicKeys: pubkeys
+    publicKeys: pubkeys,
   };
   return openpgp.encrypt(options).then(payload => {
     return payload.data;
@@ -223,7 +223,7 @@ async function decryptContent(data, privKeyObj) {
   try {
     const options = {
       message: await openpgp.message.readArmored(data),
-      privateKeys: [privKeyObj]
+      privateKeys: [privKeyObj],
     };
     return openpgp.decrypt(options).then(payload => {
       return payload.data;
@@ -241,11 +241,11 @@ async function encryptAttachment(data, publicKeys) {
   const pubkeys = await Promise.all(
     publicKeys.map(async key => {
       return (await openpgp.key.readArmored(key)).keys[0];
-    })
+    }),
   );
   const options = {
     message: openpgp.message.fromBinary(data),
-    publicKeys: pubkeys
+    publicKeys: pubkeys,
   };
   return openpgp.encrypt(options).then(payload => {
     return payload.data;
@@ -260,7 +260,7 @@ async function decryptAttachment(data, privKeyObj) {
     const options = {
       message: await openpgp.message.readArmored(data),
       privateKeys: [privKeyObj],
-      format: 'binary'
+      format: 'binary',
     };
     return openpgp.decrypt(options).then(payload => {
       return payload.data;

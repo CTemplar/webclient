@@ -16,7 +16,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-decrypt-message',
   templateUrl: './decrypt-message.component.html',
-  styleUrls: ['./decrypt-message.component.scss']
+  styleUrls: ['./decrypt-message.component.scss'],
 })
 export class DecryptMessageComponent implements OnInit, OnDestroy {
   decryptForm: FormGroup;
@@ -40,7 +40,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private sharedService: SharedService,
     private openPgpService: OpenPgpService,
-    private dateTimeUtilService: DateTimeUtilService
+    private dateTimeUtilService: DateTimeUtilService,
   ) {}
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     this.sharedService.isExternalPage.emit(true);
 
     this.decryptForm = this.formBuilder.group({
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
     });
 
     this.route.params.pipe(untilDestroyed(this)).subscribe(params => {

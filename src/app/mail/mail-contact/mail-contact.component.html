@@ -1,375 +1,485 @@
 <aside id="mailbox-sidebar" class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
-    <div class="mailbox-sidebar-inner">
-
-        <div class="mailbox-brand">
-            <button class="navbar-toggler hidden-md-up" role="button" (click)="toggleMenu()">
-                <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggler-icon"></span>
-                <span class="navbar-toggle-text" >{{"mail_sidebar.menu"| translate}}</span>
-            </button>
-            <figure class="navbar-brand-holder hidden-sm-down">
-                <a class="navbar-brand ff-roboto text-uppercase" routerLink="/mail">
-                    <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg"/>
-                    <strong>ctemplar</strong>
-                </a>
-            </figure>
-            <div class="prime-account-content">
-                <i class="icon icon-secure-shield"></i>
-                <span class="prime-account-text">{{currentPlan}}</span>
-            </div>
-        </div>
-
-        <div class="mail-compose-section">
-            <a routerLink="/mail"
-               class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"><i
-                    class="icon icon-arrow-left icon-sm mr-md-2"></i>
-                <span class="mailbox-btn-text hidden-sm-down" >{{"contacts.back_to_mail"| translate}}</span>
-            </a>
-        </div>
-
-        <nav class="mailbox-sidebar-navbar">
-            <ul class="mailbox-sidebar-nav">
-                <li class="mailbox-sidebar-nav-item active">
-                    <a class="mailbox-sidebar-nav-link no-icon"><span
-                            class="mailbox-sidebar-nav-label" >{{"contacts.all_contacts"| translate}}</span>
-                        <span class="badge badge-square">{{contactsState?.totalContacts}}</span></a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="mailbox-sidebar-footer text-center">
-            <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">
-                <span>{{"mail_sidebar.used"| translate}}</span>
-                <div class="text-white mt-1">{{(userState.settings?.used_storage) | filesize}}</div>
-            </div>
-            <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
-                <span >{{"common.used_storage"| translate}}</span>: {{(userState.settings?.used_storage) | filesize}} <span>{{"settings.of"| translate}}</span> {{(userState.settings.allocated_storage) | filesize}}
-            </div>
-            <a routerLink="/mail/settings/dashboard-and-plans" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
-                <small>
-                    <u>{{"common.upgrade_account"| translate}}</u>
-                </small>
-            </a>
-        </div>
-
+  <div class="mailbox-sidebar-inner">
+    <div class="mailbox-brand">
+      <button class="navbar-toggler hidden-md-up" role="button" (click)="toggleMenu()">
+        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggle-text">{{ 'mail_sidebar.menu' | translate }}</span>
+      </button>
+      <figure class="navbar-brand-holder hidden-sm-down">
+        <a class="navbar-brand ff-roboto text-uppercase" routerLink="/mail">
+          <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
+          <strong>ctemplar</strong>
+        </a>
+      </figure>
+      <div class="prime-account-content">
+        <i class="icon icon-secure-shield"></i>
+        <span class="prime-account-text">{{ currentPlan }}</span>
+      </div>
     </div>
+
+    <div class="mail-compose-section">
+      <a routerLink="/mail" class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"
+        ><i class="icon icon-arrow-left icon-sm mr-md-2"></i>
+        <span class="mailbox-btn-text hidden-sm-down">{{ 'contacts.back_to_mail' | translate }}</span>
+      </a>
+    </div>
+
+    <nav class="mailbox-sidebar-navbar">
+      <ul class="mailbox-sidebar-nav">
+        <li class="mailbox-sidebar-nav-item active">
+          <a class="mailbox-sidebar-nav-link no-icon"
+            ><span class="mailbox-sidebar-nav-label">{{ 'contacts.all_contacts' | translate }}</span>
+            <span class="badge badge-square">{{ contactsState?.totalContacts }}</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <div class="mailbox-sidebar-footer text-center">
+      <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">
+        <span>{{ 'mail_sidebar.used' | translate }}</span>
+        <div class="text-white mt-1">{{ userState.settings?.used_storage | filesize }}</div>
+      </div>
+      <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
+        <span>{{ 'common.used_storage' | translate }}</span
+        >: {{ userState.settings?.used_storage | filesize }} <span>{{ 'settings.of' | translate }}</span>
+        {{ userState.settings.allocated_storage | filesize }}
+      </div>
+      <a
+        routerLink="/mail/settings/dashboard-and-plans"
+        class="btn-link text-white hidden-in-sm"
+        *ngIf="!userState.isPrime"
+      >
+        <small>
+          <u>{{ 'common.upgrade_account' | translate }}</u>
+        </small>
+      </a>
+    </div>
+  </div>
 </aside>
 
 <!-- Add user button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
-    <button class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon" role="button"
-            placement="top" [ngbTooltip]="'settings.add_user'| translate" (click)="selectedContact=null;initSplitContactLayout();"><i
-            class="icon icon-add-user text-white"></i></button>
+  <button
+    class="btn btn-success mailbox-btn mailbox-add-user-btn btn-xs-rounded has-icon"
+    role="button"
+    placement="top"
+    [ngbTooltip]="'settings.add_user' | translate"
+    (click)="selectedContact = null; initSplitContactLayout()"
+  >
+    <i class="icon icon-add-user text-white"></i>
+  </button>
 </div>
 
 <div class="mailbox-actionbar border-bottom-0">
-    <div class="row">
-        <div class="col-12">
-            <ul class="mailbox-actionbar-menu">
-                <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
-                    <div>
-                        <button class="dropdown-toggle no-caret" role="button">
-                            <span class="fancy-field-group select-all-checkbox">
-                                <mat-checkbox type="checkbox" id="selectAll" name="selectAll"
-                                              (change)="toggleSelectAll()"
-                                              [(ngModel)]="selectAll">
-                                </mat-checkbox>
-                                <label for="selectAll" class="fancy-field-empty"></label>
-                            </span>
-                        </button>
-                    </div>
-                </li>
-                <li class="hidden-xs-down pr-0">
-                    <a class="no-icon text-grey-dark-500" role="button"
-                       (click)="editContact(null, addUserContent);" >{{'contacts.new_contact' | translate}}</a>
-                </li>
-                <li class="hidden-xs-down pr-0">
-                    <a class="no-icon text-grey-dark-500" role="button"
-                       (click)="openNotifyContactsModal();" >{{'contacts.notify_contacts' | translate}}</a>
-                </li>
-                <li class="pr-0" ngbTooltip="Compose mail">
-                    <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()">
-                        <i class="svg-inline--fa fa-2x far fa-envelope"></i>
-                    </a>
-                </li>
-                <li >
-                    <a (click)="openConfirmDeleteModal(confirmDeleteModal)"
-                       [ngbTooltip]="'contacts.delete_tooltip' | translate"
-                       class="cursor-pointer border-radius-l-0"><i
-                            class="icon icon-garbage"></i></a>
-                </li>
-                <li class="pl-0" ngbTooltip="Import contacts">
-                    <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()">
-                        <i class="svg-inline--fa fa-2x  fas fa-upload"></i>
-                    </a>
-                </li>
-                <li *ngIf="inProgress">
-                    <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
-                </li>
-                <li class="page-item">
-                    <div class="pager">
-                        <div class="mail-controls d-flex align-items-center justify-content-end" *ngIf="contactsState?.contacts?.length>0">
-                            <div class="mail-result-text text-muted">
-                                <small>{{ OFFSET+1 }} - {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} <span>{{"settings.of"| translate}}</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
-                            </div>
-                            <div class="mail-nav-control">
-                                <button [disabled]="OFFSET === 0 && ( MAX_EMAIL_PAGE_LIMIT > OFFSET)" role="button" class="mail-nav-control-prev" (click)="prevPage()">
-                                    <i class="icon icon-chevron-left"></i>
-                                </button>
-                                <button [disabled]="LIMIT > contactsState.contacts.length" role="button" class="mail-nav-control-next" (click)="nextPage()">
-                                    <i class="icon icon-chevron-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+  <div class="row">
+    <div class="col-12">
+      <ul class="mailbox-actionbar-menu">
+        <li class="btn-dropdown mailbox-dropdown checkbox-dropdown">
+          <div>
+            <button class="dropdown-toggle no-caret" role="button">
+              <span class="fancy-field-group select-all-checkbox">
+                <mat-checkbox
+                  type="checkbox"
+                  id="selectAll"
+                  name="selectAll"
+                  (change)="toggleSelectAll()"
+                  [(ngModel)]="selectAll"
+                >
+                </mat-checkbox>
+                <label for="selectAll" class="fancy-field-empty"></label>
+              </span>
+            </button>
+          </div>
+        </li>
+        <li class="hidden-xs-down pr-0">
+          <a class="no-icon text-grey-dark-500" role="button" (click)="editContact(null, addUserContent)">{{
+            'contacts.new_contact' | translate
+          }}</a>
+        </li>
+        <li class="hidden-xs-down pr-0">
+          <a class="no-icon text-grey-dark-500" role="button" (click)="openNotifyContactsModal()">{{
+            'contacts.notify_contacts' | translate
+          }}</a>
+        </li>
+        <li class="pr-0" ngbTooltip="Compose mail">
+          <a class="no-icon text-grey-dark-500" (click)="showComposeMailDialog()">
+            <i class="svg-inline--fa fa-2x far fa-envelope"></i>
+          </a>
+        </li>
+        <li>
+          <a
+            (click)="openConfirmDeleteModal(confirmDeleteModal)"
+            [ngbTooltip]="'contacts.delete_tooltip' | translate"
+            class="cursor-pointer border-radius-l-0"
+            ><i class="icon icon-garbage"></i
+          ></a>
+        </li>
+        <li class="pl-0" ngbTooltip="Import contacts">
+          <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()">
+            <i class="svg-inline--fa fa-2x fas fa-upload"></i>
+          </a>
+        </li>
+        <li *ngIf="inProgress">
+          <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+        </li>
+        <li class="page-item">
+          <div class="pager">
+            <div
+              class="mail-controls d-flex align-items-center justify-content-end"
+              *ngIf="contactsState?.contacts?.length > 0"
+            >
+              <div class="mail-result-text text-muted">
+                <small
+                  >{{ OFFSET + 1 }} -
+                  {{ LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET ? MAX_EMAIL_PAGE_LIMIT : OFFSET + LIMIT }}
+                  <span>{{ 'settings.of' | translate }}</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small
+                >
+              </div>
+              <div class="mail-nav-control">
+                <button
+                  [disabled]="OFFSET === 0 && MAX_EMAIL_PAGE_LIMIT > OFFSET"
+                  role="button"
+                  class="mail-nav-control-prev"
+                  (click)="prevPage()"
+                >
+                  <i class="icon icon-chevron-left"></i>
+                </button>
+                <button
+                  [disabled]="LIMIT > contactsState.contacts.length"
+                  role="button"
+                  class="mail-nav-control-next"
+                  (click)="nextPage()"
+                >
+                  <i class="icon icon-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </div>
 
 <div class="mail-check-number" *ngIf="selectAll && MAX_EMAIL_PAGE_LIMIT > LIMIT">
-    <p *ngIf="!checkAll">All {{(LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET) ? MAX_EMAIL_PAGE_LIMIT : (OFFSET+LIMIT) }} conversations on this page are selected. <a (click)="selectEntire(true)">Select all {{ MAX_EMAIL_PAGE_LIMIT }} conversations in Contacts</a></p>
-    <p *ngIf="checkAll">All {{ MAX_EMAIL_PAGE_LIMIT }} conversations in Contacts are selected. <a (click)="selectEntire(false)">Clear selection</a></p>
+  <p *ngIf="!checkAll">
+    All {{ LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET ? MAX_EMAIL_PAGE_LIMIT : OFFSET + LIMIT }} conversations on this page
+    are selected. <a (click)="selectEntire(true)">Select all {{ MAX_EMAIL_PAGE_LIMIT }} conversations in Contacts</a>
+  </p>
+  <p *ngIf="checkAll">
+    All {{ MAX_EMAIL_PAGE_LIMIT }} conversations in Contacts are selected.
+    <a (click)="selectEntire(false)">Clear selection</a>
+  </p>
 </div>
 
 <div class="mailbox-section">
-    <div class="mailbox-section-body py-0">
-        <div class="row mail-contact-layout-row" [class.is-splitted]="isLayoutSplitted">
-            <div class="col-12 mail-contact-layout-col mail-contact-listing-col table-responsive table-hover table-fixed">
-                <table class="table mail-contact">
+  <div class="mailbox-section-body py-0">
+    <div class="row mail-contact-layout-row" [class.is-splitted]="isLayoutSplitted">
+      <div class="col-12 mail-contact-layout-col mail-contact-listing-col table-responsive table-hover table-fixed">
+        <table class="table mail-contact">
+          <thead class="mail-contact-header border-bottom-0 hidden-xs-down">
+            <tr>
+              <th></th>
+              <th>
+                <strong>{{ 'common.name' | translate }}</strong>
+              </th>
+              <th>
+                <strong>{{ 'common.email' | translate }}</strong>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="mail-contact-body is-bordered">
+            <ng-container *ngIf="!isMobile">
+              <tr
+                class="mail-list-row is-unread"
+                *ngFor="let contact of contactsState.contacts"
+                [class.active-contact]="selectedContact == contact"
+              >
+                <td (click)="checkContact(contact)">
+                  <div class="mail-list-col-item mail-checkbox">
+                    <mat-checkbox
+                      [(ngModel)]="contact.markForDelete"
+                      [name]="contact.id"
+                      type="checkbox"
+                      [disableRipple]="true"
+                      (click)="$event.preventDefault()"
+                    >
+                    </mat-checkbox>
+                    <label [attr.for]="contact.id" class="fancy-field-empty"></label>
+                  </div>
+                </td>
+                <td (click)="editContact(contact, addUserContent)">
+                  <div class="mail-list-col-item mail-from-name cursor-pointer">
+                    <span
+                      *ngIf="contact.is_encrypted && !contact.name; else contactName"
+                      class="badge badge-warning mr-2 p-1"
+                    >
+                      **Encrypted**
+                    </span>
+                    <ng-template #contactName>
+                      <span ngbTooltip="{{ contact.name }}">{{ contact.name }}</span>
+                    </ng-template>
+                  </div>
+                </td>
+                <td (click)="editContact(contact, addUserContent)">
+                  <div class="mail-contact-col-lg cursor-pointer">
+                    <div class="mail-desc">
+                      <p>
+                        <strong>
+                          <span
+                            *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
+                            class="badge badge-warning mr-2 p-1"
+                          >
+                            **Encrypted**
+                          </span>
+                          <ng-template #contactEmail>
+                            <span class="d-inline-block text-truncate mail-contact-email-field">{{
+                              contact.email
+                            }}</span>
+                          </ng-template>
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
 
-                    <thead class="mail-contact-header border-bottom-0 hidden-xs-down">
-                        <tr>
-                            <th></th>
-                            <th><strong >{{"common.name"| translate}}</strong></th>
-                            <th><strong>{{"common.email"| translate}}</strong></th>
-                        </tr>
-                    </thead>
-                    <tbody class="mail-contact-body is-bordered">
-                        <ng-container *ngIf="!isMobile">
-                            <tr class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts" [class.active-contact]="selectedContact==contact">
-                                <td (click)="checkContact(contact)">
-                                    <div class="mail-list-col-item mail-checkbox">
-                                        <mat-checkbox [(ngModel)]="contact.markForDelete" [name]="contact.id"
-                                            type="checkbox" [disableRipple]="true" (click)="$event.preventDefault()">
-                                        </mat-checkbox>
-                                        <label [attr.for]="contact.id" class="fancy-field-empty"></label>
-                                    </div>
-                                </td>
-                                <td (click)="editContact(contact, addUserContent)">
-                                    <div class="mail-list-col-item mail-from-name cursor-pointer">
-                                        <span *ngIf="contact.is_encrypted && !contact.name; else contactName" class="badge badge-warning mr-2 p-1">
-                                            **Encrypted**
-                                        </span>
-                                        <ng-template #contactName>
-                                            <span ngbTooltip="{{contact.name}}">{{contact.name}}</span>
-                                        </ng-template>
-                                    </div>
-                                </td>
-                                <td (click)="editContact(contact, addUserContent)">
-                                    <div class="mail-contact-col-lg cursor-pointer">
-                                        <div class="mail-desc">
-                                            <p>
-                                                <strong>
-                                                    <span *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
-                                                        class="badge badge-warning mr-2 p-1">
-                                                        **Encrypted**
-                                                    </span>
-                                                    <ng-template #contactEmail>
-                                                        <span  class="d-inline-block text-truncate mail-contact-email-field">{{contact.email}}</span>
-                                                    </ng-template>
-                                                </strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-container>
-
-                        <!--Mobile view html -->
-                        <ng-container *ngIf="isMobile">
-                            <tr class="mail-list-row is-unread" *ngFor="let contact of contactsState.contacts" [class.active-contact]="selectedContact==contact">
-                                <td (click)="checkContact(contact)">
-                                    <div class="mail-list-col-item mail-checkbox">
-                                        <mat-checkbox [(ngModel)]="contact.markForDelete" [name]="contact.id"
-                                            type="checkbox" [disableRipple]="true" (click)="$event.preventDefault()">
-                                        </mat-checkbox>
-                                        <label [attr.for]="contact.id" class="fancy-field-empty"></label>
-                                    </div>
-                                </td>
-                                <td (click)="editContact(contact, addUserContent)">
-                                    <div class="mail-list-col-item cursor-pointer">
-                                        <span *ngIf="contact.is_encrypted && !contact.name; else contactName" class="badge badge-warning mr-2 p-1">
-                                            **Encrypted**
-                                        </span>
-                                        <ng-template #contactName>
-                                            <span ngbTooltip="{{contact.name}}">{{contact.name}}</span>
-                                        </ng-template>
-                                    </div>
-                                    <div class="mail-contact-col-lg cursor-pointer">
-                                        <div class="mail-desc">
-                                            <p>
-                                                <strong>
-                                                    <span *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
-                                                        class="badge badge-warning mr-2 p-1">
-                                                        **Encrypted**
-                                                    </span>
-                                                    <ng-template #contactEmail>
-                                                        <span  class="d-inline-block text-truncate mail-contact-email-field">{{contact.email}}</span>
-                                                    </ng-template>
-                                                </strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </ng-container>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-12 mail-contact mail-contact-layout-col mail-contact-entry-col">
-                <div class="mail-actions-form-holder">
-                    <h5 class="mail-actions-form-title text-dark">
-                        <button class="actions-btn" role="button"
-                                (click)="destroySplitContactLayout();"><i class="icon icon-arrow-left"></i></button>
-                        <strong >{{"contacts.details"| translate}}</strong></h5>
-                    <app-save-contact *ngIf="isNewContact"
-                                      [selectedContact]="selectedContact"
-                                      (userSaved)="destroySplitContactLayout()"></app-save-contact>
-                </div>
-            </div>
+            <!--Mobile view html -->
+            <ng-container *ngIf="isMobile">
+              <tr
+                class="mail-list-row is-unread"
+                *ngFor="let contact of contactsState.contacts"
+                [class.active-contact]="selectedContact == contact"
+              >
+                <td (click)="checkContact(contact)">
+                  <div class="mail-list-col-item mail-checkbox">
+                    <mat-checkbox
+                      [(ngModel)]="contact.markForDelete"
+                      [name]="contact.id"
+                      type="checkbox"
+                      [disableRipple]="true"
+                      (click)="$event.preventDefault()"
+                    >
+                    </mat-checkbox>
+                    <label [attr.for]="contact.id" class="fancy-field-empty"></label>
+                  </div>
+                </td>
+                <td (click)="editContact(contact, addUserContent)">
+                  <div class="mail-list-col-item cursor-pointer">
+                    <span
+                      *ngIf="contact.is_encrypted && !contact.name; else contactName"
+                      class="badge badge-warning mr-2 p-1"
+                    >
+                      **Encrypted**
+                    </span>
+                    <ng-template #contactName>
+                      <span ngbTooltip="{{ contact.name }}">{{ contact.name }}</span>
+                    </ng-template>
+                  </div>
+                  <div class="mail-contact-col-lg cursor-pointer">
+                    <div class="mail-desc">
+                      <p>
+                        <strong>
+                          <span
+                            *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
+                            class="badge badge-warning mr-2 p-1"
+                          >
+                            **Encrypted**
+                          </span>
+                          <ng-template #contactEmail>
+                            <span class="d-inline-block text-truncate mail-contact-email-field">{{
+                              contact.email
+                            }}</span>
+                          </ng-template>
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12 mail-contact mail-contact-layout-col mail-contact-entry-col">
+        <div class="mail-actions-form-holder">
+          <h5 class="mail-actions-form-title text-dark">
+            <button class="actions-btn" role="button" (click)="destroySplitContactLayout()">
+              <i class="icon icon-arrow-left"></i>
+            </button>
+            <strong>{{ 'contacts.details' | translate }}</strong>
+          </h5>
+          <app-save-contact
+            *ngIf="isNewContact"
+            [selectedContact]="selectedContact"
+            (userSaved)="destroySplitContactLayout()"
+          ></app-save-contact>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Add users contact modal -->
 <ng-template #addUserContent let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel"><strong>{{"contacts.details"| translate}}</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel">
+      <strong>{{ 'contacts.details' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <app-save-contact *ngIf="isNewContact" [selectedContact]="selectedContact" (userSaved)="d()"></app-save-contact>
     </div>
-    <div class="modal-body bg-faded">
-        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <app-save-contact *ngIf="isNewContact"
-                              [selectedContact]="selectedContact"
-                              (userSaved)="d()"></app-save-contact>
-        </div>
-    </div>
-</ng-template><!-- /.Add users contact modal ends -->
-
+  </div> </ng-template
+><!-- /.Add users contact modal ends -->
 
 <!-- Confirm contact delete modal -->
 <ng-template #confirmDeleteModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>{{"contacts.delete.title"| translate}}</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{ 'contacts.delete.title' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        <span>{{ 'contacts.delete.message' | translate }}</span>
+        <span *ngIf="checkAll"> {{ MAX_EMAIL_PAGE_LIMIT }} </span
+        ><span *ngIf="!checkAll"> {{ selectedContacts?.length }} </span> <span>{{ 'common.contact' | translate }}</span
+        >?
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2" role="button">
+          {{ 'common.cancel' | translate }}
         </button>
+        <button (click)="deleteContacts()" class="btn btn-danger btn-sm" role="button">
+          {{ 'common.delete' | translate }}
+        </button>
+      </div>
     </div>
-    <div class="modal-body bg-faded">
-        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <div class="form-group">
-                <span >{{"contacts.delete.message"| translate}}</span>
-                <span *ngIf="checkAll"> {{ MAX_EMAIL_PAGE_LIMIT }} </span><span *ngIf="!checkAll"> {{selectedContacts?.length}} </span>
-                <span >{{"common.contact"| translate}}</span>?
-            </div>
-            <div class="form-group text-right mb-0">
-                <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2"
-                        role="button">{{"common.cancel"| translate}}
-                </button>
-                <button (click)="deleteContacts()" class="btn btn-danger btn-sm"
-                        role="button">{{"common.delete"| translate}}
-                </button>
-            </div>
-
-        </div>
-    </div>
-</ng-template><!-- /.Confirm contact delete modal ends -->
+  </div> </ng-template
+><!-- /.Confirm contact delete modal ends -->
 
 <!-- import contacts modal -->
 <ng-template #importContactsModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>{{"contacts.import_contacts"| translate}}</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{ 'contacts.import_contacts' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        {{ 'contacts.select_csv' | translate }}
+      </div>
+      <input
+        type="file"
+        #importContactsInput
+        accept=".csv"
+        (change)="onContactsFileSelected($event.target.files)"
+        style="display: none"
+      />
+      <div *ngIf="importContactsError" class="l-alert l-alert-danger mb-3">
+        {{ importContactsError }}
+      </div>
+      <div class="form-group mb-0">
+        <button
+          type="button"
+          (click)="selectedContactsProvider = contactsProviderType.GOOGLE; importContactsInput.click()"
+          class="btn btn-success btn-sm col col-sm-7"
+          role="button"
+        >
+          {{ 'contacts.import_f_google' | translate }}
         </button>
+        <br />
+        <button
+          type="button"
+          (click)="selectedContactsProvider = contactsProviderType.YAHOO; importContactsInput.click()"
+          class="btn btn-success btn-sm col col-sm-7 mt-2"
+          role="button"
+        >
+          {{ 'contacts.import_f_yahoo' | translate }}
+        </button>
+        <br />
+        <button
+          type="button"
+          (click)="selectedContactsProvider = contactsProviderType.OUTLOOK; importContactsInput.click()"
+          class="btn btn-success btn-sm col col-sm-7 mt-2"
+          role="button"
+        >
+          {{ 'contacts.import_f_outlook' | translate }}
+        </button>
+        <br />
+        <button
+          type="button"
+          (click)="selectedContactsProvider = contactsProviderType.OTHER; importContactsInput.click()"
+          class="btn btn-success btn-sm col col-sm-7 mt-2"
+          role="button"
+        >
+          {{ 'contacts.import_f_other' | translate }}
+        </button>
+      </div>
     </div>
-    <div class="modal-body bg-faded">
-        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <div class="form-group" >
-                {{"contacts.select_csv"| translate}}
-            </div>
-            <input type="file"
-                   #importContactsInput
-                   accept=".csv"
-                   (change)="onContactsFileSelected($event.target.files)"
-                   style="display:none">
-            <div *ngIf="importContactsError" class="l-alert l-alert-danger mb-3">
-                {{importContactsError}}
-            </div>
-            <div class="form-group mb-0">
-                <button type="button"
-                        (click)="selectedContactsProvider = contactsProviderType.GOOGLE;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7" role="button">{{"contacts.import_f_google"| translate}}
-                </button>
-                <br/>
-                <button type="button"
-                        (click)="selectedContactsProvider = contactsProviderType.YAHOO;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button" >{{"contacts.import_f_yahoo"| translate}}
-                </button>
-                <br/>
-                <button type="button"
-                        (click)="selectedContactsProvider = contactsProviderType.OUTLOOK;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button" >{{"contacts.import_f_outlook"| translate}}
-                </button>
-                <br/>
-                <button type="button"
-                        (click)="selectedContactsProvider = contactsProviderType.OTHER;importContactsInput.click();"
-                        class="btn btn-success btn-sm col col-sm-7 mt-2" role="button" >{{"contacts.import_f_other"| translate}}
-                </button>
-            </div>
-        </div>
-    </div>
-</ng-template><!-- /.import contacts modal ends -->
+  </div> </ng-template
+><!-- /.import contacts modal ends -->
 
 <!-- Notify Contacts Modal -->
 <ng-template #notifyContactsModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark"><strong>{{"contacts.notify_contacts_title"| translate}}</strong></h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-            <span aria-hidden="true">&times;</span>
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{ 'contacts.notify_contacts_title' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="modal-description">
+      <span class="text-small">{{ 'contacts.notify_contacts_description.before' | translate }}</span>
+      <span class="text-small" *ngIf="checkAll"> {{ MAX_EMAIL_PAGE_LIMIT }} </span
+      ><span class="text-small" *ngIf="!checkAll"> {{ selectedContacts?.length }} </span>
+      <span class="text-small">{{ 'contacts.notify_contacts_description.after' | translate }}</span>
+      <span class="text-small">
+        <a target="_blank" href="https://ctemplar.com/help/change-of-email-address-notice/" rel="noreferrer noopener"
+          >Learn more</a
+        ></span
+      >
+    </div>
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="modal-content-email">
+        <span>{{ 'contacts.notify_contacts_email.title' | translate }}</span>
+        <br />
+        <br />
+        <span>{{ 'contacts.notify_contacts_email.content_before' | translate }}</span>
+        <span
+          ><a>{{ currentMailbox.email }}</a></span
+        >
+        <span>{{ 'contacts.notify_contacts_email.content_after' | translate }}</span>
+        <span>{{ currentMailbox.display_name ? currentMailbox.display_name : currentMailbox.email }}</span>
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="cancelNotifyContacts()" class="btn btn-secondary btn-sm mr-2" role="button">
+          {{ 'common.cancel' | translate }}
         </button>
+        <button (click)="notifyContacts()" class="btn btn-danger btn-sm" role="button">
+          {{ 'contacts.send_email' | translate }}
+        </button>
+      </div>
     </div>
-    <div class="modal-body bg-faded">
-        <div class="modal-description">
-            <span class="text-small">{{"contacts.notify_contacts_description.before"| translate}}</span>
-            <span class="text-small" *ngIf="checkAll"> {{ MAX_EMAIL_PAGE_LIMIT }} </span><span class="text-small" *ngIf="!checkAll"> {{selectedContacts?.length}} </span>
-            <span class="text-small">{{"contacts.notify_contacts_description.after"| translate}}</span>
-            <span class="text-small">  <a target="_blank" href="https://ctemplar.com/help/change-of-email-address-notice/" rel="noreferrer noopener">Learn more</a></span>
-        </div>
-        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <div class="modal-content-email">
-                <span >{{"contacts.notify_contacts_email.title"| translate}}</span>
-                <br/>
-                <br/>
-                <span >{{"contacts.notify_contacts_email.content_before"| translate}}</span>
-                <span><a>{{ currentMailbox.email }}</a></span>
-                <span >{{"contacts.notify_contacts_email.content_after"| translate}}</span>
-                <span>{{ currentMailbox.display_name ? currentMailbox.display_name : currentMailbox.email }}</span>
-            </div>
-            <div class="form-group text-right mb-0">
-                <button (click)="cancelNotifyContacts()" class="btn btn-secondary btn-sm mr-2"
-                        role="button">{{"common.cancel"| translate}}
-                </button>
-                <button (click)="notifyContacts()" class="btn btn-danger btn-sm"
-                        role="button">{{"contacts.send_email"| translate}}
-                </button>
-            </div>
-        </div>
-    </div>
-</ng-template><!-- /.Notify Contacts modal ends -->
+  </div> </ng-template
+><!-- /.Notify Contacts modal ends -->

@@ -14,7 +14,7 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
 @Component({
   selector: 'app-custom-domains',
   templateUrl: './custom-domains.component.html',
-  styleUrls: ['./custom-domains.component.scss']
+  styleUrls: ['./custom-domains.component.scss'],
 })
 export class CustomDomainsComponent implements OnInit, OnDestroy {
   @Output() onGotoTab = new EventEmitter<string>();
@@ -45,7 +45,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
-    private sharedService: SharedService
+    private sharedService: SharedService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true; // ~'outside';
@@ -74,7 +74,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       });
 
     this.domainNameForm = this.formBuilder.group({
-      domainNameCtrl: ['', Validators.required]
+      domainNameCtrl: ['', Validators.required],
     });
 
     this.verifyForm = this.formBuilder.group({});
@@ -137,7 +137,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       this.confirmModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
-        backdrop: 'static'
+        backdrop: 'static',
       });
     }
   }

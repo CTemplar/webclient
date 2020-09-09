@@ -7,7 +7,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,7 @@ import {
   MoveMail,
   ReadMail,
   SetCurrentFolder,
-  StarMail
+  StarMail,
 } from '../../../../store/actions';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
@@ -36,7 +36,7 @@ declare var Scrambler;
 @Component({
   selector: 'app-generic-folder',
   templateUrl: './generic-folder.component.html',
-  styleUrls: ['./generic-folder.component.scss']
+  styleUrls: ['./generic-folder.component.scss'],
 })
 export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() mails: Mail[] = [];
@@ -85,7 +85,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     private cdr: ChangeDetectorRef,
     private pgpService: OpenPgpService,
     private authService: UsersService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {
@@ -136,7 +136,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
             this.isInitialized = true;
             if (this.isNeedFetchMails()) {
               this.store.dispatch(
-                new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder })
+                new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }),
               );
             }
             if (this.mailFolder === MailFolderType.OUTBOX) {
@@ -156,8 +156,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
               searchText: this.searchText,
               limit: this.LIMIT,
               offset: this.OFFSET,
-              folder: this.mailFolder
-            })
+              folder: this.mailFolder,
+            }),
           );
         }
       });
@@ -206,8 +206,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         limit: this.LIMIT,
         offset: this.OFFSET,
         folder: this.mailFolder,
-        searchText: this.searchText
-      })
+        searchText: this.searchText,
+      }),
     );
     this.store.dispatch(new GetUnreadMailsCount());
   }
@@ -383,7 +383,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   confirmDeleteAll() {
     this.confirmEmptyTrashModalRef = this.modalService.open(this.confirmEmptyTrashModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -395,7 +395,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   confirmDeleteDraft() {
     this.delateDraftModalRef = this.modalService.open(this.delateDraftModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -413,13 +413,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
       this.composeMailService.openComposeMailDialog({
         draft: mail,
-        isFullScreen: this.userState.settings.is_composer_full_screen
+        isFullScreen: this.userState.settings.is_composer_full_screen,
       });
     } else {
       // change sender display before to open mail detail, because this sender display was for last child.
       // TODO should be regression test for this part for sender_display_name
       this.store.dispatch(
-        new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } })
+        new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }),
       );
       const queryParams: any = {};
       if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
@@ -437,7 +437,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   openCreateFolderDialog() {
     this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, {
       self: this,
-      method: 'moveToFolder'
+      method: 'moveToFolder',
     });
   }
 
@@ -457,8 +457,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           sourceFolder: this.mailFolder,
           mail: this.getMarkedMails(),
           allowUndo: true,
-          fromTrash: this.mailFolder === MailFolderType.TRASH
-        })
+          fromTrash: this.mailFolder === MailFolderType.TRASH,
+        }),
       );
       this.isMoveMailClicked = true;
     }
@@ -514,8 +514,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           limit: this.LIMIT,
           searchText: this.searchText,
           offset: this.OFFSET,
-          folder: this.mailFolder
-        })
+          folder: this.mailFolder,
+        }),
       );
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.PAGE + 1}`);
     }
@@ -531,8 +531,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           limit: this.LIMIT,
           searchText: this.searchText,
           offset: this.OFFSET,
-          folder: this.mailFolder
-        })
+          folder: this.mailFolder,
+        }),
       );
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.PAGE + 1}`);
     }
@@ -544,7 +544,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         target: `#subject-scramble-${mailId}`,
         random: [1000, 120000],
         speed: 70,
-        text: 'A7gHc6H66A9SAQfoBJDq4C7'
+        text: 'A7gHc6H66A9SAQfoBJDq4C7',
       });
     }, 100);
   }

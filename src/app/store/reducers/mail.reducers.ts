@@ -20,9 +20,9 @@ export function reducer(
     decryptedSubjects: {},
     isMailsMoved: false,
     customFolderMessageCount: [],
-    isComposerPopUp: false
+    isComposerPopUp: false,
   },
-  action: MailActions
+  action: MailActions,
 ): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
@@ -33,7 +33,7 @@ export function reducer(
         inProgress: action.payload.inProgress ? true : false,
         currentFolder: action.payload.folder as MailFolderType,
         mails: mails ? mails : [],
-        noUnreadCountChange: true
+        noUnreadCountChange: true,
       };
     }
 
@@ -44,7 +44,7 @@ export function reducer(
       const folder_info = new MailStateFolderInfo({
         is_not_first_page: action.payload.is_not_first_page || false,
         total_mail_count: action.payload.total_mail_count,
-        is_dirty: false
+        is_dirty: false,
       });
       state.info_by_folder.set(action.payload.folder, folder_info);
 
@@ -145,14 +145,14 @@ export function reducer(
         mails,
         loaded: true,
         inProgress: false,
-        noUnreadCountChange: true
+        noUnreadCountChange: true,
       };
     }
 
     case MailActionTypes.STOP_GETTING_UNREAD_MAILS_COUNT: {
       return {
         ...state,
-        canGetUnreadCount: false
+        canGetUnreadCount: false,
       };
     }
 
@@ -165,18 +165,18 @@ export function reducer(
         const unreadMailData = {
           ...state.unreadMailsCount,
           ...action.payload,
-          total_unread_count: totalUnreadMailCount
+          total_unread_count: totalUnreadMailCount,
         };
         return {
           ...state,
           unreadMailsCount: unreadMailData,
-          noUnreadCountChange: false
+          noUnreadCountChange: false,
         };
       }
       return {
         ...state,
         unreadMailsCount: { ...action.payload, total_unread_count: getTotalUnreadCount(action.payload) },
-        noUnreadCountChange: false
+        noUnreadCountChange: false,
       };
     }
     case MailActionTypes.GET_CUSTOMFOLDER_MESSAGE_COUNT_SUCCESS: {
@@ -185,7 +185,7 @@ export function reducer(
     case MailActionTypes.SET_IS_COMPOSER_POPUP: {
       state.isComposerPopUp = action.payload;
       return {
-        ...state
+        ...state,
       };
     }
     case MailActionTypes.MOVE_MAIL: {
@@ -199,7 +199,7 @@ export function reducer(
         const oldMails = state.folders.get(action.payload.sourceFolder) || [];
         state.folders.set(
           action.payload.sourceFolder,
-          oldMails.filter(mail => !listOfIDs.includes(mail.id.toString()))
+          oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())),
         );
       }
       let info_keys = Array.from(state.info_by_folder.keys());
@@ -259,7 +259,7 @@ export function reducer(
           if (listOfIDs.includes(child.id.toString())) {
             state.mailDetail.children[index] = {
               ...state.mailDetail.children[index],
-              folder: action.payload.sourceFolder
+              folder: action.payload.sourceFolder,
             };
           }
         });
@@ -270,7 +270,7 @@ export function reducer(
       return {
         ...state,
         mails: mails,
-        noUnreadCountChange: true
+        noUnreadCountChange: true,
       };
     }
 
@@ -311,7 +311,7 @@ export function reducer(
             folder !== MailFolderType.SENT &&
             folder !== MailFolderType.TRASH &&
             folder !== MailFolderType.DRAFT &&
-            folder !== MailFolderType.OUTBOX
+            folder !== MailFolderType.OUTBOX,
         );
         folders.map(folder => {
           const folder_content = state.folders.get(folder) || [];
@@ -412,7 +412,7 @@ export function reducer(
           state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))
         ) {
           state.mailDetail.children = state.mailDetail.children.filter(
-            child => !listOfIDs.includes(child.id.toString())
+            child => !listOfIDs.includes(child.id.toString()),
           );
         }
       }
@@ -436,7 +436,7 @@ export function reducer(
       return {
         ...state,
         mailDetail: action.payload,
-        noUnreadCountChange: true
+        noUnreadCountChange: true,
       };
     }
 
@@ -444,7 +444,7 @@ export function reducer(
       return {
         ...state,
         mailDetail: null,
-        noUnreadCountChange: true
+        noUnreadCountChange: true,
       };
     }
 
@@ -459,7 +459,7 @@ export function reducer(
         loaded: false,
         unreadMailsCount: { inbox: 0 },
         noUnreadCountChange: true,
-        canGetUnreadCount: true
+        canGetUnreadCount: true,
       };
     }
 
@@ -476,7 +476,7 @@ export function reducer(
         noUnreadCountChange: true,
         canGetUnreadCount: true,
         decryptedSubjects: {},
-        customFolderMessageCount: []
+        customFolderMessageCount: [],
       };
     }
 
@@ -484,7 +484,7 @@ export function reducer(
       return {
         ...state,
         mailDetail: null,
-        noUnreadCountChange: true
+        noUnreadCountChange: true,
       };
     }
 
@@ -520,7 +520,7 @@ export function reducer(
         ...state,
         mails: mails ? mails : [],
         total_mail_count: total_mail_count,
-        currentFolder: action.payload
+        currentFolder: action.payload,
       };
     }
 
@@ -544,7 +544,7 @@ export function reducer(
           content_plain: action.payload.decryptedContent.content_plain,
           subject: action.payload.decryptedContent.subject,
           incomingHeaders: action.payload.decryptedContent.incomingHeaders,
-          inProgress: action.payload.isPGPInProgress
+          inProgress: action.payload.isPGPInProgress,
         };
       } else {
         state.decryptedContents[action.payload.id] = {
@@ -553,7 +553,7 @@ export function reducer(
           content_plain: action.payload.decryptedContent.content_plain,
           subject: action.payload.decryptedContent.subject,
           inProgress: action.payload.isPGPInProgress,
-          incomingHeaders: action.payload.decryptedContent.incomingHeaders
+          incomingHeaders: action.payload.decryptedContent.incomingHeaders,
         };
       }
       return { ...state, decryptedContents: { ...state.decryptedContents }, noUnreadCountChange: true };

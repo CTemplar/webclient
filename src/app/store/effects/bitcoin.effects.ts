@@ -7,7 +7,7 @@ import {
   CheckTransaction,
   CheckTransactionSuccess,
   CreateNewWallet,
-  CreateNewWalletSuccess
+  CreateNewWalletSuccess,
 } from '../actions/bitcoin.action';
 import { BitcoinService } from '../services/bitcoin.service';
 import { of } from 'rxjs/internal/observable/of';
@@ -24,9 +24,9 @@ export class BitcoinEffects {
     switchMap(payload => {
       return this.bitcoinService.createNewWallet(payload).pipe(
         switchMap(res => of(new CreateNewWalletSuccess(res))),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -36,8 +36,8 @@ export class BitcoinEffects {
     switchMap(payload => {
       return this.bitcoinService.checkTransaction(payload).pipe(
         map(response => new CheckTransactionSuccess(response)),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 }

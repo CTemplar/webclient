@@ -15,6 +15,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [CommonModule, NgbModule, PagesRoutingModule, SharedModule],
-  declarations: [PagesDonateComponent, PaymentOptionsComponent]
+  declarations: [PagesDonateComponent, PaymentOptionsComponent],
 })
 export class PagesModule {}

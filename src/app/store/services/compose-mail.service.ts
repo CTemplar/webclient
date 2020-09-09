@@ -34,7 +34,7 @@ export class ComposeMailService {
     private store: Store<AppState>,
     private openPgpService: OpenPgpService,
     private mailService: MailService,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
   ) {
     this.store
       .select((state: AppState) => state.composeMail)
@@ -66,8 +66,8 @@ export class ComposeMailService {
                   } else {
                     this.store.dispatch(
                       new SnackPush({
-                        message: 'Failed to send email, please try again. Email has been saved in draft.'
-                      })
+                        message: 'Failed to send email, please try again. Email has been saved in draft.',
+                      }),
                     );
                   }
                 }
@@ -83,14 +83,14 @@ export class ComposeMailService {
                       draftMail.draft.mailbox,
                       attachment.decryptedDocument,
                       attachment,
-                      keys
+                      keys,
                     );
                   });
                   this.openPgpService.encrypt(
                     draftMail.draft.mailbox,
                     draftMail.id,
                     new SecureContent(draftMail.draft),
-                    keys
+                    keys,
                   );
                 }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
@@ -107,7 +107,7 @@ export class ComposeMailService {
                     draftMail.draft.is_encrypted = true;
                     publicKeys = [
                       ...publicKeys,
-                      ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key)
+                      ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key),
                     ];
                   }
 
@@ -117,19 +117,19 @@ export class ComposeMailService {
                         draftMail.draft.mailbox,
                         attachment.decryptedDocument,
                         attachment,
-                        publicKeys
+                        publicKeys,
                       );
                     });
                     this.openPgpService.encrypt(
                       draftMail.draft.mailbox,
                       draftMail.id,
                       new SecureContent(draftMail.draft),
-                      publicKeys
+                      publicKeys,
                     );
                   } else {
                     if (!draftMail.isSaving) {
                       const encryptedAttachments = draftMail.attachments.filter(
-                        attachment => !!attachment.is_encrypted
+                        attachment => !!attachment.is_encrypted,
                       );
                       if (encryptedAttachments.length > 0) {
                         forkJoin(
@@ -146,10 +146,10 @@ export class ComposeMailService {
                                       observer.next(event.body);
                                     }
                                   },
-                                  error => observer.error(error)
+                                  error => observer.error(error),
                                 );
                             });
-                          })
+                          }),
                         )
                           .pipe(take(1))
                           .subscribe(
@@ -161,16 +161,16 @@ export class ComposeMailService {
                                   draftMail.draft.mailbox,
                                   draftMail.id,
                                   new SecureContent(draftMail.draft),
-                                  publicKeys
+                                  publicKeys,
                                 );
                               }
                             },
                             error =>
                               this.store.dispatch(
                                 new SnackPush({
-                                  message: 'Failed to send email, please try again. Email has been saved in draft.'
-                                })
-                              )
+                                  message: 'Failed to send email, please try again. Email has been saved in draft.',
+                                }),
+                              ),
                           );
                       } else {
                         if (publicKeys.length === 0) {
@@ -180,15 +180,15 @@ export class ComposeMailService {
                             draftMail.draft.mailbox,
                             draftMail.id,
                             new SecureContent(draftMail.draft),
-                            publicKeys
+                            publicKeys,
                           );
                         }
                       }
                     } else {
                       this.store.dispatch(
                         new SnackPush({
-                          message: 'Failed to send email, please try again. Email has been saved in draft.'
-                        })
+                          message: 'Failed to send email, please try again. Email has been saved in draft.',
+                        }),
                       );
                     }
                   }
@@ -288,7 +288,7 @@ export class ComposeMailService {
       }
       const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
       const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(
-        factory
+        factory,
       );
       this.componentRefList.push(newComponentRef);
       Object.keys(inputData).forEach(key => {

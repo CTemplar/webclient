@@ -9,15 +9,15 @@ export function reducer(
     mailboxes: [],
     currentMailbox: null,
     decryptKeyInProgress: false,
-    encryptionInProgress: false
+    encryptionInProgress: false,
   },
-  action: MailActions
+  action: MailActions,
 ): MailBoxesState {
   switch (action.type) {
     case MailActionTypes.GET_MAILBOXES: {
       return {
         ...state,
-        inProgress: true
+        inProgress: true,
       };
     }
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
@@ -28,14 +28,14 @@ export function reducer(
           return item;
         }),
         inProgress: false,
-        currentMailbox: action.payload.filter((item: Mailbox) => item.is_enabled)[0]
+        currentMailbox: action.payload.filter((item: Mailbox) => item.is_enabled)[0],
       };
     }
 
     case MailActionTypes.SET_DECRYPT_INPROGRESS: {
       return {
         ...state,
-        decryptKeyInProgress: action.payload
+        decryptKeyInProgress: action.payload,
       };
     }
 
@@ -43,14 +43,14 @@ export function reducer(
       return {
         ...state,
         decryptKeyInProgress: false,
-        decryptedKey: action.payload.decryptedKey
+        decryptedKey: action.payload.decryptedKey,
       };
     }
 
     case MailActionTypes.SET_CURRENT_MAILBOX: {
       return {
         ...state,
-        currentMailbox: action.payload
+        currentMailbox: action.payload,
       };
     }
 
@@ -73,7 +73,7 @@ export function reducer(
       return {
         ...state,
         mailboxes: mailboxes,
-        inProgress: false
+        inProgress: false,
       };
     }
 
@@ -85,7 +85,7 @@ export function reducer(
             mailbox.inProgress = false;
           }
           return mailbox;
-        })
+        }),
       };
     }
 
@@ -123,7 +123,7 @@ export function reducer(
 
       return {
         ...state,
-        mailboxes: mailboxes
+        mailboxes: mailboxes,
       };
     }
 
@@ -136,7 +136,7 @@ export function reducer(
         ...state,
         mailboxes: action.payload.mailboxes,
         currentMailbox: action.payload.mailboxes[0],
-        isUpdatingOrder: false
+        isUpdatingOrder: false,
       };
     }
 

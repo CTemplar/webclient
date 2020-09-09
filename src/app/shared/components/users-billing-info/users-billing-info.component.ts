@@ -17,7 +17,7 @@ import {
   SnackErrorPush,
   UpgradeAccount,
   ValidatePromoCode,
-  CardAdd
+  CardAdd,
 } from '../../../store/actions/index';
 import {
   AppState,
@@ -32,7 +32,7 @@ import {
   PromoCode,
   SignupState,
   TransactionStatus,
-  UserState
+  UserState,
 } from '../../../store/datatypes';
 // Service
 import { OpenPgpService, SharedService } from '../../../store/services/index';
@@ -47,7 +47,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',
-  styleUrls: ['./users-billing-info.component.scss']
+  styleUrls: ['./users-billing-info.component.scss'],
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
@@ -79,7 +79,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   stripePaymentValidation: any = {
     message: '',
-    param: ''
+    param: '',
   };
   showPaymentPending: boolean;
   paymentSuccess: boolean;
@@ -108,7 +108,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     private dynamicScriptLoader: DynamicScriptLoaderService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
-    private _zone: NgZone
+    private _zone: NgZone,
   ) {}
 
   ngOnInit() {
@@ -140,7 +140,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
     this.billingForm = this.formBuilder.group({
       cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]],
-      promoCode: ''
+      promoCode: '',
     });
     this.store
       .select(state => state.bitcoin)
@@ -247,7 +247,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         number: this.cardNumber,
         exp_month: this.expiryMonth,
         exp_year: this.expiryYear,
-        cvc: this.cvc
+        cvc: this.cvc,
       },
       (status: number, response: any) => {
         // Wrapping inside the Angular zone
@@ -258,11 +258,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           } else {
             this.stripePaymentValidation = {
               message: response.error.message,
-              param: response.error.param
+              param: response.error.param,
             };
           }
         });
-      }
+      },
     );
   }
 
@@ -273,8 +273,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           plan_type: this.planType,
           payment_type: this.paymentType,
           payment_method: this.paymentMethod,
-          is_renew: this.isRenew
-        })
+          is_renew: this.isRenew,
+        }),
       );
     }
   }
@@ -287,7 +287,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     // Reset Stripe validation
     this.stripePaymentValidation = {
       message: '',
-      param: ''
+      param: '',
     };
 
     if (this.paymentMethod === PaymentMethod.STRIPE) {
@@ -326,7 +326,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.bitcoinState.newWalletAddress) {
       if (this.isUpgradeAccount) {
         this.store.dispatch(
-          new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress }))
+          new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress })),
         );
       } else {
         this.inProgress = true;
@@ -336,7 +336,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       }
     } else {
       this.store.dispatch(
-        new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.')
+        new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'),
       );
     }
   }
@@ -368,7 +368,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       payment_type: this.paymentType,
       payment_method: this.paymentMethod,
       is_renew: this.isRenew,
-      language: currentLang.name
+      language: currentLang.name,
     };
   }
 
@@ -404,7 +404,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     this.stripePaymentValidation = {
       message: '',
-      param: ''
+      param: '',
     };
     setTimeout(() => {
       this.showPaymentPending = true;
@@ -438,8 +438,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         payment_type: this.paymentType,
         plan_type: this.planType,
         payment_method: this.paymentMethod,
-        is_renew: this.isRenew
-      })
+        is_renew: this.isRenew,
+      }),
     );
   }
 
@@ -478,7 +478,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       centered: true,
       windowClass: 'modal-sm',
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     });
   }
 
@@ -488,8 +488,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         new ValidatePromoCode({
           plan_type: this.planType,
           payment_type: this.paymentType,
-          promo_code: this.promoCode.value
-        })
+          promo_code: this.promoCode.value,
+        }),
       );
     }
   }

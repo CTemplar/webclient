@@ -24,7 +24,7 @@ export enum ComposeMailActionTypes {
   GET_USERS_KEYS_SUCCESS = '[USERS] GET KEYS SUCCESS',
   NEW_DRAFT = '[DraftState] NEW_DRAFT',
   CLEAR_DRAFT = '[DRAFT] CLEAR',
-  UPDATE_DRAFT_ATTACHMENT = '[Attachment] UPDATE_DRAFT_ATTACHMENT'
+  UPDATE_DRAFT_ATTACHMENT = '[Attachment] UPDATE_DRAFT_ATTACHMENT',
 }
 
 export class CreateMail implements Action {

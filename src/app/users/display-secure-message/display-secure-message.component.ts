@@ -11,7 +11,7 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
 @Component({
   selector: 'app-display-secure-message',
   templateUrl: './display-secure-message.component.html',
-  styleUrls: ['./display-secure-message.component.scss']
+  styleUrls: ['./display-secure-message.component.scss'],
 })
 export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
   @Input() message: Mail;
@@ -32,13 +32,13 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private mailService: MailService,
     private shareService: SharedService,
-    private pgpService: OpenPgpService
+    private pgpService: OpenPgpService,
   ) {}
 
   ngOnInit() {
     this.expiryDurationInSeconds = this.dateTimeUtilService.getDiffFromCurrentDateTime(
       this.message.encryption.expires,
-      'seconds'
+      'seconds',
     );
   }
 
@@ -74,15 +74,15 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
                 this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
                 this.downloadAttachment(decryptedAttachment);
               },
-              error => console.log(error)
+              error => console.log(error),
             );
         },
         errorResponse =>
           this.store.dispatch(
             new SnackErrorPush({
-              message: errorResponse.error || 'Failed to download attachment.'
-            })
-          )
+              message: errorResponse.error || 'Failed to download attachment.',
+            }),
+          ),
       );
     }
   }

@@ -96,7 +96,7 @@ export enum MailFolderType {
   SPAM = 'spam',
   TRASH = 'trash',
   OUTBOX = 'outbox',
-  SEARCH = 'search'
+  SEARCH = 'search',
 }
 
 export interface Attachment {

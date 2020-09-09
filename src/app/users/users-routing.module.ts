@@ -16,11 +16,11 @@ const routes: Routes = [
   { path: 'signup', component: UsersSignUpComponent },
   { path: 'create-account', component: UsersCreateAccountComponent },
   { path: 'billing-info', component: UsersBillingInfoComponent },
-  { path: 'message/:hash/:secret/:senderId', component: DecryptMessageComponent }
+  { path: 'message/:hash/:secret/:senderId', component: DecryptMessageComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class UsersRoutingModule {}

@@ -13,7 +13,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-folders',
   templateUrl: './folders.component.html',
-  styleUrls: ['../mail-settings.component.scss', './folders.component.scss']
+  styleUrls: ['../mail-settings.component.scss', './folders.component.scss'],
 })
 export class FoldersComponent implements OnInit, OnDestroy {
   folders: Array<Folder> = [];
@@ -30,7 +30,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private modalService: NgbModal,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {}
 
   ngOnInit() {
@@ -64,7 +64,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
         const mergeById = (a1, a2) =>
           a1.map(itm => ({
             ...itm,
-            ...a2.find(item => item.folder === itm.name && item)
+            ...a2.find(item => item.folder === itm.name && item),
           }));
 
         this.folders = mergeById(this.folders, this.mailState.customFolderMessageCount);
@@ -74,7 +74,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   showConfirmationModal(folder: Folder) {
     this.confirmModalRef = this.modalService.open(this.confirmationModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
     this.selectedFolder = folder;
   }
@@ -88,7 +88,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
   addFolder(folder: Folder = { id: null, name: '', color: '' }, edit?: boolean) {
     const options: any = {
       centered: true,
-      windowClass: 'modal-sm mailbox-modal create-folder-modal'
+      windowClass: 'modal-sm mailbox-modal create-folder-modal',
     };
 
     if (
@@ -141,8 +141,8 @@ export class FoldersComponent implements OnInit, OnDestroy {
       data: {
         folder_list: this.folders.map(item => {
           return { folder_id: item.id, sort_order: item.sort_order };
-        })
-      }
+        }),
+      },
     };
     this.store.dispatch(new UpdateFolderOrder(payload));
   }

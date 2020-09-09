@@ -10,7 +10,7 @@ import {
   PROMO_CODE_KEY,
   REFFERAL_CODE_KEY,
   REFFERAL_ID_KEY,
-  JWT_AUTH_COOKIE
+  JWT_AUTH_COOKIE,
 } from '../../shared/config';
 // Models
 // Rxjs
@@ -49,7 +49,7 @@ export class UsersService {
       return this.http.post<any>(url, body).pipe(
         tap(data => {
           this.setTokenExpiration();
-        })
+        }),
       );
     } else {
       return of({});
@@ -70,7 +70,7 @@ export class UsersService {
         if (data.token) {
           this.setLoginData(data, body);
         }
-      })
+      }),
     );
   }
 
@@ -137,7 +137,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, this.updateSignupDataWithPromo(requestData)).pipe(
       tap(data => {
         this.setLoginData(data, user);
-      })
+      }),
     );
   }
 
@@ -151,7 +151,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
       tap(res => {
         this.setLoginData(res, data);
-      })
+      }),
     );
   }
 
@@ -164,7 +164,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
       tap(response => {
         this.setLoginData(response, data);
-      })
+      }),
     );
   }
 
@@ -224,7 +224,7 @@ export class UsersService {
       'btc-wallet/create/',
       'promo-code/validate',
       'users/invites/',
-      'notifications'
+      'notifications',
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -361,7 +361,7 @@ export class UsersService {
   updateOrganizationUser(data: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/update-user/`, {
       user_id: data.user_id,
-      recovery_email: data.recovery_email
+      recovery_email: data.recovery_email,
     });
   }
 

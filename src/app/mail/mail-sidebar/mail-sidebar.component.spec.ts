@@ -8,7 +8,7 @@ describe('MailSidebarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MailSidebarComponent]
+      declarations: [MailSidebarComponent],
     }).compileComponents();
   }));
 

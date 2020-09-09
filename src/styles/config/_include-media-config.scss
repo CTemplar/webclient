@@ -3,14 +3,14 @@
 */
 
 $breakpoints: (
-  'xs' : 480px,
+  'xs': 480px,
   'xmd': 570px,
   'sm': 767px,
   'bs-ipad': 992px,
   'ipad': 1000px,
   'bs-md': 1200px,
   'laptop': 1280px,
-  'desktop' : 1440px
+  'desktop': 1440px,
 );
 
 // keywords
@@ -21,7 +21,7 @@ $media-expressions: (
   'landscape': '(orientation: landscape)',
   'portrait': '(orientation: portrait)',
   'retina2x': '(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)',
-  'retina3x': '(-webkit-min-device-pixel-ratio: 2.5), (min-resolution: 240dpi)'
+  'retina3x': '(-webkit-min-device-pixel-ratio: 2.5), (min-resolution: 240dpi)',
 );
 
 @media (min-width: 1000px) {

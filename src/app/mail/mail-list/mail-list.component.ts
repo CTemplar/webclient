@@ -9,7 +9,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-mail-list',
   templateUrl: './mail-list.component.html',
-  styleUrls: ['./mail-list.component.scss']
+  styleUrls: ['./mail-list.component.scss'],
 })
 export class MailListComponent implements OnInit, OnDestroy {
   mailFolder: string = MailFolderType.INBOX;

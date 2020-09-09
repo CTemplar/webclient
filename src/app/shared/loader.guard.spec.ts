@@ -5,7 +5,7 @@ import { LoaderGuard } from './loader.guard';
 describe('LoaderGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LoaderGuard]
+      providers: [LoaderGuard],
     });
   });
 

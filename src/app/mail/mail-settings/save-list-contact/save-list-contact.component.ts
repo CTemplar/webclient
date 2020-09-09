@@ -11,7 +11,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-save-list-contact',
   templateUrl: './save-list-contact.component.html',
-  styleUrls: ['./save-list-contact.component.scss']
+  styleUrls: ['./save-list-contact.component.scss'],
 })
 export class SaveListContactComponent implements OnInit, OnDestroy {
   @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
@@ -29,13 +29,13 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private store: Store<AppState>,
     private notificationService: NotificationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
     this.contactForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      email: ['', [Validators.email]]
+      email: ['', [Validators.email]],
     });
     setTimeout(() => {
       this.openModal();
@@ -55,13 +55,13 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
           this.inProgress = false;
           if (!state.isError) {
             this.notificationService.showSnackBar(
-              `${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`
+              `${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`,
             );
             this.closed.emit();
             this.modalRef.close();
           } else {
             this.notificationService.showSnackBar(
-              `Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.${state.error}`
+              `Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.${state.error}`,
             );
           }
         }
@@ -71,7 +71,7 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
   openModal() {
     this.modalRef = this.modalService.open(this.modalContent, {
       centered: true,
-      windowClass: 'modal-sm'
+      windowClass: 'modal-sm',
     });
     this.modalRef.result.then(
       result => {
@@ -79,7 +79,7 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
       },
       reason => {
         this.closed.emit();
-      }
+      },
     );
   }
   /**

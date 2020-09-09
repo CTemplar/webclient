@@ -13,7 +13,7 @@ export const defaultBreakpoints: BreakpointConfig = {
   xs: { max: 768 },
   sm: { min: 768, max: 992 },
   md: { min: 992, max: 1200 },
-  lg: { min: 1200 }
+  lg: { min: 1200 },
 };
 
 @Injectable()

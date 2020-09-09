@@ -19,7 +19,7 @@ export class DateTimeUtilService {
     shortTime: 'h:mm A',
     mediumTime: 'h:mm:ss A',
     longTime: 'h:mm:ss A Z',
-    fullTime: 'h:mm:ss A Z'
+    fullTime: 'h:mm:ss A Z',
   };
 
   private timezone: string;
@@ -56,13 +56,13 @@ export class DateTimeUtilService {
         date: {
           year: datetime.year(),
           month: datetime.month(),
-          day: datetime.date()
+          day: datetime.date(),
         },
         time: {
           hour: datetime.hour(),
           minute: datetime.minute(),
-          second: datetime.second()
-        }
+          second: datetime.second(),
+        },
       };
     } else {
       return { date: null, time: null };

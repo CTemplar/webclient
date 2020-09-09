@@ -3,45 +3,45 @@
 */
 
 .btn {
-    min-width: 100px;
-    text-transform: uppercase;    
+  min-width: 100px;
+  text-transform: uppercase;
 
-    &:focus {
-        outline: none !important;
-        box-shadow: none !important;
-    }
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }
 
 .btn-lg {
-    min-width: 250px;
-    @include media(">sm") {
-        padding-top: 0.938rem;
-        padding-bottom: 0.938rem;
-    }
+  min-width: 250px;
+  @include media('>sm') {
+    padding-top: 0.938rem;
+    padding-bottom: 0.938rem;
+  }
 }
 
 .btn-gradient-primary {
-    background: linear-gradient(259deg, #e74c3c, #c0392b) !important;
-    border: solid 1px #c0392b;
-    color: $brand-white !important;
+  background: linear-gradient(259deg, #e74c3c, #c0392b) !important;
+  border: solid 1px #c0392b;
+  color: $brand-white !important;
 
-    &:hover {
-        background: linear-gradient(259deg, darken(#e74c3c, 5%), darken(#c0392b, 5%)) !important;
-    }
+  &:hover {
+    background: linear-gradient(259deg, darken(#e74c3c, 5%), darken(#c0392b, 5%)) !important;
+  }
 }
 
 .btn-gradient-info {
-    background: linear-gradient(259deg, #f1c20f, #f49315) !important;
-    border-color: transparent;
-    color: $brand-white !important;
+  background: linear-gradient(259deg, #f1c20f, #f49315) !important;
+  border-color: transparent;
+  color: $brand-white !important;
 
-    &:hover {
-        background: linear-gradient(259deg, darken(#f1c20f, 5%), darken(#f49315, 5%)) !important;
-    }
+  &:hover {
+    background: linear-gradient(259deg, darken(#f1c20f, 5%), darken(#f49315, 5%)) !important;
+  }
 }
 
 .btn-disabled {
-    @include button-variant($brand-light-gray, #f5f5f5, #e0e0e0);
+  @include button-variant($brand-light-gray, #f5f5f5, #e0e0e0);
 }
 
 // == gradients buttons

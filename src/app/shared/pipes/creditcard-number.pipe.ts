@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'creditcardnumber'
+  name: 'creditcardnumber',
 })
 export class CreditCardNumberPipe implements PipeTransform {
   transform(plainCreditCard: string): string {

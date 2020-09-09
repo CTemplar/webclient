@@ -11,7 +11,9 @@
   word-wrap: break-word;
   opacity: 0;
 
-  &.show { opacity: $tooltip-opacity; }
+  &.show {
+    opacity: $tooltip-opacity;
+  }
 
   &.tooltip-top,
   &.bs-tether-element-attached-bottom {
@@ -22,7 +24,7 @@
       bottom: 0;
       left: 50%;
       margin-left: -$tooltip-arrow-width;
-      content: "";
+      content: '';
       border-width: $tooltip-arrow-width $tooltip-arrow-width 0;
       border-top-color: $tooltip-arrow-color;
     }
@@ -36,7 +38,7 @@
       top: 50%;
       left: 0;
       margin-top: -$tooltip-arrow-width;
-      content: "";
+      content: '';
       border-width: $tooltip-arrow-width $tooltip-arrow-width $tooltip-arrow-width 0;
       border-right-color: $tooltip-arrow-color;
     }
@@ -50,7 +52,7 @@
       top: 0;
       left: 50%;
       margin-left: -$tooltip-arrow-width;
-      content: "";
+      content: '';
       border-width: 0 $tooltip-arrow-width $tooltip-arrow-width;
       border-bottom-color: $tooltip-arrow-color;
     }
@@ -64,7 +66,7 @@
       top: 50%;
       right: 0;
       margin-top: -$tooltip-arrow-width;
-      content: "";
+      content: '';
       border-width: $tooltip-arrow-width 0 $tooltip-arrow-width $tooltip-arrow-width;
       border-left-color: $tooltip-arrow-color;
     }

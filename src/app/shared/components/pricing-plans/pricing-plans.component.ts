@@ -11,7 +11,7 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
 @Component({
   selector: 'app-pricing-plans',
   templateUrl: './pricing-plans.component.html',
-  styleUrls: ['./pricing-plans.component.scss']
+  styleUrls: ['./pricing-plans.component.scss'],
 })
 export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly planType = PlanType;
@@ -44,7 +44,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     private store: Store<any>,
     private router: Router,
     private dynamicScriptLoader: DynamicScriptLoaderService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {
@@ -95,14 +95,14 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
         plan_type: this.selectedPlan,
         payment_type: this.paymentType,
         payment_method: this.paymentMethod,
-        currency: this.selectedCurrency
-      })
+        currency: this.selectedCurrency,
+      }),
     );
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
         windowClass: 'modal-lg users-action-modal',
-        backdrop: 'static'
+        backdrop: 'static',
       });
     } else {
       if (plan === PlanType.FREE) {

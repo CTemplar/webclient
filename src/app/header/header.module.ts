@@ -13,6 +13,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [HeaderComponent],
   imports: [CommonModule, NgbModule, RouterModule, SharedModule],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent],
 })
 export class HeaderModule {}

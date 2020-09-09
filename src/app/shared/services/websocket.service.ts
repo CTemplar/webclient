@@ -49,7 +49,7 @@ export class WebsocketService implements OnDestroy {
     this.webSocket.onclose = e => {
       if (this.isAuthenticated) {
         LoggerService.log(
-          `Socket is closed. Reconnect will be attempted in ${1000 + this.retryCount * 1000} second. ${e.reason}`
+          `Socket is closed. Reconnect will be attempted in ${1000 + this.retryCount * 1000} second. ${e.reason}`,
         );
         setTimeout(() => {
           this.connect();

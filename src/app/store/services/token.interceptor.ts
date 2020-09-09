@@ -6,7 +6,7 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
@@ -15,7 +15,7 @@ import {
   PaymentFailure,
   StopGettingUnreadMailsCount,
   SetAuthenticatedState,
-  ClearMailsOnLogout
+  ClearMailsOnLogout,
 } from '../actions';
 import { AppState, AuthState } from '../datatypes';
 
@@ -41,7 +41,7 @@ export class TokenInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(UsersService);
     request = request.clone({
-      withCredentials: true
+      withCredentials: true,
     });
 
     return next.handle(request).pipe(
@@ -74,7 +74,7 @@ export class TokenInterceptor implements HttpInterceptor {
           error.error = error.error.detail;
         }
         return observableThrowError(error);
-      })
+      }),
     );
   }
 }

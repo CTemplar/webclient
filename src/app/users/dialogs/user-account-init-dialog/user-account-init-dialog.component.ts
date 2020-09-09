@@ -18,35 +18,35 @@ import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation2', [
       transition(':enter', [
         query('li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation3', [
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation4', [
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))])
-        ])
-      ])
-    ])
-  ]
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   @Input() isPgpGenerationComplete: boolean;
@@ -125,7 +125,7 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
       this.modalService.open(DisplayNameDialogComponent, {
         centered: true,
         windowClass: 'modal-sm',
-        backdrop: 'static'
+        backdrop: 'static',
       });
     }
   }

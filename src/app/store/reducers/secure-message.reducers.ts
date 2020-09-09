@@ -4,9 +4,9 @@ import { SecureMessageState } from '../datatypes';
 export function reducer(
   state: SecureMessageState = {
     message: null,
-    inProgress: false
+    inProgress: false,
   },
-  action: SecureMessageActions
+  action: SecureMessageActions,
 ): SecureMessageState {
   switch (action.type) {
     case SecureMessageActionTypes.GET_MESSAGE_SUCCESS: {
@@ -20,21 +20,21 @@ export function reducer(
         ...state,
         decryptedKey: action.payload.decryptedKey,
         isKeyDecryptionInProgress: action.payload.inProgress,
-        errorMessage: action.payload.error ? 'Unable to decrypt message. Please try again.' : null
+        errorMessage: action.payload.error ? 'Unable to decrypt message. Please try again.' : null,
       };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_CONTENT: {
       return {
         ...state,
         decryptedContent: action.payload.decryptedContent,
-        isContentDecryptionInProgress: action.payload.inProgress
+        isContentDecryptionInProgress: action.payload.inProgress,
       };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_ENCRYPTED_CONTENT: {
       return {
         ...state,
         isEncryptionInProgress: action.payload.inProgress,
-        encryptedContent: action.payload.encryptedContent
+        encryptedContent: action.payload.encryptedContent,
       };
     }
     case SecureMessageActionTypes.SEND_SECURE_MESSAGE_REPLY: {

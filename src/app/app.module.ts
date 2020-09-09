@@ -23,7 +23,7 @@ import {
   MailService,
   OpenPgpService,
   SharedService,
-  TokenInterceptor
+  TokenInterceptor,
 } from './store/services';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
@@ -73,11 +73,11 @@ export class SentryErrorHandler implements ErrorHandler {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     SharedModule,
-    UsersModule
+    UsersModule,
   ],
   providers: [
     AuthGuard,
@@ -91,8 +91,8 @@ export class SentryErrorHandler implements ErrorHandler {
     SharedService,
     TimezoneService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: SentryErrorHandler }
+    { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

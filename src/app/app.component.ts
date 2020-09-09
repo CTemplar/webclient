@@ -17,7 +17,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   public hideFooter = false;
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     // this.store.dispatch(new RefreshToken());
     this.store.dispatch(new FinalLoading({ loadingState: true }));

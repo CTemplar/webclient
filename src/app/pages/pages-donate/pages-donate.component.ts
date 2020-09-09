@@ -5,7 +5,7 @@ import { DynamicScriptLoaderService } from '../../shared/services/dynamic-script
 @Component({
   selector: 'app-pages-donate',
   templateUrl: './pages-donate.component.html',
-  styleUrls: ['./pages-donate.component.scss']
+  styleUrls: ['./pages-donate.component.scss'],
 })
 export class PagesDonateComponent implements OnInit {
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService) {}

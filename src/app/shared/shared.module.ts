@@ -56,7 +56,7 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
     PaymentFailureNoticeComponent,
     LastActionPipe,
     CreditCardNumberPipe,
-    LineBreakToBrTag
+    LineBreakToBrTag,
   ],
   exports: [
     TranslateModule,
@@ -82,7 +82,7 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
     CreditCardNumberPipe,
-    LineBreakToBrTag
+    LineBreakToBrTag,
   ],
   providers: [
     SpinnerService,
@@ -91,8 +91,8 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
     FilesizePipe,
     FilenamePipe,
     CreditCardNumberPipe,
-    LineBreakToBrTag
+    LineBreakToBrTag,
   ],
-  entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent]
+  entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent],
 })
 export class SharedModule {}

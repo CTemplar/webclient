@@ -8,7 +8,7 @@ describe('SecurityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SecurityComponent]
+      declarations: [SecurityComponent],
     }).compileComponents();
   }));
 

@@ -1,140 +1,193 @@
 <form class="mail-actions-form" (submit)="createNewContact()" #newContactForm="ngForm">
-    <div class="form-group">
-        <div class="md-errors-spacer" *ngIf="contactName.errors || !contactName.untouched">
-            <div *ngIf="contactName.errors && contactName.errors.required">
-                <span class="d-block text-right error-msg is-sm">{{"contacts.save.name_required"| translate}}</span>
-            </div>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactName">
-                    <span>{{"common.name"| translate}}</span><sup>*</sup></label>
-            </div>
-            <div class="col-sm-10">
-                <input class="form-control form-control-sm" id="contactName" name="name" required #contactName="ngModel"
-                    [(ngModel)]="newContactModel.name" [placeholder]="'contacts.contact_name'| translate" type="text" />
-            </div>
-        </div>
+  <div class="form-group">
+    <div class="md-errors-spacer" *ngIf="contactName.errors || !contactName.untouched">
+      <div *ngIf="contactName.errors && contactName.errors.required">
+        <span class="d-block text-right error-msg is-sm">{{ 'contacts.save.name_required' | translate }}</span>
+      </div>
     </div>
-    <div class="form-group is-repeatable add-button">
-        <div class="md-errors-spacer" *ngIf="contactEmail.errors">
-            <div *ngIf="contactEmail.errors.required">
-                <span class="d-block text-right error-msg is-sm">{{"contacts.save.email_req"| translate}}</span>
-            </div>
-            <div *ngIf="contactEmail.errors.pattern">
-                <span class="d-block text-right error-msg is-sm">{{"contacts.save.email_not_valid"| translate}}</span>
-            </div>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactEmail">
-                    <span>{{"common.email"| translate}}</span><sup>*</sup></label>
-            </div>
-            <div class="col-sm-10">
-                <input class="form-control form-control-sm" id="contactEmail" name="email" required
-                    [(ngModel)]="newContactModel.email" #contactEmail="ngModel"
-                    [placeholder]="'contacts.type_email'| translate" type="text"
-                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" />
-            </div>
-            <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
-        </div>
+    <div class="row align-items-center">
+      <div class="col-sm-2">
+        <label class="form-label mb-sm-0" for="contactName">
+          <span>{{ 'common.name' | translate }}</span
+          ><sup>*</sup></label
+        >
+      </div>
+      <div class="col-sm-10">
+        <input
+          class="form-control form-control-sm"
+          id="contactName"
+          name="name"
+          required
+          #contactName="ngModel"
+          [(ngModel)]="newContactModel.name"
+          [placeholder]="'contacts.contact_name' | translate"
+          type="text"
+        />
+      </div>
     </div>
-    <div class="form-group add-button" *ngIf="!internalUser">
-        <div class="row align-items-center">
-            <div class="col-sm-2 encryptionLabel">
-                <label class="form-label mb-sm-0" for="enableEncryption">{{"contacts.encryption"| translate}}</label>
-            </div>
-            <div class="col-sm-10"  id="contactEncryptionCheckbox">
-                <mat-checkbox type="checkbox" [checked]="newContactModel.enabled_encryption" [(ngModel)]="newContactModel.enabled_encryption"
-                     [name]="newContactModel.id">
-                </mat-checkbox>
-            </div>
-        </div>
+  </div>
+  <div class="form-group is-repeatable add-button">
+    <div class="md-errors-spacer" *ngIf="contactEmail.errors">
+      <div *ngIf="contactEmail.errors.required">
+        <span class="d-block text-right error-msg is-sm">{{ 'contacts.save.email_req' | translate }}</span>
+      </div>
+      <div *ngIf="contactEmail.errors.pattern">
+        <span class="d-block text-right error-msg is-sm">{{ 'contacts.save.email_not_valid' | translate }}</span>
+      </div>
     </div>
-    <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && !internalUser">
-        <div class="row align-items-center">
-            <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactPublicKey">{{"contacts.publickey"| translate}}</label>
-            </div>
-            <div class="col-sm-10">
-                <textarea class="form-control form-control-sm resize-off" id="contactPublicKey"
-                [placeholder]="'contacts.publickey'| translate" name="public_key" [(ngModel)]="newContactModel.public_key"
-                rows="3"></textarea>
-            </div>
-            <button class="add-button-link contact-publickey-clear" (click)="clearPublicKey()">
-                <em class="fas fa-times"></em>
-            </button>
-        </div>
+    <div class="row align-items-center">
+      <div class="col-sm-2">
+        <label class="form-label mb-sm-0" for="contactEmail">
+          <span>{{ 'common.email' | translate }}</span
+          ><sup>*</sup></label
+        >
+      </div>
+      <div class="col-sm-10">
+        <input
+          class="form-control form-control-sm"
+          id="contactEmail"
+          name="email"
+          required
+          [(ngModel)]="newContactModel.email"
+          #contactEmail="ngModel"
+          [placeholder]="'contacts.type_email' | translate"
+          type="text"
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+        />
+      </div>
+      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
-    <div class="mb-2 hidden-xs-down">&nbsp;</div>
-    <div class="form-group add-button">
-        <div class="row align-items-center">
-            <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactPhone1">{{"common.phone"| translate}}</label>
-            </div>
-            <div class="col-sm-10">
-                <input class="form-control form-control-sm" id="contactPhone1" name="phone"
-                    [(ngModel)]="newContactModel.phone" [placeholder]="'common.phone'| translate" type="text" />
-            </div>
-            <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
-        </div>
+  </div>
+  <div class="form-group add-button" *ngIf="!internalUser">
+    <div class="row align-items-center">
+      <div class="col-sm-2 encryptionLabel">
+        <label class="form-label mb-sm-0" for="enableEncryption">{{ 'contacts.encryption' | translate }}</label>
+      </div>
+      <div class="col-sm-10" id="contactEncryptionCheckbox">
+        <mat-checkbox
+          type="checkbox"
+          [checked]="newContactModel.enabled_encryption"
+          [(ngModel)]="newContactModel.enabled_encryption"
+          [name]="newContactModel.id"
+        >
+        </mat-checkbox>
+      </div>
     </div>
-    <div class="form-group is-repeatable add-button">
-        <div class="row align-items-center">
-            <div class="col-sm-2">
-                <label class="form-label mb-sm-0" for="contactPhone2">{{"contacts.phone2"| translate}}</label>
-            </div>
-            <div class="col-sm-10">
-                <input class="form-control form-control-sm" id="contactPhone2" [placeholder]="'common.phone'| translate"
-                    name="phone2" [(ngModel)]="newContactModel.phone2" type="text" />
-            </div>
-            <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
-        </div>
+  </div>
+  <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && !internalUser">
+    <div class="row align-items-center">
+      <div class="col-sm-2">
+        <label class="form-label mb-sm-0" for="contactPublicKey">{{ 'contacts.publickey' | translate }}</label>
+      </div>
+      <div class="col-sm-10">
+        <textarea
+          class="form-control form-control-sm resize-off"
+          id="contactPublicKey"
+          [placeholder]="'contacts.publickey' | translate"
+          name="public_key"
+          [(ngModel)]="newContactModel.public_key"
+          rows="3"
+        ></textarea>
+      </div>
+      <button class="add-button-link contact-publickey-clear" (click)="clearPublicKey()">
+        <em class="fas fa-times"></em>
+      </button>
     </div>
-    <div class="form-group is-repeatable add-button">
-        <div class="row">
-            <div class="col-sm-2">
-                <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress">{{"contacts.address"| translate}}</label>
-            </div>
-            <div class="col-sm-10">
-                <textarea class="form-control form-control-sm resize-off" id="contactAddress"
-                    [placeholder]="'contacts.address'| translate" name="address" [(ngModel)]="newContactModel.address"
-                    rows="3"></textarea>
-            </div>
-            <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png"></button>
-        </div>
+  </div>
+  <div class="mb-2 hidden-xs-down">&nbsp;</div>
+  <div class="form-group add-button">
+    <div class="row align-items-center">
+      <div class="col-sm-2">
+        <label class="form-label mb-sm-0" for="contactPhone1">{{ 'common.phone' | translate }}</label>
+      </div>
+      <div class="col-sm-10">
+        <input
+          class="form-control form-control-sm"
+          id="contactPhone1"
+          name="phone"
+          [(ngModel)]="newContactModel.phone"
+          [placeholder]="'common.phone' | translate"
+          type="text"
+        />
+      </div>
+      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
-    <div class="mb-2 hidden-xs-down">&nbsp;</div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-2">
-                <label class="form-label pt-sm-2 mb-sm-0" for="contactNote">{{"contacts.note"| translate}}</label>
-            </div>
-            <div class="col-sm-10">
-                <textarea class="form-control form-control-sm resize-off" id="contactNote"
-                    [placeholder]="'contacts.a_note'| translate" name="note" [(ngModel)]="newContactModel.note"
-                    rows="3"></textarea>
-            </div>
-        </div>
+  </div>
+  <div class="form-group is-repeatable add-button">
+    <div class="row align-items-center">
+      <div class="col-sm-2">
+        <label class="form-label mb-sm-0" for="contactPhone2">{{ 'contacts.phone2' | translate }}</label>
+      </div>
+      <div class="col-sm-10">
+        <input
+          class="form-control form-control-sm"
+          id="contactPhone2"
+          [placeholder]="'common.phone' | translate"
+          name="phone2"
+          [(ngModel)]="newContactModel.phone2"
+          type="text"
+        />
+      </div>
+      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
-    <div class="hidden-sm-up">&nbsp;</div>
-    <div class="error-msg" *ngIf="newContactForm.submitted && newContactForm.invalid">
-        {{"contacts.save.error"| translate}}
+  </div>
+  <div class="form-group is-repeatable add-button">
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress">{{ 'contacts.address' | translate }}</label>
+      </div>
+      <div class="col-sm-10">
+        <textarea
+          class="form-control form-control-sm resize-off"
+          id="contactAddress"
+          [placeholder]="'contacts.address' | translate"
+          name="address"
+          [(ngModel)]="newContactModel.address"
+          rows="3"
+        ></textarea>
+      </div>
+      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
-    <div class="form-group text-right mb-0"
-        *ngIf="newContactModel.enabled_encryption && !newContactModel.public_key; else submitSaveContact">
-        <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
-            <button type="submit" disabled class="btn btn-secondary btn-sm"
-            role="button">{{"common.save"| translate}}</button>
-        </div>
-        <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+  </div>
+  <div class="mb-2 hidden-xs-down">&nbsp;</div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-2">
+        <label class="form-label pt-sm-2 mb-sm-0" for="contactNote">{{ 'contacts.note' | translate }}</label>
+      </div>
+      <div class="col-sm-10">
+        <textarea
+          class="form-control form-control-sm resize-off"
+          id="contactNote"
+          [placeholder]="'contacts.a_note' | translate"
+          name="note"
+          [(ngModel)]="newContactModel.note"
+          rows="3"
+        ></textarea>
+      </div>
     </div>
-    <ng-template #submitSaveContact>
-        <div class="form-group text-right mb-0">
-            <button type="submit" [disabled]="inProgress" class="btn btn-secondary btn-sm" role="button">
-                {{"common.save"| translate}}</button>
-            <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
-        </div>
-    </ng-template>
-
+  </div>
+  <div class="hidden-sm-up">&nbsp;</div>
+  <div class="error-msg" *ngIf="newContactForm.submitted && newContactForm.invalid">
+    {{ 'contacts.save.error' | translate }}
+  </div>
+  <div
+    class="form-group text-right mb-0"
+    *ngIf="newContactModel.enabled_encryption && !newContactModel.public_key; else submitSaveContact"
+  >
+    <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
+      <button type="submit" disabled class="btn btn-secondary btn-sm" role="button">
+        {{ 'common.save' | translate }}
+      </button>
+    </div>
+    <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+  </div>
+  <ng-template #submitSaveContact>
+    <div class="form-group text-right mb-0">
+      <button type="submit" [disabled]="inProgress" class="btn btn-secondary btn-sm" role="button">
+        {{ 'common.save' | translate }}
+      </button>
+      <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+    </div>
+  </ng-template>
 </form>

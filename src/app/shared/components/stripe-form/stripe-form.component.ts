@@ -9,7 +9,7 @@ import { MakeStripDonation } from '../../../store/actions/donate.actions';
 @Component({
   selector: 'app-stripe-form',
   templateUrl: './stripe-form.component.html',
-  styleUrls: ['./stripe-form.component.scss']
+  styleUrls: ['./stripe-form.component.scss'],
 })
 export class StripeFormComponent implements OnInit {
   /**
@@ -17,7 +17,7 @@ export class StripeFormComponent implements OnInit {
    */
   stripePaymentValidation: any = {
     message: '',
-    param: ''
+    param: '',
   };
 
   // Angular Reactive Form for binding it with inputs
@@ -49,7 +49,7 @@ export class StripeFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _zone: NgZone,
     private store: Store<AppState>,
-    private donationService: DonationService
+    private donationService: DonationService,
   ) {}
 
   /**
@@ -57,7 +57,7 @@ export class StripeFormComponent implements OnInit {
    */
   ngOnInit() {
     this.billingForm = this.formBuilder.group({
-      cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]]
+      cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]],
     });
   }
 
@@ -114,7 +114,7 @@ export class StripeFormComponent implements OnInit {
         number: this.cardNumber,
         exp_month: this.expiryMonth,
         exp_year: this.expiryYear,
-        cvc: this.cvc
+        cvc: this.cvc,
       },
       (status: number, response: any) => {
         // Wrapping inside the Angular zone
@@ -125,11 +125,11 @@ export class StripeFormComponent implements OnInit {
           } else {
             this.stripePaymentValidation = {
               message: response.error.message,
-              param: response.error.param
+              param: response.error.param,
             };
           }
         });
-      }
+      },
     );
   }
 
@@ -144,8 +144,8 @@ export class StripeFormComponent implements OnInit {
       this.store.dispatch(
         new MakeStripDonation({
           stripe_token: token,
-          amount: this.donationAmount
-        })
+          amount: this.donationAmount,
+        }),
       );
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot make donation, please reload page and try again.'));

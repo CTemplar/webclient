@@ -6,7 +6,7 @@ import {
   DeleteMailbox,
   SetDefaultMailbox,
   SnackErrorPush,
-  UpdateMailboxOrder
+  UpdateMailboxOrder,
 } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
@@ -29,7 +29,7 @@ Quill.register(ImageFormat, true);
 @Component({
   selector: 'app-addresses-signature',
   templateUrl: './addresses-signature.component.html',
-  styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss']
+  styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss'],
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
   @ViewChild('deleteAliasModal') deleteAliasModal;
@@ -59,7 +59,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     private usersService: UsersService,
     private settingsService: MailSettingsService,
     private modalService: NgbModal,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit() {
@@ -123,10 +123,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
           Validators.minLength(2),
-          Validators.maxLength(64)
-        ]
+          Validators.maxLength(64),
+        ],
       ],
-      domain: ['', Validators.required]
+      domain: ['', Validators.required],
     });
 
     this.signatureChanged.pipe(debounceTime(3000), distinctUntilChanged()).subscribe(value => {
@@ -146,7 +146,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.pattern(/^[a-z]*([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
           Validators.minLength(1),
-          Validators.maxLength(64)
+          Validators.maxLength(64),
         ]);
       this.newAddressForm.get('domain').setValidators([Validators.required]);
       this.newAddressForm.get('username').updateValueAndValidity();
@@ -159,7 +159,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
           Validators.minLength(1),
-          Validators.maxLength(64)
+          Validators.maxLength(64),
         ]);
       this.newAddressForm.get('domain').setValidators([Validators.required]);
       this.newAddressForm.get('username').updateValueAndValidity();
@@ -173,7 +173,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       this.newAddressForm.reset();
       this.newAddressForm.get('domain').setValue(PRIMARY_DOMAIN);
       this.newAddressOptions = {
-        isAddingNew: true
+        isAddingNew: true,
       };
     }
   }
@@ -181,7 +181,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onDiscardNewAddress() {
     this.newAddressForm.reset();
     this.newAddressOptions = {
-      isAddingNew: false
+      isAddingNew: false,
     };
   }
 
@@ -205,7 +205,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   addNewAddress() {
     const requestData = {
       email: this.getEmail(),
-      ...this.openPgpService.getUserKeys()
+      ...this.openPgpService.getUserKeys(),
     };
     this.store.dispatch(new CreateMailbox(requestData));
   }
@@ -217,10 +217,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
     this.selectedMailboxForKey = mailbox;
     this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
-      this.selectedMailboxForKey.public_key
+      this.selectedMailboxForKey.public_key,
     )}`;
     this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
-      this.selectedMailboxForKey.private_key
+      this.selectedMailboxForKey.private_key,
     )}`;
   }
 
@@ -244,7 +244,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     this.modalService.open(this.deleteAliasModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal',
-      backdrop: 'static'
+      backdrop: 'static',
     });
   }
 
@@ -291,8 +291,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       data: {
         mailbox_list: this.mailboxes.map(item => {
           return { mailbox_id: item.id, sort_order: item.sort_order };
-        })
-      }
+        }),
+      },
     };
     this.store.dispatch(new UpdateMailboxOrder(payload));
   }
@@ -328,11 +328,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
             },
             error => {
               this.store.dispatch(
-                new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` })
+                new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }),
               );
               this.newAddressOptions.isBusy = false;
               this.newAddressOptions.usernameExists = null;
-            }
+            },
           );
         }
       });

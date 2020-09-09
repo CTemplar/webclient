@@ -5,7 +5,7 @@ export enum LoadingActionTypes {
   RELATED_LOADED = '[Loading] Related Loaded',
   RECENT_LOADING = '[Loading] Recent Loading',
   RECENT_LOADED = '[Loading] Recent Loaded',
-  FINAL_LOADING = '[Loading] Loading'
+  FINAL_LOADING = '[Loading] Loading',
 }
 
 export class RelatedBlogLoading implements Action {

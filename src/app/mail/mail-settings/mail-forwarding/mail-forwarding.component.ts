@@ -11,7 +11,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-mail-forwarding',
   templateUrl: './mail-forwarding.component.html',
-  styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss']
+  styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss'],
 })
 export class MailForwardingComponent implements OnInit, OnDestroy {
   @ViewChild('addAddressModal') addAddressModal;
@@ -51,11 +51,11 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
         this.settings = user.settings;
       });
     this.emailForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]]
+      email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]],
     });
     this.codeForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]],
-      code: ['', [Validators.required]]
+      code: ['', [Validators.required]],
     });
   }
 
@@ -79,7 +79,7 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   onDeleteAddress() {
     this.confirmDeleteAddressModalRef = this.modalService.open(this.confirmDeleteAddressModal, {
       centered: true,
-      windowClass: 'modal-sm'
+      windowClass: 'modal-sm',
     });
   }
 

@@ -10,7 +10,7 @@ import { SharedService } from '../../../store/services';
 @Component({
   selector: 'app-invite-codes',
   templateUrl: './invite-codes.component.html',
-  styleUrls: ['./invite-codes.component.scss', '../mail-settings.component.scss']
+  styleUrls: ['./invite-codes.component.scss', '../mail-settings.component.scss'],
 })
 export class InviteCodesComponent implements OnInit, OnDestroy {
   inviteCodes: InviteCode[] = [];

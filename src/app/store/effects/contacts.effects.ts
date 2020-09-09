@@ -31,7 +31,7 @@ import {
   SnackPush,
   UpdateBatchContacts,
   UpdateBatchContactsSuccess,
-  EmptyOnlyFolder
+  EmptyOnlyFolder,
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -41,7 +41,7 @@ export class ContactsEffects {
     private actions: Actions,
     private openPgpService: OpenPgpService,
     private userService: UsersService,
-    private mailService: MailService
+    private mailService: MailService,
   ) {}
 
   @Effect()
@@ -69,9 +69,9 @@ export class ContactsEffects {
           }
           return new ContactGetSuccess(response);
         }),
-        catchError(error => of(new ContactGetFailure()))
+        catchError(error => of(new ContactGetFailure())),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -88,17 +88,17 @@ export class ContactsEffects {
           }
           return of(
             new ContactAddSuccess(contact),
-            new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` })
+            new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` }),
           );
         }),
         catchError(err =>
           of(
             new ContactAddError(),
-            new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` })
-          )
-        )
-      )
-    )
+            new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` }),
+          ),
+        ),
+      ),
+    ),
   );
 
   @Effect()
@@ -110,9 +110,9 @@ export class ContactsEffects {
         switchMap(contact => {
           return of(new ContactDeleteSuccess(payload), new SnackPush({ message: 'Contacts deleted successfully.' }));
         }),
-        catchError(error => EMPTY)
+        catchError(error => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -128,17 +128,17 @@ export class ContactsEffects {
           return of(
             new EmptyOnlyFolder({ folder: 'sent' }),
             new ContactNotifySuccess(payload),
-            new SnackPush({ message: 'Notification emails have been sent successfully.' })
+            new SnackPush({ message: 'Notification emails have been sent successfully.' }),
           );
         }),
         catchError(error => {
           return of(
             new SnackErrorPush({ message: error.error.msg ? error.error.msg : 'Failed to notify' }),
-            new ContactNotifyFailure(error.error)
+            new ContactNotifyFailure(error.error),
           );
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -152,7 +152,7 @@ export class ContactsEffects {
             return of(
               new ContactImportSuccess(event.body),
               new ContactsGet({ limit: 50, offset: 0 }),
-              new SnackPush({ message: 'Contacts imported successfully' })
+              new SnackPush({ message: 'Contacts imported successfully' }),
             );
           } else {
             return EMPTY;
@@ -161,11 +161,11 @@ export class ContactsEffects {
         catchError(error => {
           return of(
             new SnackErrorPush({ message: 'Failed to import contacts' }),
-            new ContactImportFailure(error.error)
+            new ContactImportFailure(error.error),
           );
-        })
+        }),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -175,9 +175,9 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.getEmailContacts().pipe(
         switchMap(res => of(new GetEmailContactsSuccess(res.results))),
-        catchError(err => EMPTY)
+        catchError(err => EMPTY),
       );
-    })
+    }),
   );
 
   @Effect()
@@ -187,8 +187,8 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.updateBatchContacts(payload).pipe(
         switchMap(res => of(new UpdateBatchContactsSuccess(payload))),
-        catchError(err => EMPTY)
+        catchError(err => EMPTY),
       );
-    })
+    }),
   );
 }

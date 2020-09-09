@@ -9,7 +9,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ContactAdd } from '../../../store';
 import { NgForm } from '@angular/forms';
@@ -22,7 +22,7 @@ import { OpenPgpService } from '../../../store/services';
 @Component({
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
-  styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss']
+  styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss'],
 })
 export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;
@@ -36,7 +36,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     note: '',
     phone: '',
     enabled_encryption: false,
-    public_key: ''
+    public_key: '',
   };
   public inProgress: boolean;
   public internalUser: boolean;

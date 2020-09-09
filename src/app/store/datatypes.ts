@@ -541,7 +541,7 @@ export enum TransactionStatus {
   PENDING = 'Pending',
   RECEIVED = 'Received',
   SENT = 'Sent',
-  WAITING = 'Waiting'
+  WAITING = 'Waiting',
 }
 
 export enum PaymentMethod {
@@ -550,12 +550,12 @@ export enum PaymentMethod {
   stripe = 'stripe',
   STRIPE = 'Stripe',
   monero = 'monero',
-  MONERO = 'Monero'
+  MONERO = 'Monero',
 }
 
 export enum PaymentType {
   MONTHLY = 'monthly',
-  ANNUALLY = 'annually'
+  ANNUALLY = 'annually',
 }
 
 export enum PlanType {
@@ -564,17 +564,17 @@ export enum PlanType {
   KNIGHT = 'KNIGHT',
   MARSHAL = 'MARSHALL',
   PARAGON = 'PARAGON',
-  CHAMPION = 'CHAMPION'
+  CHAMPION = 'CHAMPION',
 }
 
 export enum NotificationPermission {
   DEFAULT = 'default',
   GRANTED = 'granted',
-  DENIED = 'denied'
+  DENIED = 'denied',
 }
 
 export enum MailAction {
   REPLY = 'REPLY',
   REPLY_ALL = 'REPLY_ALL',
-  FORWARD = 'FORWARD'
+  FORWARD = 'FORWARD',
 }

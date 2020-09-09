@@ -7,154 +7,155 @@
 
 // == Root element
 html {
-	margin: 0 0;
-	padding: 0 0;
-	font-size: 16px;
-	height: 100%;
-	-ms-text-size-adjust: 100%;
-	-webkit-text-size-adjust: 100%;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	-webkit-font-smoothing: antialiased;
-	width: 100%;
+  margin: 0 0;
+  padding: 0 0;
+  font-size: 16px;
+  height: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
 }
 
 body {
-	margin: 0 0;
-	padding: 0 0;
-	height: 100%;
+  margin: 0 0;
+  padding: 0 0;
+  height: 100%;
 }
 
 // == app outer wrapper
 .app-outer {
-	overflow-x: hidden;
-	overflow-y: hidden;
-	position: relative;
-	
-	// == inner page app outer
-	.inner-template &,
-	&.app-outer-secondary {
-		padding-top: 3.75rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  position: relative;
 
-		@include media(">sm") {
-			padding-top: 4.375rem;
-		}
+  // == inner page app outer
+  .inner-template &,
+  &.app-outer-secondary {
+    padding-top: 3.75rem;
 
-		@include media(">=ipad") {
-			padding-top: 5rem;
-		}
-	}
+    @include media('>sm') {
+      padding-top: 4.375rem;
+    }
 
-	&.app-outer-mailbox {
-		padding-top: 0 !important;
-	}
+    @include media('>=ipad') {
+      padding-top: 5rem;
+    }
+  }
 
-	&.app-outer-secondary {
-		&::before {
-			position: absolute;
-			top: 0;
-			right: 0;
-			left: 0;
-			z-index: $zindex-neg;
-			content: "";
-			background: $brand-secondary;
-			height: 80px;
-		}
-	}
+  &.app-outer-mailbox {
+    padding-top: 0 !important;
+  }
+
+  &.app-outer-secondary {
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: $zindex-neg;
+      content: '';
+      background: $brand-secondary;
+      height: 80px;
+    }
+  }
 }
 
 // == custom container
 .container-lg {
-	max-width: 1310px;
-	width: 100%;
+  max-width: 1310px;
+  width: 100%;
 }
 
 .container-xs {
-	max-width: 775px;
-	width: 100%;
-	padding-top: 95px;
+  max-width: 775px;
+  width: 100%;
+  padding-top: 95px;
 }
 
 .container-sm {
-	max-width: 905px;
-	width: 100%;
+  max-width: 905px;
+  width: 100%;
 
-	[class*="container-"] {
-		padding-right: 0;
-		padding-left: 0;
-	}
+  [class*='container-'] {
+    padding-right: 0;
+    padding-left: 0;
+  }
 }
 
 // == Grid
 body:not(.sidebar-expanded) {
-	.row-lg {
-		@include media(">=ipad") {
-			margin-right: -2.188rem;
-			margin-left: -2.188rem;
+  .row-lg {
+    @include media('>=ipad') {
+      margin-right: -2.188rem;
+      margin-left: -2.188rem;
 
-			>[class*="col-"] {
-				padding-right: 2.188rem;
-				padding-left: 2.188rem;
-			}
-		}
-	}
+      > [class*='col-'] {
+        padding-right: 2.188rem;
+        padding-left: 2.188rem;
+      }
+    }
+  }
 }
 
 .row-xs {
-	margin-right: -0.125rem;
-	margin-left: -0.125rem;
+  margin-right: -0.125rem;
+  margin-left: -0.125rem;
 
-	>[class*="col-"] {
-		padding-right: 0.125rem;
-		padding-left: 0.125rem;
-	}
+  > [class*='col-'] {
+    padding-right: 0.125rem;
+    padding-left: 0.125rem;
+  }
 }
 
 // == Utilities
 figure {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
-img, .img {
-	max-width: 100%;
-	height: auto;
-	vertical-align: top;
+img,
+.img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: top;
 }
 
 a {
-	transition: all ceaser($easeInOutQuint) 0.35s;
-	&:focus {
-		outline: 0;
-	}
+  transition: all ceaser($easeInOutQuint) 0.35s;
+  &:focus {
+    outline: 0;
+  }
 }
 
 // Input fields
-textarea:focus, 
-textarea.form-control:focus, 
-input.form-control:focus, 
-input[type=text]:focus, 
-input[type=password]:focus, 
-input[type=email]:focus, 
-input[type=number]:focus, 
-[type=text].form-control:focus, 
-[type=password].form-control:focus, 
-[type=email].form-control:focus, 
-[type=tel].form-control:focus, 
+textarea:focus,
+textarea.form-control:focus,
+input.form-control:focus,
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus,
+input[type='number']:focus,
+[type='text'].form-control:focus,
+[type='password'].form-control:focus,
+[type='email'].form-control:focus,
+[type='tel'].form-control:focus,
 [contenteditable].form-control:focus {
-	box-shadow: none;
-	outline: 0 !important
+  box-shadow: none;
+  outline: 0 !important;
 }
 
 button {
-	box-shadow: none;
-	font-family: $font-family-lato;
-	outline: 0 !important
+  box-shadow: none;
+  font-family: $font-family-lato;
+  outline: 0 !important;
 }
 
 .list-styled {
-	margin: 0 0;
-	padding: 0 0;
-	list-style: none;
+  margin: 0 0;
+  padding: 0 0;
+  list-style: none;
 }
-.form-content-holder .btn-link{
-	padding-left: 0;
+.form-content-holder .btn-link {
+  padding-left: 0;
 }

@@ -62,7 +62,7 @@ export const COLORS: string[] = [
   '#e955ff',
   '#de76ff',
   '#f2c9ff',
-  '#fcefff'
+  '#fcefff',
 ];
 
 export const FOLDER_COLORS: string[] = [
@@ -101,7 +101,7 @@ export const FOLDER_COLORS: string[] = [
   '#5c940d',
   '#f39c12',
   '#fd7e14',
-  '#e74c3c'
+  '#e74c3c',
 ];
 
 export const LANGUAGES: Language[] = [
@@ -111,7 +111,7 @@ export const LANGUAGES: Language[] = [
   { name: 'Chinese', locale: 'zh' },
   { name: 'French', locale: 'fr' },
   { name: 'Ukrainian', locale: 'uk' },
-  { name: 'Portuguese', locale: 'pt' }
+  { name: 'Portuguese', locale: 'pt' },
 ];
 
 export interface Language {
@@ -150,9 +150,9 @@ export const QUILL_FORMATTING_MODULES = {
     [{ color: COLORS }, { background: COLORS }], // dropdown with defaults from theme
     [{ align: [] }],
     ['clean'], // remove formatting button
-    ['link', 'image'] // link /not-allowed-in-simple-version(and image, video)
+    ['link', 'image'], // link /not-allowed-in-simple-version(and image, video)
   ],
-  imageResize: true
+  imageResize: true,
 };
 
 function getBaseUrl() {

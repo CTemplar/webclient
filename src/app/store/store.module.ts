@@ -17,8 +17,8 @@ import { logoutReducer } from './reducers/auth.reducers';
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({ maxAge: 50, logOnly: AppConfig.debug }),
     StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
   ],
-  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }]
+  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
 })
 export class AppStoreModule {}

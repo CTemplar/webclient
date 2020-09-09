@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation,
-  HostListener
+  HostListener,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
@@ -22,7 +22,7 @@ import {
   GetNotification,
   SaveAutoResponder,
   WhiteListGet,
-  CardGet
+  CardGet,
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
@@ -39,7 +39,7 @@ import * as Sentry from '@sentry/browser';
   selector: 'app-mail',
   templateUrl: './mail.component.html',
   styleUrls: ['./mail.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
@@ -57,7 +57,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     private sharedService: SharedService,
     private composeMailService: ComposeMailService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
@@ -75,7 +75,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
           // Initialize Sentry according to user's setting after login
           Sentry.init({
             dsn: 'https://e768a553906d4f87bcb0419a151e36b0@o190614.ingest.sentry.io/5256284',
-            enabled: userState.settings.is_enable_report_bugs
+            enabled: userState.settings.is_enable_report_bugs,
           });
           this.isLoadedData = true;
           this.store.dispatch(new GetMailboxes());

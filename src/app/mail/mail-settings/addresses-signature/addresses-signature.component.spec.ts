@@ -8,7 +8,7 @@ describe('AddressesSignatureComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddressesSignatureComponent]
+      declarations: [AddressesSignatureComponent],
     }).compileComponents();
   }));
 

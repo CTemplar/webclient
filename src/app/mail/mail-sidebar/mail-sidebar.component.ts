@@ -6,7 +6,7 @@ import {
   Inject,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
@@ -22,7 +22,7 @@ import {
   GetUnreadMailsCount,
   GetUnreadMailsCountSuccess,
   ReadMailSuccess,
-  SettingsUpdateUsedStorage
+  SettingsUpdateUsedStorage,
 } from '../../store/actions';
 import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
@@ -37,7 +37,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-mail-sidebar',
   templateUrl: './mail-sidebar.component.html',
-  styleUrls: ['./mail-sidebar.component.scss']
+  styleUrls: ['./mail-sidebar.component.scss'],
 })
 export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   LIMIT = 3; // limit of displayed custom folder's count
@@ -74,7 +74,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     @Inject(DOCUMENT) private document: Document,
     private sharedService: SharedService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -106,8 +106,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
                 read: false,
                 mails: [webSocketState.message.mail],
                 total_mail_count: webSocketState.message.total_count,
-                is_from_socket: true
-              })
+                is_from_socket: true,
+              }),
             );
             if (webSocketState.message.folder !== MailFolderType.SPAM) {
               this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
@@ -115,7 +115,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
             this.updateUnreadCount(webSocketState);
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(
-              new GetUnreadMailsCountSuccess({ ...webSocketState.message.unread_count, updateUnreadCount: true })
+              new GetUnreadMailsCountSuccess({ ...webSocketState.message.unread_count, updateUnreadCount: true }),
             );
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
@@ -127,8 +127,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
             this.store.dispatch(
               new ReadMailSuccess({
                 ids: webSocketState.message.ids.join(','),
-                read: webSocketState.message.marked_as_read
-              })
+                read: webSocketState.message.marked_as_read,
+              }),
             );
           }
         }
@@ -180,7 +180,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.events
       .pipe(
         untilDestroyed(this),
-        filter(event => event instanceof NavigationEnd)
+        filter(event => event instanceof NavigationEnd),
       )
       .subscribe((event: NavigationEnd) => {
         this.currentRoute = event.url;
@@ -205,7 +205,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private updateUnreadCount(webSocketState: WebSocketState) {
     this.store.dispatch(
-      new GetUnreadMailsCountSuccess({ ...webSocketState.message.unread_count, updateUnreadCount: true })
+      new GetUnreadMailsCountSuccess({ ...webSocketState.message.unread_count, updateUnreadCount: true }),
     );
   }
 
@@ -305,7 +305,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       err => {
         console.log(err);
-      }
+      },
     );
   }
 

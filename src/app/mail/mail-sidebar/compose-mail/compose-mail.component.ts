@@ -10,7 +10,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +35,7 @@ import {
   UpdateDraftAttachment,
   UpdateLocalDraft,
   UpdatePGPDecryptedContent,
-  UploadAttachment
+  UploadAttachment,
 } from '../../../store/actions';
 import {
   AppState,
@@ -48,7 +48,7 @@ import {
   MailState,
   SecureContent,
   Settings,
-  UserState
+  UserState,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { MailService, SharedService } from '../../../store/services';
@@ -96,7 +96,7 @@ class ImageBlot extends QuillBlockEmbed {
   static value(node) {
     return {
       content_id: node.getAttribute('data-content-id'),
-      url: node.getAttribute('src')
+      url: node.getAttribute('src'),
     };
   }
 }
@@ -167,7 +167,7 @@ export class PasswordValidation {
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
-  styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss']
+  styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss'],
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() receivers: Array<string>;
@@ -274,7 +274,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     private dateTimeUtilService: DateTimeUtilService,
     private filesizePipe: FilesizePipe,
     private filenamePipe: FilenamePipe,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -284,11 +284,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         confirmPwd: ['', [Validators.required]],
         passwordHint: [''],
         days: [5, [Validators.required, Validators.min(0), Validators.max(5)]],
-        hours: [0, [Validators.required, Validators.min(0), Validators.max(24)]]
+        hours: [0, [Validators.required, Validators.min(0), Validators.max(24)]],
       },
       {
-        validator: PasswordValidation.MatchPassword
-      }
+        validator: PasswordValidation.MatchPassword,
+      },
     );
 
     this.resetMailData();
@@ -345,7 +345,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.store.dispatch(
       new ContactsGet({
         // call API to get user's contacts from DB
-      })
+      }),
     );
 
     /**
@@ -435,7 +435,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.datePickerMinDate = {
       year: now.getFullYear(),
       month: now.getMonth() + 1,
-      day: now.getDate()
+      day: now.getDate(),
     };
 
     this.initializeAutoSave(); // start auto save function
@@ -456,7 +456,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.isPasted && this.validateEmail(val)) {
       this.mailData.receiver.push({
         display: val,
-        value: val
+        value: val,
       });
       this.inputTextValue = '';
       this.isPasted = false;
@@ -468,7 +468,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.ccIsPasted && this.validateEmail(val)) {
       this.mailData.cc.push({
         display: val,
-        value: val
+        value: val,
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
@@ -480,7 +480,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.bccIsPasted && this.validateEmail(val)) {
       this.mailData.bcc.push({
         display: val,
-        value: val
+        value: val,
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;
@@ -578,7 +578,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       draftMail: this.draftMail,
       forwardAttachmentsMessageId: this.forwardAttachmentsMessageId,
       action: this.action,
-      parentId: this.parentId
+      parentId: this.parentId,
     });
   }
 
@@ -663,7 +663,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
               return attachment;
             })
           : [],
-      usersKeys: null
+      usersKeys: null,
     };
 
     this.store.dispatch(new NewDraft({ ...draft }));
@@ -682,7 +682,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           .pipe(
             finalize(() => {
               this.isDownloadingAttachmentCounter--;
-            })
+            }),
           )
           .subscribe(
             response => {
@@ -695,8 +695,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                     this.store.dispatch(
                       new UpdateDraftAttachment({
                         draftId: this.draftId,
-                        attachment: { ...decryptedAttachment }
-                      })
+                        attachment: { ...decryptedAttachment },
+                      }),
                     );
                   });
               } else {
@@ -705,18 +705,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 const newDocument = new File(
                   [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
                   attachment.name,
-                  { type: response.file_type }
+                  { type: response.file_type },
                 );
                 const newAttachment: Attachment = { ...attachment, decryptedDocument: newDocument };
                 this.store.dispatch(
                   new UpdateDraftAttachment({
                     draftId: this.draftId,
-                    attachment: { ...newAttachment }
-                  })
+                    attachment: { ...newAttachment },
+                  }),
                 );
               }
             },
-            error => console.log(error)
+            error => console.log(error),
           );
       }
     });
@@ -725,11 +725,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   initializeQuillEditor() {
     this.quill = new Quill(this.editor.nativeElement, {
       modules: {
-        toolbar: this.toolbar.nativeElement
+        toolbar: this.toolbar.nativeElement,
       },
       clipboard: {
-        matchVisual: false
-      }
+        matchVisual: false,
+      },
     });
 
     if (this.userState.settings.default_font) {
@@ -777,9 +777,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         insert: text,
         attributes: {
           link: link,
-          target: '_blank'
-        }
-      }
+          target: '_blank',
+        },
+      },
     ]);
   }
 
@@ -787,7 +787,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.insertLinkData = {};
     this.insertLinkData.modalRef = this.modalService.open(this.insertLinkModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -795,7 +795,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.settings.autosave_duration !== 'none') {
       this.autoSaveSubscription = this.valueChanged$
         .pipe(
-          debounceTime(Number(this.settings.autosave_duration)) // get autosave interval from user's settings
+          debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
         )
         .subscribe(data => {
           this.updateEmail();
@@ -806,7 +806,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   quillImageHandler() {
     this.attachImagesModalRef = this.modalService.open(this.attachImagesModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -863,7 +863,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         message: this.draftMail.id,
         is_inline: isInline,
         is_encrypted: !isInline,
-        inProgress: false
+        inProgress: false,
       };
       this.attachments.push(attachment);
       if (!this.draftMail.id) {
@@ -880,8 +880,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (file.size > this.settings.attachment_size_limit) {
       this.store.dispatch(
         new SnackErrorPush({
-          message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`
-        })
+          message: this.settings.attachment_size_error || `Maximum allowed file size is ${attachmentLimitInMBs}MB.`,
+        }),
       );
       return false;
     }
@@ -961,8 +961,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           folder: MailFolderType.TRASH,
           sourceFolder: MailFolderType.DRAFT,
           mail: this.draftMail,
-          allowUndo: true
-        })
+          allowUndo: true,
+        }),
       );
     }
     this.hide.emit();
@@ -983,14 +983,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
-        new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' })
+        new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }),
       );
       return;
     }
     const receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
-      ...this.mailData.bcc.map(bcc => bcc.display)
+      ...this.mailData.bcc.map(bcc => bcc.display),
     ];
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
@@ -1012,7 +1012,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       // show message to confirm without subject and content
       this.confirmModalRef = this.modalService.open(this.confirmationModal, {
         centered: true,
-        windowClass: 'modal-sm users-action-modal'
+        windowClass: 'modal-sm users-action-modal',
       });
     } else {
       this.sendEmail();
@@ -1024,7 +1024,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     const receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
-      ...this.mailData.bcc.map(bcc => bcc.display)
+      ...this.mailData.bcc.map(bcc => bcc.display),
     ];
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
@@ -1042,9 +1042,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           isSaving: false,
           shouldSave: false,
           shouldSend: true,
-          draft: { ...this.draftMail }
-        }
-      })
+          draft: { ...this.draftMail },
+        },
+      }),
     );
     const message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...';
 
@@ -1132,14 +1132,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       // reset to previous confirmed value
       this.selfDestruct = {
         ...this.selfDestruct,
-        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value)
+        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.selfDestruct.value),
       };
     } else {
       this.resetSelfDestructValues();
     }
     this.selfDestructModalRef = this.modalService.open(this.selfDestructModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -1148,14 +1148,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       // reset to previous confirmed value
       this.delayedDelivery = {
         ...this.delayedDelivery,
-        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value)
+        ...this.dateTimeUtilService.getNgbDateTimeStructsFromDateTimeStr(this.delayedDelivery.value),
       };
     } else {
       this.resetDelayedDeliveryValues();
     }
     this.delayedDeliveryModalRef = this.modalService.open(this.delayedDeliveryModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -1165,7 +1165,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     this.deadManTimerModalRef = this.modalService.open(this.deadManTimerModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -1174,7 +1174,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.encryptForm.controls['passwordHint'].setValue(this.encryptionData.password_hint || '');
     this.encryptionModalRef = this.modalService.open(this.encryptionModal, {
       centered: true,
-      windowClass: 'modal-md users-action-modal'
+      windowClass: 'modal-md users-action-modal',
     });
   }
 
@@ -1187,7 +1187,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.selfDestruct.date && this.selfDestruct.time) {
       const dateTimeStr = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(
         this.selfDestruct.date,
-        this.selfDestruct.time
+        this.selfDestruct.time,
       );
       if (this.dateTimeUtilService.isDateTimeInPast(dateTimeStr)) {
         this.selfDestruct.error = 'Selected datetime is in past.';
@@ -1211,7 +1211,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.delayedDelivery.date && this.delayedDelivery.time) {
       const dateTimeStr = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(
         this.delayedDelivery.date,
-        this.delayedDelivery.time
+        this.delayedDelivery.time,
       );
       if (this.dateTimeUtilService.isDateTimeInPast(dateTimeStr)) {
         this.delayedDelivery.error = 'Selected datetime is in past.';
@@ -1264,7 +1264,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.encryptionData = {
         expiryHours,
         password: value.password,
-        passwordHint: value.passwordHint
+        passwordHint: value.passwordHint,
       };
       this.valueChanged$.next(true);
       this.closeEncryptionModal();
@@ -1298,7 +1298,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       } else {
         this.quill.insertEmbed(index, 'image', {
           url: source,
-          content_id: contentId
+          content_id: contentId,
         });
       }
       this.quill.setSelection(index + 1);
@@ -1393,16 +1393,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           isMailDetailPage: this.isMailDetailPage,
           shouldSave,
           shouldSend,
-          draft: { ...this.draftMail }
-        })
+          draft: { ...this.draftMail },
+        }),
       );
     } else {
       this.store.dispatch(
         new UpdatePGPDecryptedContent({
           id: this.draftMail.id,
           isPGPInProgress: false,
-          decryptedContent: { content: this.draftMail.content, subject: this.draftMail.subject }
-        })
+          decryptedContent: { content: this.draftMail.content, subject: this.draftMail.subject },
+        }),
       );
     }
   }
@@ -1496,7 +1496,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           : this.draftMail
           ? this.draftMail.subject
           : '',
-      content: ''
+      content: '',
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
@@ -1516,7 +1516,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.selfDestruct.time = {
       hour: 0,
       minute: 0,
-      second: 0
+      second: 0,
     };
     this.selfDestruct.meridian = true;
     this.selfDestruct.error = null;
@@ -1528,7 +1528,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.delayedDelivery.time = {
       hour: 0,
       minute: 0,
-      second: 0
+      second: 0,
     };
     this.delayedDelivery.meridian = true;
     this.delayedDelivery.error = null;
@@ -1562,7 +1562,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             ...tokens.map(token => {
               token = token.trim();
               return { value: token, display: token, email: token, name: token };
-            })
+            }),
           );
         } else {
           emails.push(item);

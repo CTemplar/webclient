@@ -9,7 +9,6 @@
 // Navbar position
 // Navbar themes
 
-
 // Navbar
 //
 // Provide a static navbar from which we expand to create full-width, fixed, and
@@ -22,15 +21,14 @@
   padding: $navbar-padding-y $navbar-padding-x;
 }
 
-
 // Navbar brand
 //
 // Used for brand, project, or site names.
 
 .navbar-brand {
   display: inline-block;
-  padding-top: .25rem;
-  padding-bottom: .25rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   margin-right: $navbar-padding-x;
   font-size: $font-size-lg;
   line-height: inherit;
@@ -40,7 +38,6 @@
     text-decoration: none;
   }
 }
-
 
 // Navbar nav
 //
@@ -59,17 +56,15 @@
   }
 }
 
-
 // Navbar text
 //
 //
 
 .navbar-text {
   display: inline-block;
-  padding-top:    .425rem;
-  padding-bottom: .425rem;
+  padding-top: 0.425rem;
+  padding-bottom: 0.425rem;
 }
-
 
 // Responsive navbar
 //
@@ -98,7 +93,7 @@
   width: 1.5em;
   height: 1.5em;
   vertical-align: middle;
-  content: "";
+  content: '';
   background: no-repeat center center;
   background-size: 100% 100%;
 }
@@ -145,8 +140,8 @@
           flex-direction: row;
 
           .nav-link {
-            padding-right: .5rem;
-            padding-left: .5rem;
+            padding-right: 0.5rem;
+            padding-left: 0.5rem;
           }
         }
 
@@ -171,7 +166,6 @@
     }
   }
 }
-
 
 // Navbar themes
 //

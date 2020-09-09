@@ -13,7 +13,7 @@
   padding: 1.5rem 0.938rem;
   background: $brand-white;
 
-  @include media(">=ipad") {
+  @include media('>=ipad') {
     padding: 0.5rem 1.563rem;
   }
 
@@ -50,7 +50,7 @@
         position: absolute;
         top: 50%;
         right: -0.5rem;
-        content: "";
+        content: '';
         border-right: 1px solid $brand-gray;
         height: 10px;
         transform: translateY(-50%);

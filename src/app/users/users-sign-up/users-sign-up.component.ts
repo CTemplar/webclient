@@ -11,7 +11,7 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
 @Component({
   selector: 'app-users-sign-up',
   templateUrl: './users-sign-up.component.html',
-  styleUrls: ['./users-sign-up.component.scss']
+  styleUrls: ['./users-sign-up.component.scss'],
 })
 export class UsersSignUpComponent implements OnDestroy, OnInit {
   public storageList: Storage[];
@@ -34,15 +34,15 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
         title: 'Pay Monthly',
         checked: true,
         moMoney: 0,
-        totalMoney: 0
+        totalMoney: 0,
       },
       {
         id: 'pay-annullay',
         title: 'Pay Annually',
         checked: false,
         moMoney: 0,
-        totalMoney: 0
-      }
+        totalMoney: 0,
+      },
     ];
     this.makePayments();
     this.store.dispatch(new FinalLoading({ loadingState: false }));
