@@ -22,7 +22,8 @@
     "build:electron:mac": "npm run build:electron && electron-builder build --mac",
     "build:ipfs": "ng build --prod --subresource-integrity --base-href ./",
     "postinstall": "ngcc && node patch-webpack.js",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "private": true,
   "dependencies": {
