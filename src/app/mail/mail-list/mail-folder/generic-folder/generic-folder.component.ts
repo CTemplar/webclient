@@ -46,9 +46,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
   @ViewChild('delateDraftModal') delateDraftModal;
+  @ViewChild('input') input: ElementRef;
 
   customFolders: Folder[];
-  @ViewChild('input') input: ElementRef;
   mailFolderTypes = MailFolderType;
   selectAll: boolean;
   checkAll = false;
@@ -89,6 +89,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   ) {}
 
   ngOnInit() {
+    /**
+     * Get mail state from store and follow user's actions
+     */
     this.store
       .select(state => state.mail)
       .pipe(untilDestroyed(this))
@@ -118,7 +121,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           this.decryptAllSubjects();
         }
       });
-
+    /**
+     * Get user's settings and custom folders
+     */
     this.store
       .select(state => state.user)
       .pipe(untilDestroyed(this))
@@ -145,7 +150,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           }
         }
       });
-
+    // Search by search text
     if (this.mailFolder === MailFolderType.SEARCH) {
       this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
         if (params.search) {
@@ -162,7 +167,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       });
     }
-
+    /**
+     * Activated router management
+     */
     this.activatedRoute.paramMap.pipe(untilDestroyed(this)).subscribe((paramsMap: any) => {
       const params: any = paramsMap.params;
       if (params) {
@@ -184,7 +191,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       }
     });
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 768; // handle as mobile when window width is less than 768px
     this.folderName = this.mailFolder.charAt(0).toUpperCase() + this.mailFolder.slice(1);
 
     window.removeEventListener('beforeunload', this.authService.onBeforeLoader, true);
@@ -537,7 +544,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.PAGE + 1}`);
     }
   }
-
+  // display scrambler while decrypt mail id
   scrambleText(mailId) {
     setTimeout(() => {
       Scrambler({

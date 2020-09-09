@@ -1,5 +1,6 @@
 <div class="mailbox-actionbar">
   <div class="row">
+    <!-- Action buttons -->
     <div class="col-12 col-sm-9 mailbox-actionbar-col">
       <ul class="mailbox-actionbar-menu">
         <li>
@@ -46,15 +47,18 @@
                     <div ngbDropdownMenu aria-labelledby="extraOptionsDropdownMenuButton">
                       <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)"
                         *ngIf="mailFolder !== mailFolderTypes.INBOX">
-                        <i class="icon icon-inbox"></i><span>{{"mail_sidebar.inbox"| translate}}</span>
+                        <i class="icon icon-inbox"></i>
+                        <span>{{"mail_sidebar.inbox"| translate}}</span>
                       </a>
                       <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.DRAFT)"
                         *ngIf="mailFolder !== mailFolderTypes.DRAFT">
-                        <i class="icon icon-inbox"></i><span>{{"mail_sidebar.draft"| translate}}</span>
+                        <i class="icon icon-inbox"></i>
+                        <span>{{"mail_sidebar.draft"| translate}}</span>
                       </a>
                       <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.OUTBOX)"
                         *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-                        <i class="icon icon-archive"></i><span>{{"mail_sidebar.outbox"| translate}}</span>
+                        <i class="icon icon-archive"></i>
+                        <span>{{"mail_sidebar.outbox"| translate}}</span>
                       </a>
                       <ng-container *ngFor="let folder of customFolders; let i=index;">
                         <a class="dropdown-item" *ngIf="mailFolder !== folder.name" (click)="moveToFolder(folder.name)">
@@ -64,7 +68,8 @@
                       </ng-container>
                       <span class="divider-item d-block"></span>
                       <a class="dropdown-item" (click)="openCreateFolderDialog()">
-                        <i class="icon icon-folder"></i><span>{{"mail_list.create_folder"| translate}}</span>
+                        <i class="icon icon-folder"></i>
+                        <span>{{"mail_list.create_folder"| translate}}</span>
                       </a>
                     </div>
                   </div>
@@ -82,7 +87,8 @@
             <div ngbDropdownMenu aria-labelledby="folderDropdownMenuButton" class="folder-dropdown">
               <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.INBOX)"
                 *ngIf="mailFolder !== mailFolderTypes.INBOX">
-                <i class="icon icon-inbox"></i><span>{{"mail_sidebar.inbox"| translate}}</span>
+                <i class="icon icon-inbox"></i>
+                <span>{{"mail_sidebar.inbox"| translate}}</span>
               </a>
               <ng-container *ngFor="let folder of customFolders; let i=index;">
                 <a class="dropdown-item" *ngIf="mailFolder !== folder.name" (click)="moveToFolder(folder.name)">
@@ -90,10 +96,10 @@
                   <span class="folders-list-text">{{folder.name}}</span>
                 </a>
               </ng-container>
-
               <span class="divider-item d-block"></span>
               <a class="dropdown-item" (click)="openCreateFolderDialog()">
-                <i class="icon icon-folder"></i><span>{{"mail_list.create_folder"| translate}}</span>
+                <i class="icon icon-folder"></i>
+                <span>{{"mail_list.create_folder"| translate}}</span>
               </a>
             </div>
           </div>
@@ -104,13 +110,18 @@
               {{"mail_list.more"| translate}}
             </button>
             <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
-              <a *ngIf="isNeedAddStar(mail)" class="dropdown-item"
-                (click)="markAsStarred(true)">{{"mail_list.add_star"| translate}}</a>
-              <a *ngIf="isNeedRemoveStar(mail)" class="dropdown-item"
-                (click)="markAsStarred(false)">{{"mail_list.remove_star"| translate}}</a>
-              <a class="dropdown-item" (click)="markAsRead(mail.id)">{{"mail_list.mark_as_read"| translate}}</a>
-              <a class="dropdown-item"
-                (click)="markAsRead(mail.id, false)">{{"mail_list.mark_as_unread"| translate}}</a>
+              <a *ngIf="isNeedAddStar(mail)" class="dropdown-item" (click)="markAsStarred(true)">
+                {{"mail_list.add_star"| translate}}
+              </a>
+              <a *ngIf="isNeedRemoveStar(mail)" class="dropdown-item" (click)="markAsStarred(false)">
+                {{"mail_list.remove_star"| translate}}
+              </a>
+              <a class="dropdown-item" (click)="markAsRead(mail.id)">
+                {{"mail_list.mark_as_read"| translate}}
+              </a>
+              <a class="dropdown-item" (click)="markAsRead(mail.id, false)">
+                {{"mail_list.mark_as_unread"| translate}}
+              </a>
             </div>
           </div>
         </li>
@@ -123,12 +134,13 @@
         </li>
       </ul>
     </div>
-
+    <!--Pagination-->
     <div class="col-sm-3 mailbox-actionbar-col hidden-xs-down">
       <div class="mail-controls d-flex align-items-center justify-content-end">
         <div class="mail-result-text text-muted">
-          <small *ngIf="currentMailNumber">{{currentMailNumber}}
-            <span>{{"settings.of"|translate}}</span> {{ MAX_EMAIL_PAGE_LIMIT }}</small>
+          <small *ngIf="currentMailNumber">
+            {{currentMailNumber}}<span>{{"settings.of"|translate}}</span> {{ MAX_EMAIL_PAGE_LIMIT }}
+          </small>
         </div>
         <div class="mail-nav-control">
           <button role="button" class="mail-nav-control-prev" ngbTooltip="Previous email"
@@ -148,6 +160,7 @@
 
 <!--Mail Info-->
 <div class="mailbox-sub-content mail-detail-content" *ngIf="mail">
+  <!--Mail HeaderBar-->
   <section class="mailbox-section" id="{{mail.id}}-print-section">
     <div class="ui-header ui-header-bordered border-top-0 position-relative">
       <h5 class="ui-header-subtitle text-dark mb-0 mail-subject">
@@ -165,14 +178,14 @@
           [ngbTooltip]="(!mail.is_protected && mail?.sender!=='support@ctemplar.com') ? '' : ('mail_detail.encrypted'| translate)">
         </i>
       </h5>
-
       <div class="icon-holder is-floated right y-center">
         <i class="icon icon-md icon-star-filled cursor-pointer" (click)="ontoggleStarred(mail)"
           [ngClass]="{'icon-star': !mail.starred, 'text-info': mail.starred}"></i>
       </div>
     </div>
     <div class="spam_reason row" *ngIf="xssPipe.hasExternalImages && disableExternalImages">
-      <div class="col pt-1"><span class="text-warning">Warning:</span>
+      <div class="col pt-1">
+        <span class="text-warning">Warning:</span>
         This email contains external images, which have been blocked.
       </div>
       <div>
@@ -197,9 +210,6 @@
       <ng-template #spoofWarning>
         <span class="spam_why">Warning:</span>
         <span class="ml-1"> {{mail.spam_reason.join(' ')}}</span>
-        <!-- <span class="ml-1"><a href="{{primaryWebsite}}/help/answer/email-domain-not-authenticated/" target="_blank"
-            rel="noopener noreferrer">
-            {{"mail_header.learn_more"| translate}}</a></span> -->
       </ng-template>
     </div>
 
@@ -270,29 +280,35 @@
                 <span class="badge badge-success mr-2 p-1" *ngIf="mail.delayed_delivery">
                   <span>{{"mail_detail.delay_delivery"| translate}}</span> {{mail.delayed_delivery | remainingTime}}
                 </span>
-                <span class="badge badge-danger mr-2 p-1"
-                  *ngIf="mail.dead_man_duration"><span>{{"settings.compose.dead_man_timer"| translate}}</span>
+                <span class="badge badge-danger mr-2 p-1" *ngIf="mail.dead_man_duration">
+                  <span>{{"settings.compose.dead_man_timer"| translate}}</span>
                   {{mail.dead_man_duration | remainingTime:true}}
                 </span>
               </ng-container>
-              <span *ngIf="mail.attachments?.length > 0" class="mr-3"><i class="icon icon-attachment"></i></span>
+              <span *ngIf="mail.attachments?.length > 0" class="mr-3">
+                <i class="icon icon-attachment"></i>
+              </span>
               <label class="msg-received-time mb-0" id="{{mail.id}}-mail-date">
                 <ng-container *ngIf="mail.folder === mailFolderTypes.SENT && mail.sent_at; else createdAt">
-                  {{mail.sent_at | momentDate:'medium'}}</ng-container>
-                <ng-template #createdAt>{{mail.created_at | momentDate:'medium'}}</ng-template>
+                  {{mail.sent_at | momentDate:'medium'}}
+                </ng-container>
+                <ng-template #createdAt>
+                  {{mail.created_at | momentDate:'medium'}}
+                </ng-template>
                 <ng-template #createdAt>
                   <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">
-                    {{mail.created_at | momentDate:'medium'}}</ng-container>
+                    {{mail.created_at | momentDate:'medium'}}
+                  </ng-container>
                 </ng-template>
                 <ng-template #outboxTime>
-                  <ng-container *ngIf="mail.delayed_delivery">{{ mail.delayed_delivery | momentDate:'medium'}}
+                  <ng-container *ngIf="mail.delayed_delivery">
+                    {{ mail.delayed_delivery | momentDate:'medium'}}
                   </ng-container>
                   <ng-container *ngIf="mail.dead_man_duration">
                     <i class="fas fa-minus"></i>
                   </ng-container>
                 </ng-template>
               </label>
-
             </div>
             <div>
               <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{mail.folder}}</label>
@@ -310,28 +326,39 @@
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">
       <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
-          id="messageReplyDropdownMenuButton"></button>
+          id="messageReplyDropdownMenuButton">
+        </button>
         <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
           <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-            <a class="dropdown-item"
-              (click)="onForward(mail); scrollTo(replyActions);">{{"mail_detail.forward"| translate}}</a>
-            <a class="dropdown-item"
-              (click)="onReply(mail); scrollTo(replyActions);">{{"mail_detail.reply"| translate}}</a>
+            <a class="dropdown-item" (click)="onForward(mail); scrollTo(replyActions);">
+              {{"mail_detail.forward"| translate}}
+            </a>
+            <a class="dropdown-item" (click)="onReply(mail); scrollTo(replyActions);">
+              {{"mail_detail.reply"| translate}}
+            </a>
             <a class="dropdown-item" *ngIf="mail.cc.length || mail.bcc.length || mail.receiver.length > 1"
-              (click)="onReplyAll(mail); scrollTo(replyActions);">{{"mail_detail.reply_all"| translate}}</a>
+              (click)="onReplyAll(mail); scrollTo(replyActions);">
+              {{"mail_detail.reply_all"| translate}}
+            </a>
           </ng-container>
-          <a class="dropdown-item" *ngIf="mail.delayed_delivery"
-            (click)="onCancelSend(mail)">{{"mail_detail.cancel_send"| translate}}</a>
+          <a class="dropdown-item" *ngIf="mail.delayed_delivery" (click)="onCancelSend(mail)">
+            {{"mail_detail.cancel_send"| translate}}
+          </a>
           <a class="dropdown-item" (click)="onPrint(mail)">{{"mail_detail.print"| translate}}</a>
           <a class="dropdown-item" (click)="onDelete(mail, -1, false)"
-            [translate]="(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)"></a>
+            [translate]="(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)">
+          </a>
           <a class="dropdown-item" (click)="onDeleteForAll(mail)"
             *ngIf="mail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
-            [ngbTooltip]="'mail_detail.messages_will_be_del'| translate"
-            placement="left">{{"mail_detail.delete_from_receiver"| translate}}</a>
-          <a class="dropdown-item" (click)="showIncomingHeaders(mail)">{{"mail_detail.show_headers"| translate}}</a>
-          <a class="dropdown-item" *ngIf="!disableMoveTo"
-            (click)="onMarkAsSpam(mail)">{{"mail_detail.mark_as_spam"| translate}}</a>
+            [ngbTooltip]="'mail_detail.messages_will_be_del'| translate" placement="left">
+            {{"mail_detail.delete_from_receiver"| translate}}
+          </a>
+          <a class="dropdown-item" (click)="showIncomingHeaders(mail)">
+            {{"mail_detail.show_headers"| translate}}
+          </a>
+          <a class="dropdown-item" *ngIf="!disableMoveTo" (click)="onMarkAsSpam(mail)">
+            {{"mail_detail.mark_as_spam"| translate}}
+          </a>
           <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode(mail)" *ngIf="decryptedContentsPlain[mail.id]">
             {{plainTextViewState[mail.id] ? ("mail_detail.show_rich_text"| translate) : ("mail_detail.show_plain_text"| translate)}}
           </a>
@@ -342,11 +369,13 @@
         <ng-template #htmlBlock>
           <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content" [innerHTML]="mail.is_html ?
                 (decryptedContents[mail.id] | safe: 'sanitize': disableExternalImages) :
-                (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+                (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)">
+          </div>
         </ng-template>
         <ng-template #plainBlock>
           <div class="msg-reply-content text-dark" id="{{mail.id}}-raw-mail-content"
-            [innerHTML]="(decryptedContentsPlain[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+            [innerHTML]="(decryptedContentsPlain[mail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)">
+          </div>
         </ng-template>
       </div>
     </div>
@@ -376,7 +405,6 @@
       </ng-container>
     </ul>
     <!-- Attachments list ends -->
-
   </section>
 
   <!-- Child Mail-->
@@ -387,14 +415,14 @@
           <div class="ui-body">
             <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="!isPopupOpen && isPopupOpen !== null">
               <app-compose-mail [draftMail]="childMail" [showSaveButton]="false" [isMailDetailPage]="true"
-                (hide)="onComposeMailHide(childMail)" (popUpChange)="onChangePopup($event)"></app-compose-mail>
+                (hide)="onComposeMailHide(childMail)" (popUpChange)="onChangePopup($event)">
+              </app-compose-mail>
             </div>
           </div>
         </ng-container>
         <ng-container *ngSwitchDefault>
           <div [ngClass]="{'last-child': childIndex === mail.children.length-1}">
             <section class="mailbox-section" id="{{childMail.id}}-print-section">
-
               <div class="ui-body is-bordered-bottom bg-faded cursor-pointer mail-header"
                 (click)="onClickChildHeader(childIndex)">
                 <div class="row">
@@ -455,21 +483,22 @@
                     <div class="msg-reply-type-holder">
                       <div class="d-flex align-items-center justify-content-end">
                         <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
-                          <span class="badge badge-warning mr-2 p-1"
-                            *ngIf="childMail.destruct_date"><span>{{"mail_detail.delete_in"| translate}}</span>
+                          <span class="badge badge-warning mr-2 p-1" *ngIf="childMail.destruct_date">
+                            <span>{{"mail_detail.delete_in"| translate}}</span>
                             {{childMail.destruct_date | remainingTime}}
                           </span>
-                          <span class="badge badge-success mr-2 p-1"
-                            *ngIf="childMail.delayed_delivery"><span>{{"mail_detail.delay_delivery"| translate}}</span>
+                          <span class="badge badge-success mr-2 p-1" *ngIf="childMail.delayed_delivery">
+                            <span>{{"mail_detail.delay_delivery"| translate}}</span>
                             {{childMail.delayed_delivery | remainingTime}}
                           </span>
-                          <span class="badge badge-danger mr-2 p-1"
-                            *ngIf="childMail.dead_man_duration"><span>{{"settings.compose.dead_man_timer"| translate}}</span>
+                          <span class="badge badge-danger mr-2 p-1" *ngIf="childMail.dead_man_duration">
+                            <span>{{"settings.compose.dead_man_timer"| translate}}</span>
                             {{childMail.dead_man_duration | remainingTime:true}}
                           </span>
                         </ng-container>
-                        <span *ngIf="childMail.attachments?.length > 0" class="mr-3"><i
-                            class="icon icon-attachment"></i></span>
+                        <span *ngIf="childMail.attachments?.length > 0" class="mr-3">
+                          <i class="icon icon-attachment"></i>
+                        </span>
                         <label class="msg-received-time mb-0" id="{{childMail.id}}-mail-date">
                           <ng-container
                             *ngIf="childMail.folder === mailFolderTypes.SENT && childMail.sent_at; else createdAt">
@@ -477,11 +506,13 @@
                           </ng-container>
                           <ng-template #createdAt>
                             <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">
-                              {{childMail.created_at | momentDate:'medium'}}</ng-container>
+                              {{childMail.created_at | momentDate:'medium'}}
+                            </ng-container>
                           </ng-template>
                           <ng-template #outboxTime>
                             <ng-container *ngIf="childMail.delayed_delivery">
-                              {{ childMail.delayed_delivery | momentDate:'medium'}}</ng-container>
+                              {{ childMail.delayed_delivery | momentDate:'medium'}}
+                            </ng-container>
                             <ng-container *ngIf="childMail.dead_man_duration">
                               <i class="fas fa-minus"></i>
                             </ng-container>
@@ -496,7 +527,8 @@
                   </div>
                 </div>
                 <app-progress-bar [active]="decryptedContents[childMail.id] == null"
-                  *ngIf="childIndex === mail.children.length-1"></app-progress-bar>
+                  *ngIf="childIndex === mail.children.length-1">
+                </app-progress-bar>
               </div>
             </section>
 
@@ -506,42 +538,55 @@
               <div class="ui-body mail-content" *ngIf="decryptedContents[childMail.id]">
                 <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
                   <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button"
-                    id="{{childMail.id}}-messageReplyDropdownMenuButton"></button>
+                    id="{{childMail.id}}-messageReplyDropdownMenuButton">
+                  </button>
                   <div ngbDropdownMenu [attr.aria-labelledby]="childMail.id + '-messageReplyDropdownMenuButton'">
-                    <a class="dropdown-item"
-                      (click)="onForward(childMail, childIndex, true)">{{"mail_detail.forward"| translate}}</a>
-                    <a class="dropdown-item"
-                      (click)="onReply(childMail, childIndex, true)">{{"mail_detail.reply"| translate}}</a>
+                    <a class="dropdown-item" (click)="onForward(childMail, childIndex, true)">
+                      {{"mail_detail.forward"| translate}}
+                    </a>
+                    <a class="dropdown-item" (click)="onReply(childMail, childIndex, true)">
+                      {{"mail_detail.reply"| translate}}
+                    </a>
                     <a class="dropdown-item"
                       *ngIf="childMail.cc.length || childMail.bcc.length || childMail.receiver.length > 1"
-                      (click)="onReplyAll(childMail, childIndex, true)">{{"mail_detail.reply_all"| translate}}</a>
+                      (click)="onReplyAll(childMail, childIndex, true)">
+                      {{"mail_detail.reply_all"| translate}}
+                    </a>
                     <a class="dropdown-item" (click)="onPrint(childMail)">{{"mail_detail.print"| translate}}</a>
-                    <a class="dropdown-item" *ngIf="childMail.delayed_delivery"
-                      (click)="onCancelSend(childMail)">{{"mail_detail.cancel_send"| translate}}</a>
+                    <a class="dropdown-item" *ngIf="childMail.delayed_delivery" (click)="onCancelSend(childMail)">
+                      {{"mail_detail.cancel_send"| translate}}
+                    </a>
                     <a class="dropdown-item" (click)="onDelete(childMail, childIndex)"
-                      [translate]="(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)"></a>
+                      [translate]="(mailFolder === mailFolderTypes.TRASH) ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)">
+                    </a>
                     <a class="dropdown-item" (click)="onDeleteForAll(childMail)"
                       *ngIf="childMail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT"
-                      [ngbTooltip]="'mail_detail.messages_will_be_del'| translate"
-                      placement="left">{{"mail_detail.delete_from_receiver"| translate}}</a>
+                      [ngbTooltip]="'mail_detail.messages_will_be_del'| translate" placement="left">
+                      {{"mail_detail.delete_from_receiver"| translate}}
+                    </a>
                     <a class="dropdown-item"
                       (click)="showIncomingHeaders(childMail)">{{"mail_detail.show_headers"| translate}}</a>
-                    <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode(childMail)" *ngIf="decryptedContentsPlain[childMail.id]">
+                    <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode(childMail)"
+                      *ngIf="decryptedContentsPlain[childMail.id]">
                       {{plainTextViewState[childMail.id] ? ("mail_detail.show_rich_text"| translate) : ("mail_detail.show_plain_text"| translate)}}
                     </a>
                   </div>
                 </div>
 
                 <div [ngClass]="{'show_gmail_extra': mailOptions[childMail.id]?.showGmailExtraContent}">
-                  <div *ngIf="plainTextViewState[childMail.id]; then plainBlock else htmlBlock"></div>
+                  <div *ngIf="plainTextViewState[childMail.id]; then plainBlock else htmlBlock">
+                  </div>
                   <ng-template #htmlBlock>
-                    <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content" [innerHTML]="childMail.is_html ?
+                    <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
+                      [innerHTML]="childMail.is_html ?
                           (decryptedContents[childMail.id] | safe: 'sanitize': disableExternalImages) :
-                          (decryptedContents[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+                          (decryptedContents[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)">
+                    </div>
                   </ng-template>
                   <ng-template #plainBlock>
                     <div class="msg-reply-content text-dark" id="{{childMail.id}}-raw-mail-content"
-                      [innerHTML]="(decryptedContentsPlain[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)"></div>
+                      [innerHTML]="(decryptedContentsPlain[childMail.id] | linebreaktobrtag | safe: 'sanitize': disableExternalImages)">
+                    </div>
                   </ng-template>
                   <a href="javascript:void(0)" (click)="toggleGmailExtra(childMail)"
                     *ngIf="decryptedContents[childMail.id]?.indexOf('gmail_extra') > -1 || decryptedContents[childMail.id]?.indexOf('gmail_quote') > -1">
@@ -571,7 +616,6 @@
                 </ng-container>
               </ul>
               <!-- Attachments list ends -->
-
             </section>
             <div align="center" class="decryption-spinner"
               *ngIf="decryptedContents[childMail.id]==null && isDecrypting[childMail.id]===true">
@@ -601,30 +645,30 @@
     </ng-container>
   </ng-container>
 
-
   <!--Reply to mail.-->
   <div class="ui-body ui-footer-sec" *ngIf="isPopupOpen && isPopupOpen !== null">
-    <p>You are currently editing your reply in a separate window. <a (click)="openReply(mail)"> Show your draft
-        here.</a></p>
+    <p>
+      You are currently editing your reply in a separate window.
+      <a (click)="openReply(mail)"> Show your draft here.</a>
+    </p>
   </div>
   <div class="ui-body ui-footer-sec" #replyActions *ngIf="!isPopupOpen && isPopupOpen !== null">
-
     <div class="row" *ngIf="mailFolder !== mailFolderTypes.OUTBOX && !hasDraft">
       <div class="col-12">
-
         <button class="btn btn-user-action" (click)="onReply(mail, 0, false, true)">
-          <i class="icon icon-reply position-left"></i> <span>{{"mail_detail.reply"| translate}}</span>
+          <i class="icon icon-reply position-left"></i>
+          <span>{{"mail_detail.reply"| translate}}</span>
           <img src="assets/images/icon-reply.svg" class="hidden-sm-up">
         </button>
-
         <button class="btn btn-user-action" (click)="onReplyAll(mail, 0, false, true)"
           *ngIf="mail.cc.length || mail.bcc.length || mail.receiver.length > 1">
-          <i class="icon icon-reply position-left"></i> <span>{{"mail_detail.reply_all"| translate}}</span>
+          <i class="icon icon-reply position-left"></i>
+          <span>{{"mail_detail.reply_all"| translate}}</span>
           <img src="assets/images/icon-reply-all.svg" class="hidden-sm-up">
         </button>
-
         <button class="btn btn-user-action" (click)="onForward(mail, 0, false, true)">
-          <i class="icon icon-mail icon-lg position-left"></i> <span>{{"mail_detail.forward"| translate}}</span>
+          <i class="icon icon-mail icon-lg position-left"></i>
+          <span>{{"mail_detail.forward"| translate}}</span>
           <img src="assets/images/icon-mail.svg" class="hidden-sm-up">
         </button>
       </div>
@@ -646,33 +690,34 @@
         (popUpChange)="onChangePopup($event)" (hide)="onComposeMailHide(draftNew)"></app-compose-mail>
     </div>
   </div>
-  <div class="mailbox-footer-actionbar hidden-sm-up">
-    <div class="row justify-content-end">
-      <!--TODO pagination to be done later.-->
-      <div class="col-12 mailbox-actionbar-col">
-        <div class="mail-controls d-flex align-items-center justify-content-end">
-          <div class="mail-result-text text-muted">
-            <small>1-50 of 2346</small>
-          </div>
-          <div class="mail-nav-control">
-            <button role="button" class="mail-nav-control-prev">
-              <i class="icon icon-chevron-left"></i>
-            </button>
-            <button role="button" class="mail-nav-control-next">
-              <i class="icon icon-chevron-right"></i>
-            </button>
-          </div>
-        </div>
+  <!--Pagination on mobile version-->
+  <div class="col-sm-3 mailbox-actionbar-col hidden-xs-up">
+    <div class="mail-controls d-flex align-items-center justify-content-end">
+      <div class="mail-result-text text-muted">
+        <small *ngIf="currentMailNumber">
+          {{currentMailNumber}}<span>{{"settings.of"|translate}}</span> {{ MAX_EMAIL_PAGE_LIMIT }}
+        </small>
+      </div>
+      <div class="mail-nav-control">
+        <button role="button" class="mail-nav-control-prev" ngbTooltip="Previous email"
+          (click)="changeMail(currentMailIndex -1)">
+          <i class="icon icon-chevron-left"></i>
+        </button>
+        <button role="button" class="mail-nav-control-next" ngbTooltip="Next email"
+          (click)="changeMail(currentMailIndex +1)">
+          <i class="icon icon-chevron-right"></i>
+        </button>
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- Confirm forward attachments modal -->
 <ng-template #forwardAttachmentsModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"mail_detail.confirm_forward_attach"| translate}}</strong></h3>
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{"mail_detail.confirm_forward_attach"| translate}}</strong>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -686,18 +731,20 @@
         <button type="button" (click)="confirmForwardAttachments(true)" class="btn btn-success btn-sm" role="button">
           {{"common.yes"| translate}}
         </button>
-        <button type="button" (click)="confirmForwardAttachments(false)" class="btn btn-sm"
-          role="button">{{"common.no"| translate}}</button>
+        <button type="button" (click)="confirmForwardAttachments(false)" class="btn btn-sm" role="button">
+          {{"common.no"| translate}}
+        </button>
       </div>
     </div>
   </div>
 </ng-template><!-- /.Confirm forward attachments modal ends -->
 
-
 <!-- Incoming Headers modal -->
 <ng-template #incomingHeadersModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"mail_detail.incoming_head"| translate}}</strong></h3>
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{"mail_detail.incoming_head"| translate}}</strong>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
