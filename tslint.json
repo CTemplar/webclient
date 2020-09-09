@@ -16,6 +16,7 @@
     },
     "eofline": true,
     "forin": true,
+    "no-unused-variable": true,
     "import-blacklist": [
       true,
       "rxjs/Rx"
@@ -71,13 +72,11 @@
       "check-whitespace"
     ],
     "prefer-const": true,
-    "rules": {
-      "quotemark": [
-        true,
-        "single",
-        "avoid-escape"
-      ]
-    },
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
     "radix": true,
     "semicolon": [
       true,
