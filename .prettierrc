@@ -10,7 +10,7 @@
         "*.html"
       ],
       "options": {
-        "printWidth": 999
+        "printWidth": 512
       }
     }
   ]
