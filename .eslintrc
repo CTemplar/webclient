@@ -1,0 +1,25 @@
+{
+  "plugins": ["@typescript-eslint", "prettier", "unicorn", "import"],
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:prettier/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "no-debugger": "off",
+    "no-console": 0
+  }
+}

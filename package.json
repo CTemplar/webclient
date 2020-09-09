@@ -21,7 +21,8 @@
     "build:electron:windows": "npm run build:electron && electron-builder build --windows",
     "build:electron:mac": "npm run build:electron && electron-builder build --mac",
     "build:ipfs": "ng build --prod --subresource-integrity --base-href ./",
-    "postinstall": "ngcc && node patch-webpack.js"
+    "postinstall": "ngcc && node patch-webpack.js",
+    "lint": "eslint"
   },
   "private": true,
   "dependencies": {
@@ -75,9 +76,16 @@
     "@types/jasmine": "^3.5.14",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^12.12.56",
-    "codelyzer": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
     "electron": "^9.3.0",
     "electron-builder": "^22.8.0",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-airbnb-typescript": "^7.2.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-unicorn": "^21.0.0",
     "jasmine-core": "^3.6.0",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^4.4.1",
@@ -86,6 +94,7 @@
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-html-reporter": "^1.5.1",
     "node-sass": "^4.13.1",
+    "prettier": "^2.1.1",
     "protractor": "^5.4.2",
     "ts-node": "^8.10.2",
     "typescript": "~3.8.3"
