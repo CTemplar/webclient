@@ -20,9 +20,7 @@
               ><strong>{{ message.subject }}</strong></ng-template
             >
           </h5>
-          <button class="btn btn-disabled btn-sm btn-reply ml-sm-auto" role="button" (click)="onReply()">
-            <i class="icon icon-reply mr-2"></i><strong>Reply Securely</strong>
-          </button>
+          <button class="btn btn-disabled btn-sm btn-reply ml-sm-auto" role="button" (click)="onReply()"><i class="icon icon-reply mr-2"></i><strong>Reply Securely</strong></button>
         </div>
         <div class="msg-reply-address-row">
           <div class="msg-reply-address">
@@ -45,15 +43,7 @@
               <ng-container *ngFor="let attachment of message.attachments">
                 <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
                   <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-                  <a
-                    *ngIf="!attachment.is_encrypted; else encryptedAttachment"
-                    class="download-attachment"
-                    [href]="attachment.document"
-                    placement="top"
-                    [ngbTooltip]="attachment.document | filename"
-                    target="_blank"
-                    rel="noopener"
-                  >
+                  <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment" [href]="attachment.document" placement="top" [ngbTooltip]="attachment.document | filename" target="_blank" rel="noopener">
                     <div class="attachment-icon">
                       <i class="icon icon-attachment"></i>
                     </div>
@@ -62,13 +52,7 @@
                     </div>
                   </a>
                   <ng-template #encryptedAttachment>
-                    <a
-                      class="download-attachment"
-                      (click)="decryptAttachment(attachment)"
-                      href="javascript:void(0)"
-                      placement="top"
-                      [ngbTooltip]="attachment.document | filename"
-                    >
+                    <a class="download-attachment" (click)="decryptAttachment(attachment)" href="javascript:void(0)" placement="top" [ngbTooltip]="attachment.document | filename">
                       <div class="attachment-icon">
                         <i class="icon icon-attachment"></i>
                       </div>

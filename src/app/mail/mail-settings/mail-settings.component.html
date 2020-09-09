@@ -30,22 +30,14 @@
                               <i class="far fa-credit-card"></i>
                             </div>
                             <div>
-                              <a
-                                (click)="scroll(targetUpgrade)"
-                                class="btn btn-gradient-primary cursor-pointer"
-                                [translate]="'settings.upgrade'"
-                              >
-                                Upgrade
-                              </a>
+                              <a (click)="scroll(targetUpgrade)" class="btn btn-gradient-primary cursor-pointer" [translate]="'settings.upgrade'"> Upgrade </a>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-7 col-sm user-details">
                           <ul class="info-list list-styled text-dark">
                             <li class="info-list-item">
-                              <div class="info-list-text info-list-label" [translate]="'settings.username'">
-                                Username
-                              </div>
+                              <div class="info-list-text info-list-label" [translate]="'settings.username'">Username</div>
                               <div class="info-list-text info-list-val">{{ userState.username }}</div>
                             </li>
                             <li class="info-list-item">
@@ -53,17 +45,7 @@
                               <div class="info-list-text info-list-val" *ngIf="userState.isLoaded">
                                 <div class="row" *ngIf="isEditingRecoveryEmail; else recoveryEmailTemplate">
                                   <form autocomplete="off" class="col-10">
-                                    <input
-                                      class="form-control form-control-sm"
-                                      id="recoveryMail"
-                                      type="email"
-                                      name="email"
-                                      autocomplete="off"
-                                      [(ngModel)]="settings.recovery_email"
-                                      [ngModelOptions]="{ updateOn: 'blur' }"
-                                      (change)="updateSettings('recovery_email', $event.target.value)"
-                                      placeholder="example@mail.com"
-                                    />
+                                    <input class="form-control form-control-sm" id="recoveryMail" type="email" name="email" autocomplete="off" [(ngModel)]="settings.recovery_email" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('recovery_email', $event.target.value)" placeholder="example@mail.com" />
                                   </form>
                                   <a class="col-2 align-self-center -underline" (click)="toggleRecoveyEmailEdit()">
                                     <u>Save</u>
@@ -94,15 +76,9 @@
                               </div>
                             </li>
                             <li class="info-list-item align-items-start">
-                              <div class="info-list-text info-list-label" [translate]="'settings.addresses'">
-                                Aliases
-                              </div>
+                              <div class="info-list-text info-list-label" [translate]="'settings.addresses'">Aliases</div>
                               <div class="info-list-text info-list-val">
-                                <div
-                                  *ngIf="userState.isPrime"
-                                  class="ng-tooltips-holder d-inline-block"
-                                  placement="top"
-                                >
+                                <div *ngIf="userState.isPrime" class="ng-tooltips-holder d-inline-block" placement="top">
                                   <div class="info-list-val-text" [translate]="'settings.address_tooltip'">
                                     {{ settings?.email_count }}
                                   </div>
@@ -120,14 +96,7 @@
                                   {{ settings?.allocated_storage | filesize }}
                                 </div>
                                 <div class="progress progress-secondary progress-lg">
-                                  <div
-                                    class="progress-bar"
-                                    role="progressbar"
-                                    [style.width.%]="(settings.used_storage / settings.allocated_storage) * 100"
-                                    [attr.aria-valuenow]="settings.used_storage"
-                                    aria-valuemin="0"
-                                    [attr.aria-valuemax]="settings.allocated_storage"
-                                  ></div>
+                                  <div class="progress-bar" role="progressbar" [style.width.%]="(settings.used_storage / settings.allocated_storage) * 100" [attr.aria-valuenow]="settings.used_storage" aria-valuemin="0" [attr.aria-valuemax]="settings.allocated_storage"></div>
                                 </div>
                               </div>
                             </li>
@@ -159,9 +128,7 @@
                         </li>
                         <ng-container *ngIf="userPlanType !== planType.FREE">
                           <li class="info-list-item">
-                            <div class="info-list-text info-list-label" [translate]="'billing_info.billing'">
-                              Billing
-                            </div>
+                            <div class="info-list-text info-list-label" [translate]="'billing_info.billing'">Billing</div>
                             <div class="info-list-text info-list-val">
                               {{ payment.payment_type }}
                             </div>
@@ -170,98 +137,45 @@
                             <div class="info-list-text info-list-label" [translate]="'settings.payment'">Payment</div>
                             <div class="info-list-text info-list-val text-capitalize">
                               <span>{{ payment.payment_method }}</span>
-                              <i
-                                *ngIf="payment?.payment_method === paymentMethod.stripe"
-                                class="{{
-                                  isCardUpdateMode
-                                    ? 'fas fa-chevron-up pr-2 cursor-pointer float-right'
-                                    : 'fas fa-chevron-down pr-2 cursor-pointer float-right'
-                                }}"
-                                (click)="isCardUpdateMode = !isCardUpdateMode"
-                              ></i>
+                              <i *ngIf="payment?.payment_method === paymentMethod.stripe" class="{{ isCardUpdateMode ? 'fas fa-chevron-up pr-2 cursor-pointer float-right' : 'fas fa-chevron-down pr-2 cursor-pointer float-right' }}" (click)="isCardUpdateMode = !isCardUpdateMode"></i>
                             </div>
                           </li>
                           <li class="info-list-item info-list-detail" *ngIf="isCardUpdateMode">
                             <div class="info-list-text info-list-detail-content col-12" *ngFor="let card of cards">
-                              <input
-                                class="d-none fancy-field-control fancy-field-control-sm"
-                                id="{{ 'card_' + card.last4 }}"
-                                name="activeCard"
-                                type="radio"
-                                (click)="onMakePrimaryCard(card)"
-                                [checked]="card.is_primary"
-                              />
+                              <input class="d-none fancy-field-control fancy-field-control-sm" id="{{ 'card_' + card.last4 }}" name="activeCard" type="radio" (click)="onMakePrimaryCard(card)" [checked]="card.is_primary" />
                               <label for="{{ 'card_' + card.last4 }}">{{ card.last4 | creditcardnumber }}</label>
-                              <i
-                                *ngIf="!card.is_primary"
-                                (click)="onDeleteCard(card)"
-                                [ngbTooltip]="'common.delete' | translate"
-                                class="fas fa-trash pr-2 cursor-pointer float-right"
-                              ></i>
+                              <i *ngIf="!card.is_primary" (click)="onDeleteCard(card)" [ngbTooltip]="'common.delete' | translate" class="fas fa-trash pr-2 cursor-pointer float-right"></i>
                             </div>
                             <div class="info-list-text info-list-action col-12">
                               <a (click)="onAddNewCard()" [translate]="'settings.add_new_method'">ADD NEW METHOD</a>
                             </div>
                           </li>
                           <li class="info-list-item">
-                            <div class="info-list-text info-list-label" [translate]="'settings.billing_cycle_end'">
-                              Billing Cycle End
-                            </div>
+                            <div class="info-list-text info-list-label" [translate]="'settings.billing_cycle_end'">Billing Cycle End</div>
                             <div class="info-list-text info-list-val">
                               <span>{{ payment.billing_cycle_ends | momentDate: 'mediumDate' }}</span>
-                              <a
-                                *ngIf="
-                                  !settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin
-                                "
-                                [ngbTooltip]="'settings.extend_billing_cycle' | translate"
-                                class="float-right"
-                                (click)="renew()"
-                                [translate]="'settings.renew'"
-                              >
-                                Renew
-                              </a>
+                              <a *ngIf="!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin" [ngbTooltip]="'settings.extend_billing_cycle' | translate" class="float-right" (click)="renew()" [translate]="'settings.renew'"> Renew </a>
                             </div>
                           </li>
                           <li class="info-list-item">
-                            <div class="info-list-text info-list-label" [translate]="'settings.recurring_billing'">
-                              Recurring Billing
-                            </div>
+                            <div class="info-list-text info-list-label" [translate]="'settings.recurring_billing'">Recurring Billing</div>
                             <div class="info-list-text info-list-val">
-                              <div
-                                class="row row-sm"
-                                *ngIf="payment.payment_method === paymentMethod.stripe; else bitcoinMethod"
-                              >
+                              <div class="row row-sm" *ngIf="payment.payment_method === paymentMethod.stripe; else bitcoinMethod">
                                 <div class="col-6 flex-auto-col">
                                   <div class="fancy-field-group">
-                                    <input
-                                      class="d-none fancy-field-control fancy-field-control-sm"
-                                      id="enableRecurringBilling"
-                                      name="recurringBilling"
-                                      type="radio"
-                                      (click)="updateSettings('recurrence_billing', true)"
-                                      [checked]="settings.recurrence_billing"
-                                    />
+                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="enableRecurringBilling" name="recurringBilling" type="radio" (click)="updateSettings('recurrence_billing', true)" [checked]="settings.recurrence_billing" />
                                     <label for="enableRecurringBilling" [translate]="'common.yes'">Yes</label>
                                   </div>
                                 </div>
                                 <div class="col-6 flex-auto-col">
                                   <div class="fancy-field-group">
-                                    <input
-                                      class="d-none fancy-field-control fancy-field-control-sm"
-                                      id="disableRecurringBilling"
-                                      name="recurringBilling"
-                                      type="radio"
-                                      (click)="updateSettings('recurrence_billing', false)"
-                                      [checked]="!settings.recurrence_billing"
-                                    />
+                                    <input class="d-none fancy-field-control fancy-field-control-sm" id="disableRecurringBilling" name="recurringBilling" type="radio" (click)="updateSettings('recurrence_billing', false)" [checked]="!settings.recurrence_billing" />
                                     <label for="disableRecurringBilling" [translate]="'common.no'">No</label>
                                   </div>
                                 </div>
                               </div>
                               <ng-template #bitcoinMethod>
-                                <span [translate]="'settings.not_available_for_bitcoin'">
-                                  Not available for bitcoin
-                                </span>
+                                <span [translate]="'settings.not_available_for_bitcoin'"> Not available for bitcoin </span>
                               </ng-template>
                             </div>
                           </li>
@@ -278,32 +192,22 @@
                       </h5>
                     </div>
                     <div class="plan-details">
-                      <div
-                        class="desc-card-body invoices"
-                        [ngClass]="{ 'no-invoice': userState?.isInvoiceLoaded && invoices?.length === 0 }"
-                      >
+                      <div class="desc-card-body invoices" [ngClass]="{ 'no-invoice': userState?.isInvoiceLoaded && invoices?.length === 0 }">
                         <div *ngIf="userState?.isInvoiceLoaded && invoices?.length > 0">
                           <ul class="ui-list ui-list-styled list-styled invoices-list">
                             <li class="ui-list-item ui-list-item-xs-full">
                               <div class="row row-xs align-items-center">
-                                <div class="col-5 font-weight-bold col-item">
-                                  # <span [translate]="'settings.invoice'">Invoice</span>
-                                </div>
+                                <div class="col-5 font-weight-bold col-item"># <span [translate]="'settings.invoice'">Invoice</span></div>
                                 <div class="col-3 col-item">
                                   <div class="form-label mb-0 font-weight-bold" [translate]="'settings.date'">Date</div>
                                 </div>
-                                <div class="col-2 font-weight-bold col-item" [translate]="'settings.amount'">
-                                  Amount
-                                </div>
+                                <div class="col-2 font-weight-bold col-item" [translate]="'settings.amount'">Amount</div>
                               </div>
                             </li>
 
                             <li class="ui-list-item ui-list-item-xs-full" *ngFor="let invoice of invoices">
                               <div class="row row-xs align-items-center">
-                                <div
-                                  class="col-5 text-dark col-item"
-                                  [ngbTooltip]="'settings.view_invoice' | translate"
-                                >
+                                <div class="col-5 text-dark col-item" [ngbTooltip]="'settings.view_invoice' | translate">
                                   <a class="cursor-pointer" (click)="onViewInvoice(invoice)">
                                     {{ invoice.invoice_id }}
                                   </a>
@@ -313,34 +217,16 @@
                                     {{ invoice.invoice_date | date: 'dd/MM/yyyy' }}
                                   </div>
                                 </div>
-                                <div class="col-2 text-dark col-item">
-                                  ${{ (invoice.total_amount / 100).toFixed(2) }}
-                                </div>
+                                <div class="col-2 text-dark col-item">${{ (invoice.total_amount / 100).toFixed(2) }}</div>
                                 <div class="col-2 display-inline-flex actions">
-                                  <i
-                                    (click)="onViewInvoice(invoice)"
-                                    [ngbTooltip]="'settings.view' | translate"
-                                    class="fas fa-eye pr-2 cursor-pointer"
-                                  >
-                                  </i>
-                                  <i
-                                    (click)="onPrintInvoice(invoice)"
-                                    [ngbTooltip]="'mail_detail.print' | translate"
-                                    class="fas fa-print cursor-pointer"
-                                  >
-                                  </i>
+                                  <i (click)="onViewInvoice(invoice)" [ngbTooltip]="'settings.view' | translate" class="fas fa-eye pr-2 cursor-pointer"> </i>
+                                  <i (click)="onPrintInvoice(invoice)" [ngbTooltip]="'mail_detail.print' | translate" class="fas fa-print cursor-pointer"> </i>
                                 </div>
                               </div>
                             </li>
                           </ul>
                         </div>
-                        <div
-                          class="no-data"
-                          *ngIf="userState?.isInvoiceLoaded && invoices?.length === 0"
-                          [translate]="'settings.no_bills_avail'"
-                        >
-                          No bills available
-                        </div>
+                        <div class="no-data" *ngIf="userState?.isInvoiceLoaded && invoices?.length === 0" [translate]="'settings.no_bills_avail'">No bills available</div>
                         <div class="loader" *ngIf="!userState?.isInvoiceLoaded">
                           <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
                         </div>
@@ -359,23 +245,7 @@
               <strong [translate]="'settings.account_type'">Account Type</strong>
             </h5>
           </div>
-          <app-pricing-plans
-            hideHeader="true"
-            blockGapsZero="true"
-            [showCurrentPlan]="true"
-            [userPlanType]="userPlanType"
-            [selectedCurrency]="payment.currency"
-            [paymentType]="payment.payment_type"
-            [paymentMethod]="
-              payment.payment_method === 'stripe'
-                ? paymentMethod.STRIPE
-                : payment.payment_method === 'bitcoin'
-                ? paymentMethod.BITCOIN
-                : payment.payment_method
-            "
-            [openBillingInfoInModal]="true"
-          >
-          </app-pricing-plans>
+          <app-pricing-plans hideHeader="true" blockGapsZero="true" [showCurrentPlan]="true" [userPlanType]="userPlanType" [selectedCurrency]="payment.currency" [paymentType]="payment.payment_type" [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE : payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN : payment.payment_method" [openBillingInfoInModal]="true"> </app-pricing-plans>
         </section>
       </ng-template>
     </ngb-tab>
@@ -403,17 +273,9 @@
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
                       <div ngbDropdown class="dropdown-sm">
-                        <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
-                          {{ selectedLanguage?.name }} ({{ selectedLanguage?.locale }})
-                        </button>
+                        <button ngbDropdownToggle role="button" id="langDropdownMenuButton">{{ selectedLanguage?.name }} ({{ selectedLanguage?.locale }})</button>
                         <div ngbDropdownMenu aria-labelledby="langDropdownMenuButton">
-                          <a
-                            class="dropdown-item"
-                            *ngFor="let language of languages"
-                            (click)="updateLanguage(language)"
-                          >
-                            {{ language.name }} ({{ language.locale }})
-                          </a>
+                          <a class="dropdown-item" *ngFor="let language of languages" (click)="updateLanguage(language)"> {{ language.name }} ({{ language.locale }}) </a>
                         </div>
                       </div>
                     </div>
@@ -423,30 +285,15 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.current_time_zone'">
-                      Current time zone
-                    </label>
+                    <label class="form-label mb-0" [translate]="'settings.current_time_zone'"> Current time zone </label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
                       <div class="dropdown-sm timezone-block">
                         <mat-form-field class="timezone-filter" floatLabel="never">
-                          <input
-                            type="text"
-                            placeholder=""
-                            aria-label="Number"
-                            [formControl]="timeZoneFilter"
-                            [matAutocomplete]="auto"
-                            [value]="settings.timezone"
-                            matInput
-                          />
+                          <input type="text" placeholder="" aria-label="Number" [formControl]="timeZoneFilter" [matAutocomplete]="auto" [value]="settings.timezone" matInput />
                           <mat-autocomplete #auto="matAutocomplete" class="timezone-option">
-                            <mat-option
-                              class="timezone-option"
-                              *ngFor="let timezone of timeZoneFilteredOptions | async"
-                              (onSelectionChange)="updateSettings('timezone', timezone.value)"
-                              [value]="timezone.value"
-                            >
+                            <mat-option class="timezone-option" *ngFor="let timezone of timeZoneFilteredOptions | async" (onSelectionChange)="updateSettings('timezone', timezone.value)" [value]="timezone.value">
                               {{ timezone.value }}
                             </mat-option>
                           </mat-autocomplete>
@@ -459,35 +306,19 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.automatically_save_contact'">
-                      Automatically save contacts
-                    </label>
+                    <label class="form-label mb-0" [translate]="'settings.automatically_save_contact'"> Automatically save contacts </label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="autoSaveField1"
-                            name="[1]"
-                            type="radio"
-                            (click)="updateSettings('save_contacts', true)"
-                            [checked]="settings.save_contacts"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField1" name="[1]" type="radio" (click)="updateSettings('save_contacts', true)" [checked]="settings.save_contacts" />
                           <label for="autoSaveField1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="autoSaveField2"
-                            name="[1]"
-                            type="radio"
-                            (click)="updateSettings('save_contacts', false)"
-                            [checked]="!settings.save_contacts"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSaveField2" name="[1]" type="radio" (click)="updateSettings('save_contacts', false)" [checked]="!settings.save_contacts" />
                           <label for="autoSaveField2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
@@ -504,27 +335,13 @@
                     <div class="row row-sm">
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="composersize1"
-                            name="[composerSize]"
-                            type="radio"
-                            (click)="updateSettings('is_composer_full_screen', false)"
-                            [checked]="!settings.is_composer_full_screen"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize1" name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', false)" [checked]="!settings.is_composer_full_screen" />
                           <label for="composersize1">Small pop-up</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="composersize2"
-                            name="[composerSize]"
-                            type="radio"
-                            (click)="updateSettings('is_composer_full_screen', true)"
-                            [checked]="settings.is_composer_full_screen"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="composersize2" name="[composerSize]" type="radio" (click)="updateSettings('is_composer_full_screen', true)" [checked]="settings.is_composer_full_screen" />
                           <label for="composersize2">Full screen</label>
                         </div>
                       </div>
@@ -535,27 +352,16 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_font'">
-                      Default Mail Compose Font
-                    </label>
+                    <label class="form-label mb-0" [translate]="'settings.compose_font'"> Default Mail Compose Font </label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
                       <div ngbDropdown class="dropdown-sm">
-                        <button
-                          ngbDropdownToggle
-                          class="text-capitalize"
-                          role="button"
-                          id="defaultFontDropdownMenuButton"
-                        >
+                        <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultFontDropdownMenuButton">
                           {{ settings.default_font }}
                         </button>
                         <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
-                          <a
-                            class="dropdown-item text-capitalize"
-                            *ngFor="let font of fonts"
-                            (click)="updateSettings('default_font', font)"
-                          >
+                          <a class="dropdown-item text-capitalize" *ngFor="let font of fonts" (click)="updateSettings('default_font', font)">
                             {{ font }}
                           </a>
                         </div>
@@ -567,27 +373,16 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_autosave_duration'">
-                      Mail compose autosave duration
-                    </label>
+                    <label class="form-label mb-0" [translate]="'settings.compose_autosave_duration'"> Mail compose autosave duration </label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
                       <div ngbDropdown class="dropdown-sm">
-                        <button
-                          ngbDropdownToggle
-                          class="text-capitalize"
-                          role="button"
-                          id="defaultAutosaveDropdownMenuButton"
-                        >
+                        <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultAutosaveDropdownMenuButton">
                           {{ autosave_duration }}
                         </button>
                         <div ngbDropdownMenu aria-labelledby="defaultAutosaveDropdownMenuButton">
-                          <a
-                            class="dropdown-item text-capitalize"
-                            *ngFor="let duration of autosave_duration_list"
-                            (click)="updateSettings('autosave_duration', duration)"
-                          >
+                          <a class="dropdown-item text-capitalize" *ngFor="let duration of autosave_duration_list" (click)="updateSettings('autosave_duration', duration)">
                             {{ duration }}
                           </a>
                         </div>
@@ -598,37 +393,20 @@
               </div>
               <div class="form-content-row">
                 <div class="row align-items-center">
-                  <div
-                    class="col-sm-3"
-                    ngbTooltip="Enabling this option would block all the external images from loading automatically when you open an email"
-                  >
+                  <div class="col-sm-3" ngbTooltip="Enabling this option would block all the external images from loading automatically when you open an email">
                     <label class="form-label mb-0">Block external images</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="blockExternalImages1"
-                            name="[blockExternalImages]"
-                            type="radio"
-                            (click)="updateSettings('is_disable_loading_images', true)"
-                            [checked]="settings.is_disable_loading_images"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="blockExternalImages1" name="[blockExternalImages]" type="radio" (click)="updateSettings('is_disable_loading_images', true)" [checked]="settings.is_disable_loading_images" />
                           <label for="blockExternalImages1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="blockExternalImages2"
-                            name="[blockExternalImages]"
-                            type="radio"
-                            (click)="updateSettings('is_disable_loading_images', false)"
-                            [checked]="!settings.is_disable_loading_images"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="blockExternalImages2" name="[blockExternalImages]" type="radio" (click)="updateSettings('is_disable_loading_images', false)" [checked]="!settings.is_disable_loading_images" />
                           <label for="blockExternalImages2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
@@ -638,37 +416,20 @@
               </div>
               <div class="form-content-row">
                 <div class="row align-items-center">
-                  <div
-                    class="col-sm-3"
-                    ngbTooltip="Enabling this option would include original message text when you reply"
-                  >
+                  <div class="col-sm-3" ngbTooltip="Enabling this option would include original message text when you reply">
                     <label class="form-label mb-0">Include original message text</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="includeOriginalMsg1"
-                            name="[includeOriginalMsg]"
-                            type="radio"
-                            (click)="updateSettings('include_original_message', true)"
-                            [checked]="settings.include_original_message"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="includeOriginalMsg1" name="[includeOriginalMsg]" type="radio" (click)="updateSettings('include_original_message', true)" [checked]="settings.include_original_message" />
                           <label for="includeOriginalMsg1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="includeOriginalMsg2"
-                            name="[includeOriginalMsg]"
-                            type="radio"
-                            (click)="updateSettings('include_original_message', false)"
-                            [checked]="!settings.include_original_message"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="includeOriginalMsg2" name="[includeOriginalMsg]" type="radio" (click)="updateSettings('include_original_message', false)" [checked]="!settings.include_original_message" />
                           <label for="includeOriginalMsg2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
@@ -685,36 +446,20 @@
                     <div class="row row-sm">
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="htmlEditor1"
-                            name="[htmlEditor]"
-                            type="radio"
-                            (click)="updateSettings('is_html_disabled', false)"
-                            [checked]="!settings.is_html_disabled"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor1" name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', false)" [checked]="!settings.is_html_disabled" />
                           <label for="htmlEditor1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="htmlEditor2"
-                            name="[htmlEditor]"
-                            type="radio"
-                            (click)="updateSettings('is_html_disabled', true)"
-                            [checked]="settings.is_html_disabled"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="htmlEditor2" name="[htmlEditor]" type="radio" (click)="updateSettings('is_html_disabled', true)" [checked]="settings.is_html_disabled" />
                           <label for="htmlEditor2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="info-card mt-2 mx-3 full-width">
-                    <p [translate]="'settings.disabling_editor_message'">
-                      Disabling HTML editor will allow you to use plain text editor for composing email.
-                    </p>
+                    <p [translate]="'settings.disabling_editor_message'">Disabling HTML editor will allow you to use plain text editor for composing email.</p>
                   </div>
                 </div>
               </div>
@@ -727,27 +472,13 @@
                     <div class="row row-sm">
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="reportBugs1"
-                            name="[reportBugs]"
-                            type="radio"
-                            (click)="updateSettings('is_enable_report_bugs', true)"
-                            [checked]="settings.is_enable_report_bugs"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="reportBugs1" name="[reportBugs]" type="radio" (click)="updateSettings('is_enable_report_bugs', true)" [checked]="settings.is_enable_report_bugs" />
                           <label for="reportBugs1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="reportBugs2"
-                            name="[reportBugs]"
-                            type="radio"
-                            (click)="updateSettings('is_enable_report_bugs', false)"
-                            [checked]="!settings.is_enable_report_bugs"
-                          />
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="reportBugs2" name="[reportBugs]" type="radio" (click)="updateSettings('is_enable_report_bugs', false)" [checked]="!settings.is_enable_report_bugs" />
                           <label for="reportBugs2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
@@ -776,40 +507,19 @@
                   <div class="row row-sm">
                     <div class="col-6 flex-auto-col">
                       <div class="fancy-field-group">
-                        <input
-                          class="d-none fancy-field-control fancy-field-control-sm"
-                          id="emailCoutField1"
-                          name="[5]"
-                          type="radio"
-                          (click)="updateSettings('emails_per_page', 20)"
-                          [checked]="settings?.emails_per_page === 20"
-                        />
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)" [checked]="settings?.emails_per_page === 20" />
                         <label for="emailCoutField1">20</label>
                       </div>
                     </div>
                     <div class="col-6 flex-auto-col">
                       <div class="fancy-field-group">
-                        <input
-                          class="d-none fancy-field-control fancy-field-control-sm"
-                          id="emailCoutField2"
-                          name="[5]"
-                          type="radio"
-                          (click)="updateSettings('emails_per_page', 50)"
-                          [checked]="settings?.emails_per_page === 50"
-                        />
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)" [checked]="settings?.emails_per_page === 50" />
                         <label for="emailCoutField2">50</label>
                       </div>
                     </div>
                     <div class="col-6 flex-auto-col">
                       <div class="fancy-field-group">
-                        <input
-                          class="d-none fancy-field-control fancy-field-control-sm"
-                          id="emailCoutField3"
-                          name="[5]"
-                          type="radio"
-                          (click)="updateSettings('emails_per_page', 100)"
-                          [checked]="settings?.emails_per_page === 100"
-                        />
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)" [checked]="settings?.emails_per_page === 100" />
                         <label for="emailCoutField3">100</label>
                       </div>
                     </div>
@@ -826,27 +536,13 @@
                   <div class="row row-sm">
                     <div class="col-6 flex-auto-col">
                       <div class="fancy-field-group">
-                        <input
-                          class="d-none fancy-field-control fancy-field-control-sm"
-                          id="darkMode1"
-                          name="[darkMode]"
-                          type="radio"
-                          (click)="updateSettings('is_night_mode', true)"
-                          [checked]="settings.is_night_mode"
-                        />
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode1" name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', true)" [checked]="settings.is_night_mode" />
                         <label for="darkMode1" [translate]="'common.enabled'">Enabled</label>
                       </div>
                     </div>
                     <div class="col-6 flex-auto-col">
                       <div class="fancy-field-group">
-                        <input
-                          class="d-none fancy-field-control fancy-field-control-sm"
-                          id="darkMode2"
-                          name="[darkMode]"
-                          type="radio"
-                          (click)="updateSettings('is_night_mode', false)"
-                          [checked]="!settings.is_night_mode"
-                        />
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode2" name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', false)" [checked]="!settings.is_night_mode" />
                         <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
                       </div>
                     </div>
@@ -863,27 +559,13 @@
                   <div class="row row-sm">
                     <div class="col-6 flex-auto-col">
                       <div class="fancy-field-group">
-                        <input
-                          class="d-none fancy-field-control fancy-field-control-sm"
-                          id="conversationViewMode1"
-                          name="[conversationMode]"
-                          type="radio"
-                          (click)="updateConversationMode(true)"
-                          [checked]="settings.is_conversation_mode"
-                        />
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode1" name="[conversationMode]" type="radio" (click)="updateConversationMode(true)" [checked]="settings.is_conversation_mode" />
                         <label for="conversationViewMode1" [translate]="'common.enabled'">Enabled</label>
                       </div>
                     </div>
                     <div class="col-6 flex-auto-col">
                       <div class="fancy-field-group">
-                        <input
-                          class="d-none fancy-field-control fancy-field-control-sm"
-                          id="conversationViewMode2"
-                          name="[conversationMode]"
-                          type="radio"
-                          (click)="updateConversationMode(false)"
-                          [checked]="!settings.is_conversation_mode"
-                        />
+                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode2" name="[conversationMode]" type="radio" (click)="updateConversationMode(false)" [checked]="!settings.is_conversation_mode" />
                         <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
                       </div>
                     </div>
@@ -897,16 +579,7 @@
                   <label for="customCss" class="form-label mb-sm-0"> Custom css </label>
                 </div>
                 <form class="col-sm-7 col-md-5" autocomplete="off">
-                  <textarea
-                    class="form-control form-control-sm resize-off"
-                    id="customCss"
-                    name="customCss"
-                    [(ngModel)]="settings.custom_css"
-                    [ngModelOptions]="{ updateOn: 'blur' }"
-                    (change)="updateSettings('custom_css', $event.target.value)"
-                    rows="3"
-                  >
-                  </textarea>
+                  <textarea class="form-control form-control-sm resize-off" id="customCss" name="customCss" [(ngModel)]="settings.custom_css" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('custom_css', $event.target.value)" rows="3"> </textarea>
                 </form>
                 <div class="info-card mx-3 mt-2 full-width">
                   <p>You can write the custom css here in order to customize the display of your mailbox.</p>
@@ -928,62 +601,28 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label
-                      for="notificationEmail"
-                      class="form-label mb-sm-0"
-                      [translate]="'settings.notification_email'"
-                    >
-                      Notification email
-                    </label>
+                    <label for="notificationEmail" class="form-label mb-sm-0" [translate]="'settings.notification_email'"> Notification email </label>
                   </div>
                   <form class="col-sm-7 col-md-5" autocomplete="off">
-                    <input
-                      class="form-control form-control-sm"
-                      id="notificationEmail"
-                      type="email"
-                      name="notificationEmail"
-                      autocomplete="off"
-                      [(ngModel)]="settings.notification_email"
-                      [ngModelOptions]="{ updateOn: 'blur' }"
-                      (change)="updateSettings('notification_email', $event.target.value)"
-                      placeholder="notify@example.com"
-                      onfocus="(this.placeholder='')"
-                      onfocusout="(this.placeholder='notify@example.com')"
-                    />
+                    <input class="form-control form-control-sm" id="notificationEmail" type="email" name="notificationEmail" autocomplete="off" [(ngModel)]="settings.notification_email" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('notification_email', $event.target.value)" placeholder="notify@example.com" onfocus="(this.placeholder='')" onfocusout="(this.placeholder='notify@example.com')" />
                   </form>
                   <div class="info-card mx-3 mt-2 full-width">
-                    <p [translate]="'settings.enter_notification_email'">
-                      Enter a notification email on which you would like to receive notification each day when you have
-                      new emails.
-                    </p>
+                    <p [translate]="'settings.enter_notification_email'">Enter a notification email on which you would like to receive notification each day when you have new emails.</p>
                   </div>
                 </div>
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-sm-0" [translate]="'settings.desktop_notification_title'">
-                      Desktop notifications
-                    </label>
+                    <label class="form-label mb-sm-0" [translate]="'settings.desktop_notification_title'"> Desktop notifications </label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="info-card mt-3 full-width">
-                      <p
-                        *ngIf="notificationsPermission === notificationPermissionType.DENIED"
-                        [translate]="'settings.desktop_notifications_dis'"
-                      >
-                        Desktop Notifications are disabled. Please go to your browser settings in order to enable them.
-                      </p>
+                      <p *ngIf="notificationsPermission === notificationPermissionType.DENIED" [translate]="'settings.desktop_notifications_dis'">Desktop Notifications are disabled. Please go to your browser settings in order to enable them.</p>
                       <p *ngIf="notificationsPermission === notificationPermissionType.DEFAULT">
-                        <a (click)="requestNotificationPermission()" [translate]="'settings.click_here'">
-                          Click here
-                        </a>
-                        <span translate="settings.enable_notifications">
-                          in order to enable desktop notifications.
-                        </span>
+                        <a (click)="requestNotificationPermission()" [translate]="'settings.click_here'"> Click here </a>
+                        <span translate="settings.enable_notifications"> in order to enable desktop notifications. </span>
                       </p>
                       <p *ngIf="notificationsPermission === notificationPermissionType.GRANTED">
-                        <span [translate]="'settings.desktop_notifications_en'">
-                          Desktop notifications are enabled.
-                        </span>
+                        <span [translate]="'settings.desktop_notifications_en'"> Desktop notifications are enabled. </span>
                         <a (click)="testNotification()">
                           <span [translate]="'settings.click_to_test'"> Click here to Test </span>
                         </a>
@@ -1012,17 +651,8 @@
             <div class="form-content-holder">
               <app-loading-spinner [showSpinner]="authState?.inProgress"></app-loading-spinner>
               <div class="info-card">
-                <p [translate]="'settings.delete_account_guide'">
-                  If you permanently delete your account you will lose all the data in your mailbox. In 12 months this
-                  username will be available for re-use by anyone who selects it.
-                </p>
-                <button
-                  type="button"
-                  class="text-uppercase btn-link"
-                  role="button"
-                  [disabled]="authState?.inProgress"
-                  (click)="onDeleteAccount()"
-                >
+                <p [translate]="'settings.delete_account_guide'">If you permanently delete your account you will lose all the data in your mailbox. In 12 months this username will be available for re-use by anyone who selects it.</p>
+                <button type="button" class="text-uppercase btn-link" role="button" [disabled]="authState?.inProgress" (click)="onDeleteAccount()">
                   <strong>
                     <u [translate]="'settings.delete_account_perm'">Permanently Delete Account</u>
                   </strong>
@@ -1059,9 +689,7 @@
                       <div class="form-label text-dark mb-0">{{ item.email }}</div>
                     </div>
                     <div class="col-2 col-sm-4">
-                      <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
-                      >
+                      <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                         <li>
                           <a (click)="deleteWhiteList(item.id)" role="button">
                             <i class="icon icon-garbage"></i>
@@ -1073,16 +701,8 @@
                 </li>
               </ul>
               <div class="info-card">
-                <p [innerHTML]="'settings.whitelist.info' | translate">
-                  Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message
-                  as not spam adds the address to the Whitelist.
-                </p>
-                <a
-                  href="javascript:void(0);"
-                  class="text-uppercase btn-link"
-                  role="button"
-                  (click)="newListContact = { show: true, type: 'Whitelist' }"
-                >
+                <p [innerHTML]="'settings.whitelist.info' | translate">Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message as not spam adds the address to the Whitelist.</p>
+                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact = { show: true, type: 'Whitelist' }">
                   <strong>
                     <u [translate]="'settings.whitelist.add_whitelist_contact'"> Add whitelist contact </u>
                   </strong>
@@ -1108,9 +728,7 @@
                       <div class="form-label text-dark mb-0">{{ item.email }}</div>
                     </div>
                     <div class="col-2 col-sm-4">
-                      <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
-                      >
+                      <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                         <li>
                           <a (click)="deleteBlackList(item.id)" role="button">
                             <i class="icon icon-garbage"></i>
@@ -1122,16 +740,8 @@
                 </li>
               </ul>
               <div class="info-card">
-                <p [innerHTML]="'settings.blacklist.info' | translate">
-                  Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message
-                  as spam adds the address to the Blacklist.
-                </p>
-                <a
-                  href="javascript:void(0);"
-                  class="text-uppercase btn-link"
-                  role="button"
-                  (click)="newListContact = { show: true, type: 'Blacklist' }"
-                >
+                <p [innerHTML]="'settings.blacklist.info' | translate">Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message as spam adds the address to the Blacklist.</p>
+                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact = { show: true, type: 'Blacklist' }">
                   <strong>
                     <u [translate]="'settings.blacklist.add_blacklist_contact'"> Add blacklist contact </u>
                   </strong>
@@ -1145,9 +755,7 @@
 
     <!-- Addresses and Signatures -->
     <ngb-tab id="addresses-and-signatures">
-      <ng-template ngbTabTitle
-        ><span [translate]="'settings.signs_and_aliases'">Signatures & aliases</span>
-      </ng-template>
+      <ng-template ngbTabTitle><span [translate]="'settings.signs_and_aliases'">Signatures & aliases</span> </ng-template>
       <ng-template ngbTabContent>
         <app-addresses-signature></app-addresses-signature>
       </ng-template>
@@ -1203,12 +811,7 @@
 </div>
 
 <!-- Modal groups -->
-<app-save-list-contact
-  *ngIf="newListContact.show"
-  [contactType]="newListContact.type"
-  (closed)="newListContact.show = false"
->
-</app-save-list-contact>
+<app-save-list-contact *ngIf="newListContact.show" [contactType]="newListContact.type" (closed)="newListContact.show = false"> </app-save-list-contact>
 
 <!-- Delete account info modal -->
 <ng-template #deleteAccountInfoModal let-c="close" let-d="dismiss">
@@ -1223,64 +826,25 @@
   <form [formGroup]="deleteAccountInfoForm" (submit)="onDeleteAccountInfoSubmit()">
     <div class="modal-body bg-faded">
       <div class="text-holder text-dark text-medium">
-        <p class="text-danger" [translate]="'settings.delete_account_guide'">
-          You have selected to permanently delete your account. If you proceed you will lose all the data in your
-          mailbox.In 2 months this username will be available for re-use by anyone who selects it.
-        </p>
+        <p class="text-danger" [translate]="'settings.delete_account_guide'">You have selected to permanently delete your account. If you proceed you will lose all the data in your mailbox.In 2 months this username will be available for re-use by anyone who selects it.</p>
         <p [translate]="'settings.provide_email'">Please provide an email address in case we need to contact you.</p>
         <div class="login-content-holder mx-auto mt-2 pt-sm-2">
           <div class="form">
             <div class="form-group form-group-sm">
               <label for="deleteAccountEmail" class="d-block text-muted text-left hidden-sm-up"> Email </label>
-              <input
-                class="form-control text-dark"
-                id="deleteAccountEmail"
-                autocomplete="off"
-                [placeholder]="'common.email' | translate"
-                type="email"
-                name="deleteAccountEmail"
-                formControlName="contact_email"
-              />
-              <span
-                *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors"
-                class="validate-message"
-                [translate]="'settings.email_invalid'"
-              >
-                The email is invalid.
-              </span>
+              <input class="form-control text-dark" id="deleteAccountEmail" autocomplete="off" [placeholder]="'common.email' | translate" type="email" name="deleteAccountEmail" formControlName="contact_email" />
+              <span *ngIf="deleteAccountInfoForm.controls['contact_email'].errors && deleteAccountOptions.showErrors" class="validate-message" [translate]="'settings.email_invalid'"> The email is invalid. </span>
             </div>
             <div class="form-group form-group-sm">
-              <label for="deleteAccountPassword" class="d-block text-muted text-left hidden-sm-up">
-                Current Password
-              </label>
+              <label for="deleteAccountPassword" class="d-block text-muted text-left hidden-sm-up"> Current Password </label>
               <div class="input-group">
-                <input
-                  #deleteAccountPasswordInput
-                  class="form-control form-control-lg"
-                  id="deleteAccountPassword"
-                  autocomplete="new-password"
-                  name="deleteAccountPassword"
-                  formControlName="password"
-                  [placeholder]="'settings.current_password' | translate"
-                  type="password"
-                />
-                <span
-                  class="input-group-addon password-toggle bg-white text-muted"
-                  (click)="togglePassword(deleteAccountPasswordInput)"
-                >
+                <input #deleteAccountPasswordInput class="form-control form-control-lg" id="deleteAccountPassword" autocomplete="new-password" name="deleteAccountPassword" formControlName="password" [placeholder]="'settings.current_password' | translate" type="password" />
+                <span class="input-group-addon password-toggle bg-white text-muted" (click)="togglePassword(deleteAccountPasswordInput)">
                   <i class="fa fa-eye"></i>
                 </span>
               </div>
-              <span
-                *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors"
-                class="validate-message"
-              >
-                <span
-                  *ngIf="deleteAccountInfoForm.controls['password'].errors.required"
-                  [translate]="'settings.password_req'"
-                >
-                  Your current password is required.
-                </span>
+              <span *ngIf="deleteAccountInfoForm.controls['password'].errors && deleteAccountOptions.showErrors" class="validate-message">
+                <span *ngIf="deleteAccountInfoForm.controls['password'].errors.required" [translate]="'settings.password_req'"> Your current password is required. </span>
               </span>
             </div>
           </div>
@@ -1308,16 +872,12 @@
   </div>
   <div class="modal-body bg-faded">
     <div class="text-holder text-dark text-medium">
-      <p [translate]="'settings.permanently_delete_alert'">
-        Are you sure you want to permanently delete your account? No one will be able to undo this.
-      </p>
+      <p [translate]="'settings.permanently_delete_alert'">Are you sure you want to permanently delete your account? No one will be able to undo this.</p>
     </div>
   </div>
   <div class="modal-footer justify-content-center justify-content-sm-end">
     <button (click)="d()" class="btn btn-default btn-sm" role="button" [translate]="'common.cancel'">Cancel</button>
-    <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" [translate]="'common.delete'">
-      Delete
-    </button>
+    <button (click)="confirmDeleteAccount()" class="btn btn-danger btn-sm" role="button" [translate]="'common.delete'">Delete</button>
   </div> </ng-template
 ><!-- /.Confirm delete account modal ends -->
 
@@ -1329,22 +889,6 @@
     </button>
   </div>
   <div class="modal-body user-billing-upgrade-modal bg-faded px-3 py-0 bg-white">
-    <app-users-billing-info
-      [isUpgradeAccount]="true"
-      [isRenew]="true"
-      [isAddNewCard]="isAddNewCard"
-      [planType]="userPlanType"
-      [paymentType]="payment.payment_type"
-      [currency]="payment.currency"
-      [paymentMethod]="
-        payment.payment_method === 'stripe'
-          ? paymentMethod.STRIPE
-          : payment.payment_method === 'bitcoin'
-          ? paymentMethod.BITCOIN
-          : payment.payment_method
-      "
-      (close)="d()"
-    >
-    </app-users-billing-info>
+    <app-users-billing-info [isUpgradeAccount]="true" [isRenew]="true" [isAddNewCard]="isAddNewCard" [planType]="userPlanType" [paymentType]="payment.payment_type" [currency]="payment.currency" [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE : payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN : payment.payment_method" (close)="d()"> </app-users-billing-info>
   </div> </ng-template
 ><!-- /.billing info modal ends -->

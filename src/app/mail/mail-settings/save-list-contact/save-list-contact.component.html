@@ -25,9 +25,7 @@
             </div>
           </div>
           <span *ngIf="contactForm.controls['name'].errors && showFormErrors" id="name-valid" class="validate-message">
-            <span *ngIf="contactForm.controls['name'].errors.required" [translate]="'settings.username_required'">
-              The username is required.
-            </span>
+            <span *ngIf="contactForm.controls['name'].errors.required" [translate]="'settings.username_required'"> The username is required. </span>
           </span>
         </div>
         <div class="form-group mb-0">
@@ -41,14 +39,8 @@
               </div>
             </div>
           </div>
-          <span
-            *ngIf="contactForm.controls['email'].errors && showFormErrors"
-            id="email-valid"
-            class="validate-message"
-          >
-            <span *ngIf="contactForm.hasError('email', 'email')" [translate]="'settings.email_required'">
-              The email is required.
-            </span>
+          <span *ngIf="contactForm.controls['email'].errors && showFormErrors" id="email-valid" class="validate-message">
+            <span *ngIf="contactForm.hasError('email', 'email')" [translate]="'settings.email_required'"> The email is required. </span>
           </span>
         </div>
       </div>

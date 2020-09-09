@@ -31,23 +31,12 @@
         </li>
       </ul>
       <div class="row row-xs align-items-center" *ngIf="settings.enable_forwarding">
-        <input
-          type="checkbox"
-          id="copyForwarding"
-          name="copyForwarding"
-          [(ngModel)]="settings.enable_copy_forwarding"
-          (ngModelChange)="changeKeepCopy($event)"
-          class="d-none fancy-field-control fancy-field-control-sm"
-        />
-        <label for="copyForwarding" [translate]="'settings.forwarding.keep_copy'">
-          Keep a copy of forwarded messages
-        </label>
+        <input type="checkbox" id="copyForwarding" name="copyForwarding" [(ngModel)]="settings.enable_copy_forwarding" (ngModelChange)="changeKeepCopy($event)" class="d-none fancy-field-control fancy-field-control-sm" />
+        <label for="copyForwarding" [translate]="'settings.forwarding.keep_copy'"> Keep a copy of forwarded messages </label>
       </div>
       <ng-template #addForwardingAddress>
         <div class="info-card">
-          <p [translate]="'settings.forwarding.auto_forward'">
-            You can automatically forward your messages to another address.
-          </p>
+          <p [translate]="'settings.forwarding.auto_forward'">You can automatically forward your messages to another address.</p>
           <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="onAddAddress()">
             <strong>
               <u [translate]="'settings.forwarding.add_address'"> Add a forwarding address </u>
@@ -77,38 +66,11 @@
         <div class="mx-auto mt-2 pt-sm-2">
           <div class="form">
             <div class="form-group form-group-sm">
-              <label
-                for="forwardingAddress"
-                class="d-block text-muted text-left hidden-sm-up"
-                [translate]="'settings.forwarding.address'"
-              >
-                Forwarding Address
-              </label>
-              <input
-                class="form-control text-dark"
-                id="forwardingAddress"
-                autocomplete="off"
-                [placeholder]="'settings.forwarding.address' | translate"
-                type="email"
-                name="forwardingAddress"
-                formControlName="email"
-                required
-              />
+              <label for="forwardingAddress" class="d-block text-muted text-left hidden-sm-up" [translate]="'settings.forwarding.address'"> Forwarding Address </label>
+              <input class="form-control text-dark" id="forwardingAddress" autocomplete="off" [placeholder]="'settings.forwarding.address' | translate" type="email" name="forwardingAddress" formControlName="email" required />
               <ng-container *ngIf="emailForm.controls['email'].errors && showFormErrorMessages">
-                <span
-                  *ngIf="emailForm.controls['email'].errors.required"
-                  class="validate-message"
-                  [translate]="'settings.forwarding.address_req'"
-                >
-                  The address is required.
-                </span>
-                <span
-                  *ngIf="emailForm.controls['email'].errors.pattern"
-                  class="validate-message"
-                  [translate]="'settings.forwarding.address_invalid'"
-                >
-                  The address is invalid.
-                </span>
+                <span *ngIf="emailForm.controls['email'].errors.required" class="validate-message" [translate]="'settings.forwarding.address_req'"> The address is required. </span>
+                <span *ngIf="emailForm.controls['email'].errors.pattern" class="validate-message" [translate]="'settings.forwarding.address_invalid'"> The address is invalid. </span>
               </ng-container>
             </div>
           </div>
@@ -140,72 +102,22 @@
     <form [formGroup]="codeForm" (submit)="onVerifyCodeSubmit()">
       <div class="modal-body bg-faded">
         <div class="text-holder text-dark text-medium">
-          <p [translate]="'settings.forwarding.enter_code'">
-            Please enter the verification code sent to provided email address.
-          </p>
+          <p [translate]="'settings.forwarding.enter_code'">Please enter the verification code sent to provided email address.</p>
           <div class="mx-auto mt-2 pt-sm-2">
             <div class="form">
               <div class="form-group form-group-sm">
-                <label
-                  for="verifyForwardingAddress"
-                  class="d-block text-muted text-left hidden-sm-up"
-                  [translate]="'settings.forwarding.address'"
-                >
-                  Forwarding Address
-                </label>
-                <input
-                  class="form-control text-dark"
-                  id="verifyForwardingAddress"
-                  autocomplete="off"
-                  [placeholder]="'settings.forwarding.address' | translate"
-                  type="email"
-                  name="verifyForwardingAddress"
-                  formControlName="email"
-                  required
-                />
+                <label for="verifyForwardingAddress" class="d-block text-muted text-left hidden-sm-up" [translate]="'settings.forwarding.address'"> Forwarding Address </label>
+                <input class="form-control text-dark" id="verifyForwardingAddress" autocomplete="off" [placeholder]="'settings.forwarding.address' | translate" type="email" name="verifyForwardingAddress" formControlName="email" required />
                 <ng-container *ngIf="codeForm.controls['email'].errors && showFormErrorMessages">
-                  <span
-                    *ngIf="codeForm.controls['email'].errors.required"
-                    class="validate-message"
-                    [translate]="'settings.forwarding.address_req'"
-                  >
-                    The address is required.
-                  </span>
-                  <span
-                    *ngIf="codeForm.controls['email'].errors.pattern"
-                    class="validate-message"
-                    [translate]="'settings.forwarding.address_invalid'"
-                  >
-                    The address is invalid.
-                  </span>
+                  <span *ngIf="codeForm.controls['email'].errors.required" class="validate-message" [translate]="'settings.forwarding.address_req'"> The address is required. </span>
+                  <span *ngIf="codeForm.controls['email'].errors.pattern" class="validate-message" [translate]="'settings.forwarding.address_invalid'"> The address is invalid. </span>
                 </ng-container>
               </div>
               <div class="form-group form-group-sm">
-                <label
-                  for="verificationCode"
-                  class="d-block text-muted text-left hidden-sm-up"
-                  [translate]="'settings.forwarding.verif_code'"
-                >
-                  Verification Code
-                </label>
-                <input
-                  class="form-control text-dark"
-                  id="verificationCode"
-                  autocomplete="off"
-                  [placeholder]="'settings.forwarding.verif_code' | translate"
-                  type="number"
-                  name="forwardingAddress"
-                  formControlName="code"
-                  required
-                />
+                <label for="verificationCode" class="d-block text-muted text-left hidden-sm-up" [translate]="'settings.forwarding.verif_code'"> Verification Code </label>
+                <input class="form-control text-dark" id="verificationCode" autocomplete="off" [placeholder]="'settings.forwarding.verif_code' | translate" type="number" name="forwardingAddress" formControlName="code" required />
                 <ng-container *ngIf="codeForm.controls['code'].errors && showFormErrorMessages">
-                  <span
-                    *ngIf="codeForm.controls['code'].errors.required"
-                    class="validate-message"
-                    [translate]="'settings.forwarding.code_req'"
-                  >
-                    The verification code is required.
-                  </span>
+                  <span *ngIf="codeForm.controls['code'].errors.required" class="validate-message" [translate]="'settings.forwarding.code_req'"> The verification code is required. </span>
                 </ng-container>
               </div>
             </div>
@@ -219,14 +131,7 @@
         <button class="btn btn-default btn-sm" type="reset" (click)="d()">
           <span [translate]="'common.cancel'"> Cancel </span>
         </button>
-        <button
-          class="btn btn-secondary btn-sm"
-          type="submit"
-          [disabled]="userState.inProgress"
-          [translate]="'billing_info.submit'"
-        >
-          Submit
-        </button>
+        <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress" [translate]="'billing_info.submit'">Submit</button>
         <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
       </div>
     </form>

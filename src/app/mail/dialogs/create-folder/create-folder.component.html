@@ -37,12 +37,7 @@
             <div class="color-boxes-holder">
               <ul class="color-boxes-group" id="colorSelection">
                 <li *ngFor="let color of folderColors; let i = index">
-                  <div
-                    class="color-shape"
-                    (click)="selectedColorIndex = i"
-                    [class.is-active]="i === selectedColorIndex"
-                    [style.background]="color"
-                  ></div>
+                  <div class="color-shape" (click)="selectedColorIndex = i" [class.is-active]="i === selectedColorIndex" [style.background]="color"></div>
                 </li>
               </ul>
             </div>
@@ -63,14 +58,8 @@
 </div>
 
 <ng-template #folderNameErrors>
-  <span class="validate-message" *ngIf="duplicateFoldername">{{
-    'settings.folder_messages.name_exist' | translate
-  }}</span>
-  <ng-container
-    *ngIf="
-      customFolderForm.controls['folderName'].errors && (customFolderForm.controls['folderName'].touched || submitted)
-    "
-  >
+  <span class="validate-message" *ngIf="duplicateFoldername">{{ 'settings.folder_messages.name_exist' | translate }}</span>
+  <ng-container *ngIf="customFolderForm.controls['folderName'].errors && (customFolderForm.controls['folderName'].touched || submitted)">
     <span class="validate-message">
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.required">
         <span> {{ 'settings.folder_messages.name_required' | translate }}</span>

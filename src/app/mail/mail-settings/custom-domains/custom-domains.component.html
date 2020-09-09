@@ -11,36 +11,21 @@
                 <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block">
                   <strong [translate]="'settings.domains'">Domains</strong>
                 </h5>
-                <a
-                  href="{{ primaryWebsite }}/help/answer/add-a-domain/"
-                  ngbTooltip="Learn more"
-                  class="learn-more-info-icon"
-                  target="_blank"
-                >
+                <a href="{{ primaryWebsite }}/help/answer/add-a-domain/" ngbTooltip="Learn more" class="learn-more-info-icon" target="_blank">
                   <i class="far fa-question-circle"></i>
                 </a>
               </div>
               <div class="desc-card-body bg-faded domain-body">
-                <button
-                  class="btn btn-secondary btn-add-domain text-small"
-                  *ngIf="userState?.isPrime && domains?.length > 0; else domainsEmpty"
-                  (click)="startAddingNewDomain()"
-                >
+                <button class="btn btn-secondary btn-add-domain text-small" *ngIf="userState?.isPrime && domains?.length > 0; else domainsEmpty" (click)="startAddingNewDomain()">
                   <span [translate]="'settings.add_domain'">Add Domain</span>
                 </button>
                 <ng-template #domainsEmpty>
-                  <button
-                    class="btn btn-secondary btn-create-domain text-small"
-                    *ngIf="userState?.isPrime"
-                    (click)="startAddingNewDomain()"
-                  >
+                  <button class="btn btn-secondary btn-create-domain text-small" *ngIf="userState?.isPrime" (click)="startAddingNewDomain()">
                     <span [translate]="'settings.create_domain'">Create Domain</span>
                   </button>
                 </ng-template>
                 <div class="py-4 error-message" *ngIf="!userState?.isPrime && userState?.customDomainsLoaded">
-                  <span [translate]="'settings.domains_and_users.premium_feature'">
-                    This is a premium feature,please</span
-                  >
+                  <span [translate]="'settings.domains_and_users.premium_feature'"> This is a premium feature,please</span>
                   <a class="cursor-pointer" (click)="gotoPricingPlans()">
                     &nbsp;
                     <span [translate]="'settings.domains_and_users.upgrade'">upgrade</span>
@@ -49,8 +34,7 @@
                   <span [translate]="'settings.domains_and_users.use_feature'"> in order to use this feature. </span>
                 </div>
 
-                <app-loading-spinner [showSpinner]="userState?.inProgress" class="loading-spinner">
-                </app-loading-spinner>
+                <app-loading-spinner [showSpinner]="userState?.inProgress" class="loading-spinner"> </app-loading-spinner>
 
                 <div class="domains-list" *ngIf="domains?.length > 0">
                   <div class="row d-none d-sm-flex bg-white heading">
@@ -58,22 +42,16 @@
                       <span class="text-capitalize font-weight-bold" [translate]="'settings.domain'"> Domain </span>
                     </div>
                     <div class="col-5">
-                      <span class="text-capitalize font-weight-bold" [translate]="'settings.current_status'">
-                        Current Status
-                      </span>
+                      <span class="text-capitalize font-weight-bold" [translate]="'settings.current_status'"> Current Status </span>
                     </div>
                     <div class="col-1 text-center">
                       <span class="text-capitalize font-weight-bold" [translate]="'settings.addresses'"> Aliases </span>
                     </div>
                     <div class="col-1 text-center">
-                      <span class="text-capitalize font-weight-bold" [translate]="'settings.domains_and_users.users'"
-                        >Users</span
-                      >
+                      <span class="text-capitalize font-weight-bold" [translate]="'settings.domains_and_users.users'">Users</span>
                     </div>
                     <div class="col-2 text-center">
-                      <span class="text-capitalize font-weight-bold" [translate]="'settings.catch_all'">
-                        Catch all
-                      </span>
+                      <span class="text-capitalize font-weight-bold" [translate]="'settings.catch_all'"> Catch all </span>
                     </div>
                   </div>
 
@@ -111,44 +89,21 @@
                     <div class="col-1 text-dark text-domain text-center">{{ domain.number_of_aliases }}</div>
                     <div class="col-1 text-dark text-domain text-center">{{ domain.number_of_users }}</div>
                     <div class="col-2 text-dark text-domain text-center">
-                      <mat-checkbox
-                        type="checkbox"
-                        [checked]="domain.catch_all"
-                        (change)="domain.catch_all = $event.checked; updateDomain(domain)"
-                      >
-                      </mat-checkbox>
+                      <mat-checkbox type="checkbox" [checked]="domain.catch_all" (change)="domain.catch_all = $event.checked; updateDomain(domain)"> </mat-checkbox>
                     </div>
                     <div class="col-1 d-flex justify-content-end actions">
-                      <div
-                        class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center"
-                      >
-                        <a
-                          class="text-muted"
-                          (click)="verifyDomain(domain.id, false, true)"
-                          ngbTooltip="Verify dns records again."
-                        >
+                      <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                        <a class="text-muted" (click)="verifyDomain(domain.id, false, true)" ngbTooltip="Verify dns records again.">
                           <i class="fas fa-sync-alt reverify-domain"></i>
                         </a>
                       </div>
-                      <div
-                        class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center"
-                      >
-                        <a
-                          class="text-muted"
-                          (click)="startAddingNewDomain(domain)"
-                          [ngbTooltip]="'settings.edit' | translate"
-                        >
+                      <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                        <a class="text-muted" (click)="startAddingNewDomain(domain)" [ngbTooltip]="'settings.edit' | translate">
                           <i class="icon icon-edit"></i>
                         </a>
                       </div>
-                      <div
-                        class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center"
-                      >
-                        <a
-                          class="text-muted"
-                          [ngbTooltip]="'settings.delete' | translate"
-                          (click)="openConfirmDeleteModal(domain)"
-                        >
+                      <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">
+                        <a class="text-muted" [ngbTooltip]="'settings.delete' | translate" (click)="openConfirmDeleteModal(domain)">
                           <i class="icon icon-garbage"></i>
                         </a>
                       </div>
@@ -158,19 +113,11 @@
                             <i class="fa fa-ellipsis-h"></i>
                           </button>
                           <div ngbDropdownMenu class="dropdown-menu-right">
-                            <button
-                              class="dropdown-item text-muted"
-                              (click)="startAddingNewDomain(domain)"
-                              [ngbTooltip]="'settings.edit' | translate"
-                            >
+                            <button class="dropdown-item text-muted" (click)="startAddingNewDomain(domain)" [ngbTooltip]="'settings.edit' | translate">
                               <i class="icon icon-edit"></i>
                               <span [translate]="'settings.edit_details'">Edit Details</span>
                             </button>
-                            <button
-                              class="dropdown-item text-muted"
-                              [ngbTooltip]="'settings.delete' | translate"
-                              (click)="openConfirmDeleteModal(domain)"
-                            >
+                            <button class="dropdown-item text-muted" [ngbTooltip]="'settings.delete' | translate" (click)="openConfirmDeleteModal(domain)">
                               <i class="icon icon-garbage"></i>
                               <span [translate]="'settings.remove'">Remove</span>
                             </button>
@@ -191,19 +138,11 @@
                               <i class="fa fa-ellipsis-h"></i>
                             </button>
                             <div ngbDropdownMenu class="dropdown-menu-right">
-                              <button
-                                class="dropdown-item text-muted text-small"
-                                (click)="startAddingNewDomain(domain)"
-                                [ngbTooltip]="'settings.edit' | translate"
-                              >
+                              <button class="dropdown-item text-muted text-small" (click)="startAddingNewDomain(domain)" [ngbTooltip]="'settings.edit' | translate">
                                 <i class="icon icon-edit"></i>
                                 <span [translate]="'settings.edit_details'">Edit Details</span>
                               </button>
-                              <button
-                                class="dropdown-item text-muted text-small"
-                                [ngbTooltip]="'settings.delete' | translate"
-                                (click)="openConfirmDeleteModal(domain)"
-                              >
+                              <button class="dropdown-item text-muted text-small" [ngbTooltip]="'settings.delete' | translate" (click)="openConfirmDeleteModal(domain)">
                                 <i class="icon icon-garbage"></i>
                                 <span [translate]="'settings.remove'">Remove</span>
                               </button>
@@ -215,9 +154,7 @@
                         <span class="text-dark text-domain font-weight-bold">{{ domain.domain }}</span>
                       </div>
                       <div class="my-2">
-                        <span class="text-uppercase text-small" [translate]="'settings.current_status'">
-                          Current Status
-                        </span>
+                        <span class="text-uppercase text-small" [translate]="'settings.current_status'"> Current Status </span>
                       </div>
                       <div class="text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
                         <div class="failed" [class.verified]="domain.is_domain_verified">
@@ -251,12 +188,7 @@
                       <div class="my-2">
                         <span class="text-uppercase text-small">Catch all</span>
                       </div>
-                      <mat-checkbox
-                        type="checkbox"
-                        [checked]="domain.catch_all"
-                        (change)="domain.catch_all = $event.checked; updateDomain(domain)"
-                      >
-                      </mat-checkbox>
+                      <mat-checkbox type="checkbox" [checked]="domain.catch_all" (change)="domain.catch_all = $event.checked; updateDomain(domain)"> </mat-checkbox>
                     </div>
                   </div>
                 </div>
@@ -271,9 +203,7 @@
             <div class="ml-3 my-3 my-sm-4">
               <h3 class="ui-header-subtitle mb-0">
                 <strong [translate]="'settings.create_domain'" *ngIf="!isEditing">Create domain</strong>
-                <strong *ngIf="isEditing">
-                  <span [translate]="'settings.domain'">Domain</span>: {{ newDomain?.domain }}
-                </strong>
+                <strong *ngIf="isEditing"> <span [translate]="'settings.domain'">Domain</span>: {{ newDomain?.domain }} </strong>
               </h3>
             </div>
             <div class="desc-card-body bg-faded">
@@ -284,35 +214,15 @@
                 <mat-step [stepControl]="domainNameForm">
                   <form [formGroup]="domainNameForm">
                     <ng-template matStepLabel>
-                      <span
-                        class="font-weight-bold"
-                        [class.green]="newDomain?.id"
-                        [translate]="'settings.add_domain_step.name'"
-                      >
-                        Domain name
-                      </span>
-                      <span
-                        class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right"
-                        [translate]="'settings.set'"
-                        *ngIf="newDomain?.id"
-                      >
-                        Set
-                      </span>
+                      <span class="font-weight-bold" [class.green]="newDomain?.id" [translate]="'settings.add_domain_step.name'"> Domain name </span>
+                      <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" [translate]="'settings.set'" *ngIf="newDomain?.id"> Set </span>
                     </ng-template>
                     <div class="stepper-form">
                       <div class="pb-3">
-                        <span class="text-dark" [translate]="'settings.add_domain_step.info'">
-                          Add a domain that you own to your CTemplar account.
-                        </span>
+                        <span class="text-dark" [translate]="'settings.add_domain_step.info'"> Add a domain that you own to your CTemplar account. </span>
                       </div>
                       <div>
-                        <input
-                          class="domain-input text-dark form-control"
-                          id="domainInput"
-                          type="text"
-                          placeholder="mydomain.com"
-                          formControlName="domainNameCtrl"
-                        />
+                        <input class="domain-input text-dark form-control" id="domainInput" type="text" placeholder="mydomain.com" formControlName="domainNameCtrl" />
                       </div>
                       <div *ngIf="userState.isError && newDomainError" class="l-alert l-alert-danger mt-3">
                         {{ newDomainError }}
@@ -329,34 +239,14 @@
                 <mat-step [stepControl]="verifyForm">
                   <form [formGroup]="verifyForm">
                     <ng-template matStepLabel>
-                      <span
-                        class="font-weight-bold"
-                        [class.green]="newDomain?.is_domain_verified"
-                        [translate]="'settings.verify_step.name'"
-                      >
-                        Verify
-                      </span>
-                      <span
-                        class="text-muted ml-2"
-                        [class.green]="newDomain?.is_domain_verified"
-                        [translate]="'settings.required'"
-                      >
-                        Required
-                      </span>
-                      <span
-                        class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right"
-                        [translate]="'settings.good'"
-                        *ngIf="newDomain?.is_domain_verified"
-                      >
-                        Good
-                      </span>
+                      <span class="font-weight-bold" [class.green]="newDomain?.is_domain_verified" [translate]="'settings.verify_step.name'"> Verify </span>
+                      <span class="text-muted ml-2" [class.green]="newDomain?.is_domain_verified" [translate]="'settings.required'"> Required </span>
+                      <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" [translate]="'settings.good'" *ngIf="newDomain?.is_domain_verified"> Good </span>
                     </ng-template>
                     <div class="stepper-form" *ngIf="newDomain?.id">
                       <div class="pb-3">
                         <span class="text-dark" [innerHTML]="'settings.verify_step.info' | translate">
-                          For security reasons, we need to verify that you are the owner of your domain. Please add the
-                          following code into your DNS. Do not remove it even after successful verification. This can
-                          typically be done in the control panel of your domain name registrar.<br /><br />
+                          For security reasons, we need to verify that you are the owner of your domain. Please add the following code into your DNS. Do not remove it even after successful verification. This can typically be done in the control panel of your domain name registrar.<br /><br />
                           Please add the following TXT record:
                         </span>
                       </div>
@@ -364,9 +254,7 @@
                         <div class="row">
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.verify_step.type'">
-                                Type
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.verify_step.type'"> Type </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.verification_record.type }}</span>
@@ -374,9 +262,7 @@
                           </div>
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.verify_step.host_name'">
-                                Host Name
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.verify_step.host_name'"> Host Name </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.verification_record.host }}</span>
@@ -384,34 +270,18 @@
                           </div>
                           <div class="col-md-7 col-sm-12">
                             <div class="pl-sm-3">
-                              <span
-                                class="text-uppercase text-small"
-                                [translate]="'settings.verify_step.value_data_points_to'"
-                              >
-                                Value / Data / Points To
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.verify_step.value_data_points_to'"> Value / Data / Points To </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.verification_record.value }}</span>
-                              <button
-                                mat-icon-button
-                                (click)="copyToClipboard(newDomain?.verification_record.value)"
-                                class="copy-btn"
-                              >
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.verification_record.value)" class="copy-btn">
                                 <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div
-                        *ngIf="userState?.isError"
-                        class="l-alert l-alert-danger mt-3"
-                        [translate]="'settings.domains_and_users.domain_verification_message'"
-                      >
-                        Domain verification failed, please add above TXT record in your host DNS and try again. DNS
-                        records can take several hours to update. Once domain is verified, you can proceed to next step.
-                      </div>
+                      <div *ngIf="userState?.isError" class="l-alert l-alert-danger mt-3" [translate]="'settings.domains_and_users.domain_verification_message'">Domain verification failed, please add above TXT record in your host DNS and try again. DNS records can take several hours to update. Once domain is verified, you can proceed to next step.</div>
                       <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
                   </form>
@@ -419,34 +289,14 @@
                 <mat-step [stepControl]="mxForm">
                   <form [formGroup]="mxForm">
                     <ng-template matStepLabel>
-                      <span
-                        class="font-weight-bold"
-                        [class.green]="newDomain?.is_mx_verified"
-                        [translate]="'settings.mx_step.name'"
-                      >
-                        MX
-                      </span>
-                      <span
-                        class="text-muted ml-2"
-                        [class.green]="newDomain?.is_mx_verified"
-                        [translate]="'settings.required'"
-                      >
-                        Required
-                      </span>
-                      <span
-                        class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right"
-                        [translate]="'settings.good'"
-                        *ngIf="newDomain?.is_mx_verified"
-                      >
-                        Good
-                      </span>
+                      <span class="font-weight-bold" [class.green]="newDomain?.is_mx_verified" [translate]="'settings.mx_step.name'"> MX </span>
+                      <span class="text-muted ml-2" [class.green]="newDomain?.is_mx_verified" [translate]="'settings.required'"> Required </span>
+                      <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" [translate]="'settings.good'" *ngIf="newDomain?.is_mx_verified"> Good </span>
                     </ng-template>
                     <div class="stepper-form" *ngIf="newDomain?.id">
                       <div class="pb-3">
                         <span class="text-dark" [innerHTML]="'settings.mx_step.info' | translate">
-                          Before you can receive emails for your custom domain addresses at CTemplar, you need to add
-                          the following MX record to your DNS. This can typically be done in the control panel of your
-                          domain name registrar.<br /><br />
+                          Before you can receive emails for your custom domain addresses at CTemplar, you need to add the following MX record to your DNS. This can typically be done in the control panel of your domain name registrar.<br /><br />
                           Please add the following MX record. Note, DNS records can take several hours to update.
                         </span>
                       </div>
@@ -462,9 +312,7 @@
                           </div>
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.mx_step.host_name'">
-                                Host Name
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.mx_step.host_name'"> Host Name </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.mx_record.host }}</span>
@@ -472,28 +320,18 @@
                           </div>
                           <div class="col-md-3 col-sm-12">
                             <div class="pl-sm-3">
-                              <span
-                                class="text-uppercase text-small"
-                                [translate]="'settings.mx_step.value_data_points_to'"
-                                >Value / Data / Points To</span
-                              >
+                              <span class="text-uppercase text-small" [translate]="'settings.mx_step.value_data_points_to'">Value / Data / Points To</span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.mx_record.value }}</span>
-                              <button
-                                mat-icon-button
-                                (click)="copyToClipboard(newDomain?.mx_record.value)"
-                                class="copy-btn"
-                              >
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.mx_record.value)" class="copy-btn">
                                 <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
                           </div>
                           <div class="col-md-4 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.mx_step.priority'"
-                                >Priority</span
-                              >
+                              <span class="text-uppercase text-small" [translate]="'settings.mx_step.priority'">Priority</span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.mx_record.priority }}</span>
@@ -501,15 +339,7 @@
                           </div>
                         </div>
                       </div>
-                      <div
-                        *ngIf="userState?.isError"
-                        class="l-alert l-alert-danger mt-3"
-                        [translate]="'settings.mx_step.mx_failed_message'"
-                      >
-                        MX Record verification failed, please add above MX record in your host DNS and try again. DNS
-                        records can take several hours to update. Once MX record is verified, you can proceed to next
-                        step.
-                      </div>
+                      <div *ngIf="userState?.isError" class="l-alert l-alert-danger mt-3" [translate]="'settings.mx_step.mx_failed_message'">MX Record verification failed, please add above MX record in your host DNS and try again. DNS records can take several hours to update. Once MX record is verified, you can proceed to next step.</div>
                       <ng-container *ngTemplateOutlet="nextButton"></ng-container>
                     </div>
                   </form>
@@ -517,34 +347,14 @@
                 <mat-step [stepControl]="spfForm">
                   <form [formGroup]="spfForm">
                     <ng-template matStepLabel>
-                      <span
-                        class="font-weight-bold"
-                        [class.green]="newDomain?.is_spf_verified"
-                        [translate]="'settings.spf_step.name'"
-                      >
-                        SPF
-                      </span>
-                      <span
-                        class="text-muted ml-2"
-                        [class.green]="newDomain?.is_spf_verified"
-                        [translate]="'settings.recommended'"
-                      >
-                        Recommended
-                      </span>
-                      <span
-                        class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right"
-                        [translate]="'settings.good'"
-                        *ngIf="newDomain?.is_spf_verified"
-                      >
-                        Good
-                      </span>
+                      <span class="font-weight-bold" [class.green]="newDomain?.is_spf_verified" [translate]="'settings.spf_step.name'"> SPF </span>
+                      <span class="text-muted ml-2" [class.green]="newDomain?.is_spf_verified" [translate]="'settings.recommended'"> Recommended </span>
+                      <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" [translate]="'settings.good'" *ngIf="newDomain?.is_spf_verified"> Good </span>
                     </ng-template>
                     <div class="stepper-form" *ngIf="newDomain?.id">
                       <div class="pb-3">
                         <span class="text-dark" [innerHTML]="'settings.spf_step.info' | translate">
-                          SPF is used to specify who is allowed to send email for the domain so we strongly recommend
-                          including CTemplar in your SPF record. Please add the following TXT record into your DNS. This
-                          can typically be done in the control panel of your domain name registrar.<br /><br />
+                          SPF is used to specify who is allowed to send email for the domain so we strongly recommend including CTemplar in your SPF record. Please add the following TXT record into your DNS. This can typically be done in the control panel of your domain name registrar.<br /><br />
                           Please add the following TXT record. Note, DNS records can take several hours to update.
                         </span>
                       </div>
@@ -560,9 +370,7 @@
                           </div>
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.spf_step.host_name'">
-                                Host Name
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.spf_step.host_name'"> Host Name </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.spf_record.host }}</span>
@@ -570,19 +378,11 @@
                           </div>
                           <div class="col-md-7 col-sm-12">
                             <div class="pl-sm-3">
-                              <span
-                                class="text-uppercase text-small"
-                                [translate]="'settings.spf_step.value_data_points_to'"
-                                >Value / Data / Points To</span
-                              >
+                              <span class="text-uppercase text-small" [translate]="'settings.spf_step.value_data_points_to'">Value / Data / Points To</span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.spf_record.value }}</span>
-                              <button
-                                mat-icon-button
-                                (click)="copyToClipboard(newDomain?.spf_record.value)"
-                                class="copy-btn"
-                              >
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.spf_record.value)" class="copy-btn">
                                 <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
@@ -596,34 +396,14 @@
                 <mat-step [stepControl]="dkimForm">
                   <form [formGroup]="dkimForm">
                     <ng-template matStepLabel>
-                      <span
-                        class="font-weight-bold"
-                        [class.green]="newDomain?.is_dkim_verified"
-                        [translate]="'settings.dkim_step.name'"
-                      >
-                        DKIM
-                      </span>
-                      <span
-                        class="text-muted ml-2"
-                        [class.green]="newDomain?.is_dkim_verified"
-                        [translate]="'settings.recommended'"
-                      >
-                        Recommended
-                      </span>
-                      <span
-                        class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right"
-                        [translate]="'settings.on'"
-                        *ngIf="newDomain?.is_dkim_verified"
-                      >
-                        On
-                      </span>
+                      <span class="font-weight-bold" [class.green]="newDomain?.is_dkim_verified" [translate]="'settings.dkim_step.name'"> DKIM </span>
+                      <span class="text-muted ml-2" [class.green]="newDomain?.is_dkim_verified" [translate]="'settings.recommended'"> Recommended </span>
+                      <span class="record-status px-2 py-1 font-weight-bold text-white text-small text-uppercase float-right" [translate]="'settings.on'" *ngIf="newDomain?.is_dkim_verified"> On </span>
                     </ng-template>
                     <div class="stepper-form" *ngIf="newDomain?.id">
                       <div class="pb-3">
                         <span class="text-dark" [innerHTML]="'settings.dkim_step.info' | translate">
-                          CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the
-                          following TXT record into your DNS for this domain. This can typically be done in the control
-                          panel of your domain name registrar.<br /><br />
+                          CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br /><br />
                           Please add the follow TXT record. Note, DNS records can take several hours to update.
                         </span>
                       </div>
@@ -631,9 +411,7 @@
                         <div class="row">
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.dkim_step.type'"
-                                >Type</span
-                              >
+                              <span class="text-uppercase text-small" [translate]="'settings.dkim_step.type'">Type</span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dkim_record.type }}</span>
@@ -641,9 +419,7 @@
                           </div>
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.dkim_step.host_name'">
-                                Host Name
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.dkim_step.host_name'"> Host Name </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dkim_record.host }}</span>
@@ -651,20 +427,11 @@
                           </div>
                           <div class="col-md-7 col-sm-12">
                             <div class="pl-sm-3">
-                              <span
-                                class="text-uppercase text-small"
-                                [translate]="'settings.dkim_step.value_data_points_to'"
-                              >
-                                Value / Data / Points To
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.dkim_step.value_data_points_to'"> Value / Data / Points To </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dkim_record.value }}</span>
-                              <button
-                                mat-icon-button
-                                (click)="copyToClipboard(newDomain?.dkim_record.value)"
-                                class="copy-btn"
-                              >
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dkim_record.value)" class="copy-btn">
                                 <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
@@ -678,27 +445,13 @@
                 <mat-step [stepControl]="dmarcForm">
                   <form [formGroup]="dmarcForm">
                     <ng-template matStepLabel>
-                      <span
-                        class="font-weight-bold"
-                        [class.green]="newDomain?.is_dmarc_verified"
-                        [translate]="'settings.dmarc_step.name'"
-                      >
-                        DMARC
-                      </span>
-                      <span
-                        class="text-muted ml-2"
-                        [class.green]="newDomain?.is_dmarc_verified"
-                        [translate]="'settings.optional_advanced'"
-                      >
-                        Optional, advanced
-                      </span>
+                      <span class="font-weight-bold" [class.green]="newDomain?.is_dmarc_verified" [translate]="'settings.dmarc_step.name'"> DMARC </span>
+                      <span class="text-muted ml-2" [class.green]="newDomain?.is_dmarc_verified" [translate]="'settings.optional_advanced'"> Optional, advanced </span>
                     </ng-template>
                     <div class="stepper-form" *ngIf="newDomain?.id">
                       <div class="pb-3">
                         <span class="text-dark" [innerHTML]="'settings.dmarc_step.info' | translate">
-                          CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the
-                          following TXT record into your DNS for this domain. This can typically be done in the control
-                          panel of your domain name registrar.<br /><br />
+                          CTemplar supports DKIM signing for custom domains. To use DKIM authentication, please add the following TXT record into your DNS for this domain. This can typically be done in the control panel of your domain name registrar.<br /><br />
                           Please add the follow TXT record. Note, DNS records can take several hours to update.</span
                         >
                       </div>
@@ -706,9 +459,7 @@
                         <div class="row">
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.dmarc_step.type'"
-                                >Type</span
-                              >
+                              <span class="text-uppercase text-small" [translate]="'settings.dmarc_step.type'">Type</span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dmarc_record.type }}</span>
@@ -716,9 +467,7 @@
                           </div>
                           <div class="col-md-2 col-sm-12">
                             <div class="pl-sm-3">
-                              <span class="text-uppercase text-small" [translate]="'settings.dmarc_step.host_name'">
-                                Host Name
-                              </span>
+                              <span class="text-uppercase text-small" [translate]="'settings.dmarc_step.host_name'"> Host Name </span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dmarc_record.host }}</span>
@@ -726,19 +475,11 @@
                           </div>
                           <div class="col-md-7 col-sm-12">
                             <div class="pl-sm-3">
-                              <span
-                                class="text-uppercase text-small"
-                                [translate]="'settings.dmarc_step.value_data_points_to'"
-                                >Value / Data / Points To</span
-                              >
+                              <span class="text-uppercase text-small" [translate]="'settings.dmarc_step.value_data_points_to'">Value / Data / Points To</span>
                             </div>
                             <div class="bg-white px-3 py-3">
                               <span class="text-dark text-small">{{ newDomain?.dmarc_record.value }}</span>
-                              <button
-                                mat-icon-button
-                                (click)="copyToClipboard(newDomain?.dmarc_record.value)"
-                                class="copy-btn"
-                              >
+                              <button mat-icon-button (click)="copyToClipboard(newDomain?.dmarc_record.value)" class="copy-btn">
                                 <i class="fas fa-copy" ngbTooltip="Copy to clipboard"></i>
                               </button>
                             </div>
@@ -788,23 +529,12 @@
         >?<br />
         <span class="warning">
           <span class="warning-text" [translate]="'settings.warning'">Warning</span>:
-          <span [translate]="'settings.domains_and_users.domain_deletion_message'">
-            All the associated email aliases and users(if any) of this domain will also be deleted.
-          </span>
+          <span [translate]="'settings.domains_and_users.domain_deletion_message'"> All the associated email aliases and users(if any) of this domain will also be deleted. </span>
         </span>
       </div>
       <div class="form-group text-right mb-0">
-        <button
-          (click)="cancelDelete()"
-          class="btn btn-secondary btn-sm mr-2"
-          [translate]="'common.cancel'"
-          role="button"
-        >
-          Cancel
-        </button>
-        <button (click)="deleteDomain()" class="btn btn-danger btn-sm" [translate]="'common.delete'" role="button">
-          Delete
-        </button>
+        <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2" [translate]="'common.cancel'" role="button">Cancel</button>
+        <button (click)="deleteDomain()" class="btn btn-danger btn-sm" [translate]="'common.delete'" role="button">Delete</button>
       </div>
     </div>
   </div> </ng-template

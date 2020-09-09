@@ -12,7 +12,7 @@ import { SharedService } from '../../../store/services';
 @Component({
   selector: 'app-display-name-dialog',
   templateUrl: './display-name-dialog.component.html',
-  styleUrls: ['./display-name-dialog.component.scss']
+  styleUrls: ['./display-name-dialog.component.scss'],
 })
 export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   changeDisplayNameForm: FormGroup;
@@ -26,12 +26,12 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
     public activeModal: NgbActiveModal,
     private store: Store<AppState>,
     private sharedService: SharedService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
     this.changeDisplayNameForm = this.formBuilder.group({
-      username: ['', [Validators.required]]
+      username: ['', [Validators.required]],
     });
 
     this.store
@@ -63,7 +63,7 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
     if (this.changeDisplayNameForm.valid && dispName !== '') {
       this.selectedMailbox.display_name = dispName;
       this.store.dispatch(
-        new MailboxSettingsUpdate({ ...this.selectedMailbox, successMsg: 'Display name saved successfully.' })
+        new MailboxSettingsUpdate({ ...this.selectedMailbox, successMsg: 'Display name saved successfully.' }),
       );
       this.close();
     }

@@ -1,10 +1,4 @@
-<aside
-  id="mailbox-sidebar"
-  (clickOutside)="toggleMenu($event)"
-  class="mailbox-sidebar is-sidebar-expandedx"
-  role="complementary"
-  [ngClass]="{ 'is-sidebar-expanded': isSidebarOpened }"
->
+<aside id="mailbox-sidebar" (clickOutside)="toggleMenu($event)" class="mailbox-sidebar is-sidebar-expandedx" role="complementary" [ngClass]="{ 'is-sidebar-expanded': isSidebarOpened }">
   <div class="mailbox-sidebar-inner" [class.sidebar-opened]="isSidebarOpened">
     <!-- Ctemplar Logo Section -->
     <div class="mailbox-brand">
@@ -28,11 +22,7 @@
     </div>
     <!-- Compose button -->
     <div class="mail-compose-section display-unset hidden-xs-down">
-      <button
-        class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon"
-        role="button"
-        (click)="openComposeMailDialog()"
-      >
+      <button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon" role="button" (click)="openComposeMailDialog()">
         <i class="icon icon-plus text-white hidden-md-up"></i>
         <span class="mailbox-btn-text hidden-sm-down">{{ 'common.compose' | translate }}</span>
       </button>
@@ -46,12 +36,8 @@
             <i class="icon icon-inbox"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.inbox' | translate }}</span>
             <ng-container *ngIf="mailState?.unreadMailsCount?.inbox > 0">
-              <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{
-                mailState?.unreadMailsCount?.inbox
-              }}</span>
-              <span class="badge badge-sm badge-square d-none d-sm-block">{{
-                mailState?.unreadMailsCount?.inbox
-              }}</span>
+              <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{ mailState?.unreadMailsCount?.inbox }}</span>
+              <span class="badge badge-sm badge-square d-none d-sm-block">{{ mailState?.unreadMailsCount?.inbox }}</span>
             </ng-container>
           </a>
         </li>
@@ -78,16 +64,10 @@
             <i class="icon icon-draft"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.outbox' | translate }}</span>
             <span class="badge outbox">
-              <span
-                class="badge-square hidden-sm-down badge-counter badge-success"
-                *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter > 0"
-              >
+              <span class="badge-square hidden-sm-down badge-counter badge-success" *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter > 0">
                 {{ mailState?.unreadMailsCount?.outbox_delayed_delivery_counter }}
               </span>
-              <span
-                class="badge-square hidden-sm-down badge-counter badge-danger"
-                *ngIf="mailState?.unreadMailsCount?.outbox_dead_man_counter > 0"
-              >
+              <span class="badge-square hidden-sm-down badge-counter badge-danger" *ngIf="mailState?.unreadMailsCount?.outbox_dead_man_counter > 0">
                 {{ mailState?.unreadMailsCount?.outbox_dead_man_counter }}
               </span>
             </span>
@@ -106,12 +86,8 @@
             <i class="icon icon-inbox"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.unread' | translate }}</span>
             <ng-container *ngIf="mailState?.unreadMailsCount?.total_unread_count > 0">
-              <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{
-                mailState?.unreadMailsCount?.total_unread_count
-              }}</span>
-              <span class="badge badge-sm badge-square d-none d-sm-block">{{
-                mailState?.unreadMailsCount?.total_unread_count
-              }}</span>
+              <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{ mailState?.unreadMailsCount?.total_unread_count }}</span>
+              <span class="badge badge-sm badge-square d-none d-sm-block">{{ mailState?.unreadMailsCount?.total_unread_count }}</span>
             </ng-container>
           </a>
         </li>
@@ -155,22 +131,14 @@
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.add_folder' | translate }}</span>
           </a>
         </li>
-        <li
-          class="mailbox-sidebar-nav-item custom-folder"
-          [class.active]="currentFolder === folder.name"
-          *ngFor="let folder of customFolders | slice: 0:LIMIT; let i = index"
-        >
+        <li class="mailbox-sidebar-nav-item custom-folder" [class.active]="currentFolder === folder.name" *ngFor="let folder of customFolders | slice: 0:LIMIT; let i = index">
           <div>
             <a routerLink="/mail/{{ folder.name }}/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
               <i class="folder-color-box icon" [style.background]="folder.color"></i>
               <span class="mailbox-sidebar-nav-label">
                 {{ folder.name }}
               </span>
-              <span
-                class="badge badge-square hidden-sm-down badge-position"
-                *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0"
-                >{{ mailState?.unreadMailsCount[folder.name] }}</span
-              >
+              <span class="badge badge-square hidden-sm-down badge-position" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0">{{ mailState?.unreadMailsCount[folder.name] }}</span>
             </a>
           </div>
         </li>
@@ -178,9 +146,7 @@
           <a (click)="toggleDisplayLimit(customFolders.length)" class="mailbox-sidebar-nav-link">
             <i class="icon icon-more ml-1"></i>
             <span class="mailbox-sidebar-nav-label text-capitalize">
-              {{
-                LIMIT === customFolders.length ? ('create_account.less' | translate) : ('mail_list.more' | translate)
-              }}
+              {{ LIMIT === customFolders.length ? ('create_account.less' | translate) : ('mail_list.more' | translate) }}
             </span>
           </a>
         </li>
@@ -198,11 +164,7 @@
         {{ userState.settings?.used_storage | filesize }} <span>{{ 'settings.of' | translate }}</span>
         {{ userState.settings.allocated_storage | filesize }}
       </div>
-      <a
-        routerLink="/mail/settings/dashboard-and-plans"
-        class="btn-link text-white hidden-in-sm"
-        *ngIf="!userState.isPrime"
-      >
+      <a routerLink="/mail/settings/dashboard-and-plans" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
         <small>
           <u>{{ 'common.upgrade_account' | translate }}</u>
         </small>
@@ -216,13 +178,7 @@
 
 <!-- Compose button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
-  <button
-    class="btn btn-primary mailbox-btn mailbox-compose-btn btn-xs-rounded has-icon"
-    role="button"
-    placement="top"
-    [ngbTooltip]="'common.compose' | translate"
-    (click)="openComposeMailDialog()"
-  >
+  <button class="btn btn-primary mailbox-btn mailbox-compose-btn btn-xs-rounded has-icon" role="button" placement="top" [ngbTooltip]="'common.compose' | translate" (click)="openComposeMailDialog()">
     <i class="icon icon-plus text-white"></i>
   </button>
 </div>

@@ -10,13 +10,7 @@
         <div>
           <div class="row">
             <div class="col mb-2" align="left">
-              <button
-                type="button"
-                ngbTooltip="Generate an invitation code"
-                [disabled]="inProgress || !isPrime"
-                (click)="generateCode()"
-                class="btn btn-sm btn-secondary"
-              >
+              <button type="button" ngbTooltip="Generate an invitation code" [disabled]="inProgress || !isPrime" (click)="generateCode()" class="btn btn-sm btn-secondary">
                 <span>Generate a code</span>
               </button>
             </div>
