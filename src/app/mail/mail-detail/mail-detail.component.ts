@@ -50,7 +50,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
   selectedMailToForward: Mail;
   isDecrypting: any = {};
-
   parentMailCollapsed = true;
   childMailCollapsed: boolean[] = [];
   mailFolder: MailFolderType;
@@ -101,6 +100,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
+    /**
+     * Check getting mail is succeeded
+     */
     this.store
       .select(state => state.webSocket)
       .pipe(untilDestroyed(this))
@@ -114,7 +116,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
         }
       });
-
+    /**
+     * Get mails from DB
+     */
     this.store
       .select(state => state.mail)
       .pipe(untilDestroyed(this))
@@ -167,7 +171,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 }, 3000);
                 this.scrollTo(document.querySelector('.last-child'));
               }
-
               // Mark mail as read
               if (!this.mail.read && !this.markedAsRead) {
                 this.markedAsRead = true;
@@ -186,7 +189,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               // Do not collapse the last email in the list
               this.childMailCollapsed[this.mail.children.length - 1] = false;
             }
-
             this.decryptChildEmails(this.mail.children[this.mail.children.length - 1]);
             this.mail.children.forEach(child => {
               this.backupChildDecryptedContent(child, mailState);
@@ -243,16 +245,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.currentMailbox = mailBoxesState.currentMailbox;
         this.mailboxes = mailBoxesState.mailboxes;
       });
-
+    /**
+     * Get folder and page from route
+     */
     this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
       const id = +params['id'];
-
       this.mailFolder = params['folder'] as MailFolderType;
       this.disableMoveTo = this.mailFolder === MailFolderType.OUTBOX || this.mailFolder === MailFolderType.DRAFT;
       this.page = +params['page'];
       this.getMailDetail(id);
     });
-
+    /**
+     * Get user settings
+     */
     this.store
       .select(state => state.user)
       .pipe(untilDestroyed(this))
@@ -267,8 +272,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.disableExternalImages = this.userState.settings.is_disable_loading_images;
         this.includeOriginMessage = this.userState.settings.include_original_message;
       });
-    this.isMobile = window.innerWidth <= 768;
 
+    this.isMobile = window.innerWidth <= 768;
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((params: Params) => {
       this.forceLightMode = params.lightMode;
     });
@@ -319,7 +324,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}/message/${this.mails[index].id}`);
     }, 500);
   }
-
+  /**
+   * Input email links to compose receivers
+   */
   handleEmailLinks() {
     setTimeout(() => {
       const self = this;
@@ -410,7 +417,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.mailOptions[child.id] = {};
     }
   }
-
+  /**
+   * Parse headers with new json format from origin headers
+   */
   parseHeaders(headers: any) {
     if (!headers) {
       return [];
@@ -424,7 +433,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
     });
-
     return headersArray;
   }
 
@@ -885,7 +893,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     previousMails.forEach(previousMail => (history = this.getMessageSummary(history, previousMail)));
     return `<div class="gmail_quote">${history}</div>`;
   }
-
+  /**
+   * Add original message status when reply or forward
+   */
   private getMessageSummary(content: string, mail: Mail): string {
     if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
       const formattedDateTime = mail.sent_at
@@ -900,7 +910,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     return content;
   }
-
+  /**
+   * Add forwarded message summary with original message
+   */
   private getForwardMessageSummary(mail: Mail): string {
     let content =
       `</br>---------- Forwarded message ----------</br>` +
@@ -916,9 +928,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.cc.length > 0) {
       content += `CC: ${mail.cc.map(cc => '&lt;' + cc + '&gt;').join(', ')}</br>`;
     }
-
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
-
     return content;
   }
 

@@ -1,5 +1,4 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -47,6 +46,9 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    /**
+     * Change language with user's setting language
+     */
     this.store
       .select(state => state.user)
       .pipe(untilDestroyed(this))
@@ -55,13 +57,15 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
           const language = this.languages.filter(item => item.name === user.settings.language)[0];
           if (this.selectedLanguage.name !== language.name) {
             this.translate.use(language.locale);
-            this.selectedLanguage = language;
           }
           this.selectedLanguage = language;
         }
       });
 
     this.setSearchPlaceholder(this.router.url);
+    /**
+     * Change placeholder of search bar on contacts page
+     */
     this.router.events
       .pipe(
         untilDestroyed(this),

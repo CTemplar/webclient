@@ -1020,7 +1020,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   sendEmail() {
-    this.confirmModalRef && this.confirmModalRef.dismiss();
+    if (this.confirmModalRef) {
+      this.confirmModalRef.dismiss();
+    }
     const receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),

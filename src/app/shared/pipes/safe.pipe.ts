@@ -237,7 +237,7 @@ export class SafePipe implements PipeTransform {
                 return `${attr}=""`;
               }
             }
-            return name + '="' + xss.escapeAttrValue(value) + '"';
+            return name + '="' + xss.escapeAttrValue(attr) + '"';
           }
         }
       },
