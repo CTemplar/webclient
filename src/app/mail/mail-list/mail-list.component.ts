@@ -21,7 +21,7 @@ export class MailListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     /**
-     * Get current folder and page fro route
+     * Get current folder and page from route
      * Default value: folder = Inbox, page = 1
      */
     this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
