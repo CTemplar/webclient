@@ -1,4 +1,5 @@
 <aside id="mailbox-sidebar" class="mailbox-sidebar is-sidebar-expandedx" role="complementary">
+  <!-- Mailbox left sidebar -->
   <div class="mailbox-sidebar-inner">
     <div class="mailbox-brand">
       <button class="navbar-toggler hidden-md-up" role="button" (click)="toggleMenu()">
@@ -21,8 +22,8 @@
     </div>
 
     <div class="mail-compose-section">
-      <a routerLink="/mail" class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon"
-        ><i class="icon icon-arrow-left icon-sm mr-md-2"></i>
+      <a routerLink="/mail" class="btn btn-lg btn-outline-white mailbox-btn mailbox-back-btn btn-xs-squared has-icon">
+        <i class="icon icon-arrow-left icon-sm mr-md-2"></i>
         <span class="mailbox-btn-text hidden-sm-down">{{ 'contacts.back_to_mail' | translate }}</span>
       </a>
     </div>
@@ -44,7 +45,8 @@
       </div>
       <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
         <span>{{ 'common.used_storage' | translate }}</span
-        >: {{ userState.settings?.used_storage | filesize }} <span>{{ 'settings.of' | translate }}</span>
+        >: {{ userState.settings?.used_storage | filesize }}
+        <span>{{ 'settings.of' | translate }}</span>
         {{ userState.settings.allocated_storage | filesize }}
       </div>
       <a routerLink="/mail/settings/dashboard-and-plans" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
@@ -62,7 +64,7 @@
     <i class="icon icon-add-user text-white"></i>
   </button>
 </div>
-
+<!-- Action Buttons Bar -->
 <div class="mailbox-actionbar border-bottom-0">
   <div class="row">
     <div class="col-12">
@@ -124,7 +126,7 @@
     </div>
   </div>
 </div>
-
+<!-- Select All Contacts, not only contacts of one page -->
 <div class="mail-check-number" *ngIf="selectAll && MAX_EMAIL_PAGE_LIMIT > LIMIT">
   <p *ngIf="!checkAll">
     All {{ LIMIT > MAX_EMAIL_PAGE_LIMIT - OFFSET ? MAX_EMAIL_PAGE_LIMIT : OFFSET + LIMIT }} conversations on this page are selected. <a (click)="selectEntire(true)">Select all {{ MAX_EMAIL_PAGE_LIMIT }} conversations in Contacts</a>
@@ -134,7 +136,7 @@
     <a (click)="selectEntire(false)">Clear selection</a>
   </p>
 </div>
-
+<!-- Contacts List -->
 <div class="mailbox-section">
   <div class="mailbox-section-body py-0">
     <div class="row mail-contact-layout-row" [class.is-splitted]="isLayoutSplitted">
@@ -234,7 +236,7 @@
   </div>
 </div>
 
-<!-- Add users contact modal -->
+<!-- Add users contact modal on mobile version -->
 <ng-template #addUserContent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel">

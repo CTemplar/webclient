@@ -1,4 +1,5 @@
 <form class="mail-actions-form" (submit)="createNewContact()" #newContactForm="ngForm">
+  <!-- Contact Name-->
   <div class="form-group">
     <div class="md-errors-spacer" *ngIf="contactName.errors || !contactName.untouched">
       <div *ngIf="contactName.errors && contactName.errors.required">
@@ -17,6 +18,7 @@
       </div>
     </div>
   </div>
+  <!-- Contact Email-->
   <div class="form-group is-repeatable add-button">
     <div class="md-errors-spacer" *ngIf="contactEmail.errors">
       <div *ngIf="contactEmail.errors.required">
@@ -39,6 +41,7 @@
       <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
   </div>
+  <!-- Contact Encryption for InternalUsers-->
   <div class="form-group add-button" *ngIf="!internalUser">
     <div class="row align-items-center">
       <div class="col-sm-2 encryptionLabel">
@@ -49,6 +52,7 @@
       </div>
     </div>
   </div>
+  <!-- Contact Encryption Public Key-->
   <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && !internalUser">
     <div class="row align-items-center">
       <div class="col-sm-2">
@@ -63,6 +67,7 @@
     </div>
   </div>
   <div class="mb-2 hidden-xs-down">&nbsp;</div>
+  <!-- Contact Phone Number 1-->
   <div class="form-group add-button">
     <div class="row align-items-center">
       <div class="col-sm-2">
@@ -74,6 +79,7 @@
       <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
   </div>
+  <!-- Contact Phone Number 2-->
   <div class="form-group is-repeatable add-button">
     <div class="row align-items-center">
       <div class="col-sm-2">
@@ -85,6 +91,7 @@
       <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
   </div>
+  <!-- Contact Address-->
   <div class="form-group is-repeatable add-button">
     <div class="row">
       <div class="col-sm-2">
@@ -97,6 +104,7 @@
     </div>
   </div>
   <div class="mb-2 hidden-xs-down">&nbsp;</div>
+  <!-- Contact Note-->
   <div class="form-group">
     <div class="row">
       <div class="col-sm-2">
@@ -111,6 +119,7 @@
   <div class="error-msg" *ngIf="newContactForm.submitted && newContactForm.invalid">
     {{ 'contacts.save.error' | translate }}
   </div>
+  <!-- Save button-->
   <div class="form-group text-right mb-0" *ngIf="newContactModel.enabled_encryption && !newContactModel.public_key; else submitSaveContact">
     <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
       <button type="submit" disabled class="btn btn-secondary btn-sm" role="button">

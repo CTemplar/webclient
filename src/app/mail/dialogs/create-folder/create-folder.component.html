@@ -25,7 +25,6 @@
           </div>
         </div>
       </div>
-
       <div class="form-group mb-0 p-3 pr-4">
         <div class="row">
           <div class="col-sm-3">
@@ -37,7 +36,8 @@
             <div class="color-boxes-holder">
               <ul class="color-boxes-group" id="colorSelection">
                 <li *ngFor="let color of folderColors; let i = index">
-                  <div class="color-shape" (click)="selectedColorIndex = i" [class.is-active]="i === selectedColorIndex" [style.background]="color"></div>
+                  <div class="color-shape" (click)="selectedColorIndex = i" [class.is-active]="i === selectedColorIndex"
+                    [style.background]="color"></div>
                 </li>
               </ul>
             </div>
@@ -48,18 +48,20 @@
         <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
         <button type="submit" [disabled]="userState?.inProgress" class="btn btn-secondary btn-sm">
           <span *ngIf="folder.id; else create">{{ 'settings.update' | translate }}</span>
-          <ng-template #create
-            ><span>{{ 'settings.create' | translate }}</span></ng-template
-          >
+          <ng-template #create><span>{{ 'settings.create' | translate }}</span></ng-template>
         </button>
       </div>
     </form>
   </div>
 </div>
-
+<!-- folder name policy -->
 <ng-template #folderNameErrors>
-  <span class="validate-message" *ngIf="duplicateFoldername">{{ 'settings.folder_messages.name_exist' | translate }}</span>
-  <ng-container *ngIf="customFolderForm.controls['folderName'].errors && (customFolderForm.controls['folderName'].touched || submitted)">
+  <span class="validate-message" *ngIf="duplicateFoldername">{{
+    'settings.folder_messages.name_exist' | translate
+  }}</span>
+  <ng-container *ngIf="
+      customFolderForm.controls['folderName'].errors && (customFolderForm.controls['folderName'].touched || submitted)
+    ">
     <span class="validate-message">
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.required">
         <span> {{ 'settings.folder_messages.name_required' | translate }}</span>
