@@ -18,7 +18,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   @Input() folder: Folder = { id: null, name: '', color: '' };
 
   customFolderForm: FormGroup;
-  folderColors: string[] = FOLDER_COLORS;
+  folderColors: string[] = FOLDER_COLORS; // Users can select one of these colors for new folder
   selectedColorIndex = 0;
   userState: UserState;
   submitted: boolean;
@@ -50,6 +50,8 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
         }
         this.userState = user;
       });
+
+    // Check new folder name exists
     this.customFolderForm
       .get('folderName')
       .valueChanges.pipe(untilDestroyed(this))
@@ -71,7 +73,6 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     if (this.checkFolderExist(customFolder.name)) {
       return;
     }
-
     this.store.dispatch(new CreateFolder(customFolder));
   }
 

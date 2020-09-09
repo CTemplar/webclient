@@ -60,6 +60,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   currentMailbox: Mailbox;
   notifyContactsMail: any = {};
 
+  // Initial Page Settings
   MAX_EMAIL_PAGE_LIMIT = 1;
   LIMIT = 20;
   OFFSET = 0;
@@ -88,6 +89,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.updateUsersStatus();
+    // Get contacts with searchText of current router params
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
       this.searchText = params.search || '';
       this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
@@ -108,6 +110,9 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private updateUsersStatus(): void {
+    /**
+     * Get user's current plan type
+     */
     this.store
       .select(state => state.user)
       .pipe(untilDestroyed(this))
@@ -115,7 +120,9 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
         this.userState = state;
         this.currentPlan = state.settings.plan_type || PlanType.FREE;
       });
-
+    /**
+     * Get contacts status from Store
+     */
     this.store
       .select(state => state.contacts)
       .pipe(untilDestroyed(this))
@@ -141,7 +148,6 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   toggleMenu() {
-    // click handler
     if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
       if (this.isMenuOpened) {
         this.document.body.classList.remove('menu-open');
