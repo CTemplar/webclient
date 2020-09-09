@@ -1,6 +1,5 @@
 // Ngrx
 import { Action } from '@ngrx/store';
-import { Key } from 'protractor';
 
 export enum KeyboardActionTypes {
   KEYBOARD_FOCUSED = '[Keyboard] GetFocus',

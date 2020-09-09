@@ -4,7 +4,6 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailState, MailStateFolderInfo } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { startWith } from 'rxjs/operators';
 
 export function reducer(
   state: MailState = {

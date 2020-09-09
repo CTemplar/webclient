@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes } from './store/quotes';
 import { TranslateService } from '@ngx-translate/core';
-import { FinalLoading, RefreshToken } from './store/actions';
+import { FinalLoading } from './store/actions';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 

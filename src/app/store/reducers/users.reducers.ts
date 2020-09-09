@@ -2,7 +2,7 @@
 
 import { UsersActionAll, UsersActionTypes } from '../actions';
 // Model
-import { Domain, PromoCode, Settings, UserState, CardState } from '../datatypes';
+import { Domain, PromoCode, Settings, UserState } from '../datatypes';
 
 export const initialState: UserState = {
   username: null,

@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 import {
   DonationActionTypes,
   MakeStripDonation,
-  MakeStripeDonationSuccess,
-  MakeStripeDonationFailure
+  MakeStripeDonationSuccess
 } from '../actions/donate.actions';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';

@@ -43,7 +43,6 @@ import {
   ComposeMailState,
   ContactsState,
   Draft,
-  EmailContact,
   MailAction,
   MailBoxesState,
   MailState,

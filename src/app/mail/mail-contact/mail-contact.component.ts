@@ -20,7 +20,7 @@ import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
 
-import { Mailbox, Mail } from '../../store/models';
+import { Mailbox } from '../../store/models';
 import { TranslateService } from '@ngx-translate/core';
 
 export enum ContactsProviderType {

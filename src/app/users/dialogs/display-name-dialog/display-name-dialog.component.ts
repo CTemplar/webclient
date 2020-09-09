@@ -3,7 +3,7 @@ import { MailboxSettingsUpdate } from '../../../store/actions';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, MailBoxesState, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, MailBoxesState/../../store/datatypes';
 import { Mailbox } from '../../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SharedService } from '../../../store/services';

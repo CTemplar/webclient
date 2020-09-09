@@ -6,8 +6,7 @@ import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppConfig } from '../../../environments/environment';
-import { apiUrl, getWindowConfig, IS_ELECTRON, JWT_AUTH_COOKIE } from '../config';
+import { apiUrl } from '../config';
 
 @UntilDestroy()
 @Injectable()

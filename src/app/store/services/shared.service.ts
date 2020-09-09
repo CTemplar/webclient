@@ -6,15 +6,8 @@ import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-f
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { NotificationService } from './notification.service';
-import { Folder, MailFolderType } from '../models';
-import { GenericFolderComponent } from '../../mail/mail-list/mail-folder/generic-folder/generic-folder.component';
-import { MailComponent } from '../../mail/mail.component';
-import { MailSidebarComponent } from '../../mail/mail-sidebar/mail-sidebar.component';
-import { ComposeMailComponent } from '../../mail/mail-sidebar/compose-mail/compose-mail.component';
-import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
+import { Folder } from '../models';
 import { PlanType, PricingPlan } from '../datatypes';
-import { MailContactComponent } from '../../mail/mail-contact/mail-contact.component';
-import { SaveContactComponent } from '../../mail/mail-contact/save-contact/save-contact.component';
 
 import Quill from 'quill';
 // image format for retrieving custom attributes

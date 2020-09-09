@@ -1,7 +1,7 @@
 // Custom Action
 import { AuthActionAll, AuthActionTypes } from '../actions';
 // Model
-import { Auth2FA, AuthState, PaymentMethod, PaymentType } from '../datatypes';
+import { Auth2FA, AuthState } from '../datatypes';
 import { REFFERAL_CODE_KEY } from '../../shared/config';
 
 export const initialState: AuthState = {
