@@ -20,10 +20,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "postinstall": "ngcc && node patch-webpack.js",
+    "start": "ng serve",
     "start:electron": "electron .",
     "start:local:ssl": "ng serve -c local --ssl",
-    "start:local": "ng serve -c local",
-    "start": "ng serve"
+    "start:local": "ng serve -c local"
   },
   "private": true,
   "dependencies": {
