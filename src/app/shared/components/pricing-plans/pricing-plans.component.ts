@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angu
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+
 import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
 import { PaymentMethod, PaymentType, PlanType, PricingPlan } from '../../../store/datatypes';
@@ -17,12 +18,19 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly planType = PlanType;
 
   @Input() hideHeader: boolean;
+
   @Input() blockGapsZero: boolean; // Flag to add top and bottom gap conditionally
+
   @Input() showCurrentPlan: boolean;
+
   @Input() userPlanType: PlanType = null;
+
   @Input() openBillingInfoInModal: boolean;
+
   @Input() selectedCurrency: string;
+
   @Input() paymentType: PaymentType = PaymentType.ANNUALLY;
+
   @Input() paymentMethod: PaymentMethod;
 
   @ViewChild('billingInfoModal') billingInfoModal;
@@ -30,13 +38,21 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   private billingInfoModalRef: NgbModalRef;
 
   selectedIndex = -1; // Assuming no element are selected initially
+
   selectedPlan: PlanType;
+
   availableStorage = [];
+
   availableEmailAddress = [];
+
   availableCustomDomain = [];
+
   pricingPlans: Array<PricingPlan> = [];
+
   loadingImage = LOADING_IMAGE;
+
   paymentTypeEnum = PaymentType;
+
   selectedPaymentType: PaymentType = PaymentType.ANNUALLY;
 
   constructor(
@@ -104,12 +120,10 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
         windowClass: 'modal-lg users-action-modal',
         backdrop: 'static',
       });
+    } else if (plan === PlanType.FREE) {
+      this.router.navigateByUrl(`/create-account?plan=${plan}`);
     } else {
-      if (plan === PlanType.FREE) {
-        this.router.navigateByUrl(`/create-account?plan=${plan}`);
-      } else {
-        this.router.navigateByUrl(`/create-account?plan=${plan}&billing=${this.selectedPaymentType}`);
-      }
+      this.router.navigateByUrl(`/create-account?plan=${plan}&billing=${this.selectedPaymentType}`);
     }
   }
 

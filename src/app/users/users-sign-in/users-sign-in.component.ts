@@ -2,15 +2,16 @@ import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Router } from '@angular/router';
+import Keyboard from 'simple-keyboard';
+import { filter } from 'rxjs/operators';
+
 import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Router } from '@angular/router';
-import Keyboard from 'simple-keyboard';
-import { filter } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -20,35 +21,60 @@ import { filter } from 'rxjs/operators';
 })
 export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   loginForm: FormGroup;
+
   recoverPasswordForm: FormGroup;
+
   resetPasswordForm: FormGroup;
+
   showFormErrors = false;
+
   showResetPasswordFormErrors = false;
+
   errorMessage = '';
+
   resetPasswordErrorMessage = '';
+
   isLoading = false;
+
   isConfirmedPrivacy: boolean = null;
+
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
+
   username = '';
+
   password = 'password';
+
   layout: any = 'alphanumeric';
+
   isKeyboardOpened: boolean;
+
   isRecoverFormSubmitted: boolean;
+
   isGeneratingKeys: boolean;
+
   isRecoveryCodeSent: boolean;
+
   authState: AuthState;
+
   otp: string;
+
   loadingImage = LOADING_IMAGE;
+
   isRecoveryKeyMode: boolean;
 
   @ViewChild('usernameVC') usernameVC: ElementRef;
+
   @ViewChild('passwordVC') passwordVC: ElementRef;
+
   @ViewChild('resetPasswordModal') resetPasswordModal;
+
   @ViewChild('otpInput') otpInput: ElementRef;
 
   keyboard: Keyboard;
+
   currentInput: InputFields;
+
   inputFields = InputFields;
 
   constructor(
@@ -159,7 +185,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   toggleRememberMe() {
-    this.loginForm.controls['rememberMe'].setValue(!this.loginForm.controls['rememberMe'].value);
+    this.loginForm.controls.rememberMe.setValue(!this.loginForm.controls.rememberMe.value);
   }
 
   continueLogin() {

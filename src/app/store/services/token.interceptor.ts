@@ -9,6 +9,7 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Store } from '@ngrx/store';
+import { catchError, tap } from 'rxjs/operators';
 
 import {
   Logout,
@@ -18,17 +19,17 @@ import {
   ClearMailsOnLogout,
 } from '../actions';
 import { AppState, AuthState } from '../datatypes';
-
-import { UsersService } from './users.service';
-import { catchError, tap } from 'rxjs/operators';
-
 import { apiUrl } from '../../shared/config';
 import { WebsocketService } from '../../shared/services/websocket.service';
+
+import { UsersService } from './users.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   private authService: UsersService;
+
   private isAuthenticated = false;
+
   constructor(private injector: Injector, private store: Store<AppState>, private websocketService: WebsocketService) {
     this.store
       .select(state => state.auth)
@@ -47,19 +48,14 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap(event => {
         if (event instanceof HttpResponse) {
-          if (
-            event.ok &&
-            event.url.indexOf(apiUrl) >= 0 &&
-            event.url.indexOf('auth/sign-out') < 0 &&
-            !this.isAuthenticated
-          ) {
+          if (event.ok && event.url.includes(apiUrl) && !event.url.includes('auth/sign-out') && !this.isAuthenticated) {
             this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }));
           }
         }
       }),
       catchError((error: any) => {
         if (error instanceof HttpErrorResponse) {
-          if (error.status === 401 && error.url.indexOf('auth/sign-out') < 0) {
+          if (error.status === 401 && !error.url.includes('auth/sign-out')) {
             this.websocketService.disconnect();
             this.store.dispatch(new ClearMailsOnLogout());
             this.store.dispatch(new Logout({ session_expired: true }));

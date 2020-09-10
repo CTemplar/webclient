@@ -1,6 +1,9 @@
 import { ActionReducerMap } from '@ngrx/store';
 
 import { AppState } from '../datatypes';
+import * as webSocket from '../websocket.store';
+import * as organization from '../organization.store';
+
 import * as auth from './auth.reducers';
 import * as mail from './mail.reducers';
 import * as mailboxes from './mailboxes.reducers';
@@ -12,8 +15,6 @@ import * as bitcoin from './bitcoin.reducers';
 import * as composeMail from './compose-mail.reducers';
 import * as search from './search.reducers';
 import * as secureMessage from './secure-message.reducers';
-import * as webSocket from '../websocket.store';
-import * as organization from '../organization.store';
 import * as contacts from './contacts.reducers';
 
 export const reducers: ActionReducerMap<AppState> = {

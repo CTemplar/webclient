@@ -1,8 +1,6 @@
-// Angular
 import { Params } from '@angular/router';
-// Ngrx
-// Models
-import { Attachment, Mail, Mailbox, MailFolderType, Membership, User, UserMailbox } from '../store/models';
+
+import { Attachment, Mail, Mailbox, MailFolderType, Membership, User, UserMailbox } from './models';
 import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
@@ -48,9 +46,13 @@ export interface CardState {
 
 export class Auth2FA {
   secret?: string;
+
   secret_url?: string;
+
   inProgress?: boolean;
+
   is_2fa_enabled?: boolean;
+
   show2FALogin?: boolean;
 
   constructor(data?: any) {
@@ -95,38 +97,71 @@ export interface SignupState {
 
 export class UserState {
   username: string | null;
+
   id: number | null;
+
   whiteList: WhiteList[];
+
   blackList: BlackList[];
+
   settings: Settings;
+
   payment_transaction?: Payment;
+
   isPrime?: boolean;
+
   joinedDate?: string;
+
   inProgress?: boolean;
+
   isError?: boolean;
+
   error?: string;
+
   membership: Membership;
+
   mailboxes: UserMailbox[];
+
   customFolders: Folder[];
+
   filters: Filter[];
+
   filtersError?: any;
+
   autoresponder?: AutoResponder;
+
   customDomains: Domain[];
+
   customDomainsLoaded?: boolean;
+
   newCustomDomain?: Domain;
+
   newCustomDomainError?: string;
+
   currentCreationStep: number;
+
   isForwardingVerificationCodeSent?: boolean;
+
   emailForwardingErrorMessage?: string;
+
   autoResponderErrorMessage?: string;
+
   isLoaded?: boolean;
+
   invoices: Invoice[];
+
   isInvoiceLoaded?: boolean;
+
   upgradeAmount?: number;
+
   promoCode: PromoCode;
+
   inviteCodes: InviteCode[];
+
   has_notification?: boolean;
+
   notifications?: any;
+
   cards?: Array<CardState>;
 }
 
@@ -138,12 +173,19 @@ export interface InviteCode {
 
 export class PromoCode {
   is_valid: boolean = null;
+
   discount_amount?: number;
+
   new_amount: number = null;
+
   new_amount_btc: number = null;
+
   message?: string;
+
   value = '';
+
   enabled = false;
+
   inProgress = false;
 }
 
@@ -165,44 +207,83 @@ export interface EmailContact {
 
 export class Settings {
   id?: number;
+
   emails_per_page?: number;
+
   embed_content?: boolean;
+
   newsletter?: boolean;
+
   recovery_email?: string;
+
   save_contacts?: boolean;
+
   show_snippets?: boolean;
+
   timezone?: string;
+
   language?: string;
+
   signature?: string;
+
   allocated_storage?: number;
+
   used_storage?: number;
+
   display_name?: string;
+
   email_count?: number;
+
   domain_count?: number;
+
   default_font?: string;
+
   autosave_duration?: string;
+
   enable_forwarding?: boolean;
+
   enable_copy_forwarding?: boolean;
+
   forwarding_address?: string;
+
   plan_type?: PlanType;
+
   notification_email?: string;
+
   recurrence_billing?: boolean;
+
   is_subject_encrypted?: boolean;
+
   is_attachments_encrypted?: boolean;
+
   enable_2fa?: boolean;
+
   is_contacts_encrypted?: boolean;
+
   is_anti_phishing_enabled?: boolean;
+
   anti_phishing_phrase?: string;
+
   is_html_disabled?: boolean;
+
   attachment_size_limit?: number;
+
   attachment_size_error?: string;
+
   is_composer_full_screen?: boolean;
+
   is_night_mode?: boolean;
+
   is_conversation_mode?: boolean;
+
   is_enable_report_bugs?: boolean;
+
   include_original_message?: boolean;
+
   custom_css?: string;
+
   is_disable_loading_images?: boolean;
+
   is_subject_auto_decrypt?: boolean;
 }
 
@@ -245,18 +326,27 @@ export interface AutoResponder {
 
 export class Payment {
   id?: number;
+
   transaction_id?: string;
+
   amount?: number;
+
   currency?: string;
+
   created?: string;
+
   billing_cycle_ends?: string;
+
   payment_method?: PaymentMethod;
+
   payment_type?: PaymentType;
 }
 
 export class MailStateFolderInfo {
   is_not_first_page?: boolean;
+
   total_mail_count?: number;
+
   is_dirty?: boolean;
 
   constructor(data?: any) {
@@ -290,11 +380,17 @@ export interface MailState {
 
 export class SecureContent {
   id?: number;
+
   content: string;
+
   content_plain?: string;
+
   incomingHeaders?: string;
+
   subject?: string;
+
   inProgress?: boolean;
+
   isSubjectEncrypted?: boolean;
 
   constructor(data?: Mail) {

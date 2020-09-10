@@ -1,6 +1,4 @@
-// Custom Action
 import { AuthActionAll, AuthActionTypes } from '../actions';
-// Model
 import { Auth2FA, AuthState } from '../datatypes';
 import { REFFERAL_CODE_KEY } from '../../shared/config';
 
@@ -55,7 +53,8 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
           auth2FA: { is_2fa_enabled: action.payload.is_2fa_enabled, show2FALogin: false },
           anti_phishing_phrase: action.payload.is_2fa_enabled ? '' : action.payload.anti_phishing_phrase,
         };
-      } else if (action.payload.is_2fa_enabled) {
+      }
+      if (action.payload.is_2fa_enabled) {
         return {
           ...state,
           inProgress: false,
@@ -76,12 +75,11 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.SET_AUTHENTICATED: {
       if (state.isAuthenticated) {
         return { ...state };
-      } else {
-        return {
-          ...state,
-          isAuthenticated: action.payload.isAuthenticated,
-        };
       }
+      return {
+        ...state,
+        isAuthenticated: action.payload.isAuthenticated,
+      };
     }
     case AuthActionTypes.SIGNUP_SUCCESS: {
       return {

@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AppState, Auth2FA, AuthState, ContactsState, PlanType, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, Auth2FA, AuthState, ContactsState, PlanType, Settings, UserState } from '../../../store/datatypes';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
   ChangePassphraseSuccess,
@@ -10,11 +14,8 @@ import {
   ContactsGet,
   ClearContactsToDecrypt,
 } from '../../../store/actions';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService, SharedService } from '../../../store/services';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { apiUrl } from '../../../shared/config';
 
 @UntilDestroy()
@@ -25,29 +26,47 @@ import { apiUrl } from '../../../shared/config';
 })
 export class SecurityComponent implements OnInit, OnDestroy {
   @ViewChild('changePasswordModal') changePasswordModal;
+
   @ViewChild('auth2FAModal') auth2FAModal;
+
   @ViewChild('decryptContactsModal') decryptContactsModal;
+
   @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal;
 
   private changePasswordModalRef: NgbModalRef;
+
   private decryptContactsModalRef: NgbModalRef;
 
   settings: Settings;
+
   changePasswordForm: FormGroup;
+
   showChangePasswordFormErrors = false;
+
   userState: UserState;
+
   inProgress: boolean;
+
   deleteData: boolean;
+
   apiUrl = apiUrl;
+
   auth2FA: Auth2FA;
+
   auth2FAForm: any = {};
+
   isDecryptingContacts: boolean;
+
   contactsState: ContactsState;
+
   isContactsEncrypted: boolean;
+
   planTypeEnum = PlanType;
+
   planType: PlanType;
 
   private updatedPrivateKeys: Array<any>;
+
   private canDispatchChangePassphrase: boolean;
 
   constructor(
@@ -134,7 +153,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   updateAntiPhishing(status: boolean) {
     if (this.settings.is_anti_phishing_enabled !== status) {
       this.settings.anti_phishing_phrase =
-        Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+        Math.random().toString(36).slice(2, 5) + Math.random().toString(36).slice(2, 5);
       this.settingsService.updateSettings(this.settings, 'is_anti_phishing_enabled', status);
     }
   }
@@ -147,7 +166,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     });
   }
 
-  update2FA(enable_2fa: boolean = true) {
+  update2FA(enable_2fa = true) {
     if (!this.auth2FAForm.passcode || !this.auth2FAForm.password) {
       this.auth2FAForm.submitted = true;
       return;

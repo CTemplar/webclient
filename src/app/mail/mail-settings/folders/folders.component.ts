@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Folder } from '../../../store/models';
-import { AppState, UserState, MailState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { Folder } from '../../../store/models';
+import { AppState, UserState, MailState } from '../../../store/datatypes';
 import { DeleteFolder, UpdateFolderOrder, GetCustomFolderMessageCount } from '../../../store/actions';
 import { MAX_FOLDERS_COUNT } from '../../../shared/config';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';
 import { NotificationService } from '../../../store/services/notification.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -17,14 +18,21 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class FoldersComponent implements OnInit, OnDestroy {
   folders: Array<Folder> = [];
+
   userState: UserState;
+
   @ViewChild('confirmationModal') confirmationModal;
+
   confirmModalRef: NgbModalRef;
+
   selectedFolder: Folder;
+
   reorder: boolean;
+
   reorderInProgress = false;
 
   private unmodifiedFolders: Array<Folder>;
+
   private mailState: MailState;
 
   constructor(
@@ -131,7 +139,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
 
   startReorder() {
     this.reorder = true;
-    this.unmodifiedFolders = this.folders.map(x => Object.assign({}, x));
+    this.unmodifiedFolders = this.folders.map(x => ({ ...x }));
   }
 
   saveOrder() {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { apiUrl } from '../../config';
 
 @Component({
@@ -8,6 +9,7 @@ import { apiUrl } from '../../config';
 })
 export class BitcoinFormComponent implements OnInit {
   public apiUrl: string = apiUrl;
+
   constructor() {}
 
   ngOnInit() {}

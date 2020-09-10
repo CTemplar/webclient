@@ -1,15 +1,15 @@
-// Angular
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// Helpers
-import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import Quill from 'quill';
+
+import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
-import { NotificationService } from './notification.service';
 import { Folder } from '../models';
 import { PlanType, PricingPlan } from '../datatypes';
 
-import Quill from 'quill';
+import { NotificationService } from './notification.service';
+
 // image format for retrieving custom attributes
 
 const BaseImageFormat = Quill.import('formats/image');
@@ -27,7 +27,7 @@ export class ImageFormat extends BaseImageFormat {
 
   format(name, value) {
     const self: any = this;
-    if (ImageFormatAttributesList.indexOf(name) > -1) {
+    if (ImageFormatAttributesList.includes(name)) {
       if (value) {
         self.domNode.setAttribute(name, value);
       } else {
@@ -42,14 +42,23 @@ export class ImageFormat extends BaseImageFormat {
 @Injectable()
 export class SharedService {
   static PRICING_PLANS: any;
+
   static PRICING_PLANS_ARRAY: Array<PricingPlan> = [];
+
   static isQuillEditorOpen: boolean;
+
   isReady: EventEmitter<boolean> = new EventEmitter();
+
   hideFooter: EventEmitter<boolean> = new EventEmitter();
+
   hideHeader: EventEmitter<boolean> = new EventEmitter();
+
   hideEntireFooter: EventEmitter<boolean> = new EventEmitter();
+
   keyPressed: EventEmitter<any> = new EventEmitter();
+
   isMail: EventEmitter<boolean> = new EventEmitter();
+
   isExternalPage: EventEmitter<boolean> = new EventEmitter();
 
   private paymentFailureModalRef: NgbModalRef;
@@ -116,24 +125,24 @@ export class SharedService {
     }
   }
 
-  copyToClipboard(val: string) {
+  copyToClipboard(value: string) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = val;
-    document.body.appendChild(selBox);
+    selBox.value = value;
+    document.body.append(selBox);
     selBox.focus();
     selBox.select();
     document.execCommand('copy');
-    document.body.removeChild(selBox);
+    selBox.remove();
     this.notificationService.showSnackBar('Copied to clipboard successfully.');
   }
 
   base64ToUint8Array(base64Data: string): Uint8Array {
     const decodedData: any = atob(base64Data);
-    const length = decodedData.length;
+    const { length } = decodedData;
     const uint8Array = new Uint8Array(length);
     for (let i = 0; i < length; i++) {
       uint8Array[i] = decodedData.charCodeAt(i);
@@ -147,10 +156,10 @@ export class SharedService {
     const url = window.URL.createObjectURL(file);
     a.href = url;
     a.download = file.name;
-    document.body.appendChild(a);
+    document.body.append(a);
     a.click();
     window.URL.revokeObjectURL(url);
-    document.body.removeChild(a);
+    a.remove();
   }
 }
 
@@ -169,9 +178,9 @@ export function sortByString(data: any[], field: string) {
 export function isComposeEditorOpen(): boolean {
   return (
     SharedService.isQuillEditorOpen ||
-    document.getElementsByTagName('app-compose-mail-dialog').length > 0 ||
-    document.getElementsByTagName('app-compose-mail').length > 0 ||
-    document.getElementsByTagName('ngb-modal-window').length > 0
+    document.querySelectorAll('app-compose-mail-dialog').length > 0 ||
+    document.querySelectorAll('app-compose-mail').length > 0 ||
+    document.querySelectorAll('ngb-modal-window').length > 0
   );
 }
 

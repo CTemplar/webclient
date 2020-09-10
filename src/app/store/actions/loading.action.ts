@@ -10,16 +10,19 @@ export enum LoadingActionTypes {
 
 export class RelatedBlogLoading implements Action {
   readonly type = LoadingActionTypes.RELATED_LOADING;
+
   constructor(public payload: any) {}
 }
 
 export class RecentBlogLoading implements Action {
   readonly type = LoadingActionTypes.RECENT_LOADING;
+
   constructor(public payload: any) {}
 }
 
 export class FinalLoading implements Action {
   readonly type = LoadingActionTypes.FINAL_LOADING;
+
   constructor(public payload: any) {}
 }
 

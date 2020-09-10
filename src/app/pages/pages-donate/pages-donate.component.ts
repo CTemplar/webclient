@@ -1,5 +1,5 @@
-// Angular
 import { Component, OnInit } from '@angular/core';
+
 import { DynamicScriptLoaderService } from '../../shared/services/dynamic-script-loader.service';
 
 @Component({

@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { AppState, InviteCode, UserState } from '../../../store/datatypes';
 import { GenerateInviteCode, GetInviteCodes } from '../../../store/actions';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
 import { SharedService } from '../../../store/services';
 
@@ -14,9 +15,13 @@ import { SharedService } from '../../../store/services';
 })
 export class InviteCodesComponent implements OnInit, OnDestroy {
   inviteCodes: InviteCode[] = [];
+
   inProgress: boolean;
+
   primaryWebsite = PRIMARY_WEBSITE;
+
   isPrime: boolean;
+
   isLoaded: boolean;
 
   constructor(private store: Store<AppState>, private sharedService: SharedService) {}

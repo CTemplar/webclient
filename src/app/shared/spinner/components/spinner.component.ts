@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+
 import { SpinnerService } from '../services/spinner.service';
 
 @Component({
@@ -10,8 +11,11 @@ export class SpinnerComponent implements OnInit, OnDestroy {
   private isShowing = false;
 
   @Input() name: string;
+
   @Input() group: string;
+
   @Input() loadingImage: string;
+
   @Output() showChange = new EventEmitter();
 
   @Input()

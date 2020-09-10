@@ -1,15 +1,12 @@
-// Angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-// Ngrx
 import { Actions, Effect, ofType } from '@ngrx/effects';
-// Rxjs
 import { Observable } from 'rxjs';
-
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-// Service
-import { UsersService } from '../../store/services';
-// Custom Actions
+import { of } from 'rxjs/internal/observable/of';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+
+import { UsersService } from '../services';
 import {
   AccountDetailsGet,
   AuthActionTypes,
@@ -56,8 +53,6 @@ import {
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
-import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 @Injectable()
 export class AuthEffects {

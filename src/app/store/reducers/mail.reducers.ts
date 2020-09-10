@@ -1,6 +1,4 @@
-// Custom Action
 import { MailActions, MailActionTypes } from '../actions';
-// Model
 import { MailState, MailStateFolderInfo } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -29,16 +27,16 @@ export function reducer(
       const mails = state.folders.get(action.payload.folder);
       return {
         ...state,
-        loaded: mails && !action.payload.forceReload ? true : false,
-        inProgress: action.payload.inProgress ? true : false,
+        loaded: !!(mails && !action.payload.forceReload),
+        inProgress: !!action.payload.inProgress,
         currentFolder: action.payload.folder as MailFolderType,
-        mails: mails ? mails : [],
+        mails: mails || [],
         noUnreadCountChange: true,
       };
     }
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
-      let mails = action.payload.mails;
+      let { mails } = action.payload;
       const target_folder_mails = state.folders.get(action.payload.folder) || [];
       const old_folder_info = state.info_by_folder.get(action.payload.folder);
       const folder_info = new MailStateFolderInfo({
@@ -50,7 +48,7 @@ export function reducer(
 
       if (action.payload.is_from_socket) {
         const mailIDs = mails.map(item => item.id);
-        mails = target_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
+        mails = target_folder_mails.filter(item => !mailIDs.includes(item.id));
         mails = [...action.payload.mails, ...mails];
         if (action.payload.folder !== MailFolderType.SPAM) {
           let unread_folder_mails = state.folders.get(MailFolderType.UNREAD) || [];
@@ -62,7 +60,7 @@ export function reducer(
             unread_folder_info &&
             !unread_folder_info.is_not_first_page
           ) {
-            unread_folder_mails = unread_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
+            unread_folder_mails = unread_folder_mails.filter(item => !mailIDs.includes(item.id));
             unread_folder_mails = [...action.payload.mails, ...unread_folder_mails];
             unread_folder_mails = unread_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
@@ -89,7 +87,7 @@ export function reducer(
             all_folder_info &&
             !all_folder_info.is_not_first_page
           ) {
-            all_folder_mails = all_folder_mails.filter(item => mailIDs.indexOf(item.id) < 0);
+            all_folder_mails = all_folder_mails.filter(item => !mailIDs.includes(item.id));
             all_folder_mails = [...action.payload.mails, ...all_folder_mails];
             all_folder_mails = all_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
@@ -133,7 +131,7 @@ export function reducer(
       state.total_mail_count = state.info_by_folder.get(state.currentFolder)
         ? state.info_by_folder.get(state.currentFolder).total_mail_count
         : 0;
-      mails = mails ? mails : [];
+      mails = mails || [];
       mails.forEach((mail: Mail) => {
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
           mail.subject = state.decryptedSubjects[mail.id];
@@ -202,7 +200,7 @@ export function reducer(
           oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())),
         );
       }
-      let info_keys = Array.from(state.info_by_folder.keys());
+      let info_keys = [...state.info_by_folder.keys()];
       info_keys = info_keys.filter(folder => folder !== MailFolderType.DRAFT && folder !== MailFolderType.OUTBOX);
       info_keys.map(key => {
         const folder_info = state.info_by_folder.get(key);
@@ -229,18 +227,18 @@ export function reducer(
     }
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
-      let mails = state.mails;
+      let { mails } = state;
       if (action.payload.sourceFolder === state.currentFolder) {
         const undo_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
 
         mails = sortByDueDate([...state.mails, ...undo_mails]);
         state.folders.set(action.payload.sourceFolder, [...mails]);
-        const cur_folder_info = state.info_by_folder.get(action.payload.sourceFolder);
-        cur_folder_info.total_mail_count += undo_mails.length;
-        state.info_by_folder.set(action.payload.sourceFolder, cur_folder_info);
-        state.total_mail_count = cur_folder_info.total_mail_count;
+        const current_folder_info = state.info_by_folder.get(action.payload.sourceFolder);
+        current_folder_info.total_mail_count += undo_mails.length;
+        state.info_by_folder.set(action.payload.sourceFolder, current_folder_info);
+        state.total_mail_count = current_folder_info.total_mail_count;
       }
-      let info_keys = Array.from(state.info_by_folder.keys());
+      let info_keys = [...state.info_by_folder.keys()];
       info_keys = info_keys.filter(folder => folder !== MailFolderType.DRAFT && folder !== MailFolderType.OUTBOX);
       info_keys.map(key => {
         const folder_info = state.info_by_folder.get(key);
@@ -269,7 +267,7 @@ export function reducer(
       }
       return {
         ...state,
-        mails: mails,
+        mails,
         noUnreadCountChange: true,
       };
     }
@@ -305,7 +303,7 @@ export function reducer(
           state.folders.set(MailFolderType.UNREAD, []);
         }
       } else {
-        let folders = Array.from(state.folders.keys());
+        let folders = [...state.folders.keys()];
         folders = folders.filter(
           folder =>
             folder !== MailFolderType.SENT &&
@@ -367,7 +365,7 @@ export function reducer(
           state.folders.set(MailFolderType.STARRED, []);
         }
       } else {
-        const folders = Array.from(state.folders.keys());
+        const folders = [...state.folders.keys()];
         folders.map(folder => {
           const folder_content = state.folders.get(folder) || [];
           if (folder_content.length > 0) {
@@ -518,8 +516,8 @@ export function reducer(
         : 0;
       return {
         ...state,
-        mails: mails ? mails : [],
-        total_mail_count: total_mail_count,
+        mails: mails || [],
+        total_mail_count,
         currentFolder: action.payload,
       };
     }
@@ -537,7 +535,8 @@ export function reducer(
           state.decryptedSubjects[action.payload.id] = action.payload.decryptedContent.subject;
         }
         return { ...state };
-      } else if (!state.decryptedContents[action.payload.id]) {
+      }
+      if (!state.decryptedContents[action.payload.id]) {
         state.decryptedContents[action.payload.id] = {
           id: action.payload.id,
           content: action.payload.decryptedContent.content,
@@ -647,10 +646,10 @@ function transformFilename(attachments: Attachment[]) {
 }
 
 function sortByDueDate(sortArray): any[] {
-  return sortArray.sort((prev: any, next: any) => {
+  return sortArray.sort((previous: any, next: any) => {
     const next_updated = next.updated || null;
-    const prev_updated = prev.updated || null;
-    return <any>new Date(next_updated) - <any>new Date(prev_updated);
+    const previous_updated = previous.updated || null;
+    return <any>new Date(next_updated) - <any>new Date(previous_updated);
   });
 }
 

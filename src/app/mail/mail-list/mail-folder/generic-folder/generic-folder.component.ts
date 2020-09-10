@@ -12,6 +12,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import {
   DeleteMail,
   EmptyFolder,
@@ -28,9 +30,8 @@ import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/mo
 import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-declare var Scrambler;
+declare let Scrambler;
 
 @UntilDestroy()
 @Component({
@@ -40,40 +41,65 @@ declare var Scrambler;
 })
 export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() mails: Mail[] = [];
+
   @Input() mailFolder: MailFolderType;
+
   @Input() showProgress: boolean;
+
   @Input() fetchMails: boolean;
 
   @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
+
   @ViewChild('delateDraftModal') delateDraftModal;
+
   @ViewChild('input') input: ElementRef;
 
   customFolders: Folder[];
+
   mailFolderTypes = MailFolderType;
+
   selectAll: boolean;
+
   checkAll = false;
+
   noEmailSelected = true;
+
   isMobile: boolean;
+
   folderName: string;
+
   disableMoveTo: boolean;
 
   userState: UserState;
 
   MAX_EMAIL_PAGE_LIMIT = 1;
+
   LIMIT = 20;
+
   OFFSET = 0;
+
   PAGE = 0;
+
   MAX_DECRYPT_NUMBER = 3;
+
   folderColors: any = {};
+
   queueForDecryptSubject: any = [];
+
   isEnabledToDecryptSubject = false;
 
   private searchText: string;
+
   private mailState: MailState;
+
   private isInitialized: boolean;
+
   private confirmEmptyTrashModalRef: NgbModalRef;
+
   private delateDraftModalRef: NgbModalRef;
+
   isMoveMailClicked = false;
+
   isDeleteDraftClicked = false;
 
   constructor(
@@ -152,9 +178,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       });
     // Search by search text
     if (this.mailFolder === MailFolderType.SEARCH) {
-      this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
-        if (params.search) {
-          this.searchText = params.search;
+      this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(parameters => {
+        if (parameters.search) {
+          this.searchText = parameters.search;
           this.store.dispatch(
             new GetMails({
               forceReload: true,
@@ -170,8 +196,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     /**
      * Activated router management
      */
-    this.activatedRoute.paramMap.pipe(untilDestroyed(this)).subscribe((paramsMap: any) => {
-      const params: any = paramsMap.params;
+    this.activatedRoute.paramMap.pipe(untilDestroyed(this)).subscribe((parametersMap: any) => {
+      const { params } = parametersMap;
       if (params) {
         if (params.page) {
           const page = +params.page;
@@ -228,7 +254,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
             if (mail.receiver_list === '') {
               mail.receiver_list = item.name;
             } else {
-              mail.receiver_list += ', ' + item.name;
+              mail.receiver_list += `, ${item.name}`;
             }
           }
         });
@@ -273,12 +299,12 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     return count > 0 && count < this.mails.length;
   }
 
-  markAsRead(isRead: boolean = true) {
+  markAsRead(isRead = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as read event to store
-      this.store.dispatch(new ReadMail({ ids: ids, read: isRead, folder: this.mailFolder }));
+      this.store.dispatch(new ReadMail({ ids, read: isRead, folder: this.mailFolder }));
     }
   }
 
@@ -291,7 +317,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     mail.starred = !mail.starred;
   }
 
-  markAsStarred(starred: boolean = true) {
+  markAsStarred(starred = true) {
     // Get comma separated list of mail IDs
     const ids = this.getMailIDs();
     if (ids) {
@@ -360,7 +386,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     for (let i = 0; i < this.mails.length; i++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
         const mail = this.mails[i];
-        if (mail.is_subject_encrypted && this.queueForDecryptSubject.indexOf(mail.id) < 0) {
+        if (mail.is_subject_encrypted && !this.queueForDecryptSubject.includes(mail.id)) {
           this.processDecryptSubject(mail.id);
           this.queueForDecryptSubject.push(mail.id);
           this.scrambleText(mail.id);
@@ -373,7 +399,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isSubjectDecrypting(mailID: number) {
     const queuedMail = this.queueForDecryptSubject.filter(mail => mail === mailID);
-    return queuedMail.length > 0 ? true : false;
+    return queuedMail.length > 0;
   }
 
   processDecryptSubject(mailId: number) {
@@ -428,11 +454,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       this.store.dispatch(
         new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }),
       );
-      const queryParams: any = {};
+      const queryParameters: any = {};
       if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
-        queryParams.search = this.searchText;
+        queryParameters.search = this.searchText;
       }
-      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], { queryParams });
+      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
+        queryParams: queryParameters,
+      });
     }
   }
 
@@ -504,7 +532,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   setIsSelectAll() {
-    if (this.mails.length < 1) {
+    if (this.mails.length === 0) {
       this.selectAll = false;
       return;
     }
@@ -544,6 +572,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.PAGE + 1}`);
     }
   }
+
   // display scrambler while decrypt mail id
   scrambleText(mailId) {
     setTimeout(() => {
@@ -560,12 +589,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     mail.marked = !mail.marked;
     if (mail.marked) {
       this.noEmailSelected = false;
+    } else if (this.mails.filter(email => email.marked).length > 0) {
+      this.noEmailSelected = false;
     } else {
-      if (this.mails.filter(email => email.marked).length > 0) {
-        this.noEmailSelected = false;
-      } else {
-        this.noEmailSelected = true;
-      }
+      this.noEmailSelected = true;
     }
     this.setIsSelectAll();
   }
@@ -579,11 +606,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     const allString = 'all';
     if (this.checkAll) {
       return allString;
-    } else {
-      return this.getMarkedMails()
-        .map(mail => mail.id)
-        .join(',');
     }
+    return this.getMarkedMails()
+      .map(mail => mail.id)
+      .join(',');
   }
 
   getMarkedMails() {

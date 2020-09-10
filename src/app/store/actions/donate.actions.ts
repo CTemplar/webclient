@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 export enum DonationActionTypes {
   MAKE_STRIPE_DONATION = '[DONATE] STRIPE DONATION',
   MAKE_STRIPE_DONATION_SUCCESS = '[DONATE] STRIPE DONATION SUCCESS',

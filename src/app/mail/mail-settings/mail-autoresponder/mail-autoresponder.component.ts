@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbDatepicker, NgbDateStruct, NgbModal, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { SaveAutoResponder, SnackErrorPush } from '../../../store/actions';
 import { AppState, AutoResponder, Settings, UserState } from '../../../store/datatypes';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SharedService } from '../../../store/services';
 import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
 
@@ -17,16 +18,25 @@ import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
 })
 export class MailAutoresponderComponent implements OnInit, OnDestroy {
   @ViewChild('startDatePicker') startDatePicker: NgbDatepicker;
+
   @ViewChild('endDatePicker') endDatePicker: NgbDatepicker;
 
   userState: UserState;
+
   settings: Settings;
+
   autoresponder: AutoResponder = {};
+
   startTime: NgbTimeStruct = { hour: 0, minute: 0, second: 0 };
+
   endTime: NgbTimeStruct = { hour: 0, minute: 0, second: 0 };
+
   startDate: NgbDateStruct;
+
   endDate: NgbDateStruct;
+
   errorMessage: string;
+
   quillModules = QUILL_FORMATTING_MODULES;
 
   constructor(

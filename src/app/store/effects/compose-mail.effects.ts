@@ -1,15 +1,12 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-// Angular
 import { Injectable } from '@angular/core';
-// Ngrx
 import { Actions, Effect, ofType } from '@ngrx/effects';
-// Rxjs
 import { Observable, Subscription } from 'rxjs';
-
 import { catchError, finalize, map, mergeMap, switchMap } from 'rxjs/operators';
-// Services
-import { MailService } from '../../store/services';
-// Custom Actions
+import { of } from 'rxjs/internal/observable/of';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+
+import { MailService } from '../services';
 import {
   ComposeMailActionTypes,
   CreateMail,
@@ -36,8 +33,6 @@ import {
 } from '../actions';
 import { Draft } from '../datatypes';
 import { MailFolderType } from '../models';
-import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 @Injectable()
 export class ComposeMailEffects {
@@ -56,7 +51,7 @@ export class ComposeMailEffects {
             new GetUnreadMailsCount(),
           ),
         ),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to save mail.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to save mail.' }))),
       );
     }),
   );
@@ -80,7 +75,7 @@ export class ComposeMailEffects {
                 observer.next(new UploadAttachmentSuccess({ data: payload, response: event.body }));
               }
             },
-            err => {
+            error => {
               observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' }));
               observer.next(new UploadAttachmentFailure(payload));
             },
@@ -98,13 +93,12 @@ export class ComposeMailEffects {
       if (payload.id) {
         return this.mailService.deleteAttachment(payload).pipe(
           switchMap(res => of(new DeleteAttachmentSuccess(payload))),
-          catchError(err =>
+          catchError(error =>
             of(new SnackErrorPush({ message: 'Failed to delete attachment.' }), new DeleteAttachmentFailure(payload)),
           ),
         );
-      } else {
-        return of(new DeleteAttachmentSuccess(payload));
       }
+      return of(new DeleteAttachmentSuccess(payload));
     }),
   );
 

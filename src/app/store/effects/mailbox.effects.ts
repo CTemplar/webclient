@@ -1,14 +1,11 @@
-// Angular
 import { Injectable } from '@angular/core';
-// Ngrx
 import { Actions, Effect, ofType } from '@ngrx/effects';
-// Rxjs
 import { Observable } from 'rxjs';
-
 import { catchError, map, switchMap } from 'rxjs/operators';
-// Services
-import { MailService } from '../../store/services';
-// Custom Actions
+import { EMPTY } from 'rxjs/internal/observable/empty';
+import { of } from 'rxjs/internal/observable/of';
+
+import { MailService } from '../services';
 import {
   CreateMailbox,
   CreateMailboxFailure,
@@ -28,8 +25,6 @@ import {
 import { Mailbox } from '../models';
 import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
 import { SnackErrorPush } from '../actions/users.action';
-import { EMPTY } from 'rxjs/internal/observable/empty';
-import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class MailboxEffects {
@@ -61,9 +56,9 @@ export class MailboxEffects {
           }
           return of(...actions);
         }),
-        catchError(err =>
+        catchError(error =>
           of(
-            new SnackErrorPush({ message: `Failed to update mailbox settings.  ${err.error}` }),
+            new SnackErrorPush({ message: `Failed to update mailbox settings.  ${error.error}` }),
             new MailboxSettingsUpdateFailure(payload),
           ),
         ),
@@ -78,9 +73,9 @@ export class MailboxEffects {
     switchMap((payload: any) => {
       return this.mailService.createMailbox(payload).pipe(
         switchMap(res => of(new CreateMailboxSuccess(res), new GetDomains())),
-        catchError(err =>
+        catchError(error =>
           of(
-            new CreateMailboxFailure(err.error),
+            new CreateMailboxFailure(error.error),
             new SnackErrorPush({ message: 'Failed to create new email address.' }),
           ),
         ),
@@ -95,7 +90,7 @@ export class MailboxEffects {
     switchMap((payload: Mailbox) => {
       return this.mailService.updateMailBoxSettings({ ...payload, is_default: true }).pipe(
         switchMap(res => of(new SetDefaultMailboxSuccess(res))),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to set email address as default.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to set email address as default.' }))),
       );
     }),
   );
@@ -112,7 +107,7 @@ export class MailboxEffects {
             new UpdateMailboxOrderSuccess({ mailboxes: payload.mailboxes }),
           ),
         ),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to update emails sort order.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to update emails sort order.' }))),
       );
     }),
   );
@@ -129,7 +124,7 @@ export class MailboxEffects {
             new DeleteMailboxSuccess(payload),
           ),
         ),
-        catchError(err => of(new SnackErrorPush({ message: `Failed to delete alias. ${err.error}` }))),
+        catchError(error => of(new SnackErrorPush({ message: `Failed to delete alias. ${error.error}` }))),
       );
     }),
   );

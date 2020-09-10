@@ -1,8 +1,16 @@
-// Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatStepperModule } from '@angular/material/stepper';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-// Component
+import { QuillModule } from 'ngx-quill';
+import { SharedModule } from '../shared/shared.module';
 import { AddressesSignatureComponent } from './mail-settings/addresses-signature/addresses-signature.component';
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
@@ -26,26 +34,14 @@ import { SaveContactComponent } from './mail-contact/save-contact/save-contact.c
 import { SaveListContactComponent } from './mail-settings/save-list-contact/save-list-contact.component';
 import { SecurityComponent } from './mail-settings/security/security.component';
 
-// Module
-import { MailRoutingModule } from './mail-routing.module';
-import { SharedModule } from '../shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// Services
+import { MailRoutingModule } from './mail-routing.module';
+
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { MailSettingsService } from '../store/services/mail-settings.service';
 import { PushNotificationService } from '../shared/services/push-notification.service';
 import { WebsocketService } from '../shared/services/websocket.service';
 
-// Third-party
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatStepperModule } from '@angular/material/stepper';
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],

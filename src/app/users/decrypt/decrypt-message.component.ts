@@ -1,16 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-// Store
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { GetMessage } from '../../store/actions';
-// Store
 import { AppState, SecureContent, SecureMessageState } from '../../store/datatypes';
 import { Mail } from '../../store/models';
-// Service
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -20,16 +18,27 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class DecryptMessageComponent implements OnInit, OnDestroy {
   decryptForm: FormGroup;
+
   hash: string;
+
   secret: string;
+
   senderId: string;
+
   message: Mail;
+
   decryptedContent: string;
+
   showFormErrors: boolean;
+
   errorMessage: string;
+
   isLoading: boolean;
+
   isMessageExpired: boolean;
+
   isReplying: boolean;
+
   decryptedSubject: string;
 
   private secureMessageState: SecureMessageState;
@@ -51,10 +60,10 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required]],
     });
 
-    this.route.params.pipe(untilDestroyed(this)).subscribe(params => {
-      this.hash = params['hash'];
-      this.secret = params['secret'];
-      this.senderId = decodeURIComponent(params['senderId']);
+    this.route.params.pipe(untilDestroyed(this)).subscribe(parameters => {
+      this.hash = parameters.hash;
+      this.secret = parameters.secret;
+      this.senderId = decodeURIComponent(parameters.senderId);
       this.store.dispatch(new GetMessage({ hash: this.hash, secret: this.secret }));
     });
 

@@ -1,4 +1,5 @@
 import { Subscription } from 'rxjs';
+
 import { MailAction } from '../datatypes';
 
 export interface Mail {
@@ -52,12 +53,19 @@ export interface Mail {
 
 export class EncryptionNonCTemplar {
   id?: number;
+
   expires?: string;
+
   expiry_hours = 120;
+
   password_hint?: string;
+
   password: string;
+
   private_key?: string;
+
   public_key?: string;
+
   random_secret?: string;
 }
 

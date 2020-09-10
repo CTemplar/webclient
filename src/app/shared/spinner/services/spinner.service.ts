@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { SpinnerComponent } from '../components/spinner.component';
 
 @Injectable()

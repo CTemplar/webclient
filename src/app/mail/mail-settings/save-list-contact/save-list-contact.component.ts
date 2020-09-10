@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { AppState, BlackList, UserState, WhiteList } from '../../../store/datatypes';
 import { BlackListAdd, WhiteListAdd } from '../../../store/actions';
 import { NotificationService } from '../../../store/services/notification.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -15,12 +16,17 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class SaveListContactComponent implements OnInit, OnDestroy {
   @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
+
   @Input() public contact: WhiteList | BlackList = { email: '', name: '' };
+
   @Output() public closed = new EventEmitter();
+
   @ViewChild('modalContent') modalContent: any;
 
   public contactForm: FormGroup;
+
   public showFormErrors: boolean;
+
   private modalRef: NgbModalRef;
 
   public inProgress: boolean;
@@ -43,6 +49,7 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
 
     this.handleUserState();
   }
+
   /**
    * Display notification about saving contacts
    */
@@ -77,11 +84,12 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
       result => {
         this.closed.emit();
       },
-      reason => {
+      error => {
         this.closed.emit();
       },
     );
   }
+
   /**
    * Save to whitelist or blacklist according to contactType
    */

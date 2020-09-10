@@ -1,6 +1,17 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
-import { Mailbox } from '../../../store/models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs/internal/Subject';
+import ImageResize from 'quill-image-resize-module';
+import Quill from 'quill';
+
+import { MailSettingsService } from '../../../store/services/mail-settings.service';
+import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
+import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
+import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import {
   CreateMailbox,
   DeleteMailbox,
@@ -8,18 +19,8 @@ import {
   SnackErrorPush,
   UpdateMailboxOrder,
 } from '../../../store/actions';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
-import { Store } from '@ngrx/store';
-import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
-import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs/internal/Subject';
-import ImageResize from 'quill-image-resize-module';
-import Quill from 'quill';
+import { Mailbox } from '../../../store/models';
+import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
@@ -33,24 +34,43 @@ Quill.register(ImageFormat, true);
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
   @ViewChild('deleteAliasModal') deleteAliasModal;
+
   public mailBoxesState: MailBoxesState;
+
   public mailboxes: Mailbox[];
+
   public unmodifiedMailboxes: Mailbox[];
+
   public currentMailBox: Mailbox;
+
   public userState: UserState;
+
   public selectedMailboxPublicKey: string;
+
   public selectedMailboxPrivateKey: string;
+
   newAddressForm: FormGroup;
+
   newAddressOptions: any = {};
+
   selectedMailboxForSignature: Mailbox;
+
   selectedMailboxForKey: Mailbox;
+
   settings: Settings;
+
   customDomains: string[];
+
   reorder: boolean;
+
   reorderInProgress = false;
+
   mailboxToDelete: Mailbox;
+
   signatureChanged: Subject<string> = new Subject<string>();
+
   quillModules = QUILL_FORMATTING_MODULES;
+
   isCustomDomainSelected: boolean;
 
   constructor(
@@ -121,7 +141,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         '',
         [
           Validators.required,
-          Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+          Validators.pattern(/^[a-z]+([\da-z]*[._-]?[\da-z]+)+$/i),
           Validators.minLength(2),
           Validators.maxLength(64),
         ],
@@ -144,7 +164,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         .get('username')
         .setValidators([
           Validators.required,
-          Validators.pattern(/^[a-z]*([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+          Validators.pattern(/^[a-z]*([\da-z]*[._-]?[\da-z]+)+$/i),
           Validators.minLength(1),
           Validators.maxLength(64),
         ]);
@@ -157,7 +177,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         .get('username')
         .setValidators([
           Validators.required,
-          Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+          Validators.pattern(/^[a-z]+([\da-z]*[._-]?[\da-z]+)+$/i),
           Validators.minLength(1),
           Validators.maxLength(64),
         ]);
@@ -190,7 +210,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     if (
       this.newAddressForm.valid &&
       this.newAddressOptions.usernameExists === false &&
-      this.newAddressForm.controls['username'].value
+      this.newAddressForm.controls.username.value
     ) {
       this.newAddressOptions.isBusy = true;
       this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
@@ -273,7 +293,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   startReorder() {
     this.reorder = true;
-    this.unmodifiedMailboxes = this.mailboxes.map(x => Object.assign({}, x));
+    this.unmodifiedMailboxes = this.mailboxes.map(x => ({ ...x }));
     this.mailboxes = this.mailboxes
       .sort((a, b) => {
         return a.sort_order - b.sort_order;
@@ -304,10 +324,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   private getEmail() {
     return (
-      this.newAddressForm.controls['username'].value +
-      (this.newAddressForm.controls['domain'].value === PRIMARY_DOMAIN
+      this.newAddressForm.controls.username.value +
+      (this.newAddressForm.controls.domain.value === PRIMARY_DOMAIN
         ? ''
-        : '@' + this.newAddressForm.controls['domain'].value)
+        : `@${this.newAddressForm.controls.domain.value}`)
     );
   }
 
@@ -319,7 +339,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         if (!username) {
           return;
         }
-        if (!this.newAddressForm.controls['username'].errors) {
+        if (!this.newAddressForm.controls.username.errors) {
           this.newAddressOptions.isBusy = true;
           this.usersService.checkUsernameAvailability(this.getEmail()).subscribe(
             response => {

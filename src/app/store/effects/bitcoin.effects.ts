@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+
 import {
   BitcoinActionTypes,
   CheckTransaction,
@@ -10,8 +13,6 @@ import {
   CreateNewWalletSuccess,
 } from '../actions/bitcoin.action';
 import { BitcoinService } from '../services/bitcoin.service';
-import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 @Injectable()
 export class BitcoinEffects {

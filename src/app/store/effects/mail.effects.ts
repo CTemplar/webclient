@@ -1,13 +1,11 @@
-// Angular
 import { Injectable } from '@angular/core';
-// Ngrx
 import { Actions, Effect, ofType } from '@ngrx/effects';
-// Rxjs
 import { Observable } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-// Services
-import { MailService } from '../../store/services';
-// Custom Actions
+import { EMPTY } from 'rxjs/internal/observable/empty';
+import { of } from 'rxjs/internal/observable/of';
+
+import { MailService } from '../services';
 import {
   BlackListGet,
   DeleteFolder,
@@ -38,8 +36,6 @@ import {
   UndoDeleteMailSuccess,
 } from '../actions';
 import { MailFolderType } from '../models';
-import { EMPTY } from 'rxjs/internal/observable/empty';
-import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class MailEffects {
@@ -54,9 +50,9 @@ export class MailEffects {
         map(response => {
           return new GetMailsSuccess({
             ...payload,
-            is_not_first_page: !!response['previous'],
-            mails: response['results'],
-            total_mail_count: response['total_count'],
+            is_not_first_page: !!response.previous,
+            mails: response.results,
+            total_mail_count: response.total_count,
             is_from_socket: false,
           });
         }),
@@ -124,7 +120,7 @@ export class MailEffects {
           }
           return of(...updateFolderActions);
         }),
-        catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
+        catchError(error => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
       );
     }),
   );
@@ -136,7 +132,7 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.deleteMails(payload.ids, payload.parent_only).pipe(
         switchMap(res => of(new DeleteMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
       );
     }),
   );
@@ -150,7 +146,7 @@ export class MailEffects {
         switchMap(res =>
           of(new DeleteMailForAllSuccess(payload), new SnackErrorPush({ message: 'Mail deleted successfully.' })),
         ),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
       );
     }),
   );
@@ -162,7 +158,7 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.markAsRead(payload.ids, payload.read, payload.folder).pipe(
         switchMap(res => of(new ReadMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to mark mail as read.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to mark mail as read.' }))),
       );
     }),
   );
@@ -174,7 +170,7 @@ export class MailEffects {
     mergeMap(payload => {
       return this.mailService.markAsStarred(payload.ids, payload.starred, payload.folder).pipe(
         switchMap(res => of(new StarMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to mark as starred.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to mark as starred.' }))),
       );
     }),
   );
@@ -195,7 +191,7 @@ export class MailEffects {
     switchMap(payload => {
       return this.mailService.moveMail(payload.ids, payload.sourceFolder, payload.sourceFolder).pipe(
         switchMap(res => of(new UndoDeleteMailSuccess(payload))),
-        catchError(err => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
+        catchError(error => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
       );
     }),
   );
@@ -209,10 +205,10 @@ export class MailEffects {
         switchMap(res =>
           of(new EmptyFolderSuccess(payload), new SnackErrorPush({ message: `Mails deleted permanently.` })),
         ),
-        catchError(err =>
+        catchError(error =>
           of(
             new SnackErrorPush({ message: `Failed to delete mails, please try again.` }),
-            new EmptyFolderFailure(err.error),
+            new EmptyFolderFailure(error.error),
           ),
         ),
       );

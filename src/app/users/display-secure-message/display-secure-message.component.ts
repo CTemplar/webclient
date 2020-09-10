@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { SnackErrorPush } from '../../store/actions';
 import { AppState } from '../../store/datatypes';
@@ -15,16 +16,23 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
 })
 export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
   @Input() message: Mail;
+
   @Input() decryptedContent: string;
+
   @Input() decryptedSubject: string;
+
   @Input() decryptedKey: any;
+
   @Input() hash: any;
+
   @Input() secret: any;
 
   @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @Output() expired: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   expiryDurationInSeconds: number;
+
   decryptedAttachments: any = {};
 
   constructor(

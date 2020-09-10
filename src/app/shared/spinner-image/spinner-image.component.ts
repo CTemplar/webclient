@@ -7,7 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SpinnerImageComponent implements OnInit {
   isLoaded = false;
+
   @Input() src: string;
+
   @Input() class: string;
 
   constructor() {}

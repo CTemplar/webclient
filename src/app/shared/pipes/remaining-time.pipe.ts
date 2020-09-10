@@ -5,7 +5,7 @@ import * as moment from 'moment-timezone';
   name: 'remainingTime',
 })
 export class RemainingTimePipe implements PipeTransform {
-  transform(value: any, hoursOnly: boolean = false): any {
+  transform(value: any, hoursOnly = false): any {
     if (!value) {
       return '';
     }
@@ -44,10 +44,10 @@ export class RemainingTimePipe implements PipeTransform {
     return `${days}d ${this.padLeft(hrs)}:${this.padLeft(mnts)}`;
   }
 
-  private padLeft(num, size = 2) {
-    let s = num + '';
+  private padLeft(number, size = 2) {
+    let s = `${number}`;
     while (s.length < size) {
-      s = '0' + s;
+      s = `0${s}`;
     }
     return s;
   }

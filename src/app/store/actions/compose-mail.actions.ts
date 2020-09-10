@@ -1,4 +1,3 @@
-// Ngrx
 import { Action } from '@ngrx/store';
 
 export enum ComposeMailActionTypes {

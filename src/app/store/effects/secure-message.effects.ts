@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+
 import {
   GetMessage,
   GetMessageFailure,
@@ -16,8 +18,6 @@ import {
   SnackPush,
 } from '../actions';
 import { MailService } from '../services';
-import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 @Injectable()
 export class SecureMessageEffects {
@@ -49,7 +49,7 @@ export class SecureMessageEffects {
             }),
           );
         }),
-        catchError(err => of(new SnackErrorPush({ message: 'Failed to send reply.' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to send reply.' }))),
       );
     }),
   );

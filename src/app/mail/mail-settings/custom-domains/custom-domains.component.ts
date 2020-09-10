@@ -1,13 +1,12 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-// Store
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } from '../../../store/actions';
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
 
 @UntilDestroy()
@@ -22,20 +21,35 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
   userState: UserState;
+
   authState: AuthState;
+
   settings: Settings;
+
   domains: Domain[] = [];
+
   newDomain: Domain;
+
   newDomainError: string;
+
   isAddingNewDomain = false;
+
   currentStep = 0;
+
   domainNameForm: FormGroup;
+
   verifyForm: FormGroup;
+
   mxForm: FormGroup;
+
   spfForm: FormGroup;
+
   dkimForm: FormGroup;
+
   dmarcForm: FormGroup;
+
   isEditing: boolean;
+
   primaryWebsite = PRIMARY_WEBSITE;
 
   private confirmModalRef: NgbModalRef;
@@ -113,7 +127,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     this.sharedService.copyToClipboard(text);
   }
 
-  verifyDomain(id: number, gotoNextStep: boolean = false, reverify: boolean = false) {
+  verifyDomain(id: number, gotoNextStep = false, reverify = false) {
     if (id !== null) {
       this.store.dispatch(new VerifyDomain({ id, gotoNextStep, reverify, currentStep: this.currentStep }));
     }

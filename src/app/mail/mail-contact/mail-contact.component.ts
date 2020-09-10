@@ -9,19 +9,17 @@ import {
   HostListener,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { AppState, Contact, ContactsState, PlanType, UserState, MailBoxesState } from '../../store/datatypes';
-import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush, ContactNotify } from '../../store';
-// Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
-import { BreakpointsService } from '../../store/services/breakpoint.service';
-import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
-
-import { Mailbox } from '../../store/models';
 import { TranslateService } from '@ngx-translate/core';
+
+import { AppState, Contact, ContactsState, PlanType, UserState, MailBoxesState } from '../../store/datatypes';
+import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush, ContactNotify } from '../../store';
+import { BreakpointsService } from '../../store/services/breakpoint.service';
+import { ComposeMailService } from '../../store/services/compose-mail.service';
+import { Mailbox } from '../../store/models';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -38,38 +36,64 @@ export enum ContactsProviderType {
 })
 export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('importContactsModal') importContactsModal;
+
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
+
   @ViewChild('addUserContent') addUserContent;
+
   @ViewChild('notifyContactsModal') notifyContactsModal;
 
   contactsProviderType = ContactsProviderType;
+
   public userState: UserState;
+
   public contactsState: ContactsState;
+
   public isNewContact: boolean;
+
   public selectedContact: Contact;
+
   public inProgress: boolean;
+
   public selectAll: boolean;
+
   public selectedContacts: Contact[] = [];
+
   selectedContactsProvider: ContactsProviderType;
+
   importContactsError: any;
+
   isLayoutSplitted = false;
+
   checkAll = false;
+
   isMenuOpened: boolean;
+
   isMobile: boolean;
+
   currentPlan: PlanType;
+
   currentMailbox: Mailbox;
+
   notifyContactsMail: any = {};
 
   // Initial Page Settings
   MAX_EMAIL_PAGE_LIMIT = 1;
+
   LIMIT = 20;
+
   OFFSET = 0;
+
   PAGE = 0;
 
   private contactsCount: number;
+
   private confirmModalRef: NgbModalRef;
+
   private importContactsModalRef: NgbModalRef;
+
   private notifyContactsModalRef: NgbModalRef;
+
   private searchText: string;
 
   constructor(
@@ -90,8 +114,8 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.updateUsersStatus();
     // Get contacts with searchText of current router params
-    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
-      this.searchText = params.search || '';
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(parameters => {
+      this.searchText = parameters.search || '';
       this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
     });
 
@@ -197,12 +221,12 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     contact.markForDelete = !contact.markForDelete;
   }
 
-  openConfirmDeleteModal(modalRef) {
+  openConfirmDeleteModal(modalReference) {
     this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
     if (this.selectedContacts.length === 0) {
       return;
     }
-    this.confirmModalRef = this.modalService.open(modalRef, {
+    this.confirmModalRef = this.modalService.open(modalReference, {
       centered: true,
       windowClass: 'modal-sm users-action-modal',
     });

@@ -2,8 +2,9 @@ import { animate, query, stagger, style, transition, trigger } from '@angular/an
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, SignupState } from '../../../store/datatypes';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, AuthState, SignupState } from '../../../store/datatypes';
 import { Mailbox } from '../../../store/models';
 import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-dialog.component';
 
@@ -52,11 +53,15 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   @Input() isPgpGenerationComplete: boolean;
 
   mailboxes: Mailbox[];
+
   step = 0;
+
   emails: string;
 
   private signupState: SignupState;
+
   private isAccountCreationComplete: boolean;
+
   private isDisplayNameOpened: boolean;
 
   constructor(public activeModal: NgbActiveModal, private modalService: NgbModal, private store: Store<AppState>) {}
@@ -97,9 +102,9 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  onAnimationStart(evt) {}
+  onAnimationStart(event_) {}
 
-  onAnimationDone(evt) {
+  onAnimationDone(event_) {
     if (this.step === 2 && !this.isPgpGenerationComplete) {
       // pause animation because pgp key generation is not complete
     } else if (this.step === 3) {

@@ -1,14 +1,11 @@
-// Angular
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-// Components
-import { HeaderComponent } from './header.component';
 import { SharedModule } from '../shared/shared.module';
 
-// Third-party
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './header.component';
 
 @NgModule({
   declarations: [HeaderComponent],

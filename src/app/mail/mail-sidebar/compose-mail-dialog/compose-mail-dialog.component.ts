@@ -10,12 +10,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
 import { AppState, MailAction } from '../../../store/datatypes';
-import { Store } from '@ngrx/store';
 import { SetIsComposerPopUp } from '../../../store/actions';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -25,22 +26,33 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;
+
   @Input() public draft: Mail;
+
   @Input() action: MailAction;
+
   @Input() parentId: number;
+
   @Input() public isFullScreen: boolean;
+
   @Input() public receivers: Array<string>;
 
   @Output() public hide = new EventEmitter<boolean>();
+
   @Output() public minimize = new EventEmitter<boolean>();
+
   @Output() public fullScreen = new EventEmitter<boolean>();
 
   @ViewChild(ComposeMailComponent) composeMail: ComposeMailComponent;
+
   @ViewChild('input') input: ElementRef;
 
   private confirmModalRef: NgbModalRef;
+
   isMinimized: boolean;
+
   mailSubject = '';
+
   isPopupClosed: boolean;
 
   constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef, private store: Store<AppState>) {}
@@ -71,7 +83,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     if (this.mailSubject && this.action) {
       if (this.action === MailAction.REPLY) {
-        this.mailSubject = 'Reply: ' + this.mailSubject;
+        this.mailSubject = `Reply: ${this.mailSubject}`;
       }
     }
     this.cdr.detectChanges();

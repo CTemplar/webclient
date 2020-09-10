@@ -1,33 +1,36 @@
-// Angular
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-
-// Components
-import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
-
-// Services
-import { AppState, ComposeMailState, Draft, DraftState, SecureContent, UserState } from '../datatypes';
-import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
-import { MailService } from './mail.service';
-import { OpenPgpService } from './openpgp.service';
-
-// Third-party
 import { finalize, take } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
+import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
+import { AppState, ComposeMailState, Draft, DraftState, SecureContent, UserState } from '../datatypes';
+import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
+
+import { MailService } from './mail.service';
+import { OpenPgpService } from './openpgp.service';
+
 @Injectable()
 export class ComposeMailService {
   private drafts: DraftState;
+
   private composeMailContainer: ViewContainerRef;
+
   private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
 
   private userState: UserState;
+
   minimizedWidth = 192;
+
   originWidth = 640;
+
   windowWidth: number;
+
   maxComposeCount = 5;
+
   composesWidth: number;
+
   countCommonCompose: number;
 
   constructor(
@@ -126,71 +129,65 @@ export class ComposeMailService {
                       new SecureContent(draftMail.draft),
                       publicKeys,
                     );
-                  } else {
-                    if (!draftMail.isSaving) {
-                      const encryptedAttachments = draftMail.attachments.filter(
-                        attachment => !!attachment.is_encrypted,
-                      );
-                      if (encryptedAttachments.length > 0) {
-                        forkJoin(
-                          ...encryptedAttachments.map(attachment => {
-                            attachment.is_encrypted = false;
-                            attachment.document = attachment.decryptedDocument;
-                            return Observable.create(observer => {
-                              this.mailService
-                                .uploadFile(attachment)
-                                .pipe(finalize(() => observer.complete()))
-                                .subscribe(
-                                  event => {
-                                    if (event instanceof HttpResponse) {
-                                      observer.next(event.body);
-                                    }
-                                  },
-                                  error => observer.error(error),
-                                );
-                            });
-                          }),
-                        )
-                          .pipe(take(1))
-                          .subscribe(
-                            responses => {
-                              if (publicKeys.length === 0) {
-                                this.store.dispatch(new SendMail({ ...draftMail }));
-                              } else {
-                                this.openPgpService.encrypt(
-                                  draftMail.draft.mailbox,
-                                  draftMail.id,
-                                  new SecureContent(draftMail.draft),
-                                  publicKeys,
-                                );
-                              }
-                            },
-                            error =>
-                              this.store.dispatch(
-                                new SnackPush({
-                                  message: 'Failed to send email, please try again. Email has been saved in draft.',
-                                }),
-                              ),
-                          );
-                      } else {
-                        if (publicKeys.length === 0) {
-                          this.store.dispatch(new SendMail({ ...draftMail }));
-                        } else {
-                          this.openPgpService.encrypt(
-                            draftMail.draft.mailbox,
-                            draftMail.id,
-                            new SecureContent(draftMail.draft),
-                            publicKeys,
-                          );
-                        }
-                      }
-                    } else {
-                      this.store.dispatch(
-                        new SnackPush({
-                          message: 'Failed to send email, please try again. Email has been saved in draft.',
+                  } else if (!draftMail.isSaving) {
+                    const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
+                    if (encryptedAttachments.length > 0) {
+                      forkJoin(
+                        ...encryptedAttachments.map(attachment => {
+                          attachment.is_encrypted = false;
+                          attachment.document = attachment.decryptedDocument;
+                          return Observable.create(observer => {
+                            this.mailService
+                              .uploadFile(attachment)
+                              .pipe(finalize(() => observer.complete()))
+                              .subscribe(
+                                event => {
+                                  if (event instanceof HttpResponse) {
+                                    observer.next(event.body);
+                                  }
+                                },
+                                error => observer.error(error),
+                              );
+                          });
                         }),
+                      )
+                        .pipe(take(1))
+                        .subscribe(
+                          responses => {
+                            if (publicKeys.length === 0) {
+                              this.store.dispatch(new SendMail({ ...draftMail }));
+                            } else {
+                              this.openPgpService.encrypt(
+                                draftMail.draft.mailbox,
+                                draftMail.id,
+                                new SecureContent(draftMail.draft),
+                                publicKeys,
+                              );
+                            }
+                          },
+                          error =>
+                            this.store.dispatch(
+                              new SnackPush({
+                                message: 'Failed to send email, please try again. Email has been saved in draft.',
+                              }),
+                            ),
+                        );
+                    } else if (publicKeys.length === 0) {
+                      this.store.dispatch(new SendMail({ ...draftMail }));
+                    } else {
+                      this.openPgpService.encrypt(
+                        draftMail.draft.mailbox,
+                        draftMail.id,
+                        new SecureContent(draftMail.draft),
+                        publicKeys,
                       );
                     }
+                  } else {
+                    this.store.dispatch(
+                      new SnackPush({
+                        message: 'Failed to send email, please try again. Email has been saved in draft.',
+                      }),
+                    );
                   }
                 }
               }
@@ -259,43 +256,43 @@ export class ComposeMailService {
 
   getComposesWidth() {
     // get entire width of opened Compose windows
-    let tempWidth = 0;
-    this.componentRefList.forEach(componentRef => {
-      if (componentRef.instance.isComposeVisible) {
-        tempWidth += componentRef.instance.isMinimized ? this.minimizedWidth : this.originWidth;
+    let temporaryWidth = 0;
+    this.componentRefList.forEach(componentReference => {
+      if (componentReference.instance.isComposeVisible) {
+        temporaryWidth += componentReference.instance.isMinimized ? this.minimizedWidth : this.originWidth;
       }
     });
-    this.composesWidth = tempWidth;
+    this.composesWidth = temporaryWidth;
   }
 
   openComposeMailDialog(inputData: any = {}) {
     if (this.userState && this.componentRefList.length < this.maxComposeCount) {
-      this.componentRefList.forEach(componentRef => {
-        componentRef.instance.isMinimized = true;
+      this.componentRefList.forEach(componentReference => {
+        componentReference.instance.isMinimized = true;
       });
 
       if (inputData.draft) {
-        const oldComponentRef = this.componentRefList.find(componentRef => {
+        const oldComponentReference = this.componentRefList.find(componentReference => {
           return (
-            componentRef.instance.composeMail.draftMail &&
-            componentRef.instance.composeMail.draftMail.id === inputData.draft.id
+            componentReference.instance.composeMail.draftMail &&
+            componentReference.instance.composeMail.draftMail.id === inputData.draft.id
           );
         });
-        if (oldComponentRef) {
-          oldComponentRef.instance.isMinimized = false;
+        if (oldComponentReference) {
+          oldComponentReference.instance.isMinimized = false;
           return;
         }
       }
       const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
-      const newComponentRef: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(
+      const newComponentReference: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(
         factory,
       );
-      this.componentRefList.push(newComponentRef);
+      this.componentRefList.push(newComponentReference);
       Object.keys(inputData).forEach(key => {
-        newComponentRef.instance[key] = inputData[key];
+        newComponentReference.instance[key] = inputData[key];
       });
-      newComponentRef.instance.isComposeVisible = true;
-      newComponentRef.instance.isMinimized = false;
+      newComponentReference.instance.isComposeVisible = true;
+      newComponentReference.instance.isMinimized = false;
       this.getComposesWidth();
       if (this.windowWidth < this.composesWidth) {
         for (const i in this.componentRefList) {
@@ -305,36 +302,36 @@ export class ComposeMailService {
           }
         }
       }
-      newComponentRef.instance.hide.subscribe(event => {
-        const index = this.componentRefList.indexOf(newComponentRef);
-        this.destroyComponent(newComponentRef, index);
+      newComponentReference.instance.hide.subscribe(event => {
+        const index = this.componentRefList.indexOf(newComponentReference);
+        this.destroyComponent(newComponentReference, index);
       });
-      newComponentRef.instance.minimize.subscribe(isMinimized => {
+      newComponentReference.instance.minimize.subscribe(isMinimized => {
         if (!isMinimized) {
           // when Compose window is maximized
-          this.componentRefList.forEach(componentRef => {
-            componentRef.instance.isMinimized = true;
-            componentRef.instance.isFullScreen = false;
-            componentRef.instance.isComposeVisible = true;
+          this.componentRefList.forEach(componentReference => {
+            componentReference.instance.isMinimized = true;
+            componentReference.instance.isFullScreen = false;
+            componentReference.instance.isComposeVisible = true;
           });
-          newComponentRef.instance.isMinimized = false;
+          newComponentReference.instance.isMinimized = false;
           if (this.windowWidth < this.minimizedWidth * (this.componentRefList.length - 1) + this.originWidth) {
-            let tempCount = 0;
+            let temporaryCount = 0;
             for (let i = 0; i < this.componentRefList.length; i++) {
-              if (tempCount === this.componentRefList.length - this.countCommonCompose) {
+              if (temporaryCount === this.componentRefList.length - this.countCommonCompose) {
                 break;
               }
               if (this.componentRefList[i].instance.isMinimized) {
-                tempCount += 1;
+                temporaryCount += 1;
                 this.componentRefList[i].instance.isComposeVisible = false;
               }
             }
           }
         } else {
           // when Compose window is minimized
-          this.componentRefList.forEach(componentRef => {
-            componentRef.instance.isMinimized = true;
-            componentRef.instance.isComposeVisible = false;
+          this.componentRefList.forEach(componentReference => {
+            componentReference.instance.isMinimized = true;
+            componentReference.instance.isComposeVisible = false;
           });
           let count = Math.trunc(this.windowWidth / this.minimizedWidth);
           if (this.componentRefList.length < count) {
@@ -345,13 +342,13 @@ export class ComposeMailService {
           }
         }
       });
-      newComponentRef.instance.fullScreen.subscribe(isFullScreen => {
+      newComponentReference.instance.fullScreen.subscribe(isFullScreen => {
         if (isFullScreen) {
-          this.componentRefList.forEach(componentRef => {
-            componentRef.instance.isFullScreen = false;
-            componentRef.instance.isMinimized = true;
+          this.componentRefList.forEach(componentReference => {
+            componentReference.instance.isFullScreen = false;
+            componentReference.instance.isMinimized = true;
           });
-          newComponentRef.instance.isFullScreen = true;
+          newComponentReference.instance.isFullScreen = true;
         }
       });
     } else {
@@ -361,14 +358,14 @@ export class ComposeMailService {
   }
 
   destroyAllComposeMailDialogs(): void {
-    this.componentRefList.forEach(componentRef => {
-      componentRef.destroy();
+    this.componentRefList.forEach(componentReference => {
+      componentReference.destroy();
     });
     this.componentRefList = [];
   }
 
-  private destroyComponent(newComponentRef: ComponentRef<ComposeMailDialogComponent>, index: number) {
-    newComponentRef.destroy();
+  private destroyComponent(newComponentReference: ComponentRef<ComposeMailDialogComponent>, index: number) {
+    newComponentReference.destroy();
     this.componentRefList.splice(index, 1);
     this.getComposesWidth();
     let countNewCompose = (this.windowWidth - this.composesWidth) / this.minimizedWidth;

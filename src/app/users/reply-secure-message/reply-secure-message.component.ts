@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as QuillNamespace from 'quill';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { COLORS, FONTS } from '../../shared/config';
 import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/actions';
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 const Quill: any = QuillNamespace;
 
@@ -28,7 +29,7 @@ class ImageBlot extends QuillBlockEmbed {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
     if (value.content_id) {
-      node.setAttribute('data-content-id', value.content_id);
+      node.dataset.contentId = value.content_id;
     }
     return node;
   }
@@ -54,23 +55,33 @@ Quill.register(ImageBlot);
 })
 export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() sourceMessage: Mail;
+
   @Input() hash: string;
+
   @Input() secret: string;
+
   @Input() senderId: string;
 
   @Output() cancel: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @Output() replySuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @ViewChild('editor') editor;
+
   @ViewChild('toolbar') toolbar;
 
   colors = COLORS;
+
   fonts = FONTS;
+
   attachments: Attachment[] = [];
+
   inProgress: boolean;
 
   private message: Mail;
+
   private quill: any;
+
   private secureMessageState: SecureMessageState;
 
   constructor(private store: Store<AppState>, private openPgpService: OpenPgpService) {}
@@ -85,7 +96,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
           if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {
             const keys = [
               ...state.usersKeys
-                .filter(item => this.message.receiver.indexOf(item.email) > -1 && item.is_enabled)
+                .filter(item => this.message.receiver.includes(item.email) && item.is_enabled)
                 .map(item => item.public_key),
               this.sourceMessage.encryption.public_key,
             ];

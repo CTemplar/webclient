@@ -2,11 +2,12 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { CreateFilter, DeleteFilter, UpdateFilter } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
 import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -23,21 +24,33 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   };
 
   @ViewChild('customFilterModal') customFilterModal;
+
   @ViewChild('deleteFilterModal') deleteFilterModal;
 
   mailFolderType = MailFolderType;
+
   filterCondition = FilterCondition;
+
   filterParameter = FilterParameter;
+
   filters: Filter[];
+
   userState: UserState;
+
   customFolders: Folder[];
+
   createFilterForm: FormGroup;
+
   createFilterData: any;
+
   errorMessage: string;
+
   selectedFilter: Filter;
+
   hasDuplicateFilterName: boolean;
 
   private customFilterModalRef: NgbModalRef;
+
   private deleteFilterModalRef: NgbModalRef;
 
   constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
@@ -131,12 +144,10 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         this.errorMessage = 'Please enter some text or pattern.';
       } else if (data.move_to && !data.folder) {
         this.errorMessage = 'Please select a folder.';
+      } else if (data.id) {
+        this.store.dispatch(new UpdateFilter(data));
       } else {
-        if (data.id) {
-          this.store.dispatch(new UpdateFilter(data));
-        } else {
-          this.store.dispatch(new CreateFilter(data));
-        }
+        this.store.dispatch(new CreateFilter(data));
       }
     }
   }

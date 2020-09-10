@@ -1,11 +1,9 @@
-// Angular
 import { Component, OnDestroy, OnInit } from '@angular/core';
-// Model
+import { Store } from '@ngrx/store';
+
 import { Storage, StorageData } from '../../store/models';
 import { SharedService } from '../../store/services';
-
 import { FinalLoading } from '../../store/actions';
-import { Store } from '@ngrx/store';
 import { PRIMARY_WEBSITE } from '../../shared/config';
 
 @Component({
@@ -15,11 +13,16 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
 })
 export class UsersSignUpComponent implements OnDestroy, OnInit {
   public storageList: Storage[];
+
   public selectedStorage: Storage;
+
   public mainPayments: any[];
+
   public selectedPayment = 0;
+
   // == Defining public property as boolean
   public selectedIndex = -1; // Assuming no element are selected initially
+
   public primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(private sharedService: SharedService, private store: Store<any>) {}

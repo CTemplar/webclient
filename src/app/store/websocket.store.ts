@@ -1,12 +1,12 @@
-// Ngrx
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import { Injectable } from '@angular/core';
 import { map, switchMap } from 'rxjs/operators';
-import { Message } from '../shared/services/websocket.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
+
+import { Message } from '../shared/services/websocket.service';
 
 export enum WebSocketActionTypes {
   WEB_SOCKET_NEW_MESSAGE = '[WEB_SOCKET] New Message',
