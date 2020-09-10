@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { apiUrl } from '../../shared/config';
 import { Observable } from 'rxjs';
+
+import { apiUrl } from '../../shared/config';
 
 @Injectable()
 export class DonationService {

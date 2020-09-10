@@ -1,12 +1,12 @@
-// Ngrx
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import { Injectable } from '@angular/core';
 import { map, switchMap } from 'rxjs/operators';
-import { Message } from '../shared/services/websocket.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs/internal/observable/of';
+
+import { Message } from '../shared/services/websocket.service';
 
 export enum WebSocketActionTypes {
   WEB_SOCKET_NEW_MESSAGE = '[WEB_SOCKET] New Message',
@@ -25,36 +25,29 @@ export class WebSocketClose implements Action {
   constructor(public payload: any) {}
 }
 
-export type WebSocketActionAll =
-  | WebSocketNewMessage
-  | WebSocketClose;
-
+export type WebSocketActionAll = WebSocketNewMessage | WebSocketClose;
 
 @Injectable()
 export class WebSocketEffects {
-
-  constructor(
-    private actions: Actions) {}
+  constructor(private actions: Actions) {}
 
   @Effect()
-  webSocketNewMessage: Observable<any> = this.actions
-    .pipe(
-      ofType(WebSocketActionTypes.WEB_SOCKET_NEW_MESSAGE),
-      map((action: WebSocketNewMessage) => action.payload),
-      switchMap(payload => {
-        return of(EMPTY);
-      })
-    );
+  webSocketNewMessage: Observable<any> = this.actions.pipe(
+    ofType(WebSocketActionTypes.WEB_SOCKET_NEW_MESSAGE),
+    map((action: WebSocketNewMessage) => action.payload),
+    switchMap(payload => {
+      return of(EMPTY);
+    }),
+  );
 
   @Effect()
-  webSocketClose: Observable<any> = this.actions
-    .pipe(
-      ofType(WebSocketActionTypes.WEB_SOCKET_CLOSE),
-      map((action: WebSocketClose) => action.payload),
-      switchMap(payload => {
-        return of(EMPTY);
-      })
-    );
+  webSocketClose: Observable<any> = this.actions.pipe(
+    ofType(WebSocketActionTypes.WEB_SOCKET_CLOSE),
+    map((action: WebSocketClose) => action.payload),
+    switchMap(payload => {
+      return of(EMPTY);
+    }),
+  );
 }
 
 export interface WebSocketState {

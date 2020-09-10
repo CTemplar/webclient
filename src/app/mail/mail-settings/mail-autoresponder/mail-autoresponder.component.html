@@ -1,6 +1,7 @@
 <section class="mailbox-section">
   <header class="ui-header ui-header-bordered">
-    <h5 class="ui-header-subtitle text-dark mb-0"><strong [translate]="'settings.forwarding.autoresponder'">Autoresponder</strong>
+    <h5 class="ui-header-subtitle text-dark mb-0">
+      <strong [translate]="'settings.forwarding.autoresponder'">Autoresponder</strong>
       <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </h5>
   </header>
@@ -8,17 +9,14 @@
     <div class="form-content-holder">
       <div class="form-group col">
         <div class="toggle-switcher">
-          <input class="d-none toggle-switcher-control" id="autoresponder" name="autoresponder"
-                 type="checkbox" [(ngModel)]="autoresponder.autoresponder_active"/>
+          <input class="d-none toggle-switcher-control" id="autoresponder" name="autoresponder" type="checkbox" [(ngModel)]="autoresponder.autoresponder_active" />
           <label for="autoresponder"></label>
           <span class="toggle-switcher-text" [translate]="'settings.forwarding.autoresponder'">Autoresponder</span>
         </div>
       </div>
       <div class="form-group col">
         <div class="fancy-field-group">
-          <input type="checkbox" id="timeRestricted" name="timeRestricted"
-                 [(ngModel)]="autoresponder.is_time_range_restricted"
-                 class="d-none fancy-field-control fancy-field-control-sm"/>
+          <input type="checkbox" id="timeRestricted" name="timeRestricted" [(ngModel)]="autoresponder.is_time_range_restricted" class="d-none fancy-field-control fancy-field-control-sm" />
           <label for="timeRestricted" [translate]="'settings.forwarding.restrict'">Restrict to time range</label>
         </div>
       </div>
@@ -26,75 +24,56 @@
         <div class="col-md-12 row">
           <div class="form-group col-sm col-sm-6">
             <label class="form-inline" [translate]="'settings.forwarding.start_time'">Start Time</label>
-            <ngb-timepicker [(ngModel)]="startTime" [meridian]="true"
-                            [disabled]="!autoresponder.is_time_range_restricted"></ngb-timepicker>
+            <ngb-timepicker [(ngModel)]="startTime" [meridian]="true" [disabled]="!autoresponder.is_time_range_restricted"></ngb-timepicker>
           </div>
           <div class="form-group col-sm col-sm-6">
             <label class="form-inline" [translate]="'settings.forwarding.end_time'">End Time</label>
-            <ngb-timepicker [(ngModel)]="endTime" [meridian]="true"
-                            [disabled]="!autoresponder.is_time_range_restricted"></ngb-timepicker>
+            <ngb-timepicker [(ngModel)]="endTime" [meridian]="true" [disabled]="!autoresponder.is_time_range_restricted"></ngb-timepicker>
           </div>
         </div>
       </div>
       <div class="form-group col-md-10">
         <div class="form-group">
-          <label for="autoresponseMessage" class="form-inline" [translate]="'settings.forwarding.auto_message'">Email autoresponse message</label>
-          <quill-editor id="autoresponseMessage"
-                        [(ngModel)]="autoresponder.autoresponder_message"
-                        [modules]="quillModules"
-                        (onBlur)="editorFocused(false)"
-                        (onFocus)="editorFocused(true)">
-          </quill-editor>
+          <label for="autoresponseMessage" class="form-inline" [translate]="'settings.forwarding.auto_message'"> Email autoresponse message </label>
+          <quill-editor id="autoresponseMessage" [(ngModel)]="autoresponder.autoresponder_message" [modules]="quillModules" (onBlur)="editorFocused(false)" (onFocus)="editorFocused(true)"> </quill-editor>
         </div>
       </div>
       <div class="form-group col">
         <div class="toggle-switcher">
-          <input class="d-none toggle-switcher-control" id="vacationAutoresponder" name="vacationAutoresponder"
-                 type="checkbox" [(ngModel)]="autoresponder.vacationautoresponder_active"/>
+          <input class="d-none toggle-switcher-control" id="vacationAutoresponder" name="vacationAutoresponder" type="checkbox" [(ngModel)]="autoresponder.vacationautoresponder_active" />
           <label for="vacationAutoresponder"></label>
-          <span class="toggle-switcher-text" [translate]="'settings.forwarding.vac_autoresponder'">Vacation Autoresponder</span>
+          <span class="toggle-switcher-text" [translate]="'settings.forwarding.vac_autoresponder'"> Vacation Autoresponder </span>
         </div>
       </div>
       <div class="form-group row col-md-8">
         <div class="col-md-12 row">
           <div class="form-group col-sm col-sm-6">
             <label class="form-inline" [translate]="'settings.forwarding.start_time'">Start Date</label>
-            <ngb-datepicker #startDatePicker [(ngModel)]="startDate"
-                            [disabled]="!autoresponder.vacationautoresponder_active"
-                            class="bg-white ng-datepicker ng-datepicker-265"></ngb-datepicker>
+            <ngb-datepicker #startDatePicker [(ngModel)]="startDate" [disabled]="!autoresponder.vacationautoresponder_active" class="bg-white ng-datepicker ng-datepicker-265"> </ngb-datepicker>
           </div>
           <div class="form-group col-sm col-sm-6">
             <label class="form-inline" [translate]="'settings.forwarding.end_time'">End Date</label>
-            <ngb-datepicker #endDatePicker [(ngModel)]="endDate"
-                            [disabled]="!autoresponder.vacationautoresponder_active"
-                            class="bg-white ng-datepicker ng-datepicker-265"></ngb-datepicker>
+            <ngb-datepicker #endDatePicker [(ngModel)]="endDate" [disabled]="!autoresponder.vacationautoresponder_active" class="bg-white ng-datepicker ng-datepicker-265"> </ngb-datepicker>
           </div>
         </div>
       </div>
       <div class="form-group col-md-10">
         <div class="form-group">
-          <label for="vacationAutoresponseMessage" class="form-inline" [translate]="'settings.forwarding.auto_message'">Email autoresponse message</label>
-          <quill-editor id="vacationAutoresponseMessage"
-                        [(ngModel)]="autoresponder.vacationautoresponder_message"
-                        [modules]="quillModules"
-                        (onBlur)="editorFocused(false)"
-                        (onFocus)="editorFocused(true)">
-          </quill-editor>
+          <label for="vacationAutoresponseMessage" class="form-inline" [translate]="'settings.forwarding.auto_message'"> Email autoresponse message </label>
+          <quill-editor id="vacationAutoresponseMessage" [(ngModel)]="autoresponder.vacationautoresponder_message" [modules]="quillModules" (onBlur)="editorFocused(false)" (onFocus)="editorFocused(true)"> </quill-editor>
         </div>
       </div>
       <div class="form-group col">
         <div class="fancy-field-group">
-          <input type="checkbox" id="onlyContacts" name="onlyContacts" [(ngModel)]="autoresponder.only_contacts"
-                 class="d-none fancy-field-control fancy-field-control-sm"/>
-          <label for="onlyContacts" [translate]="'settings.forwarding.send_response'">Only send a response to people in my contacts</label>
+          <input type="checkbox" id="onlyContacts" name="onlyContacts" [(ngModel)]="autoresponder.only_contacts" class="d-none fancy-field-control fancy-field-control-sm" />
+          <label for="onlyContacts" [translate]="'settings.forwarding.send_response'"> Only send a response to people in my contacts </label>
         </div>
       </div>
       <div *ngIf="errorMessage" class="l-alert l-alert-danger mb-3 ml-1">
         {{ errorMessage }}
       </div>
       <div class="form-group">
-        <button  (click)="save()" [disabled]="userState.inProgress"
-                 class="btn btn-secondary btn-sm" [translate]="'common.save'">Save</button>
+        <button (click)="save()" [disabled]="userState.inProgress" class="btn btn-secondary btn-sm" [translate]="'common.save'">Save</button>
         <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
       </div>
     </div>

@@ -2,8 +2,9 @@ import { animate, query, stagger, style, transition, trigger } from '@angular/an
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, SignupState } from '../../../store/datatypes';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, AuthState, SignupState } from '../../../store/datatypes';
 import { Mailbox } from '../../../store/models';
 import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-dialog.component';
 
@@ -18,63 +19,58 @@ import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation2', [
       transition(':enter', [
         query('li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation3', [
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation4', [
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
-    ])
-  ]
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   @Input() isPgpGenerationComplete: boolean;
 
   mailboxes: Mailbox[];
+
   step = 0;
+
   emails: string;
 
   private signupState: SignupState;
+
   private isAccountCreationComplete: boolean;
+
   private isDisplayNameOpened: boolean;
 
-  constructor(public activeModal: NgbActiveModal,
-              private modalService: NgbModal,
-              private store: Store<AppState>) {
-  }
+  constructor(public activeModal: NgbActiveModal, private modalService: NgbModal, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.isDisplayNameOpened = false;
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (this.signupState && this.signupState.inProgress && !authState.signupState.inProgress) {
           if (authState.errorMessage || this.step === 4) {
@@ -101,18 +97,14 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.step++;
       }, 1000);
-
     }
-
   }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 
-  onAnimationStart(evt) {
-  }
+  onAnimationStart(event_) {}
 
-  onAnimationDone(evt) {
+  onAnimationDone(event_) {
     if (this.step === 2 && !this.isPgpGenerationComplete) {
       // pause animation because pgp key generation is not complete
     } else if (this.step === 3) {
@@ -142,6 +134,4 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-
 }

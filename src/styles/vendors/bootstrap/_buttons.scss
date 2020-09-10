@@ -30,7 +30,7 @@
   &.disabled,
   &:disabled {
     cursor: $cursor-disabled;
-    opacity: .65;
+    opacity: 0.65;
     @include box-shadow(none);
   }
 
@@ -46,7 +46,6 @@ a.btn.disabled,
 fieldset[disabled] a.btn {
   pointer-events: none;
 }
-
 
 //
 // Alternate buttons
@@ -91,7 +90,6 @@ fieldset[disabled] a.btn {
   @include button-outline-variant($btn-danger-bg);
 }
 
-
 //
 // Link buttons
 //
@@ -131,7 +129,6 @@ fieldset[disabled] a.btn {
   }
 }
 
-
 //
 // Button Sizes
 //
@@ -144,7 +141,6 @@ fieldset[disabled] a.btn {
   // line-height: ensure proper height of button next to small input
   @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, $btn-border-radius-sm);
 }
-
 
 //
 // Block button
@@ -161,9 +157,9 @@ fieldset[disabled] a.btn {
 }
 
 // Specificity overrides
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
+input[type='submit'],
+input[type='reset'],
+input[type='button'] {
   &.btn-block {
     width: 100%;
   }

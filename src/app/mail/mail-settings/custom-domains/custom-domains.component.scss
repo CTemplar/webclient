@@ -7,11 +7,11 @@
   padding-left: 1.563rem;
   padding-right: 1.563rem;
   position: relative;
-  @include media("<ipad", ">sm") {
+  @include media('<ipad', '>sm') {
     padding-left: 0.938rem;
     padding-right: 0.938rem;
   }
-  @include media("<=sm") {
+  @include media('<=sm') {
     padding-left: 0;
     padding-right: 0;
   }
@@ -19,21 +19,21 @@
   .btn-create-domain {
     margin-top: 2rem;
     margin-bottom: 2rem;
-    @include media("<=sm") {
+    @include media('<=sm') {
       margin: 1.875rem 0.75rem;
     }
   }
 
   .btn-add-domain {
     margin-top: 1.5rem;
-    @include media("<=sm") {
+    @include media('<=sm') {
       margin: 1.25rem 0.75rem;
     }
   }
 
   .domains-list {
     padding: 1.875rem 0;
-    @include media("<=sm") {
+    @include media('<=sm') {
       padding: 0;
     }
 
@@ -122,7 +122,6 @@
 
           .action-normal {
             opacity: 0.6;
-
           }
 
           &:hover {
@@ -144,12 +143,12 @@
   .domain-input {
     width: 28.125rem;
     padding: 0.75rem 0.8125rem;
-    @include media("<=sm") {
+    @include media('<=sm') {
       width: 100%;
     }
   }
 
-  @include media("<=sm") {
+  @include media('<=sm') {
     padding: 0;
   }
 }
@@ -162,24 +161,23 @@
   display: flex;
   justify-content: flex-end;
 
-  @include media("<ipad", ">sm") {
+  @include media('<ipad', '>sm') {
     justify-content: flex-start;
   }
 
-  @include media("<=sm") {
+  @include media('<=sm') {
     justify-content: center;
   }
 }
 
 .record-status {
   border-radius: 14px;
-  background-color: #3ab05d
+  background-color: #3ab05d;
 }
 
 .green {
   color: #3ab05d !important;
 }
-
 
 .copy-btn {
   float: right !important;

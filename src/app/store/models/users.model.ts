@@ -1,38 +1,64 @@
 export class Membership {
   id?: number;
+
   name?: string;
+
   price?: number;
+
   users?: number;
+
   storage?: number;
+
   aliases?: number;
+
   sending_limit?: number;
+
   filters?: boolean;
+
   autoresponders?: boolean;
+
   catch_all?: boolean;
 }
 
 export class User {
   id?: number;
+
   username?: string;
+
   password?: string;
+
   is_active?: boolean;
+
   newsletter?: boolean;
+
   membership?: Membership;
+
   token?: string;
+
   pubkey?: string;
+
   privkey?: string;
 }
 
 export class OrganizationUser {
   user_id?: number;
+
   username: string;
+
   domain: string;
+
   password?: string;
+
   recovery_email?: string;
+
   private_key?: string;
+
   public_key?: string;
+
   fingerprint?: string;
+
   isEditing?: boolean;
+
   unmodifiedUser?: OrganizationUser;
 
   constructor(data: any = {}) {
@@ -74,7 +100,7 @@ export const StorageData: Storage[] = [
   { id: 2, type: '10 Gb Storage', price: 4 },
   { id: 3, type: '15 Gb Storage', price: 8 },
   { id: 4, type: '20 Gb Storage', price: 12 },
-  { id: 5, type: '25 Gb Storage', price: 16 }
+  { id: 5, type: '25 Gb Storage', price: 16 },
 ];
 
 export const PaymentData: Payment[] = [
@@ -97,5 +123,5 @@ export const PaymentData: Payment[] = [
     selected: false,
     title: 'Pay Annually',
     totalAnnualFee: 0,
-  }
+  },
 ];

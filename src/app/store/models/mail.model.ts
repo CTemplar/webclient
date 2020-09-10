@@ -1,4 +1,5 @@
 import { Subscription } from 'rxjs';
+
 import { MailAction } from '../datatypes';
 
 export interface Mail {
@@ -52,12 +53,19 @@ export interface Mail {
 
 export class EncryptionNonCTemplar {
   id?: number;
+
   expires?: string;
+
   expiry_hours = 120;
+
   password_hint?: string;
+
   password: string;
+
   private_key?: string;
+
   public_key?: string;
+
   random_secret?: string;
 }
 
@@ -85,7 +93,6 @@ export interface Folder {
   sort_order?: number;
 }
 
-
 export enum MailFolderType {
   ALL_EMAILS = 'allmails',
   UNREAD = 'allunreadmails',
@@ -97,7 +104,7 @@ export enum MailFolderType {
   SPAM = 'spam',
   TRASH = 'trash',
   OUTBOX = 'outbox',
-  SEARCH = 'search'
+  SEARCH = 'search',
 }
 
 export interface Attachment {

@@ -1,10 +1,8 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PushNotificationService {
   public permission: Permission;
@@ -25,12 +23,12 @@ export class PushNotificationService {
     const self = this;
     if ('Notification' in window) {
       Notification.requestPermission(function (status) {
-        return self.permission = status;
+        return (self.permission = status);
       });
     }
   }
 
-  create(title: string, options ?: PushNotificationOptions): any {
+  create(title: string, options?: PushNotificationOptions): any {
     const self = this;
     return new Observable(function (obs) {
       if (!('Notification' in window)) {
@@ -38,28 +36,28 @@ export class PushNotificationService {
         obs.complete();
       }
       if (self.permission !== 'granted') {
-        console.log('The user hasn\'t granted you permission to send push notifications');
+        console.log("The user hasn't granted you permission to send push notifications");
         obs.complete();
       }
       const _notify = new Notification(title, options);
-      _notify.onshow = function (e) {
+      _notify.addEventListener('show', function (e) {
         return obs.next({
           notification: _notify,
-          event: e
+          event: e,
         });
-      };
-      _notify.onclick = function (e) {
+      });
+      _notify.addEventListener('click', function (e) {
         return obs.next({
           notification: _notify,
-          event: e
+          event: e,
         });
-      };
-      _notify.onerror = function (e) {
+      });
+      _notify.addEventListener('error', function (e) {
         return obs.error({
           notification: _notify,
-          event: e
+          event: e,
         });
-      };
+      });
       _notify.onclose = function () {
         return obs.complete();
       };
@@ -68,10 +66,10 @@ export class PushNotificationService {
 
   generateNotification(source: Array<any>): void {
     const self = this;
-    source.forEach((item) => {
+    source.forEach(item => {
       const options = {
         body: item.alertContent,
-        icon: '../resource/images/bell-icon.png'
+        icon: '../resource/images/bell-icon.png',
       };
       const notify = self.create(item.title, options).subscribe();
     });
@@ -82,15 +80,26 @@ export declare type Permission = 'denied' | 'granted' | 'default';
 
 export class PushNotificationOptions {
   body?: string;
+
   icon?: string;
+
   tag?: string;
+
   data?: any;
+
   renotify?: boolean;
+
   silent?: boolean;
+
   sound?: string;
+
   noscreen?: boolean;
+
   sticky?: boolean;
+
   dir?: 'auto' | 'ltr' | 'rtl';
+
   lang?: string;
+
   vibrate?: number[];
 }

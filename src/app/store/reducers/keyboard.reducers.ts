@@ -1,7 +1,4 @@
-// Custom Action
 import { KeyboardActionTypes, KeyboardActionAll } from '../actions';
-
-// Model
 import { KeyboardState } from '../datatypes';
 
 export const initialState: KeyboardState = { keyboardFocused: false, keyPressed: { key: '' }, focusedInput: '' };

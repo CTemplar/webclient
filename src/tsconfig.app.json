@@ -6,7 +6,5 @@
     "baseUrl": "",
     "types": []
   },
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  "exclude": ["**/*.spec.ts"]
 }

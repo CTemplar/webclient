@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { SpinnerComponent } from '../components/spinner.component';
 
+import { SpinnerComponent } from '../components/spinner.component';
 
 @Injectable()
 export class SpinnerService {
   private spinnerCache = new Set<SpinnerComponent>();
 
-  constructor() {
-  }
+  constructor() {}
 
   register(spinner: SpinnerComponent): void {
     this.spinnerCache.add(spinner);
@@ -46,11 +45,11 @@ export class SpinnerService {
   }
 
   showAll(): void {
-    this.spinnerCache.forEach(spinner => spinner.show = true);
+    this.spinnerCache.forEach(spinner => (spinner.show = true));
   }
 
   hideAll(): void {
-    this.spinnerCache.forEach(spinner => spinner.show = false);
+    this.spinnerCache.forEach(spinner => (spinner.show = false));
   }
 
   isShowing(spinnerName: string): boolean | undefined {

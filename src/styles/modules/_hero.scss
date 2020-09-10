@@ -4,92 +4,90 @@
 
 // == Home page hero style
 .hero {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    // background: linear-gradient(#34495e,rgba(44,62,80,.1));
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // background: linear-gradient(#34495e,rgba(44,62,80,.1));
 }
 
 .hero-home {
+  min-height: 35rem;
+
+  // Add shadow to non-squared/non-rectangular image
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.38));
+
+  @include media('>sm') {
     min-height: 35rem;
+  }
+  @include media('<ipad', '>=870px') {
+    min-height: 35rem;
+  }
+  @include media('>=laptop') {
+    min-height: 25rem;
+  }
 
-    // Add shadow to non-squared/non-rectangular image 
-    filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.38));
-
-    @include media(">sm") {
-        min-height: 35rem;
-    }
-    @include media("<ipad", ">=870px") {
-        min-height: 35rem;
-    }
-    @include media(">=laptop") {
-        min-height: 25rem;
-    }
-
-
-    @include media(">=ipad") {
-        padding-bottom: 47%;
-        min-height: auto;
-        // min-height: 41.875rem;
-    }
-    // &::before {
-    //     @extend %position-abs-full !optional;
-    //     z-index: -1;
-    //     content: "";
-    //     background: linear-gradient(to top, #34495e 0%,rgba(44,62,80,.1) 50%);
-    // }
+  @include media('>=ipad') {
+    padding-bottom: 47%;
+    min-height: auto;
+    // min-height: 41.875rem;
+  }
+  // &::before {
+  //     @extend %position-abs-full !optional;
+  //     z-index: -1;
+  //     content: "";
+  //     background: linear-gradient(to top, #34495e 0%,rgba(44,62,80,.1) 50%);
+  // }
 }
 
-.hero-content {    
-    padding-left: 15px;
-    padding-right: 15px;
-    max-width: 340px;
+.hero-content {
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 340px;
 
-    @include media(">sm") {        
-        max-width: 580px;
-        width: 100%;
-    }
+  @include media('>sm') {
+    max-width: 580px;
+    width: 100%;
+  }
 
-    @include media(">=ipad") {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        max-width: 775px;
-        transform: translateX(-50%) translateY(-50%);
-    }
+  @include media('>=ipad') {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: 775px;
+    transform: translateX(-50%) translateY(-50%);
+  }
 }
 
 .hero-title {
-    margin-right: auto;
-    margin-left: auto;
-    padding: 0 15px;
-    max-width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 15px;
+  max-width: 300px;
 
-    @include media("<ipad", ">sm") {
-        max-width: 400px;
-    }
+  @include media('<ipad', '>sm') {
+    max-width: 400px;
+  }
 
-    @include media(">=ipad") {
-        max-width: inherit;
-    }
-    
+  @include media('>=ipad') {
+    max-width: inherit;
+  }
 }
 
 .hero-subtitle {
-    @include media("<=sm") {
-        margin-bottom: 0.5rem;
-    }
+  @include media('<=sm') {
+    margin-bottom: 0.5rem;
+  }
 }
 
 .hero .btn {
-    margin-top: 0.875rem;
+  margin-top: 0.875rem;
 
-    @include media(">sm") {
-        margin-top: 1.125rem;
-    }
+  @include media('>sm') {
+    margin-top: 1.125rem;
+  }
 
-    @include media(">=ipad") {
-        margin-top: 2.35rem;
-    }
+  @include media('>=ipad') {
+    margin-top: 2.35rem;
+  }
 }

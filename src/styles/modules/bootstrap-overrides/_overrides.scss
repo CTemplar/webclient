@@ -2,12 +2,12 @@
 * Bootstrap overrides scss file which includes other partials
 */
 
-@import "button";
-@import "form";
-@import "dropdown";
-@import "modal";
-@import "alert";
-@import "tooltips";
+@import 'button';
+@import 'form';
+@import 'dropdown';
+@import 'modal';
+@import 'alert';
+@import 'tooltips';
 
 // == Text
 @include text-emphasis-variant('.text-dark', rgba(0, 0, 0, 0.87));

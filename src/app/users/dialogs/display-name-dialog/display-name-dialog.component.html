@@ -9,14 +9,12 @@
     <div class="mb-4 text-holder text-dark text-medium">
       <h4 class="font-weight-bold">Backup Your Recovery Key</h4>
       <p>
-        Please save this recovery key in a safe place, if you forget your password,
-        you can use it to reset your password even if you don't remember your recovery email.
-        <a href="https://ctemplar.com/faq/recovery-key/" target="_blank">Learn more</a>
+        Please save this recovery key in a safe place, if you forget your password, you can use it to reset your password even if you don't remember your recovery email.
+        <a href="https://ctemplar.com/help/answer/what-is-a-recovery-key/" target="_blank">Learn more</a>
       </p>
       <div class="bg-white px-3 py-3">
         <span class="text-dark"><b>Recovery key: </b>{{ recoveryKey }}</span>
-        <button mat-icon-button (click)="copyToClipboard(recoveryKey)"
-                class="copy-btn">
+        <button mat-icon-button (click)="copyToClipboard(recoveryKey)" class="copy-btn">
           <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
         </button>
       </div>
@@ -37,16 +35,11 @@
           </span>
         </div>
       </div>
-      <p><span [translate]="'common.email'">Email</span>: "{{changeDisplayNameForm.controls['username'].value}} <{{email}}>".
-        <br><span [translate]="'create_account.can_change_settings'">You can change this in the settings page later.</span></p>
+      <p><span [translate]="'common.email'">Email</span>: "{{ changeDisplayNameForm.controls['username'].value }} <{{ email }}>". <br /><span [translate]="'create_account.can_change_settings'">You can change this in the settings page later.</span></p>
     </div>
   </div>
   <div class="modal-footer justify-content-center">
-    <button class="btn btn-danger submit-display-name-btn" type="submit"
-            (click)="submitDisplayNameForm()"
-            [disabled]="!changeDisplayNameForm.valid || inProgress" [translate]="'settings.compose.confirm'">Confirm
-    </button>
+    <button class="btn btn-danger submit-display-name-btn" type="submit" (click)="submitDisplayNameForm()" [disabled]="!changeDisplayNameForm.valid || inProgress" [translate]="'settings.compose.confirm'">Confirm</button>
     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
   </div>
 </form>
-

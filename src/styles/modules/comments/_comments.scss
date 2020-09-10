@@ -3,125 +3,125 @@
 */
 
 .comment-row {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 1.875rem;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 1.875rem;
 
-    &:not(:last-of-type) {
-        margin-bottom: 1.625rem;
-    }
+  &:not(:last-of-type) {
+    margin-bottom: 1.625rem;
+  }
 
-    @include media(">sm") {
-        padding-bottom: 0;
-    }
+  @include media('>sm') {
+    padding-bottom: 0;
+  }
 }
 
 .comment-card {
-    &:not(:last-of-type) {
-        margin-bottom: 1.625rem;
-    }
+  &:not(:last-of-type) {
+    margin-bottom: 1.625rem;
+  }
 }
 
 .comment-avatar {
-    background: #e0e0e0;
-    border-radius: 4px;
-    height: 2.5rem;
-    width: 2.5rem;
+  background: #e0e0e0;
+  border-radius: 4px;
+  height: 2.5rem;
+  width: 2.5rem;
 
-    @include media(">sm") {
-        height: 3.25rem;
-        width: 3.25rem;
-    }
+  @include media('>sm') {
+    height: 3.25rem;
+    width: 3.25rem;
+  }
 }
 
-.comment-detail {    
-    flex: 0 0 calc(100% - 40px);
-    max-width: calc(100% - 40px);
-    padding-left: 0.938rem;
+.comment-detail {
+  flex: 0 0 calc(100% - 40px);
+  max-width: calc(100% - 40px);
+  padding-left: 0.938rem;
 
-    @include media(">sm") {
-        flex: 0 0 calc(100% - 52px);
-        max-width: calc(100% - 52px);
-    }
+  @include media('>sm') {
+    flex: 0 0 calc(100% - 52px);
+    max-width: calc(100% - 52px);
+  }
 }
 
 .comment-meta {
-    font-style: italic;
-    @include media(">sm") {
-        position: relative;
+  font-style: italic;
+  @include media('>sm') {
+    position: relative;
+  }
+
+  .comment-reply {
+    position: absolute;
+    bottom: 0;
+    font-style: normal;
+
+    @include media('>sm') {
+      top: 50%;
+      right: 0;
+      bottom: auto;
+      transform: translateY(-50%);
     }
 
-    .comment-reply {
-        position: absolute;
-        bottom: 0;
-        font-style: normal;
-
-        @include media(">sm") {
-            top: 50%;
-            right: 0;
-            bottom: auto;
-            transform: translateY(-50%);
-        }
-        
-        >a {
-            color: $brand-success;
-            font-size: 0.875rem;
-        }
-
-        .fas {
-            margin-right: 0.4rem;
-        }
+    > a {
+      color: $brand-success;
+      font-size: 0.875rem;
     }
+
+    .fas {
+      margin-right: 0.4rem;
+    }
+  }
 }
 
-.comment-meta-list {    
-    margin: 0 0 10px;
-    padding: 0 0;
-    list-style: none;
-    font-size: 0.875rem;
+.comment-meta-list {
+  margin: 0 0 10px;
+  padding: 0 0;
+  list-style: none;
+  font-size: 0.875rem;
 
-    @include media(">sm") {
-        display: flex;
-        align-items: center;
+  @include media('>sm') {
+    display: flex;
+    align-items: center;
+  }
+
+  > li {
+    position: relative;
+    display: inline;
+    padding: 0 7px;
+
+    @include media('>sm') {
+      padding: 0 8px;
     }
 
-    >li {
-        position: relative;
-        display: inline;
-        padding: 0 7px;
-
-        @include media(">sm") {
-            padding: 0 8px;
-        }
-
-        &:not(:last-of-type) {
-            &::after {
-                position: absolute;
-                top: 50%;
-                right: 0;
-                content: "";
-                margin-top: 1px;
-                border-right: 1px solid;
-                height: 60%;
-                transform: translateY(-50%)
-            }
-        }
+    &:not(:last-of-type) {
+      &::after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        content: '';
+        margin-top: 1px;
+        border-right: 1px solid;
+        height: 60%;
+        transform: translateY(-50%);
+      }
     }
+  }
 }
 
 .comment-body {
-    font-size: 0.875rem;
-    line-height: 1.67;
+  font-size: 0.875rem;
+  line-height: 1.67;
 
-    @include media(">sm") {
-        font-size: 0.75rem;
-    }
+  @include media('>sm') {
+    font-size: 0.75rem;
+  }
 }
 
 .comment-replies {
-    padding-left: 3.5rem;
-    @include media(">sm") {
-        padding-left: 5rem;
-    }
+  padding-left: 3.5rem;
+  @include media('>sm') {
+    padding-left: 5rem;
+  }
 }

@@ -1,52 +1,52 @@
 // TODO: Reuse box styles with CSS Refactor
 .color-boxes-group {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -.469rem;
-    padding: 0 0;
-    list-style: none;
-  
-    > li {
-      margin-bottom: 1rem;
-      padding: 0 .469rem;
-      line-height: 1;
-  
-      .color-shape {
-        position: relative;
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        border-radius: 2px;
-        height: 2rem;
-        width: 2rem;
-        cursor: pointer;
-  
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.469rem;
+  padding: 0 0;
+  list-style: none;
+
+  > li {
+    margin-bottom: 1rem;
+    padding: 0 0.469rem;
+    line-height: 1;
+
+    .color-shape {
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 2px;
+      height: 2rem;
+      width: 2rem;
+      cursor: pointer;
+
+      &::before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        content: '';
+        margin-top: -0.125rem;
+        width: 7px;
+        height: 17px;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 0 1px 1px 0;
+        transform: translateX(-50%) translateY(-50%) rotate(40deg);
+        transition: all ceaser('0.860, 0.000, 0.070, 1.000') 0.35s;
+      }
+
+      &.is-active {
         &::before {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          content: "";
-          margin-top: -0.125rem;
-          width: 7px;
-          height: 17px;
-          border-color: transparent;
-          border-style: solid;
-          border-width: 0 1px 1px 0;
-          transform: translateX(-50%) translateY(-50%) rotate(40deg);
-          transition: all ceaser("0.860, 0.000, 0.070, 1.000") 0.35s;
-        }
-  
-        &.is-active {
-          &::before {
-            border-color: white;
-          }
+          border-color: white;
         }
       }
     }
   }
+}
 
-  .form-control{
-    font-size: 14px;
-  }
-  
+.form-control {
+  font-size: 14px;
+}
+
 // == Modal cotents
 .modal-form-label {
   font-size: 14px;
@@ -55,7 +55,7 @@
 .validate-message {
   display: block;
   margin-bottom: 0.375rem;
-  color: #E94E4C !important;
+  color: #e94e4c !important;
   font-size: 0.875rem;
   text-align: left;
 }

@@ -11,24 +11,6 @@
             "repo": "webclient"
         }
     ],
-    "files": [
-        "**/*",
-        "!**/*.ts",
-        "!*.code-workspace",
-        "!LICENSE.md",
-        "!package.json",
-        "!package-lock.json",
-        "!src/",
-        "!.git*",
-        "!e2e/",
-        "!hooks/",
-        "!docs/",
-        "!angular.json",
-        "!_config.yml",
-        "!karma.conf.js",
-        "!tsconfig.json",
-        "!tslint.json"
-    ],
     "win": {
         "icon": "dist/assets/icons/icon.png",
         "target": [

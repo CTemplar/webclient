@@ -1,10 +1,10 @@
 # Default application configuration that all configurations inherit from.
 scss_files:
-  - "**/*.scss"
-  - "docs/assets/scss/**/*.scss"
+  - '**/*.scss'
+  - 'docs/assets/scss/**/*.scss'
 
 exclude:
-  - "scss/_normalize.scss"
+  - 'scss/_normalize.scss'
 
 plugin_directories: ['.scss-linters']
 
@@ -427,7 +427,6 @@ linters:
       - -ms-animation-direction
       - -o-animation-direction
 
-
   PropertySpelling:
     enabled: true
     extra_properties: []
@@ -436,14 +435,34 @@ linters:
   PropertyUnits:
     enabled: true
     global: [
-      'ch', 'em', 'ex', 'rem',                 # Font-relative lengths
-      'cm', 'in', 'mm', 'pc', 'pt', 'px', 'q', # Absolute lengths
-      'vh', 'vw', 'vmin', 'vmax',              # Viewport-percentage lengths
-      'deg', 'grad', 'rad', 'turn',            # Angle
-      'ms', 's',                               # Duration
-      'Hz', 'kHz',                             # Frequency
-      'dpi', 'dpcm', 'dppx',                   # Resolution
-      '%']                                     # Other
+        'ch',
+        'em',
+        'ex',
+        'rem', # Font-relative lengths
+        'cm',
+        'in',
+        'mm',
+        'pc',
+        'pt',
+        'px',
+        'q', # Absolute lengths
+        'vh',
+        'vw',
+        'vmin',
+        'vmax', # Viewport-percentage lengths
+        'deg',
+        'grad',
+        'rad',
+        'turn', # Angle
+        'ms',
+        's', # Duration
+        'Hz',
+        'kHz', # Frequency
+        'dpi',
+        'dpcm',
+        'dppx', # Resolution
+        '%',
+      ] # Other
     properties: {}
 
   PseudoElement:

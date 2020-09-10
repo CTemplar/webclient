@@ -4,46 +4,46 @@
 
 // == Alert
 .l-alert {
-	padding: 0.688rem 0.938rem;
-	border: 1px solid #bdbdbd !important;
-	border-radius: 2px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12);
-	color: $brand-black;
-	font-size: 0.75rem;
-	width: 100%;
-	
-	@include media(">sm") {
-		padding: 0.688rem 1.563rem;
-	}
+  padding: 0.688rem 0.938rem;
+  border: 1px solid #bdbdbd !important;
+  border-radius: 2px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12);
+  color: $brand-black;
+  font-size: 0.75rem;
+  width: 100%;
 
-	a {
-		color: $brand-black;
-	}
+  @include media('>sm') {
+    padding: 0.688rem 1.563rem;
+  }
+
+  a {
+    color: $brand-black;
+  }
 }
 
 .l-alert-warning {
-	background-color: #fff2df !important;
+  background-color: #fff2df !important;
 }
 
 .l-alert-danger {
-	background-color: #ffe1df !important;
+  background-color: #ffe1df !important;
 }
 
 .l-alert-success {
-	background-color: #dff2ff !important;
+  background-color: #dff2ff !important;
 }
 
 .l-alert-is-floated {
-	position: absolute;
-	top: 0px;
-	right: 0;
-	left: 0;
-	z-index: $zindex-default;
+  position: absolute;
+  top: 0px;
+  right: 0;
+  left: 0;
+  z-index: $zindex-default;
 
-	@include media(">sm") {
-		top: 77px;
-		right: auto;
-		left: 50%;
-		transform: translateX(-50%);
-	}
+  @include media('>sm') {
+    top: 77px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

@@ -10,9 +10,12 @@ import {
   ViewEncapsulation,
   HostListener,
 } from '@angular/core';
-// Store
 import { Store } from '@ngrx/store';
-// Actions
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { formatDate } from '@angular/common';
+import { Router } from '@angular/router';
+import * as Sentry from '@sentry/browser';
+
 import {
   AccountDetailsGet,
   BlackListGet,
@@ -20,7 +23,8 @@ import {
   GetDomainsSuccess,
   GetFilters,
   GetInvoices,
-  GetMailboxes, GetNotification,
+  GetMailboxes,
+  GetNotification,
   SaveAutoResponder,
   WhiteListGet,
   CardGet,
@@ -30,47 +34,57 @@ import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { formatDate, getLocaleExtraDayPeriodRules } from '@angular/common';
-import { Router } from '@angular/router';
-import * as Sentry from '@sentry/browser';
 
 @UntilDestroy()
 @Component({
   selector: 'app-mail',
   templateUrl: './mail.component.html',
   styleUrls: ['./mail.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
+
   @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+
   private isLoadedData: boolean;
+
   autoresponder: AutoResponder = {};
+
   autoresponder_status = false;
+
   currentDate: string;
+
   canLoadNotification = true;
+
   hideNotification: boolean;
+
   notificationMessage: string;
 
-  constructor(private store: Store<AppState>,
+  constructor(
+    private store: Store<AppState>,
     private sharedService: SharedService,
     private composeMailService: ComposeMailService,
     private router: Router,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+  ) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
   ngOnInit() {
     this.store.dispatch(new AccountDetailsGet());
-
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    /**
+     * Get user's state from store
+     */
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
-
         if (userState.isLoaded && !this.isLoadedData) {
+          // Initialize Sentry according to user's setting after login
           Sentry.init({
             dsn: 'https://e768a553906d4f87bcb0419a151e36b0@o190614.ingest.sentry.io/5256284',
-            enabled: userState.settings.is_enable_report_bugs
+            enabled: userState.settings.is_enable_report_bugs,
           });
           this.isLoadedData = true;
           this.store.dispatch(new GetMailboxes());
@@ -95,9 +109,14 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
         }
         if (userState.autoresponder) {
           this.autoresponder = userState.autoresponder;
-          if (this.autoresponder.autoresponder_active ||
-            (this.autoresponder.vacationautoresponder_active && this.autoresponder.vacationautoresponder_message &&
-              this.autoresponder.start_date && this.autoresponder.end_date && this.currentDate >= this.autoresponder.start_date)) {
+          if (
+            this.autoresponder.autoresponder_active ||
+            (this.autoresponder.vacationautoresponder_active &&
+              this.autoresponder.vacationautoresponder_message &&
+              this.autoresponder.start_date &&
+              this.autoresponder.end_date &&
+              this.currentDate >= this.autoresponder.start_date)
+          ) {
             this.autoresponder_status = true;
           } else {
             this.autoresponder_status = false;
@@ -119,6 +138,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
     this.composeMailService.getWindowWidth(window.innerWidth);
   }
 
+  // get window width as real time when change screen's size
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.composeMailService.getWindowWidth(window.innerWidth);

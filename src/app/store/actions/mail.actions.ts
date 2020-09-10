@@ -1,6 +1,4 @@
-// Ngrx
 import { Action } from '@ngrx/store';
-
 
 export enum MailActionTypes {
   GET_MAILS = '[Mail] GET_MAILS',
@@ -138,7 +136,6 @@ export class ClearMailDetail implements Action {
 
   constructor(public payload?: any) {}
 }
-
 
 export class GetMailDetailSuccess implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL_SUCCESS;
@@ -287,50 +284,43 @@ export class CreateMailboxFailure implements Action {
 export class SetDefaultMailbox implements Action {
   readonly type = MailActionTypes.SET_DEFAULT_MAILBOX;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class SetDefaultMailboxSuccess implements Action {
   readonly type = MailActionTypes.SET_DEFAULT_MAILBOX_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateMailboxOrder implements Action {
   readonly type = MailActionTypes.UPDATE_MAILBOX_ORDER;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateMailboxOrderSuccess implements Action {
   readonly type = MailActionTypes.UPDATE_MAILBOX_ORDER_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class EmptyFolder implements Action {
   readonly type = MailActionTypes.EMPTY_FOLDER;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class EmptyFolderSuccess implements Action {
   readonly type = MailActionTypes.EMPTY_FOLDER_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class EmptyFolderFailure implements Action {
   readonly type = MailActionTypes.EMPTY_FOLDER_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteMailForAll implements Action {

@@ -40,12 +40,12 @@
     repeat: $repeat !important;
     position: $position !important;
     size: $size !important;
-  };
+  }
   @content;
 }
 
 /* Build mixin for selection feature */
-$prefixes: ("-moz-", "");
+$prefixes: ('-moz-', '');
 @mixin selection($bkg: $brand-primary, $color: $brand-white) {
   @each $prefix in $prefixes {
     ::#{$prefix}selection {
@@ -57,20 +57,20 @@ $prefixes: ("-moz-", "");
 
 // == Mixin to make font families
 @mixin make_font_families($list, $val) {
-	// Counter initializes to 1
-	$i: 1;
+  // Counter initializes to 1
+  $i: 1;
 
-	// Looping each item through each loop
-	@each $l in $list {
-		// Catch each item in list passed as first argument
-		.ff-#{$l} {
-			font-family: nth($val, $i);
-		}
+  // Looping each item through each loop
+  @each $l in $list {
+    // Catch each item in list passed as first argument
+    .ff-#{$l} {
+      font-family: nth($val, $i);
+    }
 
-		// Incrementing counter
-		$i: $i + 1;
+    // Incrementing counter
+    $i: $i + 1;
 
-		// Below line of statement allows to append code later where the mixin is executed
-		@content;
-	} 
+    // Below line of statement allows to append code later where the mixin is executed
+    @content;
+  }
 }

@@ -14,11 +14,11 @@
     color: rgba(0, 0, 0, 0.38) !important;
   }
 
-  input[type="radio"].fancy-field-control:checked + label::after {
+  input[type='radio'].fancy-field-control:checked + label::after {
     background: rgba(0, 0, 0, 0.38) !important;
   }
 
-  input[type="radio"].fancy-field-control:checked + label::before {
+  input[type='radio'].fancy-field-control:checked + label::before {
     border-color: rgba(0, 0, 0, 0.38) !important;
   }
 }

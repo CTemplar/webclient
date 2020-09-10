@@ -1,73 +1,80 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { AppState, AuthState } from '../../store/datatypes';
-import {
-  ClearAuthErrorMessage,
-  FinalLoading,
-  LogIn,
-  RecoverPassword,
-  ResetPassword
-} from '../../store/actions';
-import {
-  LOADING_IMAGE,
-  OpenPgpService,
-  SharedService,
-  UsersService
-} from '../../store/services';
-import { ESCAPE_KEYCODE } from '../../shared/config';
-import { PasswordValidation } from '../users-create-account/users-create-account.component';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
 import Keyboard from 'simple-keyboard';
 import { filter } from 'rxjs/operators';
 
+import { AppState, AuthState } from '../../store/datatypes';
+import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
+import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
+import { ESCAPE_KEYCODE } from '../../shared/config';
+import { PasswordValidation } from '../users-create-account/users-create-account.component';
+
 @UntilDestroy()
 @Component({
   selector: 'app-users-sign-in',
   templateUrl: './users-sign-in.component.html',
-  styleUrls: ['./users-sign-in.component.scss']
+  styleUrls: ['./users-sign-in.component.scss'],
 })
 export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   loginForm: FormGroup;
+
   recoverPasswordForm: FormGroup;
+
   resetPasswordForm: FormGroup;
+
   showFormErrors = false;
+
   showResetPasswordFormErrors = false;
+
   errorMessage = '';
+
   resetPasswordErrorMessage = '';
+
   isLoading = false;
+
   isConfirmedPrivacy: boolean = null;
+
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
+
   username = '';
+
   password = 'password';
+
   layout: any = 'alphanumeric';
+
   isKeyboardOpened: boolean;
+
   isRecoverFormSubmitted: boolean;
+
   isGeneratingKeys: boolean;
+
   isRecoveryCodeSent: boolean;
+
   authState: AuthState;
+
   otp: string;
+
   loadingImage = LOADING_IMAGE;
+
   isRecoveryKeyMode: boolean;
 
   @ViewChild('usernameVC') usernameVC: ElementRef;
+
   @ViewChild('passwordVC') passwordVC: ElementRef;
+
   @ViewChild('resetPasswordModal') resetPasswordModal;
+
   @ViewChild('otpInput') otpInput: ElementRef;
 
   keyboard: Keyboard;
+
   currentInput: InputFields;
+
   inputFields = InputFields;
 
   constructor(
@@ -77,7 +84,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     private sharedService: SharedService,
     private userService: UsersService,
     private router: Router,
-    private openPgpService: OpenPgpService
+    private openPgpService: OpenPgpService,
   ) {}
 
   ngOnInit() {
@@ -91,23 +98,23 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
-      rememberMe: [false]
+      rememberMe: [false],
     });
 
     this.recoverPasswordForm = this.formBuilder.group({
       username: ['', [Validators.required]],
-      recovery_email: ['', [Validators.required, Validators.email]]
+      recovery_email: ['', [Validators.required, Validators.email]],
     });
     this.resetPasswordForm = this.formBuilder.group(
       {
         code: ['', [Validators.required]],
         password: ['', [Validators.required]],
         confirmPwd: ['', [Validators.required]],
-        username: ['', [Validators.required]]
+        username: ['', [Validators.required]],
       },
       {
-        validator: PasswordValidation.MatchPassword
-      }
+        validator: PasswordValidation.MatchPassword,
+      },
     );
 
     this.store
@@ -155,7 +162,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     this.resetModalRef = this.modalService.open(this.resetPasswordModal, {
       centered: true,
       windowClass: 'modal-md',
-      backdrop: 'static'
+      backdrop: 'static',
     });
   }
 
@@ -178,9 +185,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   toggleRememberMe() {
-    this.loginForm.controls['rememberMe'].setValue(
-      !this.loginForm.controls['rememberMe'].value
-    );
+    this.loginForm.controls.rememberMe.setValue(!this.loginForm.controls.rememberMe.value);
   }
 
   continueLogin() {
@@ -231,7 +236,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       code: data.code,
       username: data.username,
       password: data.password,
-      ...this.openPgpService.getUserKeys()
+      ...this.openPgpService.getUserKeys(),
     };
     this.isRecoverFormSubmitted = true;
     this.store.dispatch(new ResetPassword(requestData));
@@ -241,15 +246,13 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.keyboard = new Keyboard({
       onChange: input => this.onChange(input),
-      onKeyPress: button => this.onKeyPress(button)
+      onKeyPress: button => this.onKeyPress(button),
     });
     this.loginForm
       .get(InputFields.USERNAME)
       .valueChanges.pipe(
         untilDestroyed(this),
-        filter(
-          value => this.isKeyboardOpened && value !== this.keyboard.getInput()
-        )
+        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput()),
       )
       .subscribe(value => {
         this.onInputChange(value);
@@ -258,9 +261,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .get(InputFields.PASSWORD)
       .valueChanges.pipe(
         untilDestroyed(this),
-        filter(
-          value => this.isKeyboardOpened && value !== this.keyboard.getInput()
-        )
+        filter(value => this.isKeyboardOpened && value !== this.keyboard.getInput()),
       )
       .subscribe(value => {
         this.onInputChange(value);
@@ -291,7 +292,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     const shiftToggle = currentLayout === 'default' ? 'shift' : 'default';
 
     this.keyboard.setOptions({
-      layoutName: shiftToggle
+      layoutName: shiftToggle,
     });
   }
 
@@ -327,5 +328,5 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
 enum InputFields {
   USERNAME = 'username',
-  PASSWORD = 'password'
+  PASSWORD = 'password',
 }

@@ -1,6 +1,3 @@
-// Custom Action
-
-// Model
 import { ContactsState } from '../datatypes';
 import { ContactsActionAll, ContactsActionTypes } from '../actions/contacts.action';
 import { sortByString } from '../services';
@@ -15,22 +12,26 @@ export const initialState: ContactsState = {
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
   switch (action.type) {
-
     case ContactsActionTypes.CONTACT_GET: {
       return { ...state, loaded: false, inProgress: true, contactsToDecrypt: [] };
     }
 
     case ContactsActionTypes.CONTACT_GET_SUCCESS: {
       return {
-        ...state, contacts: action.payload.results,
+        ...state,
+        contacts: action.payload.results,
         contactsToDecrypt: action.payload.isDecrypting ? action.payload.results : [],
-        totalContacts: action.payload.total_count, loaded: true, inProgress: false
+        totalContacts: action.payload.total_count,
+        loaded: true,
+        inProgress: false,
       };
     }
 
     case ContactsActionTypes.CONTACT_GET_FAILURE: {
       return {
-        ...state, loaded: true, inProgress: false
+        ...state,
+        loaded: true,
+        inProgress: false,
       };
     }
 
@@ -38,7 +39,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return {
         ...state,
         contactsToDecrypt: [],
-        noOfDecryptedContacts: (action.payload && action.payload.clearCount) ? 0 : state.noOfDecryptedContacts
+        noOfDecryptedContacts: action.payload && action.payload.clearCount ? 0 : state.noOfDecryptedContacts,
       };
     }
 
@@ -57,7 +58,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     }
     case ContactsActionTypes.CONTACT_ADD_SUCCESS: {
       if (action.payload.isUpdating) {
-        const contact = state.contacts.filter(item => item.id === action.payload.id)[0];
+        const contact = state.contacts.find(item => item.id === action.payload.id);
         contact.note = action.payload.note;
         contact.address = action.payload.address;
         contact.phone = action.payload.phone;
@@ -67,10 +68,15 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         contact.enabled_encryption = action.payload.enabled_encryption;
         contact.public_key = action.payload.public_key;
         return { ...state, inProgress: false, isError: false };
-      } else {
-        state.totalContacts = state.totalContacts + 1;
       }
-      return { ...state, contacts: sortByString(state.contacts.concat([action.payload]), 'name'), inProgress: false, isError: false };
+      state.totalContacts += 1;
+
+      return {
+        ...state,
+        contacts: sortByString(state.contacts.concat([action.payload]), 'name'),
+        inProgress: false,
+        isError: false,
+      };
     }
     case ContactsActionTypes.CONTACT_ADD_ERROR: {
       return { ...state, inProgress: false, isError: true };
@@ -78,11 +84,11 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
 
     case ContactsActionTypes.CONTACT_DELETE_SUCCESS: {
       const ids = action.payload.split(',');
-      const contacts = state.contacts.filter(item => ids.indexOf(`${item.id}`) > -1);
+      const contacts = state.contacts.filter(item => ids.includes(`${item.id}`));
       contacts.forEach(contact => {
         state.contacts.splice(state.contacts.indexOf(contact), 1);
       });
-      state.totalContacts = state.totalContacts - ids.length;
+      state.totalContacts -= ids.length;
       return { ...state, inProgress: false, isError: false };
     }
 
@@ -107,7 +113,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     }
 
     case ContactsActionTypes.CONTACT_DECRYPT_SUCCESS: {
-      const contacts = state.contacts.map((contact) => {
+      const contacts = state.contacts.map(contact => {
         if (contact.id === action.payload.id) {
           contact = action.payload;
           contact.isDecryptedFrontend = true;
@@ -121,6 +127,5 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     default: {
       return state;
     }
-
   }
 }

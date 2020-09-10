@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { LineBreakToBrTag } from '../../shared/pipes/replace-linebreak-brtag.pipe';
@@ -18,7 +19,7 @@ import {
   SendMail,
   SnackErrorPush,
   StarMail,
-  WhiteListAdd
+  WhiteListAdd,
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
@@ -27,66 +28,107 @@ import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../..
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
-declare var Scrambler;
+declare let Scrambler;
 
 @UntilDestroy()
 @Component({
   selector: 'app-mail-detail',
   templateUrl: './mail-detail.component.html',
-  styleUrls: ['./mail-detail.component.scss']
+  styleUrls: ['./mail-detail.component.scss'],
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
-
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
+
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
 
   mail: Mail;
+
   composeMailData: any = {};
+
   mailFolderTypes = MailFolderType;
+
   decryptedContents: any = {};
+
   decryptedContentsPlain: any = {};
+
   decryptedAttachments: any = {};
+
   decryptedHeaders: any = {};
+
   selectedHeaders: string;
+
   mailOptions: any = {};
+
   selectedMailToForward: Mail;
+
   isDecrypting: any = {};
 
   parentMailCollapsed = true;
+
   childMailCollapsed: boolean[] = [];
+
   mailFolder: MailFolderType;
+
   customFolders: Folder[] = [];
+
   showGmailExtraContent: boolean;
+
   folderColors: any = {};
+
   markedAsRead: boolean;
+
   currentMailIndex: number;
+
   currentMailNumber: any;
+
   MAX_EMAIL_PAGE_LIMIT = 1;
+
   OFFSET = 0;
+
   loadingImage = LOADING_IMAGE;
+
   disableMoveTo: boolean;
+
   isMobile: boolean;
+
   primaryWebsite = PRIMARY_WEBSITE;
+
   showRawContent: any = {};
+
   isDarkMode: boolean;
+
   forceLightMode: boolean;
+
   disableExternalImages: boolean;
+
   includeOriginMessage: boolean;
+
   xssPipe = SafePipe;
+
   hasDraft = false;
+
   plainTextViewState: any = {};
 
   private currentMailbox: Mailbox;
+
   private forwardAttachmentsModalRef: NgbModalRef;
+
   private userState: UserState;
+
   private mailboxes: Mailbox[];
+
   private canScroll = true;
+
   private page: number;
+
   private mails: Mail[] = [];
+
   private EMAILS_PER_PAGE: number;
+
   private shouldChangeMail = 0;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,
     private pgpService: OpenPgpService,
@@ -96,21 +138,33 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
     private mailService: MailService,
-    private linebreaktobrtag: LineBreakToBrTag) {
-  }
+    private linebreaktobrtag: LineBreakToBrTag,
+  ) {}
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
-    this.store.select(state => state.webSocket).pipe(untilDestroyed(this))
+    /**
+     * Check getting mail is succeeded
+     */
+    this.store
+      .select(state => state.webSocket)
+      .pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
-          if (this.mail && (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)) {
+          if (
+            this.mail &&
+            (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)
+          ) {
             this.store.dispatch(new GetMailDetailSuccess(webSocketState.message.mail));
           }
         }
       });
-
-    this.store.select(state => state.mail).pipe(untilDestroyed(this))
+    /**
+     * Get mails from DB
+     */
+    this.store
+      .select(state => state.mail)
+      .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mails = [...mailState.mails];
         if (this.shouldChangeMail && mailState.loaded) {
@@ -133,12 +187,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
-            if (!this.mail.has_children && this.mail.content != null && !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content == null && this.mail.content != null))) {
+            if (
+              !this.mail.has_children &&
+              this.mail.content != undefined &&
+              !this.isDecrypting[this.mail.id] &&
+              (!decryptedContent ||
+                (!decryptedContent.inProgress &&
+                  decryptedContent.content == undefined &&
+                  this.mail.content != undefined))
+            ) {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != null) {
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
               this.decryptedContents[this.mail.id] = decryptedContent.content;
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
@@ -155,7 +216,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 }, 3000);
                 this.scrollTo(document.querySelector('.last-child'));
               }
-
               // Mark mail as read
               if (!this.mail.read && !this.markedAsRead) {
                 this.markedAsRead = true;
@@ -174,15 +234,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               // Do not collapse the last email in the list
               this.childMailCollapsed[this.mail.children.length - 1] = false;
             }
-
             this.decryptChildEmails(this.mail.children[this.mail.children.length - 1]);
             this.mail.children.forEach(child => {
               this.backupChildDecryptedContent(child, mailState);
             });
             setTimeout(() => {
               if (this.mail) {
-                if (!this.isDecrypting[this.mail.id] && this.mail.content &&
-                  (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))) {
+                if (
+                  !this.isDecrypting[this.mail.id] &&
+                  this.mail.content &&
+                  (!decryptedContent ||
+                    (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
+                ) {
                   this.isDecrypting[this.mail.id] = true;
                   this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
                 }
@@ -195,39 +258,54 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (this.mails.length > 0 && this.mail && mailState.loaded) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
-          this.currentMailNumber = ((this.EMAILS_PER_PAGE * (this.page - 1)) + this.currentMailIndex + 1) || '-';
+          this.currentMailNumber = this.EMAILS_PER_PAGE * (this.page - 1) + this.currentMailIndex + 1 || '-';
         }
-        if (!mailState.loaded && this.mails.length === 0 && !mailState.inProgress &&
-          this.EMAILS_PER_PAGE && this.mailFolder !== MailFolderType.SEARCH) {
-          this.store.dispatch(new GetMails({
-            limit: this.EMAILS_PER_PAGE,
-            inProgress: true, offset: this.OFFSET, folder: this.mailFolder
-          }));
+        if (
+          !mailState.loaded &&
+          this.mails.length === 0 &&
+          !mailState.inProgress &&
+          this.EMAILS_PER_PAGE &&
+          this.mailFolder !== MailFolderType.SEARCH
+        ) {
+          this.store.dispatch(
+            new GetMails({
+              limit: this.EMAILS_PER_PAGE,
+              inProgress: true,
+              offset: this.OFFSET,
+              folder: this.mailFolder,
+            }),
+          );
         }
 
         if (this.mail && this.mail.children) {
-          const draft_children = this.mail.children.filter((child) => child.folder === 'draft');
-          draft_children.length > 0 ? this.hasDraft = true : this.hasDraft = false;
+          const draft_children = this.mail.children.filter(child => child.folder === 'draft');
+          draft_children.length > 0 ? (this.hasDraft = true) : (this.hasDraft = false);
         }
       });
 
-    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.mailboxes)
+      .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
         this.currentMailbox = mailBoxesState.currentMailbox;
         this.mailboxes = mailBoxesState.mailboxes;
       });
-
-    this.route.params.pipe(untilDestroyed(this))
-      .subscribe(params => {
-        const id = +params['id'];
-
-        this.mailFolder = params['folder'] as MailFolderType;
-        this.disableMoveTo = this.mailFolder === MailFolderType.OUTBOX || this.mailFolder === MailFolderType.DRAFT;
-        this.page = +params['page'];
-        this.getMailDetail(id);
-      });
-
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    /**
+     * Get folder and page from route
+     */
+    this.route.params.pipe(untilDestroyed(this)).subscribe(parameters => {
+      const id = +parameters.id;
+      this.mailFolder = parameters.folder as MailFolderType;
+      this.disableMoveTo = this.mailFolder === MailFolderType.OUTBOX || this.mailFolder === MailFolderType.DRAFT;
+      this.page = +parameters.page;
+      this.getMailDetail(id);
+    });
+    /**
+     * Get user settings
+     */
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
         user.customFolders.forEach(folder => {
@@ -239,13 +317,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.disableExternalImages = this.userState.settings.is_disable_loading_images;
         this.includeOriginMessage = this.userState.settings.include_original_message;
       });
+
     this.isMobile = window.innerWidth <= 768;
-
-    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
-      .subscribe((params: Params) => {
-        this.forceLightMode = params.lightMode;
-      });
-
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
+      this.forceLightMode = parameters.lightMode;
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -260,7 +336,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           target: `#${elementId}`,
           random: [1000, 120000],
           speed: 70,
-          text: 'A7gHc6H66A9SAQfoBJDq4C7'
+          text: 'A7gHc6H66A9SAQfoBJDq4C7',
         });
       }, 100);
     }
@@ -277,10 +353,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       } else {
         return;
       }
-      this.store.dispatch(new GetMails({
-        forceReload: true, limit: this.EMAILS_PER_PAGE,
-        offset: this.EMAILS_PER_PAGE * (this.page - 1), folder: this.mailFolder,
-      }));
+      this.store.dispatch(
+        new GetMails({
+          forceReload: true,
+          limit: this.EMAILS_PER_PAGE,
+          offset: this.EMAILS_PER_PAGE * (this.page - 1),
+          folder: this.mailFolder,
+        }),
+      );
       return;
     }
     this.mail = null;
@@ -290,39 +370,44 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
+  /**
+   * Input email links to compose receivers
+   */
   handleEmailLinks() {
     setTimeout(() => {
       const self = this;
-      const anchorElements = document.getElementsByTagName('a');
+      const anchorElements = document.querySelectorAll('a');
       for (const i in anchorElements) {
         if (anchorElements.hasOwnProperty(i) && anchorElements[i].href.indexOf('mailto:') === 0) {
           const receivers = [anchorElements[i].href.split('mailto:')[1]];
-          anchorElements[i].onclick = (event) => {
+          anchorElements[i].addEventListener('click', event => {
             event.preventDefault();
-            self.composeMailService.openComposeMailDialog({ receivers, isFullScreen: this.userState.settings.is_composer_full_screen });
-          };
+            self.composeMailService.openComposeMailDialog({
+              receivers,
+              isFullScreen: this.userState.settings.is_composer_full_screen,
+            });
+          });
           anchorElements[i].href = '';
         }
       }
     }, 1000);
-
   }
 
   viewEmailInLightMode() {
-    const win = window.open(document.location.href + '?lightMode=true', '_blank');
+    const win = window.open(`${document.location.href}?lightMode=true`, '_blank');
     win.focus();
   }
 
   isNeedRemoveStar(mail: Mail) {
     if (mail) {
-      return mail.starred ? true : false;
+      return !!mail.starred;
     }
     return false;
   }
 
   isNeedAddStar(mail: Mail) {
     if (mail) {
-      return mail.starred ? false : true;
+      return !mail.starred;
     }
     return true;
   }
@@ -335,12 +420,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   makeArrayOf(value, length) {
-    const arr = [];
+    const array = [];
     let i = length;
     while (i--) {
-      arr[i] = value;
+      array[i] = value;
     }
-    return arr;
+    return array;
   }
 
   decryptChildEmails(child: Mail) {
@@ -348,9 +433,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.decryptedContents[child.id] = child.content;
     } else {
       const childDecryptedContent = this.decryptedContents[child.id];
-      if (!this.isDecrypting[child.id] &&
-        (!childDecryptedContent || (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))) {
-
+      if (
+        !this.isDecrypting[child.id] &&
+        (!childDecryptedContent ||
+          (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))
+      ) {
         this.isDecrypting[child.id] = true;
         this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
       }
@@ -377,6 +464,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Parse headers with new json format from origin headers
+   */
   parseHeaders(headers: any) {
     if (!headers) {
       return [];
@@ -390,7 +480,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       });
     });
-
     return headersArray;
   }
 
@@ -406,25 +495,30 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
     } else {
       this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
-      this.mailService.getAttachment(attachment)
-        .subscribe(response => {
+      this.mailService.getAttachment(attachment).subscribe(
+        response => {
           if (!attachment.name) {
             attachment.name = FilenamePipe.tranformToFilename(attachment.document);
           }
           const fileInfo = { attachment, type: response.file_type };
-          this.pgpService.decryptAttachment(mail.mailbox, atob(response.data), fileInfo)
-            .pipe(
-              take(1)
-            )
-            .subscribe((decryptedAttachment: Attachment) => {
-              this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
-              this.downloadAttachment(decryptedAttachment);
-            },
-              error => console.log(error));
+          this.pgpService
+            .decryptAttachment(mail.mailbox, atob(response.data), fileInfo)
+            .pipe(take(1))
+            .subscribe(
+              (decryptedAttachment: Attachment) => {
+                this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
+                this.downloadAttachment(decryptedAttachment);
+              },
+              error => console.log(error),
+            );
         },
-          errorResponse => this.store.dispatch(new SnackErrorPush({
-            message: errorResponse.error || 'Failed to download attachment.'
-          })));
+        errorResponse =>
+          this.store.dispatch(
+            new SnackErrorPush({
+              message: errorResponse.error || 'Failed to download attachment.',
+            }),
+          ),
+      );
     }
   }
 
@@ -432,11 +526,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.shareService.downloadFile(attachment.decryptedDocument);
   }
 
-  markAsStarred(starred: boolean = true) {
-    this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred: starred }));
+  markAsStarred(starred = true) {
+    this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred }));
   }
 
-  markAsRead(mailID: number, read: boolean = true) {
+  markAsRead(mailID: number, read = true) {
     this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
     if (!read) {
       this.goBack();
@@ -451,7 +545,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.selectedHeaders = this.decryptedHeaders[mail.id];
     this.modalService.open(this.incomingHeadersModal, {
       centered: true,
-      windowClass: this.selectedHeaders.length === 0 ? 'modal-sm' : ''
+      windowClass: this.selectedHeaders.length === 0 ? 'modal-sm' : '',
     });
   }
 
@@ -462,25 +556,25 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       } else {
         this.composeMailData[mail.id].action_parent_id = this.mail.id;
       }
-
     } else {
       this.composeMailData[mail.id].action_parent_id = mail.id;
     }
   }
 
-  onReply(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+  onReply(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
-    const allRecipients = [...mail.receiver, mail.sender, mail.cc, mail.bcc];
+    const allRecipients = new Set([...mail.receiver, mail.sender, mail.cc, mail.bcc]);
     this.composeMailData[mail.id] = {
-      subject: 'Re: ' + mail.subject,
+      subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
-      selectedMailbox: this.mailboxes.find(mailbox => allRecipients.includes(mailbox.email))
+      selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
       this.composeMailData[mail.id].receivers = mail.reply_to;
     } else {
-      let lastSender = '', lastReceiver = '';
+      let lastSender = '';
+      let lastReceiver = '';
       if (mail.children && mail.children.length) {
         for (let i = mail.children.length; i > 0; i--) {
           if (mail.children[i - 1].folder !== 'trash') {
@@ -491,20 +585,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
         if (lastSender && lastReceiver) {
           this.composeMailData[mail.id].receivers =
-            lastSender !== this.currentMailbox.email
-              ? [lastSender]
-              : [lastReceiver];
+            lastSender !== this.currentMailbox.email ? [lastSender] : [lastReceiver];
         } else {
           this.composeMailData[mail.id].receivers =
-            mail.sender !== this.currentMailbox.email
-              ? [mail.sender]
-              : this.mail.receiver;
+            mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
         }
       } else {
         this.composeMailData[mail.id].receivers =
-          mail.sender !== this.currentMailbox.email
-            ? [mail.sender]
-            : this.mail.receiver;
+          mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
       }
     }
     this.composeMailData[mail.id].action = MailAction.REPLY;
@@ -512,41 +600,37 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onReplyAll(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+  onReplyAll(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
-      subject: 'Re: ' + mail.subject,
+      subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
       messageHistory: this.getMessageHistory(previousMails),
-      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
+      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
     if (mail.sender !== this.currentMailbox.email) {
-      const receivers = [
-        mail.sender,
-        ...mail.receiver,
-        ...mail.cc,
-        ...mail.bcc
-      ];
+      const receivers = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
       this.composeMailData[mail.id].receivers = receivers;
     } else {
       this.composeMailData[mail.id].receivers = Array.isArray(mail.receiver)
         ? [...mail.receiver, ...mail.cc, ...mail.bcc]
         : [mail.receiver, ...mail.cc, ...mail.bcc];
     }
-    this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers
-      .filter(email => email !== this.currentMailbox.email);
+    this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers.filter(
+      email => email !== this.currentMailbox.email,
+    );
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
     this.setActionParent(mail, isChildMail, mainReply);
     this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
-  onForward(mail: Mail, index: number = 0, isChildMail?: boolean, mainReply: boolean = false) {
+  onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply, true);
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
       messageHistory: this.getMessageHistory(previousMails),
-      subject: 'Fwd: ' + this.mail.subject,
-      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))
+      subject: `Fwd: ${this.mail.subject}`,
+      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
     this.selectedMailToForward = mail;
     this.composeMailData[mail.id].action = MailAction.FORWARD;
@@ -554,7 +638,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
         centered: true,
-        windowClass: 'modal-sm users-action-modal'
+        windowClass: 'modal-sm users-action-modal',
       });
     } else {
       this.confirmForwardAttachments();
@@ -577,32 +661,43 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].isComposeMailVisible = false;
   }
 
-  onDelete(mail: Mail, index?: number, withChildren: boolean = true) {
+  onDelete(mail: Mail, index?: number, withChildren = true) {
     if (mail.folder === MailFolderType.TRASH) {
       this.store.dispatch(new DeleteMail({ ids: mail.id.toString(), parent_only: !withChildren }));
-      if (this.mail.children && !(this.mail.children.filter(child => child.id !== mail.id)
-        .some(child => child.folder === MailFolderType.TRASH))) {
+      if (
+        this.mail.children &&
+        !this.mail.children.filter(child => child.id !== mail.id).some(child => child.folder === MailFolderType.TRASH)
+      ) {
         this.goBack(500);
       }
     } else {
-      this.store.dispatch(new MoveMail({
-        ids: mail.id,
-        folder: MailFolderType.TRASH,
-        sourceFolder: mail.folder,
-        mail: mail,
-        allowUndo: true,
-        withChildren
-      }));
-      if (index !== -1) { this.onDeleteCollapseMail(index); }
+      this.store.dispatch(
+        new MoveMail({
+          ids: mail.id,
+          folder: MailFolderType.TRASH,
+          sourceFolder: mail.folder,
+          mail,
+          allowUndo: true,
+          withChildren,
+        }),
+      );
+      if (index !== -1) {
+        this.onDeleteCollapseMail(index);
+      }
     }
     let excepted_children = [];
     if (this.mail.children) {
-      excepted_children = this.mailFolder === this.mailFolderTypes.TRASH ? this.mail.children.filter(child => child.folder === this.mailFolderTypes.TRASH) : this.mail.children.filter(child => child.folder !== this.mailFolderTypes.TRASH);
+      excepted_children =
+        this.mailFolder === this.mailFolderTypes.TRASH
+          ? this.mail.children.filter(child => child.folder === this.mailFolderTypes.TRASH)
+          : this.mail.children.filter(child => child.folder !== this.mailFolderTypes.TRASH);
       excepted_children = excepted_children.filter(child => child.id !== mail.id);
     }
     if (
       (mail.id === this.mail.id && (withChildren || !excepted_children || excepted_children.length === 0)) ||
-      (mail.id !== this.mail.id && (!excepted_children || excepted_children.length === 0) && this.mail.folder === MailFolderType.TRASH) ||
+      (mail.id !== this.mail.id &&
+        (!excepted_children || excepted_children.length === 0) &&
+        this.mail.folder === MailFolderType.TRASH) ||
       (mail.id === this.mail.id && this.mail.folder === MailFolderType.TRASH)
     ) {
       this.goBack(500);
@@ -629,26 +724,30 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onMarkAsSpam(mail: Mail) {
-    this.store.dispatch(new MoveMail({
-      ids: mail.id,
-      folder: MailFolderType.SPAM,
-      sourceFolder: mail.folder,
-      mail: mail,
-      allowUndo: true
-    }));
+    this.store.dispatch(
+      new MoveMail({
+        ids: mail.id,
+        folder: MailFolderType.SPAM,
+        sourceFolder: mail.folder,
+        mail,
+        allowUndo: true,
+      }),
+    );
     if (mail.id === this.mail.id) {
       this.goBack();
     }
   }
 
   markNotSpam(mail: Mail) {
-    this.store.dispatch(new MoveMail({
-      ids: mail.id,
-      folder: MailFolderType.INBOX,
-      sourceFolder: mail.folder,
-      mail: mail,
-      allowUndo: true
-    }));
+    this.store.dispatch(
+      new MoveMail({
+        ids: mail.id,
+        folder: MailFolderType.INBOX,
+        sourceFolder: mail.folder,
+        mail,
+        allowUndo: true,
+      }),
+    );
     setTimeout(() => {
       this.store.dispatch(new WhiteListAdd({ name: mail.sender, email: mail.sender }));
     }, 2000);
@@ -657,27 +756,25 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ontoggleStarred(mail: Mail) {
     if (mail.starred) {
-      this.store.dispatch(
-        new StarMail({ ids: mail.id.toString(), starred: false })
-      );
+      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: false }));
     } else {
-      this.store.dispatch(
-        new StarMail({ ids: mail.id.toString(), starred: true })
-      );
+      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: true }));
     }
     mail.starred = !mail.starred;
   }
 
   moveToFolder(folder: MailFolderType | string) {
     // Dispatch move to selected folder event
-    this.store.dispatch(new MoveMail({
-      ids: this.mail.id,
-      folder,
-      sourceFolder: this.mailFolder,
-      allowUndo: true,
-      mail: this.mail,
-      fromTrash: this.mailFolder === MailFolderType.TRASH
-    }));
+    this.store.dispatch(
+      new MoveMail({
+        ids: this.mail.id,
+        folder,
+        sourceFolder: this.mailFolder,
+        allowUndo: true,
+        mail: this.mail,
+        fromTrash: this.mailFolder === MailFolderType.TRASH,
+      }),
+    );
 
     this.goBack(500);
   }
@@ -690,14 +787,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack(500);
   }
 
-  goBack(wait: number = 1) {
+  goBack(wait = 1) {
     setTimeout(() => {
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     }, wait);
   }
 
   openCreateFolderDialog() {
-    this.shareService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, { self: this, method: 'moveToFolder' });
+    this.shareService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, {
+      self: this,
+      method: 'moveToFolder',
+    });
   }
 
   onPrint(mail: Mail) {
@@ -791,18 +891,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 </div>
             </div>
             </body>
-          </html>`
-      );
+          </html>`);
       popupWin.document.close();
     }
   }
 
-  scrollTo(elementRef: any) {
-    if (elementRef) {
+  scrollTo(elementReference: any) {
+    if (elementReference) {
       setTimeout(() => {
         window.scrollTo({
-          top: elementRef.offsetTop,
-          behavior: 'smooth'
+          top: elementReference.offsetTop,
+          behavior: 'smooth',
         });
       }, 100);
     }
@@ -812,7 +911,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.plainTextViewState[mail.id] = !this.plainTextViewState[mail.id];
   }
 
-  private getPreviousMail(index: number, isChildMail: boolean, mainReply: boolean = false, isForwarding: boolean = false) {
+  private getPreviousMail(index: number, isChildMail: boolean, mainReply = false, isForwarding = false) {
     let children: Mail[] = this.mail.children || [];
     if (this.mailFolder !== MailFolderType.TRASH && this.mail.children) {
       children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
@@ -833,35 +932,48 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       return '';
     }
     let history = SummarySeparator;
-    previousMails.forEach(previousMail => history = this.getMessageSummary(history, previousMail));
+    previousMails.forEach(previousMail => (history = this.getMessageSummary(history, previousMail)));
     return `<div class="gmail_quote">${history}</div>`;
   }
 
+  /**
+   * Add original message status when reply or forward
+   */
   private getMessageSummary(content: string, mail: Mail): string {
     if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
-      const formattedDateTime = mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A') :
-        this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
-      if (this.decryptedContents[mail.id] === undefined) { this.decryptedContents[mail.id] = ''; }
-      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${mail.sender}&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      const formattedDateTime = mail.sent_at
+        ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A')
+        : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
+      if (this.decryptedContents[mail.id] === undefined) {
+        this.decryptedContents[mail.id] = '';
+      }
+      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${
+        mail.sender
+      }&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
     }
     return content;
   }
 
+  /**
+   * Add forwarded message summary with original message
+   */
   private getForwardMessageSummary(mail: Mail): string {
-    let content = `</br>---------- Forwarded message ----------</br>` +
+    let content =
+      `</br>---------- Forwarded message ----------</br>` +
       `From: &lt;${mail.sender}&gt;</br>` +
-      `Date: ${mail.sent_at ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium') : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')}</br>` +
+      `Date: ${
+        mail.sent_at
+          ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium')
+          : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
+      }</br>` +
       `Subject: ${mail.subject}</br>` +
-      `To: ${mail.receiver.map(receiver => '&lt;' + receiver + '&gt;').join(', ')}</br>`;
+      `To: ${mail.receiver.map(receiver => `&lt;${receiver}&gt;`).join(', ')}</br>`;
 
     if (mail.cc.length > 0) {
-      content += `CC: ${mail.cc.map(cc => '&lt;' + cc + '&gt;').join(', ')}</br>`;
+      content += `CC: ${mail.cc.map(cc => `&lt;${cc}&gt;`).join(', ')}</br>`;
     }
-
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
-
     return content;
-
   }
 
   /**
@@ -874,5 +986,4 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.childMailCollapsed[childIndex] = !this.childMailCollapsed[childIndex];
     this.decryptChildEmails(this.mail.children[childIndex]);
   }
-
 }

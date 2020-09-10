@@ -11,36 +11,31 @@ export enum BitcoinActionTypes {
 export class CreateNewWallet implements Action {
   readonly type = BitcoinActionTypes.CREATE_NEW_WALLET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class CheckTransaction implements Action {
   readonly type = BitcoinActionTypes.CHECK_TRANSACTION;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CheckTransactionSuccess implements Action {
   readonly type = BitcoinActionTypes.CHECK_TRANSACTION_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CreateNewWalletSuccess implements Action {
   readonly type = BitcoinActionTypes.CREATE_NEW_WALLET_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ClearWallet implements Action {
   readonly type = BitcoinActionTypes.CLEAR_WALLET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export type BitcoinActionAll =

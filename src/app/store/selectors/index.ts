@@ -1,15 +1,11 @@
-// Angular
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-// Ngrx
 import * as fromRouter from '@ngrx/router-store';
-// Model
-import { RouterStateUrl } from '../datatypes';
 import { Injectable } from '@angular/core';
 
+import { RouterStateUrl } from '../datatypes';
 
 @Injectable()
-export class CustomSerializer
-  implements fromRouter.RouterStateSerializer<RouterStateUrl> {
+export class CustomSerializer implements fromRouter.RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     const { url } = routerState;
     const { queryParams } = routerState.root;

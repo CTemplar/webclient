@@ -1,39 +1,38 @@
-
-[class*="number"] .number.stripe-error,
-[class*="exp_year"] .exp_year.stripe-error,
-[class*="exp_month"] .exp_month.stripe-error,
-[class*="cvc"] .cvc.stripe-error {
-    border-color: #c0392b;
-    color: #c0392b;
+[class*='number'] .number.stripe-error,
+[class*='exp_year'] .exp_year.stripe-error,
+[class*='exp_month'] .exp_month.stripe-error,
+[class*='cvc'] .cvc.stripe-error {
+  border-color: #c0392b;
+  color: #c0392b;
 }
 
 .form-card-holder {
-    max-width: 600px;
+  max-width: 600px;
 }
 
 .cancel-subscription {
-    margin-top: -2rem;
-    margin-bottom: 2rem;
-    text-align: left;
+  margin-top: -2rem;
+  margin-bottom: 2rem;
+  text-align: left;
 }
 
 .promo-code-spinner {
-    position: absolute;
-    top: 3px;
-    right: -30px;
+  position: absolute;
+  top: 3px;
+  right: -30px;
 }
 
 .error-block {
-    min-height: 20px;
+  min-height: 20px;
 }
 
 .validate-promo-code {
-    position: absolute;
-    right: 0.75rem;
-    top: 0;
+  position: absolute;
+  right: 0.75rem;
+  top: 0;
 }
 
 .btn-dropdown-select .dropdown-menu {
-    max-height: 300px;
-    overflow-y: scroll;
+  max-height: 300px;
+  overflow-y: scroll;
 }

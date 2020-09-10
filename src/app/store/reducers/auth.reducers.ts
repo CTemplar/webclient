@@ -1,7 +1,5 @@
-// Custom Action
 import { AuthActionAll, AuthActionTypes } from '../actions';
-// Model
-import { Auth2FA, AuthState, PaymentMethod, PaymentType } from '../datatypes';
+import { Auth2FA, AuthState } from '../datatypes';
 import { REFFERAL_CODE_KEY } from '../../shared/config';
 
 export const initialState: AuthState = {
@@ -10,8 +8,10 @@ export const initialState: AuthState = {
   errorMessage: null,
   inProgress: false,
   signupState: {
-    username: null, password: null, recaptcha: null,
-    currency: 'USD'
+    username: null,
+    password: null,
+    recaptcha: null,
+    currency: 'USD',
   },
   resetPasswordErrorMessage: null,
   isRecoveryCodeSent: false,
@@ -26,10 +26,8 @@ export function logoutReducer(reducerAction: any) {
   };
 }
 
-
 export function reducer(state = initialState, action: AuthActionAll): AuthState {
   switch (action.type) {
-
     case AuthActionTypes.LOGIN: {
       return {
         ...state,
@@ -53,25 +51,34 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
           errorMessage: null,
           inProgress: false,
           auth2FA: { is_2fa_enabled: action.payload.is_2fa_enabled, show2FALogin: false },
-          anti_phishing_phrase: action.payload.is_2fa_enabled ? '' : action.payload.anti_phishing_phrase
+          anti_phishing_phrase: action.payload.is_2fa_enabled ? '' : action.payload.anti_phishing_phrase,
         };
-      } else if (action.payload.is_2fa_enabled) {
+      }
+      if (action.payload.is_2fa_enabled) {
         return {
           ...state,
           inProgress: false,
           errorMessage: null,
           auth2FA: { is_2fa_enabled: true, show2FALogin: true },
-          anti_phishing_phrase: action.payload.anti_phishing_phrase
+          anti_phishing_phrase: action.payload.anti_phishing_phrase,
         };
       }
-
       return { ...state };
     }
     case AuthActionTypes.LOGIN_FAILURE: {
       return {
         ...state,
         errorMessage: action.payload || 'Incorrect username or password.',
-        inProgress: false
+        inProgress: false,
+      };
+    }
+    case AuthActionTypes.SET_AUTHENTICATED: {
+      if (state.isAuthenticated) {
+        return { ...state };
+      }
+      return {
+        ...state,
+        isAuthenticated: action.payload.isAuthenticated,
       };
     }
     case AuthActionTypes.SIGNUP_SUCCESS: {
@@ -81,23 +88,24 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         errorMessage: null,
         inProgress: false,
         signupState: { ...state.signupState, inProgress: false },
-        recovery_key: action.payload.recovery_key
+        recovery_key: action.payload.recovery_key,
       };
     }
     case AuthActionTypes.SIGNUP_FAILURE: {
-
       const error = action.payload ? action.payload : 'Failed to signup, please try again.';
 
       return {
         ...state,
         errorMessage: error,
         inProgress: false,
-        signupState: { ...state.signupState, inProgress: false }
+        signupState: { ...state.signupState, inProgress: false },
       };
     }
     case AuthActionTypes.SIGNUP: {
       return {
-        ...state, inProgress: true, signupState: { ...state.signupState, inProgress: true }
+        ...state,
+        inProgress: true,
+        signupState: { ...state.signupState, inProgress: true },
       };
     }
     case AuthActionTypes.UPDATE_SIGNUP_DATA: {
@@ -132,7 +140,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         errorMessage: null,
         inProgress: true,
         resetPasswordErrorMessage: null,
-        isRecoveryCodeSent: false
+        isRecoveryCodeSent: false,
       };
     }
 
@@ -141,7 +149,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         ...state,
         inProgress: false,
         resetPasswordErrorMessage: null,
-        isRecoveryCodeSent: true
+        isRecoveryCodeSent: true,
       };
     }
 
@@ -150,7 +158,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         ...state,
         inProgress: false,
         resetPasswordErrorMessage: action.payload || 'Failed to send recovery email, please try again.',
-        isRecoveryCodeSent: false
+        isRecoveryCodeSent: false,
       };
     }
 
@@ -160,7 +168,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         errorMessage: null,
         inProgress: true,
         isRecoveryCodeSent: true,
-        resetPasswordErrorMessage: null
+        resetPasswordErrorMessage: null,
       };
     }
 
@@ -168,7 +176,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         inProgress: false,
-        resetPasswordErrorMessage: null
+        resetPasswordErrorMessage: null,
       };
     }
 
@@ -176,51 +184,53 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         inProgress: false,
-        resetPasswordErrorMessage: 'Failed to reset password, please try again.'
+        resetPasswordErrorMessage: 'Failed to reset password, please try again.',
       };
     }
     case AuthActionTypes.UPGRADE_ACCOUNT: {
       return {
         ...state,
         errorMessage: null,
-        inProgress: true
+        inProgress: true,
       };
     }
     case AuthActionTypes.UPGRADE_ACCOUNT_SUCCESS: {
       return {
         ...state,
         errorMessage: null,
-        inProgress: false
+        inProgress: false,
       };
     }
     case AuthActionTypes.UPGRADE_ACCOUNT_FAILURE: {
       return {
         ...state,
         errorMessage: 'Failed to upgrade account. Please try again.',
-        inProgress: false
+        inProgress: false,
       };
     }
     case AuthActionTypes.DELETE_ACCOUNT: {
       return {
         ...state,
-        inProgress: true
+        inProgress: true,
       };
     }
     case AuthActionTypes.DELETE_ACCOUNT_SUCCESS:
     case AuthActionTypes.DELETE_ACCOUNT_FAILURE: {
       return {
         ...state,
-        inProgress: false
+        inProgress: false,
       };
     }
     case AuthActionTypes.CLEAR_SIGNUP_STATE: {
       return {
-        ...state, signupState: initialState.signupState
+        ...state,
+        signupState: initialState.signupState,
       };
     }
     case AuthActionTypes.CLEAR_AUTH_ERROR_MESSAGE: {
       return {
-        ...state, errorMessage: null
+        ...state,
+        errorMessage: null,
       };
     }
     case AuthActionTypes.CHANGE_PASSPHRASE_SUCCESS: {
@@ -235,7 +245,6 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
         inProgress: true,
         isChangePasswordError: false,
       };
-
     }
     case AuthActionTypes.CHANGE_PASSWORD_SUCCESS: {
       if (localStorage.getItem('user_key')) {
@@ -277,7 +286,8 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         captcha: {
-          ...state.captcha, inProgress: false,
+          ...state.captcha,
+          inProgress: false,
           isInvalid: !action.payload.status,
           verified: action.payload.status,
           value: action.payload.status ? state.captcha.value : '',
@@ -288,7 +298,6 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
     case AuthActionTypes.GET_2FA_SECRET: {
       return { ...state, auth2FA: { inProgress: true } };
     }
-
 
     case AuthActionTypes.GET_2FA_SECRET_SUCCESS: {
       return { ...state, auth2FA: new Auth2FA({ ...action.payload, inProgress: false }) };

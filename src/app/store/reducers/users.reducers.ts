@@ -1,8 +1,5 @@
-// Custom Action
-
 import { UsersActionAll, UsersActionTypes } from '../actions';
-// Model
-import { Domain, PromoCode, Settings, UserState, CardState } from '../datatypes';
+import { Domain, PromoCode, Settings, UserState } from '../datatypes';
 
 export const initialState: UserState = {
   username: null,
@@ -22,7 +19,7 @@ export const initialState: UserState = {
   promoCode: new PromoCode(),
   inviteCodes: [],
   notifications: null,
-  cards: []
+  cards: [],
 };
 
 export function reducer(state = initialState, action: UsersActionAll): UserState {
@@ -43,7 +40,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {
         ...state,
         cards,
-        inProgress: false
+        inProgress: false,
       };
     }
 
@@ -51,34 +48,34 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return {
         ...state,
         cards: [...state.cards, action.payload],
-        inProgress: false
+        inProgress: false,
       };
     }
 
     case UsersActionTypes.CARD_ADD_ERROR: {
       return {
         ...state,
-        inProgress: false
+        inProgress: false,
       };
     }
 
     case UsersActionTypes.CARD_DELETE_SUCCESS: {
-      let cards = state.cards;
+      let { cards } = state;
       cards = cards.filter(card => action.payload !== card.id);
       return {
         ...state,
         cards,
-        inProgress: false
+        inProgress: false,
       };
     }
 
     case UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS: {
-      const cards = state.cards;
-      cards.forEach(card => card.is_primary = action.payload === card.id);
+      const { cards } = state;
+      cards.forEach(card => (card.is_primary = action.payload === card.id));
       return {
         ...state,
         cards,
-        inProgress: false
+        inProgress: false,
       };
     }
 
@@ -87,7 +84,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CARD_MAKE_PRIMARY: {
       return {
         ...state,
-        inProgress: true
+        inProgress: true,
       };
     }
 
@@ -124,9 +121,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.WHITELIST_DELETE_SUCCESS: {
-      state.whiteList.splice(
-        state.whiteList.indexOf(state.whiteList.filter(item => item.id === action.payload)[0]),
-        1);
+      state.whiteList.splice(state.whiteList.indexOf(state.whiteList.find(item => item.id === action.payload)), 1);
       return {
         ...state,
         inProgress: false,
@@ -136,9 +131,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.BLACKLIST_DELETE_SUCCESS: {
-      state.blackList.splice(
-        state.blackList.indexOf(state.blackList.filter(item => item.id === action.payload)[0]),
-        1);
+      state.blackList.splice(state.blackList.indexOf(state.blackList.find(item => item.id === action.payload)), 1);
       return {
         ...state,
         inProgress: false,
@@ -183,7 +176,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         }),
         autoresponder: action.payload.autoresponder,
         isLoaded: true,
-        has_notification: action.payload.has_notification
+        has_notification: action.payload.has_notification,
       };
     }
 
@@ -197,7 +190,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.SETTINGS_UPDATE_USED_STORAGE: {
       return {
         ...state,
-        settings: { ...state.settings, ...action.payload }
+        settings: { ...state.settings, ...action.payload },
       };
     }
 
@@ -301,7 +294,9 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FILTER_FAILURE:
     case UsersActionTypes.UPDATE_FILTER_FAILURE:
     case UsersActionTypes.DELETE_FILTER_FAILURE: {
-      const error = Object.keys(action.payload).map(key => `${key}: ${action.payload[key]}`).join(', ');
+      const error = Object.keys(action.payload)
+        .map(key => `${key}: ${action.payload[key]}`)
+        .join(', ');
       return { ...state, inProgress: false, filtersError: error };
     }
 
@@ -343,14 +338,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isError: false,
         error: '',
         newCustomDomainError: null,
-        currentCreationStep: 0
+        currentCreationStep: 0,
       };
     }
 
     case UsersActionTypes.UPDATE_DOMAIN: {
       return {
         ...state,
-        inProgress: true
+        inProgress: true,
       };
     }
 
@@ -358,7 +353,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.UPDATE_DOMAIN_FAILURE: {
       return {
         ...state,
-        inProgress: false
+        inProgress: false,
       };
     }
 
@@ -374,7 +369,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
       const domain: Domain = action.payload.res;
       let isError = false;
-      let step = action.payload.step;
+      let { step } = action.payload;
       if (domain.is_domain_verified) {
         if (action.payload.gotoNextStep) {
           step++;
@@ -384,16 +379,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
-        customDomains: action.payload.reverify ? state.customDomains.map((item) => {
-          if (item.id === domain.id) {
-            return domain;
-          }
-          return item;
-        }) : state.customDomains,
+        customDomains: action.payload.reverify
+          ? state.customDomains.map(item => {
+              if (item.id === domain.id) {
+                return domain;
+              }
+              return item;
+            })
+          : state.customDomains,
         isError,
         inProgress: false,
         newCustomDomain: action.payload.res,
-        currentCreationStep: step
+        currentCreationStep: step,
       };
     }
 
@@ -404,7 +401,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: false,
         isError: false,
         newCustomDomain: action.payload,
-        currentCreationStep: 1
+        currentCreationStep: 1,
       };
     }
 
@@ -414,7 +411,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         inProgress: false,
         isError: true,
         newCustomDomainError: action.payload,
-        currentCreationStep: 0
+        currentCreationStep: 0,
       };
     }
 
@@ -424,8 +421,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: Object.keys(action.payload.err).map(key => `${key}: ${action.payload.err[key]}`).join(', '),
-        currentCreationStep: action.payload.step
+        error: Object.keys(action.payload.err)
+          .map(key => `${key}: ${action.payload.err[key]}`)
+          .join(', '),
+        currentCreationStep: action.payload.step,
       };
     }
 
@@ -502,8 +501,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.VALIDATE_PROMO_CODE_SUCCESS: {
       const promoCode: PromoCode = { ...state.promoCode, ...action.payload, inProgress: false };
-      promoCode.new_amount = promoCode.new_amount / 100;
-      promoCode.discount_amount = promoCode.discount_amount / 100;
+      promoCode.new_amount /= 100;
+      promoCode.discount_amount /= 100;
       return { ...state, promoCode };
     }
 

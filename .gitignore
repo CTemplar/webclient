@@ -3,7 +3,6 @@
 .vscode
 .settings
 .idea/
-.editorconfig
 
 # NodeJS
 node_modules
@@ -14,10 +13,10 @@ release
 .DS_Store
 Thumbs.db
 TODO.md
-.prettierrc
 
 # compiled output
 /tmp/
+electron-main.js*
 
 # e2e
 /e2e/*.js

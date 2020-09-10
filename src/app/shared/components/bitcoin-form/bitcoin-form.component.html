@@ -1,23 +1,21 @@
 <div class="row">
   <div class="col-sm-12">
-      <div class="form-step-card">
-        <h6 class="form-step-card-title text-dark mt-3 text-left">
-          <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
-        </h6>
+    <div class="form-step-card">
+      <h6 class="form-step-card-title text-dark mt-3 text-left">
+        <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
+      </h6>
 
-        <p>Please send your donations to following bitcoin address.</p>
+      <p>Please send your donations to following bitcoin address.</p>
 
-        <div class="card mb-3">
-          <div class="card-header text-center">
-            <h6>BITCOIN WALLET</h6>
-            <h5><strong>1612e9NUhwCGDAizMfk5VQa3pzMemDSGik</strong></h5>
-          </div>
-          <div class="card-body text-center">
-            <img class="p-4"
-                 src="{{apiUrl}}qr-code/?size=225x225&data=1612e9NUhwCGDAizMfk5VQa3pzMemDSGik"
-                 alt="captcha">
-          </div>
+      <div class="card mb-3">
+        <div class="card-header text-center">
+          <h6>BITCOIN WALLET</h6>
+          <h5><strong>1612e9NUhwCGDAizMfk5VQa3pzMemDSGik</strong></h5>
+        </div>
+        <div class="card-body text-center">
+          <img class="p-4" src="{{ apiUrl }}qr-code/?size=225x225&data=1612e9NUhwCGDAizMfk5VQa3pzMemDSGik" alt="captcha" />
         </div>
       </div>
+    </div>
   </div>
 </div>

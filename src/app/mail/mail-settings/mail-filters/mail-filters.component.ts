@@ -2,82 +2,105 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { CreateFilter, DeleteFilter, UpdateFilter } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
 import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
   selector: 'app-mail-filters',
   templateUrl: './mail-filters.component.html',
-  styleUrls: ['../mail-settings.component.scss']
+  styleUrls: ['../mail-settings.component.scss'],
 })
 export class MailFiltersComponent implements OnInit, OnDestroy {
   readonly folderIcons: any = {
     [MailFolderType.INBOX]: 'icon-inbox',
     [MailFolderType.ARCHIVE]: 'icon-archive',
     [MailFolderType.TRASH]: 'icon-garbage',
-    [MailFolderType.SPAM]: 'icon-warning'
+    [MailFolderType.SPAM]: 'icon-warning',
   };
 
   @ViewChild('customFilterModal') customFilterModal;
+
   @ViewChild('deleteFilterModal') deleteFilterModal;
 
   mailFolderType = MailFolderType;
+
   filterCondition = FilterCondition;
+
   filterParameter = FilterParameter;
+
   filters: Filter[];
+
   userState: UserState;
+
   customFolders: Folder[];
+
   createFilterForm: FormGroup;
+
   createFilterData: any;
+
   errorMessage: string;
+
   selectedFilter: Filter;
+
   hasDuplicateFilterName: boolean;
 
   private customFilterModalRef: NgbModalRef;
+
   private deleteFilterModalRef: NgbModalRef;
 
-  constructor(private store: Store<AppState>,
-              private formBuilder: FormBuilder,
-              private modalService: NgbModal) {
-  }
+  constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         this.filters = userState.filters;
         this.customFolders = userState.customFolders;
-        if (this.userState && this.userState.inProgress && this.customFilterModalRef &&
-          !userState.inProgress && !userState.filtersError) {
+        if (
+          this.userState &&
+          this.userState.inProgress &&
+          this.customFilterModalRef &&
+          !userState.inProgress &&
+          !userState.filtersError
+        ) {
           this.customFilterModalRef.dismiss();
         }
         this.errorMessage = userState.filtersError;
         this.userState = userState;
       });
+
     this.createFilterForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(64)]],
       filterText: [''],
       moveTo: [false],
       markAsRead: [false],
-      markAsStarred: [false]
+      markAsStarred: [false],
     });
-    this.createFilterForm.get('name').valueChanges.pipe(untilDestroyed(this))
+
+    this.createFilterForm
+      .get('name')
+      .valueChanges.pipe(untilDestroyed(this))
       .subscribe((value: string) => {
         this.checkFilterExist(value);
       });
-    this.createFilterForm.get('moveTo').valueChanges.pipe(untilDestroyed(this))
-      .subscribe((value) => {
+
+    this.createFilterForm
+      .get('moveTo')
+      .valueChanges.pipe(untilDestroyed(this))
+      .subscribe(value => {
         if (!value && this.createFilterData) {
           this.createFilterData.folder = null;
         }
       });
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   openCustomFilterModal(selectedFilter?: Filter) {
     this.errorMessage = null;
@@ -97,10 +120,13 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     }
     this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
       centered: true,
-      windowClass: 'modal-sm'
+      windowClass: 'modal-sm',
     });
   }
 
+  /**
+   * Save custom filter's form content
+   */
   onSubmit() {
     this.errorMessage = null;
     if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
@@ -110,7 +136,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         filter_text: this.createFilterForm.get('filterText').value,
         move_to: this.createFilterForm.get('moveTo').value || false,
         mark_as_read: this.createFilterForm.get('markAsRead').value || false,
-        mark_as_starred: this.createFilterForm.get('markAsStarred').value || false
+        mark_as_starred: this.createFilterForm.get('markAsStarred').value || false,
       };
       if (!data.condition || !data.parameter) {
         this.errorMessage = 'Please select a condition.';
@@ -118,12 +144,10 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         this.errorMessage = 'Please enter some text or pattern.';
       } else if (data.move_to && !data.folder) {
         this.errorMessage = 'Please select a folder.';
+      } else if (data.id) {
+        this.store.dispatch(new UpdateFilter(data));
       } else {
-        if (data.id) {
-          this.store.dispatch(new UpdateFilter(data));
-        } else {
-          this.store.dispatch(new CreateFilter(data));
-        }
+        this.store.dispatch(new CreateFilter(data));
       }
     }
   }
@@ -132,7 +156,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     this.selectedFilter = filter;
     this.deleteFilterModalRef = this.modalService.open(this.deleteFilterModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 

@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { timer } from 'rxjs/internal/observable/timer';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import {
   CheckTransaction,
   ClearPromoCode,
@@ -17,8 +19,8 @@ import {
   SnackErrorPush,
   UpgradeAccount,
   ValidatePromoCode,
-  CardAdd
-} from '../../../store/actions/index';
+  CardAdd,
+} from '../../../store/actions';
 import {
   AppState,
   AuthState,
@@ -32,74 +34,107 @@ import {
   PromoCode,
   SignupState,
   TransactionStatus,
-  UserState
+  UserState,
 } from '../../../store/datatypes';
-// Service
-import { OpenPgpService, SharedService } from '../../../store/services/index';
+import { OpenPgpService, SharedService } from '../../../store/services';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
-import { TranslateService } from '@ngx-translate/core';
-import { timer } from 'rxjs/internal/observable/timer';
 import { apiUrl, PROMO_CODE_KEY, LANGUAGES } from '../../config';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',
-  styleUrls: ['./users-billing-info.component.scss']
+  styleUrls: ['./users-billing-info.component.scss'],
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
+
   @Input() isRenew: boolean;
+
   @Input() isAddNewCard = false;
+
   @Input() paymentType: PaymentType;
+
   @Input() paymentMethod: PaymentMethod;
+
   @Input() currency;
+
   @Input() storage: number;
+
   @Input() planType: PlanType;
+
   @Output() close = new EventEmitter<boolean>();
 
   paymentTypeEnum = PaymentType;
+
   cardNumber;
+
   promoCode: PromoCode = new PromoCode();
+
   billingForm: FormGroup;
+
   expiryMonth = 'Month';
+
   expiryYear = 'Year';
+
   cvc;
+
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
   years = [];
+
   paymentMethodType = PaymentMethod;
+
   seconds = 60;
+
   minutes = 60;
+
   bitcoinState: BitcoinState;
+
   signupState: SignupState;
+
   inProgress: boolean;
+
   planTypeEnum = PlanType;
 
   stripePaymentValidation: any = {
     message: '',
-    param: ''
+    param: '',
   };
+
   showPaymentPending: boolean;
+
   paymentSuccess: boolean;
+
   errorMessage: string;
+
   authState: AuthState;
+
   isScriptsLoaded: boolean;
+
   isScriptsLoading: boolean;
+
   apiUrl: string = apiUrl;
+
   currentPlan: PricingPlan;
+
   upgradeAmount: number;
+
   payment: Payment;
+
   isPrime: boolean;
 
-
   private checkTransactionResponse: CheckTransactionResponse;
+
   private timerObservable: Subscription;
+
   private modalRef: NgbModalRef;
+
   private btcTimer: Subscription;
 
-  constructor(private sharedService: SharedService,
+  constructor(
+    private sharedService: SharedService,
     private store: Store<AppState>,
     private router: Router,
     private formBuilder: FormBuilder,
@@ -108,8 +143,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     private dynamicScriptLoader: DynamicScriptLoaderService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
-    private _zone: NgZone) {
-  }
+    private _zone: NgZone,
+  ) {}
 
   ngOnInit() {
     let year = new Date().getFullYear();
@@ -125,7 +160,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.paymentMethod = null;
       }
     }
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         if (this.isUpgradeAccount) {
           this.upgradeAmount = userState.upgradeAmount;
@@ -137,10 +174,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       });
 
     this.billingForm = this.formBuilder.group({
-      'cardNumber': ['', [Validators.minLength(16), Validators.maxLength(16)]],
-      'promoCode': ''
+      cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]],
+      promoCode: '',
     });
-    this.store.select(state => state.bitcoin).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.bitcoin)
+      .pipe(untilDestroyed(this))
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
         if (this.promoCode.is_valid) {
@@ -148,20 +187,25 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
         }
         this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
-        if (this.checkTransactionResponse && (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
-          this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
-          this.checkTransactionResponse.status === TransactionStatus.SENT)) {
+        if (
+          this.checkTransactionResponse &&
+          (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
+            this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
+            this.checkTransactionResponse.status === TransactionStatus.SENT)
+        ) {
           this.paymentSuccess = true;
-          return;
         }
       });
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
 
-        const queryParams = this.activatedRoute.snapshot.queryParams;
+        const { queryParams } = this.activatedRoute.snapshot;
         this.planType = this.planType || this.signupState.plan_type || queryParams.plan || PlanType.PRIME;
-        this.paymentType = this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
+        this.paymentType =
+          this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
         this.paymentMethod = this.paymentMethod || this.signupState.payment_method || PaymentMethod.STRIPE;
         this.currency = this.currency || this.signupState.currency || 'USD';
         if (!this.promoCode.value) {
@@ -201,10 +245,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();
     }
-    const timerRef: any = timer(1000, 1000);
-    this.timerObservable = timerRef.pipe(untilDestroyed(this)).subscribe(t => {
-      this.seconds = ((3600 - t) % 60);
-      this.minutes = ((3600 - t - this.seconds) / 60);
+    const timerReference: any = timer(1000, 1000);
+    this.timerObservable = timerReference.pipe(untilDestroyed(this)).subscribe(t => {
+      this.seconds = (3600 - t) % 60;
+      this.minutes = (3600 - t - this.seconds) / 60;
     });
   }
 
@@ -219,45 +263,53 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       return;
     }
     this.isScriptsLoading = true;
-    this.dynamicScriptLoader.load('stripe').then(data => {
-      this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
-        this.isScriptsLoaded = true;
-        this.isScriptsLoading = false;
-      });
-    }).catch(error => console.log(error));
+    this.dynamicScriptLoader
+      .load('stripe')
+      .then(data => {
+        this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
+          this.isScriptsLoaded = true;
+          this.isScriptsLoading = false;
+        });
+      })
+      .catch(error => console.log(error));
   }
 
   getToken() {
     this.inProgress = true;
-    (<any>window).Stripe.card.createToken({
-      number: this.cardNumber,
-      exp_month: this.expiryMonth,
-      exp_year: this.expiryYear,
-      cvc: this.cvc
-    }, (status: number, response: any) => {
-      // Wrapping inside the Angular zone
-      this._zone.run(() => {
-        this.inProgress = false;
-        if (status === 200) {
-          this.stripeSignup(response.id);
-        } else {
-          this.stripePaymentValidation = {
-            message: response.error.message,
-            param: response.error.param
-          };
-        }
-      });
-    });
+    (<any>window).Stripe.card.createToken(
+      {
+        number: this.cardNumber,
+        exp_month: this.expiryMonth,
+        exp_year: this.expiryYear,
+        cvc: this.cvc,
+      },
+      (status: number, response: any) => {
+        // Wrapping inside the Angular zone
+        this._zone.run(() => {
+          this.inProgress = false;
+          if (status === 200) {
+            this.stripeSignup(response.id);
+          } else {
+            this.stripePaymentValidation = {
+              message: response.error.message,
+              param: response.error.param,
+            };
+          }
+        });
+      },
+    );
   }
 
   getUpgradeAmount() {
     if (this.isUpgradeAccount) {
-      this.store.dispatch(new GetUpgradeAmount({
-        plan_type: this.planType,
-        payment_type: this.paymentType,
-        payment_method: this.paymentMethod,
-        is_renew: this.isRenew
-      }));
+      this.store.dispatch(
+        new GetUpgradeAmount({
+          plan_type: this.planType,
+          payment_type: this.paymentType,
+          payment_method: this.paymentMethod,
+          is_renew: this.isRenew,
+        }),
+      );
     }
   }
 
@@ -269,7 +321,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     // Reset Stripe validation
     this.stripePaymentValidation = {
       message: '',
-      param: ''
+      param: '',
     };
 
     if (this.paymentMethod === PaymentMethod.STRIPE) {
@@ -297,7 +349,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.inProgress = true;
         this.openAccountInitModal();
         this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({ ...this.signupState, stripe_token: stripe_token });
+        this.waitForPGPKeys({ ...this.signupState, stripe_token });
       }
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
@@ -307,7 +359,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   bitcoinSignup() {
     if (this.bitcoinState.newWalletAddress) {
       if (this.isUpgradeAccount) {
-        this.store.dispatch(new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress })));
+        this.store.dispatch(
+          new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress })),
+        );
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
@@ -315,7 +369,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.waitForPGPKeys({ ...this.signupState, from_address: this.bitcoinState.newWalletAddress });
       }
     } else {
-      this.store.dispatch(new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'));
+      this.store.dispatch(
+        new SnackErrorPush('No bitcoin wallet found, Unable to signup, please reload page and try again.'),
+      );
     }
   }
 
@@ -336,7 +392,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     const currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
     const currentLang = LANGUAGES.find(lang => {
-      if (lang.locale === currentLocale) { return true; }
+      if (lang.locale === currentLocale) {
+        return true;
+      }
     });
     return {
       ...data,
@@ -344,7 +402,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       payment_type: this.paymentType,
       payment_method: this.paymentMethod,
       is_renew: this.isRenew,
-      language: currentLang.name
+      language: currentLang.name,
     };
   }
 
@@ -356,13 +414,15 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   checkTransaction() {
-    if (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
+    if (
+      this.checkTransactionResponse.status === TransactionStatus.PENDING ||
       this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
-      this.checkTransactionResponse.status === TransactionStatus.SENT) {
+      this.checkTransactionResponse.status === TransactionStatus.SENT
+    ) {
       this.paymentSuccess = true;
       return;
     }
-    const data: any = { 'from_address': this.bitcoinState.newWalletAddress };
+    const data: any = { from_address: this.bitcoinState.newWalletAddress };
     if (this.promoCode && this.promoCode.is_valid && this.promoCode.value) {
       data.promo_code = this.promoCode.value;
     }
@@ -370,7 +430,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.dispatch(new CheckTransaction(data));
   }
 
-  selectBitcoinMethod(forceLoad: boolean = true) {
+  selectBitcoinMethod(forceLoad = true) {
     this.paymentMethod = PaymentMethod.BITCOIN;
     this.selectPaymentType(PaymentType.ANNUALLY);
     if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {
@@ -378,7 +438,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
     this.stripePaymentValidation = {
       message: '',
-      param: ''
+      param: '',
     };
     setTimeout(() => {
       this.showPaymentPending = true;
@@ -388,9 +448,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.paymentSuccess = false;
     this.createNewWallet();
     this.btcTimer = timer(15000, 10000)
-      .pipe(
-        untilDestroyed(this),
-      )
+      .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.checkTransaction();
       });
@@ -409,12 +467,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   createNewWallet() {
-    this.store.dispatch(new CreateNewWallet({
-      payment_type: this.paymentType,
-      plan_type: this.planType,
-      payment_method: this.paymentMethod,
-      is_renew: this.isRenew,
-    }));
+    this.store.dispatch(
+      new CreateNewWallet({
+        payment_type: this.paymentType,
+        plan_type: this.planType,
+        payment_method: this.paymentMethod,
+        is_renew: this.isRenew,
+      }),
+    );
   }
 
   selectMonth(month) {
@@ -452,17 +512,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       centered: true,
       windowClass: 'modal-sm',
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     });
   }
 
   validatePromoCode() {
     if (this.promoCode.value) {
-      this.store.dispatch(new ValidatePromoCode({
-        plan_type: this.planType,
-        payment_type: this.paymentType,
-        promo_code: this.promoCode.value
-      }));
+      this.store.dispatch(
+        new ValidatePromoCode({
+          plan_type: this.planType,
+          payment_type: this.paymentType,
+          promo_code: this.promoCode.value,
+        }),
+      );
     }
   }
 

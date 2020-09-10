@@ -1,10 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filename'
+  name: 'filename',
 })
 export class FilenamePipe implements PipeTransform {
-
   static tranformToFilename(value: any) {
     if (!value) {
       return value;
@@ -14,8 +13,7 @@ export class FilenamePipe implements PipeTransform {
     return filePathTokens[filePathTokens.length - 1];
   }
 
-  transform(value: any, args?: any): any {
+  transform(value: any, arguments_?: any): any {
     return FilenamePipe.tranformToFilename(value);
   }
-
 }

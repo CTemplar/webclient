@@ -8,9 +8,8 @@ describe('MailContactComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MailContactComponent ]
-    })
-    .compileComponents();
+      declarations: [MailContactComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

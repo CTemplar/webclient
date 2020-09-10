@@ -1,75 +1,75 @@
 /**
 * master sass file, which includes all the partial files
 */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 /**
 * IMPORTING PARTIALS FROM CONFIG DIRECTORY
 */
-@import "styles/config/include-media-config";
+@import 'styles/config/include-media-config';
 
 // == variables partials from base directory before everything to override varaibles with !default flags inside any vendor projects
-@import "styles/base/variables";
+@import 'styles/base/variables';
 
 /**
 * IMPORTING PARTIALS FROM VENDORS DIRECTORY
 */
 
-@import "styles/vendors/include-media/include-media"; // SASS plugin for better media query detection
-@import "styles/vendors/fontawesome/fontawesome"; // Fontawesome SASS modules
-@import "styles/vendors/bootstrap/ctemplar-bootstrap"; // Bootstrap SASS modules
-@import "styles/vendors/ceaser/ceaser-easing"; // Ceaser easing SASS module for smooth transition effects
-@import "styles/vendors/icomoon/icomoon"; // Icomoon SASS module which includes custom font library
+@import 'styles/vendors/include-media/include-media'; // SASS plugin for better media query detection
+@import 'styles/vendors/fontawesome/fontawesome'; // Fontawesome SASS modules
+@import 'styles/vendors/bootstrap/ctemplar-bootstrap'; // Bootstrap SASS modules
+@import 'styles/vendors/ceaser/ceaser-easing'; // Ceaser easing SASS module for smooth transition effects
+@import 'styles/vendors/icomoon/icomoon'; // Icomoon SASS module which includes custom font library
 
 /**
 * IMPORTING PARTIALS FROM MIXINS DIRECTORY
 */
-@import "styles/mixins/utilities";
+@import 'styles/mixins/utilities';
 
 /**
 * IMPORTING PARTIALS FROM BASE DIRECTORY
 */
 
 // == typograhy and fonts
-@import "styles/base/fonts";
-@import "styles/base/type";
+@import 'styles/base/fonts';
+@import 'styles/base/type';
 
 /**
 * IMPORTING PARTIALS FROM LAYOUT DIRECTORY
 */
-@import "styles/layouts/global";
-@import "styles/layouts/utilities";
-@import "styles/layouts/header";
-@import "styles/layouts/footer";
+@import 'styles/layouts/global';
+@import 'styles/layouts/utilities';
+@import 'styles/layouts/header';
+@import 'styles/layouts/footer';
 
 /**
 * IMPORTING PARTIALS FROM MODULES DIRECTORY
 */
-@import "styles/modules/preloader";
-@import "styles/modules/menu";
-@import "styles/modules/utilities/utilities";
-@import "styles/modules/hero";
-@import "styles/modules/blocks";
-@import "styles/modules/lists";
-@import "styles/modules/cards/cards";
-@import "styles/modules/comments/comments";
+@import 'styles/modules/preloader';
+@import 'styles/modules/menu';
+@import 'styles/modules/utilities/utilities';
+@import 'styles/modules/hero';
+@import 'styles/modules/blocks';
+@import 'styles/modules/lists';
+@import 'styles/modules/cards/cards';
+@import 'styles/modules/comments/comments';
 
 /**
 * OVERRIDING BOOTSTRAP MODULES
 */
-@import "styles/modules/bootstrap-overrides/overrides";
+@import 'styles/modules/bootstrap-overrides/overrides';
 
 /**
 * IMPORTING PAGES MODULES
 */
-@import "styles/pages/user-actions/form-pages";
+@import 'styles/pages/user-actions/form-pages';
 
 /**
 * IMPORTING MAIL COMPOSER MODULES
 */
-@import "styles/modules/mail-composer/mail-composer";
+@import 'styles/modules/mail-composer/mail-composer';
 
 // Components global styles
-@import "styles/components.styles";
+@import 'styles/components.styles';
 
 .loading-icon {
   position: absolute;
@@ -80,14 +80,30 @@
 // LOADING
 
 @keyframes pulse_animation {
-  0% { transform: scale(1); }
-  30% { transform: scale(1); }
-  40% { transform: scale(1.15); }
-  50% { transform: scale(1); }
-  60% { transform: scale(1); }
-  70% { transform: scale(1.08); }
-  80% { transform: scale(1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.15);
+  }
+  50% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  80% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .loading {
@@ -104,14 +120,14 @@
 
 .quote {
   margin: 0;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 24px;
   max-width: 80vw;
 }
 
 .author {
   font-size: 18px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .cdk-overlay-container {
@@ -148,15 +164,14 @@
 //START tag input css
 
 tag-input {
-
-  .ng2-tag-input{
+  .ng2-tag-input {
     border-bottom: 0 !important;
 
     // TODO @kriti please fix this width for multiple devices.
     //width: 650px;
   }
 
-  .ng2-tag-input__text-input{
+  .ng2-tag-input__text-input {
     height: 20px !important;
     font-size: 14px !important;
   }
@@ -196,13 +211,13 @@ tag-input {
   }
 
   &:hover,
-  &:focus{
+  &:focus {
     border: 1px solid #c6c6c6;
     color: #333;
   }
 
   &:active {
-      background: #dedede;
+    background: #dedede;
   }
 }
 
@@ -215,15 +230,15 @@ tag-input {
 }
 //END tag input css
 
-.zEWidget-launcher{
+.zEWidget-launcher {
   z-index: 10 !important;
 }
 
-.green{
+.green {
   color: green;
 }
 
-.close-mat-keyboard{
+.close-mat-keyboard {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -255,7 +270,7 @@ app-compose-mail {
     min-width: calc(100% - 4rem);
   }
 
-  .mail-compose-field textarea{
+  .mail-compose-field textarea {
     font-size: 14px;
   }
 }
@@ -266,7 +281,7 @@ button[disabled] {
 }
 
 .menu-open .mailbox-sidebar {
-  @include media("<sm") {
+  @include media('<sm') {
     left: 220px;
   }
 }
@@ -290,23 +305,22 @@ button[disabled] {
 
   &:hover,
   &:focus {
-    background-color: darken($twitter-color , 10%);
-    border-color: darken($twitter-color , 10%);
+    background-color: darken($twitter-color, 10%);
+    border-color: darken($twitter-color, 10%);
   }
 }
-
 
 .btn-facebook {
   background-color: $facebook-color;
   border-color: $facebook-color;
   &:hover,
   &:focus {
-    background-color: darken($facebook-color , 10%);
-    border-color: darken($facebook-color , 10%);
+    background-color: darken($facebook-color, 10%);
+    border-color: darken($facebook-color, 10%);
   }
 }
 
-// Settings Tabs 
+// Settings Tabs
 
 .nav-tabs {
   box-shadow: 0 4px 10px 0 rgba(1, 70, 109, 0.1);
@@ -317,11 +331,11 @@ button[disabled] {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  border-bottom: 1px solid #F5F5F5;
+  border-bottom: 1px solid #f5f5f5;
 }
 
-.nav-tabs.nav li{
-  border-right: 1px solid #F5F5F5;
+.nav-tabs.nav li {
+  border-right: 1px solid #f5f5f5;
 }
 
 .nav-tabs.nav .nav-link {
@@ -332,7 +346,7 @@ button[disabled] {
   background-color: transparent;
   padding: 1rem 0.9rem;
   text-transform: unset;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   font-size: 14px;
   font-weight: 600;
   color: #616161;
@@ -345,14 +359,14 @@ button[disabled] {
     flex-direction: column;
   }
 
-  .nav-tabs.nav .nav-link{
+  .nav-tabs.nav .nav-link {
     text-align: left;
     max-width: 100%;
   }
 }
 
-.nav-tabs.nav  {
-  .nav-link{
+.nav-tabs.nav {
+  .nav-link {
     &:hover,
     &.active {
       background: #f4f4f4;
@@ -372,7 +386,7 @@ button[disabled] {
 }
 
 .show_gmail_extra .gmail_extra,
-.show_gmail_extra .gmail_quote{
+.show_gmail_extra .gmail_quote {
   display: block;
 }
 
@@ -402,8 +416,7 @@ button[disabled] {
 }
 
 .accordion .card {
-
-  .card-header{
+  .card-header {
     border-bottom: 0;
   }
 
@@ -441,7 +454,8 @@ button[disabled] {
 }
 
 .incoming-headers {
-  .col-3, .col-9 {
+  .col-3,
+  .col-9 {
     border: 1px solid $brand-secondary;
     border-bottom: 0;
   }
@@ -452,7 +466,8 @@ button[disabled] {
   }
 
   .last-row {
-    .col-3, .col-9 {
+    .col-3,
+    .col-9 {
       border-bottom: 1px solid $brand-secondary;
     }
   }
@@ -473,7 +488,7 @@ button[disabled] {
     color: #444;
 
     &:hover {
-      border: 1px solid #4177F6;
+      border: 1px solid #4177f6;
     }
   }
 
@@ -498,7 +513,6 @@ button[disabled] {
     text-overflow: ellipsis;
     max-width: 200px;
   }
-
 }
 
 .full-width {
@@ -513,7 +527,8 @@ button[disabled] {
   display: inline-flex;
 }
 
-.input-ok, .input-invalid {
+.input-ok,
+.input-invalid {
   float: right;
   margin-right: -28px;
   margin-top: -31px;
@@ -521,7 +536,7 @@ button[disabled] {
 }
 
 .input-invalid {
-  color: #dc3545 !important;;
+  color: #dc3545 !important;
 }
 
 .font-20px {

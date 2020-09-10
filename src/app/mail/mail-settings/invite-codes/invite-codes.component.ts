@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { AppState, InviteCode, UserState } from '../../../store/datatypes';
 import { GenerateInviteCode, GetInviteCodes } from '../../../store/actions';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
 import { SharedService } from '../../../store/services';
 
@@ -10,20 +11,25 @@ import { SharedService } from '../../../store/services';
 @Component({
   selector: 'app-invite-codes',
   templateUrl: './invite-codes.component.html',
-  styleUrls: ['./invite-codes.component.scss', '../mail-settings.component.scss']
+  styleUrls: ['./invite-codes.component.scss', '../mail-settings.component.scss'],
 })
 export class InviteCodesComponent implements OnInit, OnDestroy {
   inviteCodes: InviteCode[] = [];
+
   inProgress: boolean;
+
   primaryWebsite = PRIMARY_WEBSITE;
+
   isPrime: boolean;
+
   isLoaded: boolean;
 
-  constructor(private store: Store<AppState>,
-              private sharedService: SharedService) { }
+  constructor(private store: Store<AppState>, private sharedService: SharedService) {}
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         this.inviteCodes = userState.inviteCodes;
         this.inProgress = userState.inProgress;
@@ -43,7 +49,5 @@ export class InviteCodesComponent implements OnInit, OnDestroy {
     this.sharedService.copyToClipboard(value);
   }
 
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }

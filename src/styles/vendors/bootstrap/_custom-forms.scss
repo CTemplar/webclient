@@ -4,7 +4,6 @@
 // Released under MIT and copyright 2014 Waybury.
 // https://useiconic.com/open
 
-
 // Checkboxes and radios
 //
 // Base class takes care of all the key behavioral aspects.
@@ -107,7 +106,6 @@
   }
 }
 
-
 // Layout options
 //
 // By default radios and checkboxes are `inline-block` with no additional spacing
@@ -126,7 +124,6 @@
   }
 }
 
-
 // Select
 //
 // Replaces the browser default select with a custom one, mostly pulled from
@@ -138,7 +135,8 @@
   max-width: 100%;
   $select-border-width: ($border-width * 2);
   height: calc(#{$input-height} + #{$select-border-width});
-  padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
+  padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding)
+    $custom-select-padding-y $custom-select-padding-x;
   line-height: $custom-select-line-height;
   color: $custom-select-color;
   vertical-align: middle;
@@ -188,7 +186,6 @@
   //   min-height: 26px;
   // }
 }
-
 
 // File
 //

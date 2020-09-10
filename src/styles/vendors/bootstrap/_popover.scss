@@ -18,7 +18,6 @@
   @include border-radius($border-radius-lg);
   @include box-shadow($popover-box-shadow);
 
-
   // Popover directions
 
   &.popover-top,
@@ -97,7 +96,7 @@
       display: block;
       width: 20px;
       margin-left: -10px;
-      content: "";
+      content: '';
       border-bottom: 1px solid $popover-title-bg;
     }
   }
@@ -126,7 +125,6 @@
   }
 }
 
-
 // Offset the popover to account for the popover arrow
 .popover-title {
   padding: $popover-title-padding-y $popover-title-padding-x;
@@ -146,7 +144,6 @@
   padding: $popover-content-padding-y $popover-content-padding-x;
 }
 
-
 // Arrows
 //
 // .popover-arrow is outer, .popover-arrow::after is inner
@@ -162,10 +159,10 @@
 }
 
 .popover::before {
-  content: "";
+  content: '';
   border-width: $popover-arrow-outer-width;
 }
 .popover::after {
-  content: "";
+  content: '';
   border-width: $popover-arrow-width;
 }

@@ -2,19 +2,19 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { AppState, BlackList, UserState, WhiteList } from '../../../store/datatypes';
 import { BlackListAdd, WhiteListAdd } from '../../../store/actions';
 import { NotificationService } from '../../../store/services/notification.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
   selector: 'app-save-list-contact',
   templateUrl: './save-list-contact.component.html',
-  styleUrls: ['./save-list-contact.component.scss']
+  styleUrls: ['./save-list-contact.component.scss'],
 })
 export class SaveListContactComponent implements OnInit, OnDestroy {
-
   @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
 
   @Input() public contact: WhiteList | BlackList = { email: '', name: '' };
@@ -24,21 +24,24 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
   @ViewChild('modalContent') modalContent: any;
 
   public contactForm: FormGroup;
+
   public showFormErrors: boolean;
+
   private modalRef: NgbModalRef;
 
   public inProgress: boolean;
 
-  constructor(private modalService: NgbModal,
-              private store: Store<AppState>,
-              private notificationService: NotificationService,
-              private formBuilder: FormBuilder) {
-  }
+  constructor(
+    private modalService: NgbModal,
+    private store: Store<AppState>,
+    private notificationService: NotificationService,
+    private formBuilder: FormBuilder,
+  ) {}
 
   ngOnInit() {
     this.contactForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      email: ['', [Validators.email]]
+      email: ['', [Validators.email]],
     });
     setTimeout(() => {
       this.openModal();
@@ -47,38 +50,49 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
     this.handleUserState();
   }
 
+  /**
+   * Display notification about saving contacts
+   */
   private handleUserState(): void {
-    this.store.select((state) => state.user)
-      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
-      if (this.inProgress && !state.inProgress) {
-        this.inProgress = false;
-        if (!state.isError) {
-          this.notificationService
-            .showSnackBar(`${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`);
-          this.closed.emit();
-          this.modalRef.close();
-        } else {
-          this.notificationService
-            .showSnackBar(`Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.
-                          ${state.error}`);
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
+      .subscribe((state: UserState) => {
+        if (this.inProgress && !state.inProgress) {
+          this.inProgress = false;
+          if (!state.isError) {
+            this.notificationService.showSnackBar(
+              `${this.contactType} contact ${this.contact.id ? 'updated' : 'saved'} successfully.`,
+            );
+            this.closed.emit();
+            this.modalRef.close();
+          } else {
+            this.notificationService.showSnackBar(
+              `Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.${state.error}`,
+            );
+          }
         }
-
-      }
-    });
+      });
   }
 
   openModal() {
     this.modalRef = this.modalService.open(this.modalContent, {
       centered: true,
-      windowClass: 'modal-sm'
+      windowClass: 'modal-sm',
     });
-    this.modalRef.result.then((result) => {
-      this.closed.emit();
-    }, (reason) => {
-      this.closed.emit();
-    });
+    this.modalRef.result.then(
+      result => {
+        this.closed.emit();
+      },
+      error => {
+        this.closed.emit();
+      },
+    );
   }
 
+  /**
+   * Save to whitelist or blacklist according to contactType
+   */
   public addContact() {
     this.showFormErrors = true;
     if (this.contactForm.valid) {
@@ -91,7 +105,5 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-  }
-
+  ngOnDestroy(): void {}
 }

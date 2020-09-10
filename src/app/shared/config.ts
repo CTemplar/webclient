@@ -1,11 +1,11 @@
-// Angular
+import * as QuillNamespace from 'quill';
+import ImageResize from 'quill-image-resize-module';
+
 import { AppConfig } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
 export const apiUrl = getBaseUrl();
-export const PRIMARY_DOMAIN = AppConfig.production
-  ? 'ctemplar.com'
-  : 'dev.ctemplar.net';
+export const PRIMARY_DOMAIN = AppConfig.production ? 'ctemplar.com' : 'dev.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
 
 export const COLORS: string[] = [
@@ -64,7 +64,7 @@ export const COLORS: string[] = [
   '#e955ff',
   '#de76ff',
   '#f2c9ff',
-  '#fcefff'
+  '#fcefff',
 ];
 
 export const FOLDER_COLORS: string[] = [
@@ -103,7 +103,7 @@ export const FOLDER_COLORS: string[] = [
   '#5c940d',
   '#f39c12',
   '#fd7e14',
-  '#e74c3c'
+  '#e74c3c',
 ];
 
 export const LANGUAGES: Language[] = [
@@ -113,7 +113,7 @@ export const LANGUAGES: Language[] = [
   { name: 'Chinese', locale: 'zh' },
   { name: 'French', locale: 'fr' },
   { name: 'Ukrainian', locale: 'uk' },
-  { name: 'Portuguese', locale: 'pt' }
+  { name: 'Portuguese', locale: 'pt' },
 ];
 
 export interface Language {
@@ -122,8 +122,9 @@ export interface Language {
 }
 
 export const ESCAPE_KEYCODE = 27;
+export const MAX_FOLDERS_COUNT = 5;
 
-export const VALID_EMAIL_REGEX: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+export const VALID_EMAIL_REGEX: any = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 export const AUTOSAVE_DURATION = ['none', '5000', '10000', '20000', '30000'];
@@ -133,12 +134,9 @@ export const PROMO_CODE_KEY = 'promo_code';
 export const REFFERAL_ID_KEY = 'cjevent';
 export const JWT_AUTH_COOKIE = 'jwt_auth_cookie';
 
-export const SummarySeparator =
-  '';
-
-import * as QuillNamespace from 'quill';
+export const SummarySeparator = '';
 const Quill: any = QuillNamespace;
-import ImageResize from 'quill-image-resize-module';
+
 Quill.register('modules/imageResize', ImageResize);
 
 export const QUILL_FORMATTING_MODULES = {
@@ -152,27 +150,27 @@ export const QUILL_FORMATTING_MODULES = {
     [{ color: COLORS }, { background: COLORS }], // dropdown with defaults from theme
     [{ align: [] }],
     ['clean'], // remove formatting button
-    ['link', 'image'] // link /not-allowed-in-simple-version(and image, video)
+    ['link', 'image'], // link /not-allowed-in-simple-version(and image, video)
   ],
-  imageResize: true
+  imageResize: true,
 };
 
 function getBaseUrl() {
   if (AppConfig.production) {
     const config = getWindowConfig();
-    return config.host ===
-      'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion' ?
-      'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/' :
-      'https://api.ctemplar.com/';
-  } else if (AppConfig.local) {
+    return config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion'
+      ? 'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/'
+      : 'https://api.ctemplar.com/';
+  }
+  if (AppConfig.local) {
     return 'http://127.0.0.1:8000/';
   }
   return 'https://devapi.ctemplar.net/';
 }
 
 export function getWindowConfig(): { host: string; protocol: string } {
-  let protocol = window.location.protocol;
-  let host = location.host;
+  let { protocol } = window.location;
+  let { host } = location;
   if (IS_ELECTRON || location.hostname === 'localhost') {
     protocol = 'https:';
     host = AppConfig.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';

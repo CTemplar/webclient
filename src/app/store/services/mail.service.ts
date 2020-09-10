@@ -1,25 +1,24 @@
-// Angular
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-// Helpers
-import { apiUrl } from '../../shared/config';
-// Models
-import { Attachment, Folder, Mail, Mailbox } from '../models';
-// Rxjs
 import { Observable, of } from 'rxjs';
-import { MailFolderType } from '../models/mail.model';
 import { map } from 'rxjs/operators';
+
+import { apiUrl } from '../../shared/config';
+import { Attachment, Folder, Mail, Mailbox } from '../models';
+import { MailFolderType } from '../models/mail.model';
 
 @Injectable()
 export class MailService {
-
   constructor(private http: HttpClient) {}
 
-  getMessages(
-    payload: {
-      limit: number, offset: number, folder: MailFolderType,
-      read: null, seconds?: number, searchText?: string
-    }): Observable<any> {
+  getMessages(payload: {
+    limit: number;
+    offset: number;
+    folder: MailFolderType;
+    read: null;
+    seconds?: number;
+    searchText?: string;
+  }): Observable<any> {
     payload.limit = payload.limit ? payload.limit : 20;
     if (payload.searchText && payload.folder === MailFolderType.SEARCH) {
       return this.searchMessages(payload);
@@ -47,11 +46,13 @@ export class MailService {
     return this.http.get<Mail[]>(url);
   }
 
-  getMessage(payload: { messageId: number, folder: string }): Observable<Mail> {
+  getMessage(payload: { messageId: number; folder: string }): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
-    return this.http.get<Mail>(url).pipe(map(data => {
-      return data['results'] ? data['results'][0] : null;
-    }));
+    return this.http.get<Mail>(url).pipe(
+      map(data => {
+        return data['results'] ? data['results'][0] : null;
+      }),
+    );
   }
 
   getUnreadMailsCount(): Observable<any> {
@@ -62,15 +63,17 @@ export class MailService {
     return this.http.get<Mail>(`${apiUrl}emails/customfolder-message-count/`);
   }
 
-  getMailboxes(limit: number = 50, offset: number = 0): Observable<any> {
+  getMailboxes(limit = 50, offset = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
-    return this.http.get<any>(url).pipe(map(data => {
-      const newData = data['results'].map(mailbox => {
-        mailbox.customFolders = mailbox.custom_folders;
-        return mailbox;
-      });
-      return newData;
-    }));
+    return this.http.get<any>(url).pipe(
+      map(data => {
+        const newData = data.results.map(mailbox => {
+          mailbox.customFolders = mailbox.custom_folders;
+          return mailbox;
+        });
+        return newData;
+      }),
+    );
   }
 
   getUsersPublicKeys(emails: Array<string>): Observable<any> {
@@ -102,7 +105,7 @@ export class MailService {
   createMail(data: any): Observable<any[]> {
     let url = `${apiUrl}emails/messages/`;
     if (data.id) {
-      url = url + data.id + '/';
+      url = `${url + data.id}/`;
       return this.http.patch<any>(url, data);
     }
     return this.http.post<any>(url, data);
@@ -116,28 +119,39 @@ export class MailService {
   markAsRead(ids: string, isMailRead: boolean, folder: string): Observable<any[]> {
     if (ids === 'all') {
       return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${folder}`, { read: isMailRead });
-    } else {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { read: isMailRead });
     }
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { read: isMailRead });
   }
 
   markAsStarred(ids: string, isMailStarred: boolean, folder: string): Observable<any[]> {
     if (ids === 'all') {
       return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${folder}`, { starred: isMailStarred });
-    } else {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred });
     }
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred });
   }
 
-  moveMail(ids: string, folder: string, sourceFolder: string, withChildren: boolean = true, fromTrash: boolean = false): Observable<any[]> {
+  moveMail(
+    ids: string,
+    folder: string,
+    sourceFolder: string,
+    withChildren = true,
+    fromTrash = false,
+  ): Observable<any[]> {
     if (ids === 'all') {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
-    } else {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
+      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, {
+        folder,
+        with_children: withChildren,
+        from_trash: fromTrash,
+      });
     }
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, {
+      folder,
+      with_children: withChildren,
+      from_trash: fromTrash,
+    });
   }
 
-  deleteMails(ids: string, parent_only: boolean = false): Observable<any[]> {
+  deleteMails(ids: string, parent_only = false): Observable<any[]> {
     return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}&parent_only=${parent_only ? 1 : 0}`);
   }
 
@@ -160,11 +174,11 @@ export class MailService {
     let request;
     if (data.id) {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${data.id}/`, formData, {
-        reportProgress: true
+        reportProgress: true,
       });
     } else {
       request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
-        reportProgress: true
+        reportProgress: true,
       });
     }
 
@@ -205,7 +219,6 @@ export class MailService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 

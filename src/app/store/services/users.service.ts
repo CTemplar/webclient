@@ -1,35 +1,40 @@
-// Angular
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-// Helpers
-import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY, JWT_AUTH_COOKIE } from '../../shared/config';
-// Models
-// Rxjs
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState, AutoResponder, Contact, Settings } from '../datatypes';
-import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
+
+import { LogInSuccess } from '../actions';
+import {
+  apiUrl,
+  PRIMARY_DOMAIN,
+  PROMO_CODE_KEY,
+  REFFERAL_CODE_KEY,
+  REFFERAL_ID_KEY,
+  JWT_AUTH_COOKIE,
+} from '../../shared/config';
+import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
 @Injectable()
 export class UsersService {
   private userKey: string;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private store: Store<AppState>,
-  ) {
-    if (this.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE) && this.getUserKey() && !this.isTokenExpired()) {
-      this.store.dispatch(new LogInSuccess({}));
-    }
+  constructor(private http: HttpClient, private router: Router, private store: Store<AppState>) {
+    this.store
+      .select(state => state.auth)
+      .pipe(distinctUntilChanged((previous, current) => previous.isAuthenticated === current.isAuthenticated))
+      .subscribe((authState: AuthState) => {
+        if (authState.isAuthenticated && this.getUserKey()) {
+          this.store.dispatch(new LogInSuccess({}));
+        }
+      });
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + (1000 * 60 * 60 * 3);  // set 3 hours expiration token time.
+    const expiration = new Date().getTime() + 1000 * 60 * 60 * 3; // set 3 hours expiration token time.
     localStorage.setItem('token_expiration', expiration.toString());
   }
 
@@ -40,11 +45,10 @@ export class UsersService {
       return this.http.post<any>(url, body).pipe(
         tap(data => {
           this.setTokenExpiration();
-        })
+        }),
       );
-    } else {
-      return of({});
     }
+    return of({});
   }
 
   isTokenExpired() {
@@ -61,7 +65,7 @@ export class UsersService {
         if (data.token) {
           this.setLoginData(data, body);
         }
-      })
+      }),
     );
   }
 
@@ -80,13 +84,12 @@ export class UsersService {
   }
 
   private createSalt(salt, username) {
-    username = username.replace(/[^a-zA-Z ]/g, '');
-    username = username ? username : 'test';
+    username = username.replace(/[^ A-Za-z]/g, '');
+    username = username || 'test';
     if (salt.length < 29) {
       return this.createSalt(salt + username, username);
-    } else {
-      return salt.substr(0, 29);
     }
+    return salt.slice(0, 29);
   }
 
   private setLoginData(tokenResponse: any, requestData) {
@@ -112,7 +115,8 @@ export class UsersService {
   }
 
   onBeforeLoader(e) {
-    const confirmationMessage = 'If you close the window now all the progress will be lost and your account won\'t be created.';
+    const confirmationMessage =
+      "If you close the window now all the progress will be lost and your account won't be created.";
     (e || window.event).returnValue = confirmationMessage; // Gecko + IE
     return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
   }
@@ -127,7 +131,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, this.updateSignupDataWithPromo(requestData)).pipe(
       tap(data => {
         this.setLoginData(data, user);
-      })
+      }),
     );
   }
 
@@ -141,7 +145,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
       tap(res => {
         this.setLoginData(res, data);
-      })
+      }),
     );
   }
 
@@ -150,11 +154,11 @@ export class UsersService {
     requestData.old_password = this.hashData(requestData, 'old_password');
     requestData.password = this.hashData(requestData, 'password');
     requestData.confirm_password = this.hashData(requestData, 'confirm_password');
-    delete requestData['username'];
+    delete requestData.username;
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
       tap(response => {
         this.setLoginData(response, data);
-      })
+      }),
     );
   }
 
@@ -214,19 +218,18 @@ export class UsersService {
       'btc-wallet/create/',
       'promo-code/validate',
       'users/invites/',
-      'notifications'
+      'notifications',
     ];
-    if (authenticatedUrls.indexOf(url) > -1) {
+    if (authenticatedUrls.includes(url)) {
       return true;
-    } else {
-      let authenticated = false;
-      authenticatedUrls.forEach(item => {
-        if (url.indexOf(item) > -1) {
-          authenticated = true;
-        }
-      });
-      return authenticated;
     }
+    let authenticated = false;
+    authenticatedUrls.forEach(item => {
+      if (url.includes(item)) {
+        authenticated = true;
+      }
+    });
+    return authenticated;
   }
 
   getAccounts(id) {
@@ -234,7 +237,7 @@ export class UsersService {
   }
 
   getAccountDetails() {
-    return this.http.get<any>(`${apiUrl}users/myself/`).pipe(map(data => data['results']));
+    return this.http.get<any>(`${apiUrl}users/myself/`).pipe(map(data => data.results));
   }
 
   getWhiteList(limit = 0, offset = 0) {
@@ -245,7 +248,7 @@ export class UsersService {
 
   addWhiteList(email, name) {
     const url = `${apiUrl}users/whitelist/`;
-    const body = { email: email, name: name };
+    const body = { email, name };
     return this.http.post<any>(url, body);
   }
 
@@ -267,7 +270,7 @@ export class UsersService {
 
   addBlackList(email, name) {
     const url = `${apiUrl}users/blacklist/`;
-    const body = { email: email, name: name };
+    const body = { email, name };
     return this.http.post<any>(url, body);
   }
 
@@ -302,8 +305,7 @@ export class UsersService {
   }
 
   getInviteCodes() {
-    return this.http.get<any>(`${apiUrl}users/invites/`)
-      .pipe(map(response => response.results));
+    return this.http.get<any>(`${apiUrl}users/invites/`).pipe(map(response => response.results));
   }
 
   generateInviteCodes() {
@@ -321,9 +323,8 @@ export class UsersService {
   deleteContact(ids) {
     if (ids === 'all') {
       return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
-    } else {
-      return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
     }
+    return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
   }
 
   notifyContact(payload: any) {
@@ -350,7 +351,10 @@ export class UsersService {
   }
 
   updateOrganizationUser(data: any): Observable<any> {
-    return this.http.post<any>(`${apiUrl}auth/update-user/`, { user_id: data.user_id, recovery_email: data.recovery_email });
+    return this.http.post<any>(`${apiUrl}auth/update-user/`, {
+      user_id: data.user_id,
+      recovery_email: data.recovery_email,
+    });
   }
 
   deleteOrganizationUser(data: any): Observable<any> {
@@ -369,7 +373,9 @@ export class UsersService {
   private updateSignupDataWithPromo(data: any = {}) {
     // Get cookie for cjevent
     const referralId = document.cookie.split('; ').find(row => row.startsWith(REFFERAL_ID_KEY));
-    if (referralId) { data[REFFERAL_ID_KEY] = referralId.split('=')[1]; }
+    if (referralId) {
+      data[REFFERAL_ID_KEY] = referralId.split('=')[1];
+    }
     return data;
   }
 
@@ -393,7 +399,7 @@ export class UsersService {
   deleteAccount(data: any) {
     const requestData = { ...data };
     requestData.password = this.hashData(requestData);
-    delete requestData['username'];
+    delete requestData.username;
     return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
   }
 
@@ -449,11 +455,9 @@ export class UsersService {
     return this.http.get<any>(`${apiUrl}auth/captcha/`);
   }
 
-
   get2FASecret(): Observable<any> {
     return this.http.get<any>(`${apiUrl}auth/otp-secret/`);
   }
-
 
   update2FA(data: any): Observable<any> {
     data.password = this.hashData(data);
@@ -498,14 +502,13 @@ export class UsersService {
   // This part is almost trick, but would work perfectly, needs to update later
   doesHttpOnlyCookieExist(cookiename) {
     const d = new Date();
-    d.setTime(d.getTime() + (1000));
-    const expires = 'expires=' + d.toUTCString();
+    d.setTime(d.getTime() + 1000);
+    const expires = `expires=${d.toUTCString()}`;
 
-    document.cookie = cookiename + '=new_value;path=/;' + expires;
-    if (document.cookie.indexOf(cookiename + '=') == -1) {
+    document.cookie = `${cookiename}=new_value;path=/;${expires}`;
+    if (!document.cookie.includes(`${cookiename}=`)) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 }
