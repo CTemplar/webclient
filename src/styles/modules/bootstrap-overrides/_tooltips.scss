@@ -4,61 +4,61 @@
 
 // == Tooltips
 .tooltip {
-    font-size: 0.625rem;
-    white-space: nowrap;
-    
-    &-inner {
-        border-radius: 2px;
-		max-width: none;
-    }
+  font-size: 0.625rem;
+  white-space: nowrap;
 
-    @include media("<=sm") {
-    	display: none !important;
-    }
+  &-inner {
+    border-radius: 2px;
+    max-width: none;
+  }
+
+  @include media('<=sm') {
+    display: none !important;
+  }
 }
 
-.tooltip>.arrow {
-	position: absolute;
-	display: block;
-	width: .8rem;
-	height: .4rem;
+.tooltip > .arrow {
+  position: absolute;
+  display: block;
+  width: 0.8rem;
+  height: 0.4rem;
 
-	&::before {
-		position: absolute;
-		content: "";
-		border-color: transparent;
-		border-style: solid;
-	}
+  &::before {
+    position: absolute;
+    content: '';
+    border-color: transparent;
+    border-style: solid;
+  }
 }
 
 .bs-tooltip-top {
-	padding: 0.25rem 0;
-	left: calc(50% - 0.4rem);
+  padding: 0.25rem 0;
+  left: calc(50% - 0.4rem);
 
-	.arrow {
-		bottom: 0;
+  .arrow {
+    bottom: 0;
 
-		&::before {
-			top: 0;
-			border-width: .4rem .4rem 0;
-			border-top-color: #000;
-		}
-	}
+    &::before {
+      top: 0;
+      border-width: 0.4rem 0.4rem 0;
+      border-top-color: #000;
+    }
+  }
 }
 
-.bs-tooltip-auto[x-placement^=bottom],
+.bs-tooltip-auto[x-placement^='bottom'],
 .bs-tooltip-bottom {
-	padding: 0.25rem 0;
+  padding: 0.25rem 0;
 }
 
-.bs-tooltip-auto[x-placement^=bottom] .arrow,
+.bs-tooltip-auto[x-placement^='bottom'] .arrow,
 .bs-tooltip-bottom .arrow {
-	top: 0;
+  top: 0;
 }
 
-.bs-tooltip-auto[x-placement^=bottom] .arrow:before,
+.bs-tooltip-auto[x-placement^='bottom'] .arrow:before,
 .bs-tooltip-bottom .arrow:before {
-	bottom: 0;
-	border-width: 0 .4rem .4rem;
-	border-bottom-color: #000000;
+  bottom: 0;
+  border-width: 0 0.4rem 0.4rem;
+  border-bottom-color: #000000;
 }

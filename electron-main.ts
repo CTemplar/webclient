@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as path from 'path';
 import * as url from 'url';
@@ -10,29 +10,38 @@ function createWindow() {
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
   mainWindow = new BrowserWindow({
-    width: size.width, height: size.height,
+    width: size.width,
+    height: size.height,
     webPreferences: {
-      allowRunningInsecureContent: true,
-    },
+      allowRunningInsecureContent: true
+    }
   });
 
   mainWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, `dist/index.html`),
       protocol: 'file:',
-      slashes: true,
+      slashes: true
     })
   );
 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  // open external links with web browser
+  mainWindow.webContents.on('will-navigate', (e, reqUrl) => {
+    const getHost = host => require('url').parse(host).host;
+    const reqHost = getHost(reqUrl);
+    const isExternal = reqHost && reqHost !== getHost(mainWindow.webContents.getURL());
+    if (isExternal) {
+      e.preventDefault();
+      shell.openExternal(this.href);
+    }
+  });
 }
 
-// Open dev tool for testing
-// mainWindow.webContents.openDevTools();
 try {
-
   app.allowRendererProcessReuse = true;
 
   // This method will be called when Electron has finished
@@ -60,7 +69,6 @@ try {
       createWindow();
     }
   });
-
 } catch (e) {
   // Catch Error
   // throw e;

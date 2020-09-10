@@ -11,7 +11,7 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
 @Component({
   selector: 'app-pricing-plans',
   templateUrl: './pricing-plans.component.html',
-  styleUrls: ['./pricing-plans.component.scss']
+  styleUrls: ['./pricing-plans.component.scss'],
 })
 export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly planType = PlanType;
@@ -29,7 +29,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
 
   private billingInfoModalRef: NgbModalRef;
 
-  selectedIndex: number = -1; // Assuming no element are selected initially
+  selectedIndex = -1; // Assuming no element are selected initially
   selectedPlan: PlanType;
   availableStorage = [];
   availableEmailAddress = [];
@@ -39,12 +39,13 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   paymentTypeEnum = PaymentType;
   selectedPaymentType: PaymentType = PaymentType.ANNUALLY;
 
-  constructor(private sharedService: SharedService,
-              private store: Store<any>,
-              private router: Router,
-              private dynamicScriptLoader: DynamicScriptLoaderService,
-              private modalService: NgbModal) {
-  }
+  constructor(
+    private sharedService: SharedService,
+    private store: Store<any>,
+    private router: Router,
+    private dynamicScriptLoader: DynamicScriptLoaderService,
+    private modalService: NgbModal,
+  ) {}
 
   ngOnInit() {
     this.sharedService.hideFooter.emit(true);
@@ -71,9 +72,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   toggleSlides(index) {
     this.selectedIndex = index;
     document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document
-      .querySelector('.package-prime-col')
-      .classList.remove('active-slide');
+    document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
 
   setPricingPlans() {
@@ -91,12 +90,14 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.selectedPlan = plan;
     this.store.dispatch(new ClearSignUpState());
     this.store.dispatch(new ClearAuthErrorMessage());
-    this.store.dispatch(new UpdateSignupData({
-      plan_type: this.selectedPlan,
-      payment_type: this.paymentType,
-      payment_method: this.paymentMethod,
-      currency: this.selectedCurrency
-    }));
+    this.store.dispatch(
+      new UpdateSignupData({
+        plan_type: this.selectedPlan,
+        payment_type: this.paymentType,
+        payment_method: this.paymentMethod,
+        currency: this.selectedCurrency,
+      }),
+    );
     if (this.openBillingInfoInModal) {
       this.billingInfoModalRef = this.modalService.open(this.billingInfoModal, {
         centered: true,
@@ -113,12 +114,12 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   togglePaymentType() {
-    this.selectedPaymentType = this.selectedPaymentType === PaymentType.MONTHLY ? PaymentType.ANNUALLY : PaymentType.MONTHLY;
+    this.selectedPaymentType =
+      this.selectedPaymentType === PaymentType.MONTHLY ? PaymentType.ANNUALLY : PaymentType.MONTHLY;
     this.paymentType = this.selectedPaymentType;
   }
 
   ngOnDestroy() {
     this.sharedService.hideFooter.emit(false);
   }
-
 }

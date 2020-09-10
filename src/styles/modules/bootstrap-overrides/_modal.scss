@@ -3,89 +3,88 @@
 */
 
 .close {
-    transition: all ceaser($easeInOutQuint) 0.35s;
+  transition: all ceaser($easeInOutQuint) 0.35s;
 }
 
 .modal-sm .close {
-    margin-left: 0.25rem;
-    font-size: 1.75rem;
+  margin-left: 0.25rem;
+  font-size: 1.75rem;
 }
 
 .modal,
 .modal-lg {
-    border-radius: 2px;    
-    // text-align: center;
+  border-radius: 2px;
+  // text-align: center;
 
-    .modal-dialog {
-        margin-right: auto;
-        margin-left: auto;
-        width: calc(100% - 30px);
-    }
+  .modal-dialog {
+    margin-right: auto;
+    margin-left: auto;
+    width: calc(100% - 30px);
+  }
 }
 
 .modal-header {
-    padding: 0.75rem 0.938rem;
-    background: $brand-white;
-    border-radius: 2px;
-    line-height: 1;
+  padding: 0.75rem 0.938rem;
+  background: $brand-white;
+  border-radius: 2px;
+  line-height: 1;
 
-    @include media(">sm") {
-        padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+  @include media('>sm') {
+    padding: 0.75rem 1.25rem 0.75rem 1.5rem;
+  }
+
+  .modal-lg &,
+  .modal-md & {
+    @include media('>sm') {
+      padding: 1.532rem 1.75rem;
+      max-height: 5rem;
     }
 
-    .modal-lg &,
-    .modal-md & {
-
-        @include media(">sm") {
-            padding: 1.532rem 1.75rem;
-            max-height: 5rem;
-        }
-
-        @include media("<=sm") {
-            .modal-title {
-                font-size: 1rem;
-            }
-        }
+    @include media('<=sm') {
+      .modal-title {
+        font-size: 1rem;
+      }
     }
+  }
 }
 
 .modal-title {
-    font-size: 1rem;
-    line-height: 1;
+  font-size: 1rem;
+  line-height: 1;
 
-    .modal-sm & {
-        @include media(">=ipad") {
-            font-size: 0.875rem;
-        }
+  .modal-sm & {
+    @include media('>=ipad') {
+      font-size: 0.875rem;
     }
+  }
 }
 
 .modal-body {
-    padding: 1.125rem 0.938rem;
-    border-bottom-left-radius: $border-radius-lg;
-    border-bottom-right-radius: $border-radius-lg;
+  padding: 1.125rem 0.938rem;
+  border-bottom-left-radius: $border-radius-lg;
+  border-bottom-right-radius: $border-radius-lg;
 
-    @include media(">sm") {
-        padding: 1.563rem 1.5rem 1.563rem 1.5rem;
-    }
+  @include media('>sm') {
+    padding: 1.563rem 1.5rem 1.563rem 1.5rem;
+  }
 }
 
 .modal-footer {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-    background: #f5f5f5;
-    border-radius: 2px;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  background: #f5f5f5;
+  border-radius: 2px;
 }
 
 .modal-type-default,
 .modal-md {
-    .modal-body {
-        padding: 1.125rem 0.938rem 1.5rem 0.938rem;
+  .modal-body {
+    padding: 1.125rem 0.938rem 1.5rem 0.938rem;
 
-        @include media(">sm") {
-            padding: 1.875rem 1.563rem 3.125rem 1.563rem;
-        }
+    @include media('>sm') {
+      padding: 1.875rem 1.563rem 3.125rem 1.563rem;
     }
+  }
 }
 
 // .modal::before {
@@ -104,80 +103,80 @@
 
 // == Mailbox modal
 .mailbox-modal {
-    .modal-dialog {
-        max-width: 480px;
-        // width: 100%;
-    }
+  .modal-dialog {
+    max-width: 480px;
+    // width: 100%;
+  }
 }
 
 .modal-lg .modal-dialog {
-    max-width: 650px;
+  max-width: 650px;
 
-    @include media(">sm") {
-        .modal-body {
-            padding: 1.25rem 2.5rem 1.875rem;
-        }
+  @include media('>sm') {
+    .modal-body {
+      padding: 1.25rem 2.5rem 1.875rem;
     }
+  }
 
-    @include media(">=ipad") {
-        .modal-body {
-            padding: 1.25rem 4.375rem 1.875rem;
-        }
+  @include media('>=ipad') {
+    .modal-body {
+      padding: 1.25rem 4.375rem 1.875rem;
     }
+  }
 }
 
 .modal-sm .modal-dialog {
-    max-width: 550px;
+  max-width: 550px;
 
-    @include media("<=sm") {
-        .modal-body {
-            padding: 1.25rem 0.938rem;
-        }
+  @include media('<=sm') {
+    .modal-body {
+      padding: 1.25rem 0.938rem;
     }
+  }
 }
 
 .modal-md .modal-dialog {
-    max-width: 555px;
+  max-width: 555px;
 
-    @include media("<=sm") {
-        .modal-body {
-            padding: 1.25rem 0.938rem;
-        }
+  @include media('<=sm') {
+    .modal-body {
+      padding: 1.25rem 0.938rem;
     }
+  }
 }
 
 .modal-sm .modal-dialog {
-    .btn {
-        font-size: 0.75rem;
-        @include media("<=sm") {
-            min-width: inherit;
-            padding: 0.5633rem 0.5rem;
-        }
+  .btn {
+    font-size: 0.75rem;
+    @include media('<=sm') {
+      min-width: inherit;
+      padding: 0.5633rem 0.5rem;
     }
+  }
 }
 
 // == Billing information form
 .modal .form-card-holder {
-    max-width: inherit;
+  max-width: inherit;
 
-    .form-step-card-title {
-        font-size: 1rem;
-    }
+  .form-step-card-title {
+    font-size: 1rem;
+  }
 }
 
 // == Vertically centered
 .modal-dialog-centered {
-    display: flex;
-    align-items: center;
-    pointer-events: none;
-    min-height: calc(100% - 1.85rem);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  min-height: calc(100% - 1.85rem);
 
-    @include media(">sm") {
-        min-height: calc(100% - 3.75rem);
-    }
+  @include media('>sm') {
+    min-height: calc(100% - 3.75rem);
+  }
 
-    .modal-content {
-        pointer-events: auto;
-        width: 100%;
-    }
+  .modal-content {
+    pointer-events: auto;
+    width: 100%;
+  }
 }

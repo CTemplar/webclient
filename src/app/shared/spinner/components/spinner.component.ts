@@ -4,7 +4,7 @@ import { SpinnerService } from '../services/spinner.service';
 @Component({
   selector: 'app-spinner',
   templateUrl: './spinner.component.html',
-  styleUrls: ['./spinner.component.scss']
+  styleUrls: ['./spinner.component.scss'],
 })
 export class SpinnerComponent implements OnInit, OnDestroy {
   private isShowing = false;
@@ -24,11 +24,12 @@ export class SpinnerComponent implements OnInit, OnDestroy {
     this.showChange.emit(this.isShowing);
   }
 
-  constructor(private spinnerService: SpinnerService) {
-  }
+  constructor(private spinnerService: SpinnerService) {}
 
   ngOnInit() {
-    if (!this.name) { throw new Error('Name attribute must be supplied for this spinner'); }
+    if (!this.name) {
+      throw new Error('Name attribute must be supplied for this spinner');
+    }
 
     this.spinnerService.register(this);
   }

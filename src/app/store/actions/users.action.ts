@@ -102,239 +102,205 @@ export enum UsersActionTypes {
 export class GetNotification implements Action {
   readonly type = UsersActionTypes.GET_NOTIFICATION;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetNotificationSuccess implements Action {
   readonly type = UsersActionTypes.GET_NOTIFICATION_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class Accounts implements Action {
   readonly type = UsersActionTypes.ACCOUNTS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class AccountsReadSuccess implements Action {
   readonly type = UsersActionTypes.ACCOUNTS_READ_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CardGet implements Action {
   readonly type = UsersActionTypes.CARD_GET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class CardReadSuccess implements Action {
   readonly type = UsersActionTypes.CARD_READ_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CardAdd implements Action {
   readonly type = UsersActionTypes.CARD_ADD;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CardAddSuccess implements Action {
   readonly type = UsersActionTypes.CARD_ADD_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CardAddError implements Action {
   readonly type = UsersActionTypes.CARD_ADD_ERROR;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class CardDelete implements Action {
   readonly type = UsersActionTypes.CARD_DELETE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CardDeleteSuccess implements Action {
   readonly type = UsersActionTypes.CARD_DELETE_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CardMakePrimary implements Action {
   readonly type = UsersActionTypes.CARD_MAKE_PRIMARY;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CardMakePrimarySuccess implements Action {
   readonly type = UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class WhiteListGet implements Action {
   readonly type = UsersActionTypes.WHITELIST_GET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class WhiteListsReadSuccess implements Action {
   readonly type = UsersActionTypes.WHITELIST_READ_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class WhiteListAdd implements Action {
   readonly type = UsersActionTypes.WHITELIST_ADD;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class WhiteListAddSuccess implements Action {
   readonly type = UsersActionTypes.WHITELIST_ADD_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class WhiteListAddError implements Action {
   readonly type = UsersActionTypes.WHITELIST_ADD_ERROR;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class WhiteListDelete implements Action {
   readonly type = UsersActionTypes.WHITELIST_DELETE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class WhiteListDeleteSuccess implements Action {
   readonly type = UsersActionTypes.WHITELIST_DELETE_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class BlackListGet implements Action {
   readonly type = UsersActionTypes.BLACKLIST_GET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class BlackListsReadSuccess implements Action {
   readonly type = UsersActionTypes.BLACKLIST_READ_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class BlackListAdd implements Action {
   readonly type = UsersActionTypes.BLACKLIST_ADD;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class BlackListAddSuccess implements Action {
   readonly type = UsersActionTypes.BLACKLIST_ADD_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class BlackListAddError implements Action {
   readonly type = UsersActionTypes.BLACKLIST_ADD_ERROR;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class BlackListDelete implements Action {
   readonly type = UsersActionTypes.BLACKLIST_DELETE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class BlackListDeleteSuccess implements Action {
   readonly type = UsersActionTypes.BLACKLIST_DELETE_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class AccountDetailsGet implements Action {
   readonly type = UsersActionTypes.ACCOUNT_DETAILS_GET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class AccountDetailsGetSuccess implements Action {
   readonly type = UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SnackPush implements Action {
   readonly type = UsersActionTypes.SNACK_PUSH;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SnackPushSuccess implements Action {
   readonly type = UsersActionTypes.SNACK_PUSH_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SnackErrorPush implements Action {
   readonly type = UsersActionTypes.SNACK_ERROR_PUSH;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SnackErrorPushSuccess implements Action {
   readonly type = UsersActionTypes.SNACK_ERROR_PUSH_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class MembershipUpdate implements Action {
   readonly type = UsersActionTypes.MEMBERSHIP_UPDATE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SettingsUpdate implements Action {
@@ -388,370 +354,317 @@ export class DeleteFolderSuccess implements Action {
 export class GetFilters implements Action {
   readonly type = UsersActionTypes.GET_FILTERS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetFiltersSuccess implements Action {
   readonly type = UsersActionTypes.GET_FILTERS_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CreateFilter implements Action {
   readonly type = UsersActionTypes.CREATE_FILTER;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CreateFilterSuccess implements Action {
   readonly type = UsersActionTypes.CREATE_FILTER_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CreateFilterFailure implements Action {
   readonly type = UsersActionTypes.CREATE_FILTER_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateFilter implements Action {
   readonly type = UsersActionTypes.UPDATE_FILTER;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateFilterSuccess implements Action {
   readonly type = UsersActionTypes.UPDATE_FILTER_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateFilterFailure implements Action {
   readonly type = UsersActionTypes.UPDATE_FILTER_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteFilter implements Action {
   readonly type = UsersActionTypes.DELETE_FILTER;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteFilterSuccess implements Action {
   readonly type = UsersActionTypes.DELETE_FILTER_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteFilterFailure implements Action {
   readonly type = UsersActionTypes.DELETE_FILTER_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class GetDomains implements Action {
   readonly type = UsersActionTypes.GET_DOMAINS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetDomainsSuccess implements Action {
   readonly type = UsersActionTypes.GET_DOMAINS_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class CreateDomain implements Action {
   readonly type = UsersActionTypes.CREATE_DOMAIN;
 
-  constructor(public payload: string) {
-  }
+  constructor(public payload: string) {}
 }
 
 export class CreateDomainSuccess implements Action {
   readonly type = UsersActionTypes.CREATE_DOMAIN_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class CreateDomainFailure implements Action {
   readonly type = UsersActionTypes.CREATE_DOMAIN_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateDomain implements Action {
   readonly type = UsersActionTypes.UPDATE_DOMAIN;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateDomainSuccess implements Action {
   readonly type = UsersActionTypes.UPDATE_DOMAIN_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class UpdateDomainFailure implements Action {
   readonly type = UsersActionTypes.UPDATE_DOMAIN_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ReadDomain implements Action {
   readonly type = UsersActionTypes.READ_DOMAIN;
 
-  constructor(public payload: number) {
-  }
+  constructor(public payload: number) {}
 }
 
 export class ReadDomainSuccess implements Action {
   readonly type = UsersActionTypes.READ_DOMAIN_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ReadDomainFailure implements Action {
   readonly type = UsersActionTypes.READ_DOMAIN_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteDomain implements Action {
   readonly type = UsersActionTypes.DELETE_DOMAIN;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class DeleteDomainSuccess implements Action {
   readonly type = UsersActionTypes.DELETE_DOMAIN_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class DeleteDomainFailure implements Action {
   readonly type = UsersActionTypes.DELETE_DOMAIN_FAILURE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class VerifyDomain implements Action {
   readonly type = UsersActionTypes.VERIFY_DOMAIN;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class VerifyDomainSuccess implements Action {
   readonly type = UsersActionTypes.VERIFY_DOMAIN_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class VerifyDomainFailure implements Action {
   readonly type = UsersActionTypes.VERIFY_DOMAIN_FAILURE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class PaymentFailure implements Action {
   readonly type = UsersActionTypes.PAYMENT_FAILURE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SendEmailForwardingCode implements Action {
   readonly type = UsersActionTypes.SEND_EMAIL_FORWARDING_CODE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SendEmailForwardingCodeSuccess implements Action {
   readonly type = UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SendEmailForwardingCodeFailure implements Action {
   readonly type = UsersActionTypes.SEND_EMAIL_FORWARDING_CODE_FAILURE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class VerifyEmailForwardingCode implements Action {
   readonly type = UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class VerifyEmailForwardingCodeSuccess implements Action {
   readonly type = UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class VerifyEmailForwardingCodeFailure implements Action {
   readonly type = UsersActionTypes.VERIFY_EMAIL_FORWARDING_CODE_FAILURE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class UpdateFolderOrder implements Action {
   readonly type = UsersActionTypes.UPDATE_FOLDER_ORDER;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class UpdateFolderOrderSuccess implements Action {
   readonly type = UsersActionTypes.UPDATE_FOLDER_ORDER_SUCCESS;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class SaveAutoResponder implements Action {
   readonly type = UsersActionTypes.SAVE_AUTORESPONDER;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class SaveAutoResponderSuccess implements Action {
   readonly type = UsersActionTypes.SAVE_AUTORESPONDER_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class SaveAutoResponderFailure implements Action {
   readonly type = UsersActionTypes.SAVE_AUTORESPONDER_FAILURE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class GetInvoices implements Action {
   readonly type = UsersActionTypes.GET_INVOICES;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetInvoicesSuccess implements Action {
   readonly type = UsersActionTypes.GET_INVOICES_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class GetUpgradeAmount implements Action {
   readonly type = UsersActionTypes.GET_UPGRADE_AMOUNT;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class GetUpgradeAmountSuccess implements Action {
   readonly type = UsersActionTypes.GET_UPGRADE_AMOUNT_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ValidatePromoCode implements Action {
   readonly type = UsersActionTypes.VALIDATE_PROMO_CODE;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ValidatePromoCodeSuccess implements Action {
   readonly type = UsersActionTypes.VALIDATE_PROMO_CODE_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ClearPromoCode implements Action {
   readonly type = UsersActionTypes.CLEAR_PROMO_CODE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetInviteCodes implements Action {
   readonly type = UsersActionTypes.INVITE_CODE_GET;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GetInviteCodesSuccess implements Action {
   readonly type = UsersActionTypes.INVITE_CODE_GET_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
-
 
 export class GenerateInviteCode implements Action {
   readonly type = UsersActionTypes.INVITE_CODE_GENERATE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export class GenerateInviteCodeSuccess implements Action {
   readonly type = UsersActionTypes.INVITE_CODE_GENERATE_SUCCESS;
 
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class GenerateInviteCodeFailure implements Action {
   readonly type = UsersActionTypes.INVITE_CODE_GENERATE_FAILURE;
 
-  constructor(public payload?: any) {
-  }
+  constructor(public payload?: any) {}
 }
 
 export type UsersActionAll =
-  Accounts
+  | Accounts
   | AccountsReadSuccess
   | CardGet
   | CardReadSuccess

@@ -32,4 +32,3 @@ export const reducers: ActionReducerMap<AppState> = {
   webSocket: webSocket.reducer,
   organization: organization.reducer,
 };
-

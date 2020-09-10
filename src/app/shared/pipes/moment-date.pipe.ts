@@ -3,12 +3,10 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
 import * as moment from 'moment-timezone';
 
 @Pipe({
-  name: 'momentDate'
+  name: 'momentDate',
 })
 export class MomentDatePipe implements PipeTransform {
-
-  constructor(private dateTimeUtilService: DateTimeUtilService) {
-  }
+  constructor(private dateTimeUtilService: DateTimeUtilService) {}
 
   transform(value: string, format: string = 'mediumDate', timezone?: string): string {
     if (value) {
@@ -20,5 +18,4 @@ export class MomentDatePipe implements PipeTransform {
       return '';
     }
   }
-
 }

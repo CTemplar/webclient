@@ -1,7 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  HostListener,
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { AppState, Contact, ContactsState, PlanType, UserState } from '../../store/datatypes';
-import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush } from '../../store';
+import { AppState, Contact, ContactsState, PlanType, UserState, MailBoxesState } from '../../store/datatypes';
+import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush, ContactNotify } from '../../store';
 // Store
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -10,26 +19,28 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
-import { ShortcutInput } from 'ng-keyboard-shortcuts/lib/ng-keyboard-shortcuts.interfaces';
-import { getContactsShortcuts } from '../../store/services';
+
+import { Mailbox } from '../../store/models';
+import { TranslateService } from '@ngx-translate/core';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
   YAHOO = <any>'YAHOO',
   OUTLOOK = <any>'OUTLOOK',
-  OTHER = <any>'OTHER'
+  OTHER = <any>'OTHER',
 }
 
 @UntilDestroy()
 @Component({
   selector: 'app-mail-contact',
   templateUrl: './mail-contact.component.html',
-  styleUrls: ['./mail-contact.component.scss']
+  styleUrls: ['./mail-contact.component.scss'],
 })
 export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('importContactsModal') importContactsModal;
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
   @ViewChild('addUserContent') addUserContent;
+  @ViewChild('notifyContactsModal') notifyContactsModal;
 
   contactsProviderType = ContactsProviderType;
   public userState: UserState;
@@ -41,42 +52,48 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   public selectedContacts: Contact[] = [];
   selectedContactsProvider: ContactsProviderType;
   importContactsError: any;
-  isLayoutSplitted: boolean = false;
-  checkAll: boolean = false;
+  isLayoutSplitted = false;
+  checkAll = false;
   isMenuOpened: boolean;
   isMobile: boolean;
   currentPlan: PlanType;
+  currentMailbox: Mailbox;
+  notifyContactsMail: any = {};
 
-  MAX_EMAIL_PAGE_LIMIT: number = 1;
-  LIMIT: number = 20;
-  OFFSET: number = 0;
-  PAGE: number = 0;
+  // Initial Page Settings
+  MAX_EMAIL_PAGE_LIMIT = 1;
+  LIMIT = 20;
+  OFFSET = 0;
+  PAGE = 0;
 
   private contactsCount: number;
   private confirmModalRef: NgbModalRef;
   private importContactsModalRef: NgbModalRef;
+  private notifyContactsModalRef: NgbModalRef;
   private searchText: string;
-  shortcuts: ShortcutInput[] = [];
 
-  constructor(private store: Store<AppState>,
-              private modalService: NgbModal,
-              private breakpointsService: BreakpointsService,
-              private composeMailService: ComposeMailService,
-              private activatedRoute: ActivatedRoute,
-              config: NgbDropdownConfig,
-              @Inject(DOCUMENT) private document: Document,
-              private cdr: ChangeDetectorRef) {
+  constructor(
+    private store: Store<AppState>,
+    private modalService: NgbModal,
+    private breakpointsService: BreakpointsService,
+    private composeMailService: ComposeMailService,
+    private activatedRoute: ActivatedRoute,
+    private translateService: TranslateService,
+    config: NgbDropdownConfig,
+    @Inject(DOCUMENT) private document: Document,
+    private cdr: ChangeDetectorRef,
+  ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
   }
 
   ngOnInit() {
     this.updateUsersStatus();
-    this.activatedRoute.queryParams.pipe(untilDestroyed(this))
-      .subscribe((params) => {
-        this.searchText = params.search || '';
-        this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
-      });
+    // Get contacts with searchText of current router params
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(params => {
+      this.searchText = params.search || '';
+      this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
+    });
 
     this.isMobile = window.innerWidth <= 768;
   }
@@ -87,32 +104,50 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getContactsShortcuts(this);
     this.cdr.detectChanges();
   }
 
   ngOnDestroy(): void {}
 
   private updateUsersStatus(): void {
-    this.store.select(state => state.user)
-      .pipe(untilDestroyed(this)).subscribe((state: UserState) => {
-      this.userState = state;
-      this.currentPlan = state.settings.plan_type || PlanType.FREE;
-    });
-
-    this.store.select(state => state.contacts)
-      .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
-      this.contactsState = contactsState;
-      this.inProgress = contactsState.inProgress;
-      this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
-      if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
-        this.selectedContacts = [];
-        this.contactsCount = null;
-      }
-    });
+    /**
+     * Get user's current plan type
+     */
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
+      .subscribe((state: UserState) => {
+        this.userState = state;
+        this.currentPlan = state.settings.plan_type || PlanType.FREE;
+      });
+    /**
+     * Get contacts status from Store
+     */
+    this.store
+      .select(state => state.contacts)
+      .pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
+        this.contactsState = contactsState;
+        this.inProgress = contactsState.inProgress;
+        this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
+        if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
+          this.selectedContacts = [];
+          this.contactsCount = null;
+        }
+      });
+    this.store
+      .select(state => state.mailboxes)
+      .pipe(untilDestroyed(this))
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        if (mailBoxesState.currentMailbox) {
+          this.currentMailbox = mailBoxesState.currentMailbox;
+        } else if (mailBoxesState.mailboxes.length > 0) {
+          this.currentMailbox = mailBoxesState.mailboxes[0];
+        }
+      });
   }
 
-  toggleMenu() { // click handler
+  toggleMenu() {
     if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
       if (this.isMenuOpened) {
         this.document.body.classList.remove('menu-open');
@@ -137,17 +172,15 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addUserContactModalOpen(addUserContent) {
     this.isNewContact = true;
-    this.modalService.open(
-      addUserContent,
-      {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal',
-        beforeDismiss: () => {
-          this.isNewContact = false;
-          this.selectedContact = null;
-          return true;
-        },
-      });
+    this.modalService.open(addUserContent, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+      beforeDismiss: () => {
+        this.isNewContact = false;
+        this.selectedContact = null;
+        return true;
+      },
+    });
   }
 
   editContact(contact: Contact, addUserContent) {
@@ -171,7 +204,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.confirmModalRef = this.modalService.open(modalRef, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -193,25 +226,29 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.confirmModalRef.close();
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
-    let deleteContacts = this.checkAll? "all": this.selectedContacts.map(item => item.id).join(',');
+    const deleteContacts = this.checkAll ? 'all' : this.selectedContacts.map(item => item.id).join(',');
     this.store.dispatch(new ContactDelete(deleteContacts));
   }
 
   showComposeMailDialog() {
     this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
     if (this.selectedContacts.length > 10) {
-      this.store.dispatch(new SnackErrorPush({
-        message: 'Cannot open compose for more than 10 contacts'
-      }));
+      this.store.dispatch(
+        new SnackErrorPush({
+          message: 'Cannot open compose for more than 10 contacts',
+        }),
+      );
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
-      this.composeMailService.openComposeMailDialog({ receivers: receiverEmails,
-        isFullScreen: this.userState.settings.is_composer_full_screen });
+      this.composeMailService.openComposeMailDialog({
+        receivers: receiverEmails,
+        isFullScreen: this.userState.settings.is_composer_full_screen,
+      });
     }
   }
 
   toggleSelectAll() {
-    this.contactsState.contacts.forEach(item => item.markForDelete = this.selectAll);
+    this.contactsState.contacts.forEach(item => (item.markForDelete = this.selectAll));
   }
 
   openImportContactsModal() {
@@ -219,7 +256,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.importContactsError = null;
     this.importContactsModalRef = this.modalService.open(this.importContactsModal, {
       centered: true,
-      windowClass: 'modal-sm users-action-modal'
+      windowClass: 'modal-sm users-action-modal',
     });
   }
 
@@ -229,11 +266,50 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  cancelNotifyContacts() {
+    this.notifyContactsModalRef.close();
+  }
+
+  notifyContacts() {
+    this.notifyContactsModalRef.close();
+    this.inProgress = true;
+    this.contactsCount = this.contactsState.contacts.length;
+    const contacts = this.selectedContacts.map(item => item.email);
+    const display_name = this.currentMailbox.display_name
+      ? this.currentMailbox.display_name
+      : this.currentMailbox.email;
+    // generating mails
+    this.notifyContactsMail = {
+      mailbox: this.currentMailbox.id,
+      sender: this.currentMailbox.email,
+      receiver: contacts,
+      display_name,
+    };
+    this.store.dispatch(new ContactNotify(this.notifyContactsMail));
+  }
+
+  openNotifyContactsModal() {
+    this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
+    if (this.selectedContacts.length === 0) {
+      return;
+    }
+    this.notifyContactsModalRef = this.modalService.open(this.notifyContactsModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    });
+  }
+
+  closeNotifyContactsModal() {
+    if (this.notifyContactsModalRef) {
+      this.notifyContactsModalRef.close();
+    }
+  }
+
   onContactsFileSelected(files: Array<File>) {
     if (files.length === 1) {
       const data = {
         file: files[0],
-        provider: this.selectedContactsProvider
+        provider: this.selectedContactsProvider,
       };
       this.store.dispatch(new ContactImport(data));
       this.closeImportContactsModal();
@@ -251,7 +327,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   nextPage() {
-    if (((this.PAGE + 1) * this.LIMIT) < this.MAX_EMAIL_PAGE_LIMIT) {
+    if ((this.PAGE + 1) * this.LIMIT < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
       this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET, q: this.searchText }));

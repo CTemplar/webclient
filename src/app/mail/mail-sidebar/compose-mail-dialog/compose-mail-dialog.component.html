@@ -1,42 +1,33 @@
-<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx"
-     [ngClass]="{'is-minimized' : isMinimized, 'is-maximized' : isFullScreen}"
-     [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false"
-     [class.is-active]="isComposeVisible">
+<div class="mail-composer is-sticky is-fullscreenx is-minimizedx is-maximizedx" [ngClass]="{ 'is-minimized': isMinimized, 'is-maximized': isFullScreen }" [class.keyboard-open]="composeMail?.isKeyboardOpened ? true : false" [class.is-active]="isComposeVisible">
   <div class="mail-composer-dialog">
     <div class="mail-composer-header p-0">
       <div class="mail-composer-title mr-4" (click)="toggleMinimized()">
-        <span class="d-inline-block text-truncate" *ngIf="mailSubject; else newMessage"
-         [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
-          {{!isMinimized?mailSubject:mailMinimized}}</span>
+        <span class="d-inline-block text-truncate" *ngIf="mailSubject; else newMessage" [ngClass]="{ 'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized }">
+          {{ mailSubject }}
+        </span>
         <ng-template #newMessage>
-          <span class="d-inline-block text-truncate" 
-          [ngClass]="{'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized}">
-          {{"settings.compose.new_message"| translate}}</span>
+          <span class="d-inline-block text-truncate" [ngClass]="{ 'maximize-compose-title': !isMinimized, 'minimize-compose-title': isMinimized }">
+            {{ 'settings.compose.new_message' | translate }}
+          </span>
         </ng-template>
       </div>
       <div class="mail-composer-header-actions">
         <div class="mail-actions-list">
-
           <!--Minimize Modal-->
           <div class="mail-actions-item">
-            <button role="button" placement="top" ngbTooltip="{{isMinimized ? ('settings.compose.maximize'| translate) : ('settings.compose.minimize'| translate)}}"
-                    (click)="toggleMinimized()">
+            <button role="button" placement="top" ngbTooltip="{{ isMinimized ? ('settings.compose.maximize' | translate) : ('settings.compose.minimize' | translate) }}" (click)="toggleMinimized()">
               <i class="fas fa-minus"></i>
             </button>
           </div>
-
           <!--Maximize Modal-->
           <div class="mail-actions-item">
-            <button role="button" placement="top" ngbTooltip="{{isFullScreen ? ('settings.compose.exit_full_screen'| translate) : ('settings.compose.full_screen'| translate)}}"
-                    (click)="toggleFullScreen()">
+            <button role="button" placement="top" ngbTooltip="{{ isFullScreen ? ('settings.compose.exit_full_screen' | translate) : ('settings.compose.full_screen' | translate) }}" (click)="toggleFullScreen()">
               <i class="icon icon-maximize"></i>
             </button>
           </div>
-
           <!--Close Modal-->
           <div class="mail-actions-item">
-            <button role="button" placement="top" [ngbTooltip]="('settings.compose.close'| translate)"
-                    (click)="onClose()">
+            <button role="button" placement="top" [ngbTooltip]="'settings.compose.close' | translate" (click)="onClose()">
               <i class="icon icon-cross"></i>
             </button>
           </div>
@@ -44,13 +35,6 @@
       </div>
     </div>
 
-    <app-compose-mail *ngIf="isComposeVisible" #composeMail [draftMail]="draft"
-                      (hide)="onHide()" (subjectChanged)="subjectChanged($event)" [receivers]="receivers"
-                      [ngClass]="{'d-none': isMinimized}" [isFullScreen]="isFullScreen"
-                      [isReplyInPopup]="action === 'REPLY'? true: false"></app-compose-mail>
+    <app-compose-mail #composeMail [draftMail]="draft" (hide)="onHide()" (subjectChanged)="subjectChanged($event)" [receivers]="receivers" [ngClass]="{ 'd-none': isMinimized }" [isFullScreen]="isFullScreen" [isReplyInPopup]="action === 'REPLY' ? true : false"> </app-compose-mail>
   </div>
 </div>
-
-
-<ng-keyboard-shortcuts-help key="f1" closeKey="escape"></ng-keyboard-shortcuts-help>
-<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>

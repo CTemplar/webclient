@@ -1,10 +1,13 @@
 import { SecureMessageActions, SecureMessageActionTypes } from '../actions';
 import { SecureMessageState } from '../datatypes';
 
-export function reducer(state: SecureMessageState = {
-  message: null,
-  inProgress: false
-}, action: SecureMessageActions): SecureMessageState {
+export function reducer(
+  state: SecureMessageState = {
+    message: null,
+    inProgress: false,
+  },
+  action: SecureMessageActions,
+): SecureMessageState {
   switch (action.type) {
     case SecureMessageActionTypes.GET_MESSAGE_SUCCESS: {
       return { ...state, message: action.payload, inProgress: false, errorMessage: null };
@@ -17,17 +20,22 @@ export function reducer(state: SecureMessageState = {
         ...state,
         decryptedKey: action.payload.decryptedKey,
         isKeyDecryptionInProgress: action.payload.inProgress,
-        errorMessage: action.payload.error ? 'Unable to decrypt message. Please try again.' : null
+        errorMessage: action.payload.error ? 'Unable to decrypt message. Please try again.' : null,
       };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_CONTENT: {
       return {
-        ...state, decryptedContent: action.payload.decryptedContent,
-        isContentDecryptionInProgress: action.payload.inProgress
+        ...state,
+        decryptedContent: action.payload.decryptedContent,
+        isContentDecryptionInProgress: action.payload.inProgress,
       };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_ENCRYPTED_CONTENT: {
-      return { ...state, isEncryptionInProgress: action.payload.inProgress, encryptedContent: action.payload.encryptedContent };
+      return {
+        ...state,
+        isEncryptionInProgress: action.payload.inProgress,
+        encryptedContent: action.payload.encryptedContent,
+      };
     }
     case SecureMessageActionTypes.SEND_SECURE_MESSAGE_REPLY: {
       return { ...state, inProgress: true, errorMessage: null };

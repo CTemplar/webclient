@@ -1,14 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { UsersService } from '../../store/services';
-import { AppState, UserState } from '../../store/datatypes';
+import { AppState, UserState, AuthState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { WebSocketNewMessage } from '../../store/websocket.store';
 import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppConfig } from '../../../environments/environment';
-import { apiUrl, getWindowConfig, IS_ELECTRON } from '../config';
+import { apiUrl } from '../config';
 
 @UntilDestroy()
 @Injectable()
@@ -16,19 +14,28 @@ export class WebsocketService implements OnDestroy {
   private webSocket: WebSocket;
   private retryCount = 1;
   private userId: number = Date.now();
+  private isAuthenticated = false;
 
-  constructor(private authService: UsersService,
-    private store: Store<AppState>) {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+  constructor(private store: Store<AppState>) {
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         this.userId = userState.id ? userState.id : this.userId;
+      });
+
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
+      .subscribe((authState: AuthState) => {
+        this.isAuthenticated = authState.isAuthenticated;
       });
   }
 
   public connect() {
-    const url = apiUrl.replace('http', 'ws') + `connect/?token=${this.authService.getToken()}&user_id=${this.userId}`;
+    const url = apiUrl.replace('http', 'ws') + `connect/?user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
-    this.webSocket.onmessage = (response) => {
+    this.webSocket.onmessage = response => {
       const data = JSON.parse(response.data);
       LoggerService.log('Web socket event:', data);
       if (data.logout === true || data.reason === 'INVALID_TOKEN') {
@@ -39,13 +46,15 @@ export class WebsocketService implements OnDestroy {
       }
     };
 
-    this.webSocket.onclose = (e) => {
-      if (this.authService.getToken()) {
-        LoggerService.log(`Socket is closed. Reconnect will be attempted in ${(1000 + (this.retryCount * 1000))} second. ${e.reason}`);
+    this.webSocket.onclose = e => {
+      if (this.isAuthenticated) {
+        LoggerService.log(
+          `Socket is closed. Reconnect will be attempted in ${1000 + this.retryCount * 1000} second. ${e.reason}`,
+        );
         setTimeout(() => {
           this.connect();
           this.retryCount = this.retryCount + 1;
-        }, (1000 + (this.retryCount * 1000)));
+        }, 1000 + this.retryCount * 1000);
       } else {
         LoggerService.log('Socket is closed.');
       }
@@ -64,8 +73,7 @@ export class WebsocketService implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }
 
 export interface Message extends Object {

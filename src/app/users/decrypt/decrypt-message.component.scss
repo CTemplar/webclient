@@ -7,11 +7,11 @@
 .l-block-h-600 {
   min-height: 27.5rem;
 
-  @include media(">sm") {
+  @include media('>sm') {
     min-height: 29.375rem;
   }
 
-  @include media(">=ipad") {
+  @include media('>=ipad') {
     min-height: 37.5rem;
   }
 }
@@ -25,16 +25,16 @@
     line-height: 1;
   }
 
-  @include media(">=laptop") {
+  @include media('>=laptop') {
     left: 1.875rem;
   }
 
-  @include media("<ipad", ">sm") {
+  @include media('<ipad', '>sm') {
     margin-top: -2.188rem;
     margin-bottom: 2rem;
   }
 
-  @include media("<=sm") {
+  @include media('<=sm') {
     margin-top: -1rem;
     margin-bottom: 1.375rem;
     font-size: 0.875rem;

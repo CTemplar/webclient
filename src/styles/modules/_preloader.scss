@@ -4,70 +4,70 @@
 
 // == Preloader
 .app-preloader {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: $zindex-top;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: $brand-blue;
-    transition: all ceaser($easeInOutQuint) 0.35s;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-top;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $brand-blue;
+  transition: all ceaser($easeInOutQuint) 0.35s;
 
-    .page-loaded & {
-        opacity: 0;
-        pointer-events: none;
-        visibility: hidden;
-    }
+  .page-loaded & {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
 }
 
 // == Preloader content
 .app-preloader-content {
-    margin: 0 auto;
-    padding: 1.875rem 0.938rem;
-    max-width: 800px;
-    
-    .h3 {
-        line-height: 1.21;
-    }
+  margin: 0 auto;
+  padding: 1.875rem 0.938rem;
+  max-width: 800px;
+
+  .h3 {
+    line-height: 1.21;
+  }
 }
 
 .app-preloader-logo {
-    margin-bottom: 1.875rem;
+  margin-bottom: 1.875rem;
 
-    @include media(">=ipad") {
-        margin-bottom: 3rem;
-    }
+  @include media('>=ipad') {
+    margin-bottom: 3rem;
+  }
 
-    .img {
-        height: 7.5rem;
-        width: 7.5rem;
-        animation: bounceY 3s infinite;
-        
-        @include media(">=ipad") {
-            height: 13.5rem;
-            width: 13.5rem;
-        }
+  .img {
+    height: 7.5rem;
+    width: 7.5rem;
+    animation: bounceY 3s infinite;
+
+    @include media('>=ipad') {
+      height: 13.5rem;
+      width: 13.5rem;
     }
+  }
 }
 
 // == Animation keyframe for preloader logo
 @keyframes spreadOuterShadow {
-    0% {
-        opacity: 0;
-    }
-    30% {
-        opacity: 1;
-    }
-    60% {
-        box-shadow: 0 0 0 60px rgba(255, 255, 255, .1);
-        opacity: 0;
-    }
-    100% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    box-shadow: 0 0 0 60px rgba(255, 255, 255, 0.1);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes bounceY {

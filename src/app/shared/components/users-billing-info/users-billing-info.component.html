@@ -5,7 +5,7 @@
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
           <h6 class="text-uppercase text-secondary m-0">
-            <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
+            <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
           </h6>
         </div>
       </div>
@@ -15,7 +15,7 @@
         <div class="form">
           <form [formGroup]="billingForm" #form="ngForm">
             <div class="form-card-holder billing-form-card-holder form-card-holder-top-border mt-md-3">
-              <div class="form-step-card" *ngIf="planType!==planTypeEnum.FREE">
+              <div class="form-step-card" *ngIf="planType !== planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong [translate]="'settings.overview'">Overview</strong>
                 </h3>
@@ -23,189 +23,167 @@
                   <div class="billing-overview-row row">
                     <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.plan'">Plan</label>
                     <div class="billing-overview-val text-secondary col">
-                      <strong>CTemplar {{planType}}</strong>
+                      <strong>CTemplar {{ planType }}</strong>
                     </div>
                   </div>
-                    <div class="billing-overview-row payment-method-row row" *ngIf="!isAddNewCard">
-                      <label class="billing-overview-label col-3" [translate]="'billing_info.payment_method'">Payment
-                        Method: </label>
-                      <div class="billing-overview-val text-secondary col">
-                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                          <div ngbDropdown class="payment-select-dropdown">
-                            <button ngbDropdownToggle role="button"
-                                    id="paymentDropdownMenuButton">{{paymentMethod}}
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
-                              <a class="dropdown-item text-muted" (click)="loadStripeScripts()">
-                                <em>Stripe (Credit/Debit Card)</em>
-                              </a>
-                              <a class="dropdown-item text-muted" (click)="selectBitcoinMethod()">
-                                <em>Bitcoin</em>
-                              </a>
-                            </div>
+                  <div class="billing-overview-row payment-method-row row" *ngIf="!isAddNewCard">
+                    <label class="billing-overview-label col-3" [translate]="'billing_info.payment_method'">Payment Method: </label>
+                    <div class="billing-overview-val text-secondary col">
+                      <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                        <div ngbDropdown class="payment-select-dropdown">
+                          <button ngbDropdownToggle role="button" id="paymentDropdownMenuButton">
+                            {{ paymentMethod }}
+                          </button>
+                          <div ngbDropdownMenu aria-labelledby="paymentDropdownMenuButton">
+                            <a class="dropdown-item text-muted" (click)="loadStripeScripts()">
+                              <em>Stripe (Credit/Debit Card)</em>
+                            </a>
+                            <a class="dropdown-item text-muted" (click)="selectBitcoinMethod()">
+                              <em>Bitcoin</em>
+                            </a>
+                            <a class="dropdown-item text-muted" (click)="selectMoneroMethod()">
+                              <em>Monero</em>
+                            </a>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="billing-overview-row row" *ngIf="!isAddNewCard">
+                    <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.billing'">Billing</label>
+                    <div class="billing-overview-val text-secondary col">
+                      <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
+                        <div ngbDropdown class="payment-select-dropdown">
+                          <button ngbDropdownToggle role="button" id="paymentTypeDropdownMenuButton">
+                            {{ paymentType }}
+                          </button>
+                          <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
+                            <a class="dropdown-item text-muted" *ngIf="paymentMethod === paymentMethodType.STRIPE" (click)="selectPaymentType(paymentTypeEnum.MONTHLY)">
+                              <em>Monthly</em>
+                            </a>
+                            <a class="dropdown-item text-muted" (click)="selectPaymentType(paymentTypeEnum.ANNUALLY)">
+                              <em>Annually</em>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="billing-overview-row row" *ngIf="!isAddNewCard">
+                    <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.price'">Price</label>
+                    <div class="billing-overview-val text-secondary col">
+                      <strong *ngIf="paymentType === paymentTypeEnum.ANNUALLY"> {{ currentPlan?.annually_price | currency: currency }}/<span [translate]="'settings.annually'">Yearly</span> ({{ currentPlan?.annually_price / 12 | currency: currency }}/<span [translate]="'billing_info.month'">month</span>) </strong>
+                      <strong *ngIf="paymentType === paymentTypeEnum.MONTHLY"> {{ currentPlan?.monthly_price | currency: currency }}/<span [translate]="'billing_info.month'">month</span> </strong>
+                    </div>
+                  </div>
+                  <div class="billing-overview-row row" *ngIf="!isPrime && !isAddNewCard">
+                    <label class="billing-overview-label mb-0 col-3">Promo code</label>
+                    <div class="billing-overview-val text-secondary col-9">
+                      <input class="form-control" [(ngModel)]="promoCode.value" formControlName="promoCode" placeholder="Optional promo code" id="promo-code" type="text" />
+                      <i *ngIf="promoCode.is_valid" class="fas fa-check input-ok"></i>
+                      <i *ngIf="promoCode.is_valid === false" class="fas fa-times text-danger input-invalid"></i>
+                      <app-loading-spinner class="promo-code-spinner" [showSpinner]="promoCode.inProgress"></app-loading-spinner>
+                    </div>
+                    <div class="col-3"></div>
+                    <div class="col-9 position-relative error-block" align="left">
+                      <span class="mr-4 text-danger" *ngIf="promoCode.is_valid === false">{{ promoCode.message }}</span>
+                      <a class="validate-promo-code" (click)="validatePromoCode()">Validate</a>
                     </div>
 
-                    <div class="billing-overview-row row" *ngIf="!isAddNewCard">
-                      <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.billing'">Billing</label>
-                      <div class="billing-overview-val text-secondary col">
-                        <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                          <div ngbDropdown class="payment-select-dropdown">
-                            <button ngbDropdownToggle role="button"
-                                    id="paymentTypeDropdownMenuButton">{{paymentType}}
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="paymentTypeDropdownMenuButton">
-                              <a class="dropdown-item text-muted" *ngIf="paymentMethod===paymentMethodType.STRIPE"
-                                 (click)="selectPaymentType(paymentTypeEnum.MONTHLY)">
-                                <em>Monthly</em>
-                              </a>
-                              <a class="dropdown-item text-muted" (click)="selectPaymentType(paymentTypeEnum.ANNUALLY)">
-                                <em>Annually</em>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="billing-overview-row row" *ngIf="!isAddNewCard">
-                      <label class="billing-overview-label mb-0 col-3" [translate]="'billing_info.price'">Price</label>
-                      <div class="billing-overview-val text-secondary col">
-                        <strong *ngIf="paymentType === paymentTypeEnum.ANNUALLY">
-                          {{currentPlan?.annually_price|currency:currency}}/<span
-                                [translate]="'settings.annually'">Yearly</span>
-                          ({{(currentPlan?.annually_price / 12)|currency:currency}}/<span
-                                [translate]="'billing_info.month'">month</span>)
-                        </strong>
-                        <strong *ngIf="paymentType === paymentTypeEnum.MONTHLY">
-                          {{currentPlan?.monthly_price|currency:currency}}/<span
-                                [translate]="'billing_info.month'">month</span>
-                        </strong>
-                      </div>
-                    </div>
-                    <div class="billing-overview-row row" *ngIf="!isPrime && !isAddNewCard">
-                      <label class="billing-overview-label mb-0 col-3">Promo code</label>
+                    <ng-container *ngIf="promoCode.is_valid">
+                      <label class="billing-overview-label mb-0 col-3" ngbTooltip="Actual amount that will be charged.">Discounted price</label>
                       <div class="billing-overview-val text-secondary col-9">
-                        <input class="form-control" [(ngModel)]="promoCode.value"
-                               formControlName="promoCode"
-                               placeholder="Optional promo code"
-                               id="promo-code" type="text">
-                        <i *ngIf="promoCode.is_valid" class="fas fa-check input-ok"></i>
-                        <i *ngIf="promoCode.is_valid === false" class="fas fa-times text-danger input-invalid"></i>
-                        <app-loading-spinner class="promo-code-spinner"
-                                             [showSpinner]="promoCode.inProgress"></app-loading-spinner>
+                        <strong>${{ promoCode.new_amount }}/-</strong>
                       </div>
-                      <div class="col-3"></div>
-                      <div class="col-9 position-relative error-block" align="left">
-                        <span class="mr-4 text-danger" *ngIf="promoCode.is_valid === false">{{promoCode.message}}</span>
-                        <a class="validate-promo-code" (click)="validatePromoCode()">Validate</a>
+                      <label class="billing-overview-label mb-0 col-3">You will save</label>
+                      <div class="billing-overview-val text-secondary col-9">
+                        <strong>${{ promoCode.discount_amount }}/-</strong>
                       </div>
+                    </ng-container>
+                  </div>
 
-                      <ng-container *ngIf="promoCode.is_valid">
-                        <label class="billing-overview-label mb-0 col-3"
-                               ngbTooltip="Actual amount that will be charged.">Discounted price</label>
-                        <div class="billing-overview-val text-secondary col-9">
-                          <strong>${{promoCode.new_amount}}/-</strong>
-                        </div>
-                        <label class="billing-overview-label mb-0 col-3">You will save</label>
-                        <div class="billing-overview-val text-secondary col-9">
-                          <strong>${{promoCode.discount_amount}}/-</strong>
-                        </div>
-                      </ng-container>
+                  <div class="billing-overview-row row" *ngIf="isUpgradeAccount && upgradeAmount != null && !promoCode.is_valid && !isRenew && !isAddNewCard">
+                    <label class="billing-overview-label mb-0 col-3" ngbTooltip="This is the amount which you will be charged right now."> Amount to charge</label>
+                    <div class="billing-overview-val text-secondary col">
+                      <strong>{{ upgradeAmount | currency: currency }}</strong>
                     </div>
-
-
-                    <div class="billing-overview-row row"
-                         *ngIf="isUpgradeAccount && upgradeAmount!=null && !promoCode.is_valid && !isRenew && !isAddNewCard">
-                      <label class="billing-overview-label mb-0 col-3"
-                             ngbTooltip="This is the amount which you will be charged right now.">
-                        Amount to charge</label>
-                      <div class="billing-overview-val text-secondary col">
-                        <strong>{{upgradeAmount|currency:currency}}</strong>
-                      </div>
-                    </div>
-
+                  </div>
                 </div>
               </div>
-              <div class="form-step-card" *ngIf="paymentMethod===paymentMethodType.BITCOIN && planType!==planTypeEnum.FREE">
+              <div class="form-step-card" *ngIf="paymentMethod === paymentMethodType.BITCOIN && planType !== planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
+                  <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
                 </h3>
-                <p><strong>{{ minutes }} minutes : {{ seconds}} seconds </strong> <span
-                        [translate]="'billing_info.bitcoin_sent_timer'">BTC sent after timer will be lost!</span></p>
+                <p>
+                  <strong>{{ minutes }} minutes : {{ seconds }} seconds </strong>
+                  <span [translate]="'billing_info.bitcoin_sent_timer'">BTC sent after timer will be lost!</span>
+                </p>
 
                 <div class="bitcoin-payment card mb-3">
                   <div class="card-header text-center">
-                    <h6 [innerHTML]="'billing_info.send_exactly'| translate">SEND <strong>EXACTLY</strong></h6>
-                    <h5><strong *ngIf="bitcoinState?.loaded">
-                      {{bitcoinState?.bitcoinRequired | number: '1.5-5'}}
-                    </strong></h5>
+                    <h6 [innerHTML]="'billing_info.send_exactly' | translate">SEND <strong>EXACTLY</strong></h6>
+                    <h5>
+                      <strong *ngIf="bitcoinState?.loaded">
+                        {{ bitcoinState?.bitcoinRequired | number: '1.5-5' }}
+                      </strong>
+                    </h5>
                     <app-loading-spinner [showSpinner]="!bitcoinState?.loaded"></app-loading-spinner>
                   </div>
                   <div class="card-body text-center">
-                    <p class="justify-content-center"
-                       *ngIf="bitcoinState?.loaded">{{bitcoinState.newWalletAddress}}</p>
-                    <img *ngIf="bitcoinState?.loaded"
-                         class="mb-3"
-                         src="{{apiUrl}}qr-code/?size=225x225&data=bitcoin:{{bitcoinState.newWalletAddress}}?amount={{bitcoinState.bitcoinRequired}}"
-                         alt="captcha">
+                    <p class="justify-content-center" *ngIf="bitcoinState?.loaded">
+                      {{ bitcoinState.newWalletAddress }}
+                    </p>
+                    <img *ngIf="bitcoinState?.loaded" class="mb-3" src="{{ apiUrl }}qr-code/?size=225x225&data=bitcoin:{{ bitcoinState.newWalletAddress }}?amount={{ bitcoinState.bitcoinRequired }}" alt="captcha" />
                     <app-loading-spinner [showSpinner]="!bitcoinState?.loaded"></app-loading-spinner>
                   </div>
-
                 </div>
                 <strong class="text-center green" *ngIf="paymentSuccess">
                   <i class="fa fa-check-circle green"></i>
                   Your payment has been made successfully, Please click on
-                  {{authState?.isAuthenticated ? 'upgrade' : 'create'}} account in order to proceed.
+                  {{ authState?.isAuthenticated ? 'upgrade' : 'create' }} account in order to proceed.
                 </strong>
               </div>
 
-              <app-loading-spinner *ngIf="paymentMethod === paymentMethodType.STRIPE"
-                                   [showSpinner]="isScriptsLoading"></app-loading-spinner>
-
-              <div class="form-step-card" [class]="stripePaymentValidation.param"
-                   *ngIf="paymentMethod === paymentMethodType.STRIPE && isScriptsLoaded && planType!==planTypeEnum.FREE">
+              <div class="form-step-card" *ngIf="paymentMethod === paymentMethodType.MONERO && planType !== planTypeEnum.FREE">
                 <h3 class="form-step-card-title text-dark mb-3">
-                  <strong [translate]="'billing_info.payment_information'">Billing Information</strong>
+                  <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
+                </h3>
+                <p>
+                  <span [translate]="'billing_info.about_monero'">To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.</span>
+                </p>
+              </div>
+              <app-loading-spinner *ngIf="paymentMethod === paymentMethodType.STRIPE" [showSpinner]="isScriptsLoading"></app-loading-spinner>
+
+              <div class="form-step-card" [class]="stripePaymentValidation.param" *ngIf="paymentMethod === paymentMethodType.STRIPE && isScriptsLoaded && planType !== planTypeEnum.FREE">
+                <h3 class="form-step-card-title text-dark mb-3">
+                  <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
                 </h3>
                 <div class="form-group">
-                  <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on
-                    Card</label>
-                  <input class="form-control" id="personName" [placeholder]="'settings.donate.name_on_card'| translate"
-                         type="text">
+                  <label for="personName" class="d-block text-muted text-left hidden-sm-up">Name on Card</label>
+                  <input class="form-control" id="personName" [placeholder]="'settings.donate.name_on_card' | translate" type="text" />
                 </div>
                 <div class="form-group">
-                  <span class="d-block text-right error-msg"><span
-                          [translate]="'settings.required_field'">Required field</span>
-                    <sup class="font-weight-bold error-msg">*</sup></span>
-                  <label for="cardName" class="d-block text-left hidden-sm-up label-error"
-                         [translate]="'settings.donate.card_number'">Card Number
-                  </label>
-                  <input class="form-control error stripe-error number" id="cardName" name="cardName"
-                         [placeholder]="'settings.donate.card_number'| translate" type="text"
-                         formControlName="cardNumber"
-                         [(ngModel)]="cardNumber" (change)="checkStripeValidation()"/>
+                  <span class="d-block text-right error-msg"><span [translate]="'settings.required_field'">Required field</span> <sup class="font-weight-bold error-msg">*</sup></span>
+                  <label for="cardName" class="d-block text-left hidden-sm-up label-error" [translate]="'settings.donate.card_number'">Card Number </label>
+                  <input class="form-control error stripe-error number" id="cardName" name="cardName" [placeholder]="'settings.donate.card_number' | translate" type="text" formControlName="cardNumber" [(ngModel)]="cardNumber" (change)="checkStripeValidation()" />
                 </div>
                 <div class="form-group form-group-3-col">
                   <div class="form-group-row">
                     <div class="form-group-col">
                       <span class="d-block text-right error-msg font-weight-bold">*</span>
-                      <label class="d-block text-muted text-left hidden-sm-up"
-                             [translate]="'billing_info.month'">Month</label>
+                      <label class="d-block text-muted text-left hidden-sm-up" [translate]="'billing_info.month'">Month</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-                        <div ngbDropdown class=" date-select-dropdown">
-                          <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle
-                                  class="stripe-error exp_month">
-                            {{expiryMonth}}
+                        <div ngbDropdown class="date-select-dropdown">
+                          <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle class="stripe-error exp_month">
+                            {{ expiryMonth }}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
                             <a class="dropdown-item text-muted">
                               <em>Date</em>
                             </a>
-                            <a class="dropdown-item text-muted" *ngFor="let month of months"
-                               (click)="selectMonth(month)">
-                              <em>{{month}}</em>
+                            <a class="dropdown-item text-muted" *ngFor="let month of months" (click)="selectMonth(month)">
+                              <em>{{ month }}</em>
                             </a>
                           </div>
                         </div>
@@ -213,21 +191,18 @@
                     </div>
                     <div class="form-group-col">
                       <span class="d-block text-right error-msg font-weight-bold">*</span>
-                      <label class="d-block text-muted text-left hidden-sm-up"
-                             [translate]="'billing_info.year'">Year</label>
+                      <label class="d-block text-muted text-left hidden-sm-up" [translate]="'billing_info.year'">Year</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="year-select-dropdown">
-                          <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle
-                                  class="stripe-error exp_year">
-                            {{expiryYear}}
+                          <button role="button" id="yearDropdownMenuButton" ngbDropdownToggle class="stripe-error exp_year">
+                            {{ expiryYear }}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="yearDropdownMenuButton">
                             <a class="dropdown-item text-muted" href="">
                               <em [translate]="'billing_info.year'">Year</em>
                             </a>
-                            <a class="dropdown-item text-muted" *ngFor="let year of years"
-                               (click)="selectYear(year)">
-                              <em>{{year}}</em>
+                            <a class="dropdown-item text-muted" *ngFor="let year of years" (click)="selectYear(year)">
+                              <em>{{ year }}</em>
                             </a>
                           </div>
                         </div>
@@ -235,45 +210,33 @@
                     </div>
                     <div class="form-group-col">
                       <span class="d-block text-right error-msg font-weight-bold">&nbsp;</span>
-                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up"
-                             [translate]="'home_header.security'">Security Code</label>
-                      <input class="form-control stripe-error cvc p-2" id="securityCode"
-                             [placeholder]="'home_header.security'| translate"
-                             type="text" [(ngModel)]="cvc" name="securityCode"
-                             [ngModelOptions]="{standalone: true}" (change)="checkStripeValidation()">
+                      <label for="securityCode" class="d-block text-muted text-left hidden-sm-up" [translate]="'home_header.security'">Security Code</label>
+                      <input class="form-control stripe-error cvc p-2" id="securityCode" [placeholder]="'home_header.security' | translate" type="text" [(ngModel)]="cvc" name="securityCode" [ngModelOptions]="{ standalone: true }" (change)="checkStripeValidation()" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div *ngIf="stripePaymentValidation.message"
-                   class="l-alert l-alert-danger">{{stripePaymentValidation.message}}</div>
-              <div *ngIf="errorMessage" class="l-alert l-alert-danger">{{errorMessage}}</div>
+              <div *ngIf="stripePaymentValidation.message" class="l-alert l-alert-danger">
+                {{ stripePaymentValidation.message }}
+              </div>
+              <div *ngIf="errorMessage" class="l-alert l-alert-danger">{{ errorMessage }}</div>
 
-              <div class="form-group text-center mt-3 mt-sm-4 mb-0"
-                   *ngIf="planType===planTypeEnum.FREE && isUpgradeAccount; else paidPlanButton">
-                <div class="cancel-subscription">You are about to cancel your subscription. If you cancel, you can keep using
-                  the subscription until the next billing date:
-                  {{payment?.billing_cycle_ends | momentDate:'mediumDate'}}.<br><br>
+              <div class="form-group text-center mt-3 mt-sm-4 mb-0" *ngIf="planType === planTypeEnum.FREE && isUpgradeAccount; else paidPlanButton">
+                <div class="cancel-subscription">
+                  You are about to cancel your subscription. If you cancel, you can keep using the subscription until the next billing date: {{ payment?.billing_cycle_ends | momentDate: 'mediumDate' }}.<br /><br />
 
-                  After that date, your account will be automatically reverted to FREE.
-                  Additional aliases and domains will stop working.
+                  After that date, your account will be automatically reverted to FREE. Additional aliases and domains will stop working.
                 </div>
-                <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                        (click)="submitForm()">Cancel Subscription
-                </button>
+                <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" (click)="submitForm()">Cancel Subscription</button>
                 <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
               </div>
               <ng-template #paidPlanButton>
-                <div class="form-group text-center mt-3 mt-sm-4 mb-0"
-                     [ngbTooltip]="(paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) ? ('billing_info.pay_to_proceed'| translate):''">
-                  <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button"
-                          [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess)"
-                          (click)="submitForm()">
+                <div class="form-group text-center mt-3 mt-sm-4 mb-0" [ngbTooltip]="paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess ? ('billing_info.pay_to_proceed' | translate) : ''">
+                  <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) || paymentMethod === paymentMethodType.MONERO" (click)="submitForm()">
                     <span *ngIf="!isAddNewCard && !isUpgradeAccount" [translate]="'login.create_account'">Create Account</span>
                     <span *ngIf="!isAddNewCard && isUpgradeAccount" [translate]="'common.upgrade_account'">Upgrade Account</span>
                     <span *ngIf="isAddNewCard" [translate]="'settings.add_new_method'">Add new payment</span>
-                    
                   </button>
                   <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
                 </div>

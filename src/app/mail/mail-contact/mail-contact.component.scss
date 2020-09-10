@@ -6,11 +6,10 @@
 // == Mail contacts style
 
 .mail-contact {
-  @include media(">=ipad") {
+  @include media('>=ipad') {
     overflow-x: hidden;
     overflow-y: auto;
     padding-right: 1.125rem;
-    // height: calc(100vh - 140px);
 
     .is-splitted & {
       padding-right: 0.5rem;
@@ -20,7 +19,7 @@
 
 .mail-contact-listing-col {
   .is-splitted & {
-    @include media(">=ipad") {
+    @include media('>=ipad') {
       flex: 0 0 55%;
       max-width: 55%;
     }
@@ -32,14 +31,16 @@
   border-radius: 2px 2px 0 0;
 
   tr {
-    th { padding: 1rem; }
+    th {
+      padding: 1rem;
+    }
     th:first-child {
       width: 2.5rem;
     }
     th:nth-child(2) {
       width: 12.5rem;
 
-      @include media("<laptop", ">=ipad") {
+      @include media('<laptop', '>=ipad') {
         .is-splitted & {
           width: 9rem;
         }
@@ -57,39 +58,39 @@
   border: 1px solid #f5f5f5;
   border-bottom: 0;
 
-  tr { 
+  tr {
     padding: 0;
 
     td:first-child {
-      @include media(">sm") {
+      @include media('>sm') {
         display: flex;
         align-items: center;
         justify-content: center;
-      }      
+      }
 
-      @include media("<=sm") {
+      @include media('<=sm') {
         width: 3.5rem;
       }
     }
   }
 
-  @include media(">sm") {
+  @include media('>sm') {
     border-top: 0;
   }
 
-  @include media("<laptop", ">=ipad") {
+  @include media('<laptop', '>=ipad') {
     .is-splitted & {
       .mail-contact-email-field {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      display: inline-block !important;
-      max-width: 170px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block !important;
+        max-width: 170px;
       }
-    }    
+    }
   }
 
-  @include media("<=sm") {
+  @include media('<=sm') {
     border-top: 0;
   }
 }
@@ -98,12 +99,12 @@
   border-color: #f5f5f5;
   font-size: 0.875rem;
 
-  @include media("<ipad", ">sm") {
+  @include media('<ipad', '>sm') {
     padding: 1.0321rem 0.938rem;
   }
 
-  @include media("<=sm") {
-    padding: .969rem 0.938rem;
+  @include media('<=sm') {
+    padding: 0.969rem 0.938rem;
   }
 }
 
@@ -114,17 +115,17 @@
 
 // == Mail contact list
 .mail-list-col-row {
-  @include media(">sm") {
-    margin: 0 -.5rem;
+  @include media('>sm') {
+    margin: 0 -0.5rem;
 
     .mail-list-col-item {
-      padding: 0 .5rem;
+      padding: 0 0.5rem;
     }
   }
 }
 
 // == Smaller screen { max-width: 767px}
-@include media("<=sm") {
+@include media('<=sm') {
   .mail-list-row .mail-from-name {
     padding-left: 1rem;
   }
@@ -134,7 +135,7 @@
   }
 
   .mail-list-col-row > .mail-list-col-item.mail-status {
-    top: .05rem;
+    top: 0.05rem;
     right: auto;
     left: 2.5rem;
   }
@@ -143,7 +144,7 @@
 // == Add new contact entry
 .mail-contact-entry-col {
   display: none;
-  @include media(">=ipad") {
+  @include media('>=ipad') {
     flex: 0 0 45%;
     max-width: 45%;
   }
@@ -157,24 +158,24 @@
 .is-splitted {
   .mail-list-inner-row {
     .mail-contact-col-sm {
-      @include media(">ipad") {
+      @include media('>ipad') {
         flex: 0 0 42%;
         max-width: 42%;
       }
 
-      @include media("<laptop", ">=ipad") {
+      @include media('<laptop', '>=ipad') {
         flex: 0 0 54%;
         max-width: 54%;
       }
     }
 
     .mail-contact-col-lg {
-      @include media(">ipad") {
+      @include media('>ipad') {
         flex: 0 0 58%;
         max-width: 58%;
       }
 
-      @include media("<laptop", ">=ipad") {
+      @include media('<laptop', '>=ipad') {
         flex: 0 0 46%;
         max-width: 46%;
       }
@@ -196,23 +197,23 @@
     padding-left: 2rem;
   }
 
-  @include media(">=ipad") {
+  @include media('>=ipad') {
     padding-right: 1.25rem;
   }
 
-  @include media(">=laptop") {
+  @include media('>=laptop') {
     padding-left: 0.625rem;
     padding-right: 4.375rem;
   }
 
-  @include media(">sm") {
+  @include media('>sm') {
     font-size: 0.75rem;
   }
 
   .form-control {
     height: 2.75rem;
 
-    @include media(">sm") {
+    @include media('>sm') {
       padding: 0.406777rem 0.75rem;
       border-radius: 2px;
       font-size: 0.75rem;
@@ -249,7 +250,7 @@
 .error-msg.is-sm {
   font-size: 0.75rem;
 
-  @include media(">sm") {
+  @include media('>sm') {
     font-size: 0.625rem;
   }
 }
@@ -260,14 +261,14 @@
   max-width: 405px;
 
   .form-control-sm {
-    @include media("<ipad") {
+    @include media('<ipad') {
       height: 2.75rem;
     }
   }
 }
 
 // == Mobile layout for add  users contact
-@include media("<=sm") {
+@include media('<=sm') {
   .is-splitted {
     .mail-contact-entry-col {
       position: fixed;
@@ -286,8 +287,8 @@
   .mail-actions-form-title {
     display: flex;
     align-items: center;
-    margin: 0 -.938rem .5rem;
-    padding: 0.625rem .938rem;
+    margin: 0 -0.938rem 0.5rem;
+    padding: 0.625rem 0.938rem;
     border-bottom: 1px solid #f5f5f5;
 
     .actions-btn {
@@ -332,7 +333,7 @@
     top: 0;
     z-index: 1;
 
-    @include media("<sm") {
+    @include media('<sm') {
       right: 15px;
       top: 39px;
     }
@@ -360,4 +361,15 @@
   p:first-child {
     margin: 0;
   }
+}
+.modal-description {
+  padding: 0 1.5rem 1rem 1.5rem;
+  a {
+    text-decoration: underline;
+  }
+}
+.modal-content-email {
+  white-space: pre-wrap;
+  background: #fff;
+  padding: 1rem;
 }

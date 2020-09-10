@@ -1,6 +1,18 @@
 {
   "contacts": {
     "new_contact": "NEW CONTACT",
+    "notify_contacts": "NOTIFY CONTACTS",
+    "notify_contacts_title": "Notify contacts about my new email address",
+    "notify_contacts_description": {
+      "before": "The email below will be send to ",
+      "after": " contacts you have selected to inform them you have a new email address."
+    },
+    "notify_contacts_email": {
+      "title": "Hi! I have changed my email address",
+      "content_before": "Hello,\nI want to inform you that I have changed my email address to ",
+      "content_after": "\nPlease, update my contact information in your address book.\nThank you.\n...\n"
+    },
+    "send_email": "SEND EMAIL",
     "all_contacts": "ALL CONTACTS",
     "back_to_mail": "BACK TO MAIL",
     "edit_tooltip": "Click on Name or Email to edit an item.",
@@ -58,7 +70,8 @@
     "dashboard": "Dashboard",
     "dashboard_plans": "Dashboard & plans",
     "general": "General",
-    "compose_font": "Default Mail Compose Font",
+    "compose_font": "Default composing font",
+    "compose_autosave_duration": "Composing autosave interval",
     "overview": "Overview",
     "username": "Username",
     "domains": "Domains",
@@ -386,6 +399,8 @@
       "attach_files": "Input Files",
       "attach_url": "Input URL",
       "self_dest_email": "Self Destruct Email",
+      "confirm_send": "Confirm Send",
+      "send_without_all": "Are you sure, send this message without a subject or text in the body?",
       "email_deleted": "Email will be deleted on selected datetime",
       "select_date": "Select Date",
       "select_time": "Select Time",
@@ -629,6 +644,8 @@
     "more_info": "More info",
     "less": "Less",
     "invite_code": "Invitation code",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": "Recovery email (optional)",
     "recover_account": "This is used to recover your account if you forget your password",
     "check_box": "Please check this box if you agree to abide by our ",
@@ -648,6 +665,7 @@
   "billing_info": {
     "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",
     "bitcoin_sent_timer": "BTC sent after timer will be lost!",
+    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
     "payment_information": "Payment Information",
     "plan": "Plan",
     "billing": "Billing",
@@ -708,7 +726,9 @@
     "view_mail_raw_content": "View email raw content without xss protection. Warning: Be aware of malwares.",
     "show_raw_email": "Show raw email",
     "decryp_4096_bit": "Decrypting 4096 Bit Encrypted Email",
-    "confirm_forward_attach": "Confirm Forward Attachments"
+    "confirm_forward_attach": "Confirm Forward Attachments",
+    "show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

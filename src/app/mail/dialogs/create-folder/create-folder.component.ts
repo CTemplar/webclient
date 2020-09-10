@@ -12,36 +12,28 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-create-folder',
   templateUrl: './create-folder.component.html',
-  styleUrls: ['./create-folder.component.scss']
+  styleUrls: ['./create-folder.component.scss'],
 })
 export class CreateFolderComponent implements OnInit, OnDestroy {
   @Input() folder: Folder = { id: null, name: '', color: '' };
 
   customFolderForm: FormGroup;
-  folderColors: string[] = FOLDER_COLORS;
-  selectedColorIndex: number = 0;
+  folderColors: string[] = FOLDER_COLORS; // Users can select one of these colors for new folder
+  selectedColorIndex = 0;
   userState: UserState;
   submitted: boolean;
   duplicateFoldername: boolean;
   callback: { self: any; method: string };
 
-  constructor(
-    private store: Store<AppState>,
-    private fb: FormBuilder,
-    public activeModal: NgbActiveModal
-  ) {}
+  constructor(private store: Store<AppState>, private fb: FormBuilder, public activeModal: NgbActiveModal) {}
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
       folderName: [
         this.folder.name,
-        [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/),
-          Validators.maxLength(30)
-        ]
+        [Validators.required, Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/), Validators.maxLength(30)],
       ],
-      color: this.folder.color
+      color: this.folder.color,
     });
     if (this.folder.color) {
       this.selectedColorIndex = this.folderColors.indexOf(this.folder.color);
@@ -52,14 +44,14 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
       .subscribe((user: UserState) => {
         if (this.userState && this.userState.inProgress && !user.inProgress) {
           if (this.callback) {
-            this.callback.self[this.callback.method](
-              this.customFolderForm.value.folderName
-            );
+            this.callback.self[this.callback.method](this.customFolderForm.value.folderName);
           }
           this.activeModal.close();
         }
         this.userState = user;
       });
+
+    // Check new folder name exists
     this.customFolderForm
       .get('folderName')
       .valueChanges.pipe(untilDestroyed(this))
@@ -76,21 +68,18 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     const customFolder: Folder = {
       id: this.folder.id,
       name: this.customFolderForm.value.folderName,
-      color: this.folderColors[this.selectedColorIndex]
+      color: this.folderColors[this.selectedColorIndex],
     };
     if (this.checkFolderExist(customFolder.name)) {
       return;
     }
-
     this.store.dispatch(new CreateFolder(customFolder));
   }
 
   checkFolderExist(folderName: string) {
     if (
       this.userState.customFolders.filter(
-        folder =>
-          folder.name.toLowerCase() === folderName.toLowerCase() &&
-          folder.id !== this.folder.id
+        folder => folder.name.toLowerCase() === folderName.toLowerCase() && folder.id !== this.folder.id,
       ).length > 0
     ) {
       this.duplicateFoldername = true;

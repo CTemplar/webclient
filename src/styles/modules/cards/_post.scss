@@ -4,136 +4,136 @@
 
 // == badge
 .badge {
-    z-index: 1;
-    display: inline-block;
-    padding: 0.219rem 0.681rem;
-    vertical-align: top;
+  z-index: 1;
+  display: inline-block;
+  padding: 0.219rem 0.681rem;
+  vertical-align: top;
 }
 
 // == Feature card
 .feature-icon-holder {
-    margin-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
 
-    @include media(">sm") {
-		margin-bottom: 2.5rem;
-	}
+  @include media('>sm') {
+    margin-bottom: 2.5rem;
+  }
 }
 
 // == News / Blog post cards
 .news-card-holder {
+  color: $brand-gray;
+  font-size: 0.875rem;
+
+  @include media('>sm') {
+    font-size: 0.75rem;
+  }
+
+  &:hover,
+  &:focus {
     color: $brand-gray;
-    font-size: 0.875rem;
+  }
 
-    @include media(">sm") {
-        font-size: 0.75rem;
+  &:hover {
+    .news-img {
+      transform: scale3d(1.2, 1.2, 1.2);
+      transition: all ceaser($ease) 3s;
     }
-
-    &:hover,
-    &:focus {
-        color: $brand-gray;
-    }
-
-    &:hover {
-        .news-img {
-            transform: scale3d(1.2, 1.2, 1.2);
-            transition: all ceaser($ease) 3s;
-        }
-    }
+  }
 }
 
 .news-card .badge {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    letter-spacing: 0.5px;
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  letter-spacing: 0.5px;
 }
 
 .news-pic-holder {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 1rem;
-    border-radius: 4px;   
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border-radius: 4px;
 
-    .news-img {
-        border-radius: 4px;
-        transform: scale3d(1, 1, 1);
-        transition: all ceaser($ease) 1.5s;
-        height: 202px;
-        width: 360px;
-    }
+  .news-img {
+    border-radius: 4px;
+    transform: scale3d(1, 1, 1);
+    transition: all ceaser($ease) 1.5s;
+    height: 202px;
+    width: 360px;
+  }
 }
 
 .news-card-title {
-    margin-bottom: 0.875rem;
-    color: rgba(0, 0, 0, 0.87);
-    font-weight: 500;
+  margin-bottom: 0.875rem;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 500;
 }
 
 .news-card-footer {
-    margin-top: 0.75rem;
-    padding-top: 0.875rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin-top: 0.75rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
 
-    .news-card-full & {
-        @include media(">=laptop") {
-            margin-top: 3.25rem;
-        }
+  .news-card-full & {
+    @include media('>=laptop') {
+      margin-top: 3.25rem;
     }
+  }
 }
 
 .news-meta-list {
-    display: flex;
-    align-items: center;
-    margin: 0 -10px;
-    padding-left: 0;
-    color: $brand-light-gray;
-    font-style: italic;
-    list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0 -10px;
+  padding-left: 0;
+  color: $brand-light-gray;
+  font-style: italic;
+  list-style: none;
 
-    >li {
-        flex: 0 0 50%;
-        max-width: 50%;
-        padding: 0 10px;
-        &:last-of-type {
-            text-align: right;
-        }
+  > li {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 10px;
+    &:last-of-type {
+      text-align: right;
     }
+  }
 }
 
 .news-card-holder p {
-    font-size: 14px;
+  font-size: 14px;
 }
 .news-card-holder .post-meta {
-    &:after {
-        content: '';
-        display: block;
-        width: 0;
-        height: 0;
-        clear: both;
-    }
-    .post-date {
-        float: left;
-        font-style: italic;
-    }
-    .post-comments {
-        float: right;
-        font-style: italic;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.38);
-    }
+  &:after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    clear: both;
+  }
+  .post-date {
+    float: left;
+    font-style: italic;
+  }
+  .post-comments {
+    float: right;
+    font-style: italic;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.38);
+  }
 }
-.l-block-footer .text-success{
-    margin-bottom: 30px;
-    display: inline-block;
+.l-block-footer .text-success {
+  margin-bottom: 30px;
+  display: inline-block;
 }
 @media (max-width: 767px) {
-    /* Home Page
+  /* Home Page
     =================================*/
-    .l-block-footer .offset-2{
-        flex: 0 0 100%;
-        max-width: 100%;
-        margin-left: 0;
-    }
-    .l-block-footer .text-success{
-        margin-bottom: 0;
-    }
+  .l-block-footer .offset-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-left: 0;
+  }
+  .l-block-footer .text-success {
+    margin-bottom: 0;
+  }
 }

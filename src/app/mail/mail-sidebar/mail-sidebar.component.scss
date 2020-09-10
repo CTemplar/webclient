@@ -15,7 +15,6 @@
 
   &.is-success {
     background: #2ecc71;
-
   }
 
   &.is-info {
@@ -31,13 +30,13 @@
 .color-boxes-group {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -.469rem;
+  margin: 0 -0.469rem;
   padding: 0 0;
   list-style: none;
 
-  >li {
+  > li {
     margin-bottom: 1rem;
-    padding: 0 .469rem;
+    padding: 0 0.469rem;
     line-height: 1;
 
     .color-shape {
@@ -52,7 +51,7 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        content: "";
+        content: '';
         margin-top: -0.125rem;
         width: 7px;
         height: 17px;
@@ -72,7 +71,7 @@
   }
 }
 
-.mailbox-sidebar-nav-item>div {
+.mailbox-sidebar-nav-item > div {
   display: flex;
   position: relative;
   align-items: center;
@@ -93,7 +92,7 @@
 }
 
 .mailbox-sidebar {
-  @include media( ">sm", "<ipad") {
+  @include media('>sm', '<ipad') {
     .mailbox-sidebar-nav-link + button {
       display: none;
     }

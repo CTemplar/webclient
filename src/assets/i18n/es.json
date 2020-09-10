@@ -1,39 +1,51 @@
 {
   "contacts": {
     "new_contact": "NUEVO CONTACTO",
+    "notify_contacts": "NOTIFICAR CONTACTOS",
+    "notify_contacts_title": "Notify contacts about my new email address",
+    "notify_contacts_description": {
+      "before": "The email below will be send to ",
+      "after": " contacts you have selected to inform them you have a new email address."
+    },
+    "notify_contacts_email": {
+      "title": "Hi! I have chanaged my email address",
+      "content_before": "Hello,\nI want to inform you that I have changed my email address to ",
+      "content_after": "\nPlease, update my contact information in your address book.\nThank you.\n...\n"
+    },
+    "send_email": "SEND EMAIL",
     "all_contacts": "TODOS LOS CONTACTOS",
     "back_to_mail": "VOLVER AL CORREO",
     "edit_tooltip": "Hacer clic en el nombre o email para editar un elemento.",
     "delete_tooltip": "Borrar los contactos seleccionados.",
     "details": "Datos de contacto",
     "phone2": "Teléfono2",
-    "encryption": "Encryption",
+    "encryption": "Encriptación",
     "address": "Dirección",
     "note": "Nota",
     "save": {
-      "error": "Por favor completar los campos requeridos.",
-      "name_required": "Name is required",
-      "email_req": "Email address is required",
-      "email_not_valid": "Email address is not valid"
+      "error": "Por favor completa los campos requeridos.",
+      "name_required": "Introduce un nombre",
+      "email_req": "Introduce un correo",
+      "email_not_valid": "El correo es inválido"
     },
     "delete": {
       "title": "Confirmar borrado",
-      "message": "¿De verdad, lo deseas borrar?"
+      "message": "¿De verdad lo deseas borrar?"
     },
-    "import_contacts": "Import Contacts",
-    "select_csv": "Select a CSV file from one of the following providers.",
-    "import_f_google": "Import from Google",
-    "import_f_yahoo": "Import from Yahoo",
-    "import_f_outlook": "Import from Outlook",
-    "import_f_other": "Import from Other",
-    "contact_name": "Contact Name",
-    "type_email": "Type E-mail",
-    "a_note": "A note"
+    "import_contacts": "Importar contactos",
+    "select_csv": "Selecciona un archivo CSV de uno de los siguientes proveedores.",
+    "import_f_google": "Importar desde Google",
+    "import_f_yahoo": "Importar desde Yahoo",
+    "import_f_outlook": "Importar desde Outlook",
+    "import_f_other": "Importar desde otro",
+    "contact_name": "Nombre del Contacto",
+    "type_email": "Tipo de correo",
+    "a_note": "Una nota"
   },
   "common": {
     "name": "Nombre",
     "compose": "ESCRIBIR",
-    "email": "Email",
+    "email": "Correo",
     "phone": "Teléfono",
     "edit": "EDITAR",
     "search": "Buscar (solo se admiten búsquedas de temas y direcciones de correo electrónico)",
@@ -50,20 +62,21 @@
     "yes": "Sí",
     "no": "No",
     "logout": "Cerrar sesión",
-    "search_contacts": "Search contacts"
+    "search_contacts": "Buscar contactos"
   },
   "settings": {
-    "compose_font": "Default Mail Compose Font",
+    "compose_font": "Fuente predeterminada",
+    "compose_autosave_duration": "Intervalo de guardado",
     "champion_plan": "Champion Plan",
     "champion": "Champion",
-    "select_champion": "Select Champion",
+    "select_champion": "Seleccionar Champion",
     "dashboard": "Panel de control",
-    "dashboard_plans": "Dashboard & plans",
+    "dashboard_plans": "Panel y Planes",
     "general": "General",
     "overview": "Visión general",
     "username": "Nombre de usuario",
     "domains": "Dominios",
-    "feature_coming_soon": "¡Esta característica próximamente!",
+    "feature_coming_soon": "¡Próximamente!",
     "addresses": "Direcciones",
     "storage": "Almacenamiento",
     "address_tooltip": "Una  - ¡Mas disponibles próximamente! ",
@@ -346,6 +359,8 @@
       "attach_files": "Attach Files",
       "attach_url": "Attach URL",
       "self_dest_email": "Self Destruct Email",
+      "confirm_send": "Confirm Send",
+      "send_without_all": "Are you sure, send this message without a subject or text in the body?",
       "email_deleted": "Email will be deleted on selected datetime",
       "select_date": "Select Date",
       "select_time": "Select Time",
@@ -462,7 +477,7 @@
   },
   "footer": {
     "register_to_world_most": "<strong>Regístrate</strong> al email más seguro del mundo <strong>¡hoy mismo!</strong>",
-      "send_unbreakable_emails": "Envía emails indescifrables y protege tus detalles personales y profesionales esenciales con una encriptación de última generación utilizando almacenamiento centrado en la privacidad y ubicado en Islandia.",
+    "send_unbreakable_emails": "Envía emails indescifrables y protege tus detalles personales y profesionales esenciales con una encriptación de última generación utilizando almacenamiento centrado en la privacidad y ubicado en Islandia.",
     "upgrade_to_prime": "Actualizar a  prime",
     "media_kit": " Kit de prensa",
     "onion_site": "Sitio Onion ",
@@ -518,6 +533,8 @@
     "more_info": "Más información",
     "less": "Menos",
     "invite_code": "Código de invitación",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": " Email de recuperación (opcional)",
     "recover_account": " Esta opción será usada para recuperar tu cuenta en caso de que olvides tu contraseña",
     "check_box": " Por favor selecciona esta casilla si aceptas respetar nuestros ",
@@ -537,6 +554,7 @@
   "billing_info": {
     "pending_payment_alert": "Tu pago está pendiente, aunque de todos modos puedes crear una cuenta gratuita y tu cuenta será actualizada a premium luego de que tu pago sea verificado.",
     "bitcoin_sent_timer": "¡BTC enviado después del contador de tiempo se perderá!",
+    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
     "payment_information": "Información de pago",
     "plan": "Plan",
     "billing": "Facturación",
@@ -590,7 +608,9 @@
     "show_trimmed": "Show trimmed content",
     "attachment_message": "Do you want to forward attachments of this message?",
     "no_header": "No headers available",
-    "incoming_head": "Incoming Headers"
+    "incoming_head": "Incoming Headers",
+    "show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

@@ -30,17 +30,10 @@ import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-fold
 import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { LastActionPipe } from './pipes/last-action.pipe';
 import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
+import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    TagInputModule,
-    MatIconModule,
-    NgbModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, TagInputModule, MatIconModule, NgbModule],
   declarations: [
     SpinnerComponent,
     SpinnerImageComponent,
@@ -62,7 +55,8 @@ import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
     LastActionPipe,
-    CreditCardNumberPipe
+    CreditCardNumberPipe,
+    LineBreakToBrTag,
   ],
   exports: [
     TranslateModule,
@@ -87,7 +81,8 @@ import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
     StripeFormComponent,
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
-    CreditCardNumberPipe
+    CreditCardNumberPipe,
+    LineBreakToBrTag,
   ],
   providers: [
     SpinnerService,
@@ -95,12 +90,9 @@ import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
     BrowserDetectorService,
     FilesizePipe,
     FilenamePipe,
-    CreditCardNumberPipe
+    CreditCardNumberPipe,
+    LineBreakToBrTag,
   ],
-  entryComponents: [
-    CreateFolderComponent,
-    PaymentFailureNoticeComponent
-  ]
+  entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent],
 })
-export class SharedModule {
-}
+export class SharedModule {}

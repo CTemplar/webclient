@@ -1,16 +1,17 @@
+<!--Footer on settings page -->
 <footer id="mailboxFooter" class="mailbox-footer">
-    <div class="mailbox-footer-inner">
-        <ul class="mailbox-footer-menu justify-content-center justify-content-sm-start">
-            <li>
-                <a href="{{primaryWebsite}}/terms"  target="_blank">
-                    <u [innerHTML]="'common.terms_and_privacy' | translate">Terms of Service</u>
-                </a>
-            </li>
-            <li *ngIf="!userState.isPrime">
-                <a routerLink="/mail/settings/dashboard-and-plans" class="text-primary">
-                    <u>{{"common.upgrade_account"| translate}}</u>
-                </a>
-            </li>
-        </ul>
-    </div>
+  <div class="mailbox-footer-inner">
+    <ul class="mailbox-footer-menu justify-content-center justify-content-sm-start">
+      <li>
+        <a href="{{ primaryWebsite }}/terms" target="_blank">
+          <u [innerHTML]="'common.terms_and_privacy' | translate">Terms of Service</u>
+        </a>
+      </li>
+      <li *ngIf="!userState.isPrime">
+        <a routerLink="/mail/settings/dashboard-and-plans" class="text-primary">
+          <u>{{ 'common.upgrade_account' | translate }}</u>
+        </a>
+      </li>
+    </ul>
+  </div>
 </footer>

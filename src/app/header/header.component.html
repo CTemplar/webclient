@@ -1,125 +1,104 @@
 <!-- REUSABLE COMPONENT :: HEADER -->
-<header id="mastHead" class="topnavbar fixed-top" [class.header-is-stuck]="navIsFixed"
-        [ngClass]="{ 'has-menu-shown': menuIsOpened, 'topnavbar-primary': this.router.url === '/', 'topnavbar-secondary': this.router.url !== '/' }"
-        role="banner">
-    <div class="topnavbar__row">
-        <nav class="navbar navbar-expand-lg" role="navigation">
-            <div class="row align-items-center">
-                <div class="col navbar-col navbar-brand-col">
-                    <figure class="navbar-brand-holder">
-                        <a class="navbar-brand ff-roboto text-uppercase" href="{{primaryWebsite}}/">
-                            <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg"/>
-                            <strong>ctemplar</strong>
-                        </a>
-                    </figure>
+<header
+  id="mastHead"
+  class="topnavbar fixed-top"
+  [class.header-is-stuck]="navIsFixed"
+  [ngClass]="{
+    'has-menu-shown': menuIsOpened,
+    'topnavbar-primary': this.router.url === '/',
+    'topnavbar-secondary': this.router.url !== '/'
+  }"
+  role="banner"
+>
+  <div class="topnavbar__row">
+    <nav class="navbar navbar-expand-lg" role="navigation">
+      <div class="row align-items-center">
+        <div class="col navbar-col navbar-brand-col">
+          <figure class="navbar-brand-holder">
+            <a class="navbar-brand ff-roboto text-uppercase" href="{{ primaryWebsite }}/">
+              <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
+              <strong>ctemplar</strong>
+            </a>
+          </figure>
+        </div>
+        <div class="col navbar-col navbar-menu-col">
+          <button
+            class="navbar-toggler"
+            (click)="toggleState()"
+            [ngClass]="{
+              opened: menuIsOpened,
+              'hidden-md-up': !externalPageCallToAction,
+              'd-none': externalPageCallToAction
+            }"
+            role="button"
+            data-target="navbar-collapsable-content"
+            aria-controls="ctemplarMenuContent"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> Menu
+          </button>
+          <div class="navbar-collapsable-content" [ngClass]="{ shown: menuIsOpened }" [hidden]="externalPageCallToAction">
+            <ul class="navbar-nav my-0 px-0 list-style-none">
+              <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a href="{{ primaryWebsite }}/" class="nav-link" (click)="closeMenu()"> <span [translate]="'home_header.home'">Home</span> <span class="sr-only">(current)</span> </a>
+              </li>
+              <li class="nav-item" routerLinkActive="active">
+                <a href="{{ primaryWebsite }}/about" class="nav-link" (click)="closeMenu()" [translate]="'home_header.about'">About</a>
+              </li>
+              <li class="nav-item" routerLinkActive="active">
+                <a href="{{ primaryWebsite }}/security" class="nav-link" (click)="closeMenu()" [translate]="'home_header.security'">Security</a>
+              </li>
+              <li class="nav-item" routerLinkActive="active">
+                <a href="{{ primaryWebsite }}/pricing" class="nav-link" (click)="closeMenu()" [translate]="'home_header.pricing'">Pricing</a>
+              </li>
+              <li class="nav-item" routerLinkActive="active">
+                <a href="{{ primaryWebsite }}/blog" target="_blank" rel="noopener" class="nav-link" (click)="closeMenu()" [translate]="'home_header.blog'">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ primaryWebsite }}/faqs" target="_blank" class="nav-link" (click)="closeMenu()" [translate]="'home_header.support'">Support</a>
+              </li>
+              <li class="nav-item hidden-sm-up">
+                <a routerLink="/signin" *ngIf="!isLoggedIn; else mobileDashboardLink" class="nav-link nav-action-link" (click)="closeMenu()" [translate]="'home_header.login'">Login</a>
+                <ng-template #mobileDashboardLink>
+                  <a routerLink="/mail" class="nav-link nav-action-link" (click)="closeMenu()" [translate]="'settings.dashboard'">Dashboard</a>
+                </ng-template>
+              </li>
+              <li class="nav-item hidden-sm-up" routerLinkActive="active" *showInIE="false">
+                <a routerLink="/signup" *ngIf="!isLoggedIn; else mobileLogoutLink" class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn" (click)="closeMenu()" [translate]="'home_header.signup'">Sign up</a>
+                <ng-template #mobileLogoutLink>
+                  <a class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn" (click)="closeMenu(); logout()" [translate]="'common.logout'">Logout</a>
+                </ng-template>
+              </li>
+            </ul>
+          </div>
+          <ul class="user-actions-list my-0 px-0 list-style-none" [ngClass]="{ 'external-page-user-actions-list': externalPageCallToAction }">
+            <li class="user-actions-item" routerLinkActive="active" [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }">
+              <a *ngIf="!isLoggedIn; else dashboardLink" routerLink="/signin" class="user-actions-link" [translate]="'home_header.login'">Login</a>
+              <ng-template #dashboardLink>
+                <a routerLink="/mail" class="user-actions-link" [translate]="'settings.dashboard'">Dashboard</a>
+              </ng-template>
+            </li>
+            <li class="user-actions-item" [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }" *showInIE="false">
+              <a *ngIf="!isLoggedIn; else logoutLink" routerLink="/signup" class="user-actions-link btn btn-sm btn-gradient-primary signup-btn" [translate]="'home_header.signup'">Sign Up</a>
+              <ng-template #logoutLink>
+                <a routerLink="/signin" (click)="logout()" class="user-actions-link btn btn-sm btn-gradient-primary signup-btn" [translate]="'common.logout'"> Logout</a>
+              </ng-template>
+            </li>
+            <li class="user-actions-item btn-dropdown" [hidden]="externalPageCallToAction">
+              <div ngbDropdown placement="bottom-right" class="lang-selector-dropdown">
+                <button class="bg-transparent" type="button" id="langDropdownMenuButton" ngbDropdownToggle>
+                  <i class="fa fa-globe hidden-xs-down"></i>
+                  {{ selectedLanguage?.locale?.toUpperCase() }}
+                </button>
+                <div ngbDropdownMenu class="text-center" aria-labelledby="langDropdownMenuButton">
+                  <a class="dropdown-item language-dropdown" *ngFor="let language of languages" (click)="changeLanguage(language)">{{ language.name }} ({{ language.locale }})</a>
                 </div>
-
-                <div class="col navbar-col navbar-menu-col">
-                    <button class="navbar-toggler" (click)="toggleState()"
-                            [ngClass]="{ 'opened': menuIsOpened, 'hidden-md-up': !externalPageCallToAction, 'd-none': externalPageCallToAction }"
-                            role="button" data-target="navbar-collapsable-content" aria-controls="ctemplarMenuContent"
-                            aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                        <span class="navbar-toggler-icon"></span>
-                        <span class="navbar-toggler-icon"></span>
-                        <span class="navbar-toggler-icon"></span>
-                        Menu
-                    </button>
-
-                    <div class="navbar-collapsable-content" [ngClass]="{ 'shown': menuIsOpened }"
-                         [hidden]="externalPageCallToAction">
-                        <ul class="navbar-nav my-0 px-0 list-style-none">
-                            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                                <a href="{{primaryWebsite}}/" class="nav-link" (click)="closeMenu()">
-                                    <span [translate]="'home_header.home'">Home</span>
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item" routerLinkActive="active">
-                                <a href="{{primaryWebsite}}/about" class="nav-link" (click)="closeMenu()"
-                                   [translate]="'home_header.about'">About</a>
-                            </li>
-                            <li class="nav-item" routerLinkActive="active">
-                                <a href="{{primaryWebsite}}/security" class="nav-link" (click)="closeMenu()"
-                                   [translate]="'home_header.security'">Security</a>
-                            </li>
-                            <li class="nav-item" routerLinkActive="active">
-                                <a href="{{primaryWebsite}}/pricing" class="nav-link" (click)="closeMenu()"
-                                   [translate]="'home_header.pricing'">Pricing</a>
-                            </li>
-                            <li class="nav-item" routerLinkActive="active">
-                                <a href="{{primaryWebsite}}/blog" target="_blank" rel="noopener" class="nav-link" (click)="closeMenu()"
-                                   [translate]="'home_header.blog'">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{primaryWebsite}}/faqs" target="_blank" class="nav-link"
-                                   (click)="closeMenu()" [translate]="'home_header.support'">Support</a>
-                            </li>
-                            <li class="nav-item hidden-sm-up">
-                                <a routerLink="/signin"
-                                   *ngIf="!isLoggedIn; else mobileDashboardLink"
-                                   class="nav-link nav-action-link" (click)="closeMenu()" [translate]="'home_header.login'">Login</a>
-
-                                <ng-template #mobileDashboardLink>
-                                    <a routerLink="/mail"
-                                       class="nav-link nav-action-link" (click)="closeMenu()"
-                                       [translate]="'settings.dashboard'">Dashboard</a>
-                                </ng-template>
-
-                            </li>
-                            <li class="nav-item hidden-sm-up" routerLinkActive="active" *showInIE="false">
-                                <a href="{{primaryWebsite}}/signup"
-                                   *ngIf="!isLoggedIn; else mobileLogoutLink"
-                                   class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn"
-                                   (click)="closeMenu()" [translate]="'home_header.signup'">Sign up</a>
-                                <ng-template #mobileLogoutLink>
-                                    <a class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn"
-                                       (click)="closeMenu(); logout()" [translate]="'common.logout'">Logout</a>
-                                </ng-template>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <ul class="user-actions-list my-0 px-0 list-style-none"
-                        [ngClass]="{ 'external-page-user-actions-list': externalPageCallToAction }">
-                        <li class="user-actions-item" routerLinkActive="active"
-                            [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }">
-                            <a *ngIf="!isLoggedIn; else dashboardLink" routerLink="/signin" class="user-actions-link"
-                               [translate]="'home_header.login'">Login</a>
-                            <ng-template #dashboardLink>
-                                <a routerLink="/mail" class="user-actions-link" [translate]="'settings.dashboard'">Dashboard</a>
-                            </ng-template>
-                        </li>
-                        <li class="user-actions-item"
-                            [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }" *showInIE="false">
-                            <a *ngIf="!isLoggedIn; else logoutLink" href="{{primaryWebsite}}/signup"
-                               class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
-                               [translate]="'home_header.signup'">Sign Up</a>
-                            <ng-template #logoutLink>
-                                <a routerLink="/signin"
-                                   (click)="logout()"
-                                   class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
-                                   [translate]="'common.logout'">
-                                    Logout</a>
-                            </ng-template>
-                        </li>
-                        <li class="user-actions-item btn-dropdown" [hidden]="externalPageCallToAction">
-                            <div ngbDropdown placement="bottom-right" class="lang-selector-dropdown">
-                                <button class="bg-transparent" type="button" id="langDropdownMenuButton"
-                                        ngbDropdownToggle>
-                                    <i class="fa fa-globe hidden-xs-down"></i> {{selectedLanguage?.locale?.toUpperCase()}}
-                                </button>
-                                <div ngbDropdownMenu class="text-center" aria-labelledby="langDropdownMenuButton">
-                                    <a class="dropdown-item language-dropdown"
-                                       *ngFor="let language of languages" (click)="changeLanguage(language)"
-                                    >{{language.name}} ({{language.locale}})</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 </header>
 <!-- /.REUSABLE COMPONENT :: HEADER ENDS -->

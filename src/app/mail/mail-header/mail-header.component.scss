@@ -12,7 +12,7 @@
   border-right: 0;
   border-left: 0;
 
-  @include media("<=sm") {
+  @include media('<=sm') {
     position: fixed;
     top: 0;
     right: 0;
@@ -35,7 +35,8 @@
       }
     }
 
-    .navbar-toggler-icon:nth-child(2), .navbar-toggler-icon:nth-child(3) {
+    .navbar-toggler-icon:nth-child(2),
+    .navbar-toggler-icon:nth-child(3) {
       top: 9px;
     }
 
@@ -45,7 +46,7 @@
 
     .mailbox-actions-menu .dropdown .dropdown-toggle {
       display: block;
-      margin-top: -.05rem;
+      margin-top: -0.05rem;
       padding: 0 1rem 0 0;
       background: transparent;
       border: 0;
@@ -62,13 +63,13 @@
     }
   }
 
-  @include media(">=ipad") {
+  @include media('>=ipad') {
     padding-right: 1.563rem;
     padding-left: 1.563rem;
   }
 
   .mailbox-navbar-col {
-    @include media("<ipad", ">sm") {
+    @include media('<ipad', '>sm') {
       &:first-of-type {
         flex: 0 0 calc(100% - 265px);
         max-width: calc(100% - 265px);
@@ -83,7 +84,7 @@
 }
 
 .header-fixed-spacer {
-  @include media("<=sm") {
+  @include media('<=sm') {
     margin-top: 52px;
   }
 }
@@ -94,14 +95,14 @@
   padding: 0 0;
   list-style: none;
 
-  @include media("<=sm") {
+  @include media('<=sm') {
     margin: 0 -0.75rem;
   }
 
   > li {
     padding: 0 0.5rem;
 
-    @include media("<=sm") {
+    @include media('<=sm') {
       padding: 0 0.5rem;
       line-height: 1;
     }
@@ -110,20 +111,21 @@
       display: block;
       text-align: center;
 
-      @include media("<=sm") {
+      @include media('<=sm') {
         color: #a1abb5 !important;
         font-size: 1rem;
-        padding: .6rem 0.4rem;
+        padding: 0.6rem 0.4rem;
       }
 
-      @include media(">sm") {
+      @include media('>sm') {
         padding: 0.438rem 0.813rem;
         background: $brand-white;
         border: 1px solid $dropdown-border-color;
         color: $brand-light-gray;
         font-size: 1.25rem;
 
-        &.active, &:active {
+        &.active,
+        &:active {
           background: #8b9095;
           border-color: #8b9095;
           color: #fafafa;
@@ -133,8 +135,8 @@
 
     .dropdown {
       background: $brand-white;
-      @include media("<=sm") {
-        padding: .6rem 0.4rem;
+      @include media('<=sm') {
+        padding: 0.6rem 0.4rem;
         background: transparent;
       }
     }
@@ -163,7 +165,6 @@
     .border-right-no-color {
       border-right-color: transparent;
     }
-
   }
 
   .dropdown-toggle {
@@ -201,14 +202,14 @@
 
 // == Search form
 .search-form {
-  @include media("<ipad") {
+  @include media('<ipad') {
     width: 90%;
   }
 
   .form-control {
     padding-right: 3.438rem + 0.938rem;
     height: 32px;
-    @include media("<ipad", ">sm") {
+    @include media('<ipad', '>sm') {
       margin-top: -1px;
       padding: 0.875rem 3.438rem + 0.938rem 0.875rem 0.938rem;
     }

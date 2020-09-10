@@ -1,894 +1,761 @@
 <div class="mail-composer-body">
   <form>
     <div class="mail-compose-field-group">
+      <!-- 'From' field -->
       <div class="mail-compose-field">
-        <span class="mail-label label-from">{{"settings.compose.from"| translate}}</span>
+        <span class="mail-label label-from">{{ 'settings.compose.from' | translate }}</span>
         <div class="col-sm p-0">
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
             <div ngbDropdown class="dropdown-sm">
-              <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
-                      id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
-                {{selectedMailbox?.display_name}} <{{selectedMailbox?.email}}>
-              </button>
-              <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu
-                   class="from-dropdown"
-                   aria-labelledby="fromEmailDropdownMenuButton">
+              <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">{{ selectedMailbox?.display_name }} <{{ selectedMailbox?.email }}></button>
+              <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu class="from-dropdown" aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
-                  <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled"
-                     (click)="onFromChanged(mailbox, selectedMailbox)">{{mailbox.email}}</a>
+                  <a class="dropdown-item from-text" *ngIf="mailbox.is_enabled" (click)="onFromChanged(mailbox, selectedMailbox)">{{ mailbox.email }}</a>
                 </ng-container>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="mail-compose-field mail-compose-field-to">
-        <span class="mail-label label-to">{{"settings.compose.to"| translate}}</span>
-        <tag-input [(ngModel)]="mailData.receiver"
-                   *ngIf="isLoaded"
-                   name="to"
-                   #receiverInput
-                   [placeholder]="' '"
-                   [secondaryPlaceholder]="'settings.compose.recipient_email'| translate"
-                   [onTextChangeDebounce]="100"
-                   [onlyFromAutocomplete]="false"
-                   [addOnBlur]="true"
-                   [editable]='true'
-                   [separatorKeyCodes]="[188,13]"
-                   (onAdd)="onAddingReceiver($event, mailData.receiver)"
-                   (onRemove)="valueChanged$.next(mailData.receiver)">
-          <ng-template let-item="item" let-index="index">
-            <div class="tag-wrapper" title="{{item.display}}">
-              <span>{{ item.value }}</span>
-              <delete-icon (click)="receiverInput.removeItem(item, index)"></delete-icon>
-            </div>
-          </ng-template>
-          <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [appendToBody]="false"
-                              [displayBy]="'display'"
-                              [identifyBy]="'email'"
-                              [autocompleteItems]="contacts">
+      <!-- 'From' field -->
+      <!-- 'To' field -->
+      <div class="mail-compose-field mail-compose-field-to" #receiverInput>
+        <span class="mail-label label-to">{{ 'settings.compose.to' | translate }}</span>
+        <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188, 13]" [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)" (click)="onClick($event)">
+          <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
-              {{ item.display }}
+              <div class="compose-contacts-container">
+                <img src="assets/images/user-icon-grey.png" alt="user-image" />
+                <div class="compose-contacts-userinfo">
+                  <div>{{ item.name }}</div>
+                  <div>{{ item.email }}</div>
+                </div>
+              </div>
             </ng-template>
           </tag-input-dropdown>
         </tag-input>
         <div class="extra-mail-label">
-                            <span class="mail-label mail-floated-label"
-                                  (click)="options.isCcVisible = !options.isCcVisible">Cc</span>
-          <span class="mail-label mail-floated-label mr-0"
-                (click)="options.isBccVisible = !options.isBccVisible">Bcc</span>
+          <span class="mail-label mail-floated-label" (click)="options.isCcVisible = !options.isCcVisible">Cc</span>
+          <span class="mail-label mail-floated-label mr-0" (click)="options.isBccVisible = !options.isBccVisible">Bcc</span>
         </div>
       </div>
-      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isCcVisible}">
+      <!-- 'To' field -->
+      <!-- 'Cc' field -->
+      <div class="mail-compose-field" [ngClass]="{ 'd-none': !options.isCcVisible }" #ccReceiverInput>
         <span class="mail-label label-cc">Cc:</span>
-        <tag-input [(ngModel)]="mailData.cc"
-                   name="cc"
-                   #ccReceiverInput
-                   [placeholder]="' '"
-                   [secondaryPlaceholder]="'settings.compose.cc_email'| translate"
-                   [onTextChangeDebounce]="100"
-                   [onlyFromAutocomplete]="false"
-                   [addOnBlur]="true"
-                   [editable]='true'
-                   [separatorKeyCodes]="[188,13]"
-                   (onAdd)="onAddingReceiver($event, mailData.cc)"
-                   (onRemove)="valueChanged$.next(mailData.cc)">
-          <ng-template let-item="item" let-index="index">
-            <div class="tag-wrapper" title="{{item.display}}">
-              <span>{{ item.value }}</span>
-              <delete-icon (click)="ccReceiverInput.removeItem(item, index)"></delete-icon>
-            </div>
-          </ng-template>
-          <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [appendToBody]="false"
-                              [displayBy]="'display'"
-                              [identifyBy]="'email'"
-                              [autocompleteItems]="contacts">
+        <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.cc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188, 13]" [(inputText)]="ccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="valueChanged$.next(mailData.cc)" (onTextChange)="ccUpdateInputTextValue($event)" (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick($event)">
+          <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
-              {{item.display}}
+              <div class="compose-contacts-container">
+                <img src="assets/images/user-icon-grey.png" alt="user-image" />
+                <div class="compose-contacts-userinfo">
+                  <div>{{ item.name }}</div>
+                  <div>{{ item.email }}</div>
+                </div>
+              </div>
             </ng-template>
           </tag-input-dropdown>
         </tag-input>
       </div>
-      <div class="mail-compose-field" [ngClass]="{'d-none' : !options.isBccVisible}">
+      <!-- 'Cc' field -->
+      <!-- 'Bcc' field -->
+      <div class="mail-compose-field" [ngClass]="{ 'd-none': !options.isBccVisible }" #bccReceiverInput>
         <span class="mail-label label-bcc">Bcc:</span>
-        <tag-input [(ngModel)]="mailData.bcc"
-                   name="bcc"
-                   #bccReceiverInput
-                   [placeholder]="' '"
-                   [secondaryPlaceholder]="'settings.compose.bcc_email'| translate"
-                   [onTextChangeDebounce]="100"
-                   [onlyFromAutocomplete]="false"
-                   [addOnBlur]="true"
-                   [editable]='true'
-                   [separatorKeyCodes]="[188,13]"
-                   (onAdd)="onAddingReceiver($event, mailData.bcc)"
-                   (onRemove)="valueChanged$.next(mailData.bcc)">
-          <ng-template let-item="item" let-index="index">
-            <div class="tag-wrapper" title="{{item.display}}">
-              <span>{{ item.value }}</span>
-              <delete-icon (click)="bccReceiverInput.removeItem(item, index)"></delete-icon>
-            </div>
-          </ng-template>
-          <tag-input-dropdown [showDropdownIfEmpty]="false"
-                              [appendToBody]="false"
-                              [displayBy]="'display'"
-                              [identifyBy]="'email'"
-                              [autocompleteItems]="contacts">
+        <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.bcc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeyCodes]="[188, 13]" [(inputText)]="bccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="valueChanged$.next(mailData.bcc)" (onTextChange)="bccUpdateInputTextValue($event)" (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick($event)">
+          <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
-              {{item.display}}
+              <div class="compose-contacts-container">
+                <img src="assets/images/user-icon-grey.png" alt="user-image" />
+                <div class="compose-contacts-userinfo">
+                  <div>{{ item.name }}</div>
+                  <div>{{ item.email }}</div>
+                </div>
+              </div>
             </ng-template>
           </tag-input-dropdown>
         </tag-input>
       </div>
+      <!-- 'Bcc' field -->
+      <!-- 'Subject' field -->
       <div class="mail-compose-field">
-        <span class="mail-label label-subject mail-subject">{{"settings.compose.subject"| translate}}</span>
-        <input type="text" class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject"
-                  [disabled]="action===mailAction.REPLY || action===mailAction.REPLY_ALL"
-                  (ngModelChange)="valueChanged$.next(mailData.subject); onSubjectChange(mailData.subject)"
-                  id="subject">
+        <span class="mail-label label-subject mail-subject">{{ 'settings.compose.subject' | translate }}</span>
+        <input type="text" class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject" [disabled]="action === mailAction.REPLY || action === mailAction.REPLY_ALL" (ngModelChange)="valueChanged$.next(mailData.subject); onSubjectChange(mailData.subject)" id="subject" />
       </div>
+      <!-- 'Subject' field -->
     </div>
   </form>
+  <!-- Main Content field -->
   <div class="mail-compose-editable-body">
     <div class="mail-compose-box has-custom-scroll">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
           <div #editor *ngIf="draftMail?.is_html"></div>
           <div *ngIf="!draftMail?.is_html">
-             <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content"
-                       (ngModelChange)="valueChanged$.next(mailData.content)"
-                       id="content" rows="1"></textarea>
+            <textarea class="plain-editor" name="content" [(ngModel)]="mailData.content" (ngModelChange)="valueChanged$.next(mailData.content)" id="content" rows="1"> </textarea>
           </div>
         </div>
-        <input type="file"
-               #imageInput
-               accept="image/*"
-               multiple
-               (change)="onImagesSelected($event.target.files)"
-               style="display:none">
-        <input type="file"
-               #fileInput
-               multiple
-               (change)="onFilesSelected($event.target.files)"
-               style="display:none">
-        <div class="attach-uploader-holder" *ngIf="attachments?.length>0">
+        <input type="file" #imageInput accept="image/*" multiple (change)="onImagesSelected($event.target.files)" style="display: none" />
+        <input type="file" #fileInput multiple (change)="onFilesSelected($event.target.files)" style="display: none" />
+        <div class="attach-uploader-holder" *ngIf="attachments?.length > 0">
           <ng-container *ngFor="let file of attachments">
             <div class="attach-uploader" *ngIf="!file.isRemoved && !(file.is_inline && file.progress === 100)">
               <div class="attach-name">
-                <div class="file-name">{{file.name}}</div>
-                <div class="attach-size" *ngIf="file.size">({{file.size}})</div>
+                <div class="file-name">{{ file.name }}</div>
+                <div class="attach-size" *ngIf="file.size">({{ file.size }})</div>
               </div>
               <div class="progress" *ngIf="file.progress !== 100">
-                <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'"
-                     [attr.aria-valuenow]="file.progress" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [style.width]="file.progress + '%'" [attr.aria-valuenow]="file.progress" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
-              <button type="button" role="button" (click)="removeAttachment(file)"
-                      class="attach-uploader-close" placement="top" [ngbTooltip]="'settings.remove'| translate">
+              <button type="button" role="button" (click)="removeAttachment(file)" class="attach-uploader-close" placement="top" [ngbTooltip]="'settings.remove' | translate">
                 <i class="icon icon-cross"></i>
               </button>
             </div>
           </ng-container>
         </div>
-        <div #attachmentHolder style="height: 20px;"></div>
+        <div #attachmentHolder style="height: 20px"></div>
       </div>
     </div>
     <div class="mail-composer-footer">
       <div class="mail-composer-actions-row d-flex align-items-center">
-        <div class="mail-composer-actions-col mail-composer-actions-col-lg" [ngClass]="{'composer-footer' : !isFullScreen && !isMailDetailPage}">
+        <div class="mail-composer-actions-col mail-composer-actions-col-lg" [ngClass]="{ 'composer-footer': !isFullScreen && !isMailDetailPage }">
           <ul class="mail-composer-actions d-flex align-items-center">
+            <!-- Send button -->
             <li class="send-mail-item">
-              <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded"
-                      (click)="sendEmail()"
-                      [disabled]="inProgress || isUploadingAttachment ||  isDownloadingAttachmentCounter > 0"
-                      role="button"
-                      placement="top">
-                <i class="hidden-sm-up icon icon-paper-plane"></i><span
-                      class="hidden-xs-down">{{"settings.compose.send"| translate}}</span>
+              <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" (click)="sendEmailCheck()" [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0" role="button" placement="top">
+                <i class="hidden-sm-up icon icon-paper-plane"></i>
+                <span class="hidden-xs-down">
+                  {{ 'settings.compose.send' | translate }}
+                </span>
               </button>
             </li>
-            <li>
-              <div *ngIf="!draftMail?.is_html; else textFormatter"
-                   ngbTooltip="Text formatting is not available in plain text editor" class="dropdown">
+            <!-- Text formatting -->
+            <li class="pr-0">
+              <div *ngIf="!draftMail?.is_html; else textFormatter" ngbTooltip="Text formatting is not available in plain text editor" class="dropdown">
                 <button class="actions-btn mail-typo-btn hide-arrow" disabled>
                   <i class="icon icon-text-color"></i>
                 </button>
               </div>
               <ng-template #textFormatter>
-              <div ngbDropdown [autoClose]="'outside'" [placement]="['top-left', 'bottom-left']" class="dropdown">
-                <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow"
-                        id="typoDropdownMenu" role="button" placement="top"
-                        [ngbTooltip]="'settings.compose.text_format'| translate"><i class="icon icon-text-color"></i>
-                </button>
-                <div ngbDropdownMenu class="typo-actions-dropdown-menu"
-                     aria-labelledby="typoDropdownMenu">
-                  <div #toolbar class="mail-comopser-typo-actions-holder">
-                    <ul class="mail-composer-actions d-flex align-items-center justify-content-center pb-1">
-                      <li class="pr-0">
-                        <div ngbDropdown placement="top" class="dropup">
-                          <button ngbDropdownToggle role="button"
-                                  ngbTooltip="Font family"
-                                  class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0"
-                                  id="typoFamilyDropdownMenu"><i
-                                  class="icon icon-text-size"></i></button>
-                          <div ngbDropdownMenu class="typo-family-dropdown-menu"
-                               aria-labelledby="typoFamilyDropdownMenu">
-                            <div class="typo-holder">
-                              <ul class="typo-list list-styled">
-                                <li *ngFor="let font of fonts">
-                                  <button [value]="font" class="ql-font typo-select-link text-capitalize">
-                                    {{font}}</button>
-                                </li>
-                              </ul>
+                <div ngbDropdown [autoClose]="'outside'" [placement]="['top-left', 'bottom-left']" class="dropdown">
+                  <button ngbDropdownToggle class="actions-btn mail-typo-btn hide-arrow" id="typoDropdownMenu" role="button" placement="top" [ngbTooltip]="'settings.compose.text_format' | translate">
+                    <i class="icon icon-text-color"></i>
+                  </button>
+                  <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
+                    <div #toolbar class="mail-comopser-typo-actions-holder">
+                      <ul class="mail-composer-actions d-flex align-items-center justify-content-center pb-1">
+                        <li class="pr-0">
+                          <div ngbDropdown placement="top" class="dropup">
+                            <button ngbDropdownToggle role="button" ngbTooltip="Font family" class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0" id="typoFamilyDropdownMenu">
+                              <i class="icon icon-text-size"></i>
+                            </button>
+                            <div ngbDropdownMenu class="typo-family-dropdown-menu" aria-labelledby="typoFamilyDropdownMenu">
+                              <div class="typo-holder">
+                                <ul class="typo-list list-styled">
+                                  <li *ngFor="let font of fonts">
+                                    <button [value]="font" class="ql-font typo-select-link text-capitalize">
+                                      {{ font }}
+                                    </button>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                      <li class="pl-0">
-                        <div ngbDropdown placement="top" class="dropup">
-                          <button ngbDropdownToggle role="button"
-                                  ngbTooltip="Font size"
-                                  class="actions-btn mail-font-family-btn"
-                                  id="typoSizeDropdownMenu"><i
-                                  class="icon icon-text-size-alt"></i></button>
-                          <div ngbDropdownMenu class="typo-size-dropdown-menu"
-                               aria-labelledby="typoSizeDropdownMenu">
-                            <div class="typo-holder">
-                              <ul class="typo-list list-styled">
-                                <li>
-                                  <button value="10px"
-                                          class="ql-size typo-select-link is-small">
-                                    {{"settings.compose.small"| translate}}
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value=""
-                                          class="ql-size typo-select-link is-normal">
-                                    {{"settings.compose.normal"| translate}}
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="18px"
-                                          class="ql-size typo-select-link is-large">
-                                    {{"settings.compose.large"| translate}}
-                                  </button>
-                                </li>
-                                <li>
-                                  <button value="32px"
-                                          class="ql-size typo-select-link is-huge">
-                                    {{"settings.compose.huge"| translate}}
-                                  </button>
-                                </li>
-                              </ul>
+                        </li>
+                        <li class="pl-0">
+                          <div ngbDropdown placement="top" class="dropup">
+                            <button ngbDropdownToggle role="button" ngbTooltip="Font size" class="actions-btn mail-font-family-btn" id="typoSizeDropdownMenu">
+                              <i class="icon icon-text-size-alt"></i>
+                            </button>
+                            <div ngbDropdownMenu class="typo-size-dropdown-menu" aria-labelledby="typoSizeDropdownMenu">
+                              <div class="typo-holder">
+                                <ul class="typo-list list-styled">
+                                  <li>
+                                    <button value="10px" class="ql-size typo-select-link is-small">
+                                      {{ 'settings.compose.small' | translate }}
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button value="" class="ql-size typo-select-link is-normal">
+                                      {{ 'settings.compose.normal' | translate }}
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button value="18px" class="ql-size typo-select-link is-large">
+                                      {{ 'settings.compose.large' | translate }}
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <button value="32px" class="ql-size typo-select-link is-huge">
+                                      {{ 'settings.compose.huge' | translate }}
+                                    </button>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-
-                      <li class="pr-0">
-                        <button role="button"
-                                ngbTooltip="Bold"
-                                class="ql-bold actions-btn mail-bold-btn border-right-0 border-radius-r-0">
-                          <i class="icon icon-bold"></i></button>
-                      </li>
-                      <li class="px-0">
-                        <button role="button"
-                                ngbTooltip="Italic"
-                                class="ql-italic actions-btn mail-italic-btn border-right-0 border-radius-0">
-                          <i class="icon icon-italic"></i></button>
-                      </li>
-                      <li class="px-0">
-                        <button role="button"
-                                ngbTooltip="Underline"
-                                class="ql-underline actions-btn mail-underline-btn border-right-0 border-radius-0">
-                          <i class="icon icon-underline"></i></button>
-                      </li>
-                      <li class="pl-0">
-                        <button role="button"
-                                ngbTooltip="Quote"
-                                class="ql-blockquote actions-btn mail-quote-right-btn border-radius-l-0">
-                          <i
-                                  class="icon icon-quote-right"></i></button>
-                      </li>
-
-                      <li class="pr-0 d-none d-sm-block">
-                        <button role="button"
-                                ngbTooltip="Align right"
-                                class="ql-align actions-btn mail-align-right-btn border-right-0 border-radius-r-0"
-                                value="right">
-                          <i class="icon icon-text-align-right"></i></button>
-                      </li>
-                      <li class="px-0 d-none d-sm-block">
-                        <button role="button"
-                                ngbTooltip="Align center"
-                                class="ql-align actions-btn mail-align-center-btn border-right-0 border-radius-0"
-                                value="center">
-                          <i class="icon icon-text-align-center"></i></button>
-                      </li>
-                      <li class="pl-0 d-none d-sm-block">
-                        <button role="button"
-                                ngbTooltip="Align left"
-                                class="ql-align actions-btn mail-align-left-btn border-radius-l-0">
-                          <i class="icon icon-text-align-left"></i></button>
-                      </li>
-                    </ul>
-                    <ul class="mail-composer-actions d-flex align-items-center justify-content-center">
-                      <li class="pl-0">
-                        <div ngbDropdown placement="top" class="dropdown">
-                          <button ngbDropdownToggle
-                                  ngbTooltip="Font color"
-                                  class="actions-btn mail-font-color-btn border-radius-l-0"
-                                  id="typoColorDropdownMenu" role="button"><i
-                                  class="icon icon-text-color"></i></button>
-                          <div ngbDropdownMenu class="left-0"
-                               aria-labelledby="typoColorDropdownMenu">
-                            <div class="color-picker-holder">
-                              <div class="row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                  <div class="color-picker">
-                                    <div class="color-picker-title"><strong>
-                                      {{"settings.compose.background_color"| translate}}</strong></div>
-                                    <ul class="color-picker-list d-flex flex-wrap">
-                                      <li *ngFor="let color of colors">
-                                        <button class="ql-background color-shape"
-                                                [class.border-lightgrey]="color==='#ffffff'"
-                                                [value]="color"
-                                                [style.background]="color"></button>
-                                      </li>
-                                    </ul>
+                        </li>
+                        <li class="pr-0">
+                          <button role="button" ngbTooltip="Bold" class="ql-bold actions-btn mail-bold-btn border-right-0 border-radius-r-0">
+                            <i class="icon icon-bold"></i>
+                          </button>
+                        </li>
+                        <li class="px-0">
+                          <button role="button" ngbTooltip="Italic" class="ql-italic actions-btn mail-italic-btn border-right-0 border-radius-0">
+                            <i class="icon icon-italic"></i>
+                          </button>
+                        </li>
+                        <li class="px-0">
+                          <button role="button" ngbTooltip="Underline" class="ql-underline actions-btn mail-underline-btn border-right-0 border-radius-0">
+                            <i class="icon icon-underline"></i>
+                          </button>
+                        </li>
+                        <li class="pl-0">
+                          <button role="button" ngbTooltip="Quote" class="ql-blockquote actions-btn mail-quote-right-btn border-radius-l-0">
+                            <i class="icon icon-quote-right"></i>
+                          </button>
+                        </li>
+                        <li class="pr-0 d-none d-sm-block">
+                          <button role="button" ngbTooltip="Align right" class="ql-align actions-btn mail-align-right-btn border-right-0 border-radius-r-0" value="right">
+                            <i class="icon icon-text-align-right"></i>
+                          </button>
+                        </li>
+                        <li class="px-0 d-none d-sm-block">
+                          <button role="button" ngbTooltip="Align center" class="ql-align actions-btn mail-align-center-btn border-right-0 border-radius-0" value="center">
+                            <i class="icon icon-text-align-center"></i>
+                          </button>
+                        </li>
+                        <li class="pl-0 d-none d-sm-block">
+                          <button role="button" ngbTooltip="Align left" class="ql-align actions-btn mail-align-left-btn border-radius-l-0">
+                            <i class="icon icon-text-align-left"></i>
+                          </button>
+                        </li>
+                      </ul>
+                      <ul class="mail-composer-actions d-flex align-items-center justify-content-center">
+                        <li class="pl-0">
+                          <div ngbDropdown placement="top" class="dropdown">
+                            <button ngbDropdownToggle ngbTooltip="Font color" class="actions-btn mail-font-color-btn border-radius-l-0" id="typoColorDropdownMenu" role="button">
+                              <i class="icon icon-text-color"></i>
+                            </button>
+                            <div ngbDropdownMenu class="left-0" aria-labelledby="typoColorDropdownMenu">
+                              <div class="color-picker-holder">
+                                <div class="row">
+                                  <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <div class="color-picker">
+                                      <div class="color-picker-title">
+                                        <strong> {{ 'settings.compose.background_color' | translate }}</strong>
+                                      </div>
+                                      <ul class="color-picker-list d-flex flex-wrap">
+                                        <li *ngFor="let color of colors">
+                                          <button class="ql-background color-shape" [class.border-lightgrey]="color === '#ffffff'" [value]="color" [style.background]="color"></button>
+                                        </li>
+                                      </ul>
+                                    </div>
                                   </div>
-                                </div>
-
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                  <div class="color-picker">
-                                    <div class="color-picker-title"><strong>
-                                      {{"settings.compose.text_color"| translate}}</strong></div>
-                                    <ul class="color-picker-list d-flex flex-wrap">
-                                      <li *ngFor="let color of colors">
-                                        <button class="ql-color color-shape"
-                                                [class.border-lightgrey]="color==='#ffffff'"
-                                                [value]="color"
-                                                [style.background]="color"></button>
-                                      </li>
-                                    </ul>
+                                  <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <div class="color-picker">
+                                      <div class="color-picker-title">
+                                        <strong> {{ 'settings.compose.text_color' | translate }}</strong>
+                                      </div>
+                                      <ul class="color-picker-list d-flex flex-wrap">
+                                        <li *ngFor="let color of colors">
+                                          <button class="ql-color color-shape" [class.border-lightgrey]="color === '#ffffff'" [value]="color" [style.background]="color"></button>
+                                        </li>
+                                      </ul>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-
-                      <li class="pr-0">
-                        <button role="button"
-                                ngbTooltip="Unordered list"
-                                class="ql-list actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"
-                                value="bullet">
-                          <i class="icon icon-unorder-list"></i></button>
-                      </li>
-                      <li class="px-0">
-                        <button role="button"
-                                ngbTooltip="Ordered list"
-                                class="ql-list actions-btn mail-order-list-btn border-right-0 border-radius-0"
-                                value="ordered">
-                          <i class="icon icon-ordered-list"></i></button>
-                      </li>
-                      <li class="px-0">
-                        <button role="button"
-                                ngbTooltip="Decrease indent"
-                                class="ql-indent actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"
-                                value="-1">
-                          <i class="icon icon-indent-decrease"></i></button>
-                      </li>
-                      <li class="pl-0">
-                        <button role="button"
-                                ngbTooltip="Increase indent"
-                                class="ql-indent actions-btn mail-indent-increase-btn"
-                                value="+1">
-                          <i class="icon icon-indent-increase"></i></button>
-                      </li>
-
-                      <li ngbTooltip="{{settings?.is_attachments_encrypted ? 'Inline attachments are not allowed when attachment encryption is enabled.':''}}">
-                        <button role="button" type="button"
-                                ngbTooltip="Insert image"
-                                [disabled]="settings?.is_attachments_encrypted"
-                                class="ql-image actions-btn mail-attach-image-btn"><i
-                                class="icon fa fa-image"></i></button>
-                      </li>
-
-                      <li>
-                        <button role="button"
-                                ngbTooltip="Clear formatting"
-                                class="ql-clean actions-btn mail-format-clear-btn"><i
-                                class="icon icon-format-clear"></i></button>
-                      </li>
-
-                    </ul>
+                        </li>
+                        <li class="pr-0">
+                          <button role="button" ngbTooltip="Unordered list" class="ql-list actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0" value="bullet">
+                            <i class="icon icon-unorder-list"></i>
+                          </button>
+                        </li>
+                        <li class="px-0">
+                          <button role="button" ngbTooltip="Ordered list" class="ql-list actions-btn mail-order-list-btn border-right-0 border-radius-0" value="ordered">
+                            <i class="icon icon-ordered-list"></i>
+                          </button>
+                        </li>
+                        <li class="px-0">
+                          <button role="button" ngbTooltip="Decrease indent" class="ql-indent actions-btn mail-indent-decrease-btn border-right-0 border-radius-0" value="-1">
+                            <i class="icon icon-indent-decrease"></i>
+                          </button>
+                        </li>
+                        <li class="pl-0">
+                          <button role="button" ngbTooltip="Increase indent" class="ql-indent actions-btn mail-indent-increase-btn" value="+1">
+                            <i class="icon icon-indent-increase"></i>
+                          </button>
+                        </li>
+                        <li>
+                          <button role="button" type="button" ngbTooltip="Insert image" class="ql-image actions-btn mail-attach-image-btn">
+                            <i class="icon fa fa-image"></i>
+                          </button>
+                        </li>
+                        <li>
+                          <button role="button" ngbTooltip="Clear formatting" class="ql-clean actions-btn mail-format-clear-btn">
+                            <i class="icon icon-format-clear"></i>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
               </ng-template>
             </li>
-            <li>
-              <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()"
-                      class="actions-btn mail-attach-btn" placement="top"
-                      [ngbTooltip]="'settings.compose.attachments'| translate"><i class="icon icon-attachment"></i>
+            <!-- Attachments -->
+            <li class="p-0">
+              <button type="button" role="button" (click)="fileInput.value = ''; fileInput.click()" class="actions-btn mail-attach-btn" placement="top" [ngbTooltip]="'settings.compose.attachments' | translate">
+                <i class="icon icon-attachment"></i>
               </button>
             </li>
-            <li>
-              <div *ngIf="!draftMail?.is_html; else insertLinkRef"
-                   ngbTooltip="Insert link is not available in plain text editor" class="dropdown">
+            <!-- Insert Link -->
+            <li class="p-0">
+              <div *ngIf="!draftMail?.is_html; else insertLinkRef" ngbTooltip="Insert link is not available in plain text editor" class="dropdown">
                 <button class="actions-btn insert-link-btn" disabled>
                   <i class="fas fa-link"></i>
                 </button>
               </div>
               <ng-template #insertLinkRef>
-                <button role="button" ngbTooltip="Insert link" (click)="openInsertLinkModal()"
-                        class="actions-btn insert-link-btn"><i class="fas fa-link"></i>
+                <button role="button" ngbTooltip="Insert link" (click)="openInsertLinkModal()" class="actions-btn insert-link-btn">
+                  <i class="fas fa-link"></i>
                 </button>
               </ng-template>
             </li>
-            <li class="pr-0" [ngbTooltip]="'page_pricing.encryption'| translate">
-              <button role="button" type="button"
-                      class="actions-btn mail-envelop-btn border-radius-r-0"
-                      [ngClass]="{'text-primary': draftMail?.encryption?.password}"
-                      (click)="openEncryptionModal()"
-                      placement="top" [ngbTooltip]="'settings.compose.encryption'| translate"><i
-                      class="icon icon-mail"></i></button>
+            <!-- Encryption -->
+            <li class="p-0" [ngbTooltip]="'page_pricing.encryption' | translate">
+              <button role="button" type="button" class="actions-btn mail-envelop-btn border-radius-r-0" [ngClass]="{ 'text-primary': draftMail?.encryption?.password }" (click)="openEncryptionModal()" placement="top" [ngbTooltip]="'settings.compose.encryption' | translate">
+                <i class="icon icon-mail"></i>
+              </button>
             </li>
-            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
-              <button role="button" type="button" (click)="openSelfDestructModal()"
-                      class="actions-btn mail-clock-btn border-left-0 border-radius-0"
-                      [ngClass]="{'badge badge-warning text-white': selfDestruct.value}"
-                      placement="top" [ngbTooltip]="'settings.compose.self_destr_timer'| translate"><i
-                      class="icon icon-clock"></i>
+            <!-- Self Destruct-->
+            <li class="p-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
+              <button role="button" type="button" (click)="openSelfDestructModal()" class="actions-btn mail-clock-btn border-left-0 border-radius-0" [ngClass]="{ 'badge badge-warning text-white': selfDestruct.value }" placement="top" [ngbTooltip]="'settings.compose.self_destr_timer' | translate">
+                <i class="icon icon-clock"></i>
               </button>
             </li>
             <ng-template #disabledSelfDestructBtn>
               <li class="px-0" ngbTooltip="Upgrade account to use Self Destruct Email feature">
-                <button type="button" role="button" class="actions-btn mail-clock-btn border-left-0 border-radius-0"
-                        disabled><i class="icon icon-clock"></i>
+                <button type="button" role="button" class="actions-btn mail-clock-btn border-left-0 border-radius-0" disabled>
+                  <i class="icon icon-clock"></i>
                 </button>
               </li>
             </ng-template>
-            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn">
-              <button type="button" role="button" (click)="openDelayedDeliveryModal()"
-                      class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
-                      [ngClass]="{'badge badge-success text-white': delayedDelivery.value}"
-                      placement="top" [ngbTooltip]="'settings.compose.delayed_delivery'| translate"><i
-                      class="icon icon-self-timer"></i>
+            <!-- Delayed Delivery -->
+            <li class="p-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn">
+              <button type="button" role="button" (click)="openDelayedDeliveryModal()" class="actions-btn mail-self-timer-btn border-left-0 border-radius-l-0" [ngClass]="{ 'badge badge-success text-white': delayedDelivery.value }" placement="top" [ngbTooltip]="'settings.compose.delayed_delivery' | translate">
+                <i class="icon icon-self-timer"></i>
               </button>
             </li>
             <ng-template #disabledDelayedDeliveryBtn>
-              <li class="px-0" ngbTooltip="Upgrade account to use Delayed Delivery feature.">
-                <button type="button" role="button"
-                        class="actions-btn mail-self-timer-btn border-left-0  border-radius-l-0"
-                        disabled><i class="icon icon-self-timer"></i>
+              <li class="p-0" ngbTooltip="Upgrade account to use Delayed Delivery feature.">
+                <button type="button" role="button" class="actions-btn mail-self-timer-btn border-left-0 border-radius-l-0" disabled>
+                  <i class="icon icon-self-timer"></i>
                 </button>
               </li>
             </ng-template>
-            <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn">
-              <button type="button" role="button" (click)="openDeadManTimerModal()"
-                      class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
-                      [ngClass]="{'badge badge-danger text-white': deadManTimer.value}"
-                      placement="top" [ngbTooltip]="'settings.compose.dead_man_timer'| translate"><i
-                      class="icon icon-dead"></i>
+            <!-- Dead man Timer -->
+            <li class="p-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDeadManTimerBtn">
+              <button type="button" role="button" (click)="openDeadManTimerModal()" class="actions-btn mail-dead-btn border-left-0 border-radius-l-0" [ngClass]="{ 'badge badge-danger text-white': deadManTimer.value }" placement="top" [ngbTooltip]="'settings.compose.dead_man_timer' | translate">
+                <i class="icon icon-dead"></i>
               </button>
             </li>
             <ng-template #disabledDeadManTimerBtn>
-              <li class="px-0" ngbTooltip="Upgrade account to use Dead Man Timer feature.">
-                <button type="button" role="button" class="actions-btn mail-dead-btn  border-left-0  border-radius-l-0"
-                        disabled><i class="icon icon-dead"></i>
+              <li class="p-0" ngbTooltip="Upgrade account to use Dead Man Timer feature.">
+                <button type="button" role="button" class="actions-btn mail-dead-btn border-left-0 border-radius-l-0" disabled>
+                  <i class="icon icon-dead"></i>
                 </button>
               </li>
             </ng-template>
-
+            <!-- More button(version change) -->
             <li class="btn-dropdown">
-              <div ngbDropdown [autoClose]="'outside'"  class="dropdown menu-btn" [placement]="['top-left', 'bottom-left']">
-                <button class="dropdown-toggle btn-more" type="button" id="btn_more" [ngbTooltip]="'More'" placement="right"
-                        ngbDropdownToggle>More
+              <div ngbDropdown [autoClose]="'outside'" class="dropdown menu-btn" [placement]="['top-left', 'bottom-left']">
+                <button class="actions-btn more-btn hide-arrow" id="btn_more" [ngbTooltip]="'More'" placement="right" ngbDropdownToggle>
+                  <i class="fa fa-ellipsis-v"></i>
                 </button>
-                <div ngbDropdownMenu class="dropdown-menu-right text-center dropdown-size"
-                     aria-labelledby="helpDropdownMenuButton">
-                  <button class="dropdown-item row" style="margin: 0px"  (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html">
+                <div ngbDropdownMenu class="dropdown-menu-right text-center dropdown-size" aria-labelledby="helpDropdownMenuButton">
+                  <button class="dropdown-item row" style="margin: 0px" (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html">
                     <div class="row item">
                       <div class="col-2">
                         <i *ngIf="draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
                       </div>
-                      <a class="col-8 ql-size-small" target="_blank" rel="noopener noreferrer">
-                        HTML Editor</a>
+                      <a class="col-8 ql-size-small" target="_blank" rel="noopener noreferrer"> HTML Editor</a>
                     </div>
-
                   </button>
-
                   <button class="dropdown-item" (click)="setHtmlEditor(false)" [disabled]="!draftMail.is_html">
                     <div class="row item">
                       <div class="col-2">
-                        <i *ngIf="!draftMail.is_html"  class="fa fa-check text-black-50 ng-star-inserted"></i>
+                        <i *ngIf="!draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
                       </div>
-                      <a  class="col-8 ql-size-small" >Plain Text</a>
+                      <a class="col-8 ql-size-small">Plain Text</a>
                     </div>
                   </button>
-
                 </div>
               </div>
             </li>
           </ul>
         </div>
-        <div class="mail-composer-actions-col mail-composer-actions-col-sm" [ngClass]="{'composer-footer': !isFullScreen && !isMailDetailPage} ">
+        <!-- save/delete button field on footer -->
+        <div class="mail-composer-actions-col mail-composer-actions-col-sm" [ngClass]="{ 'composer-footer': !isFullScreen && !isMailDetailPage }">
           <ul class="mail-composer-actions d-flex align-items-center justify-content-end">
             <li class="pr-1" *ngIf="isDownloadingAttachmentCounter > 0">
-              <span>{{'settings.compose.downloading_attachments'| translate}}</span>
+              <span>{{ 'settings.compose.downloading_attachments' | translate }}</span>
             </li>
             <li class="pr-1" *ngIf="inProgress || (draftMail && draftMail.id)">
-              <span>{{inProgress ? (draftMail.send ? ('settings.compose.sending'| translate) : ('settings.compose.saving'| translate))
-                  : ('settings.compose.saved'| translate)}}</span>
+              <span>{{ inProgress ? (draftMail.send ? ('settings.compose.sending' | translate) : ('settings.compose.saving' | translate)) : ('settings.compose.saved' | translate) }}</span>
             </li>
             <li class="pr-0" *ngIf="showSaveButton">
-              <button role="button"
-                      (click)="saveInDrafts()"
-                      [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
-                      class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0"
-                      placement="top" [ngbTooltip]="'settings.compose.save_to_drafts'| translate"><i
-                      class="icon icon-save-disk"></i>
+              <button role="button" (click)="saveInDrafts()" [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0" class="actions-btn mail-save-disk-btn border-right-0 border-radius-r-0" placement="top" [ngbTooltip]="'settings.compose.save_to_drafts' | translate">
+                <i class="icon icon-save-disk"></i>
               </button>
             </li>
             <li class="pl-0">
-              <button role="button"
-                      (click)="discardEmail()"
-                      [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
-                      class="actions-btn mail-garbage-btn border-radius-l-0" placement="top"
-                      [ngbTooltip]="'settings.compose.delete_draft'| translate"><i class="icon icon-garbage"></i>
+              <button role="button" (click)="discardEmail()" [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0" class="actions-btn mail-garbage-btn border-radius-l-0" placement="top" [ngbTooltip]="'settings.compose.delete_draft' | translate">
+                <i class="icon icon-garbage"></i>
               </button>
             </li>
-
-            <li class="pl-0  pop-up-reply" *ngIf="isMailDetailPage">
-              <button role="button"
-                      (click)="openReplyinPopup()"
-                      [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
-                      class="actions-btn border-radius-l-0" placement="top"
-                      [ngbTooltip]="'Pop out reply'"><i class="fas fa-external-link-alt"></i>
+            <li class="pl-0 pop-up-reply" *ngIf="isMailDetailPage">
+              <button role="button" (click)="openReplyinPopup()" [disabled]="inProgress || isUploadingAttachment || isDownloadingAttachmentCounter > 0" class="actions-btn border-radius-l-0" placement="top" [ngbTooltip]="'Pop out reply'">
+                <i class="fas fa-external-link-alt"></i>
               </button>
             </li>
           </ul>
         </div>
+        <!-- save/delete button field on footer -->
       </div>
     </div>
   </div>
+  <!-- Main Content field -->
+
+  <!-- attach images modal -->
+  <ng-template #attachImagesModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong>{{ 'settings.compose.attach_images' | translate }}</strong>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">{{ 'settings.compose.select_file' | translate }}</div>
+        <div class="form-group">
+          <label for="imageURL">Image URL</label>
+          <input type="text" #imageURL id="imageURL" class="form-control" [placeholder]="'settings.compose.image_url' | translate" />
+        </div>
+        <div class="form-group text-right mb-0">
+          <button type="button" (click)="imageInput.value = ''; imageInput.click(); d()" class="btn btn-success btn-sm mr-1" role="button">
+            <span>{{ 'settings.compose.attach_files' | translate }}</span>
+          </button>
+          <button type="button" (click)="onAttachImageURL(imageURL.value)" class="btn btn-success btn-sm" role="button">
+            <span>{{ 'settings.compose.attach_url' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </div> </ng-template
+  ><!-- /.attach images modal ends -->
+
+  <!-- self destruct datetime picker modal -->
+  <ng-template #selfDestructModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong>{{ 'settings.compose.self_dest_email' | translate }}</strong>
+        <ng-container [ngTemplateOutlet]="learnMore" [ngTemplateOutletContext]="{ link: 'https://ctemplar.com/help/answer/using-the-self-destruct-timer/' }"> </ng-container>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">{{ 'settings.compose.email_deleted' | translate }}</div>
+        <div class="row">
+          <div class="col-7 form-group">
+            <label class="form-inline">{{ 'settings.compose.select_date' | translate }}</label>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="selfDestruct.date" [minDate]="datePickerMinDate"> </ngb-datepicker>
+          </div>
+          <div class="col-5 form-group">
+            <label class="form-inline">{{ 'settings.compose.select_time' | translate }}</label>
+            <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
+              <div ngbDropdown class="dropdown-sm">
+                <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="selfDestructMeridianDropdownMenuButton" role="button">
+                  {{ selfDestruct.meridian ? '12 ' + ('settings.compose.hour' | translate) : '24 ' + ('settings.compose.hour' | translate) }}
+                </button>
+                <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
+                  <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true"
+                    >12&nbsp;
+                    <span>{{ 'settings.compose.hour' | translate }}</span>
+                  </a>
+                  <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false"
+                    >24&nbsp;
+                    <span>{{ 'settings.compose.hour' | translate }}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian"></ngb-timepicker>
+          </div>
+        </div>
+        <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">{{ selfDestruct.error }}</div>
+        <div class="form-group text-center btns-xs-3 mb-0">
+          <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm mr-1" role="button">
+            <span>{{ 'settings.compose.confirm' | translate }}</span>
+          </button>
+          <button type="button" (click)="clearSelfDestructValue()" class="btn btn-primary btn-sm mr-1" role="button">Clear</button>
+          <button (click)="d()" class="btn btn-secondary btn-sm" role="button">
+            {{ 'common.cancel' | translate }}
+          </button>
+        </div>
+      </div>
+    </div> </ng-template
+  ><!-- /.self destruct datetime picker modal ends -->
+
+  <!-- delayed delivery datetime picker modal -->
+  <ng-template #delayedDeliveryModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong>{{ 'settings.compose.delayed_delivery' | translate }}</strong>
+        <ng-container
+          [ngTemplateOutlet]="learnMore"
+          [ngTemplateOutletContext]="{
+            link: 'https://ctemplar.com/help/answer/delay-or-schedule-sending-email-messages/'
+          }"
+        >
+        </ng-container>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">{{ 'settings.compose.email_on_datetime' | translate }}</div>
+        <div class="row">
+          <div class="col-7 form-group">
+            <label class="form-inline">{{ 'settings.compose.select_date' | translate }}</label>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="delayedDelivery.date" [minDate]="datePickerMinDate"></ngb-datepicker>
+          </div>
+          <div class="col-5 form-group">
+            <label class="form-inline">{{ 'settings.compose.select_time' | translate }}</label>
+            <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
+              <div ngbDropdown class="dropdown-sm">
+                <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="delayedDeliveryMeridianDropdownMenuButton" role="button">
+                  {{ delayedDelivery.meridian ? '12 Hour' : '24 Hour' }}
+                </button>
+                <div ngbDropdownMenu aria-labelledby="delayedDeliveryMeridianDropdownMenuButton">
+                  <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true"
+                    >12
+                    <span>{{ 'settings.compose.hour' | translate }}</span>
+                  </a>
+                  <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false"
+                    >24
+                    <span>{{ 'settings.compose.hour' | translate }}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian"></ngb-timepicker>
+          </div>
+        </div>
+        <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">{{ delayedDelivery.error }}</div>
+        <div class="form-group text-center btns-xs-3 mb-0">
+          <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm mr-1" role="button">
+            {{ 'settings.compose.confirm' | translate }}
+          </button>
+          <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm mr-1" role="button">
+            {{ 'settings.compose.clear' | translate }}
+          </button>
+          <button (click)="d()" class="btn btn-secondary btn-sm" role="button">
+            {{ 'common.cancel' | translate }}
+          </button>
+        </div>
+      </div>
+    </div> </ng-template
+  ><!-- /.delayed delivery datetime picker modal ends -->
+
+  <!-- dead man timer modal -->
+  <ng-template #deadManTimerModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong>{{ 'settings.compose.dead_man_timer' | translate }}</strong>
+        <ng-container [ngTemplateOutlet]="learnMore" [ngTemplateOutletContext]="{ link: 'https://ctemplar.com/help/answer/setting-up-a-dead-mans-timer/' }"> </ng-container>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">{{ 'settings.compose.email_sent_timer' | translate }}</div>
+        <form (submit)="setDeadManTimerValue()">
+          <div class="form-group">
+            <label class="form-inline" for="deadman-days">{{ 'settings.compose.days' | translate }}</label>
+            <input type="number" class="form-control" id="deadman-days" name="deadman-days" ngbAutofocus [(ngModel)]="deadManTimer.days" />
+          </div>
+          <div class="form-group">
+            <label class="form-inline" for="deadman-hours">{{ 'settings.compose.hours' | translate }}</label>
+            <input type="number" class="form-control" id="deadman-hours" name="deadman-hours" [(ngModel)]="deadManTimer.hours" />
+          </div>
+          <div class="form-group text-center btns-xs-3 mb-0">
+            <button type="submit" class="btn btn-success btn-sm mr-1" role="button">
+              {{ 'settings.compose.confirm' | translate }}
+            </button>
+            <button type="reset" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm mr-1" role="button">
+              {{ 'settings.compose.clear' | translate }}
+            </button>
+            <button (click)="d()" class="btn btn-secondary btn-sm" role="button">
+              {{ 'common.cancel' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div> </ng-template
+  ><!-- /.dead man timer modal ends -->
+
+  <!-- Insert link modal -->
+  <ng-template #insertLinkModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong>{{ 'settings.compose.insert_link' | translate }}</strong>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <form (submit)="insertLink(insertLinkData.text, insertLinkData.link)">
+          <div class="form-group">
+            <label class="form-inline" for="text-to-display">{{ 'settings.compose.text_to_display' | translate }}</label>
+            <input type="text" class="form-control" id="text-to-display" name="text-to-display" [(ngModel)]="insertLinkData.text" />
+          </div>
+          <div class="form-group">
+            <label class="form-inline" for="link-to">{{ 'settings.compose.link_to' | translate }}</label>
+            <input type="text" class="form-control" id="link-to" name="link-to" [(ngModel)]="insertLinkData.link" />
+          </div>
+          <div class="form-group text-center btns-xs-3 mb-0">
+            <button (click)="d()" class="btn btn-secondary btn-sm" role="button">
+              {{ 'common.cancel' | translate }}
+            </button>
+            <button type="submit" class="btn btn-success btn-sm ml-2" [disabled]="!insertLinkData.text || !insertLinkData.link" role="button">OK</button>
+          </div>
+        </form>
+      </div>
+    </div> </ng-template
+  ><!-- /.Insert link modal ends -->
+
+  <!-- encryption modal -->
+  <ng-template #encryptionModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong>{{ 'settings.compose.encrypt_for_non' | translate }}</strong>
+        <ng-container
+          [ngTemplateOutlet]="learnMore"
+          [ngTemplateOutletContext]="{
+            link: 'https://ctemplar.com/help/answer/sending-encrypted-email-to-non-ctemplar-users/'
+          }"
+        >
+        </ng-container>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded encrypt-non-ctemplar">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <form [formGroup]="encryptForm" (submit)="onSubmitEncryption()">
+          <div class="form-group">
+            <label for="encrypt-password">{{ 'settings.compose.message_password' | translate }}</label>
+            <div class="input-group">
+              <input #encryptPasswordInput type="password" class="form-control form-control-lg" id="encrypt-password" ngbAutofocus formControlName="password" [placeholder]="'settings.compose.message_password' | translate" />
+              <span class="input-group-addon password-toggle bg-white text-muted" (click)="encryptPasswordInput.type = encryptPasswordInput.type === 'password' ? 'text' : 'password'"> <i class="fa fa-eye"></i> <i class="fa fa-eye-slash"></i> </span>
+            </div>
+            <span *ngIf="encryptForm.controls['password'].errors && showEncryptFormErrors" class="validate-message">
+              <span *ngIf="encryptForm.controls['password'].errors.required">
+                {{ 'settings.compose.message_password_req' | translate }}
+              </span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="confirm-encrypt-password">{{ 'create_account.confirm_password' | translate }}</label>
+            <div class="input-group">
+              <input #encryptConfirmPasswordInput type="password" class="form-control form-control-lg" id="confirm-encrypt-password" formControlName="confirmPwd" [placeholder]="'create_account.confirm_password' | translate" />
+              <span class="input-group-addon password-toggle bg-white text-muted" (click)="encryptConfirmPasswordInput.type = encryptConfirmPasswordInput.type === 'password' ? 'text' : 'password'">
+                <i class="fa fa-eye"></i>
+                <i class="fa fa-eye-slash"></i>
+              </span>
+            </div>
+            <span *ngIf="encryptForm.controls['confirmPwd'].errors && showEncryptFormErrors" class="validate-message">
+              <span>{{ 'create_account.passwords_not_match' | translate }}</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="password-hint">{{ 'settings.compose.password_hint' | translate }}</label>
+            <input type="text" id="password-hint" class="form-control" formControlName="passwordHint" [placeholder]="'settings.compose.password_hint' | translate" />
+          </div>
+          <div class="form-group">
+            <label>{{ 'settings.compose.encrypt_message_expire' | translate }}</label>
+            <div class="row">
+              <div class="col-3">
+                <label class="form-inline" for="encryption-expire-days">{{ 'settings.compose.days' | translate }}</label>
+                <input type="number" class="form-control" formControlName="days" min="0" max="5" name="encrypt-non-ctemplar-days" />
+              </div>
+              <div class="col-3">
+                <label class="form-inline" for="encryption-expire-hours">{{ 'settings.compose.hours' | translate }}</label>
+                <input type="number" class="form-control" formControlName="hours" min="0" max="24" name="encrypt-non-ctemplar-hours" />
+              </div>
+            </div>
+            <div>
+              <span *ngIf="showEncryptFormErrors && (encryptForm.controls['days'].errors || encryptForm.controls['hours'].errors || encryptForm.controls['hours'].value + encryptForm.controls['days'].value * 24 === 0 || encryptForm.controls['hours'].value + encryptForm.controls['days'].value * 24 > 120)" class="validate-message">
+                {{ 'settings.compose.expiry_time_message' | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="form-group text-center mb-0">
+            <button type="submit" class="btn btn-success btn-sm mr-1" role="button">
+              {{ 'settings.compose.confirm' | translate }}
+            </button>
+            <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm mr-1" role="button">
+              {{ 'settings.compose.clear' | translate }}
+            </button>
+            <button (click)="d()" class="btn btn-secondary btn-sm" role="button">
+              {{ 'common.cancel' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div> </ng-template
+  ><!-- /.encryption modal ends -->
+  <!-- Confirm delete folder modal -->
+  <ng-template #confirmationModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong [translate]="'settings.compose.confirm_send'">Confirm Send </strong>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">
+          <span [translate]="'settings.compose.send_without_all'"> Are you sure, send this message without a subject or text in the body?</span>
+        </div>
+        <div class="form-group text-right mb-0">
+          <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button">
+            <span [translate]="'common.cancel'">Cancel</span>
+          </button>
+          <button (click)="sendEmail()" class="btn btn-danger btn-sm" role="button" [disabled]="userState?.inProgress">
+            <span [translate]="'settings.compose.send'">Send</span>
+          </button>
+          <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+        </div>
+      </div>
+    </div> </ng-template
+  ><!-- /.Confirm delete folder modal ends -->
+  <ng-template #learnMore let-link="link">
+    <a ngbTooltip="Learn more" target="_blank" rel="noreferrer noopener" class="learn-more-info-icon" [href]="link"><i class="far fa-question-circle"></i> </a>
+  </ng-template>
 </div>
-
-
-<!-- attach images modal -->
-<ng-template #attachImagesModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.attach_images"| translate}}</strong>
-    </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group">
-        {{"settings.compose.select_file"| translate}}
-      </div>
-      <div class="form-group">
-        <label for="imageURL">Image URL</label>
-        <input type="text" #imageURL id="imageURL" class="form-control"
-               [placeholder]="'settings.compose.image_url'| translate">
-      </div>
-      <div class="form-group text-right mb-0">
-        <button type="button" (click)="imageInput.value = ''; imageInput.click(); d();"
-                class="btn btn-success btn-sm mr-1" role="button"><span>{{"settings.compose.attach_files"| translate}}</span>
-        </button>
-        <button type="button" (click)="onAttachImageURL(imageURL.value)" class="btn btn-success btn-sm"
-                role="button"><span>{{"settings.compose.attach_url"| translate}}</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</ng-template><!-- /.attach images modal ends -->
-
-<!-- self destruct datetime picker modal -->
-
-<ng-template #selfDestructModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.self_dest_email"| translate}}</strong>
-    <ng-container [ngTemplateOutlet]="learnMore"
-                  [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/self-destruct-timer/'}">
-    </ng-container>
-    </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group">
-        {{"settings.compose.email_deleted"| translate}}
-      </div>
-      <div class="row">
-        <div class="col-7 form-group">
-          <label class="form-inline">{{"settings.compose.select_date"| translate}}</label>
-          <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
-                          ngbAutofocus
-                          [(ngModel)]="selfDestruct.date"
-                          [minDate]="datePickerMinDate"></ngb-datepicker>
-        </div>
-        <div class="col-5 form-group">
-          <label class="form-inline">{{"settings.compose.select_time"| translate}}</label>
-          <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
-            <div ngbDropdown class="dropdown-sm">
-              <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
-                      id="selfDestructMeridianDropdownMenuButton" role="button">
-                {{selfDestruct.meridian ? '12 ' + ('settings.compose.hour' | translate) : '24 ' + ('settings.compose.hour'| translate)}}
-              </button>
-              <div ngbDropdownMenu aria-labelledby="selfDestructMeridianDropdownMenuButton">
-                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = true">12 &nbsp;<span
-                        >{{"settings.compose.hour"| translate}}</span></a>
-                <a class="dropdown-item from-text" (click)="selfDestruct.meridian = false">24 &nbsp;<span
-                        >{{"settings.compose.hour"| translate}}</span></a>
-              </div>
-            </div>
-          </div>
-          <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian"></ngb-timepicker>
-        </div>
-      </div>
-
-      <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">
-        {{selfDestruct.error}}
-      </div>
-      <div class="form-group text-center btns-xs-3 mb-0">
-        <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm mr-1" role="button">
-          <span>{{"settings.compose.confirm"| translate}}</span>
-        </button>
-        <button type="button" (click)="clearSelfDestructValue()" class="btn btn-primary btn-sm mr-1" role="button">
-          Clear
-        </button>
-        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
-      </div>
-    </div>
-  </div>
-</ng-template><!-- /.self destruct datetime picker modal ends -->
-
-<!-- delayed delivery datetime picker modal -->
-<ng-template #delayedDeliveryModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.delayed_delivery"| translate}}</strong>
-      <ng-container [ngTemplateOutlet]="learnMore"
-                    [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/delay-schedule-email/'}">
-      </ng-container>
-    </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" >
-        {{"settings.compose.email_on_datetime"| translate}}
-      </div>
-      <div class="row">
-        <div class="col-7 form-group">
-          <label class="form-inline" >{{"settings.compose.select_date"| translate}}</label>
-          <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265"
-                          ngbAutofocus
-                          [(ngModel)]="delayedDelivery.date"
-                          [minDate]="datePickerMinDate"></ngb-datepicker>
-        </div>
-        <div class="col-5 form-group">
-          <label class="form-inline">{{"settings.compose.select_time"| translate}}</label>
-          <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg col-4 p-0">
-            <div ngbDropdown class="dropdown-sm">
-              <button ngbDropdownToggle class="dropdown-toggle border-0 from-text"
-                      id="delayedDeliveryMeridianDropdownMenuButton" role="button">
-                {{delayedDelivery.meridian ? '12 Hour' : '24 Hour'}}
-              </button>
-              <div ngbDropdownMenu aria-labelledby="delayedDeliveryMeridianDropdownMenuButton">
-                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = true">12 <span
-                >{{"settings.compose.hour"| translate}}</span></a>
-                <a class="dropdown-item from-text" (click)="delayedDelivery.meridian = false">24 <span
-                        >{{"settings.compose.hour"| translate}}</span></a>
-              </div>
-            </div>
-          </div>
-          <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian"></ngb-timepicker>
-        </div>
-      </div>
-      <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">
-        {{delayedDelivery.error}}
-      </div>
-      <div class="form-group text-center btns-xs-3 mb-0">
-        <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm mr-1" role="button"
-                >{{"settings.compose.confirm"| translate}}
-        </button>
-        <button type="button" (click)="clearDelayedDeliveryValue()" class="btn btn-primary btn-sm mr-1"
-                role="button" >{{"settings.compose.clear"| translate}}
-        </button>
-        <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
-      </div>
-    </div>
-  </div>
-</ng-template><!-- /.delayed delivery datetime picker modal ends -->
-
-<!-- dead man timer modal -->
-<ng-template #deadManTimerModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong >{{"settings.compose.dead_man_timer"| translate}}</strong>
-      <ng-container [ngTemplateOutlet]="learnMore"
-                    [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/send-a-dead-mans-timer/'}">
-      </ng-container>
-    </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group">
-       {{"settings.compose.email_sent_timer"| translate}}
-      </div>
-      <form (submit)="setDeadManTimerValue()">
-        <div class="form-group">
-          <label class="form-inline" for="deadman-days">{{"settings.compose.days"| translate}}</label>
-          <input type="number" class="form-control" id="deadman-days" name="deadman-days"
-                 ngbAutofocus
-                 [(ngModel)]="deadManTimer.days">
-        </div>
-        <div class="form-group">
-          <label class="form-inline" for="deadman-hours">{{"settings.compose.hours"| translate}}</label>
-          <input type="number" class="form-control" id="deadman-hours" name="deadman-hours"
-                 [(ngModel)]="deadManTimer.hours">
-        </div>
-        <div class="form-group text-center btns-xs-3 mb-0">
-          <button type="submit" class="btn btn-success btn-sm mr-1" role="button">
-            {{"settings.compose.confirm"| translate}}
-          </button>
-          <button type="reset" (click)="clearDeadManTimerValue()" class="btn btn-primary btn-sm mr-1" role="button"
-                  >
-            {{"settings.compose.clear"| translate}}
-          </button>
-          <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template><!-- /.dead man timer modal ends -->
-
-<!-- Insert link modal -->
-<ng-template #insertLinkModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.insert_link"| translate}}</strong></h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <form (submit)="insertLink(insertLinkData.text, insertLinkData.link)">
-        <div class="form-group">
-          <label class="form-inline" for="text-to-display">{{"settings.compose.text_to_display"| translate}}</label>
-          <input type="text" class="form-control" id="text-to-display" name="text-to-display"
-                 [(ngModel)]="insertLinkData.text">
-        </div>
-        <div class="form-group">
-          <label class="form-inline" for="link-to">{{"settings.compose.link_to"| translate}}</label>
-          <input type="text" class="form-control" id="link-to" name="link-to"
-                 [(ngModel)]="insertLinkData.link">
-        </div>
-        <div class="form-group text-center btns-xs-3 mb-0">
-          <button (click)="d()" class="btn btn-secondary btn-sm" role="button">{{"common.cancel"| translate}}</button>
-          <button type="submit" class="btn btn-success btn-sm ml-2"
-                  [disabled]="!insertLinkData.text || !insertLinkData.link"
-                  role="button">OK
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template><!-- /.Insert link modal ends -->
-
-<!-- encryption modal -->
-<ng-template #encryptionModal let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark"><strong>{{"settings.compose.encrypt_for_non"| translate}}</strong>
-      <ng-container [ngTemplateOutlet]="learnMore"
-                    [ngTemplateOutletContext]="{link: 'https://ctemplar.com/faq/encrypted-email-non-ctemplar-users/'}">
-      </ng-container>
-    </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body bg-faded encrypt-non-ctemplar">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <form [formGroup]="encryptForm" (submit)="onSubmitEncryption()">
-        <div class="form-group">
-          <label for="encrypt-password" >{{"settings.compose.message_password"| translate}}</label>
-          <div class="input-group">
-            <input #encryptPasswordInput type="password" class="form-control form-control-lg" id="encrypt-password"
-                   ngbAutofocus
-                   formControlName="password" [placeholder]="'settings.compose.message_password'| translate"/>
-            <span class="input-group-addon password-toggle bg-white text-muted"
-                  (click)="encryptPasswordInput.type = encryptPasswordInput.type === 'password' ? 'text' : 'password'">
-              <i class="fa fa-eye"></i>
-              <i class="fa fa-eye-slash"></i>
-            </span>
-          </div>
-          <span *ngIf="encryptForm.controls['password'].errors && showEncryptFormErrors"
-                class="validate-message">
-            <span *ngIf="encryptForm.controls['password'].errors.required"
-                  >{{"settings.compose.message_password_req"| translate}}</span>
-          </span>
-        </div>
-        <div class="form-group">
-          <label for="confirm-encrypt-password">{{"create_account.confirm_password"| translate}}</label>
-          <div class="input-group">
-            <input #encryptConfirmPasswordInput type="password" class="form-control form-control-lg"
-                   id="confirm-encrypt-password" formControlName="confirmPwd"
-                   [placeholder]="'create_account.confirm_password'| translate"/>
-            <span class="input-group-addon password-toggle bg-white text-muted"
-                  (click)="encryptConfirmPasswordInput.type = encryptConfirmPasswordInput.type === 'password' ? 'text' : 'password'">
-              <i class="fa fa-eye"></i>
-              <i class="fa fa-eye-slash"></i>
-            </span>
-          </div>
-          <span *ngIf="encryptForm.controls['confirmPwd'].errors && showEncryptFormErrors"
-                class="validate-message">
-            <span >{{"create_account.passwords_not_match"| translate}}</span>
-          </span>
-        </div>
-        <div class="form-group">
-          <label for="password-hint" >{{"settings.compose.password_hint"| translate}}</label>
-          <input type="text" id="password-hint" class="form-control" formControlName="passwordHint"
-                 [placeholder]="'settings.compose.password_hint'| translate">
-        </div>
-        <div class="form-group">
-          <label>{{"settings.compose.encrypt_message_expire"| translate}}</label>
-          <div class="row">
-            <div class="col-3">
-              <label class="form-inline" for="deadman-days" >{{"settings.compose.days"| translate}}</label>
-              <input type="number" class="form-control"
-                     formControlName="days" min="0" max="5"
-                     name="encrypt-non-ctemplar-days">
-            </div>
-            <div class="col-3">
-              <label class="form-inline" for="deadman-hours" >{{"settings.compose.hours"| translate}}</label>
-              <input type="number" class="form-control"
-                     formControlName="hours" min="0" max="24"
-                     name="encrypt-non-ctemplar-hours">
-            </div>
-
-          </div>
-          <div>
-            <span *ngIf="showEncryptFormErrors &&
-             (encryptForm.controls['days'].errors || encryptForm.controls['hours'].errors ||
-             (encryptForm.controls['hours'].value+(encryptForm.controls['days'].value*24))===0 ||
-             (encryptForm.controls['hours'].value+(encryptForm.controls['days'].value*24)) > 120) "
-                  class="validate-message">{{"settings.compose.expiry_time_message"| translate}}
-          </span>
-          </div>
-        </div>
-        <div class="form-group text-center mb-0">
-          <button type="submit" class="btn btn-success btn-sm mr-1" role="button">
-            {{"settings.compose.confirm"| translate}}
-          </button>
-          <button type="button" (click)="clearEncryption()" class="btn btn-primary btn-sm mr-1"
-                  role="button">{{"settings.compose.clear"| translate}}
-          </button>
-          <button (click)="d()" class="btn btn-secondary btn-sm" role="button" >{{"common.cancel"| translate}}</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</ng-template><!-- /.encryption modal ends -->
-
-<ng-template #learnMore let-link="link">
-  <a  ngbTooltip="Learn more" target="_blank" rel="noreferrer noopener" class="learn-more-info-icon"
-      [href]="link"><i class="far fa-question-circle"></i>
-  </a>
-</ng-template>
-
-<ng-keyboard-shortcuts [shortcuts]="shortcuts"></ng-keyboard-shortcuts>
-<ng-keyboard-shortcuts-help key="f1" closeKey="escape"></ng-keyboard-shortcuts-help>

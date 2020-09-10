@@ -11,10 +11,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-mail-forwarding',
   templateUrl: './mail-forwarding.component.html',
-  styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss']
+  styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss'],
 })
 export class MailForwardingComponent implements OnInit, OnDestroy {
-
   @ViewChild('addAddressModal') addAddressModal;
   @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal;
 
@@ -30,17 +29,21 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   private addAddressModalRef: NgbModalRef;
   private confirmDeleteAddressModalRef: NgbModalRef;
 
-  constructor(private store: Store<AppState>,
-              private formBuilder: FormBuilder,
-              private modalService: NgbModal) {
-  }
+  constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.isVerificationCodeSent = user.isForwardingVerificationCodeSent;
         this.errorMessage = user.emailForwardingErrorMessage;
-        if (this.isCodeFormSubmitted && this.userState.inProgress && !user.inProgress && !user.emailForwardingErrorMessage) {
+        if (
+          this.isCodeFormSubmitted &&
+          this.userState.inProgress &&
+          !user.inProgress &&
+          !user.emailForwardingErrorMessage
+        ) {
           this.addAddressModalRef.dismiss();
           this.isCodeFormSubmitted = false;
         }
@@ -48,16 +51,15 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
         this.settings = user.settings;
       });
     this.emailForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]]
+      email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]],
     });
     this.codeForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]],
-      code: ['', [Validators.required]]
+      code: ['', [Validators.required]],
     });
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   onAddAddress() {
     this.showFormErrorMessages = false;
@@ -75,7 +77,10 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
   }
 
   onDeleteAddress() {
-    this.confirmDeleteAddressModalRef = this.modalService.open(this.confirmDeleteAddressModal, { centered: true, windowClass: 'modal-sm' });
+    this.confirmDeleteAddressModalRef = this.modalService.open(this.confirmDeleteAddressModal, {
+      centered: true,
+      windowClass: 'modal-sm',
+    });
   }
 
   onAddAddressSubmit() {

@@ -8,9 +8,8 @@ describe('BitcoinFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BitcoinFormComponent ]
-    })
-    .compileComponents();
+      declarations: [BitcoinFormComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

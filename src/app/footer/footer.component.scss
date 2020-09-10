@@ -12,12 +12,12 @@
   color: $menu-link;
   font-size: 0.875rem;
 
-  @include media(">sm") {
+  @include media('>sm') {
     padding: 3.125rem calc(2rem - 0.938rem) 2.188rem;
   }
 
   address {
-    @include media("<=sm") {
+    @include media('<=sm') {
       br {
         display: none;
       }
@@ -25,7 +25,7 @@
   }
 
   &.is-external-page-site-footer {
-    @include media(">sm") {
+    @include media('>sm') {
       padding: 2.188rem calc(2rem - 0.938rem) 2rem;
     }
 
@@ -40,13 +40,13 @@
 .footer-col:not(:last-of-type) {
   margin-bottom: 1.875rem;
 
-  @include media(">sm") {
+  @include media('>sm') {
     margin-bottom: 0;
   }
 }
 
 .footer-col.footer-col-5 {
-  @include media(">sm") {
+  @include media('>sm') {
     flex-basis: auto;
     flex-grow: 1;
     flex-shrink: 0;
@@ -62,7 +62,7 @@
     font-size: 1.125rem;
     font-weight: bold;
 
-    @include media(">sm") {
+    @include media('>sm') {
       margin-bottom: 1.5rem;
     }
   }
@@ -74,7 +74,7 @@
   padding-top: 1.875rem;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 
-  @include media(">sm") {
+  @include media('>sm') {
     margin-top: 2.188rem;
     padding-top: 2.188rem;
   }
@@ -83,7 +83,7 @@
 .footer-lang-list {
   margin-bottom: 0.875rem;
 
-  @include media(">sm") {
+  @include media('>sm') {
     margin-bottom: 0.375rem;
   }
 

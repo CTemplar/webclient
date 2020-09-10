@@ -7,7 +7,7 @@
     @content;
   }
 
-  @supports (transform: translate3d(0,0,0)) {
+  @supports (transform: translate3d(0, 0, 0)) {
     // The Proper Way: Using a CSS feature query
     @content;
   }

@@ -11,7 +11,9 @@ import { AuthGuard } from '../store/services';
 
 const routes: Routes = [
   {
-    path: 'mail', component: MailComponent, canActivate: [AuthGuard],
+    path: 'mail',
+    component: MailComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
       { path: 'settings', component: MailSettingsComponent },
@@ -19,13 +21,12 @@ const routes: Routes = [
       { path: 'contacts', component: MailContactComponent },
       { path: ':folder/page/:page', component: MailListComponent },
       { path: ':folder/page/:page/message/:id', component: MailDetailComponent },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MailRoutingModule {
-}
+export class MailRoutingModule {}

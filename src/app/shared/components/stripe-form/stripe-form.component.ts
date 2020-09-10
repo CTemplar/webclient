@@ -9,7 +9,7 @@ import { MakeStripDonation } from '../../../store/actions/donate.actions';
 @Component({
   selector: 'app-stripe-form',
   templateUrl: './stripe-form.component.html',
-  styleUrls: ['./stripe-form.component.scss']
+  styleUrls: ['./stripe-form.component.scss'],
 })
 export class StripeFormComponent implements OnInit {
   /**
@@ -17,7 +17,7 @@ export class StripeFormComponent implements OnInit {
    */
   stripePaymentValidation: any = {
     message: '',
-    param: ''
+    param: '',
   };
 
   // Angular Reactive Form for binding it with inputs
@@ -37,31 +37,8 @@ export class StripeFormComponent implements OnInit {
   /**
    * For filling Month and Year dropdowns
    */
-  months = [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12'
-  ];
-  years = [
-    '2018',
-    '2019',
-    '2020',
-    '2021',
-    '2022',
-    '2023',
-    '2024',
-    '2025',
-    '2026'
-  ];
+  months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+  years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
 
   /**
    * Display loader on form submission
@@ -72,16 +49,15 @@ export class StripeFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _zone: NgZone,
     private store: Store<AppState>,
-    private donationService: DonationService
+    private donationService: DonationService,
   ) {}
-
 
   /**
    * Initializing billing form and adding validation check of 16 digits length
    */
   ngOnInit() {
     this.billingForm = this.formBuilder.group({
-      cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]]
+      cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]],
     });
   }
 
@@ -117,7 +93,7 @@ export class StripeFormComponent implements OnInit {
     this.stripePaymentValidation.message = '';
     if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
       this.stripePaymentValidation.param = 'number';
-    } else if (!(<any>window).Stripe.card.validateExpiry( this.expiryMonth, this.expiryYear)) {
+    } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
       this.stripePaymentValidation.param = 'exp_year exp_month';
     } else if (!(<any>window).Stripe.card.validateCVC(this.cvc)) {
       this.stripePaymentValidation.param = 'cvc';
@@ -138,7 +114,7 @@ export class StripeFormComponent implements OnInit {
         number: this.cardNumber,
         exp_month: this.expiryMonth,
         exp_year: this.expiryYear,
-        cvc: this.cvc
+        cvc: this.cvc,
       },
       (status: number, response: any) => {
         // Wrapping inside the Angular zone
@@ -149,11 +125,11 @@ export class StripeFormComponent implements OnInit {
           } else {
             this.stripePaymentValidation = {
               message: response.error.message,
-              param: response.error.param
+              param: response.error.param,
             };
           }
         });
-      }
+      },
     );
   }
 
@@ -165,16 +141,14 @@ export class StripeFormComponent implements OnInit {
    */
   private performStripeDonationTransaction(token: any) {
     if (token) {
-      this.store.dispatch(new MakeStripDonation({
-        stripe_token: token,
-        amount: this.donationAmount
-      }));
-    } else {
       this.store.dispatch(
-        new SnackErrorPush(
-          'Cannot make donation, please reload page and try again.'
-        )
+        new MakeStripDonation({
+          stripe_token: token,
+          amount: this.donationAmount,
+        }),
       );
+    } else {
+      this.store.dispatch(new SnackErrorPush('Cannot make donation, please reload page and try again.'));
     }
   }
 }

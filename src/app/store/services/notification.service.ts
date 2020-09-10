@@ -6,10 +6,7 @@ import { UndoDeleteMail } from '../actions';
 
 @Injectable()
 export class NotificationService {
-
-  constructor(private snackBar: MatSnackBar,
-              private store: Store<AppState>) {
-  }
+  constructor(private snackBar: MatSnackBar, private store: Store<AppState>) {}
 
   showSnackBar(message: string, action: string = 'CLOSE', config: MatSnackBarConfig = { duration: 5000 }) {
     this.snackBar.open(message, action, config);

@@ -13,10 +13,9 @@ import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
 @Component({
   selector: 'app-mail-autoresponder',
   templateUrl: './mail-autoresponder.component.html',
-  styleUrls: ['./mail-autoresponder.component.scss', '../mail-settings.component.scss']
+  styleUrls: ['./mail-autoresponder.component.scss', '../mail-settings.component.scss'],
 })
 export class MailAutoresponderComponent implements OnInit, OnDestroy {
-
   @ViewChild('startDatePicker') startDatePicker: NgbDatepicker;
   @ViewChild('endDatePicker') endDatePicker: NgbDatepicker;
 
@@ -30,14 +29,17 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   errorMessage: string;
   quillModules = QUILL_FORMATTING_MODULES;
 
-  constructor(private store: Store<AppState>,
+  constructor(
+    private store: Store<AppState>,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private dateTimeUtilService: DateTimeUtilService) {
-  }
+    private dateTimeUtilService: DateTimeUtilService,
+  ) {}
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
@@ -53,14 +55,23 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
     SharedService.isQuillEditorOpen = false;
   }
 
+  /**
+   * initialize Autoresponder time and date from user's autoresponder status
+   */
   initData(autoresponder: AutoResponder) {
     if (autoresponder) {
-      this.startTime = autoresponder.start_time ? this.dateTimeUtilService.getNgbTimeStructFromTimeStr(autoresponder.start_time, 'HH:mm:ss') :
-        { hour: 0, minute: 0, second: 0 };
-      this.endTime = autoresponder.end_time ? this.dateTimeUtilService.getNgbTimeStructFromTimeStr(autoresponder.end_time, 'HH:mm:ss') :
-        { hour: 0, minute: 0, second: 0 };
-      this.startDate = autoresponder.start_date ? this.dateTimeUtilService.getNgbDateStructFromDateStr(autoresponder.start_date, 'YYYY-MM-DD') : null;
-      this.endDate = autoresponder.end_date ? this.dateTimeUtilService.getNgbDateStructFromDateStr(autoresponder.end_date, 'YYYY-MM-DD') : null;
+      this.startTime = autoresponder.start_time
+        ? this.dateTimeUtilService.getNgbTimeStructFromTimeStr(autoresponder.start_time, 'HH:mm:ss')
+        : { hour: 0, minute: 0, second: 0 };
+      this.endTime = autoresponder.end_time
+        ? this.dateTimeUtilService.getNgbTimeStructFromTimeStr(autoresponder.end_time, 'HH:mm:ss')
+        : { hour: 0, minute: 0, second: 0 };
+      this.startDate = autoresponder.start_date
+        ? this.dateTimeUtilService.getNgbDateStructFromDateStr(autoresponder.start_date, 'YYYY-MM-DD')
+        : null;
+      this.endDate = autoresponder.end_date
+        ? this.dateTimeUtilService.getNgbDateStructFromDateStr(autoresponder.end_date, 'YYYY-MM-DD')
+        : null;
       if (this.startDate && this.startDatePicker) {
         this.startDatePicker.navigateTo(this.startDate);
       }
@@ -71,8 +82,12 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   }
 
   save() {
+    // save user's choice for autoresponder
     if (this.autoresponder.is_time_range_restricted) {
-      this.autoresponder.start_time = this.dateTimeUtilService.createTimeStrFromNgbTimeStruct(this.startTime, 'HH:mm:ss');
+      this.autoresponder.start_time = this.dateTimeUtilService.createTimeStrFromNgbTimeStruct(
+        this.startTime,
+        'HH:mm:ss',
+      );
       this.autoresponder.end_time = this.dateTimeUtilService.createTimeStrFromNgbTimeStruct(this.endTime, 'HH:mm:ss');
       if (this.dateTimeUtilService.isBefore(this.autoresponder.end_time, this.autoresponder.start_time, 'HH:mm:ss')) {
         this.store.dispatch(new SnackErrorPush({ message: 'End time cannot be before start time.' }));
@@ -80,10 +95,17 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
       }
     }
     if (this.autoresponder.vacationautoresponder_active) {
-      this.autoresponder.start_date = this.startDate ? this.dateTimeUtilService.createDateStrFromNgbDateStruct(this.startDate, 'YYYY-MM-DD') : null;
-      this.autoresponder.end_date = this.endDate ? this.dateTimeUtilService.createDateStrFromNgbDateStruct(this.endDate, 'YYYY-MM-DD') : null;
-      if (this.autoresponder.end_date && this.autoresponder.start_date &&
-        this.dateTimeUtilService.isBefore(this.autoresponder.end_date, this.autoresponder.start_date)) {
+      this.autoresponder.start_date = this.startDate
+        ? this.dateTimeUtilService.createDateStrFromNgbDateStruct(this.startDate, 'YYYY-MM-DD')
+        : null;
+      this.autoresponder.end_date = this.endDate
+        ? this.dateTimeUtilService.createDateStrFromNgbDateStruct(this.endDate, 'YYYY-MM-DD')
+        : null;
+      if (
+        this.autoresponder.end_date &&
+        this.autoresponder.start_date &&
+        this.dateTimeUtilService.isBefore(this.autoresponder.end_date, this.autoresponder.start_date)
+      ) {
         this.store.dispatch(new SnackErrorPush({ message: 'End date cannot be before start date.' }));
         return;
       }

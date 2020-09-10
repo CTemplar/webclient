@@ -9,10 +9,11 @@ export function reducer(
     mailboxes: [],
     currentMailbox: null,
     decryptKeyInProgress: false,
-    encryptionInProgress: false
-  }, action: MailActions): MailBoxesState {
+    encryptionInProgress: false,
+  },
+  action: MailActions,
+): MailBoxesState {
   switch (action.type) {
-
     case MailActionTypes.GET_MAILBOXES: {
       return {
         ...state,
@@ -27,7 +28,7 @@ export function reducer(
           return item;
         }),
         inProgress: false,
-        currentMailbox: action.payload.filter((item: Mailbox) => item.is_enabled)[0]
+        currentMailbox: action.payload.filter((item: Mailbox) => item.is_enabled)[0],
       };
     }
 
@@ -58,7 +59,7 @@ export function reducer(
       updatedCurrentMailBox.inProgress = false;
       let mailboxes: Mailbox[] = state.mailboxes;
 
-      mailboxes = mailboxes.map((mailbox) => {
+      mailboxes = mailboxes.map(mailbox => {
         if (mailbox.id === updatedCurrentMailBox.id) {
           return { ...updatedCurrentMailBox };
         }
@@ -78,12 +79,13 @@ export function reducer(
 
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_FAILURE: {
       return {
-        ...state, mailboxes: state.mailboxes.map((mailbox) => {
+        ...state,
+        mailboxes: state.mailboxes.map(mailbox => {
           if (mailbox.id === action.payload.id) {
             mailbox.inProgress = false;
           }
           return mailbox;
-        })
+        }),
       };
     }
 
@@ -104,7 +106,7 @@ export function reducer(
       const updatedCurrentMailBox: Mailbox = action.payload;
       const previousDefaultMailBox = state.mailboxes.find(mailbox => !!mailbox.is_default);
       let mailboxes: Mailbox[] = state.mailboxes;
-      mailboxes = mailboxes.map((mailbox) => {
+      mailboxes = mailboxes.map(mailbox => {
         if (mailbox.id === updatedCurrentMailBox.id) {
           return { ...updatedCurrentMailBox };
         } else if (mailbox.id === previousDefaultMailBox.id) {
@@ -121,7 +123,7 @@ export function reducer(
 
       return {
         ...state,
-        mailboxes: mailboxes
+        mailboxes: mailboxes,
       };
     }
 

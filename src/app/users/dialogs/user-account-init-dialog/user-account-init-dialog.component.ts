@@ -18,43 +18,35 @@ import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation2', [
       transition(':enter', [
         query('li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation3', [
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
     ]),
     trigger('pageAnimation4', [
       transition(':enter', [
         query('h3, li', [
           style({ opacity: 0, transform: 'translateY(-100%)' }),
-          stagger(833, [
-            animate('833ms', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
-    ])
-  ]
+          stagger(833, [animate('833ms', style({ opacity: 1, transform: 'none' }))]),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   @Input() isPgpGenerationComplete: boolean;
@@ -67,14 +59,13 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
   private isAccountCreationComplete: boolean;
   private isDisplayNameOpened: boolean;
 
-  constructor(public activeModal: NgbActiveModal,
-              private modalService: NgbModal,
-              private store: Store<AppState>) {
-  }
+  constructor(public activeModal: NgbActiveModal, private modalService: NgbModal, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.isDisplayNameOpened = false;
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         if (this.signupState && this.signupState.inProgress && !authState.signupState.inProgress) {
           if (authState.errorMessage || this.step === 4) {
@@ -101,16 +92,12 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.step++;
       }, 1000);
-
     }
-
   }
 
-  ngOnDestroy() {
-  }
+  ngOnDestroy() {}
 
-  onAnimationStart(evt) {
-  }
+  onAnimationStart(evt) {}
 
   onAnimationDone(evt) {
     if (this.step === 2 && !this.isPgpGenerationComplete) {
@@ -142,6 +129,4 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-
 }

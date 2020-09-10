@@ -2,10 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment-timezone';
 
 @Pipe({
-  name: 'remainingTime'
+  name: 'remainingTime',
 })
 export class RemainingTimePipe implements PipeTransform {
-
   transform(value: any, hoursOnly: boolean = false): any {
     if (!value) {
       return '';
@@ -52,5 +51,4 @@ export class RemainingTimePipe implements PipeTransform {
     }
     return s;
   }
-
 }

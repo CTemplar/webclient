@@ -8,7 +8,7 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
 @Component({
   selector: 'app-mail-footer',
   templateUrl: './mail-footer.component.html',
-  styleUrls: ['./mail-footer.component.scss']
+  styleUrls: ['./mail-footer.component.scss'],
 })
 export class MailFooterComponent implements OnInit, OnDestroy {
   public userState: UserState;

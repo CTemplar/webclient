@@ -2,48 +2,54 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { distinctUntilChanged } from 'rxjs/operators';
 // Helpers
-import { apiUrl, PRIMARY_DOMAIN, PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from '../../shared/config';
+import {
+  apiUrl,
+  PRIMARY_DOMAIN,
+  PROMO_CODE_KEY,
+  REFFERAL_CODE_KEY,
+  REFFERAL_ID_KEY,
+  JWT_AUTH_COOKIE,
+} from '../../shared/config';
 // Models
 // Rxjs
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { AppState, AutoResponder, Contact, Settings } from '../datatypes';
+import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
 import { LogInSuccess } from '../actions';
 import * as bcrypt from 'bcryptjs';
 import { Filter } from '../models/filter.model';
 
 @Injectable()
 export class UsersService {
-  private token: string | null;
   private userKey: string;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private store: Store<AppState>,
-  ) {
-    if (this.getToken() && this.getUserKey() && !this.isTokenExpired()) {
-      this.store.dispatch(new LogInSuccess({ token: this.getToken() }));
-    }
+  constructor(private http: HttpClient, private router: Router, private store: Store<AppState>) {
+    this.store
+      .select(state => state.auth)
+      .pipe(distinctUntilChanged((prev, cur) => prev.isAuthenticated === cur.isAuthenticated))
+      .subscribe((authState: AuthState) => {
+        if (authState.isAuthenticated && this.getUserKey()) {
+          this.store.dispatch(new LogInSuccess({}));
+        }
+      });
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + (1000 * 60 * 60 * 3);  // set 3 hours expiration token time.
+    const expiration = new Date().getTime() + 1000 * 60 * 60 * 3; // set 3 hours expiration token time.
     localStorage.setItem('token_expiration', expiration.toString());
   }
 
   refreshToken(): Observable<any> {
-    const token = this.getToken();
-    if (token) {
-      const body = { token };
+    if (this.doesHttpOnlyCookieExist(JWT_AUTH_COOKIE)) {
+      const body = {};
       const url = `${apiUrl}auth/refresh/`;
       return this.http.post<any>(url, body).pipe(
         tap(data => {
-          localStorage.setItem('token', data.token);
           this.setTokenExpiration();
-        })
+        }),
       );
     } else {
       return of({});
@@ -64,7 +70,7 @@ export class UsersService {
         if (data.token) {
           this.setLoginData(data, body);
         }
-      })
+      }),
     );
   }
 
@@ -93,21 +99,15 @@ export class UsersService {
   }
 
   private setLoginData(tokenResponse: any, requestData) {
-    this.token = tokenResponse.token;
     this.userKey = btoa(requestData.password);
-    localStorage.setItem('token', tokenResponse.token);
     this.setTokenExpiration();
-    if (requestData.rememberMe) {
-      localStorage.setItem('user_key', this.userKey);
-    }
+    localStorage.setItem('user_key', this.userKey);
     localStorage.removeItem(PROMO_CODE_KEY);
     localStorage.removeItem(REFFERAL_CODE_KEY);
   }
 
   signOut() {
     this.router.navigateByUrl('/signin');
-    this.userKey = this.token = null;
-    localStorage.removeItem('token');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
     localStorage.removeItem(PROMO_CODE_KEY);
@@ -121,9 +121,10 @@ export class UsersService {
   }
 
   onBeforeLoader(e) {
-    var confirmationMessage = "If you close the window now all the progress will be lost and your account won't be created.";
-    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+    const confirmationMessage =
+      "If you close the window now all the progress will be lost and your account won't be created.";
+    (e || window.event).returnValue = confirmationMessage; // Gecko + IE
+    return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
   }
 
   signUp(user): Observable<any> {
@@ -136,7 +137,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, this.updateSignupDataWithPromo(requestData)).pipe(
       tap(data => {
         this.setLoginData(data, user);
-      })
+      }),
     );
   }
 
@@ -150,7 +151,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
       tap(res => {
         this.setLoginData(res, data);
-      })
+      }),
     );
   }
 
@@ -163,7 +164,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
       tap(response => {
         this.setLoginData(response, data);
-      })
+      }),
     );
   }
 
@@ -171,10 +172,6 @@ export class UsersService {
     const body = { token: localStorage.getItem('token') };
     const url = `${apiUrl}auth/verify/`;
     return this.http.post<any>(url, body);
-  }
-
-  getToken(): string {
-    return this.token || localStorage.getItem('token');
   }
 
   getUserKey(): string {
@@ -227,7 +224,7 @@ export class UsersService {
       'btc-wallet/create/',
       'promo-code/validate',
       'users/invites/',
-      'notifications'
+      'notifications',
     ];
     if (authenticatedUrls.indexOf(url) > -1) {
       return true;
@@ -315,8 +312,7 @@ export class UsersService {
   }
 
   getInviteCodes() {
-    return this.http.get<any>(`${apiUrl}users/invites/`)
-      .pipe(map(response => response.results));
+    return this.http.get<any>(`${apiUrl}users/invites/`).pipe(map(response => response.results));
   }
 
   generateInviteCodes() {
@@ -332,11 +328,15 @@ export class UsersService {
   }
 
   deleteContact(ids) {
-    if (ids === "all") {
+    if (ids === 'all') {
       return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
     } else {
       return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
     }
+  }
+
+  notifyContact(payload: any) {
+    return this.http.post<any>(`${apiUrl}notify-contacts/`, payload);
   }
 
   importContacts(data: any) {
@@ -359,7 +359,10 @@ export class UsersService {
   }
 
   updateOrganizationUser(data: any): Observable<any> {
-    return this.http.post<any>(`${apiUrl}auth/update-user/`, { user_id: data.user_id, recovery_email: data.recovery_email });
+    return this.http.post<any>(`${apiUrl}auth/update-user/`, {
+      user_id: data.user_id,
+      recovery_email: data.recovery_email,
+    });
   }
 
   deleteOrganizationUser(data: any): Observable<any> {
@@ -378,7 +381,9 @@ export class UsersService {
   private updateSignupDataWithPromo(data: any = {}) {
     // Get cookie for cjevent
     const referralId = document.cookie.split('; ').find(row => row.startsWith(REFFERAL_ID_KEY));
-    if (referralId) data[REFFERAL_ID_KEY] = referralId.split('=')[1];
+    if (referralId) {
+      data[REFFERAL_ID_KEY] = referralId.split('=')[1];
+    }
     return data;
   }
 
@@ -458,11 +463,9 @@ export class UsersService {
     return this.http.get<any>(`${apiUrl}auth/captcha/`);
   }
 
-
   get2FASecret(): Observable<any> {
     return this.http.get<any>(`${apiUrl}auth/otp-secret/`);
   }
-
 
   update2FA(data: any): Observable<any> {
     data.password = this.hashData(data);
@@ -501,5 +504,20 @@ export class UsersService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  // TODO
+  // This part is almost trick, but would work perfectly, needs to update later
+  doesHttpOnlyCookieExist(cookiename) {
+    const d = new Date();
+    d.setTime(d.getTime() + 1000);
+    const expires = 'expires=' + d.toUTCString();
+
+    document.cookie = cookiename + '=new_value;path=/;' + expires;
+    if (document.cookie.indexOf(cookiename + '=') === -1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

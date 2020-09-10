@@ -1,31 +1,43 @@
 {
   "contacts": {
     "new_contact": "НОВЫЙ КОНТАКТ",
+    "notify_contacts": "УВЕДОМЛЕНИЕ О КОНТАКТАХ",
+    "notify_contacts_title": "Notify contacts about my new email address",
+    "notify_contacts_description": {
+      "before": "The email below will be send to ",
+      "after": " contacts you have selected to inform them you have a new email address."
+    },
+    "notify_contacts_email": {
+      "title": "Hi! I have chanaged my email address",
+      "content_before": "Hello,\nI want to inform you that I have changed my email address to ",
+      "content_after": "\nPlease, update my contact information in your address book.\nThank you.\n...\n"
+    },
+    "send_email": "SEND EMAIL",
     "all_contacts": "ВСЕ КОНТАКТЫ",
     "back_to_mail": "НАЗАД К ПОЧТЕ",
     "edit_tooltip": "Для редактирования, нажмите на Имя или Электронный адрес.",
     "delete_tooltip": "Удалить выбранные контакты.",
     "details": "Детали контакта",
     "phone2": "Телефон2",
-    "encryption": "Encryption",
+    "encryption": "шифрование",
     "address": "Адрес",
     "note": "Примечания",
     "save": {
       "error": "Пожалуйста, заполните необходимые поля.",
-      "name_required": "Name is required",
-      "email_req": "Email address is required",
-      "email_not_valid": "Email address is not valid"
+      "name_required": "Введите имя",
+      "email_req": "Введите адрес электронной почты",
+      "email_not_valid": "Адрес электронной почты недействителен"
     },
     "delete": {
       "title": "Подтвердить удаление",
       "message": "Вы уверены, что хотите удалить "
     },
-    "import_contacts": "Import Contacts",
+    "import_contacts": "Импорт контактов",
     "select_csv": "Select a CSV file from one of the following providers.",
-    "import_f_google": "Import from Google",
-    "import_f_yahoo": "Import from Yahoo",
-    "import_f_outlook": "Import from Outlook",
-    "import_f_other": "Import from Other",
+    "import_f_google": "Имя контакта Google",
+    "import_f_yahoo": "Импорт из Yahoo",
+    "import_f_outlook": "Импорт из Outlook",
+    "import_f_other": "Импорт из другого",
     "contact_name": "Contact Name",
     "type_email": "Type E-mail",
     "a_note": "A note"
@@ -54,6 +66,7 @@
   },
   "settings": {
     "compose_font": "Default Mail Compose Font",
+    "compose_autosave_duration": "Mail compose autosave duration",
     "champion_plan": "Champion Plan",
     "champion": "Champion",
     "select_champion": "Select Champion",
@@ -346,6 +359,8 @@
       "attach_files": "Attach Files",
       "attach_url": "Attach URL",
       "self_dest_email": "Self Destruct Email",
+      "confirm_send": "Confirm Send",
+      "send_without_all": "Are you sure, send this message without a subject or text in the body?",
       "email_deleted": "Email will be deleted on selected datetime",
       "select_date": "Select Date",
       "select_time": "Select Time",
@@ -518,6 +533,8 @@
     "more_info": "Узнать больше",
     "less": "Меньше",
     "invite_code": "Код приглашения",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": "Адрес эл. почты для восстановления (необязательно)",
     "recover_account": "Этот адрес необходим для восстановления вашего аккаунта, если вы забудете свой пароль.",
     "check_box": "Поставьте отметку здесь, если вы согласны следовать нашим",
@@ -537,6 +554,7 @@
   "billing_info": {
     "pending_payment_alert": "Ваша оплата еще не осуществлена. Однако, вы можете создать бесплатный аккаунт ­– после подтверждения оплаты вы автоматически перейдете на премиум-план.",
     "bitcoin_sent_timer": "BTC, отправленные по истечении времени на таймере, будут утеряны!",
+    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
     "payment_information": "Информация об оплате",
     "plan": "План",
     "billing": "Платежи",
@@ -590,7 +608,9 @@
     "show_trimmed": "Show trimmed content",
     "attachment_message": "Do you want to forward attachments of this message?",
     "no_header": "No headers available",
-    "incoming_head": "Incoming Headers"
+    "incoming_head": "Incoming Headers",
+    "show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

@@ -18,7 +18,4 @@ export class TimezoneGetSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-
-export type TimezoneActionAll =
-  | TimezoneGet
-  | TimezoneGetSuccess;
+export type TimezoneActionAll = TimezoneGet | TimezoneGetSuccess;

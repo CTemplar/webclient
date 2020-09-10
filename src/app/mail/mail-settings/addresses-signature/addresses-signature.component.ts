@@ -1,7 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 import { Mailbox } from '../../../store/models';
-import { CreateMailbox, DeleteMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
+import {
+  CreateMailbox,
+  DeleteMailbox,
+  SetDefaultMailbox,
+  SnackErrorPush,
+  UpdateMailboxOrder,
+} from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
@@ -13,19 +19,17 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 import ImageResize from 'quill-image-resize-module';
+import Quill from 'quill';
 
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
-import Quill from 'quill';
-
 Quill.register(ImageFormat, true);
-
 
 @UntilDestroy()
 @Component({
   selector: 'app-addresses-signature',
   templateUrl: './addresses-signature.component.html',
-  styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss']
+  styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss'],
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
   @ViewChild('deleteAliasModal') deleteAliasModal;
@@ -43,22 +47,28 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   settings: Settings;
   customDomains: string[];
   reorder: boolean;
-  reorderInProgress: boolean = false;
+  reorderInProgress = false;
   mailboxToDelete: Mailbox;
   signatureChanged: Subject<string> = new Subject<string>();
   quillModules = QUILL_FORMATTING_MODULES;
   isCustomDomainSelected: boolean;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(
+    private formBuilder: FormBuilder,
     private openPgpService: OpenPgpService,
     private usersService: UsersService,
     private settingsService: MailSettingsService,
     private modalService: NgbModal,
-    private store: Store<AppState>) { }
+    private store: Store<AppState>,
+  ) {}
 
   ngOnInit() {
-
-    this.store.select(state => state.mailboxes).pipe(untilDestroyed(this))
+    /**
+     * Get current mailbox status and update selected mailbox
+     */
+    this.store
+      .select(state => state.mailboxes)
+      .pipe(untilDestroyed(this))
       .subscribe((mailboxesState: MailBoxesState) => {
         if (mailboxesState.isUpdatingOrder) {
           this.reorderInProgress = true;
@@ -68,8 +78,12 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
           this.reorderInProgress = false;
           this.reorder = false;
         }
-
-        if (this.mailBoxesState && this.mailBoxesState.inProgress && !mailboxesState.inProgress && this.newAddressOptions.isBusy) {
+        if (
+          this.mailBoxesState &&
+          this.mailBoxesState.inProgress &&
+          !mailboxesState.inProgress &&
+          this.newAddressOptions.isBusy
+        ) {
           this.onDiscardNewAddress();
         }
         this.mailBoxesState = mailboxesState;
@@ -87,54 +101,66 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    /**
+     * Set customeDomains list from user's state
+     */
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
-        this.customDomains = user.customDomains.filter((item) => item.is_domain_verified && item.is_mx_verified)
-          .map((item) => item.domain);
+        this.customDomains = user.customDomains
+          .filter(item => item.is_domain_verified && item.is_mx_verified)
+          .map(item => item.domain);
         this.customDomains = [PRIMARY_DOMAIN, ...this.customDomains];
       });
 
     this.newAddressForm = this.formBuilder.group({
-      'username': ['', [
-        Validators.required,
-        Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
-        Validators.minLength(2),
-        Validators.maxLength(64)
-      ]],
-      'domain': [
+      username: [
         '',
-        Validators.required
-      ]
+        [
+          Validators.required,
+          Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+          Validators.minLength(2),
+          Validators.maxLength(64),
+        ],
+      ],
+      domain: ['', Validators.required],
     });
 
-    this.signatureChanged.pipe(debounceTime(3000), distinctUntilChanged())
-      .subscribe(value => {
-        this.updateMailboxSettings(this.selectedMailboxForSignature, 'signature', value);
-      });
+    this.signatureChanged.pipe(debounceTime(3000), distinctUntilChanged()).subscribe(value => {
+      this.updateMailboxSettings(this.selectedMailboxForSignature, 'signature', value);
+    });
 
     this.handleUsernameAvailability();
   }
 
   onDomainChange(customDomain: string) {
     this.newAddressForm.get('username').reset();
-
     if (customDomain !== PRIMARY_DOMAIN) {
       this.isCustomDomainSelected = true;
-      this.newAddressForm.get('username').setValidators([Validators.required,
-      Validators.pattern(/^[a-z]*([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
-      Validators.minLength(1),
-      Validators.maxLength(64)]);
+      this.newAddressForm
+        .get('username')
+        .setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-z]*([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+          Validators.minLength(1),
+          Validators.maxLength(64),
+        ]);
       this.newAddressForm.get('domain').setValidators([Validators.required]);
       this.newAddressForm.get('username').updateValueAndValidity();
     } else {
       this.isCustomDomainSelected = false;
 
-      this.newAddressForm.get('username').setValidators([Validators.required,
-      Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
-      Validators.minLength(1),
-      Validators.maxLength(64)]);
+      this.newAddressForm
+        .get('username')
+        .setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+          Validators.minLength(1),
+          Validators.maxLength(64),
+        ]);
       this.newAddressForm.get('domain').setValidators([Validators.required]);
       this.newAddressForm.get('username').updateValueAndValidity();
     }
@@ -147,7 +173,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       this.newAddressForm.reset();
       this.newAddressForm.get('domain').setValue(PRIMARY_DOMAIN);
       this.newAddressOptions = {
-        isAddingNew: true
+        isAddingNew: true,
       };
     }
   }
@@ -155,13 +181,17 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onDiscardNewAddress() {
     this.newAddressForm.reset();
     this.newAddressOptions = {
-      isAddingNew: false
+      isAddingNew: false,
     };
   }
 
   submitNewAddress() {
     this.newAddressOptions.isSubmitted = true;
-    if (this.newAddressForm.valid && this.newAddressOptions.usernameExists === false && this.newAddressForm.controls['username'].value) {
+    if (
+      this.newAddressForm.valid &&
+      this.newAddressOptions.usernameExists === false &&
+      this.newAddressForm.controls['username'].value
+    ) {
       this.newAddressOptions.isBusy = true;
       this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
       if (this.openPgpService.getUserKeys()) {
@@ -175,7 +205,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   addNewAddress() {
     const requestData = {
       email: this.getEmail(),
-      ...this.openPgpService.getUserKeys()
+      ...this.openPgpService.getUserKeys(),
     };
     this.store.dispatch(new CreateMailbox(requestData));
   }
@@ -186,8 +216,12 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
     this.selectedMailboxForKey = mailbox;
-    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.public_key)}`;
-    this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(this.selectedMailboxForKey.private_key)}`;
+    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
+      this.selectedMailboxForKey.public_key,
+    )}`;
+    this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
+      this.selectedMailboxForKey.private_key,
+    )}`;
   }
 
   onSignatureChange(value) {
@@ -207,7 +241,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   showConfirmDeleteMailboxModal(mailbox: Mailbox) {
     this.mailboxToDelete = mailbox;
-    this.modalService.open(this.deleteAliasModal, { centered: true, windowClass: 'modal-sm users-action-modal', backdrop: 'static' });
+    this.modalService.open(this.deleteAliasModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+      backdrop: 'static',
+    });
   }
 
   deleteMailboxConfirmed() {
@@ -236,12 +274,14 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   startReorder() {
     this.reorder = true;
     this.unmodifiedMailboxes = this.mailboxes.map(x => Object.assign({}, x));
-    this.mailboxes = this.mailboxes.sort((a, b) => {
-      return a.sort_order - b.sort_order;
-    }).map((item, index) => {
-      item.sort_order = index + 1;
-      return item;
-    });
+    this.mailboxes = this.mailboxes
+      .sort((a, b) => {
+        return a.sort_order - b.sort_order;
+      })
+      .map((item, index) => {
+        item.sort_order = index + 1;
+        return item;
+      });
   }
 
   saveOrder() {
@@ -252,7 +292,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         mailbox_list: this.mailboxes.map(item => {
           return { mailbox_id: item.id, sort_order: item.sort_order };
         }),
-      }
+      },
     };
     this.store.dispatch(new UpdateMailboxOrder(payload));
   }
@@ -263,33 +303,37 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   }
 
   private getEmail() {
-    return this.newAddressForm.controls['username'].value +
-      (this.newAddressForm.controls['domain'].value === PRIMARY_DOMAIN ? '' : '@' + this.newAddressForm.controls['domain'].value);
+    return (
+      this.newAddressForm.controls['username'].value +
+      (this.newAddressForm.controls['domain'].value === PRIMARY_DOMAIN
+        ? ''
+        : '@' + this.newAddressForm.controls['domain'].value)
+    );
   }
 
-
   private handleUsernameAvailability() {
-    this.newAddressForm.get('username').valueChanges
-      .pipe(
-        debounceTime(500),
-        untilDestroyed(this)
-      )
-      .subscribe((username) => {
+    this.newAddressForm
+      .get('username')
+      .valueChanges.pipe(debounceTime(500), untilDestroyed(this))
+      .subscribe(username => {
         if (!username) {
           return;
         }
         if (!this.newAddressForm.controls['username'].errors) {
           this.newAddressOptions.isBusy = true;
-          this.usersService.checkUsernameAvailability(this.getEmail())
-            .subscribe(response => {
+          this.usersService.checkUsernameAvailability(this.getEmail()).subscribe(
+            response => {
               this.newAddressOptions.usernameExists = response.exists;
               this.newAddressOptions.isBusy = false;
             },
-              error => {
-                this.store.dispatch(new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }));
-                this.newAddressOptions.isBusy = false;
-                this.newAddressOptions.usernameExists = null;
-              });
+            error => {
+              this.store.dispatch(
+                new SnackErrorPush({ message: `Failed to check username availability. ${error.error}` }),
+              );
+              this.newAddressOptions.isBusy = false;
+              this.newAddressOptions.usernameExists = null;
+            },
+          );
         }
       });
   }
@@ -301,5 +345,4 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     SharedService.isQuillEditorOpen = false;
   }
-
 }

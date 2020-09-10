@@ -15,22 +15,26 @@ export const initialState: ContactsState = {
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
   switch (action.type) {
-
     case ContactsActionTypes.CONTACT_GET: {
       return { ...state, loaded: false, inProgress: true, contactsToDecrypt: [] };
     }
 
     case ContactsActionTypes.CONTACT_GET_SUCCESS: {
       return {
-        ...state, contacts: action.payload.results,
+        ...state,
+        contacts: action.payload.results,
         contactsToDecrypt: action.payload.isDecrypting ? action.payload.results : [],
-        totalContacts: action.payload.total_count, loaded: true, inProgress: false
+        totalContacts: action.payload.total_count,
+        loaded: true,
+        inProgress: false,
       };
     }
 
     case ContactsActionTypes.CONTACT_GET_FAILURE: {
       return {
-        ...state, loaded: true, inProgress: false
+        ...state,
+        loaded: true,
+        inProgress: false,
       };
     }
 
@@ -38,7 +42,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return {
         ...state,
         contactsToDecrypt: [],
-        noOfDecryptedContacts: (action.payload && action.payload.clearCount) ? 0 : state.noOfDecryptedContacts
+        noOfDecryptedContacts: action.payload && action.payload.clearCount ? 0 : state.noOfDecryptedContacts,
       };
     }
 
@@ -46,9 +50,14 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { ...state, noOfDecryptedContacts: state.noOfDecryptedContacts + action.payload.contact_list.length };
     }
 
+    case ContactsActionTypes.CONTACT_NOTIFY:
     case ContactsActionTypes.CONTACT_DELETE:
     case ContactsActionTypes.CONTACT_ADD: {
       return { ...state, inProgress: true, isError: false };
+    }
+    case ContactsActionTypes.CONTACT_NOTIFY_SUCCESS:
+    case ContactsActionTypes.CONTACT_NOTIFY_FAILURE: {
+      return { ...state, inProgress: false, isError: false };
     }
     case ContactsActionTypes.CONTACT_ADD_SUCCESS: {
       if (action.payload.isUpdating) {
@@ -65,7 +74,12 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       } else {
         state.totalContacts = state.totalContacts + 1;
       }
-      return { ...state, contacts: sortByString(state.contacts.concat([action.payload]), 'name'), inProgress: false, isError: false };
+      return {
+        ...state,
+        contacts: sortByString(state.contacts.concat([action.payload]), 'name'),
+        inProgress: false,
+        isError: false,
+      };
     }
     case ContactsActionTypes.CONTACT_ADD_ERROR: {
       return { ...state, inProgress: false, isError: true };
@@ -102,7 +116,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     }
 
     case ContactsActionTypes.CONTACT_DECRYPT_SUCCESS: {
-      const contacts = state.contacts.map((contact) => {
+      const contacts = state.contacts.map(contact => {
         if (contact.id === action.payload.id) {
           contact = action.payload;
           contact.isDecryptedFrontend = true;
@@ -116,6 +130,5 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     default: {
       return state;
     }
-
   }
 }

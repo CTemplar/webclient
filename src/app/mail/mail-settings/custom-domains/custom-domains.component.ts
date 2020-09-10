@@ -5,7 +5,6 @@ import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-boots
 import { Store } from '@ngrx/store';
 
 import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } from '../../../store/actions';
-
 import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -15,10 +14,9 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
 @Component({
   selector: 'app-custom-domains',
   templateUrl: './custom-domains.component.html',
-  styleUrls: ['./custom-domains.component.scss']
+  styleUrls: ['./custom-domains.component.scss'],
 })
 export class CustomDomainsComponent implements OnInit, OnDestroy {
-
   @Output() onGotoTab = new EventEmitter<string>();
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
@@ -29,9 +27,8 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   domains: Domain[] = [];
   newDomain: Domain;
   newDomainError: string;
-
   isAddingNewDomain = false;
-  currentStep: number = 0;
+  currentStep = 0;
   domainNameForm: FormGroup;
   verifyForm: FormGroup;
   mxForm: FormGroup;
@@ -55,11 +52,16 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         if (!user.inProgress) {
@@ -72,22 +74,17 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       });
 
     this.domainNameForm = this.formBuilder.group({
-      domainNameCtrl: ['', Validators.required]
+      domainNameCtrl: ['', Validators.required],
     });
 
     this.verifyForm = this.formBuilder.group({});
-
     this.mxForm = this.formBuilder.group({});
-
     this.spfForm = this.formBuilder.group({});
-
     this.dkimForm = this.formBuilder.group({});
-
     this.dmarcForm = this.formBuilder.group({});
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   startAddingNewDomain(domain: any = null) {
     this.newDomainError = null;
@@ -96,7 +93,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       this.isEditing = true;
       this.newDomain = domain;
       this.isAddingNewDomain = true;
-
     } else if (!this.userState.inProgress) {
       this.currentStep = 0;
       domain = {};
@@ -141,7 +137,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
       this.confirmModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
-        backdrop: 'static'
+        backdrop: 'static',
       });
     }
   }

@@ -1,10 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 // Store
 import { Store } from '@ngrx/store';
-import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX } from '../../shared/config';
+import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
 
 import {
   BlackListDelete,
@@ -12,7 +12,7 @@ import {
   SnackPush,
   WhiteListDelete,
   CardDelete,
-  CardMakePrimary
+  CardMakePrimary,
 } from '../../store/actions';
 import {
   AppState,
@@ -22,20 +22,15 @@ import {
   NotificationPermission,
   Payment,
   PaymentMethod,
-  PaymentType,
   PlanType,
   PricingPlan,
   Settings,
   Timezone,
   TimezonesState,
   UserState,
-  CardState
+  CardState,
 } from '../../store/datatypes';
-import { 
-  MoveTab,
-  ClearMailsOnConversationModeChange,
-  GetUnreadMailsCount
-} from '../../store/actions';
+import { MoveTab, ClearMailsOnConversationModeChange, GetUnreadMailsCount } from '../../store/actions';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
@@ -49,10 +44,11 @@ import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
-  styleUrls: ['./mail-settings.component.scss']
+  styleUrls: ['./mail-settings.component.scss'],
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
+  readonly autosaveDurations = AUTOSAVE_DURATION;
   readonly planType = PlanType;
   @ViewChild('tabSet') tabSet;
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
@@ -75,12 +71,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   deleteAccountInfoForm: FormGroup;
   deleteAccountOptions: any = {};
   notificationsPermission: string;
+  autosave_duration: any = {};
+  autosave_duration_list: Array<string>;
   notificationPermissionType = NotificationPermission;
   selectedTabQueryParams = 'dashboard-and-plans';
   invoices: Invoice[];
   currentPlan: PricingPlan;
-  isAddNewCard: boolean = false;
-  isCardUpdateMode: boolean = false;
+  isAddNewCard = false;
+  isCardUpdateMode = false;
   private deleteAccountInfoModalRef: NgbModalRef;
   private confirmDeleteAccountModalRef: NgbModalRef;
 
@@ -103,20 +101,29 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     private creditcardnumber: CreditCardNumberPipe,
   ) {
     // customize default values of dropdowns used by this component tree
-    config.autoClose = true; // ~'outside';
+    config.autoClose = true;
   }
 
   ngOnInit() {
+    this.initAutoSaving(); // Convert milliseconds to time format(m:s)
     if ('Notification' in window) {
       this.notificationsPermission = Notification.permission;
     }
     this.sharedService.loadPricingPlans();
 
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.authState = authState;
       });
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+
+    /**
+     * Get user's state and initialize
+     */
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
@@ -129,35 +136,47 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (SharedService.PRICING_PLANS && user.settings.plan_type) {
           this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
         }
-
         if (user.settings.language) {
           this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
         }
+        if (user.settings.autosave_duration !== 'none' && user.settings.autosave_duration) {
+          const duration = Number(user.settings.autosave_duration);
+          // convert duration to m:s format (1m = 60000ms, 1s = 1000ms)
+          const newDuration = duration >= 60000 ? duration / 60000 + 'm' : duration / 1000 + 's';
+          this.autosave_duration = newDuration;
+        } else {
+          this.autosave_duration = 'none';
+        }
       });
-    this.store.select(state => state.timezone).pipe(untilDestroyed(this))
+
+    this.store
+      .select(state => state.timezone)
+      .pipe(untilDestroyed(this))
       .subscribe((timezonesState: TimezonesState) => {
         this.timezones = timezonesState.timezones;
       });
 
     this.deleteAccountInfoForm = this.formBuilder.group({
-      'contact_email': ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
-      'password': ['', [Validators.required]]
+      contact_email: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
+      password: ['', [Validators.required]],
     });
-    this.route.params.subscribe(
-      params => {
-        if (params['id'] !== 'undefined') {
-          this.store.dispatch(new MoveTab(params['id']));
-        }
+    this.route.params.subscribe(params => {
+      if (params['id'] !== 'undefined') {
+        this.store.dispatch(new MoveTab(params['id']));
       }
+    });
+
+    this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges.pipe(
+      startWith(''),
+      map(name => (name ? this._filterTimeZone(name) : this.timezones.slice())),
     );
 
-    this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges
-      .pipe(
-        startWith(''),
-        map(name => name ? this._filterTimeZone(name) : this.timezones.slice())
-      );
-
-    this.store.select(state => state.mail).pipe(untilDestroyed(this))
+    /**
+     * Save current settings tab
+     */
+    this.store
+      .select(state => state.mail)
+      .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         if (mailState.currentSettingsTab) {
           if (this.selectedTabQueryParams === mailState.currentSettingsTab) {
@@ -177,6 +196,22 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleRecoveyEmailEdit() {
     this.isEditingRecoveryEmail = !this.isEditingRecoveryEmail;
+  }
+  /**
+   * Convert milliseconds to time format(m:s)
+   */
+  initAutoSaving() {
+    const autosave_durations = [];
+    this.autosaveDurations.forEach((duration, index) => {
+      if (duration !== 'none' && duration) {
+        const perduration = Number(duration);
+        const newDuration = perduration >= 60000 ? perduration / 60000 + 'm' : perduration / 1000 + 's';
+        autosave_durations.push(newDuration);
+      } else {
+        autosave_durations.push('none');
+      }
+    });
+    this.autosave_duration_list = autosave_durations;
   }
 
   ngAfterViewInit() {
@@ -200,33 +235,32 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleSlides(index) {
     this.selectedIndex = index;
     document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document
-      .querySelector('.package-prime-col')
-      .classList.remove('active-slide');
+    document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
 
-  // == Methods related to ngbModal
-
-
-  // == Open billing information NgbModal
-
   onAddNewCard() {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) {
+      return;
+    }
     this.isAddNewCard = true;
     this.modalService.open(this.billingInfoModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-lg'
+      windowClass: 'modal-lg',
     });
   }
 
   onDeleteCard(card: CardState) {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) {
+      return;
+    }
     this.store.dispatch(new CardDelete(card.id));
   }
 
   onMakePrimaryCard(card: CardState) {
-    if (this.userState.inProgress) return;
+    if (this.userState.inProgress) {
+      return;
+    }
     this.store.dispatch(new CardMakePrimary(card.id));
   }
 
@@ -234,7 +268,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isAddNewCard = false;
     this.modalService.open(billingInfoContent, {
       centered: true,
-      windowClass: 'modal-lg'
+      windowClass: 'modal-lg',
     });
   }
 
@@ -243,7 +277,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalService.open(this.billingInfoModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-lg'
+      windowClass: 'modal-lg',
     });
   }
 
@@ -266,12 +300,22 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new GetUnreadMailsCount());
   }
 
+  /**
+   * convert m:s format to milliseconds and update settings
+   */
   updateSettings(key?: string, value?: any) {
+    if (key === 'autosave_duration') {
+      if (value.substr(-1) === 'm') {
+        value = Number(value.slice(0, -1)) * 60000;
+      }
+      if (value.substr(-1) === 's') {
+        value = Number(value.slice(0, -1)) * 1000;
+      }
+    }
     this.settingsService.updateSettings(this.settings, key, value);
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   onUpdateSettingsBtnClick() {
     this.store.dispatch(new SnackPush({ message: 'Settings updated successfully.' }));
@@ -282,7 +326,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.deleteAccountInfoForm.reset();
     this.deleteAccountInfoModalRef = this.modalService.open(this.deleteAccountInfoModal, {
       centered: true,
-      windowClass: 'modal-sm'
+      windowClass: 'modal-sm',
     });
   }
 
@@ -292,7 +336,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.deleteAccountInfoModalRef.dismiss();
       this.confirmDeleteAccountModalRef = this.modalService.open(this.confirmDeleteAccountModal, {
         centered: true,
-        windowClass: 'modal-sm'
+        windowClass: 'modal-sm',
       });
     }
   }
@@ -308,7 +352,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   confirmDeleteAccount() {
     const data = {
       ...this.deleteAccountInfoForm.value,
-      username: this.userState.username
+      username: this.userState.username,
     };
     this.store.dispatch(new DeleteAccount(data));
     this.confirmDeleteAccountModalRef.dismiss();
@@ -331,14 +375,16 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     options.body = 'You have received a new email';
     options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
 
-    this.pushNotificationService.create('Test Notification', options).subscribe((notif) => {
-      if (notif.event.type === 'click') {
-        notif.notification.close();
-      }
-    },
-      (err) => {
+    this.pushNotificationService.create('Test Notification', options).subscribe(
+      notif => {
+        if (notif.event.type === 'click') {
+          notif.notification.close();
+        }
+      },
+      err => {
         console.log(err);
-      });
+      },
+    );
   }
 
   onViewInvoice(invoice: Invoice) {
@@ -351,103 +397,102 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   viewInvoice(invoice: Invoice, print: boolean = false) {
     let popupWin;
-
-    let invoiceItems: string = '';
+    let invoiceItems = '';
     invoice.items.forEach(item => {
       invoiceItems += `
-                   <tr>
-                    <td>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</td>
-                    <td>${item.type || invoice.payment_method}</td>
-                    <td>${item.description}</td>
-                    <td>${item.quantity}</td>
-                    <td><b>$${(item.amount / 100).toFixed(2)}</b></td>
-                </tr>
+        <tr>
+          <td>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</td>
+          <td>${item.type || invoice.payment_method}</td>
+          <td>${item.description}</td>
+          <td>${item.quantity}</td>
+          <td><b>$${(item.amount / 100).toFixed(2)}</b></td>
+        </tr>
       `;
     });
 
     let invoiceData = `
-<html>
-<head>
-    <title>Invoice : ${invoice.invoice_id}</title>
-    <style>
-        body {
-            font-family: "Roboto", Helvetica, Arial, sans-serif;
-        }
+      <html>
+      <head>
+        <title>Invoice : ${invoice.invoice_id}</title>
+        <style>
+            body {
+                font-family: "Roboto", Helvetica, Arial, sans-serif;
+            }
 
-        div.divFooter {
-            position: fixed;
-            bottom: 75px;
-            width: 100%;
-            text-align: center;
-            display: none;
-        }
+            div.divFooter {
+                position: fixed;
+                bottom: 75px;
+                width: 100%;
+                text-align: center;
+                display: none;
+            }
 
-        @media print {
-           div.divFooter {
-             display: unset;
-           }
-        }
+            @media print {
+              div.divFooter {
+                display: unset;
+              }
+            }
 
-        .container {
-            padding: 15px;
-            margin: auto;
-            color: #757675;
-            border: 1px solid #757675;
-            width: 21cm;
-            min-height: 29.7cm;
-        }
+            .container {
+                padding: 15px;
+                margin: auto;
+                color: #757675;
+                border: 1px solid #757675;
+                width: 21cm;
+                min-height: 29.7cm;
+            }
 
-        .row {
-            padding-left: -15px;
-            padding-right: -15px;
-            display: flex;
-            flex-wrap: wrap;
-        }
+            .row {
+                padding-left: -15px;
+                padding-right: -15px;
+                display: flex;
+                flex-wrap: wrap;
+            }
 
-        .col-4 {
-            flex: 0 0 33.3333333333%;
-            max-width: 33.3333333333%;
-        }
+            .col-4 {
+                flex: 0 0 33.3333333333%;
+                max-width: 33.3333333333%;
+            }
 
-        .col-8 {
-            flex: 0 0 66.6666666667%;
-            max-width: 66.6666666667%;
-        }
+            .col-8 {
+                flex: 0 0 66.6666666667%;
+                max-width: 66.6666666667%;
+            }
 
-        .text-center {
-            text-align: center;
-        }
+            .text-center {
+                text-align: center;
+            }
 
-        .color-primary {
-            color: #2f4254;
-        }
+            .color-primary {
+                color: #2f4254;
+            }
 
-        .page-title {
-            font-weight: 300;
-        }
+            .page-title {
+                font-weight: 300;
+            }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
 
-        th,
-        td {
-            text-align: left;
-            padding: 20px;
-        }
+            th,
+            td {
+                text-align: left;
+                padding: 20px;
+            }
 
-        th {
-            text-transform: uppercase;
-            color: rgba(0, 0, 0, 0.54);
-            font-weight: normal;
-        }
+            th {
+                text-transform: uppercase;
+                color: rgba(0, 0, 0, 0.54);
+                font-weight: normal;
+            }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>`;
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+        </style>
+      </head>`;
     if (print) {
       invoiceData += `<body onload="window.print();window.close()">`;
     } else {
@@ -489,11 +534,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
                     <td><b> $${(invoice.total_amount / 100).toFixed(2)}</b></td>
                 </tr>
             </table>
-
         </div>
          <div style="margin-top:5rem">
-            <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${invoice.storage / (1024 * 1024)}GB</div>
-            <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${invoice.email_addresses}</div>
+            <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${
+              invoice.storage / (1024 * 1024)
+            }GB</div>
+            <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${
+              invoice.email_addresses
+            }</div>
             <div><b class="color-primary" style="padding-right: 76px;">Domains</b>${invoice.custom_domains}</div>
         </div>
     </div>
@@ -501,15 +549,11 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         <div><b>Orange Project ehf | Armula 4 &amp; 6 | Reykjavík, 108 | Iceland</b></div>
     </div>
 </body>
-
-</html>
-         `;
+</html>`;
 
     popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
     popupWin.document.open();
     popupWin.document.write(invoiceData);
     popupWin.document.close();
   }
-
-
 }

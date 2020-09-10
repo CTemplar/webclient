@@ -12,14 +12,16 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MailService {
-
   constructor(private http: HttpClient) {}
 
-  getMessages(
-    payload: {
-      limit: number, offset: number, folder: MailFolderType,
-      read: null, seconds?: number, searchText?: string
-    }): Observable<any> {
+  getMessages(payload: {
+    limit: number;
+    offset: number;
+    folder: MailFolderType;
+    read: null;
+    seconds?: number;
+    searchText?: string;
+  }): Observable<any> {
     payload.limit = payload.limit ? payload.limit : 20;
     if (payload.searchText && payload.folder === MailFolderType.SEARCH) {
       return this.searchMessages(payload);
@@ -47,11 +49,13 @@ export class MailService {
     return this.http.get<Mail[]>(url);
   }
 
-  getMessage(payload: { messageId: number, folder: string }): Observable<Mail> {
+  getMessage(payload: { messageId: number; folder: string }): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
-    return this.http.get<Mail>(url).pipe(map(data => {
-      return data['results'] ? data['results'][0] : null;
-    }));
+    return this.http.get<Mail>(url).pipe(
+      map(data => {
+        return data['results'] ? data['results'][0] : null;
+      }),
+    );
   }
 
   getUnreadMailsCount(): Observable<any> {
@@ -64,13 +68,15 @@ export class MailService {
 
   getMailboxes(limit: number = 50, offset: number = 0): Observable<any> {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
-    return this.http.get<any>(url).pipe(map(data => {
-      const newData = data['results'].map(mailbox => {
-        mailbox.customFolders = mailbox.custom_folders;
-        return mailbox;
-      });
-      return newData;
-    }));
+    return this.http.get<any>(url).pipe(
+      map(data => {
+        const newData = data['results'].map(mailbox => {
+          mailbox.customFolders = mailbox.custom_folders;
+          return mailbox;
+        });
+        return newData;
+      }),
+    );
   }
 
   getUsersPublicKeys(emails: Array<string>): Observable<any> {
@@ -129,11 +135,25 @@ export class MailService {
     }
   }
 
-  moveMail(ids: string, folder: string, sourceFolder: string, withChildren: boolean = true, fromTrash: boolean = false): Observable<any[]> {
+  moveMail(
+    ids: string,
+    folder: string,
+    sourceFolder: string,
+    withChildren: boolean = true,
+    fromTrash: boolean = false,
+  ): Observable<any[]> {
     if (ids === 'all') {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
+      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${sourceFolder}`, {
+        folder: folder,
+        with_children: withChildren,
+        from_trash: fromTrash,
+      });
     } else {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { folder: folder, with_children: withChildren, from_trash: fromTrash });
+      return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, {
+        folder: folder,
+        with_children: withChildren,
+        from_trash: fromTrash,
+      });
     }
   }
 
@@ -160,11 +180,11 @@ export class MailService {
     let request;
     if (data.id) {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${data.id}/`, formData, {
-        reportProgress: true
+        reportProgress: true,
       });
     } else {
       request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
-        reportProgress: true
+        reportProgress: true,
       });
     }
 
@@ -205,7 +225,6 @@ export class MailService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 

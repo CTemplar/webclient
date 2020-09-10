@@ -21,7 +21,6 @@
   padding: 5px 1rem;
 }
 
-
 .clipped-content {
   white-space: nowrap;
   overflow: hidden;
@@ -44,7 +43,7 @@
     background-size: 20px;
     height: 11px;
     width: 24px;
-    opacity: .54;
+    opacity: 0.54;
   }
 }
 
@@ -68,8 +67,8 @@
   }
 
   a {
-    font-size: .75rem;
-    letter-spacing: .3px;
+    font-size: 0.75rem;
+    letter-spacing: 0.3px;
     align-items: center;
     border-radius: 16px;
     box-shadow: inset 0 0 0 1px #dadce0;
@@ -128,13 +127,11 @@
 }
 
 .mail-subject {
-  max-width: 97%
+  max-width: 97%;
 }
 
-
-@include media("<=sm") {
+@include media('<=sm') {
   h5 {
     line-height: 1.5;
   }
 }
-

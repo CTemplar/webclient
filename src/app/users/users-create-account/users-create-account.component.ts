@@ -20,7 +20,6 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 export class PasswordValidation {
-
   static MatchPassword(AC: AbstractControl) {
     const password = AC.get('password').value; // to get value in input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
@@ -36,19 +35,18 @@ export class PasswordValidation {
 @Component({
   selector: 'app-users-create-account',
   templateUrl: './users-create-account.component.html',
-  styleUrls: ['./users-create-account.component.scss']
+  styleUrls: ['./users-create-account.component.scss'],
 })
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
-
-  isTextToggled: boolean = false;
+  isTextToggled = false;
   signupForm: FormGroup;
   isRecoveryEmail: boolean = null;
   isConfirmedPrivacy: boolean = null;
-  errorMessage: string = '';
+  errorMessage = '';
   selectedPlan: PlanType;
   planType = PlanType;
   data: any = null;
-  signupInProgress: boolean = false;
+  signupInProgress = false;
   signupState: SignupState;
   submitted = false;
   userKeys: any;
@@ -58,38 +56,46 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   primaryWebsite = PRIMARY_WEBSITE;
   private paymentType: PaymentType;
 
-  constructor(private modalService: NgbModal,
-              private formBuilder: FormBuilder,
-              private router: Router,
-              private store: Store<AppState>,
-              private openPgpService: OpenPgpService,
-              private sharedService: SharedService,
-              private activatedRoute: ActivatedRoute,
-              private authService: UsersService,
-              private notificationService: NotificationService,
-              private translate: TranslateService) {
-  }
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private store: Store<AppState>,
+    private openPgpService: OpenPgpService,
+    private sharedService: SharedService,
+    private activatedRoute: ActivatedRoute,
+    private authService: UsersService,
+    private notificationService: NotificationService,
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit() {
-
     this.handleUserState();
     this.sharedService.hideFooter.emit(true);
 
-    this.signupForm = this.formBuilder.group({
-      'username': ['', [
-        Validators.required,
-        Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
-        Validators.minLength(4),
-        Validators.maxLength(64),
-      ]],
-      'password': ['', [Validators.required, Validators.maxLength(128)]],
-      'confirmPwd': ['', [Validators.required, Validators.maxLength(128)]],
-      'recoveryEmail': ['', [Validators.pattern(VALID_EMAIL_REGEX)]]
-    }, {
-      validator: PasswordValidation.MatchPassword
-    });
+    this.signupForm = this.formBuilder.group(
+      {
+        username: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+            Validators.minLength(4),
+            Validators.maxLength(64),
+          ],
+        ],
+        password: ['', [Validators.required, Validators.maxLength(128)]],
+        confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
+        recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
+      },
+      {
+        validator: PasswordValidation.MatchPassword,
+      },
+    );
 
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((state: AuthState) => {
         const queryParams = this.activatedRoute.snapshot.queryParams;
         this.selectedPlan = state.signupState.plan_type || queryParams.plan || PlanType.PRIME;
@@ -100,7 +106,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     this.handleUsernameAvailability();
     this.sharedService.loadPricingPlans();
-    window.addEventListener("beforeunload", this.authService.onBeforeLoader, true);
+    window.addEventListener('beforeunload', this.authService.onBeforeLoader, true);
   }
 
   // == Toggle password visibility
@@ -127,8 +133,13 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       this.isRecoveryEmail = false;
     }
 
-    if (this.signupState.usernameExists !== false || this.signupForm.invalid || !this.isConfirmedPrivacy ||
-      (!this.isRecoveryEmail && (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))) {
+    if (
+      this.signupState.usernameExists !== false ||
+      this.signupForm.invalid ||
+      !this.isConfirmedPrivacy ||
+      (!this.isRecoveryEmail &&
+        (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))
+    ) {
       return false;
     }
 
@@ -144,17 +155,19 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       centered: true,
       windowClass: 'modal-sm',
       backdrop: 'static',
-      keyboard: false
+      keyboard: false,
     });
   }
 
   private navigateToBillingPage() {
-    this.store.dispatch(new UpdateSignupData({
-      recovery_email: this.signupForm.get('recoveryEmail').value,
-      username: this.signupForm.get('username').value,
-      password: this.signupForm.get('password').value,
-      recaptcha: this.signupForm.value.captchaResponse
-    }));
+    this.store.dispatch(
+      new UpdateSignupData({
+        recovery_email: this.signupForm.get('recoveryEmail').value,
+        username: this.signupForm.get('username').value,
+        password: this.signupForm.get('password').value,
+        recaptcha: this.signupForm.value.captchaResponse,
+      }),
+    );
     this.router.navigateByUrl(`/billing-info?plan=${this.selectedPlan}&billing=${this.paymentType}`);
   }
 
@@ -164,7 +177,10 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     } else {
       this.signupInProgress = true;
       this.openAccountInitModal();
-      this.openPgpService.generateUserKeys(this.signupForm.get('username').value, this.signupForm.get('password').value);
+      this.openPgpService.generateUserKeys(
+        this.signupForm.get('username').value,
+        this.signupForm.get('password').value,
+      );
       this.waitForPGPKeys();
     }
   }
@@ -186,7 +202,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     }
     const currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
     const currentLang = LANGUAGES.find(lang => {
-      if (lang.locale === currentLocale) { return true; }
+      if (lang.locale === currentLocale) {
+        return true;
+      }
     });
     this.data = {
       ...this.userKeys,
@@ -194,29 +212,31 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       username: this.signupForm.get('username').value,
       password: this.signupForm.get('password').value,
       invite_code: this.inviteCode,
-      language: currentLang.name
+      language: currentLang.name,
     };
     this.store.dispatch(new SignUp(this.data));
   }
 
   private handleUserState(): void {
-    this.store.select(state => state.auth).pipe(untilDestroyed(this)).subscribe((authState: AuthState) => {
-      if (this.signupInProgress && !authState.inProgress) {
-        if (authState.errorMessage) {
-          this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
+      .subscribe((authState: AuthState) => {
+        if (this.signupInProgress && !authState.inProgress) {
+          if (authState.errorMessage) {
+            this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);
+          }
+          this.signupInProgress = false;
         }
-        this.signupInProgress = false;
-      }
-      this.signupState = authState.signupState;
-    });
+        this.signupState = authState.signupState;
+      });
   }
 
   handleUsernameAvailability() {
-    this.signupForm.get('username').valueChanges
-      .pipe(
-        debounceTime(500)
-      )
-      .subscribe((username) => {
+    this.signupForm
+      .get('username')
+      .valueChanges.pipe(debounceTime(500))
+      .subscribe(username => {
         if (!this.signupForm.controls['username'].errors) {
           this.store.dispatch(new CheckUsernameAvailability(username));
         }

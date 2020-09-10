@@ -1,6 +1,18 @@
 {
   "contacts": {
     "new_contact": "NOUVEAU CONTACT",
+    "notify_contacts": "NOTIFIER LES CONTACTS",
+    "notify_contacts_title": "Notify contacts about my new email address",
+    "notify_contacts_description": {
+      "before": "The email below will be send to ",
+      "after": " contacts you have selected to inform them you have a new email address."
+    },
+    "notify_contacts_email": {
+      "title": "Hi! I have chanaged my email address",
+      "content_before": "Hello,\nI want to inform you that I have changed my email address to ",
+      "content_after": "\nPlease, update my contact information in your address book.\nThank you.\n...\n"
+    },
+    "send_email": "SEND EMAIL",
     "all_contacts": "TOUS LES CONTACTS",
     "back_to_mail": "RETOUR",
     "edit_tooltip": "Cliquez sur Nom ou Email pour modifier un élément.",
@@ -378,6 +390,8 @@
       "attach_files": "Joindre des fichiers",
       "attach_url": "Joindre une URL",
       "self_dest_email": "Email avec délai d'expiration",
+      "confirm_send": "Confirm Send",
+      "send_without_all": "Are you sure, send this message without a subject or text in the body?",
       "email_deleted": "L'email sera supprimé à la date et à l'heure sélectionnées",
       "select_date": "Sélectionner une date",
       "select_time": "Heure",
@@ -605,6 +619,8 @@
     "more_info": "Plus d’info",
     "less": "Moins",
     "invite_code": "Code d'invitation",
+    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
+    "about_invite_code": "Why invite codes and how to get one? ",
     "recovery_email_optional": "Email de récupération (facultatif)",
     "recover_account": "Ceci est utilisé pour récupérer votre compte si vous oubliez votre mot de passe",
     "check_box": "Veuillez cocher cette case si vous acceptez de vous conformer à notre politique de confidentialité.",
@@ -624,6 +640,7 @@
   "billing_info": {
     "pending_payment_alert": "Votre paiement est en attente, mais vous pouvez quand même créer un compte gratuit et votre compte sera mis à jour vers un compte Premium après vérification du paiement.",
     "bitcoin_sent_timer": "Les BTC envoyés au-delà du timer seront perdus.",
+    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
     "payment_information": "Informations de Paiement",
     "plan": "Forfait",
     "billing": "Facturation",
@@ -678,7 +695,9 @@
     "attachment_message": "Voulez-vous inclure les pièces jointes de ce message ?",
     "no_header": "Aucun en-tête disponible",
     "incoming_head": "En-têtes entrants",
-    "delete_this_message": "Supprimer ce message"
+    "delete_this_message": "Supprimer ce message",
+    "show_plain_text": "Show Plain Text",
+    "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {
     "payment_failed": "Paiement échoué",

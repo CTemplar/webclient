@@ -8,7 +8,7 @@ import {
   Update2FA,
   Get2FASecret,
   ContactsGet,
-  ClearContactsToDecrypt
+  ClearContactsToDecrypt,
 } from '../../../store/actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPgpService, SharedService } from '../../../store/services';
@@ -21,7 +21,7 @@ import { apiUrl } from '../../../shared/config';
 @Component({
   selector: 'app-settings-security',
   templateUrl: './security.component.html',
-  styleUrls: ['./../mail-settings.component.scss', './security.component.scss']
+  styleUrls: ['./../mail-settings.component.scss', './security.component.scss'],
 })
 export class SecurityComponent implements OnInit, OnDestroy {
   @ViewChild('changePasswordModal') changePasswordModal;
@@ -50,22 +50,35 @@ export class SecurityComponent implements OnInit, OnDestroy {
   private updatedPrivateKeys: Array<any>;
   private canDispatchChangePassphrase: boolean;
 
-  constructor(private store: Store<AppState>,
-              private settingsService: MailSettingsService,
-              private modalService: NgbModal,
-              private openPgpService: OpenPgpService,
-              private sharedService: SharedService,
-              private formBuilder: FormBuilder) { }
+  constructor(
+    private store: Store<AppState>,
+    private settingsService: MailSettingsService,
+    private modalService: NgbModal,
+    private openPgpService: OpenPgpService,
+    private sharedService: SharedService,
+    private formBuilder: FormBuilder,
+  ) {}
 
   ngOnInit() {
-    this.store.select(state => state.user).pipe(untilDestroyed(this))
+    /**
+     * Get user's settings
+     */
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
         this.planType = user.settings.plan_type || PlanType.FREE;
         this.isContactsEncrypted = this.settings.is_contacts_encrypted;
       });
-    this.store.select(state => state.auth).pipe(untilDestroyed(this))
+
+    /**
+     * Change password using keys
+     */
+    this.store
+      .select(state => state.auth)
+      .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.auth2FA = authState.auth2FA;
         if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
@@ -92,28 +105,36 @@ export class SecurityComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select(state => state.contacts).pipe(untilDestroyed(this))
+    this.store
+      .select(state => state.contacts)
+      .pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contactsState = contactsState;
       });
 
-    this.changePasswordForm = this.formBuilder.group({
+    this.changePasswordForm = this.formBuilder.group(
+      {
         oldPassword: ['', [Validators.required]],
         password: ['', [Validators.required]],
-        confirmPwd: ['', [Validators.required]]
+        confirmPwd: ['', [Validators.required]],
       },
       {
-        validator: PasswordValidation.MatchPassword
-      });
+        validator: PasswordValidation.MatchPassword,
+      },
+    );
   }
 
   updateSettings(key?: string, value?: any) {
     this.settingsService.updateSettings(this.settings, key, value);
   }
 
+  /**
+   * Update anti phishing status
+   */
   updateAntiPhishing(status: boolean) {
     if (this.settings.is_anti_phishing_enabled !== status) {
-      this.settings.anti_phishing_phrase = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+      this.settings.anti_phishing_phrase =
+        Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
       this.settingsService.updateSettings(this.settings, 'is_anti_phishing_enabled', status);
     }
   }
@@ -122,7 +143,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.store.dispatch(new Get2FASecret());
     this.modalService.open(this.auth2FAModal, {
       centered: true,
-      windowClass: 'modal-md auth2fa-modal'
+      windowClass: 'modal-md auth2fa-modal',
     });
   }
 
@@ -131,24 +152,25 @@ export class SecurityComponent implements OnInit, OnDestroy {
       this.auth2FAForm.submitted = true;
       return;
     }
-    this.store.dispatch(new Update2FA({
-      data: { ...this.auth2FAForm, enable_2fa, username: this.userState.username },
-      settings: { ...this.settings, enable_2fa }
-    }));
+    this.store.dispatch(
+      new Update2FA({
+        data: { ...this.auth2FAForm, enable_2fa, username: this.userState.username },
+        settings: { ...this.settings, enable_2fa },
+      }),
+    );
   }
 
   disable2FA() {
     this.auth2FAForm = { auth2FAStep: 2, enable_2fa: false };
     this.modalService.open(this.auth2FAModal, {
       centered: true,
-      windowClass: 'modal-md auth2fa-modal'
+      windowClass: 'modal-md auth2fa-modal',
     });
   }
 
   copyToClipboard(value: string) {
     this.sharedService.copyToClipboard(value);
   }
-
 
   // == Open change password NgbModal
   openChangePasswordModal() {
@@ -159,11 +181,11 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-md change-password-modal'
+      windowClass: 'modal-md change-password-modal',
     });
   }
 
-  // == Open encrypt contacts confirmation NgbModal
+  // == Open decrypt contacts confirmation NgbModal
   openDecryptContactsModal() {
     if (!this.settings.is_contacts_encrypted) {
       return;
@@ -172,9 +194,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.decryptContactsModalRef = this.modalService.open(this.decryptContactsModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-md change-password-modal'
+      windowClass: 'modal-md change-password-modal',
     });
-    this.decryptContactsModalRef.result.then((reason) => {
+    this.decryptContactsModalRef.result.then(reason => {
       this.isDecryptingContacts = false;
       this.decryptContactsModalRef = null;
     });
@@ -183,6 +205,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
+  // == Open encrypt contacts confirmation NgbModal
   openConfirmEncryptContactsModal() {
     if (this.settings.is_contacts_encrypted) {
       return;
@@ -194,7 +217,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.modalService.open(this.confirmEncryptContactsModal, {
       centered: true,
       backdrop: 'static',
-      windowClass: 'modal-md change-password-modal'
+      windowClass: 'modal-md change-password-modal',
     });
   }
 
@@ -236,7 +259,11 @@ export class SecurityComponent implements OnInit, OnDestroy {
     if (this.changePasswordForm.valid) {
       this.inProgress = true;
       this.canDispatchChangePassphrase = true;
-      this.openPgpService.changePassphrase(this.changePasswordForm.value.password, this.deleteData, this.userState.username);
+      this.openPgpService.changePassphrase(
+        this.changePasswordForm.value.password,
+        this.deleteData,
+        this.userState.username,
+      );
     }
   }
 
@@ -262,6 +289,5 @@ export class SecurityComponent implements OnInit, OnDestroy {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 }

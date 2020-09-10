@@ -1,5 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -8,26 +9,24 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ContactAdd } from '../../../store';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { getSaveContactShortcuts, OpenPgpService } from '../../../store/services';
-import { ShortcutInput } from 'ng-keyboard-shortcuts';
+import { OpenPgpService } from '../../../store/services';
 
 @UntilDestroy()
 @Component({
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
-  styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss']
+  styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss'],
 })
 export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;
   @Output() userSaved = new EventEmitter<boolean>();
-  shortcuts: ShortcutInput[] = [];
 
   @ViewChild('newContactForm') newContactForm: NgForm;
   newContactModel: Contact = {
@@ -37,17 +36,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     note: '',
     phone: '',
     enabled_encryption: false,
-    public_key: ''
+    public_key: '',
   };
   public inProgress: boolean;
   public internalUser: boolean;
   private isContactsEncrypted: boolean;
 
-
-  constructor(private store: Store<AppState>,
-              private openpgp: OpenPgpService,
-              private cdr: ChangeDetectorRef) {
-  }
+  constructor(private store: Store<AppState>, private openpgp: OpenPgpService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.handleUserState();
@@ -55,36 +50,39 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedContact'] && changes['selectedContact'].currentValue) {
+      // Get contactEmail, Domain and check if this is internalUser with domain
       this.newContactModel = { ...this.selectedContact };
-      let contactEmail = this.newContactModel.email;
-      let getDomain = contactEmail.substring(contactEmail.indexOf("@")+1, contactEmail.length);
-      this.internalUser = getDomain === "ctemplar.com"? true: false;
+      const contactEmail = this.newContactModel.email;
+      const getDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
+      this.internalUser = getDomain === 'ctemplar.com' ? true : false;
     }
   }
 
   ngAfterViewInit(): void {
-    this.shortcuts = getSaveContactShortcuts(this);
     this.cdr.detectChanges();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   private handleUserState(): void {
-    this.store.select(state => state.user)
-      .pipe(untilDestroyed(this)).subscribe((userState: UserState) => {
-      this.isContactsEncrypted = userState.settings.is_contacts_encrypted;
-    });
+    this.store
+      .select(state => state.user)
+      .pipe(untilDestroyed(this))
+      .subscribe((userState: UserState) => {
+        this.isContactsEncrypted = userState.settings.is_contacts_encrypted; // set encryption from user settings
+      });
 
-    this.store.select(state => state.contacts)
-      .pipe(untilDestroyed(this)).subscribe((contactsState: ContactsState) => {
-      if (this.inProgress && !contactsState.inProgress) {
-        this.inProgress = false;
-        if (!contactsState.isError) {
-          this.userSaved.emit(true);
+    this.store
+      .select(state => state.contacts)
+      .pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
+        if (this.inProgress && !contactsState.inProgress) {
+          this.inProgress = false;
+          if (!contactsState.isError) {
+            this.userSaved.emit(true);
+          }
         }
-      }
-    });
+      });
   }
 
   createNewContact() {
