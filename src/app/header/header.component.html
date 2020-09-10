@@ -1,15 +1,5 @@
 <!-- REUSABLE COMPONENT :: HEADER -->
-<header
-  id="mastHead"
-  class="topnavbar fixed-top"
-  [class.header-is-stuck]="navIsFixed"
-  [ngClass]="{
-    'has-menu-shown': menuIsOpened,
-    'topnavbar-primary': this.router.url === '/',
-    'topnavbar-secondary': this.router.url !== '/'
-  }"
-  role="banner"
->
+<header id="mastHead" class="topnavbar fixed-top" [class.header-is-stuck]="navIsFixed" [ngClass]="{ 'has-menu-shown': menuIsOpened, 'topnavbar-primary': this.router.url === '/', 'topnavbar-secondary': this.router.url !== '/' }" role="banner">
   <div class="topnavbar__row">
     <nav class="navbar navbar-expand-lg" role="navigation">
       <div class="row align-items-center">
@@ -22,40 +12,26 @@
           </figure>
         </div>
         <div class="col navbar-col navbar-menu-col">
-          <button
-            class="navbar-toggler"
-            (click)="toggleState()"
-            [ngClass]="{
-              opened: menuIsOpened,
-              'hidden-md-up': !externalPageCallToAction,
-              'd-none': externalPageCallToAction
-            }"
-            role="button"
-            data-target="navbar-collapsable-content"
-            aria-controls="ctemplarMenuContent"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> Menu
-          </button>
+          <button class="navbar-toggler" (click)="toggleState()" [ngClass]="{ opened: menuIsOpened, 'hidden-md-up': !externalPageCallToAction, 'd-none': externalPageCallToAction }" role="button" data-target="navbar-collapsable-content" aria-controls="ctemplarMenuContent" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> Menu</button>
           <div class="navbar-collapsable-content" [ngClass]="{ shown: menuIsOpened }" [hidden]="externalPageCallToAction">
             <ul class="navbar-nav my-0 px-0 list-style-none">
               <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                 <a href="{{ primaryWebsite }}/" class="nav-link" (click)="closeMenu()"> <span [translate]="'home_header.home'">Home</span> <span class="sr-only">(current)</span> </a>
               </li>
               <li class="nav-item" routerLinkActive="active">
-                <a href="{{ primaryWebsite }}/about" class="nav-link" (click)="closeMenu()" [translate]="'home_header.about'">About</a>
+                <a href="{{ primaryWebsite }}/about/" class="nav-link" (click)="closeMenu()" [translate]="'home_header.about'">About</a>
               </li>
               <li class="nav-item" routerLinkActive="active">
-                <a href="{{ primaryWebsite }}/security" class="nav-link" (click)="closeMenu()" [translate]="'home_header.security'">Security</a>
+                <a href="{{ primaryWebsite }}/blog/" class="nav-link" (click)="closeMenu()" [translate]="'home_header.blog'">Blog</a>
               </li>
               <li class="nav-item" routerLinkActive="active">
-                <a href="{{ primaryWebsite }}/pricing" class="nav-link" (click)="closeMenu()" [translate]="'home_header.pricing'">Pricing</a>
+                <a href="{{ primaryWebsite }}/features/" class="nav-link" (click)="closeMenu()" [translate]="'home_header.security'">Security</a>
               </li>
               <li class="nav-item" routerLinkActive="active">
-                <a href="{{ primaryWebsite }}/blog" target="_blank" rel="noopener" class="nav-link" (click)="closeMenu()" [translate]="'home_header.blog'">Blog</a>
+                <a href="{{ primaryWebsite }}/pricing/" class="nav-link" (click)="closeMenu()" [translate]="'home_header.pricing'">Pricing</a>
               </li>
               <li class="nav-item">
-                <a href="{{ primaryWebsite }}/faqs" target="_blank" class="nav-link" (click)="closeMenu()" [translate]="'home_header.support'">Support</a>
+                <a href="{{ primaryWebsite }}/support/" class="nav-link" (click)="closeMenu()" [translate]="'home_header.support'">Support</a>
               </li>
               <li class="nav-item hidden-sm-up">
                 <a routerLink="/signin" *ngIf="!isLoggedIn; else mobileDashboardLink" class="nav-link nav-action-link" (click)="closeMenu()" [translate]="'home_header.login'">Login</a>
