@@ -16,6 +16,7 @@ TODO.md
 
 # compiled output
 /tmp/
+electron-main.js*
 
 # e2e
 /e2e/*.js
