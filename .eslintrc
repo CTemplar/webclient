@@ -19,7 +19,7 @@
     "node": true
   },
   "rules": {
-    "import/order": ["error", {"newlines-between": "always"}],
+    "import/order": ["error", { "newlines-between": "always" }],
     "no-debugger": "off",
     "no-console": 0
   }
