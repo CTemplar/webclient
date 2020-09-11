@@ -41,7 +41,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   decryptedSubject: string;
 
-  private secureMessageState: SecureMessageState;
+  secureMessageState: SecureMessageState;
 
   constructor(
     private route: ActivatedRoute,
