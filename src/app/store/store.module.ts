@@ -6,7 +6,6 @@ import { StoreModule } from '@ngrx/store';
 
 import { AppConfig } from '../../environments/environment';
 
-// ??
 import { logoutReducer } from './reducers/auth.reducers';
 
 import { CustomSerializer, effects, reducers } from '.';
