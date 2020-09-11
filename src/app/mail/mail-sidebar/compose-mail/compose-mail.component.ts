@@ -1077,7 +1077,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     const receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.email),
       ...this.mailData.cc.map(cc => cc.email),
-      ...this.mailData.bcc.map(bcc => bcc.email)
+      ...this.mailData.bcc.map(bcc => bcc.email),
     ];
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
@@ -1120,18 +1120,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;
-    this.store.dispatch(new GetUsersKeys({
-      draftId: this.draftId, 
-      emails: receivers,
-      draft: {
-        ...this.draft, 
-        isMailDetailPage: this.isMailDetailPage, 
-        isSaving: false,
-        shouldSave: false, 
-        shouldSend: true, 
-        draft: { ...this.draftMail }
-      }
-    }));
+    this.store.dispatch(
+      new GetUsersKeys({
+        draftId: this.draftId,
+        emails: receivers,
+        draft: {
+          ...this.draft,
+          isMailDetailPage: this.isMailDetailPage,
+          isSaving: false,
+          shouldSave: false,
+          shouldSend: true,
+          draft: { ...this.draftMail },
+        },
+      }),
+    );
     const message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...';
 
     this.store.dispatch(new SnackPush({ message, duration: 120000 }));
@@ -1410,11 +1412,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
-    this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.name ? `${receiver.name} <${receiver.email}>` : receiver.email);
+    this.draftMail.receiver = this.mailData.receiver.map(receiver =>
+      receiver.name ? `${receiver.name} <${receiver.email}>` : receiver.email,
+    );
     this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.cc = this.mailData.cc.map(cc => cc.name ? `${cc.name} <${cc.email}>` : cc.email);
+    this.draftMail.cc = this.mailData.cc.map(cc => (cc.name ? `${cc.name} <${cc.email}>` : cc.email));
     this.draftMail.cc = this.draftMail.cc.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.name ? `${bcc.name} <${bcc.email}>` : bcc.email);
+    this.draftMail.bcc = this.mailData.bcc.map(bcc => (bcc.name ? `${bcc.name} <${bcc.email}>` : bcc.email));
     this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.rfcStandardValidateEmail(receiver));
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
@@ -1556,19 +1560,29 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.resetDelayedDeliveryValues();
     this.resetDeadManTimerValues();
     this.mailData = {
-      receiver: this.receivers ?
-        this.receivers.map(receiver => ({ display: receiver, value: receiver, email: receiver })) :
-        this.draftMail && this.draftMail.receiver ?
-          this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver, email: receiver })) :
-          [],
-      cc: this.cc ? this.cc.map(address => ({ display: address, value: address, email: address })) :
-        this.draftMail && this.draftMail.cc ?
-          this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver, email: receiver })) :
-          [],
-      bcc: this.draftMail && this.draftMail.bcc ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver, email: receiver })) : [],
-      subject: (this.draftMail && this.draftMail.is_subject_encrypted) ? '' :
-        (this.subject ? this.subject : this.draftMail ? this.draftMail.subject : ''),
-      content: ''
+      receiver: this.receivers
+        ? this.receivers.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
+        : this.draftMail && this.draftMail.receiver
+        ? this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
+        : [],
+      cc: this.cc
+        ? this.cc.map(address => ({ display: address, value: address, email: address }))
+        : this.draftMail && this.draftMail.cc
+        ? this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
+        : [],
+      bcc:
+        this.draftMail && this.draftMail.bcc
+          ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
+          : [],
+      subject:
+        this.draftMail && this.draftMail.is_subject_encrypted
+          ? ''
+          : this.subject
+          ? this.subject
+          : this.draftMail
+          ? this.draftMail.subject
+          : '',
+      content: '',
     };
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
@@ -1623,15 +1637,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     data.forEach(item => {
       if (item.email) {
         item.display = item.email;
-      } else if(item.value) {
+      } else if (item.value) {
         // TODO
         // should be updated for support group mailbox
         // in that case, the below line should be updated for cast into ParsedGroup as well
-        const parsedEmail = parseEmail.parseOneAddress(item.value) as parseEmail.ParsedMailbox
-        item.name = parsedEmail.name || parsedEmail.local || ''
-        item.value = parsedEmail.address || item.value
-        item.email = parsedEmail.address || item.value
-        
+        const parsedEmail = parseEmail.parseOneAddress(item.value) as parseEmail.ParsedMailbox;
+        item.name = parsedEmail.name || parsedEmail.local || '';
+        item.value = parsedEmail.address || item.value;
+        item.email = parsedEmail.address || item.value;
       }
     });
     if (tag.value && tag.value.split(',').length > 1) {
@@ -1655,7 +1668,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.valueChanged$.next(data);
   }
 
-  rfcStandardValidateEmail (address: string): boolean {
+  rfcStandardValidateEmail(address: string): boolean {
     return parseEmail.parseOneAddress(address) ? true : false;
   }
 }
