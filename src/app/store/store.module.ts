@@ -13,7 +13,7 @@ import { CustomSerializer, effects, reducers } from '.';
 @NgModule({
   imports: [
     EffectsModule.forRoot(effects),
-    StoreDevtoolsModule.instrument({ maxAge: 50, logOnly: AppConfig.debug }),
+    StoreDevtoolsModule.instrument({ maxAge: 50, logOnly: AppConfig.production }),
     StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
     StoreRouterConnectingModule.forRoot(),
   ],
