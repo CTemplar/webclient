@@ -109,7 +109,7 @@
 
 .mailbox-sidebar-navbar {
   overflow-y: auto;
-  max-height: calc(100% - 140px);
+  max-height: calc(100% - 190px);
   @include media('<=sm') {
     max-height: calc(100% - 60px);
   }
