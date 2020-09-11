@@ -115,11 +115,7 @@
                 "output": "/"
               }
             ],
-            "styles": [
-              "src/styles.scss",
-              "node_modules/quill/dist/quill.snow.css",
-              "src/styles/material-theme.scss"
-            ],
+            "styles": ["src/styles.scss", "node_modules/quill/dist/quill.snow.css", "src/styles/material-theme.scss"],
             "scripts": [
               "node_modules/openpgp/dist/openpgp.min.js",
               "node_modules/quill/dist/quill.min.js",
@@ -130,15 +126,10 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         },
         "ctemplar-e2e": {
