@@ -1,6 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+
 import { AppState } from '../../../store/datatypes';
 import { SnackErrorPush } from '../../../store';
 import { DonationService } from '../../../store/services/donation.service';
@@ -29,15 +30,20 @@ export class StripeFormComponent implements OnInit {
    * cvc: 3 or 4 digit decurity code of the card
    */
   donationAmount: number;
+
   cardNumber;
+
   expiryMonth = 'Month';
+
   expiryYear = 'Year';
+
   cvc;
 
   /**
    * For filling Month and Year dropdowns
    */
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
   years = ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026'];
 
   /**

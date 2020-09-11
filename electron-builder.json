@@ -1,34 +1,28 @@
 {
-    "productName": "CTemplar",
-    "appId": "com.github.ctemplar.webclient",
-    "directories": {
-        "output": "release/"
-    },
-    "publish": [
-        {
-            "provider": "github",
-            "owner": "ctemplar",
-            "repo": "webclient"
-        }
-    ],
-    "win": {
-        "icon": "dist/assets/icons/icon.png",
-        "target": [
-            "portable"
-        ]
-    },
-    "mac": {
-        "icon": "dist/assets/icons/icon.png",
-        "category": "public.app-category.social-networking",
-        "target": [
-            "dmg"
-        ]
-    },
-    "linux": {
-        "icon": "dist/assets/icons/icon.png",
-        "category": "Network",
-        "target": [
-            "AppImage"
-        ]
+  "productName": "CTemplar",
+  "appId": "com.github.ctemplar.webclient",
+  "directories": {
+    "output": "release/"
+  },
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "ctemplar",
+      "repo": "webclient"
     }
+  ],
+  "win": {
+    "icon": "dist/assets/icons/icon.png",
+    "target": ["portable"]
+  },
+  "mac": {
+    "icon": "dist/assets/icons/icon.png",
+    "category": "public.app-category.social-networking",
+    "target": ["dmg"]
+  },
+  "linux": {
+    "icon": "dist/assets/icons/icon.png",
+    "category": "Network",
+    "target": ["AppImage"]
+  }
 }

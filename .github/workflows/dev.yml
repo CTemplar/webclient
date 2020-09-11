@@ -2,7 +2,7 @@ name: webclient-dev
 
 on:
   push:
-    branches: [ dev ]
+    branches: [dev]
 
 jobs:
   build:
@@ -18,12 +18,12 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-              ${{ runner.os }}-node-
+            ${{ runner.os }}-node-
 
       - name: Install and build Angular
         run: |
-            npm install
-            npm run build:dev
+          npm install
+          npm run build:dev
 
       - name: Publish to dev-pages
         env:
