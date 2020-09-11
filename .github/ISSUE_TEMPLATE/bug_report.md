@@ -22,7 +22,7 @@ A clear and concise description of what you expected to happen.
 
 **Environment**
 
-- OS: [e.g. iOS, windows 10]
+- OS: [e.g. ios, windows 10]
 - Device: [e.g. iphone 8, laptop model]
 - Browser [e.g. chrome, safari]
 - Version [e.g. 22]
