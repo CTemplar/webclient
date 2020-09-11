@@ -48,18 +48,18 @@ export class MailboxEffects {
     map((action: MailboxSettingsUpdate) => action.payload),
     switchMap((payload: any) => {
       payload.inProgress = false;
-      return this.mailService.updateMailBoxSettings(payload).pipe(
-        switchMap(res => {
-          const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
-          if (payload.successMsg) {
-            actions.push(new SnackErrorPush({ message: payload.successMsg }));
-          }
-          return of(...actions);
-        }),
-        catchError(error =>
-          of(
-            new SnackErrorPush({ message: `Failed to update mailbox settings.  ${error.error}` }),
-            new MailboxSettingsUpdateFailure(payload),
+      return this.mailService.updateMailBoxSettings(payload)
+        .pipe(
+          switchMap(res => {
+            const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
+            if (payload.successMsg) {
+              actions.push(new SnackErrorPush({ message: payload.successMsg }));
+            }
+            return of(...actions);
+          }),
+          catchError(err => of(
+            new SnackErrorPush({ message: err.error ? err.error : 'Failed to update mailbox settings.' }),
+            new MailboxSettingsUpdateFailure(payload))
           ),
         ),
       );
