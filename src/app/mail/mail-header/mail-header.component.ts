@@ -1,16 +1,17 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
-import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store/actions';
 import { TranslateService } from '@ngx-translate/core';
-import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
-import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+
+import { ComposeMailService } from '../../store/services/compose-mail.service';
+import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
+import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store/actions';
+import { AppState, UserState } from '../../store/datatypes';
 import { SearchState } from '../../store/reducers/search.reducers';
 import { LOADING_IMAGE } from '../../store/services';
 
@@ -25,12 +26,19 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
 
   // Public property of boolean type set false by default
   menuIsOpened = false;
+
   selectedLanguage: Language = { name: 'English', locale: 'en' };
+
   languages = LANGUAGES;
+
   searchInput = new FormControl();
+
   searchPlaceholder = 'common.search';
+
   loadingImage = LOADING_IMAGE;
+
   private isContactsPage: boolean;
+
   primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(
@@ -54,7 +62,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         if (user.settings.language) {
-          const language = this.languages.filter(item => item.name === user.settings.language)[0];
+          const language = this.languages.find(item => item.name === user.settings.language);
           if (this.selectedLanguage.name !== language.name) {
             this.translate.use(language.locale);
           }
@@ -102,13 +110,13 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   toggleMenu() {
     // click handler
     const bool = this.menuIsOpened;
-    this.menuIsOpened = bool === false ? true : false;
+    this.menuIsOpened = bool === false;
     this.document.body.classList.add('menu-open');
   }
 
   logout() {
     this.store.dispatch(new SaveDraftOnLogout());
-    const modalRef = this.modalService.open(this.logoutModal, {
+    const modalReference = this.modalService.open(this.logoutModal, {
       centered: true,
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal',
@@ -117,10 +125,10 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
       this.store.dispatch(new ExpireSession());
       setTimeout(() => {
         this.store.dispatch(new Logout());
-        modalRef.close();
+        modalReference.close();
       }, 500);
     }, 2500);
-    document.getElementById('night-mode').innerHTML = '';
+    document.querySelector('#night-mode').innerHTML = '';
   }
 
   openComposeMailDialog(receivers) {

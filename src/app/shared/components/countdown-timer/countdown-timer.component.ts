@@ -15,8 +15,11 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   @Output() finished = new EventEmitter<boolean>();
 
   days: number;
+
   hours: number;
+
   minutes: number;
+
   seconds: number;
 
   constructor() {}

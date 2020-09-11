@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+
 import { LOADING_IMAGE } from '../../store/services';
 
 @Component({
@@ -8,7 +9,9 @@ import { LOADING_IMAGE } from '../../store/services';
 })
 export class LoadingComponent implements OnInit {
   @Input('isLoading') isLoading?: boolean;
+
   @Input('quote') quote?: any;
+
   loadingImage = LOADING_IMAGE;
 
   constructor() {}

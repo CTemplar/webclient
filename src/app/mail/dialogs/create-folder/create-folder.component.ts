@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AppState, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, UserState } from '../../../store/datatypes';
 import { CreateFolder } from '../../../store/actions';
 import { FOLDER_COLORS } from '../../../shared/config';
 import { Folder } from '../../../store/models';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -18,11 +19,17 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   @Input() folder: Folder = { id: null, name: '', color: '' };
 
   customFolderForm: FormGroup;
+
   folderColors: string[] = FOLDER_COLORS; // Users can select one of these colors for new folder
+
   selectedColorIndex = 0;
+
   userState: UserState;
+
   submitted: boolean;
+
   duplicateFoldername: boolean;
+
   callback: { self: any; method: string };
 
   constructor(private store: Store<AppState>, private fb: FormBuilder, public activeModal: NgbActiveModal) {}
@@ -31,7 +38,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     this.customFolderForm = this.fb.group({
       folderName: [
         this.folder.name,
-        [Validators.required, Validators.pattern(/^[a-zA-Z]+[a-z0-9. _-]*$/), Validators.maxLength(30)],
+        [Validators.required, Validators.pattern(/^[A-Za-z]+[\d ._a-z-]*$/), Validators.maxLength(30)],
       ],
       color: this.folder.color,
     });

@@ -40,24 +40,24 @@ export class PushNotificationService {
         obs.complete();
       }
       const _notify = new Notification(title, options);
-      _notify.onshow = function (e) {
+      _notify.addEventListener('show', function (e) {
         return obs.next({
           notification: _notify,
           event: e,
         });
-      };
-      _notify.onclick = function (e) {
+      });
+      _notify.addEventListener('click', function (e) {
         return obs.next({
           notification: _notify,
           event: e,
         });
-      };
-      _notify.onerror = function (e) {
+      });
+      _notify.addEventListener('error', function (e) {
         return obs.error({
           notification: _notify,
           event: e,
         });
-      };
+      });
       _notify.onclose = function () {
         return obs.complete();
       };
@@ -80,15 +80,26 @@ export declare type Permission = 'denied' | 'granted' | 'default';
 
 export class PushNotificationOptions {
   body?: string;
+
   icon?: string;
+
   tag?: string;
+
   data?: any;
+
   renotify?: boolean;
+
   silent?: boolean;
+
   sound?: string;
+
   noscreen?: boolean;
+
   sticky?: boolean;
+
   dir?: 'auto' | 'ltr' | 'rtl';
+
   lang?: string;
+
   vibrate?: number[];
 }

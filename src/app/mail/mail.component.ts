@@ -11,6 +11,11 @@ import {
   HostListener,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { formatDate } from '@angular/common';
+import { Router } from '@angular/router';
+import * as Sentry from '@sentry/browser';
+
 import {
   AccountDetailsGet,
   BlackListGet,
@@ -29,10 +34,6 @@ import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { formatDate } from '@angular/common';
-import { Router } from '@angular/router';
-import * as Sentry from '@sentry/browser';
 
 @UntilDestroy()
 @Component({
@@ -43,13 +44,21 @@ import * as Sentry from '@sentry/browser';
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
+
   @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+
   private isLoadedData: boolean;
+
   autoresponder: AutoResponder = {};
+
   autoresponder_status = false;
+
   currentDate: string;
+
   canLoadNotification = true;
+
   hideNotification: boolean;
+
   notificationMessage: string;
 
   constructor(

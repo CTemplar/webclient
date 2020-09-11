@@ -1,7 +1,4 @@
-// Custom Action
-
 import { UsersActionAll, UsersActionTypes } from '../actions';
-// Model
 import { Domain, PromoCode, Settings, UserState } from '../datatypes';
 
 export const initialState: UserState = {
@@ -63,7 +60,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.CARD_DELETE_SUCCESS: {
-      let cards = state.cards;
+      let { cards } = state;
       cards = cards.filter(card => action.payload !== card.id);
       return {
         ...state,
@@ -73,7 +70,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS: {
-      const cards = state.cards;
+      const { cards } = state;
       cards.forEach(card => (card.is_primary = action.payload === card.id));
       return {
         ...state,
@@ -124,7 +121,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.WHITELIST_DELETE_SUCCESS: {
-      state.whiteList.splice(state.whiteList.indexOf(state.whiteList.filter(item => item.id === action.payload)[0]), 1);
+      state.whiteList.splice(state.whiteList.indexOf(state.whiteList.find(item => item.id === action.payload)), 1);
       return {
         ...state,
         inProgress: false,
@@ -134,7 +131,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.BLACKLIST_DELETE_SUCCESS: {
-      state.blackList.splice(state.blackList.indexOf(state.blackList.filter(item => item.id === action.payload)[0]), 1);
+      state.blackList.splice(state.blackList.indexOf(state.blackList.find(item => item.id === action.payload)), 1);
       return {
         ...state,
         inProgress: false,
@@ -372,7 +369,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
       const domain: Domain = action.payload.res;
       let isError = false;
-      let step = action.payload.step;
+      let { step } = action.payload;
       if (domain.is_domain_verified) {
         if (action.payload.gotoNextStep) {
           step++;
@@ -504,8 +501,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.VALIDATE_PROMO_CODE_SUCCESS: {
       const promoCode: PromoCode = { ...state.promoCode, ...action.payload, inProgress: false };
-      promoCode.new_amount = promoCode.new_amount / 100;
-      promoCode.discount_amount = promoCode.discount_amount / 100;
+      promoCode.new_amount /= 100;
+      promoCode.discount_amount /= 100;
       return { ...state, promoCode };
     }
 

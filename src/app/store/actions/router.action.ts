@@ -1,7 +1,4 @@
-// Angular
 import { NavigationExtras } from '@angular/router';
-
-// Ngrx
 import { Action } from '@ngrx/store';
 
 export const GO = '[Router] Go';
@@ -10,6 +7,7 @@ export const FORWARD = '[Router] Forward';
 
 export class Go implements Action {
   readonly type = GO;
+
   constructor(
     public payload: {
       path: any[];

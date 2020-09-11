@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { AppConfig } from '../../../environments/environment';
 
 interface Scripts {
@@ -8,7 +9,7 @@ interface Scripts {
 
 export const ScriptStore: Scripts[] = [{ name: 'stripe', src: 'https://js.stripe.com/v2/' }];
 
-declare var document: any;
+declare let document: any;
 
 @Injectable()
 export class DynamicScriptLoaderService {
@@ -42,12 +43,12 @@ export class DynamicScriptLoaderService {
         script.src = this.scripts[name].src;
         script.id = name;
 
-        script.onload = () => {
+        script.addEventListener('load', () => {
           this.scripts[name].loaded = true;
           resolve({ script: name, loaded: true, status: 'Loaded' });
-        };
-        script.onerror = (error: any) => resolve({ script: name, loaded: false, status: 'Loaded' });
-        document.getElementsByTagName('head')[0].appendChild(script);
+        });
+        script.addEventListener('error', (error: any) => resolve({ script: name, loaded: false, status: 'Loaded' }));
+        document.querySelectorAll('head')[0].append(script);
       } else {
         resolve({ script: name, loaded: true, status: 'Already Loaded' });
       }
@@ -55,16 +56,16 @@ export class DynamicScriptLoaderService {
   }
 
   removeStripeFromDOM() {
-    if (document.getElementsByTagName('iframe')[0]) {
-      document.getElementsByTagName('body')[0].removeChild(document.getElementsByTagName('iframe')[0]);
+    if (document.querySelectorAll('iframe')[0]) {
+      document.querySelectorAll('body')[0].removeChild(document.querySelectorAll('iframe')[0]);
       this.removeStripeFromDOM();
     } else {
-      if (this.scripts['stripe'].loaded && document.getElementById('stripe')) {
-        document.getElementsByTagName('head')[0].removeChild(document.getElementById('stripe'));
-        this.scripts['stripe'].loaded = false;
+      if (this.scripts.stripe.loaded && document.querySelector('#stripe')) {
+        document.querySelectorAll('head')[0].removeChild(document.querySelector('#stripe'));
+        this.scripts.stripe.loaded = false;
       }
-      if (this.scripts['stripe-key'].loaded && document.getElementById('stripe-key')) {
-        document.getElementsByTagName('head')[0].removeChild(document.getElementById('stripe-key'));
+      if (this.scripts['stripe-key'].loaded && document.querySelector('#stripe-key')) {
+        document.querySelectorAll('head')[0].removeChild(document.querySelector('#stripe-key'));
         this.scripts['stripe-key'].loaded = false;
       }
     }

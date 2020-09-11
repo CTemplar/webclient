@@ -1,16 +1,12 @@
 import { HttpResponse } from '@angular/common/http';
-// Angular
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-// Ngrx
-// Rxjs
 import { Observable } from 'rxjs';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-// Service
-import { OpenPgpService, UsersService, MailService } from '../../store/services';
-// Custom Actions
+
+import { OpenPgpService, UsersService, MailService } from '../services';
 import {
   Accounts,
   ContactAddError,
@@ -54,19 +50,19 @@ export class ContactsEffects {
           if (payload.isDecrypting) {
             response.isDecrypting = true;
             return new ContactGetSuccess(response);
-          } else {
-            let count = 0;
-            const contacts: Contact[] = response.results;
-            contacts.forEach(contact => {
-              if (contact.is_encrypted) {
-                contact.is_decryptionInProgress = true;
-                count = count + 1;
-                setTimeout(() => {
-                  this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
-                }, count * 300);
-              }
-            });
           }
+          let count = 0;
+          const contacts: Contact[] = response.results;
+          contacts.forEach(contact => {
+            if (contact.is_encrypted) {
+              contact.is_decryptionInProgress = true;
+              count += 1;
+              setTimeout(() => {
+                this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
+              }, count * 300);
+            }
+          });
+
           return new ContactGetSuccess(response);
         }),
         catchError(error => of(new ContactGetFailure())),
@@ -91,7 +87,7 @@ export class ContactsEffects {
             new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` }),
           );
         }),
-        catchError(err =>
+        catchError(error =>
           of(
             new ContactAddError(),
             new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` }),
@@ -154,9 +150,8 @@ export class ContactsEffects {
               new ContactsGet({ limit: 50, offset: 0 }),
               new SnackPush({ message: 'Contacts imported successfully' }),
             );
-          } else {
-            return EMPTY;
           }
+          return EMPTY;
         }),
         catchError(error => {
           return of(
@@ -175,7 +170,7 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.getEmailContacts().pipe(
         switchMap(res => of(new GetEmailContactsSuccess(res.results))),
-        catchError(err => EMPTY),
+        catchError(error => EMPTY),
       );
     }),
   );
@@ -187,7 +182,7 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.updateBatchContacts(payload).pipe(
         switchMap(res => of(new UpdateBatchContactsSuccess(payload))),
-        catchError(err => EMPTY),
+        catchError(error => EMPTY),
       );
     }),
   );

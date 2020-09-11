@@ -1,5 +1,5 @@
-// Ngrx
 import { Action } from '@ngrx/store';
+
 import { Settings } from '../datatypes';
 
 export enum UsersActionTypes {

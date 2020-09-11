@@ -9,13 +9,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
-import { AppState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
+import { DOCUMENT } from '@angular/common';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { DOCUMENT } from '@angular/common';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
-import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import {
   GetMails,
   GetMailsSuccess,
@@ -24,14 +28,11 @@ import {
   ReadMailSuccess,
   SettingsUpdateUsedStorage,
 } from '../../store/actions';
-import { filter } from 'rxjs/operators';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
-import { Title } from '@angular/platform-browser';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { SharedService } from '../../store/services';
 import { darkModeCss, PRIMARY_WEBSITE } from '../../shared/config';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -41,25 +42,36 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   LIMIT = 3; // limit of displayed custom folder's count
+
   EMAIL_LIMIT = 20; // limit to display emails
 
   // Public property of boolean type set false by default
   public isComposeVisible = false;
+
   public userState: UserState;
 
   mailState: MailState;
+
   mailFolderType = MailFolderType;
+
   currentRoute: string;
 
   isMenuOpened: boolean;
+
   isSidebarOpened: boolean;
+
   customFolders: Folder[] = [];
+
   currentMailbox: Mailbox;
+
   @ViewChild('input') input: ElementRef;
 
   currentPlan: PlanType;
+
   currentFolder: MailFolderType;
+
   primaryWebsite = PRIMARY_WEBSITE;
+
   private forceLightMode: boolean;
 
   constructor(
@@ -186,13 +198,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentRoute = event.url;
         if (event.url === '/mail/contacts') {
           this.updateTitle(`${this.capitalize(event.url.split('/mail/')[1])} - CTemplar: Armored Email`);
-        } else if (event.url.indexOf('/mail/settings/') > -1) {
+        } else if (event.url.includes('/mail/settings/')) {
           this.updateTitle(`Settings - CTemplar: Armored Email`);
         }
       });
 
-    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((params: Params) => {
-      this.forceLightMode = params.lightMode;
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
+      this.forceLightMode = parameters.lightMode;
       if (this.forceLightMode) {
         this.handleDarkMode(false);
       }
@@ -237,14 +249,14 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   handleDarkMode(isNightMode) {
     if (isNightMode && !this.forceLightMode) {
-      document.getElementById('night-mode').innerHTML = darkModeCss;
+      document.querySelector('#night-mode').innerHTML = darkModeCss;
     } else {
-      document.getElementById('night-mode').innerHTML = '';
+      document.querySelector('#night-mode').innerHTML = '';
     }
   }
 
   handleCustomCss(customCss: string) {
-    document.getElementById('ctemplar-custom-css').innerHTML = customCss;
+    document.querySelector('#ctemplar-custom-css').innerHTML = customCss;
   }
 
   /**
@@ -303,8 +315,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
         }
       },
-      err => {
-        console.log(err);
+      error => {
+        console.log(error);
       },
     );
   }

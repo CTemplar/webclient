@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import * as xss from 'xss';
 import * as cssfilter from 'cssfilter';
-import { apiUrl, PRIMARY_DOMAIN } from '../config';
 import * as juice from 'juice';
+
+import { apiUrl, PRIMARY_DOMAIN } from '../config';
 
 @Pipe({
   name: 'safe',
@@ -13,30 +14,25 @@ export class SafePipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  public transform(
-    value: any,
-    type: string = '',
-    disableExternalImages?: boolean,
-    fromEmail?: string,
-  ): SafeHtml | SafeUrl {
+  public transform(value: any, type = '', disableExternalImages?: boolean, fromEmail?: string): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
         value = this.removeTitle(value);
         const cssFilter = new cssfilter.FilterCSS({
-          onIgnoreAttr: (styleName, styleValue, opts) => {
+          onIgnoreAttr: (styleName, styleValue, options) => {
             const blackList = {
               position: ['fixed'],
             };
             if (blackList.hasOwnProperty(styleName)) {
-              const blackValList = blackList[styleName];
-              const val = styleValue.replace(/!important/g, '').trim();
-              if (blackValList.includes(val)) {
+              const blackValueList = blackList[styleName];
+              const value_ = styleValue.replace(/!important/g, '').trim();
+              if (blackValueList.includes(value_)) {
                 return '';
               }
             }
-            const safeAttrValue = cssfilter.safeAttrValue(styleName, styleValue);
-            if (safeAttrValue) {
-              return styleName + ':' + safeAttrValue;
+            const safeAttributeValue = cssfilter.safeAttrValue(styleName, styleValue);
+            if (safeAttributeValue) {
+              return `${styleName}:${safeAttributeValue}`;
             }
             return '';
           },
@@ -46,77 +42,81 @@ export class SafePipe implements PipeTransform {
           stripIgnoreTag: true,
           stripIgnoreTagBody: ['script', 'style'],
           onTag: (tag, html, options) => {
-            if (tag === 'a' && !(options && options['isClosing'] === true)) {
-              let htmlAttrs = '';
+            if (tag === 'a' && !(options && options.isClosing === true)) {
+              let htmlAttributes = '';
 
               // "<a href='' target=''>" => "href='' target=''"
-              const reg = /\s|\n|\t/;
+              const reg = /\s/;
               const match = reg.exec(html);
               const i = match ? match.index : -1;
               if (i !== -1) {
-                htmlAttrs = html.slice(i + 1, -1).trim();
+                htmlAttributes = html.slice(i + 1, -1).trim();
               }
 
-              let containsTargetAttr = false;
-              let attrsHtml = xss.parseAttr(htmlAttrs, (attrName, attrValue) => {
-                if (attrName === 'target') {
-                  containsTargetAttr = true;
-                  return attrName + '="_blank"';
+              let containsTargetAttribute = false;
+              let attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
+                if (attributeName === 'target') {
+                  containsTargetAttribute = true;
+                  return `${attributeName}="_blank"`;
                 }
 
                 // call `onTagAttr()`
                 const whiteList = xss.getDefaultWhiteList();
-                const whiteAttrList = whiteList[tag] || [];
-                whiteAttrList.push('style');
-                const isWhiteAttr = whiteAttrList.indexOf(attrName) !== -1;
-                const ret1 = xss.onTagAttr(tag, attrName, attrValue, isWhiteAttr) || '';
-                if (ret1 !== '') {
-                  return ret1;
+                const whiteAttributeList = whiteList[tag] || [];
+                whiteAttributeList.push('style');
+                const isWhiteAttribute = whiteAttributeList.includes(attributeName);
+                const returnValue1 = xss.onTagAttr(tag, attributeName, attributeValue, isWhiteAttribute) || '';
+                if (returnValue1 !== '') {
+                  return returnValue1;
                 }
 
-                if (isWhiteAttr) {
+                if (isWhiteAttribute) {
                   // call `safeAttrValue()`
-                  attrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
-                  if (attrValue) {
-                    return attrName + '="' + attrValue + '"';
-                  } else {
-                    return attrName;
+                  attributeValue = xss.safeAttrValue(tag, attributeName, attributeValue, cssFilter);
+                  if (attributeValue) {
+                    return `${attributeName}="${attributeValue}"`;
                   }
-                } else {
-                  // call `onIgnoreTagAttr()`
-                  const ret2 = xss.onIgnoreTagAttr(tag, attrName, attrValue, isWhiteAttr) || '';
-                  return ret2;
+                  return attributeName;
                 }
+                // call `onIgnoreTagAttr()`
+                const returnValue2 = xss.onIgnoreTagAttr(tag, attributeName, attributeValue, isWhiteAttribute) || '';
+                return returnValue2;
               });
 
-              if (!containsTargetAttr) {
-                attrsHtml = attrsHtml + ' target="_blank"';
+              if (!containsTargetAttribute) {
+                attributesHtml += ' target="_blank"';
               }
 
-              let outputHtml = '<' + tag;
-              if (attrsHtml) {
-                outputHtml += ' ' + attrsHtml;
+              let outputHtml = `<${tag}`;
+              if (attributesHtml) {
+                outputHtml += ` ${attributesHtml}`;
               }
               outputHtml += '>';
               return outputHtml;
             }
           },
-          onIgnoreTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
-            if (attrName === 'style' || attrName === 'bgcolor') {
-              const safeAttrValue = xss.safeAttrValue(tag, attrName, attrValue, cssFilter);
-              return attrName + '="' + safeAttrValue + '"';
+          onIgnoreTagAttr: (tag, attributeName, attributeValue, isWhiteAttribute) => {
+            if (attributeName === 'style' || attributeName === 'bgcolor') {
+              const safeAttributeValue = xss.safeAttrValue(tag, attributeName, attributeValue, cssFilter);
+              return `${attributeName}="${safeAttributeValue}"`;
             }
-            if (attrName === 'class' && (attrValue === 'gmail_quote ctemplar_quote' || attrValue === 'gmail_quote')) {
-              return `${attrName}="${attrValue}"`;
+            if (
+              attributeName === 'class' &&
+              (attributeValue === 'gmail_quote ctemplar_quote' || attributeValue === 'gmail_quote')
+            ) {
+              return `${attributeName}="${attributeValue}"`;
             }
           },
-          onTagAttr: (tag, attrName, attrValue, isWhiteAttr) => {
-            if (tag === 'img' && attrName === 'src' && attrValue.indexOf('data:image/png;base64,') === 0) {
-              return `${attrName}="${xss.friendlyAttrValue(attrValue)}"`;
-            } else if (disableExternalImages && tag === 'img' && attrName === 'src') {
-              if (!(attrValue.indexOf('https://' + PRIMARY_DOMAIN) === 0 || attrValue.indexOf(apiUrl) === 0)) {
+          onTagAttr: (tag, attributeName, attributeValue, isWhiteAttribute) => {
+            if (tag === 'img' && attributeName === 'src' && attributeValue.indexOf('data:image/png;base64,') === 0) {
+              return `${attributeName}="${xss.friendlyAttrValue(attributeValue)}"`;
+            }
+            if (disableExternalImages && tag === 'img' && attributeName === 'src') {
+              if (
+                !(attributeValue.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attributeValue.indexOf(apiUrl) === 0)
+              ) {
                 SafePipe.hasExternalImages = true;
-                return `${attrName}=""`;
+                return `${attributeName}=""`;
               }
             }
             // Return nothing, means keep the default handling measure
@@ -225,19 +225,19 @@ export class SafePipe implements PipeTransform {
       whiteList: allowedTags,
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
-      onIgnoreTagAttr: (tag, name, attr, isWhiteAttr) => {
+      onIgnoreTagAttr: (tag, name, attribute, isWhiteAttribute) => {
         if (name !== 'class') {
           // get attr whitelist for specific tag
-          const attrWhitelist = allowedAttributes[tag];
+          const attributeWhitelist = allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag
-          if (attrWhitelist.indexOf(name) !== -1) {
+          if (attributeWhitelist.includes(name)) {
             if (disableExternalImages && tag === 'img' && name === 'src') {
-              if (!(attr.indexOf('https://' + PRIMARY_DOMAIN) === 0 || attr.indexOf(apiUrl) === 0)) {
+              if (!(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)) {
                 SafePipe.hasExternalImages = true;
-                return `${attr}=""`;
+                return `${attribute}=""`;
               }
             }
-            return name + '="' + xss.escapeAttrValue(attr) + '"';
+            return `${name}="${xss.escapeAttrValue(attribute)}"`;
           }
         }
       },
@@ -246,16 +246,16 @@ export class SafePipe implements PipeTransform {
   }
 
   replaceLinksInText(inputText: string) {
-    if (!/<[a-z][\s\S]*>/i.test(inputText)) {
+    if (!/<[a-z][\S\s]*>/i.test(inputText)) {
       if (typeof inputText === 'string') {
         // http://, https://, ftp://
-        const urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim;
+        const urlPattern = /\b(?:https?|ftp):\/\/[\w!#%&+,./:;=?@|~-]*[\w#%&+/=@|~-]/gim;
 
         // www. sans http:// or https://
-        const pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+        const pseudoUrlPattern = /(^|[^/])(www\.\S+(\b|$))/gim;
 
         // Email addresses
-        const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+        const emailAddressPattern = /[\w.]+@[_a-z-]+?(?:\.[a-z]{2,6})+/gim;
 
         inputText = inputText
           .replace(urlPattern, '<a target="_blank" rel="noopener" href="$&">$&</a>')
@@ -268,11 +268,11 @@ export class SafePipe implements PipeTransform {
   }
 
   private removeTitle(value: string) {
-    const el = document.createElement('div');
-    el.innerHTML = value;
-    if (el.getElementsByTagName('title').length > 0) {
-      el.getElementsByTagName('title')[0].innerText = '';
-      return el.innerHTML;
+    const element = document.createElement('div');
+    element.innerHTML = value;
+    if (element.querySelectorAll('title').length > 0) {
+      element.querySelectorAll('title')[0].textContent = '';
+      return element.innerHTML;
     }
     return value;
   }

@@ -1,6 +1,4 @@
-// Custom Action
 import { LoadingActionAll, LoadingActionTypes } from '../actions';
-// Model
 import { LoadingState } from '../datatypes';
 
 export const initialState: LoadingState = {

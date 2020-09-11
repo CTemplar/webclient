@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { timer } from 'rxjs/internal/observable/timer';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import {
   CheckTransaction,
   ClearPromoCode,
@@ -18,7 +20,7 @@ import {
   UpgradeAccount,
   ValidatePromoCode,
   CardAdd,
-} from '../../../store/actions/index';
+} from '../../../store/actions';
 import {
   AppState,
   AuthState,
@@ -34,14 +36,10 @@ import {
   TransactionStatus,
   UserState,
 } from '../../../store/datatypes';
-// Service
-import { OpenPgpService, SharedService } from '../../../store/services/index';
+import { OpenPgpService, SharedService } from '../../../store/services';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
-import { TranslateService } from '@ngx-translate/core';
-import { timer } from 'rxjs/internal/observable/timer';
 import { apiUrl, PROMO_CODE_KEY, LANGUAGES } from '../../config';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -51,51 +49,88 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;
+
   @Input() isRenew: boolean;
+
   @Input() isAddNewCard = false;
+
   @Input() paymentType: PaymentType;
+
   @Input() paymentMethod: PaymentMethod;
+
   @Input() currency;
+
   @Input() storage: number;
+
   @Input() planType: PlanType;
+
   @Output() close = new EventEmitter<boolean>();
 
   paymentTypeEnum = PaymentType;
+
   cardNumber;
+
   promoCode: PromoCode = new PromoCode();
+
   billingForm: FormGroup;
+
   expiryMonth = 'Month';
+
   expiryYear = 'Year';
+
   cvc;
+
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+
   years = [];
+
   paymentMethodType = PaymentMethod;
+
   seconds = 60;
+
   minutes = 60;
+
   bitcoinState: BitcoinState;
+
   signupState: SignupState;
+
   inProgress: boolean;
+
   planTypeEnum = PlanType;
 
   stripePaymentValidation: any = {
     message: '',
     param: '',
   };
+
   showPaymentPending: boolean;
+
   paymentSuccess: boolean;
+
   errorMessage: string;
+
   authState: AuthState;
+
   isScriptsLoaded: boolean;
+
   isScriptsLoading: boolean;
+
   apiUrl: string = apiUrl;
+
   currentPlan: PricingPlan;
+
   upgradeAmount: number;
+
   payment: Payment;
+
   isPrime: boolean;
 
   private checkTransactionResponse: CheckTransactionResponse;
+
   private timerObservable: Subscription;
+
   private modalRef: NgbModalRef;
+
   private btcTimer: Subscription;
 
   constructor(
@@ -159,7 +194,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
             this.checkTransactionResponse.status === TransactionStatus.SENT)
         ) {
           this.paymentSuccess = true;
-          return;
         }
       });
     this.store
@@ -168,7 +202,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .subscribe((authState: AuthState) => {
         this.signupState = authState.signupState;
 
-        const queryParams = this.activatedRoute.snapshot.queryParams;
+        const { queryParams } = this.activatedRoute.snapshot;
         this.planType = this.planType || this.signupState.plan_type || queryParams.plan || PlanType.PRIME;
         this.paymentType =
           this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
@@ -211,8 +245,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();
     }
-    const timerRef: any = timer(1000, 1000);
-    this.timerObservable = timerRef.pipe(untilDestroyed(this)).subscribe(t => {
+    const timerReference: any = timer(1000, 1000);
+    this.timerObservable = timerReference.pipe(untilDestroyed(this)).subscribe(t => {
       this.seconds = (3600 - t) % 60;
       this.minutes = (3600 - t - this.seconds) / 60;
     });
@@ -315,7 +349,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.inProgress = true;
         this.openAccountInitModal();
         this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({ ...this.signupState, stripe_token: stripe_token });
+        this.waitForPGPKeys({ ...this.signupState, stripe_token });
       }
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
@@ -396,7 +430,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.store.dispatch(new CheckTransaction(data));
   }
 
-  selectBitcoinMethod(forceLoad: boolean = true) {
+  selectBitcoinMethod(forceLoad = true) {
     this.paymentMethod = PaymentMethod.BITCOIN;
     this.selectPaymentType(PaymentType.ANNUALLY);
     if (this.bitcoinState && this.bitcoinState.newWalletAddress && !forceLoad) {

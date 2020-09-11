@@ -1,11 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
-// Store
 import { Store } from '@ngrx/store';
-import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import * as moment from 'moment-timezone';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
+import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
+import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
 import {
   BlackListDelete,
   DeleteAccount,
@@ -13,6 +17,9 @@ import {
   WhiteListDelete,
   CardDelete,
   CardMakePrimary,
+  MoveTab,
+  ClearMailsOnConversationModeChange,
+  GetUnreadMailsCount,
 } from '../../store/actions';
 import {
   AppState,
@@ -30,15 +37,9 @@ import {
   UserState,
   CardState,
 } from '../../store/datatypes';
-import { MoveTab, ClearMailsOnConversationModeChange, GetUnreadMailsCount } from '../../store/actions';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import * as moment from 'moment-timezone';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -48,42 +49,75 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
+
   readonly autosaveDurations = AUTOSAVE_DURATION;
+
   readonly planType = PlanType;
+
   @ViewChild('tabSet') tabSet;
+
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
+
   @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
+
   @ViewChild('billingInfoModal') billingInfoModal;
 
   selectedIndex = -1; // Assuming no element are selected initially
+
   userState: UserState = new UserState();
+
   mailState: MailState;
+
   authState: AuthState;
+
   settings: Settings = new Settings();
+
   cards: Array<CardState> = [];
+
   payment: Payment = new Payment();
+
   paymentMethod = PaymentMethod;
+
   userPlanType: PlanType = PlanType.FREE;
+
   newListContact = { show: false, type: 'Whitelist' };
+
   selectedLanguage: Language;
+
   languages: Language[] = LANGUAGES;
+
   timezones: Timezone[];
+
   deleteAccountInfoForm: FormGroup;
+
   deleteAccountOptions: any = {};
+
   notificationsPermission: string;
+
   autosave_duration: any = {};
+
   autosave_duration_list: Array<string>;
+
   notificationPermissionType = NotificationPermission;
+
   selectedTabQueryParams = 'dashboard-and-plans';
+
   invoices: Invoice[];
+
   currentPlan: PricingPlan;
+
   isAddNewCard = false;
+
   isCardUpdateMode = false;
+
   private deleteAccountInfoModalRef: NgbModalRef;
+
   private confirmDeleteAccountModalRef: NgbModalRef;
 
   timeZoneFilter = new FormControl('', []);
+
   timeZoneFilteredOptions: Observable<Timezone[] | void>;
+
   isEditingRecoveryEmail: boolean;
 
   constructor(
@@ -137,12 +171,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
         }
         if (user.settings.language) {
-          this.selectedLanguage = this.languages.filter(item => item.name === user.settings.language)[0];
+          this.selectedLanguage = this.languages.find(item => item.name === user.settings.language);
         }
         if (user.settings.autosave_duration !== 'none' && user.settings.autosave_duration) {
           const duration = Number(user.settings.autosave_duration);
           // convert duration to m:s format (1m = 60000ms, 1s = 1000ms)
-          const newDuration = duration >= 60000 ? duration / 60000 + 'm' : duration / 1000 + 's';
+          const newDuration = duration >= 60000 ? `${duration / 60000}m` : `${duration / 1000}s`;
           this.autosave_duration = newDuration;
         } else {
           this.autosave_duration = 'none';
@@ -160,9 +194,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       contact_email: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       password: ['', [Validators.required]],
     });
-    this.route.params.subscribe(params => {
-      if (params['id'] !== 'undefined') {
-        this.store.dispatch(new MoveTab(params['id']));
+    this.route.params.subscribe(parameters => {
+      if (parameters.id !== 'undefined') {
+        this.store.dispatch(new MoveTab(parameters.id));
       }
     });
 
@@ -191,12 +225,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _filterTimeZone(name) {
-    return this.timezones.filter(option => option.value.toLowerCase().indexOf(name.toLowerCase()) > -1);
+    return this.timezones.filter(option => option.value.toLowerCase().includes(name.toLowerCase()));
   }
 
   toggleRecoveyEmailEdit() {
     this.isEditingRecoveryEmail = !this.isEditingRecoveryEmail;
   }
+
   /**
    * Convert milliseconds to time format(m:s)
    */
@@ -205,7 +240,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.autosaveDurations.forEach((duration, index) => {
       if (duration !== 'none' && duration) {
         const perduration = Number(duration);
-        const newDuration = perduration >= 60000 ? perduration / 60000 + 'm' : perduration / 1000 + 's';
+        const newDuration = perduration >= 60000 ? `${perduration / 60000}m` : `${perduration / 1000}s`;
         autosave_durations.push(newDuration);
       } else {
         autosave_durations.push('none');
@@ -228,7 +263,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   changeUrlParams() {
-    this.router.navigateByUrl('/mail/settings/' + this.selectedTabQueryParams);
+    this.router.navigateByUrl(`/mail/settings/${this.selectedTabQueryParams}`);
   }
 
   // == Toggle active state of the slide in price page
@@ -305,10 +340,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   updateSettings(key?: string, value?: any) {
     if (key === 'autosave_duration') {
-      if (value.substr(-1) === 'm') {
+      if (value.slice(-1) === 'm') {
         value = Number(value.slice(0, -1)) * 60000;
       }
-      if (value.substr(-1) === 's') {
+      if (value.slice(-1) === 's') {
         value = Number(value.slice(0, -1)) * 1000;
       }
     }
@@ -362,12 +397,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pushNotificationService.requestPermission();
   }
 
-  scrollTop(el: HTMLElement) {
-    el.scroll(0, 0);
+  scrollTop(element: HTMLElement) {
+    element.scroll(0, 0);
   }
 
-  scroll(el: HTMLElement) {
-    el.scrollIntoView({ behavior: 'smooth' });
+  scroll(element: HTMLElement) {
+    element.scrollIntoView({ behavior: 'smooth' });
   }
 
   testNotification() {
@@ -381,8 +416,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
           notif.notification.close();
         }
       },
-      err => {
-        console.log(err);
+      error => {
+        console.log(error);
       },
     );
   }
@@ -395,7 +430,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.viewInvoice(invoice, true);
   }
 
-  viewInvoice(invoice: Invoice, print: boolean = false) {
+  viewInvoice(invoice: Invoice, print = false) {
     let popupWin;
     let invoiceItems = '';
     invoice.items.forEach(item => {

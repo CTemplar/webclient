@@ -1,4 +1,6 @@
-// Angular
+import * as QuillNamespace from 'quill';
+import ImageResize from 'quill-image-resize-module';
+
 import { AppConfig } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
@@ -122,7 +124,7 @@ export interface Language {
 export const ESCAPE_KEYCODE = 27;
 export const MAX_FOLDERS_COUNT = 5;
 
-export const VALID_EMAIL_REGEX: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+export const VALID_EMAIL_REGEX: any = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 export const AUTOSAVE_DURATION = ['none', '5000', '10000', '20000', '30000'];
@@ -133,10 +135,8 @@ export const REFFERAL_ID_KEY = 'cjevent';
 export const JWT_AUTH_COOKIE = 'jwt_auth_cookie';
 
 export const SummarySeparator = '';
-
-import * as QuillNamespace from 'quill';
 const Quill: any = QuillNamespace;
-import ImageResize from 'quill-image-resize-module';
+
 Quill.register('modules/imageResize', ImageResize);
 
 export const QUILL_FORMATTING_MODULES = {
@@ -161,15 +161,16 @@ function getBaseUrl() {
     return config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion'
       ? 'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/'
       : 'https://api.ctemplar.com/';
-  } else if (AppConfig.local) {
+  }
+  if (AppConfig.local) {
     return 'http://127.0.0.1:8000/';
   }
   return 'https://devapi.ctemplar.net/';
 }
 
 export function getWindowConfig(): { host: string; protocol: string } {
-  let protocol = window.location.protocol;
-  let host = location.host;
+  let { protocol } = window.location;
+  let { host } = location;
   if (IS_ELECTRON || location.hostname === 'localhost') {
     protocol = 'https:';
     host = AppConfig.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';

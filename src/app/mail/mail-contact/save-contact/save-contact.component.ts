@@ -11,11 +11,12 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ContactAdd } from '../../../store';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
+import { ContactAdd } from '../../../store';
 import { OpenPgpService } from '../../../store/services';
 
 @UntilDestroy()
@@ -26,9 +27,11 @@ import { OpenPgpService } from '../../../store/services';
 })
 export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;
+
   @Output() userSaved = new EventEmitter<boolean>();
 
   @ViewChild('newContactForm') newContactForm: NgForm;
+
   newContactModel: Contact = {
     name: '',
     email: '',
@@ -38,8 +41,11 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     enabled_encryption: false,
     public_key: '',
   };
+
   public inProgress: boolean;
+
   public internalUser: boolean;
+
   private isContactsEncrypted: boolean;
 
   constructor(private store: Store<AppState>, private openpgp: OpenPgpService, private cdr: ChangeDetectorRef) {}
@@ -49,12 +55,12 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedContact'] && changes['selectedContact'].currentValue) {
+    if (changes.selectedContact && changes.selectedContact.currentValue) {
       // Get contactEmail, Domain and check if this is internalUser with domain
       this.newContactModel = { ...this.selectedContact };
       const contactEmail = this.newContactModel.email;
       const getDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
-      this.internalUser = getDomain === 'ctemplar.com' ? true : false;
+      this.internalUser = getDomain === 'ctemplar.com';
     }
   }
 

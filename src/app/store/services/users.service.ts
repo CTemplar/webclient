@@ -1,9 +1,12 @@
-// Angular
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { distinctUntilChanged } from 'rxjs/operators';
-// Helpers
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as bcrypt from 'bcryptjs';
+
+import { LogInSuccess } from '../actions';
 import {
   apiUrl,
   PRIMARY_DOMAIN,
@@ -12,14 +15,7 @@ import {
   REFFERAL_ID_KEY,
   JWT_AUTH_COOKIE,
 } from '../../shared/config';
-// Models
-// Rxjs
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
-import { LogInSuccess } from '../actions';
-import * as bcrypt from 'bcryptjs';
 import { Filter } from '../models/filter.model';
 
 @Injectable()
@@ -29,7 +25,7 @@ export class UsersService {
   constructor(private http: HttpClient, private router: Router, private store: Store<AppState>) {
     this.store
       .select(state => state.auth)
-      .pipe(distinctUntilChanged((prev, cur) => prev.isAuthenticated === cur.isAuthenticated))
+      .pipe(distinctUntilChanged((previous, current) => previous.isAuthenticated === current.isAuthenticated))
       .subscribe((authState: AuthState) => {
         if (authState.isAuthenticated && this.getUserKey()) {
           this.store.dispatch(new LogInSuccess({}));
@@ -51,9 +47,8 @@ export class UsersService {
           this.setTokenExpiration();
         }),
       );
-    } else {
-      return of({});
     }
+    return of({});
   }
 
   isTokenExpired() {
@@ -89,13 +84,12 @@ export class UsersService {
   }
 
   private createSalt(salt, username) {
-    username = username.replace(/[^a-zA-Z ]/g, '');
-    username = username ? username : 'test';
+    username = username.replace(/[^ A-Za-z]/g, '');
+    username = username || 'test';
     if (salt.length < 29) {
       return this.createSalt(salt + username, username);
-    } else {
-      return salt.substr(0, 29);
     }
+    return salt.slice(0, 29);
   }
 
   private setLoginData(tokenResponse: any, requestData) {
@@ -160,7 +154,7 @@ export class UsersService {
     requestData.old_password = this.hashData(requestData, 'old_password');
     requestData.password = this.hashData(requestData, 'password');
     requestData.confirm_password = this.hashData(requestData, 'confirm_password');
-    delete requestData['username'];
+    delete requestData.username;
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
       tap(response => {
         this.setLoginData(response, data);
@@ -226,17 +220,16 @@ export class UsersService {
       'users/invites/',
       'notifications',
     ];
-    if (authenticatedUrls.indexOf(url) > -1) {
+    if (authenticatedUrls.includes(url)) {
       return true;
-    } else {
-      let authenticated = false;
-      authenticatedUrls.forEach(item => {
-        if (url.indexOf(item) > -1) {
-          authenticated = true;
-        }
-      });
-      return authenticated;
     }
+    let authenticated = false;
+    authenticatedUrls.forEach(item => {
+      if (url.includes(item)) {
+        authenticated = true;
+      }
+    });
+    return authenticated;
   }
 
   getAccounts(id) {
@@ -244,7 +237,7 @@ export class UsersService {
   }
 
   getAccountDetails() {
-    return this.http.get<any>(`${apiUrl}users/myself/`).pipe(map(data => data['results']));
+    return this.http.get<any>(`${apiUrl}users/myself/`).pipe(map(data => data.results));
   }
 
   getWhiteList(limit = 0, offset = 0) {
@@ -255,7 +248,7 @@ export class UsersService {
 
   addWhiteList(email, name) {
     const url = `${apiUrl}users/whitelist/`;
-    const body = { email: email, name: name };
+    const body = { email, name };
     return this.http.post<any>(url, body);
   }
 
@@ -277,7 +270,7 @@ export class UsersService {
 
   addBlackList(email, name) {
     const url = `${apiUrl}users/blacklist/`;
-    const body = { email: email, name: name };
+    const body = { email, name };
     return this.http.post<any>(url, body);
   }
 
@@ -330,9 +323,8 @@ export class UsersService {
   deleteContact(ids) {
     if (ids === 'all') {
       return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
-    } else {
-      return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
     }
+    return this.http.delete<any>(`${apiUrl}users/contacts/?id__in=${ids}`);
   }
 
   notifyContact(payload: any) {
@@ -407,7 +399,7 @@ export class UsersService {
   deleteAccount(data: any) {
     const requestData = { ...data };
     requestData.password = this.hashData(requestData);
-    delete requestData['username'];
+    delete requestData.username;
     return this.http.post<any>(`${apiUrl}auth/delete/`, requestData);
   }
 
@@ -511,13 +503,12 @@ export class UsersService {
   doesHttpOnlyCookieExist(cookiename) {
     const d = new Date();
     d.setTime(d.getTime() + 1000);
-    const expires = 'expires=' + d.toUTCString();
+    const expires = `expires=${d.toUTCString()}`;
 
-    document.cookie = cookiename + '=new_value;path=/;' + expires;
-    if (document.cookie.indexOf(cookiename + '=') === -1) {
+    document.cookie = `${cookiename}=new_value;path=/;${expires}`;
+    if (!document.cookie.includes(`${cookiename}=`)) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 }

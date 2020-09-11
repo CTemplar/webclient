@@ -1,5 +1,7 @@
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
+
 import { PRIMARY_DOMAIN } from '../../shared/config';
 import {
   ChangePassphraseSuccess,
@@ -32,25 +34,39 @@ import {
   UserState,
 } from '../datatypes';
 import { Attachment, Mailbox } from '../models';
+
 import { UsersService } from './users.service';
-import { Injectable } from '@angular/core';
 
 @Injectable()
 export class OpenPgpService {
   encrypted: any;
+
   options: any;
+
   private contactsState: ContactsState;
+
   private decryptedPrivKeys: any;
+
   private decryptInProgress: boolean;
+
   private isAuthenticated: boolean;
+
   private mailboxes: Mailbox[];
+
   private pgpWorker: Worker;
+
   private primaryMailbox: Mailbox;
+
   private privkeys: any;
+
   private pubkeys: any;
+
   private pubkeysArray: Array<string> = [];
+
   private subjects: any = {};
+
   private userKeys: any;
+
   private userSettings: Settings;
 
   constructor(private store: Store<AppState>, private usersService: UsersService) {
@@ -106,7 +122,7 @@ export class OpenPgpService {
       this.store.dispatch(new Logout());
       return;
     }
-    this.privkeys = privKeys ? privKeys : this.privkeys;
+    this.privkeys = privKeys || this.privkeys;
     this.store.dispatch(new SetDecryptInProgress(true));
 
     this.pgpWorker.postMessage({
@@ -267,11 +283,11 @@ export class OpenPgpService {
     this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
     publicKeys.push(this.pubkeys[mailboxId]);
     const reader = new FileReader();
-    reader.onload = (event: any) => {
+    reader.addEventListener('load', (event: any) => {
       const buffer = event.target.result;
       const uint8Array = new Uint8Array(buffer);
       this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
-    };
+    });
     reader.readAsArrayBuffer(file);
   }
 
@@ -289,7 +305,7 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }
 
-  decrypt(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects: boolean = false) {
+  decrypt(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects = false) {
     if (this.decryptedPrivKeys) {
       if (!mailData.isSubjectEncrypted) {
         mailData.subject = null;

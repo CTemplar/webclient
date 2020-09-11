@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-// Components
+import { AuthGuard } from '../store/services';
+
 import { MailComponent } from './mail.component';
 import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 import { MailDetailComponent } from './mail-detail/mail-detail.component';
 import { MailListComponent } from './mail-list/mail-list.component';
 import { MailContactComponent } from './mail-contact/mail-contact.component';
-import { AuthGuard } from '../store/services';
 
 const routes: Routes = [
   {

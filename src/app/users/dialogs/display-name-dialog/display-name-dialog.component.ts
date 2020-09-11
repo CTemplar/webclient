@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MailboxSettingsUpdate } from '../../../store/actions';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { AppState, AuthState, MailBoxesState } from '../../../store/datatypes';
 import { Mailbox } from '../../../store/models';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MailboxSettingsUpdate } from '../../../store/actions';
 import { SharedService } from '../../../store/services';
 
 @UntilDestroy()
@@ -16,8 +17,11 @@ import { SharedService } from '../../../store/services';
 })
 export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   changeDisplayNameForm: FormGroup;
+
   email = 'username@ctemplar.com';
+
   inProgress: boolean;
+
   recoveryKey: string;
 
   private selectedMailbox: Mailbox;
@@ -59,7 +63,7 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
       this.close();
       return;
     }
-    const dispName = this.changeDisplayNameForm.controls['username'].value;
+    const dispName = this.changeDisplayNameForm.controls.username.value;
     if (this.changeDisplayNameForm.valid && dispName !== '') {
       this.selectedMailbox.display_name = dispName;
       this.store.dispatch(

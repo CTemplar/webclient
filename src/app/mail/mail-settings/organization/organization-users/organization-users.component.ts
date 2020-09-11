@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { OrganizationUser } from '../../../../store/models';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { OrganizationUser } from '../../../../store/models';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../../../shared/config';
 import { PasswordValidation } from '../../../../users/users-create-account/users-create-account.component';
-import { debounceTime } from 'rxjs/operators';
 import { AppState, UserState } from '../../../../store/datatypes';
-import { Store } from '@ngrx/store';
 import { OpenPgpService, UsersService } from '../../../../store/services';
 import {
   AddOrganizationUser,
@@ -14,7 +16,6 @@ import {
   OrganizationState,
   UpdateOrganizationUser,
 } from '../../../../store/organization.store';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MoveTab } from '../../../../store/actions';
 
 @UntilDestroy()
@@ -25,24 +26,39 @@ import { MoveTab } from '../../../../store/actions';
 })
 export class OrganizationUsersComponent implements OnInit, OnDestroy {
   @ViewChild('addUserModal') addUserModal;
+
   @ViewChild('confirmDeleteModal') confirmDeleteModal;
 
   users: OrganizationUser[];
+
   addUserForm: FormGroup;
+
   errorMessage: any;
+
   userExistError: string;
+
   submitted: boolean;
+
   organizationState: OrganizationState;
+
   customDomains: string[];
+
   newAddressOptions = { usernameExists: false, inProgress: false };
+
   isAddingUser: boolean;
+
   isAddingUserInProgress: boolean;
+
   userState: UserState;
+
   selectedUser: OrganizationUser;
+
   primaryWebsite = PRIMARY_WEBSITE;
 
   private addUserModalRef: NgbModalRef;
+
   private confirmDeleteModalRef: NgbModalRef;
+
   private isDeleteInProgress: boolean;
 
   constructor(
@@ -60,7 +76,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
           '',
           [
             Validators.required,
-            Validators.pattern(/^\w+([\.-]?\w+)*$/),
+            Validators.pattern(/^\w+([.-]?\w+)*$/),
             Validators.maxLength(128),
             Validators.minLength(1),
           ],
@@ -127,7 +143,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
       result => {
         this.addUserModalClosed();
       },
-      reason => {
+      error => {
         this.addUserModalClosed();
       },
     );
@@ -204,7 +220,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
   }
 
   private getEmail() {
-    return this.addUserForm.controls['username'].value + '@' + this.addUserForm.controls['domain'].value;
+    return `${this.addUserForm.controls.username.value}@${this.addUserForm.controls.domain.value}`;
   }
 
   /**
@@ -219,7 +235,7 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
         if (!username) {
           return;
         }
-        if (!this.addUserForm.controls['username'].errors) {
+        if (!this.addUserForm.controls.username.errors) {
           this.newAddressOptions.inProgress = true;
           this.usersService.checkUsernameAvailability(this.getEmail()).subscribe(
             response => {

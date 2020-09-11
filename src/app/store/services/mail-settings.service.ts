@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { SettingsUpdate } from '../actions';
 import { AppState } from '../datatypes';
-import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',

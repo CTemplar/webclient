@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { DonationService } from '../services/donation.service';
 import { Observable } from 'rxjs';
-import { DonationActionTypes, MakeStripDonation, MakeStripeDonationSuccess } from '../actions/donate.actions';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { of } from 'rxjs/internal/observable/of';
+
+import { DonationService } from '../services/donation.service';
+import { DonationActionTypes, MakeStripDonation, MakeStripeDonationSuccess } from '../actions/donate.actions';
 import { SnackErrorPush } from '../actions/users.action';
 import { NotificationService } from '../services/notification.service';
-import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class DonateEffects {

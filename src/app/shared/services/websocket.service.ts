@@ -1,19 +1,24 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { AppState, UserState, AuthState } from '../../store/datatypes';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, UserState, AuthState } from '../../store/datatypes';
 import { WebSocketNewMessage } from '../../store/websocket.store';
-import { LoggerService } from './logger.service';
 import { Logout } from '../../store/actions';
 import { Mail } from '../../store/models';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { apiUrl } from '../config';
+
+import { LoggerService } from './logger.service';
 
 @UntilDestroy()
 @Injectable()
 export class WebsocketService implements OnDestroy {
   private webSocket: WebSocket;
+
   private retryCount = 1;
+
   private userId: number = Date.now();
+
   private isAuthenticated = false;
 
   constructor(private store: Store<AppState>) {
@@ -33,7 +38,7 @@ export class WebsocketService implements OnDestroy {
   }
 
   public connect() {
-    const url = apiUrl.replace('http', 'ws') + `connect/?user_id=${this.userId}`;
+    const url = `${apiUrl.replace('http', 'ws')}connect/?user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = response => {
       const data = JSON.parse(response.data);
@@ -53,17 +58,17 @@ export class WebsocketService implements OnDestroy {
         );
         setTimeout(() => {
           this.connect();
-          this.retryCount = this.retryCount + 1;
+          this.retryCount += 1;
         }, 1000 + this.retryCount * 1000);
       } else {
         LoggerService.log('Socket is closed.');
       }
     };
 
-    this.webSocket.onerror = (err: any) => {
-      LoggerService.error('Socket encountered error: ', err.message, 'Closing socket');
+    this.webSocket.addEventListener('error', (error: any) => {
+      LoggerService.error('Socket encountered error: ', error.message, 'Closing socket');
       this.webSocket.close();
-    };
+    });
   }
 
   public disconnect() {

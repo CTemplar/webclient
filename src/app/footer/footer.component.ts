@@ -1,7 +1,5 @@
-// Angular
 import { Component } from '@angular/core';
 
-// Service
 import { PRIMARY_WEBSITE } from '../shared/config';
 
 @Component({

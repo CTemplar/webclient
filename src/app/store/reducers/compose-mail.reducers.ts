@@ -1,7 +1,5 @@
-// Custom Action
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
-// Model
 import { ComposeMailState } from '../datatypes';
 import { MailFolderType } from '../models';
 
@@ -202,7 +200,7 @@ export function reducer(state: ComposeMailState = { drafts: {} }, action: Compos
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      const data = action.payload.data;
+      const { data } = action.payload;
       state.drafts[data.draftId].attachments.forEach((attachment, index) => {
         if (attachment.attachmentId === data.attachmentId) {
           state.drafts[data.draftId].attachments[index] = {

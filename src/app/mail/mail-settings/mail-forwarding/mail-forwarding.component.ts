@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { VALID_EMAIL_REGEX } from '../../../shared/config';
 import { SendEmailForwardingCode, SettingsUpdate, VerifyEmailForwardingCode } from '../../../store/actions';
 import { AppState, Settings, UserState } from '../../../store/datatypes';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
@@ -15,18 +16,27 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class MailForwardingComponent implements OnInit, OnDestroy {
   @ViewChild('addAddressModal') addAddressModal;
+
   @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal;
 
   userState: UserState;
+
   settings: Settings;
+
   emailForm: FormGroup;
+
   codeForm: FormGroup;
+
   showFormErrorMessages: boolean;
+
   errorMessage: string;
+
   isVerificationCodeSent: boolean;
+
   isCodeFormSubmitted: boolean;
 
   private addAddressModalRef: NgbModalRef;
+
   private confirmDeleteAddressModalRef: NgbModalRef;
 
   constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
@@ -88,7 +98,7 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
     if (this.emailForm.valid) {
       this.store.dispatch(new SendEmailForwardingCode({ email: this.emailForm.value.email }));
       this.showFormErrorMessages = false;
-      this.codeForm.controls['email'].setValue(this.emailForm.value.email);
+      this.codeForm.controls.email.setValue(this.emailForm.value.email);
     }
   }
 

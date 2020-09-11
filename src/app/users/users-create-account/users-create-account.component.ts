@@ -1,23 +1,19 @@
-// Angular
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-// Rxjs
-// Bootstrap
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// Store
 import { Store } from '@ngrx/store';
-import { AppState, AuthState, PaymentType, PlanType, SignupState } from '../../store/datatypes';
-import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } from '../../store/actions';
-// Service
-import { OpenPgpService, SharedService, UsersService } from '../../store/services';
-import { NotificationService } from '../../store/services/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
-import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
-import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, AuthState, PaymentType, PlanType, SignupState } from '../../store/datatypes';
+import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } from '../../store/actions';
+import { OpenPgpService, SharedService, UsersService } from '../../store/services';
+import { NotificationService } from '../../store/services/notification.service';
+import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
+import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 export class PasswordValidation {
   static MatchPassword(AC: AbstractControl) {
@@ -39,21 +35,37 @@ export class PasswordValidation {
 })
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isTextToggled = false;
+
   signupForm: FormGroup;
+
   isRecoveryEmail: boolean = null;
+
   isConfirmedPrivacy: boolean = null;
+
   errorMessage = '';
+
   selectedPlan: PlanType;
+
   planType = PlanType;
+
   data: any = null;
+
   signupInProgress = false;
+
   signupState: SignupState;
+
   submitted = false;
+
   userKeys: any;
+
   generatingKeys: boolean;
+
   modalRef: NgbModalRef;
+
   inviteCode: string;
+
   primaryWebsite = PRIMARY_WEBSITE;
+
   private paymentType: PaymentType;
 
   constructor(
@@ -79,7 +91,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
           '',
           [
             Validators.required,
-            Validators.pattern(/^[a-z]+([a-z0-9]*[._-]?[a-z0-9]+)+$/i),
+            Validators.pattern(/^[a-z]+([\da-z]*[._-]?[\da-z]+)+$/i),
             Validators.minLength(4),
             Validators.maxLength(64),
           ],
@@ -97,7 +109,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((state: AuthState) => {
-        const queryParams = this.activatedRoute.snapshot.queryParams;
+        const { queryParams } = this.activatedRoute.snapshot;
         this.selectedPlan = state.signupState.plan_type || queryParams.plan || PlanType.PRIME;
         this.paymentType = state.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
         this.errorMessage = state.errorMessage;
@@ -120,7 +132,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   // == Is text toggled
   toggleText(): void {
     const bool = this.isTextToggled;
-    this.isTextToggled = bool === false ? true : false;
+    this.isTextToggled = bool === false;
   }
 
   signup() {
@@ -224,7 +236,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .subscribe((authState: AuthState) => {
         if (this.signupInProgress && !authState.inProgress) {
           if (authState.errorMessage) {
-            this.notificationService.showSnackBar(`Failed to create account.` + authState.errorMessage);
+            this.notificationService.showSnackBar(`Failed to create account.${authState.errorMessage}`);
           }
           this.signupInProgress = false;
         }
@@ -237,7 +249,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .get('username')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(username => {
-        if (!this.signupForm.controls['username'].errors) {
+        if (!this.signupForm.controls.username.errors) {
           this.store.dispatch(new CheckUsernameAvailability(username));
         }
       });

@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState, UserState } from '../../store/datatypes';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+import { AppState, UserState } from '../../store/datatypes';
 import { PRIMARY_WEBSITE } from '../../shared/config';
 
 @UntilDestroy()
@@ -12,6 +13,7 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
 })
 export class MailFooterComponent implements OnInit, OnDestroy {
   public userState: UserState;
+
   primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(private store: Store<AppState>) {}
