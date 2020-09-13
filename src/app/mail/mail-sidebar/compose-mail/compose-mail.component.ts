@@ -1668,6 +1668,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   rfcStandardValidateEmail(address: string): boolean {
-    return parseEmail.parseOneAddress(address) ? true : false;
+    return !!parseEmail.parseOneAddress(address);
   }
 }
