@@ -9,23 +9,21 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**How to reproduce**
-Steps to reproduce the behavior:
+**Steps to reproduce the behavior**
 
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+**Your expectation**
 A clear and concise description of what you expected to happen.
 
 **Environment**
 
-- OS: [e.g. ios, windows 10]
-- Device: [e.g. iphone 8, laptop model]
-- Browser [e.g. chrome, safari]
-- Version [e.g. 22]
+- OS: [ios 14, windows 10, ...]
+- Device: [iphone 8, laptop model, ...]
+- Browser: [chrome 80, safari, ...]
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
