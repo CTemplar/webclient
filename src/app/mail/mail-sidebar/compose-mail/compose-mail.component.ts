@@ -21,7 +21,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { COLORS, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, FONTS, SummarySeparator } from '../../../shared/config';
 import {
   ContactsGet,
   CloseMailbox,
