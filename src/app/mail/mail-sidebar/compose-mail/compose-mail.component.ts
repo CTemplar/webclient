@@ -57,7 +57,6 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import { AddressesSignatureComponent } from '../../mail-settings/addresses-signature/addresses-signature.component';
 
 const Quill: any = QuillNamespace;
 
@@ -1406,8 +1405,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
 
     this.draft.isSaving = shouldSave;
-
-    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
 
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
