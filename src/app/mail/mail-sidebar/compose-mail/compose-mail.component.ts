@@ -57,7 +57,6 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AddressesSignatureComponent } from '../../mail-settings/addresses-signature/addresses-signature.component';
 
 const Quill: any = QuillNamespace;

@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs/internal/observable/empty';
-import { of } from 'rxjs/internal/observable/of';
 
-import { MailService } from '../services';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { MailService } from '../../store/services';
 import {
   CreateMailbox,
   CreateMailboxFailure,
@@ -25,6 +23,8 @@ import {
 import { Mailbox } from '../models';
 import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
 import { SnackErrorPush } from '../actions/users.action';
+import { EMPTY } from 'rxjs/internal/observable/empty';
+import { of } from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class MailboxEffects {
@@ -48,18 +48,18 @@ export class MailboxEffects {
     map((action: MailboxSettingsUpdate) => action.payload),
     switchMap((payload: any) => {
       payload.inProgress = false;
-      return this.mailService.updateMailBoxSettings(payload)
-        .pipe(
-          switchMap(res => {
-            const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
-            if (payload.successMsg) {
-              actions.push(new SnackErrorPush({ message: payload.successMsg }));
-            }
-            return of(...actions);
-          }),
-          catchError(err => of(
+      return this.mailService.updateMailBoxSettings(payload).pipe(
+        switchMap(res => {
+          const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
+          if (payload.successMsg) {
+            actions.push(new SnackErrorPush({ message: payload.successMsg }));
+          }
+          return of(...actions);
+        }),
+        catchError(err =>
+          of(
             new SnackErrorPush({ message: err.error ? err.error : 'Failed to update mailbox settings.' }),
-            new MailboxSettingsUpdateFailure(payload))
+            new MailboxSettingsUpdateFailure(payload),
           ),
         ),
       );
@@ -73,9 +73,9 @@ export class MailboxEffects {
     switchMap((payload: any) => {
       return this.mailService.createMailbox(payload).pipe(
         switchMap(res => of(new CreateMailboxSuccess(res), new GetDomains())),
-        catchError(error =>
+        catchError(err =>
           of(
-            new CreateMailboxFailure(error.error),
+            new CreateMailboxFailure(err.error),
             new SnackErrorPush({ message: 'Failed to create new email address.' }),
           ),
         ),
@@ -90,7 +90,7 @@ export class MailboxEffects {
     switchMap((payload: Mailbox) => {
       return this.mailService.updateMailBoxSettings({ ...payload, is_default: true }).pipe(
         switchMap(res => of(new SetDefaultMailboxSuccess(res))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to set email address as default.' }))),
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to set email address as default.' }))),
       );
     }),
   );
@@ -107,7 +107,7 @@ export class MailboxEffects {
             new UpdateMailboxOrderSuccess({ mailboxes: payload.mailboxes }),
           ),
         ),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to update emails sort order.' }))),
+        catchError(err => of(new SnackErrorPush({ message: 'Failed to update emails sort order.' }))),
       );
     }),
   );
@@ -124,7 +124,7 @@ export class MailboxEffects {
             new DeleteMailboxSuccess(payload),
           ),
         ),
-        catchError(error => of(new SnackErrorPush({ message: `Failed to delete alias. ${error.error}` }))),
+        catchError(err => of(new SnackErrorPush({ message: `Failed to delete alias. ${err.error}` }))),
       );
     }),
   );
