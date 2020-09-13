@@ -15,12 +15,13 @@ import {
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import * as parseEmail from 'email-addresses';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { COLORS, FONTS, SummarySeparator, VALID_EMAIL_REGEX } from '../../../shared/config';
+import { COLORS, FONTS, SummarySeparator } from '../../../shared/config';
 import {
   ContactsGet,
   CloseMailbox,
@@ -1072,16 +1073,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       return;
     }
     const receivers: string[] = [
-      ...this.mailData.receiver.map(receiver => receiver.display),
-      ...this.mailData.cc.map(cc => cc.display),
-      ...this.mailData.bcc.map(bcc => bcc.display),
+      ...this.mailData.receiver.map(receiver => receiver.email),
+      ...this.mailData.cc.map(cc => cc.email),
+      ...this.mailData.bcc.map(bcc => bcc.email),
     ];
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
     }
-    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
-    const invalidAddress = receivers.find(receiver => !validEmailRegex.test(receiver));
+    const invalidAddress = receivers.find(receiver => !this.rfcStandardValidateEmail(receiver));
     if (invalidAddress) {
       this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
       return;
@@ -1406,18 +1406,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.draft.isSaving = shouldSave;
 
-    const validEmailRegex = new RegExp(VALID_EMAIL_REGEX);
-
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
-
-    this.draftMail.receiver = this.mailData.receiver.map(receiver => receiver.display);
-    this.draftMail.receiver = this.draftMail.receiver.filter(receiver => validEmailRegex.test(receiver));
-    this.draftMail.cc = this.mailData.cc.map(cc => cc.display);
-    this.draftMail.cc = this.draftMail.cc.filter(receiver => validEmailRegex.test(receiver));
-    this.draftMail.bcc = this.mailData.bcc.map(bcc => bcc.display);
-    this.draftMail.bcc = this.draftMail.bcc.filter(receiver => validEmailRegex.test(receiver));
-
+    this.draftMail.receiver = this.mailData.receiver.map(receiver =>
+      receiver.name ? `${receiver.name} <${receiver.email}>` : receiver.email,
+    );
+    this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
+    this.draftMail.cc = this.mailData.cc.map(cc => (cc.name ? `${cc.name} <${cc.email}>` : cc.email));
+    this.draftMail.cc = this.draftMail.cc.filter(receiver => this.rfcStandardValidateEmail(receiver));
+    this.draftMail.bcc = this.mailData.bcc.map(bcc => (bcc.name ? `${bcc.name} <${bcc.email}>` : bcc.email));
+    this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.rfcStandardValidateEmail(receiver));
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
@@ -1559,18 +1557,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.resetDeadManTimerValues();
     this.mailData = {
       receiver: this.receivers
-        ? this.receivers.map(receiver => ({ display: receiver, value: receiver }))
+        ? this.receivers.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
         : this.draftMail && this.draftMail.receiver
-        ? this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver }))
+        ? this.draftMail.receiver.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
         : [],
       cc: this.cc
-        ? this.cc.map(address => ({ display: address, value: address }))
+        ? this.cc.map(address => ({ display: address, value: address, email: address }))
         : this.draftMail && this.draftMail.cc
-        ? this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver }))
+        ? this.draftMail.cc.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
         : [],
       bcc:
         this.draftMail && this.draftMail.bcc
-          ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver }))
+          ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
           : [],
       subject:
         this.draftMail && this.draftMail.is_subject_encrypted
@@ -1635,6 +1633,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     data.forEach(item => {
       if (item.email) {
         item.display = item.email;
+      } else if (item.value) {
+        // TODO
+        // should be updated for support group mailbox
+        // in that case, the below line should be updated for cast into ParsedGroup as well
+        const parsedEmail = parseEmail.parseOneAddress(item.value) as parseEmail.ParsedMailbox;
+        item.name = parsedEmail.name || parsedEmail.local || '';
+        item.value = parsedEmail.address || item.value;
+        item.email = parsedEmail.address || item.value;
       }
     });
     if (tag.value && tag.value.split(',').length > 1) {
@@ -1656,5 +1662,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       data.push(...emails);
     }
     this.valueChanged$.next(data);
+  }
+
+  rfcStandardValidateEmail(address: string): boolean {
+    return !!parseEmail.parseOneAddress(address);
   }
 }

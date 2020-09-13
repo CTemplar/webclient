@@ -6,7 +6,6 @@ import { StoreModule } from '@ngrx/store';
 
 import { AppConfig } from '../../environments/environment';
 
-// ??
 import { logoutReducer } from './reducers/auth.reducers';
 
 import { CustomSerializer, effects, reducers } from '.';
@@ -14,8 +13,8 @@ import { CustomSerializer, effects, reducers } from '.';
 @NgModule({
   imports: [
     EffectsModule.forRoot(effects),
-    StoreDevtoolsModule.instrument({ maxAge: 50, logOnly: AppConfig.debug }),
     StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
+    StoreDevtoolsModule.instrument({ maxAge: 500, logOnly: AppConfig.production }),
     StoreRouterConnectingModule.forRoot(),
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],

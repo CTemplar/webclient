@@ -58,7 +58,7 @@ export class MailboxEffects {
         }),
         catchError(error =>
           of(
-            new SnackErrorPush({ message: `Failed to update mailbox settings.  ${error.error}` }),
+            new SnackErrorPush({ message: error.error ? error.error : 'Failed to update mailbox settings.' }),
             new MailboxSettingsUpdateFailure(payload),
           ),
         ),

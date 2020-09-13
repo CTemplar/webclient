@@ -13,16 +13,16 @@ function createWindow() {
     width: size.width,
     height: size.height,
     webPreferences: {
-      allowRunningInsecureContent: true
-    }
+      allowRunningInsecureContent: true,
+    },
   });
 
   mainWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, `dist/index.html`),
       protocol: 'file:',
-      slashes: true
-    })
+      slashes: true,
+    }),
   );
 
   mainWindow.on('closed', () => {

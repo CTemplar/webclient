@@ -8,9 +8,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { QuillModule } from 'ngx-quill';
+
 import { SharedModule } from '../shared/shared.module';
+import { ComposeMailService } from '../store/services/compose-mail.service';
+import { MailSettingsService } from '../store/services/mail-settings.service';
+import { PushNotificationService } from '../shared/services/push-notification.service';
+import { WebsocketService } from '../shared/services/websocket.service';
+
 import { AddressesSignatureComponent } from './mail-settings/addresses-signature/addresses-signature.component';
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
@@ -33,15 +38,7 @@ import { OrganizationUsersComponent } from './mail-settings/organization/organiz
 import { SaveContactComponent } from './mail-contact/save-contact/save-contact.component';
 import { SaveListContactComponent } from './mail-settings/save-list-contact/save-list-contact.component';
 import { SecurityComponent } from './mail-settings/security/security.component';
-
-
 import { MailRoutingModule } from './mail-routing.module';
-
-import { ComposeMailService } from '../store/services/compose-mail.service';
-import { MailSettingsService } from '../store/services/mail-settings.service';
-import { PushNotificationService } from '../shared/services/push-notification.service';
-import { WebsocketService } from '../shared/services/websocket.service';
-
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
