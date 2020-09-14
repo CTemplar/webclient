@@ -29,7 +29,7 @@ class ImageBlot extends QuillBlockEmbed {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
     if (value.content_id) {
-      node.dataset.contentId = value.content_id;
+      node.setAttribute('data-content-id', value.content_id);
     }
     return node;
   }
