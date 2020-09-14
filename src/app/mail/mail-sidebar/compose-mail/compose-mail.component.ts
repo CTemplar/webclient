@@ -694,7 +694,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       .replace(/<\/p>/g, '<br></p>')
       .replace(/<br>/g, '\n')
       .replace(/<\/br>/g, '\n');
-    return element.innerHTML;
+    return element.textContent;
   }
 
   loadEmailContacts() {
@@ -771,11 +771,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           )
           .subscribe(
             response => {
+              const uint8Array = this.sharedService.base64ToUint8Array(response.data);
               if (attachment.is_encrypted) {
                 // if attachment is encrypted, update draft attachment with decrypted attachment
                 const fileInfo = { attachment, type: response.file_type };
                 this.openPgpService
-                  .decryptAttachment(this.draftMail.mailbox, atob(response.data), fileInfo)
+                  .decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
                   .subscribe(decryptedAttachment => {
                     this.store.dispatch(
                       new UpdateDraftAttachment({
@@ -786,7 +787,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                   });
               } else {
                 // if attachment is not encrypted, update draft attachment with decoded attachment
-                const uint8Array = this.sharedService.base64ToUint8Array(response.data);
                 const newDocument = new File(
                   [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
                   attachment.name,
