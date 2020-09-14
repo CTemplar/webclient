@@ -90,7 +90,7 @@ class ImageBlot extends QuillBlockEmbed {
       node.setAttribute('src', value);
     }
     if (value) {
-      node.dataset.contentId = value.content_id;
+      node.setAttribute('data-content-id', value.content_id);
     }
     return node;
   }
@@ -117,7 +117,7 @@ class SignatureBlot extends QuillBlockEmbed {
   static create(value) {
     const node: any = super.create(value);
     value = value.replace(/<br>/g, '\n');
-    node.textContent = value;
+    node.innerText = value;
     return node;
   }
 
@@ -694,7 +694,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       .replace(/<\/p>/g, '<br></p>')
       .replace(/<br>/g, '\n')
       .replace(/<\/br>/g, '\n');
-    return element.textContent;
+    return element.innerHTML;
   }
 
   loadEmailContacts() {
@@ -1168,7 +1168,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       let oldSig: string;
       let newSig: string;
       if (this.quill && this.quill.container) {
-        content = this.quill.container.textContent || '';
+        content = this.quill.container.innerText || '';
         content = content.replace(/\n\n/g, '<br>');
       }
       if (this.quill && this.quill.container) {
