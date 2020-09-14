@@ -454,13 +454,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       this.store.dispatch(
         new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }),
       );
-      const queryParameters: any = {};
+      const queryParams: any = {};
       if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
-        queryParameters.search = this.searchText;
+        queryParams.search = this.searchText;
       }
-      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
-        queryParams: queryParameters,
-      });
+      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], { queryParams });
     }
   }
 
