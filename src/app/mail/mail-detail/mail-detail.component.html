@@ -650,16 +650,17 @@
         <button type="button" (click)="confirmForwardAttachments(true)" class="btn btn-success btn-sm" role="button">
           {{ 'common.yes' | translate }}
         </button>
-        <button type="button" (click)="confirmForwardAttachments(false)" class="btn btn-sm" role="button">
+        <button type="button" (click)="confirmForwardAttachments(false)" class="btn btn-sm ml-1" role="button">
           {{ 'common.no' | translate }}
         </button>
-        <button type="button" (click)="confirmForwardAttachments(false)" class="btn btn-sm" role="button">
-          {{ 'common.no' | translate }}
+        <button type="button" data-dismiss="modal" aria-label="Close" (click)="d()" class="btn btn-sm ml-1">
+          {{ 'common.cancel' | translate }}
         </button>
       </div>
     </div>
-  </div> </ng-template
-><!-- /.Confirm forward attachments modal ends -->
+  </div>
+</ng-template>
+<!-- /.Confirm forward attachments modal ends -->
 
 <!-- Incoming Headers modal -->
 <ng-template #incomingHeadersModal let-c="close" let-d="dismiss">
