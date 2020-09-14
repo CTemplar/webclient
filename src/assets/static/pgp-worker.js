@@ -258,7 +258,7 @@ async function decryptAttachment(data, privKeyObj) {
   }
   try {
     const options = {
-      message: await openpgp.message.readArmored(data),
+      message: await openpgp.message.read(data),
       privateKeys: [privKeyObj],
       format: 'binary',
     };

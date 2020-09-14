@@ -135,7 +135,19 @@ app-mail-settings {
         background: white;
         width: 100%;
       }
+    }
+  }
 
+  @media (min-width: 1000px) and (max-width: 1145px) {
+    ngb-tabset {
+      div.tab-content {
+        padding-top: 100px;
+      }
+    }
+  }
+
+  @media (min-width: 1146px) {
+    ngb-tabset {
       div.tab-content {
         padding-top: 77px;
       }
