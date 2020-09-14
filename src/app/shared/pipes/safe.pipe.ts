@@ -271,7 +271,7 @@ export class SafePipe implements PipeTransform {
     const element = document.createElement('div');
     element.innerHTML = value;
     if (element.querySelectorAll('title').length > 0) {
-      element.querySelectorAll('title')[0].textContent = '';
+      element.querySelectorAll('title')[0].innerText = '';
       return element.innerHTML;
     }
     return value;
