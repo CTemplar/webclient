@@ -960,14 +960,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getForwardMessageSummary(mail: Mail): string {
     let content =
       `</br>---------- Forwarded message ----------</br>` +
-      `From: &lt;${mail.sender}&gt;</br>` +
+      `From: ${mail.sender_display.name}&nbsp;&lt;${mail.sender_display.email}&gt;</br>` +
       `Date: ${
         mail.sent_at
           ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium')
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
       `Subject: ${mail.subject}</br>` +
-      `To: ${mail.receiver.map(receiver => `&lt;${receiver}&gt;`).join(', ')}</br>`;
+      `To: ${mail.receiver_display.map(receiver => `${receiver.name}&nbsp; &lt;${receiver.email}&gt;`).join(', ')}</br>`;
 
     if (mail.cc.length > 0) {
       content += `CC: ${mail.cc.map(cc => `&lt;${cc}&gt;`).join(', ')}</br>`;

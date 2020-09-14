@@ -1168,7 +1168,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       let oldSig: string;
       let newSig: string;
       if (this.quill && this.quill.container) {
-        content = this.quill.container.innerText || '';
+        content = this.quill.container.innerHTML || '';
         content = content.replace(/\n\n/g, '<br>');
       }
       if (this.quill && this.quill.container) {
