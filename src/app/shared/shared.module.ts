@@ -31,6 +31,7 @@ import { StripeFormComponent } from './components/stripe-form/stripe-form.compon
 import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.component';
 import { LastActionPipe } from './pipes/last-action.pipe';
 import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
+import { EmailFormatPipe } from './pipes/email-formatting.pipe';
 import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 
 @NgModule({
@@ -58,6 +59,7 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
     LastActionPipe,
     CreditCardNumberPipe,
     LineBreakToBrTag,
+    EmailFormatPipe
   ],
   exports: [
     TranslateModule,
@@ -84,6 +86,7 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
     PaymentFailureNoticeComponent,
     CreditCardNumberPipe,
     LineBreakToBrTag,
+    EmailFormatPipe
   ],
   providers: [
     SpinnerService,
@@ -93,6 +96,7 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
     FilenamePipe,
     CreditCardNumberPipe,
     LineBreakToBrTag,
+    EmailFormatPipe
   ],
   entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent],
 })
