@@ -163,17 +163,17 @@ export class MailService {
     return this.http.delete<any>(`${apiUrl}emails/custom-folder/${id}/`);
   }
 
-  uploadFile(data: Attachment): Observable<HttpEvent<any>> {
+  uploadFile(attachment: Attachment): Observable<HttpEvent<any>> {
     const formData = new FormData();
-    formData.append('document', data.document);
-    formData.append('message', data.message.toString());
-    formData.append('is_inline', data.is_inline.toString());
-    formData.append('is_encrypted', data.is_encrypted.toString());
-    formData.append('file_type', data.document.type.toString());
+    formData.append('document', attachment.document);
+    formData.append('message', attachment.message.toString());
+    formData.append('is_inline', attachment.is_inline.toString());
+    formData.append('is_encrypted', attachment.is_encrypted.toString());
+    formData.append('file_type', attachment.document.type.toString());
 
     let request;
-    if (data.id) {
-      request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${data.id}/`, formData, {
+    if (attachment.id) {
+      request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${attachment.id}/`, formData, {
         reportProgress: true,
       });
     } else {

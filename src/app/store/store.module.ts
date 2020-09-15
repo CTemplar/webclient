@@ -14,7 +14,7 @@ import { CustomSerializer, effects, reducers } from '.';
   imports: [
     EffectsModule.forRoot(effects),
     StoreModule.forRoot(reducers, { metaReducers: [logoutReducer] }),
-    StoreDevtoolsModule.instrument({ maxAge: 500, logOnly: AppConfig.production }),
+    StoreDevtoolsModule.instrument({ maxAge: 100, logOnly: AppConfig.production }),
     StoreRouterConnectingModule.forRoot(),
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
