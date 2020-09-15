@@ -351,7 +351,7 @@
     </div>
 
     <!-- Attachments list starts -->
-    <ul class="list-style-none mt-3" *ngIf="mail.attachments?.length>0">
+    <ul class="list-style-none mt-3" *ngIf="mail.attachments?.length > 0">
       <ng-container *ngFor="let attachment of mail.attachments">
         <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
           <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
@@ -543,7 +543,7 @@
               </div>
 
               <!-- Attachments list starts -->
-              <ul class="list-style-none mt-3" *ngIf="mail.attachments?.length>0">
+              <ul class="list-style-none mt-3" *ngIf="mail.attachments?.length > 0">
                 <ng-container *ngFor="let attachment of childMail.attachments">
                   <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
                     <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
@@ -570,7 +570,6 @@
                 </ng-container>
               </ul>
               <!-- Attachments list ends -->
-
             </section>
             <div align="center" class="decryption-spinner" *ngIf="decryptedContents[childMail.id] == null && isDecrypting[childMail.id] === true">
               <img class="mt-3" [src]="loadingImage | safe: 'url'" />
@@ -580,7 +579,7 @@
             </div>
             <div class="ui-body" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible && !isPopupOpen">
               <div class="mail-composer is-borderd border-bottom-0 mt-2">
-                <app-compose-mail [receivers]="composeMailData[childMail.id]?.receivers" [cc]="composeMailData[childMail.id]?.cc" [content]="composeMailData[childMail.id]?.content" [messageHistory]="composeMailData[childMail.id]?.messageHistory" [action]="composeMailData[childMail.id]?.action" [action_parent]="composeMailData[childMail.id].action_parent_id" [subject]="composeMailData[childMail.id]?.subject" [selectedMailbox]="composeMailData[childMail.id]?.selectedMailbox" [parentId]="composeMailData[childMail.id]?.parentId" [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId" [showSaveButton]="false" [isMailDetailPage]="true" (hide)="onComposeMailHide(childMail)"> </app-compose-mail>
+                <app-compose-mail [receivers]="composeMailData[childMail.id]?.receivers" [cc]="composeMailData[childMail.id]?.cc" [content]="composeMailData[childMail.id]?.content" [action]="composeMailData[childMail.id]?.action" [action_parent]="composeMailData[childMail.id].action_parent_id" [subject]="composeMailData[childMail.id]?.subject" [selectedMailbox]="composeMailData[childMail.id]?.selectedMailbox" [parentId]="composeMailData[childMail.id]?.parentId" [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId" [showSaveButton]="false" [isMailDetailPage]="true" (hide)="onComposeMailHide(childMail)"> </app-compose-mail>
               </div>
             </div>
           </div>
@@ -617,7 +616,7 @@
       </div>
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible && !draftNew?.id">
-      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers" [cc]="composeMailData[mail.id]?.cc" [content]="composeMailData[mail.id]?.content" [messageHistory]="composeMailData[mail.id]?.messageHistory" [action]="composeMailData[mail.id]?.action" [action_parent]="composeMailData[mail.id].action_parent_id" [subject]="composeMailData[mail.id]?.subject" [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox" [parentId]="composeMailData[mail.id]?.parentId" [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId" [showSaveButton]="false" [isMailDetailPage]="true" (hide)="onComposeMailHide(mail)" (popUpChange)="onChangePopup($event)"> </app-compose-mail>
+      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers" [cc]="composeMailData[mail.id]?.cc" [content]="composeMailData[mail.id]?.content" [action]="composeMailData[mail.id]?.action" [action_parent]="composeMailData[mail.id].action_parent_id" [subject]="composeMailData[mail.id]?.subject" [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox" [parentId]="composeMailData[mail.id]?.parentId" [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId" [showSaveButton]="false" [isMailDetailPage]="true" (hide)="onComposeMailHide(mail)" (popUpChange)="onChangePopup($event)"> </app-compose-mail>
     </div>
     <div *ngIf="isReplyContext && draftNew?.id && draftNew.folder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH" class="mail-composer is-borderd border-bottom-0 mt-2">
       <app-compose-mail [draftMail]="draftNew" [isMailDetailPage]="true" [showSaveButton]="false" (popUpChange)="onChangePopup($event)" (hide)="onComposeMailHide(draftNew)"></app-compose-mail>

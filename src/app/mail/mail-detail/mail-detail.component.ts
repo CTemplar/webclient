@@ -570,7 +570,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails),
+      content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
@@ -608,7 +608,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails),
+      content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
     if (mail.sender !== this.currentMailbox.email) {
@@ -628,10 +628,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
-    const previousMails = this.getPreviousMail(index, isChildMail, mainReply, true);
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
-      messageHistory: this.getMessageHistory(previousMails),
       subject: `Fwd: ${this.mail.subject}`,
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
@@ -950,9 +948,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${
+      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
         mail.sender
-      }&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
     }
     return content;
   }
@@ -963,17 +961,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getForwardMessageSummary(mail: Mail): string {
     let content =
       `</br>---------- Forwarded message ----------</br>` +
-      `From: &lt;${mail.sender}&gt;</br>` +
+      `From: < ${mail.sender} ></br>` +
       `Date: ${
         mail.sent_at
           ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium')
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
       `Subject: ${mail.subject}</br>` +
-      `To: ${mail.receiver.map(receiver => `&lt;${receiver}&gt;`).join(', ')}</br>`;
+      `To: ${mail.receiver.map(receiver => `< ${receiver} >`).join(', ')}</br>`;
 
     if (mail.cc.length > 0) {
-      content += `CC: ${mail.cc.map(cc => `&lt;${cc}&gt;`).join(', ')}</br>`;
+      content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
     }
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
     return content;
