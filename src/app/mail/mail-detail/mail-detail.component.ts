@@ -503,7 +503,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               attachment.name = FilenamePipe.tranformToFilename(attachment.document);
             }
             const fileInfo = { attachment, type: response.file_type };
-            console.log(response.data);
             this.pgpService
               .decryptAttachment(mail.mailbox, uint8Array, fileInfo)
               .pipe(take(1))
