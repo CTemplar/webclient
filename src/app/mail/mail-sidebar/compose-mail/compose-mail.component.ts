@@ -1153,7 +1153,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.isSignatureAdded = true;
         this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
         if (this.selectedMailbox.signature) {
-          this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}` + this.mailData.content;
+          this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}${this.mailData.content}`;
         }
         return;
       }
