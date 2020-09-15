@@ -179,8 +179,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @Input() content = '';
 
-  @Input() messageHistory: string;
-
   @Input() subject: string;
 
   @Input() draftMail: Mail;
@@ -329,7 +327,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private inlineAttachmentContentIds: Array<string> = [];
 
-  private isSignatureAdded: boolean;
+  private isSignatureAdded = false;
 
   private isAuthenticated: boolean;
 
@@ -488,7 +486,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           this.selectedMailbox.id === mailBoxesState.currentMailbox.id
         ) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
-          this.updateSignature();
         }
         this.mailBoxesState = mailBoxesState;
       });
@@ -625,7 +622,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.initializeQuillEditor();
       }
     } else {
-      this.updateSignature();
       // display mail content and change from html to text if html version
       let content = this.mailData.content ? this.mailData.content : '';
       if (this.editor) {
@@ -639,6 +635,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       if (content) {
         setTimeout(() => {
           this.mailData.content = content;
+          this.updateSignature();
         }, 300);
       }
     }
@@ -1150,14 +1147,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
    * Add signature on content of Compose message
    */
   updateSignature() {
-    if (this.isSignatureAdded) {
-    } else {
+    if (!this.isSignatureAdded) {
       if (this.settings && !this.draftMail.is_html) {
         // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
         this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
         if (this.selectedMailbox.signature) {
-          this.mailData.content += `\n\n ${this.getPlainText(this.selectedMailbox.signature)}`;
+          this.mailData.content = `\n\n ${this.getPlainText(this.selectedMailbox.signature)}` + this.mailData.content;
         }
         return;
       }
@@ -1185,7 +1181,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         } else if (this.selectedMailbox.signature) {
           // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-          content += `<br><br>${newSig}`;
+          content = `<br><br>${newSig}` + content;
           this.isSignatureAdded = true;
           this.quill.clipboard.dangerouslyPasteHTML(content);
         } else if (this.quill && this.selectedMailbox) {
