@@ -629,7 +629,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
-    const previousMails = this.getPreviousMail(index, isChildMail, mainReply, true);
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
       subject: `Fwd: ${this.mail.subject}`,
