@@ -5,6 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EmailFormatPipe implements PipeTransform {
   static transformToFormattedEmail(email: string, displayName: string = '', isHtmlFormat: boolean = false) {
+    if (!email) return '';
     let formattedEmail = email.toLowerCase().trim();
     if (!displayName || displayName === formattedEmail.split('@')[0]) {
       return formattedEmail;
