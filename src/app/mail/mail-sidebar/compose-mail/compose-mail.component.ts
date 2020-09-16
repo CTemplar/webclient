@@ -440,11 +440,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.contacts = [];
         if (contactsState.emailContacts === undefined) {
           contactsState.contacts.forEach(x => {
-            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
+            this.contacts.push({
+              name: x.name,
+              email: x.email,
+              display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name),
+            });
           });
         } else {
           contactsState.emailContacts.forEach(x => {
-            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
+            this.contacts.push({
+              name: x.name,
+              email: x.email,
+              display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name),
+            });
           });
         }
         this.contactsState = contactsState;
@@ -769,12 +777,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           )
           .subscribe(
             response => {
-              const uint8Array = this.sharedService.base64ToUint8Array(response.data);
               if (attachment.is_encrypted) {
                 // if attachment is encrypted, update draft attachment with decrypted attachment
                 const fileInfo = { attachment, type: response.file_type };
                 this.openPgpService
-                  .decryptAttachment(this.draftMail.mailbox, uint8Array, fileInfo)
+                  .decryptAttachment(this.draftMail.mailbox, atob(response.data), fileInfo)
                   .subscribe(decryptedAttachment => {
                     this.store.dispatch(
                       new UpdateDraftAttachment({
@@ -785,6 +792,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                   });
               } else {
                 // if attachment is not encrypted, update draft attachment with decoded attachment
+                const uint8Array = this.sharedService.base64ToUint8Array(response.data);
                 const newDocument = new File(
                   [uint8Array.buffer.slice(uint8Array.byteOffset, uint8Array.byteLength + uint8Array.byteOffset)],
                   attachment.name,
@@ -1409,9 +1417,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name),
     );
     this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.cc = this.mailData.cc.map(cc => (EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name)));
+    this.draftMail.cc = this.mailData.cc.map(cc => EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name));
     this.draftMail.cc = this.draftMail.cc.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.bcc = this.mailData.bcc.map(bcc => (EmailFormatPipe.transformToFormattedEmail(bcc.email, bcc.name)));
+    this.draftMail.bcc = this.mailData.bcc.map(bcc => EmailFormatPipe.transformToFormattedEmail(bcc.email, bcc.name));
     this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.rfcStandardValidateEmail(receiver));
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
