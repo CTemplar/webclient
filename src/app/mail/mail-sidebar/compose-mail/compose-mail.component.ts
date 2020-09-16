@@ -40,6 +40,7 @@ import {
 } from '../../../store/actions';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
+import { EmailFormatPipe } from '../../../shared/pipes/email-formatting.pipe';
 import {
   AppState,
   AuthState,
@@ -178,8 +179,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   @Input() cc: Array<string>;
 
   @Input() content = '';
-
-  @Input() messageHistory: string;
 
   @Input() subject: string;
 
@@ -329,7 +328,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private inlineAttachmentContentIds: Array<string> = [];
 
-  private isSignatureAdded: boolean;
+  private isSignatureAdded = false;
 
   private isAuthenticated: boolean;
 
@@ -441,11 +440,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.contacts = [];
         if (contactsState.emailContacts === undefined) {
           contactsState.contacts.forEach(x => {
-            this.contacts.push({ name: x.name, email: x.email, display: `${x.name} <${x.email}>` });
+            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
           });
         } else {
           contactsState.emailContacts.forEach(x => {
-            this.contacts.push({ name: x.name, email: x.email, display: `${x.name} <${x.email}>` });
+            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
           });
         }
         this.contactsState = contactsState;
@@ -488,7 +487,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           this.selectedMailbox.id === mailBoxesState.currentMailbox.id
         ) {
           this.selectedMailbox = mailBoxesState.currentMailbox;
-          this.updateSignature();
         }
         this.mailBoxesState = mailBoxesState;
       });
@@ -625,7 +623,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.initializeQuillEditor();
       }
     } else {
-      this.updateSignature();
       // display mail content and change from html to text if html version
       let content = this.mailData.content ? this.mailData.content : '';
       if (this.editor) {
@@ -639,6 +636,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       if (content) {
         setTimeout(() => {
           this.mailData.content = content;
+          this.updateSignature();
         }, 300);
       }
     }
@@ -1150,14 +1148,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
    * Add signature on content of Compose message
    */
   updateSignature() {
-    if (this.isSignatureAdded) {
-    } else {
+    if (!this.isSignatureAdded) {
       if (this.settings && !this.draftMail.is_html) {
         // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
         this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
         if (this.selectedMailbox.signature) {
-          this.mailData.content += `\n\n ${this.getPlainText(this.selectedMailbox.signature)}`;
+          this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}${this.mailData.content}`;
         }
         return;
       }
@@ -1168,7 +1165,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       let oldSig: string;
       let newSig: string;
       if (this.quill && this.quill.container) {
-        content = this.quill.container.innerText || '';
+        content = this.quill.container.innerHTML || '';
         content = content.replace(/\n\n/g, '<br>');
       }
       if (this.quill && this.quill.container) {
@@ -1185,7 +1182,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         } else if (this.selectedMailbox.signature) {
           // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-          content += `<br><br>${newSig}`;
+          content = `<br><br>${newSig}` + content;
           this.isSignatureAdded = true;
           this.quill.clipboard.dangerouslyPasteHTML(content);
         } else if (this.quill && this.selectedMailbox) {
@@ -1409,12 +1406,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver =>
-      receiver.name ? `${receiver.name} <${receiver.email}>` : receiver.email,
+      EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name),
     );
     this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.cc = this.mailData.cc.map(cc => (cc.name ? `${cc.name} <${cc.email}>` : cc.email));
+    this.draftMail.cc = this.mailData.cc.map(cc => (EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name)));
     this.draftMail.cc = this.draftMail.cc.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.bcc = this.mailData.bcc.map(bcc => (bcc.name ? `${bcc.name} <${bcc.email}>` : bcc.email));
+    this.draftMail.bcc = this.mailData.bcc.map(bcc => (EmailFormatPipe.transformToFormattedEmail(bcc.email, bcc.name)));
     this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.rfcStandardValidateEmail(receiver));
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
@@ -1638,9 +1635,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         // should be updated for support group mailbox
         // in that case, the below line should be updated for cast into ParsedGroup as well
         const parsedEmail = parseEmail.parseOneAddress(item.value) as parseEmail.ParsedMailbox;
-        item.name = parsedEmail.name || parsedEmail.local || '';
-        item.value = parsedEmail.address || item.value;
-        item.email = parsedEmail.address || item.value;
+        if (parsedEmail) {
+          item.name = parsedEmail.name || parsedEmail.local || '';
+          item.value = parsedEmail.address || item.value;
+          item.email = parsedEmail.address || item.value;
+        } else {
+          item.email = item.name = item.value;
+        }
       }
     });
     if (tag.value && tag.value.split(',').length > 1) {

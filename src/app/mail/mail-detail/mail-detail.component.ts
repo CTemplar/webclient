@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { LineBreakToBrTag } from '../../shared/pipes/replace-linebreak-brtag.pipe';
+import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { WebSocketState } from '../../store';
 import {
@@ -137,8 +137,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private composeMailService: ComposeMailService,
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
-    private mailService: MailService,
-    private linebreaktobrtag: LineBreakToBrTag,
+    private mailService: MailService
   ) {}
 
   ngOnInit() {
@@ -156,6 +155,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)
           ) {
             this.store.dispatch(new GetMailDetailSuccess(webSocketState.message.mail));
+            if (!webSocketState.message.mail.read) {
+              this.markAsRead(this.mail.id);
+            }
           }
         }
       });
@@ -503,7 +505,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               attachment.name = FilenamePipe.tranformToFilename(attachment.document);
             }
             const fileInfo = { attachment, type: response.file_type };
-            console.log(response.data);
             this.pgpService
               .decryptAttachment(mail.mailbox, uint8Array, fileInfo)
               .pipe(take(1))
@@ -571,7 +572,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails),
+      content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
@@ -609,7 +610,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails),
+      content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
     if (mail.sender !== this.currentMailbox.email) {
@@ -629,10 +630,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
-    const previousMails = this.getPreviousMail(index, isChildMail, mainReply, true);
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
-      messageHistory: this.getMessageHistory(previousMails),
       subject: `Fwd: ${this.mail.subject}`,
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
@@ -951,9 +950,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${
+      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
         mail.sender
-      }&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
     }
     return content;
   }
@@ -964,17 +963,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getForwardMessageSummary(mail: Mail): string {
     let content =
       `</br>---------- Forwarded message ----------</br>` +
-      `From: &lt;${mail.sender}&gt;</br>` +
+      `From: ${EmailFormatPipe.transformToFormattedEmail(mail.sender_display.email, mail.sender_display.name, true)}</br>` +
       `Date: ${
         mail.sent_at
           ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium')
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
       `Subject: ${mail.subject}</br>` +
-      `To: ${mail.receiver.map(receiver => `&lt;${receiver}&gt;`).join(', ')}</br>`;
+      `To: ${mail.receiver_display.map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true)).join(', ')}</br>`;
 
     if (mail.cc.length > 0) {
-      content += `CC: ${mail.cc.map(cc => `&lt;${cc}&gt;`).join(', ')}</br>`;
+      content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
     }
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
     return content;
