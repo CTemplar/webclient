@@ -8,6 +8,7 @@ import { take } from 'rxjs/operators';
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { LineBreakToBrTag } from '../../shared/pipes/replace-linebreak-brtag.pipe';
+import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { WebSocketState } from '../../store';
 import {
@@ -138,7 +139,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
     private mailService: MailService,
-    private linebreaktobrtag: LineBreakToBrTag,
+    private linebreaktobrtag: LineBreakToBrTag
   ) {}
 
   ngOnInit() {
@@ -961,14 +962,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getForwardMessageSummary(mail: Mail): string {
     let content =
       `</br>---------- Forwarded message ----------</br>` +
-      `From: < ${mail.sender} ></br>` +
+      `From: ${EmailFormatPipe.transformToFormattedEmail(mail.sender_display.email, mail.sender_display.name, true)}</br>` +
       `Date: ${
         mail.sent_at
           ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium')
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
       `Subject: ${mail.subject}</br>` +
-      `To: ${mail.receiver.map(receiver => `< ${receiver} >`).join(', ')}</br>`;
+      `To: ${mail.receiver_display.map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true)).join(', ')}</br>`;
 
     if (mail.cc.length > 0) {
       content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
