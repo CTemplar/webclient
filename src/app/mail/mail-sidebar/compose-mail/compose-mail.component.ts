@@ -440,11 +440,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.contacts = [];
         if (contactsState.emailContacts === undefined) {
           contactsState.contacts.forEach(x => {
-            // this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
+            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
           });
         } else {
           contactsState.emailContacts.forEach(x => {
-            // this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
+            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
           });
         }
         this.contactsState = contactsState;
