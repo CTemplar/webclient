@@ -246,9 +246,10 @@ async function encryptAttachment(data, publicKeys) {
   const options = {
     message: openpgp.message.fromBinary(data),
     publicKeys: pubkeys,
+    armor: false,
   };
   return openpgp.encrypt(options).then(payload => {
-    return payload.data;
+    return payload.message.packets.write();
   });
 }
 
@@ -258,7 +259,7 @@ async function decryptAttachment(data, privKeyObj) {
   }
   try {
     const options = {
-      message: await openpgp.message.readArmored(data),
+      message: await openpgp.message.read(data),
       privateKeys: [privKeyObj],
       format: 'binary',
     };

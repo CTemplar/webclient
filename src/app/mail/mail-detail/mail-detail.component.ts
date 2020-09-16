@@ -490,36 +490,39 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   // TODO: Merge with display-secure-message and compose-mail components
   decryptAttachment(attachment: Attachment, mail: Mail) {
-    if (this.decryptedAttachments[attachment.id]) {
-      if (!this.decryptedAttachments[attachment.id].inProgress) {
-        this.downloadAttachment(this.decryptedAttachments[attachment.id]);
+    if (attachment.is_encrypted) {
+      if (this.decryptedAttachments[attachment.id]) {
+        if (!this.decryptedAttachments[attachment.id].inProgress) {
+          this.downloadAttachment(this.decryptedAttachments[attachment.id]);
+        }
+      } else {
+        this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
+        this.mailService.getAttachment(attachment).subscribe(
+          response => {
+            const uint8Array = this.shareService.base64ToUint8Array(response.data);
+            if (!attachment.name) {
+              attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+            }
+            const fileInfo = { attachment, type: response.file_type };
+            this.pgpService
+              .decryptAttachment(mail.mailbox, uint8Array, fileInfo)
+              .pipe(take(1))
+              .subscribe(
+                (decryptedAttachment: Attachment) => {
+                  this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
+                  this.downloadAttachment(decryptedAttachment);
+                },
+                error => console.log(error),
+              );
+          },
+          errorResponse =>
+            this.store.dispatch(
+              new SnackErrorPush({
+                message: errorResponse.error || 'Failed to download attachment.',
+              }),
+            ),
+        );
       }
-    } else {
-      this.decryptedAttachments[attachment.id] = { ...attachment, inProgress: true };
-      this.mailService.getAttachment(attachment).subscribe(
-        response => {
-          if (!attachment.name) {
-            attachment.name = FilenamePipe.tranformToFilename(attachment.document);
-          }
-          const fileInfo = { attachment, type: response.file_type };
-          this.pgpService
-            .decryptAttachment(mail.mailbox, atob(response.data), fileInfo)
-            .pipe(take(1))
-            .subscribe(
-              (decryptedAttachment: Attachment) => {
-                this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
-                this.downloadAttachment(decryptedAttachment);
-              },
-              error => console.log(error),
-            );
-        },
-        errorResponse =>
-          this.store.dispatch(
-            new SnackErrorPush({
-              message: errorResponse.error || 'Failed to download attachment.',
-            }),
-          ),
-      );
     }
   }
 
@@ -568,7 +571,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails),
+      content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
     };
     if (mail.reply_to && mail.reply_to.length > 0) {
@@ -606,7 +609,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
-      messageHistory: this.getMessageHistory(previousMails),
+      content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
     if (mail.sender !== this.currentMailbox.email) {
@@ -626,10 +629,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
-    const previousMails = this.getPreviousMail(index, isChildMail, mainReply, true);
     this.composeMailData[mail.id] = {
       content: this.getForwardMessageSummary(mail),
-      messageHistory: this.getMessageHistory(previousMails),
       subject: `Fwd: ${this.mail.subject}`,
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
@@ -948,9 +949,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} &lt;${
+      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
         mail.sender
-      }&gt; wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
     }
     return content;
   }
@@ -971,7 +972,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       `To: ${mail.receiver_display.map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true)).join(', ')}</br>`;
 
     if (mail.cc.length > 0) {
-      content += `CC: ${mail.cc.map(cc => `&lt;${cc}&gt;`).join(', ')}</br>`;
+      content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
     }
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
     return content;

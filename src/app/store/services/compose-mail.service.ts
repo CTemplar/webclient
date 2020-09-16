@@ -113,7 +113,7 @@ export class ComposeMailService {
                     ];
                   }
 
-                  if (publicKeys.length > 0) {
+                  if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
                     draftMail.attachments.forEach(attachment => {
                       this.openPgpService.encryptAttachment(
                         draftMail.draft.mailbox,
