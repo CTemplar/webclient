@@ -40,6 +40,7 @@ import {
 } from '../../../store/actions';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
+import { EmailFormatPipe } from '../../../shared/pipes/email-formatting.pipe';
 import {
   AppState,
   AuthState,
@@ -439,11 +440,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.contacts = [];
         if (contactsState.emailContacts === undefined) {
           contactsState.contacts.forEach(x => {
-            this.contacts.push({ name: x.name, email: x.email, display: `${x.name} <${x.email}>` });
+            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
           });
         } else {
           contactsState.emailContacts.forEach(x => {
-            this.contacts.push({ name: x.name, email: x.email, display: `${x.name} <${x.email}>` });
+            this.contacts.push({ name: x.name, email: x.email, display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name) });
           });
         }
         this.contactsState = contactsState;
@@ -1164,7 +1165,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       let oldSig: string;
       let newSig: string;
       if (this.quill && this.quill.container) {
-        content = this.quill.container.innerText || '';
+        content = this.quill.container.innerHTML || '';
         content = content.replace(/\n\n/g, '<br>');
       }
       if (this.quill && this.quill.container) {
@@ -1405,12 +1406,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map(receiver =>
-      receiver.name ? `${receiver.name} <${receiver.email}>` : receiver.email,
+      EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name),
     );
     this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.cc = this.mailData.cc.map(cc => (cc.name ? `${cc.name} <${cc.email}>` : cc.email));
+    this.draftMail.cc = this.mailData.cc.map(cc => (EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name)));
     this.draftMail.cc = this.draftMail.cc.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.bcc = this.mailData.bcc.map(bcc => (bcc.name ? `${bcc.name} <${bcc.email}>` : bcc.email));
+    this.draftMail.bcc = this.mailData.bcc.map(bcc => (EmailFormatPipe.transformToFormattedEmail(bcc.email, bcc.name)));
     this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.rfcStandardValidateEmail(receiver));
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
@@ -1634,9 +1635,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         // should be updated for support group mailbox
         // in that case, the below line should be updated for cast into ParsedGroup as well
         const parsedEmail = parseEmail.parseOneAddress(item.value) as parseEmail.ParsedMailbox;
-        item.name = parsedEmail.name || parsedEmail.local || '';
-        item.value = parsedEmail.address || item.value;
-        item.email = parsedEmail.address || item.value;
+        if (parsedEmail) {
+          item.name = parsedEmail.name || parsedEmail.local || '';
+          item.value = parsedEmail.address || item.value;
+          item.email = parsedEmail.address || item.value;
+        } else {
+          item.email = item.name = item.value;
+        }
       }
     });
     if (tag.value && tag.value.split(',').length > 1) {
