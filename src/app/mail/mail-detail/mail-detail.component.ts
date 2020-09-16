@@ -7,7 +7,6 @@ import { take } from 'rxjs/operators';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { LineBreakToBrTag } from '../../shared/pipes/replace-linebreak-brtag.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { WebSocketState } from '../../store';
@@ -138,8 +137,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private composeMailService: ComposeMailService,
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
-    private mailService: MailService,
-    private linebreaktobrtag: LineBreakToBrTag
+    private mailService: MailService
   ) {}
 
   ngOnInit() {
@@ -157,6 +155,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)
           ) {
             this.store.dispatch(new GetMailDetailSuccess(webSocketState.message.mail));
+            if (!webSocketState.message.mail.read) {
+              this.markAsRead(this.mail.id);
+            }
           }
         }
       });
