@@ -122,7 +122,7 @@ CTemplar encrypts and decrypts contents of every email using user's public/priva
 ## Transparent build code
 
 We host our build code publicly on github and we also provide the details on how to match checksum of code on github and the one we serve
-on our website. Find the details of build and how to calculate checksum here : [https://github.com/CTemplar/webclient/tree/master/dist](https://github.com/CTemplar/webclient/tree/master/dist)
+on our website. Find the details of build and how to calculate checksum here : [https://github.com/CTemplar/webclient/blob/gh-pages/README.md](https://github.com/CTemplar/webclient/blob/gh-pages/README.md)
 
 ## Contribution
 
