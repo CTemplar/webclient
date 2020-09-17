@@ -84,7 +84,6 @@ export class ComposeMailService {
                   draftMail.attachments.forEach(attachment => {
                     this.openPgpService.encryptAttachment(
                       draftMail.draft.mailbox,
-                      attachment.decryptedDocument,
                       attachment,
                       keys,
                     );
@@ -117,7 +116,6 @@ export class ComposeMailService {
                     draftMail.attachments.forEach(attachment => {
                       this.openPgpService.encryptAttachment(
                         draftMail.draft.mailbox,
-                        attachment.decryptedDocument,
                         attachment,
                         publicKeys,
                       );

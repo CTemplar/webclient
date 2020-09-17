@@ -244,12 +244,11 @@ async function encryptAttachment(data, publicKeys) {
     }),
   );
   const options = {
-    message: openpgp.message.fromBinary(data),
+    message: await openpgp.message.fromBinary(data),
     publicKeys: pubkeys,
-    armor: false,
   };
   return openpgp.encrypt(options).then(payload => {
-    return payload.message.packets.write();
+    return payload.data;
   });
 }
 

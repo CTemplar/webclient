@@ -983,7 +983,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (attachment.is_inline) {
       this.store.dispatch(new UploadAttachment({ ...attachment }));
     } else {
-      this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment.decryptedDocument, attachment);
+      this.openPgpService.encryptAttachment(this.selectedMailbox.id, attachment);
     }
   }
 
