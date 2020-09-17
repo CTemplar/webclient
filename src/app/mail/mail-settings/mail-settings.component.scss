@@ -197,6 +197,40 @@ $error-red: #e94e4c;
       height: 2rem;
     }
   }
+
+  .mailbox-navbar-col {
+    padding: 0px;
+    margin-bottom: 10px;
+
+    .clear-btn {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 58px;
+      min-width: 40px;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .search-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      padding-right: 0.938rem;
+      padding-left: 0.938rem;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      min-width: 55px;
+    }
+  }
+  ul.whitelist-list,
+  ul.blacklist-list {
+    max-height: 503px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 .form-control-contenteditable {
@@ -261,6 +295,14 @@ $error-red: #e94e4c;
       font-size: 1.063rem;
       line-height: 1.188;
     }
+    .fa-ban {
+      color: #e74c3c;
+      font-size: 1.063rem;
+    }
+    .fa-user-circle {
+      color: #1d6fa5;
+      font-size: 1.063rem;
+    }
   }
 }
 
@@ -294,7 +336,7 @@ $error-red: #e94e4c;
   }
 }
 
-.form-content-holder .btn-link {
+.btn-link {
   font-size: 0.75rem;
 }
 
@@ -597,4 +639,14 @@ $error-red: #e94e4c;
   padding: 0.625rem 0.75rem;
   line-height: 1;
   height: 33px;
+}
+
+.whitelist-header,
+.blacklist-header {
+  display: flex;
+  align-items: center;
+
+  .btn-link {
+    margin-left: 20px;
+  }
 }

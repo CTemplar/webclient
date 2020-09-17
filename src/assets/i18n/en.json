@@ -124,12 +124,14 @@
     "whitelist": {
       "name": "Whitelist",
       "info": "Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message as not spam adds the address to the Whitelist",
-      "add_whitelist_contact": "Add whitelist contact"
+      "add_whitelist_contact": "Add whitelist contact",
+      "search_whitelist": "Search in Whitelist"
     },
     "blacklist": {
       "name": "Blacklist",
       "info": "Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message as spam adds the address to the Blacklist.",
-      "add_blacklist_contact": "Add blacklist contact"
+      "add_blacklist_contact": "Add blacklist contact",
+      "search_blacklist": "Search in Blacklist"
     },
     "add_to": "Add to",
     "username_required": "The username is required.",
