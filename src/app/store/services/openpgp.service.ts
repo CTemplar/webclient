@@ -186,7 +186,7 @@ export class OpenPgpService {
         );
       } else if (event.data.encryptedAttachment) {
         const oldDocument = event.data.attachment.decryptedDocument;
-        const newDocument = new File([event.data.encryptedContent.buffer], oldDocument.name, {
+        const newDocument = new File([event.data.encryptedContent], oldDocument.name, {
           type: oldDocument.type,
           lastModified: oldDocument.lastModified,
         });
@@ -279,7 +279,7 @@ export class OpenPgpService {
     }
   }
 
-  encryptAttachment(mailboxId, file: File, attachment: Attachment, publicKeys: any[] = []) {
+  encryptAttachment(mailboxId,  attachment: Attachment, publicKeys: any[] = []) {
     this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
     publicKeys.push(this.pubkeys[mailboxId]);
     const reader = new FileReader();
@@ -288,14 +288,14 @@ export class OpenPgpService {
       const uint8Array = new Uint8Array(buffer);
       this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
     });
-    reader.readAsArrayBuffer(file);
+    reader.readAsArrayBuffer(attachment.decryptedDocument);
   }
 
-  decryptAttachment(mailboxId, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+  decryptAttachment(mailboxId, fileData: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.pgpWorker.postMessage({ mailboxId, fileData: uint8Array, decryptAttachment: true, fileInfo, subjectId });
+    this.pgpWorker.postMessage({ mailboxId, fileData, decryptAttachment: true, fileInfo, subjectId });
     return subject.asObservable();
   }
 
