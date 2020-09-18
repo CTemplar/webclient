@@ -82,11 +82,7 @@ export class ComposeMailService {
                   }
                   keys.push(draftMail.draft.encryption.public_key);
                   draftMail.attachments.forEach(attachment => {
-                    this.openPgpService.encryptAttachment(
-                      draftMail.draft.mailbox,
-                      attachment,
-                      keys,
-                    );
+                    this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, keys);
                   });
                   this.openPgpService.encrypt(
                     draftMail.draft.mailbox,
@@ -114,11 +110,7 @@ export class ComposeMailService {
 
                   if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
                     draftMail.attachments.forEach(attachment => {
-                      this.openPgpService.encryptAttachment(
-                        draftMail.draft.mailbox,
-                        attachment,
-                        publicKeys,
-                      );
+                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                     });
                     this.openPgpService.encrypt(
                       draftMail.draft.mailbox,
@@ -207,11 +199,11 @@ export class ComposeMailService {
 
   private setEncryptedContent(draftMail: Draft) {
     draftMail.draft.content = draftMail.encryptedContent.content;
-    if (this.userState.settings && this.userState.settings.is_subject_encrypted) {
+    if (this.userState.settings) {
       draftMail.draft.subject = draftMail.encryptedContent.subject;
     }
     if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
-      draftMail.draft.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
+      draftMail.draft.is_subject_encrypted = true;
       draftMail.draft.is_encrypted = true;
     }
   }
