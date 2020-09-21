@@ -244,9 +244,6 @@ export class OpenPgpService {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
 
     publicKeys.push(this.pubkeys[mailboxId]);
-    if (this.userSettings && !this.userSettings.is_subject_encrypted) {
-      mailData.subject = null;
-    }
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
@@ -279,7 +276,7 @@ export class OpenPgpService {
     }
   }
 
-  encryptAttachment(mailboxId,  attachment: Attachment, publicKeys: any[] = []) {
+  encryptAttachment(mailboxId, attachment: Attachment, publicKeys: any[] = []) {
     this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
     publicKeys.push(this.pubkeys[mailboxId]);
     const reader = new FileReader();
