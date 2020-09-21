@@ -675,21 +675,46 @@
 
         <!-- Whitelist settings -->
         <section class="mailbox-section">
-          <header class="ui-header ui-header-bordered">
+          <header class="ui-header ui-header-bordered whitelist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
               <strong [translate]="'settings.whitelist.name'">Whitelist</strong>
             </h5>
+            <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact = { show: true, type: 'Whitelist' }">
+              <strong>
+                <u [translate]="'settings.whitelist.add_whitelist_contact'"> Add whitelist contact </u>
+              </strong>
+            </a>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
-              <ul class="ui-list ui-list-styled list-styled">
-                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.whiteList">
+              <div class="col-sm-6 mailbox-navbar-col">
+                <div class="form search-form">
+                  <div>
+                    <div class="form-group mb-0 position-relative">
+                      <input class="form-control form-control-sm" type="text" [formControl]="searchWhitelistInput" (keyup.enter)="searchWhitelist()" [placeholder]="searchWhitelistPlaceholder | translate" />
+                      <button class="clear-btn" *ngIf="searchWhitelistInput.value?.length > 0" (click)="searchWhitelistInput.setValue('')">
+                        <i class="fas fa-times"></i>
+                      </button>
+                      <button class="btn btn-sm btn-secondary search-btn" (click)="searchWhitelist()" role="button">
+                        <i class="icon icon-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul class="ui-list ui-list-styled list-styled whitelist-list">
+                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of WhitelistItems">
                   <div class="row row-xs align-items-center">
                     <div class="col-10 col-sm-8">
                       <div class="form-label text-dark mb-0">{{ item.email }}</div>
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                        <li>
+                          <a (click)="moveToBlacklist(item.id, item.name, item.email)" role="button">
+                            <i class="fas fa-ban" ngbTooltip="Move to Blacklist"></i>
+                          </a>
+                        </li>
                         <li>
                           <a (click)="deleteWhiteList(item.id)" role="button">
                             <i class="icon icon-garbage"></i>
@@ -702,11 +727,6 @@
               </ul>
               <div class="info-card">
                 <p [innerHTML]="'settings.whitelist.info' | translate">Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message as not spam adds the address to the Whitelist.</p>
-                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact = { show: true, type: 'Whitelist' }">
-                  <strong>
-                    <u [translate]="'settings.whitelist.add_whitelist_contact'"> Add whitelist contact </u>
-                  </strong>
-                </a>
               </div>
             </div>
           </div>
@@ -714,21 +734,46 @@
 
         <!-- Blacklist settings -->
         <section class="mailbox-section">
-          <header class="ui-header ui-header-bordered">
+          <header class="ui-header ui-header-bordered blacklist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
               <strong [translate]="'settings.blacklist.name'">Blacklist</strong>
             </h5>
+            <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact = { show: true, type: 'Blacklist' }">
+              <strong>
+                <u [translate]="'settings.blacklist.add_blacklist_contact'"> Add blacklist contact </u>
+              </strong>
+            </a>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
-              <ul class="ui-list ui-list-styled list-styled">
-                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of userState.blackList">
+              <div class="col-sm-6 mailbox-navbar-col">
+                <div class="form search-form">
+                  <div>
+                    <div class="form-group mb-0 position-relative">
+                      <input class="form-control form-control-sm" type="text" [formControl]="searchBlacklistInput" (keyup.enter)="searchBlacklist()" [placeholder]="searchBlacklistPlaceholder | translate" />
+                      <button class="clear-btn" *ngIf="searchBlacklistInput.value?.length > 0" (click)="searchBlacklistInput.setValue('')">
+                        <i class="fas fa-times"></i>
+                      </button>
+                      <button class="btn btn-sm btn-secondary search-btn" (click)="searchBlacklist()" role="button">
+                        <i class="icon icon-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul class="ui-list ui-list-styled list-styled blacklist-list">
+                <li class="ui-list-item ui-list-item-xs-full" *ngFor="let item of BlacklistItems">
                   <div class="row row-xs align-items-center">
                     <div class="col-10 col-sm-8">
                       <div class="form-label text-dark mb-0">{{ item.email }}</div>
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+                        <li>
+                          <a (click)="moveToWhitelist(item.id, item.name, item.email)" role="button">
+                            <i class="fas fa-user-circle" ngbTooltip="Move to Whitelist"></i>
+                          </a>
+                        </li>
                         <li>
                           <a (click)="deleteBlackList(item.id)" role="button">
                             <i class="icon icon-garbage"></i>
@@ -741,11 +786,6 @@
               </ul>
               <div class="info-card">
                 <p [innerHTML]="'settings.blacklist.info' | translate">Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message as spam adds the address to the Blacklist.</p>
-                <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="newListContact = { show: true, type: 'Blacklist' }">
-                  <strong>
-                    <u [translate]="'settings.blacklist.add_blacklist_contact'"> Add blacklist contact </u>
-                  </strong>
-                </a>
               </div>
             </div>
           </div>
