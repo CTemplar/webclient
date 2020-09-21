@@ -377,7 +377,7 @@ export class OpenPgpService {
     }
     this.userKeys = null;
     const options = {
-      userIds: [{ name: `${username}_${domain}`, email: `${username}@${domain}` }],
+      userIds: [{ email: `${username}@${domain}` }],
       numBits: 4096,
       passphrase: password,
     };

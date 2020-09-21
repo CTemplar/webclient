@@ -197,13 +197,21 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   submitNewAddress() {
     this.newAddressOptions.isSubmitted = true;
+    const newUserName = this.newAddressForm.controls.username.value;
+
     if (
       this.newAddressForm.valid &&
       this.newAddressOptions.usernameExists === false &&
-      this.newAddressForm.controls.username.value
+      newUserName
     ) {
       this.newAddressOptions.isBusy = true;
-      this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
+      const currentDomain = this.newAddressForm.controls.domain.value;
+      if (currentDomain) {
+        this.openPgpService.generateUserKeys(newUserName, atob(this.usersService.getUserKey()), currentDomain);
+      } else {
+        this.openPgpService.generateUserKeys(newUserName, atob(this.usersService.getUserKey()));
+      }
+      
       if (this.openPgpService.getUserKeys()) {
         this.addNewAddress();
       } else {
