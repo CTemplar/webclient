@@ -156,8 +156,8 @@ export const QUILL_FORMATTING_MODULES = {
 };
 
 function getBaseUrl() {
+  const config = getWindowConfig();
   if (AppConfig.production) {
-    const config = getWindowConfig();
     return config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion'
       ? 'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/'
       : 'https://api.ctemplar.com/';
@@ -165,6 +165,9 @@ function getBaseUrl() {
   if (AppConfig.local) {
     return 'http://127.0.0.1:8000/';
   }
+  if (config.host === 'test.ctemplar.net') {
+    return 'https://testapi.ctemplar.net/';
+}
   return 'https://devapi.ctemplar.net/';
 }
 
