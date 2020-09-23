@@ -10,6 +10,8 @@ export enum UsersActionTypes {
   WHITELIST_ADD = '[Users] WhiteList_Add',
   WHITELIST_ADD_SUCCESS = '[Users] WhiteList_Add_Success',
   WHITELIST_ADD_ERROR = '[Users] WhiteList_Add_Error',
+  MOVE_TO_BLACKLIST = '[Users] Move_to_Blacklist',
+  MOVE_TO_WHITELIST = '[Users] Move_to_Whitelist',
   WHITELIST_DELETE = '[Users] WhiteList_Delete',
   WHITELIST_DELETE_SUCCESS = '[Users] WhiteList_Delete_Success',
   CARD_GET = '[Users] CardLists',
@@ -191,6 +193,18 @@ export class WhiteListsReadSuccess implements Action {
 
 export class WhiteListAdd implements Action {
   readonly type = UsersActionTypes.WHITELIST_ADD;
+
+  constructor(public payload: any) {}
+}
+
+export class MoveToBlacklist implements Action {
+  readonly type = UsersActionTypes.MOVE_TO_BLACKLIST;
+
+  constructor(public payload: any) {}
+}
+
+export class MoveToWhitelist implements Action {
+  readonly type = UsersActionTypes.MOVE_TO_WHITELIST;
 
   constructor(public payload: any) {}
 }
@@ -680,6 +694,8 @@ export type UsersActionAll =
   | WhiteListAdd
   | WhiteListAddSuccess
   | WhiteListAddError
+  | MoveToBlacklist
+  | MoveToWhitelist
   | WhiteListDelete
   | WhiteListDeleteSuccess
   | BlackListGet

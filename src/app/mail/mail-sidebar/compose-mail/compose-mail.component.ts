@@ -1425,7 +1425,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
-    this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
+    this.draftMail.is_subject_encrypted = true;
     let tokens;
     if (this.draftMail.is_html) {
       // if html version, convert text to html format with html tags

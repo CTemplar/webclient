@@ -252,8 +252,6 @@ export class Settings {
 
   recurrence_billing?: boolean;
 
-  is_subject_encrypted?: boolean;
-
   is_attachments_encrypted?: boolean;
 
   enable_2fa?: boolean;

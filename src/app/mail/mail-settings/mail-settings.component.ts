@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
+import { MoveToBlacklist, MoveToWhitelist } from '../../store/actions';
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
 import {
@@ -88,6 +89,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   timezones: Timezone[];
 
+  searchWhitelistInput = new FormControl();
+
+  searchBlacklistInput = new FormControl();
+
+  searchWhitelistPlaceholder = 'settings.whitelist.search_whitelist';
+
+  searchBlacklistPlaceholder = 'settings.blacklist.search_blacklist';
+
   deleteAccountInfoForm: FormGroup;
 
   deleteAccountOptions: any = {};
@@ -95,6 +104,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   notificationsPermission: string;
 
   autosave_duration: any = {};
+
+  WhitelistItems: any = [];
+
+  BlacklistItems: any = [];
 
   autosave_duration_list: Array<string>;
 
@@ -160,6 +173,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.WhitelistItems = user.whiteList;
+        this.BlacklistItems = user.blackList;
         this.settings = user.settings;
         this.timeZoneFilter.setValue(user.settings.timezone);
         this.cdr.detectChanges();
@@ -314,6 +329,26 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       backdrop: 'static',
       windowClass: 'modal-lg',
     });
+  }
+
+  searchWhitelist() {
+    this.WhitelistItems = this.searchWhitelistInput.value
+      ? this.userState.whiteList.filter(item => item.email.includes(this.searchWhitelistInput.value))
+      : this.userState.whiteList;
+  }
+
+  searchBlacklist() {
+    this.BlacklistItems = this.searchBlacklistInput.value
+      ? this.userState.blackList.filter(item => item.email.includes(this.searchBlacklistInput.value))
+      : this.userState.blackList;
+  }
+
+  moveToBlacklist(id, name, email) {
+    this.store.dispatch(new MoveToBlacklist({ id: id, name: name, email: email }));
+  }
+
+  moveToWhitelist(id, name, email) {
+    this.store.dispatch(new MoveToWhitelist({ id: id, name: name, email: email }));
   }
 
   public deleteWhiteList(id) {
