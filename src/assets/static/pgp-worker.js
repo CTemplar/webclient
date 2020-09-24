@@ -174,7 +174,7 @@ async function generateNewKeys(mailboxes, password, username) {
   for (let i = 0; i < mailboxes.length; i++) {
     const options = {
       userIds: [{ name: username, email: mailboxes[i].email }],
-      numBits: 4096,
+      curve: 'ed25519',
       passphrase: password,
     };
     const keys = await generateKeys(options);
