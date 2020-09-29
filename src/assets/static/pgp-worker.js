@@ -33,7 +33,8 @@ onmessage = async function (event) {
       postMessage({ encryptedContent: data, encryptSecureMessageReply: true });
     });
   } else if (event.data.generateKeys) {
-    generateKeys(event.data.options).then(data => {
+    const options = optionsGenerator(event.data);
+    generateKeys(options).then(data => {
       postMessage({
         generateKeys: true,
         keys: data,
@@ -169,14 +170,23 @@ function generateKeys(options) {
   });
 }
 
+function optionsGenerator(params) {
+  const options = {
+    userIds: params.generateUserKeys
+      ? [{ email: `${params.username}@${params.domain}` }]
+      : params.generateEmailSshKeys
+      ? [{ name: `${params.callerId}` }]
+      : [{ name: params.username, email: params.email }],
+    curve: 'ed25519',
+    passphrase: params.password,
+  };
+  return options;
+}
+
 async function generateNewKeys(mailboxes, password, username) {
   const newKeys = [];
   for (let i = 0; i < mailboxes.length; i++) {
-    const options = {
-      userIds: [{ name: username, email: mailboxes[i].email }],
-      curve: 'ed25519',
-      passphrase: password,
-    };
+    const options = optionsGenerator({ username, email: mailboxes[i].email, password });
     const keys = await generateKeys(options);
     newKeys.push({ ...keys, mailbox_id: mailboxes[i].id });
   }

@@ -373,22 +373,18 @@ export class OpenPgpService {
       username = username.split('@')[0];
     }
     this.userKeys = null;
-    const options = {
-      userIds: [{ email: `${username}@${domain}` }],
-      numBits: 4096,
-      passphrase: password,
-    };
-    this.pgpWorker.postMessage({ options, generateKeys: true });
+    this.pgpWorker.postMessage({ username, domain, generateKeys: true, generateUserKeys: true, password });
   }
 
   generateEmailSshKeys(password: string, draftId: number) {
     this.store.dispatch(new UpdatePGPSshKeys({ isSshInProgress: true, sshKeys: null, draftId }));
-    const options = {
-      userIds: [{ name: `${draftId}` }],
-      numBits: 4096,
-      passphrase: password,
-    };
-    this.pgpWorker.postMessage({ options, generateKeys: true, forEmail: true, callerId: draftId });
+    this.pgpWorker.postMessage({
+      password,
+      generateKeys: true,
+      forEmail: true,
+      callerId: draftId,
+      generateEmailSshKeys: true,
+    });
   }
 
   getUserKeys() {
