@@ -32,6 +32,7 @@
     </div>
   </div>
   <div class="modal-footer justify-content-center">
+    <div class="skip-btn" (click)="activeModal.dismiss()">SKIP</div>
     <button class="btn btn-danger submit-display-name-btn" type="submit" (click)="submitDisplayNameForm()" [disabled]="!changeDisplayNameForm.valid || inProgress" [translate]="'settings.compose.confirm'">Confirm</button>
     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
   </div>
