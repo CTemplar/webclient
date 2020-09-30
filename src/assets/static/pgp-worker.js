@@ -177,7 +177,7 @@ function optionsGenerator(params) {
       : params.generateEmailSshKeys
       ? [{ name: `${params.callerId}` }]
       : [{ name: params.username, email: params.email }],
-    curve: 'ed25519',
+    numBits: 4096,
     passphrase: params.password,
   };
   return options;
