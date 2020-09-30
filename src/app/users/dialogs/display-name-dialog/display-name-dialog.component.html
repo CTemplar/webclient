@@ -28,7 +28,7 @@
           <span *ngIf="changeDisplayNameForm.controls['username'].errors && changeDisplayNameForm.controls['username'].touched" class="validate-message" [translate]="'create_account.display_name_req'">Enter a valid display name with maximum 32 characters. </span>
         </div>
       </div>
-      <p><span [translate]="'common.email'">Email</span>: "{{ changeDisplayNameForm.controls['username'].value }} <{{ email }}>". <br /><span [translate]="'create_account.can_change_settings'">You can change this in the settings page later.</span></p>
+      <p><span [translate]="'common.email'">Email</span>: "{{ email | emailFormat : changeDisplayNameForm.controls['username'].value }}". <br /><span [translate]="'create_account.can_change_settings'">You can change this in the settings page later.</span></p>
     </div>
   </div>
   <div class="modal-footer justify-content-center">
