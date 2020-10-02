@@ -97,6 +97,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   isDarkMode: boolean;
 
+  isConversationView: boolean;
+
   forceLightMode: boolean;
 
   disableExternalImages: boolean;
@@ -315,6 +317,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         });
         this.userState = user;
         this.isDarkMode = this.userState.settings.is_night_mode;
+        this.isConversationView = this.userState.settings.is_conversation_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
         this.disableExternalImages = this.userState.settings.is_disable_loading_images;
         this.includeOriginMessage = this.userState.settings.include_original_message;
@@ -569,9 +572,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onReply(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = new Set([...mail.receiver, mail.sender, mail.cc, mail.bcc]);
+    let parentId = this.mail.id;
+    if (!this.isConversationView && this.mail.parent) {
+      parentId = this.mail.parent;
+    }
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
-      parentId: this.mail.id,
+      parentId: parentId,
       content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
     };
