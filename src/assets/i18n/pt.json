@@ -1,7 +1,7 @@
 {
   "account_init": {
-    "acc_creation_complete": "Account creation in user&apos;s browser complete",
-    "account_creation": "Account creation in user&apos;s browser initiated",
+    "acc_creation_complete": "Criação de conta no navegador do usuário concluída",
+    "account_creation": "A criação da conta no navegador do usuário foi iniciada",
     "creation_finished": "Criação da conta finalizada",
     "creation_init": "Criação da conta iniciada",
     "crypto_hash_pass": "Aplicar criptografia de hash na senha",
@@ -11,18 +11,18 @@
     "encrypted_conn_being": "Conexão criptografada entre usuário e o site verificado.",
     "encypt_secure": "Criptografado, Seguro & Anônimo",
     "gen_pgp_key": "Gerar chave de criptografia PGP de 4096 bit",
-    "mail_creation_comp": "Mailbox creation in user&apos;s browser complete",
-    "mailbox_creation": "Mailbox creation in user&apos;s browser initiated",
+    "mail_creation_comp": "Criação da conta de email no navegador do usuário concluída",
+    "mailbox_creation": "A criação da conta de email no navegador do usuário foi iniciada",
     "mailbox_encrypted": "Sua conta de email agora está criptografada e protegida por senha",
     "mailbox_saved": "Conta de email enviada e salva no servidor islandês",
     "max_strength": "Bem vindo a sua conta de email de força máxima",
     "rec_hash_value": "Remover “hash value” do hash criptográfico",
-    "secured_with_hash": "Mailbox secured with user&apos;s hash & Salted value."
+    "secured_with_hash": "Conta de email protegida com os valores ”hash” e ”salt” do usuário."
   },
   "billing_info": {
     "billing": "Faturamento",
     "bitcoin_sent_timer": "O BTC enviado após o temporizador será perdido!",
-    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
+    "about_monero": "Para concluir o seu pagamento usando Monero (XMR), crie uma conta gratuita e envie um e-mail para Support@ctemplar.com. Nossa equipe de suporte enviará instruções sobre como concluir o pagamento e atualizar sua conta assim que o pagamento for feito.",
     "donation_amount": "Quantia",
     "month": "Mês",
     "name_on_card": "Nome no cartão",
@@ -78,20 +78,20 @@
     "import_f_yahoo": "Importar do Yahoo",
     "new_contact": "NOVO CONTATO",
     "notify_contacts": "NOTIFICAR CONTATOS",
-    "notify_contacts_title": "Notify contacts about my new email address",
+    "notify_contacts_title": "Notificar contatos sobre meu novo endereço de e-mail",
     "notify_contacts_description": {
-      "before": "The email below will be send to ",
-      "after": " contacts you have selected to inform them you have a new email address."
+      "before": "O email abaixo será enviado para ",
+      "after": " contatos que você selecionou para informá-los que você tem um novo endereço de e-mail."
     },
     "notify_contacts_email": {
-      "title": "Hi! I have chanaged my email address",
-      "content_before": "Hello,\nI want to inform you that I have changed my email address to ",
-      "content_after": "\nPlease, update my contact information in your address book.\nThank you.\n...\n"
+      "title": "Oi! Eu mudei meu endereço de email",
+      "content_before": "Olá,\nQuero informar que mudei meu endereço de e-mail para ",
+      "content_after": "\nPor favor, atualize minhas informações de contato em seu catálogo de endereços.\nObrigado.\n...\n"
     },
-    "send_email": "SEND EMAIL",
+    "send_email": "ENVIAR EMAIL",
     "note": "Nota",
     "phone2": "2.º Celular",
-    "encryption": "Encryption",
+    "encryption": "Encriptação",
     "save": {
       "email_not_valid": "Endereço de email inválido",
       "email_req": "O endereço de email é necessário",
@@ -116,8 +116,8 @@
     "generate_key": "Gerar chave",
     "invalid_captcha": "Captcha inválido. Por favor, tente novamente.",
     "invite_code": "Código do convite",
-    "invite_code_explanation": "You can get invitation code from any existing paid customer or you can request from us.",
-    "about_invite_code": "Why invite codes and how to get one? ",
+    "invite_code_explanation": "Você pode conseguir o código de convite de qualquer cliente pago existente ou pode solicitar para nós.",
+    "about_invite_code": "Por que códigos de convite e como obter um? ",
     "less": "Menos",
     "more_info": "Mais informações",
     "name": "Criar sua conta",
