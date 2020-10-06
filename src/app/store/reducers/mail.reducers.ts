@@ -1,5 +1,5 @@
 import { MailActions, MailActionTypes } from '../actions';
-import { MailState, MailStateFolderInfo, MailAction } from '../datatypes';
+import { MailState, MailStateFolderInfo } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
