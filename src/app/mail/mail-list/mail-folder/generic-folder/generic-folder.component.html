@@ -230,7 +230,7 @@
                   <ng-template #nonDraftMail>
                     <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{ getMailSenderReceiverInfo(mail) }}</label>
                   </ng-template>
-                  <span *ngIf="mail.thread_count > 1" class="email-child-count">({{ mail.thread_count }})</span>
+                  <span *ngIf="mail.children_count >= 1" class="email-child-count">({{ mail.children_count + 1 }})</span>
                 </ng-container>
                 <span class="position-relative" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
                   <i *ngIf="mail.last_action_thread" class="fas fa-{{ mail.last_action_thread | lastAction }} last-action"></i>
@@ -331,7 +331,7 @@
                   <ng-template #nonDraftMail>
                     <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{ getMailSenderReceiverInfo(mail) }}</label>
                   </ng-template>
-                  <span *ngIf="mail.children_count > 0" class="email-child-count"> ({{ mailFolder !== mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH ? mail.children_count : 10 }}) </span>
+                  <span *ngIf="mail.children_count >= 1" class="email-child-count">({{ mail.children_count + 1 }})</span>
                 </ng-container>
               </a>
               <span class="mail-inbox-message d-md-block">
