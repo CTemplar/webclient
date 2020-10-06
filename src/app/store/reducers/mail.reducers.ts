@@ -64,6 +64,13 @@ export function reducer(
             unread_folder_mails = [...action.payload.mails, ...unread_folder_mails];
             unread_folder_mails = unread_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+
+              mail.thread_count =
+                mail.children_count +
+                ((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) ||
+                (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)
+                  ? 1
+                  : 0);
               return mail;
             });
             unread_folder_mails = unread_folder_mails.slice(0, action.payload.limit);
@@ -84,6 +91,12 @@ export function reducer(
             all_folder_mails = [...action.payload.mails, ...all_folder_mails];
             all_folder_mails = all_folder_mails.map((mail: Mail) => {
               mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+              mail.thread_count =
+                mail.children_count +
+                ((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) ||
+                (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)
+                  ? 1
+                  : 0);
               return mail;
             });
             all_folder_mails = all_folder_mails.slice(0, action.payload.limit);
@@ -93,12 +106,16 @@ export function reducer(
           }
         }
       }
-      // Update the receivers name
       mails = mails.map((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+        mail.thread_count =
+          mail.children_count +
+          ((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) ||
+          (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)
+            ? 1
+            : 0);
         return mail;
       });
-      // Update the current mail list
       if (
         state.currentFolder === action.payload.folder ||
         (state.currentFolder !== action.payload.folder && target_folder_mails.length > 0)
@@ -110,7 +127,6 @@ export function reducer(
           state.folders.set(action.payload.folder, mails);
         }
       }
-      state.folders = synchronizeFolderMails(mails, state.folders);
       mails = state.folders.get(state.currentFolder);
       state.total_mail_count = state.info_by_folder.get(state.currentFolder)
         ? state.info_by_folder.get(state.currentFolder).total_mail_count
@@ -122,7 +138,6 @@ export function reducer(
           mail.is_subject_encrypted = false;
         }
       });
-      
       return {
         ...state,
         mails,
@@ -545,38 +560,47 @@ export function reducer(
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
       let newEntry = true;
-      let target_folder_mails = state.folders.get(state.currentFolder) || [];
+      let target_folder_mails = state.folders.get(action.payload.folder) || [];
       target_folder_mails.map((mail, index) => {
         if (mail.id === action.payload.id || mail.id === action.payload.parent) {
           if (mail.id === action.payload.id) {
             target_folder_mails[index] = action.payload;
           } else {
+            target_folder_mails[index].children = target_folder_mails[index].children
+              ? [...target_folder_mails[index].children, action.payload]
+              : [action.payload];
             target_folder_mails[index].has_children = true;
-            target_folder_mails[index].children_count++;
           }
           newEntry = false;
         }
       });
-      if (target_folder_mails.length > 0) {
+      if (target_folder_mails.length > 0 || state.currentFolder === action.payload.folder) {
         if (newEntry) {
           const mail = action.payload;
           mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+          mail.thread_count =
+            mail.children_count +
+            (action.payload.folder !== MailFolderType.TRASH ||
+            (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)
+              ? 1
+              : 0);
+
           target_folder_mails = [mail, ...target_folder_mails];
           const old_folder_info = state.info_by_folder.get(action.payload.folder);
           old_folder_info.total_mail_count += 1;
           state.info_by_folder.set(action.payload.folder, old_folder_info);
         }
-        state.folders.set(state.currentFolder, target_folder_mails);
-        state.mails = target_folder_mails;
-        const folder_info = state.info_by_folder.get(action.payload.folder);
-        state.total_mail_count = folder_info.total_mail_count;
-      }
-      const folderNames = [...state.folders.keys()];
-      folderNames.forEach(folder => {
-        if (folder !== state.currentFolder) {
-          state.folders.set(folder, []);
+        state.folders.set(action.payload.folder, target_folder_mails);
+        if (state.currentFolder === action.payload.folder) {
+          state.mails = target_folder_mails;
+          const folder_info = state.info_by_folder.get(action.payload.folder);
+          state.total_mail_count = folder_info.total_mail_count;
         }
-      });
+      }
+      if (action.payload.folder === MailFolderType.SENT) {
+        // Remove the draft mails from store, so that it would fetch again when needed to list
+        state.folders.set(MailFolderType.DRAFT, []);
+      }
 
       return { ...state, mails: [...state.mails], noUnreadCountChange: true };
     }
@@ -655,22 +679,4 @@ function getTotalUnreadCount(data): number {
     return total_count;
   }
   return 0;
-}
-
-function synchronizeFolderMails(sourceMails: Mail[], folders: Map<string, Mail[]>): Map<string, Mail[]> {
-  let clonedFolders = new Map(folders);
-  const folderNames = [...clonedFolders.keys()];
-  folderNames.forEach(key => {
-    let mails = clonedFolders.get(key);
-    mails.forEach(mail => {
-      sourceMails.forEach(sourceMail => {
-        if (mail.id === sourceMail.id) {
-          mail.children_count = sourceMail.children_count;
-          mail.has_children = sourceMail.has_children;
-        }
-      });
-    });
-    clonedFolders.set(key, mails);
-  });
-  return clonedFolders;
 }
