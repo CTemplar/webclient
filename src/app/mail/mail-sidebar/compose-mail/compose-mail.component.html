@@ -8,7 +8,7 @@
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
-                {{selectedMailbox?.email | emailFormat : selectedMailbox?.display_name }}
+                {{ selectedMailbox?.email | emailFormat: selectedMailbox?.display_name }}
               </button>
               <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu class="from-dropdown" aria-labelledby="fromEmailDropdownMenuButton">
                 <ng-container *ngFor="let mailbox of mailBoxesState?.mailboxes">
@@ -114,7 +114,7 @@
             </div>
           </ng-container>
         </div>
-        <div #attachmentHolder style="height: 20px"></div>
+        <div #attachmentHolder style="height: 30px"></div>
       </div>
     </div>
     <div class="mail-composer-footer">
