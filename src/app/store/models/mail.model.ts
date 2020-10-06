@@ -48,6 +48,7 @@ export interface Mail {
   spam_reason?: string | [];
   starred?: boolean;
   subject?: string;
+  thread_count?: number;
 }
 
 export class EncryptionNonCTemplar {
