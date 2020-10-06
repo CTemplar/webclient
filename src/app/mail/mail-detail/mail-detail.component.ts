@@ -202,7 +202,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
-              this.decryptedContents[this.mail.id] = decryptedContent.content;
+              this.decryptedContents[this.mail.id] = this.mail.is_html ? decryptedContent.content.replace('<a ', '<a target = _blank ') : decryptedContent.content;
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
               }
@@ -452,7 +452,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
-        this.decryptedContents[child.id] = childDecryptedContent.content;
+        const decryptedContents = child.is_html ? childDecryptedContent.content.replace('<a ', '<a target = _blank ') : childDecryptedContent.content;
+        this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
         if (child.is_subject_encrypted) {
           child.subject = childDecryptedContent.subject;
