@@ -607,6 +607,8 @@
     "hide_extra": "Hide extra content",
     "show_trimmed": "Show trimmed content",
     "attachment_message": "Do you want to forward attachments of this message?",
+    "include_attachment_message": "Вы хотите включить вложения этого сообщения?",
+    "confirm_include_attach": "Подтвердить включение вложений",
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers",
     "show_plain_text": "Show Plain Text",

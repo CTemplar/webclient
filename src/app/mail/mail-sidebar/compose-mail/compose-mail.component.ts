@@ -424,12 +424,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
       });
 
-    this.store.dispatch(
-      new ContactsGet({
-        // call API to get user's contacts from DB
-      }),
-    );
-
     /**
      * Get user's contacts from store.
      */

@@ -38,6 +38,7 @@ declare let Scrambler;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
+  @ViewChild('includeAttachmentsModal') includeAttachmentsModal;
 
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
 
@@ -60,6 +61,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
+  selectedMailToInclude: Mail;
 
   isDecrypting: any = {};
 
@@ -112,6 +114,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private currentMailbox: Mailbox;
 
   private forwardAttachmentsModalRef: NgbModalRef;
+
+  private includeAttachmentsModalRef: NgbModalRef;
 
   private userState: UserState;
 
@@ -601,9 +605,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
       }
     }
+    this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY;
     this.setActionParent(mail, isChildMail, mainReply);
-    this.mailOptions[mail.id].isComposeMailVisible = true;
+    if (mail.attachments.length > 0) {
+      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+      });
+    } else {
+      this.confirmIncludeAttachments();
+    }
+    // this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
   onReplyAll(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
@@ -625,9 +638,28 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers.filter(
       email => email !== this.currentMailbox.email,
     );
+    this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
     this.setActionParent(mail, isChildMail, mainReply);
-    this.mailOptions[mail.id].isComposeMailVisible = true;
+    if (mail.attachments.length > 0) {
+      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+      });
+    } else {
+      this.confirmIncludeAttachments();
+    }
+  }
+
+  confirmIncludeAttachments(shouldInclude?: boolean) {
+    if (shouldInclude) {
+      this.composeMailData[this.selectedMailToInclude.id].forwardAttachmentsMessageId = this.selectedMailToInclude.id;
+    }
+    this.mailOptions[this.selectedMailToInclude.id].isComposeMailVisible = true;
+    this.selectedMailToInclude = null;
+    if (this.includeAttachmentsModalRef) {
+      this.includeAttachmentsModalRef.dismiss();
+    }
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {

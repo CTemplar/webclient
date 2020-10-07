@@ -27,7 +27,7 @@ import {
   GetNotification,
   SaveAutoResponder,
   WhiteListGet,
-  CardGet,
+  CardGet, ContactsGet
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
@@ -96,6 +96,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
             this.store.dispatch(new BlackListGet());
             this.store.dispatch(new GetInvoices());
             this.store.dispatch(new CardGet());
+            this.store.dispatch(new ContactsGet());
           }, 500);
 
           if (userState.isPrime) {
