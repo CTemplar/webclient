@@ -254,10 +254,7 @@ async function encryptAttachment(data, publicKeys) {
 
 async function decryptAttachment(data, privKeyObj) {
   const tmpDecodedData = atob(data);
-  let isArmored = false;
-  if (tmpDecodedData.includes('-----BEGIN PGP MESSAGE-----')) {
-    isArmored = true;
-  }
+  const isArmored = tmpDecodedData.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
   if (!data) {
     return Promise.resolve(data);
   }
