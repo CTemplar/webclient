@@ -720,6 +720,7 @@
     "hide_extra": "Hide extra content",
     "show_trimmed": "Show trimmed content",
     "attachment_message": "Do you want to forward attachments of this message?",
+    "include_attachment_message": "Do you want to include attachments of this message?",
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers",
     "delete_this_message": "Delete this Message",
@@ -729,6 +730,7 @@
     "show_raw_email": "Show raw email",
     "decryp_4096_bit": "Decrypting 4096 Bit Encrypted Email",
     "confirm_forward_attach": "Confirm Forward Attachments",
+    "confirm_include_attach": "Confirm Include Attachments",
     "show_plain_text": "Show Plain Text",
     "show_rich_text": "Show Rich Text"
   },

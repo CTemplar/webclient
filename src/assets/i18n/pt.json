@@ -171,6 +171,8 @@
   },
   "mail_detail": {
     "attachment_message": "Você quer encaminhar os anexos dessa mensagem?",
+    "include_attachment_message": "Você quer incluir anexos desta mensagem?",
+    "confirm_include_attach": "Confirme a inclusão de anexos",
     "dead_mans_timer": "Dead man timer em",
     "delay_delivery": "Atrasar o envio em",
     "delete_in": "Deletar em",

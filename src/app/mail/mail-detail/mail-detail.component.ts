@@ -38,6 +38,7 @@ declare let Scrambler;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
+  @ViewChild('includeAttachmentsModal') includeAttachmentsModal;
 
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
 
@@ -60,6 +61,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
+  selectedMailToInclude: Mail;
 
   isDecrypting: any = {};
 
@@ -114,6 +116,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private currentMailbox: Mailbox;
 
   private forwardAttachmentsModalRef: NgbModalRef;
+
+  private includeAttachmentsModalRef: NgbModalRef;
 
   private userState: UserState;
 
@@ -204,7 +208,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
-              this.decryptedContents[this.mail.id] = decryptedContent.content;
+              this.decryptedContents[this.mail.id] = this.mail.is_html ? decryptedContent.content.replace('<a ', '<a target="_blank" ') : decryptedContent.content;
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
               }
@@ -455,7 +459,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
-        this.decryptedContents[child.id] = childDecryptedContent.content;
+        const decryptedContents = child.is_html ? childDecryptedContent.content.replace('<a ', '<a target="_blank" ') : childDecryptedContent.content;
+        this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
         if (child.is_subject_encrypted) {
           child.subject = childDecryptedContent.subject;
@@ -606,9 +611,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
       }
     }
+    this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY;
     this.setActionParent(mail, isChildMail, mainReply);
-    this.mailOptions[mail.id].isComposeMailVisible = true;
+    if (mail.attachments.length > 0) {
+      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+      });
+    } else {
+      this.confirmIncludeAttachments();
+    }
+    // this.mailOptions[mail.id].isComposeMailVisible = true;
   }
 
   onReplyAll(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
@@ -630,9 +644,28 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers.filter(
       email => email !== this.currentMailbox.email,
     );
+    this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
     this.setActionParent(mail, isChildMail, mainReply);
-    this.mailOptions[mail.id].isComposeMailVisible = true;
+    if (mail.attachments.length > 0) {
+      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+      });
+    } else {
+      this.confirmIncludeAttachments();
+    }
+  }
+
+  confirmIncludeAttachments(shouldInclude?: boolean) {
+    if (shouldInclude) {
+      this.composeMailData[this.selectedMailToInclude.id].forwardAttachmentsMessageId = this.selectedMailToInclude.id;
+    }
+    this.mailOptions[this.selectedMailToInclude.id].isComposeMailVisible = true;
+    this.selectedMailToInclude = null;
+    if (this.includeAttachmentsModalRef) {
+      this.includeAttachmentsModalRef.dismiss();
+    }
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
