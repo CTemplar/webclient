@@ -253,14 +253,16 @@ async function encryptAttachment(data, publicKeys) {
 }
 
 async function decryptAttachment(data, privKeyObj) {
+  const tmpDecodedData = atob(data);
+  const isArmored = tmpDecodedData.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
   if (!data) {
     return Promise.resolve(data);
   }
   try {
     const options = {
-      message: await openpgp.message.readArmored(data),
+      message: isArmored ? await openpgp.message.readArmored(tmpDecodedData) : await openpgp.message.read(openpgp.util.b64_to_Uint8Array(data)),
       privateKeys: [privKeyObj],
-      format: 'binary',
+      format: 'binary'
     };
     return openpgp.decrypt(options).then(payload => {
       return payload.data;
