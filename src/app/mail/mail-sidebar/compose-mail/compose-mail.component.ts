@@ -509,7 +509,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
               this.subject = decryptedContent.subject;
               this.mailData.subject = decryptedContent.subject;
             }
-            this.addDecryptedContent();
           }
         }
       });
@@ -542,7 +541,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.receiver.push({
         display: value,
         value,
-        email: value
+        email: value,
       });
       this.inputTextValue = '';
       this.isPasted = false;
@@ -555,7 +554,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.cc.push({
         display: value,
         value,
-        email: value
+        email: value,
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
@@ -568,7 +567,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.bcc.push({
         display: value,
         value,
-        email: value
+        email: value,
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;
@@ -1200,17 +1199,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
         }
       }
-    }
-  }
-
-  addDecryptedContent() {
-    if (!this.draftMail.is_html) {
-      this.mailData.content = this.decryptedContent;
-      return;
-    }
-    if (this.quill) {
-      this.quill.setText('');
-      this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
     }
   }
 
