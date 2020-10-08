@@ -548,6 +548,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.receiver.push({
         display: value,
         value,
+        email: value
       });
       this.inputTextValue = '';
       this.isPasted = false;
@@ -560,6 +561,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.cc.push({
         display: value,
         value,
+        email: value
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
@@ -572,6 +574,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.bcc.push({
         display: value,
         value,
+        email: value
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;

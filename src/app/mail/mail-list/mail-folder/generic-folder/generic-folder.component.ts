@@ -127,7 +127,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = [...mailState.mails];
-          if ((this.mailFolder !== MailFolderType.SENT && this.mailFolder !== MailFolderType.DRAFT) && this.mails.length > 0) {
+          if (this.mails.length > 0) {
             this.getMailReceiverList();
           }
         }
