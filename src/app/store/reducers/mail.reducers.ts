@@ -1,7 +1,8 @@
 import { MailActions, MailActionTypes } from '../actions';
-import { MailState, MailStateFolderInfo } from '../datatypes';
-import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
+import { MailState, MailStateFolderInfo, FolderState } from '../datatypes';
+import { Attachment, EmailDisplay, Mail, MailFolderType, Folder } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { FOLDER_COLORS } from '../../shared/config';
 
 export function reducer(
   state: MailState = {
@@ -19,12 +20,15 @@ export function reducer(
     isMailsMoved: false,
     customFolderMessageCount: [],
     isComposerPopUp: false,
+    mailMap: {},
+    folderMap: new Map()
   },
   action: MailActions,
 ): MailState {
   switch (action.type) {
     case MailActionTypes.GET_MAILS: {
-      const mails = state.folders.get(action.payload.folder);
+      // const mails = state.folders.get(action.payload.folder);
+      const mails = prepareMails(action.payload.folder, state.folderMap, state.mailMap);
       return {
         ...state,
         loaded: !!(mails && !action.payload.forceReload),
@@ -37,113 +41,77 @@ export function reducer(
 
     case MailActionTypes.GET_MAILS_SUCCESS: {
       let { mails } = action.payload;
-      const target_folder_mails = state.folders.get(action.payload.folder) || [];
-      const old_folder_info = state.info_by_folder.get(action.payload.folder);
-      const folder_info = new MailStateFolderInfo({
-        is_not_first_page: action.payload.is_not_first_page || false,
-        total_mail_count: action.payload.total_mail_count,
-        is_dirty: false,
-      });
-      state.info_by_folder.set(action.payload.folder, folder_info);
 
-      if (action.payload.is_from_socket) {
-        const mailIDs = mails.map(item => item.id);
-        mails = target_folder_mails.filter(item => !mailIDs.includes(item.id));
-        mails = [...action.payload.mails, ...mails];
-        if (action.payload.folder !== MailFolderType.SPAM) {
-          let unread_folder_mails = state.folders.get(MailFolderType.UNREAD) || [];
-          const unread_folder_info = state.info_by_folder.get(MailFolderType.UNREAD);
-          // prepare unread mails
-          if (
-            unread_folder_mails &&
-            unread_folder_mails.length > 0 &&
-            unread_folder_info &&
-            !unread_folder_info.is_not_first_page
-          ) {
-            unread_folder_mails = unread_folder_mails.filter(item => !mailIDs.includes(item.id));
-            unread_folder_mails = [...action.payload.mails, ...unread_folder_mails];
-            unread_folder_mails = unread_folder_mails.map((mail: Mail) => {
-              mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-
-              mail.thread_count =
-                mail.children_count +
-                ((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) ||
-                (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)
-                  ? 1
-                  : 0);
-              return mail;
-            });
-            unread_folder_mails = unread_folder_mails.slice(0, action.payload.limit);
-            state.folders.set(MailFolderType.UNREAD, unread_folder_mails);
-            unread_folder_info.total_mail_count += mailIDs.length;
-            state.info_by_folder.set(MailFolderType.UNREAD, unread_folder_info);
-          }
-          // prepare all mails
-          let all_folder_mails = state.folders.get(MailFolderType.ALL_EMAILS) || [];
-          const all_folder_info = state.info_by_folder.get(MailFolderType.ALL_EMAILS);
-          if (
-            all_folder_mails &&
-            all_folder_mails.length > 0 &&
-            all_folder_info &&
-            !all_folder_info.is_not_first_page
-          ) {
-            all_folder_mails = all_folder_mails.filter(item => !mailIDs.includes(item.id));
-            all_folder_mails = [...action.payload.mails, ...all_folder_mails];
-            all_folder_mails = all_folder_mails.map((mail: Mail) => {
-              mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-              mail.thread_count =
-                mail.children_count +
-                ((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) ||
-                (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)
-                  ? 1
-                  : 0);
-              return mail;
-            });
-            all_folder_mails = all_folder_mails.slice(0, action.payload.limit);
-            state.folders.set(MailFolderType.ALL_EMAILS, all_folder_mails);
-            all_folder_info.total_mail_count += mailIDs.length;
-            state.info_by_folder.set(MailFolderType.ALL_EMAILS, all_folder_info);
-          }
+      // refactoring
+      
+      const payloadMails = action.payload.mails;
+      const mailMap = updateMailMap(state.mailMap, payloadMails);
+      let folderMap = new Map(state.folderMap);
+      // Update Folder Map for ###TARGET FOLDER###
+      if (!action.payload.is_from_socket || (action.payload.is_from_socket && folderMap.has(action.payload.folder))) {
+        const oldFolderInfo = folderMap.get(action.payload.folder);
+        const mailIDS = oldFolderInfo ? filterAndMergeMailIDs(payloadMails, oldFolderInfo.mails, action.payload.limit) : payloadMails.map(mail => mail.id);
+        const folderState = {
+          mails: mailIDS,
+          total_mail_count: action.payload.total_mail_count,
+          is_not_first_page: action.payload.is_not_first_page,
+          offset: action.payload.offset,
+          is_dirty: false
         }
+        folderMap.set(`${action.payload.folder}`, folderState);
       }
-      mails = mails.map((mail: Mail) => {
-        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-        mail.thread_count =
-          mail.children_count +
-          ((action.payload.folder !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) ||
-          (action.payload.folder === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH)
-            ? 1
-            : 0);
-        return mail;
-      });
+      
+      // Update Folder Map for ###UNREAD FOLDER###
       if (
-        state.currentFolder === action.payload.folder ||
-        (state.currentFolder !== action.payload.folder && target_folder_mails.length > 0)
-      ) {
-        if (!action.payload.is_from_socket || (old_folder_info && !old_folder_info.is_not_first_page)) {
-          if (action.payload.limit) {
-            mails = mails.slice(0, action.payload.limit);
-          }
-          state.folders.set(action.payload.folder, mails);
+        action.payload.folder !== MailFolderType.UNREAD && 
+        action.payload.folder !== MailFolderType.SPAM && 
+        folderMap.has(MailFolderType.UNREAD)
+        ) {
+        const oldFolderInfo = folderMap.get(MailFolderType.UNREAD);
+        const mailIDS = filterAndMergeMailIDs(payloadMails, oldFolderInfo.mails, action.payload.limit, true);
+        const folderState = {
+          ...oldFolderInfo,
+          mails: mailIDS,
+          total_mail_count: oldFolderInfo.total_mail_count + payloadMails.length
         }
+        folderMap.set(MailFolderType.UNREAD, folderState);
       }
-      mails = state.folders.get(state.currentFolder);
-      state.total_mail_count = state.info_by_folder.get(state.currentFolder)
-        ? state.info_by_folder.get(state.currentFolder).total_mail_count
-        : 0;
-      mails = mails || [];
+      // Update Folder Map for ###ALL EMAILS FOLDER###
+      if (
+        action.payload.folder !== MailFolderType.ALL_EMAILS && 
+        action.payload.folder !== MailFolderType.SPAM && 
+        folderMap.has(MailFolderType.ALL_EMAILS)
+        ) {
+        const oldFolderInfo = folderMap.get(MailFolderType.ALL_EMAILS);
+        const mailIDS = filterAndMergeMailIDs(payloadMails, oldFolderInfo.mails, action.payload.limit);
+        const folderState = {
+          ...oldFolderInfo,
+          mails: mailIDS,
+          total_mail_count: oldFolderInfo.total_mail_count + payloadMails.length
+        }
+        folderMap.set(MailFolderType.ALL_EMAILS, folderState);
+      }
+      
+      mails = prepareMails(state.currentFolder, folderMap, mailMap);
       mails.forEach((mail: Mail) => {
+        mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
           mail.subject = state.decryptedSubjects[mail.id];
           mail.is_subject_encrypted = false;
         }
       });
+      //
+      console.log('get mail success.................................................... mailMap: ', mailMap)
+      console.log('get mail success.................................................... folder Map: ', folderMap)
+      console.log('get mail success.................................................... displaying mails: ', mails)
       return {
         ...state,
         mails,
         loaded: true,
         inProgress: false,
         noUnreadCountChange: true,
+        mailMap,
+        folderMap,
       };
     }
 
@@ -192,23 +160,28 @@ export function reducer(
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
-      state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
-      if (action.payload.sourceFolder) {
-        const oldMails = state.folders.get(action.payload.sourceFolder) || [];
-        state.folders.set(
-          action.payload.sourceFolder,
-          oldMails.filter(mail => !listOfIDs.includes(mail.id.toString())),
-        );
+      // refactoring
+      let folderMap = state.folderMap;
+      // Update source folder's mails
+      const sourceFolderName = action.payload.sourceFolder;
+      if (sourceFolderName && folderMap.has(sourceFolderName)) {
+        let sourceFolderState = folderMap.get(sourceFolderName);
+        sourceFolderState.mails = sourceFolderState.mails.filter(mail => !listOfIDs.includes(mail.toString()));
+        folderMap.set(sourceFolderName, sourceFolderState);
       }
-      let info_keys = [...state.info_by_folder.keys()];
-      info_keys = info_keys.filter(folder => folder !== MailFolderType.DRAFT && folder !== MailFolderType.OUTBOX);
-      info_keys.map(key => {
-        const folder_info = state.info_by_folder.get(key);
-        if (folder_info) {
-          folder_info.is_dirty = true;
+      // const folderMapKeys = Object.keys(folderMap);
+      // folderMapKeys.forEach(key => {
+      //   let indMap = folderMap.get(key);
+      //   indMap.is_dirty = true;
+      //   folderMap.set(key, indMap);
+      // });
+      let mailMap = state.mailMap;
+      mailMap.forEach(mail => {
+        if (listOfIDs.includes(mail.id.toString())) {
+          mail = { ...mail, folder: action.payload.folder };
         }
-        state.info_by_folder.set(key, folder_info);
       });
+      const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       if (
         state.mailDetail &&
         state.mailDetail.children &&
@@ -223,7 +196,16 @@ export function reducer(
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, folder: action.payload.folder };
       }
-      return { ...state, inProgress: false, noUnreadCountChange: true, isMailsMoved: true };
+
+      return { 
+        ...state, 
+        mails, 
+        mailMap, 
+        folderMap, 
+        inProgress: false, 
+        noUnreadCountChange: true, 
+        isMailsMoved: true 
+      };
     }
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
@@ -458,6 +440,8 @@ export function reducer(
         unreadMailsCount: { inbox: 0 },
         noUnreadCountChange: true,
         canGetUnreadCount: true,
+        mailMap: {},
+        folderMap: new Map()
       };
     }
 
@@ -475,6 +459,8 @@ export function reducer(
         canGetUnreadCount: true,
         decryptedSubjects: {},
         customFolderMessageCount: [],
+        mailMap: {},
+        folderMap: new Map()
       };
     }
 
@@ -679,4 +665,44 @@ function getTotalUnreadCount(data): number {
     return total_count;
   }
   return 0;
+}
+
+function updateMailMap(currentMap: any, mails: Mail[]): any {
+  if (mails && mails.length > 0) {
+    let tmpMailMap = {};
+    mails.forEach(mail => {
+      tmpMailMap = {...tmpMailMap, [mail.id]: mail}
+    });
+    return {...currentMap, ...tmpMailMap};
+  }
+  return currentMap;
+}
+
+function filterAndMergeMailIDs(newMails: Array<Mail>, originalMailIDs: Array<number>, limit: number, checkUnread: boolean = false): Array<number> {
+  const mailIDs = newMails.filter(mail => checkUnread ? !mail.read : true).map(mail => mail.id);
+  if (originalMailIDs && originalMailIDs.length > 0) {
+    originalMailIDs = originalMailIDs.filter(id => mailIDs.indexOf(id) < 0);
+    originalMailIDs = [...mailIDs, ...originalMailIDs];
+    if (originalMailIDs.length > limit) {
+      originalMailIDs = originalMailIDs.slice(0, limit);
+    }
+    return originalMailIDs;
+  }
+  return mailIDs;
+}
+
+function prepareMails(folderName: MailFolderType, folders: Map<string, FolderState>, mailMap: any): Array<Mail> {
+  if (folders.has(folderName)) {
+    const folderInfo = folders.get(folderName);
+    let mails = folderInfo.mails.map(mailID => {
+      return mailMap[mailID];
+    });
+    return mails;
+  } else {
+    return [];
+  }
+}
+
+function updateFolderMap(originMap: FolderState, data: any) {
+
 }

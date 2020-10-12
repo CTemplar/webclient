@@ -46,6 +46,7 @@ export class MailEffects {
     ofType(MailActionTypes.GET_MAILS),
     map((action: GetMails) => action.payload),
     switchMap(payload => {
+      console.log('ggggggggggget mail ', payload)
       return this.mailService.getMessages(payload).pipe(
         map(response => {
           return new GetMailsSuccess({

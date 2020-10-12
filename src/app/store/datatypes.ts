@@ -374,6 +374,17 @@ export interface MailState {
   isMailsMoved?: boolean;
   isComposerPopUp?: boolean;
   currentSettingsTab?: string;
+
+  mailMap: any;
+  folderMap: Map<string, FolderState>; 
+}
+
+export interface FolderState {
+  mails: Array<number>;
+  total_mail_count: number;
+  is_not_first_page: boolean;
+  offset: number;
+  is_dirty: boolean;
 }
 
 export class SecureContent {
