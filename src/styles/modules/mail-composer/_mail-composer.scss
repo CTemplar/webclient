@@ -150,7 +150,8 @@ a {
       justify-content: flex-end;
 
       .mail-compose-box {
-        max-height: 72vh;
+        max-height: none;
+        height: calc(100vh - 280px);
 
         .ql-editor {
           min-height: 640.867px;
