@@ -376,7 +376,8 @@ export interface MailState {
   currentSettingsTab?: string;
 
   mailMap: any;
-  folderMap: Map<string, FolderState>; 
+  folderMap: Map<string, FolderState>;
+  pageLimit?: number;
 }
 
 export interface FolderState {
