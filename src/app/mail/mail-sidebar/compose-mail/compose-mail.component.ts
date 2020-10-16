@@ -23,7 +23,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { COLORS, FONTS, SummarySeparator } from '../../../shared/config';
 import {
-  ContactsGet,
   CloseMailbox,
   DeleteAttachment,
   GetEmailContacts,
