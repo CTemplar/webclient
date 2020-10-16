@@ -91,6 +91,8 @@ import {
   WhiteListAddSuccess,
   WhiteListDelete,
   WhiteListDeleteSuccess,
+  MoveToBlacklist,
+  MoveToWhitelist,
   WhiteListGet,
   WhiteListsReadSuccess,
   CardAdd,
@@ -196,6 +198,40 @@ export class UsersEffects {
   );
 
   @Effect()
+  MoveToBlacklist: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.MOVE_TO_BLACKLIST),
+    map((action: MoveToBlacklist) => action.payload),
+    switchMap(payload => {
+      return this.userService.deleteWhiteList(payload.id).pipe(
+        switchMap(res => {
+          return of(
+            new WhiteListDeleteSuccess(payload.id),
+            new BlackListAdd({ email: payload.email, name: payload.name }),
+          );
+        }),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete whitelist contact' }))),
+      );
+    }),
+  );
+
+  @Effect()
+  MoveToWhitelist: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.MOVE_TO_WHITELIST),
+    map((action: MoveToWhitelist) => action.payload),
+    switchMap(payload => {
+      return this.userService.deleteBlackList(payload.id).pipe(
+        switchMap(res => {
+          return of(
+            new BlackListDeleteSuccess(payload.id),
+            new WhiteListAdd({ email: payload.email, name: payload.name }),
+          );
+        }),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete blacklist contact' }))),
+      );
+    }),
+  );
+
+  @Effect()
   CardLists: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.CARD_GET),
     map((action: CardGet) => action.payload),
@@ -282,7 +318,12 @@ export class UsersEffects {
       return this.userService.addBlackList(payload.email, payload.name).pipe(
         switchMap(contact => {
           contact.isUpdating = payload.id;
-          return of(new BlackListAddSuccess(contact), new BlackListGet());
+          return of(
+            new BlackListAddSuccess(contact),
+            new BlackListGet(),
+            new WhiteListGet(),
+            new SnackPush({ message: 'Email added to blacklist successfully.' }),
+          );
         }),
         catchError(error => of(new BlackListAddError(error))),
       );

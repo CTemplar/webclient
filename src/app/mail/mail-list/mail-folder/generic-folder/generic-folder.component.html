@@ -218,16 +218,18 @@
             <!-- Sender Name -->
             <td class="mail-from-name">
               <a (click)="openMail(mail)" class="text-danger display-emails" [ngClass]="{ 'text-dark': mailFolder !== mailFolderTypes.DRAFT }">
-                <ng-container [ngSwitch]="mailFolder">
-                  <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">
+                <ng-container *ngIf="mailFolder === mailFolderTypes.DRAFT; else otherFolders">
+                  <ng-template class="text-danger">
                     <span [translate]="'mail_sidebar.draft'">Draft</span>
-                  </ng-container>
-                  <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-                    <label [ngbTooltip]="mail.receiver_list" placement="right">{{ mail.receiver_list }}</label>
-                  </ng-container>
-                  <ng-container *ngSwitchDefault>
-                    <label [ngbTooltip]="mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email" placement="right">{{ mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name }}</label>
-                  </ng-container>
+                  </ng-template>
+                </ng-container>
+                <ng-container #otherFodlers>
+                  <ng-conatiner *ngIf="mail.folder === mailFolderTypes.DRAFT; else nonDraftMail">
+                    <span [translate]="'mail_sidebar.draft'" class="text-danger">Draft</span>
+                  </ng-conatiner>
+                  <ng-template #nonDraftMail>
+                    <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{ getMailSenderReceiverInfo(mail) }}</label>
+                  </ng-template>
                   <span *ngIf="mail.thread_count > 1" class="email-child-count">({{ mail.thread_count }})</span>
                 </ng-container>
                 <span class="position-relative" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
@@ -317,20 +319,21 @@
             <td class="mail-from-name">
               <!-- Sender Name -->
               <a (click)="openMail(mail)" class="text-danger display-emails" [ngClass]="{ 'text-dark': mailFolder !== mailFolderTypes.DRAFT }">
-                <ng-container [ngSwitch]="mailFolder">
-                  <ng-container *ngSwitchCase="mailFolderTypes.DRAFT" class="text-danger">
+                <ng-container *ngIf="mailFolder === mailFolderTypes.DRAFT; else otherFolders">
+                  <ng-template class="text-danger">
                     <span [translate]="'mail_sidebar.draft'">Draft</span>
-                  </ng-container>
-                  <ng-container *ngSwitchCase="mailFolderTypes.SENT">
-                    <label [ngbTooltip]="mail.receiver_list">{{ mail.receiver_list }}</label>
-                  </ng-container>
-                  <ng-container *ngSwitchDefault>
-                    {{ mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name }}
-                  </ng-container>
+                  </ng-template>
+                </ng-container>
+                <ng-container #otherFodlers>
+                  <ng-conatiner *ngIf="mail.folder === mailFolderTypes.DRAFT; else nonDraftMail">
+                    <span [translate]="'mail_sidebar.draft'" class="text-danger">Draft</span>
+                  </ng-conatiner>
+                  <ng-template #nonDraftMail>
+                    <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{ getMailSenderReceiverInfo(mail) }}</label>
+                  </ng-template>
                   <span *ngIf="mail.children_count > 0" class="email-child-count"> ({{ mailFolder !== mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH ? mail.children_count : 10 }}) </span>
                 </ng-container>
               </a>
-
               <span class="mail-inbox-message d-md-block">
                 <a (click)="openMail(mail)" class="text-dark">
                   <span class="mail-subject">

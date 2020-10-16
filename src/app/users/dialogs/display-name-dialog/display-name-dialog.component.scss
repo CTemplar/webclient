@@ -42,3 +42,12 @@
   cursor: pointer;
   float: right;
 }
+
+.skip-btn {
+  cursor: pointer;
+  position: absolute;
+  left: 30px;
+}
+.skip-btn:hover {
+  color: #000;
+}

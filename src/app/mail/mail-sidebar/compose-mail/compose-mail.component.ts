@@ -23,7 +23,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { COLORS, FONTS, SummarySeparator } from '../../../shared/config';
 import {
-  ContactsGet,
   CloseMailbox,
   DeleteAttachment,
   GetEmailContacts,
@@ -424,12 +423,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
       });
 
-    this.store.dispatch(
-      new ContactsGet({
-        // call API to get user's contacts from DB
-      }),
-    );
-
     /**
      * Get user's contacts from store.
      */
@@ -515,7 +508,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
               this.subject = decryptedContent.subject;
               this.mailData.subject = decryptedContent.subject;
             }
-            this.addDecryptedContent();
           }
         }
       });
@@ -548,6 +540,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.receiver.push({
         display: value,
         value,
+        email: value,
       });
       this.inputTextValue = '';
       this.isPasted = false;
@@ -560,6 +553,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.cc.push({
         display: value,
         value,
+        email: value,
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
@@ -572,6 +566,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.mailData.bcc.push({
         display: value,
         value,
+        email: value,
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;
@@ -1206,17 +1201,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
-  addDecryptedContent() {
-    if (!this.draftMail.is_html) {
-      this.mailData.content = this.decryptedContent;
-      return;
-    }
-    if (this.quill) {
-      this.quill.setText('');
-      this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
-    }
-  }
-
   openSelfDestructModal() {
     if (this.selfDestruct.value) {
       // reset to previous confirmed value
@@ -1425,7 +1409,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
-    this.draftMail.is_subject_encrypted = this.userState.settings.is_subject_encrypted;
+    this.draftMail.is_subject_encrypted = true;
     let tokens;
     if (this.draftMail.is_html) {
       // if html version, convert text to html format with html tags

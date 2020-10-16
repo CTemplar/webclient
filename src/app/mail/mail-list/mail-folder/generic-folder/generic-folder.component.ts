@@ -127,7 +127,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = [...mailState.mails];
-          if (this.mailFolder === MailFolderType.SENT && this.mails.length > 0) {
+          if (this.mails.length > 0) {
             this.getMailReceiverList();
           }
         }
@@ -251,10 +251,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         mail.receiver_list = '';
         mail.receiver_display.forEach((item: EmailDisplay) => {
           if (mail.sender !== item.email && item.name) {
+            const nameToCombine = item.name !== item.email.split('@')[0] ? item.name : item.email;
             if (mail.receiver_list === '') {
-              mail.receiver_list = item.name;
+              mail.receiver_list = nameToCombine;
             } else {
-              mail.receiver_list += `, ${item.name}`;
+              mail.receiver_list += `, ${nameToCombine}`;
             }
           }
         });
@@ -632,6 +633,48 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       return true;
     }
     return true;
+  }
+
+  /**
+   * @name getMailSenderReceiverInfo
+   * @description Function to get tooltip, receiver, sender info.
+   * @params Mail, isToolTip
+   * @returns {String} The list of email or name for sender, receiver
+  */
+  getMailSenderReceiverInfo(mail: Mail, isTooltip: boolean = false) {
+    let info = '';
+    if (this.mailFolder === this.mailFolderTypes.DRAFT) {
+      info = 'Draft';
+    } else if (this.mailFolder === this.mailFolderTypes.INBOX) {
+      info = isTooltip ? mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email : mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+    } else if (this.mailFolder === this.mailFolderTypes.SENT || this.mailFolder === this.mailFolderTypes.OUTBOX) {
+      info = mail.receiver_list;
+    } else {
+      // For Search, All Emails, Custom Folders
+      switch (mail.folder) {
+        case MailFolderType.INBOX:
+          info = isTooltip ? mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email : mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+          break;
+  
+        case MailFolderType.SENT:
+        case MailFolderType.OUTBOX:
+          info = mail.receiver_list;
+          break;
+  
+        case MailFolderType.DRAFT:
+          info = 'Draft';
+          break;
+      
+        default:
+          if (mail.send) {
+            info = mail.receiver_list;
+          } else {
+            info = isTooltip ? mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email : mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+          }
+          break;
+      }
+    }
+    return info;
   }
 
   ngOnDestroy() {}

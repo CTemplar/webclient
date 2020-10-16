@@ -1,8 +1,8 @@
-name: webclient-dev
+name: webclient-testing
 
 on:
   push:
-    branches: [dev]
+    branches: [testing]
 
 jobs:
   build:
@@ -25,20 +25,20 @@ jobs:
           npm install
           npm run build:dev
 
-      - name: Publish to dev-pages
+      - name: Publish to testing-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           version=$(node -p "require('./package.json').version")
           git config --global user.email "support@ctemplar.com"
           git config --global user.name "CTemplar"
-          git checkout -B dev-pages
+          git checkout -B testing-pages
           git add -f dist
           git commit -am "Release v${version}"
           git filter-branch -f --prune-empty --subdirectory-filter dist
-          git push -f origin dev-pages
+          git push -f origin testing-pages
           git checkout -
 
       - name: Publish to Iceland server
         run: |
-          ${{ secrets.DEPLOY_COMMAND }} webclient-dev
+          ${{ secrets.DEPLOY_COMMAND }} webclient-testing

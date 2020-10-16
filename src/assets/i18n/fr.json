@@ -693,6 +693,8 @@
     "hide_extra": "Masquer le contenu supplémentaire",
     "show_trimmed": "Afficher le contenu coupé",
     "attachment_message": "Voulez-vous inclure les pièces jointes de ce message ?",
+    "include_attachment_message": "Voulez-vous inclure des pièces jointes de ce message ?",
+    "confirm_include_attach": "Confirmer l'inclusion des pièces jointes",
     "no_header": "Aucun en-tête disponible",
     "incoming_head": "En-têtes entrants",
     "delete_this_message": "Supprimer ce message",

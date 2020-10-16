@@ -34,6 +34,7 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    
     this.changeDisplayNameForm = this.formBuilder.group({
       username: ['', [Validators.required]],
     });

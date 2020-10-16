@@ -630,6 +630,37 @@
   </div>
 </div>
 
+<!-- Confirm include attachments modal -->
+<ng-template #includeAttachmentsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{ 'mail_detail.confirm_include_attach' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        {{ 'mail_detail.include_attachment_message' | translate }}
+      </div>
+      <div class="form-group text-right mb-0">
+        <button type="button" (click)="confirmIncludeAttachments(true)" class="btn btn-success btn-sm" role="button">
+          {{ 'common.yes' | translate }}
+        </button>
+        <button type="button" (click)="confirmIncludeAttachments(false)" class="btn btn-sm ml-1" role="button">
+          {{ 'common.no' | translate }}
+        </button>
+        <button type="button" data-dismiss="modal" aria-label="Close" (click)="d()" class="btn btn-sm ml-1">
+          {{ 'common.cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- /.Confirm include attachments modal ends -->
+
 <!-- Confirm forward attachments modal -->
 <ng-template #forwardAttachmentsModal let-c="close" let-d="dismiss">
   <div class="modal-header">

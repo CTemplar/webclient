@@ -124,12 +124,14 @@
     "whitelist": {
       "name": "Whitelist",
       "info": "Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message as not spam adds the address to the Whitelist",
-      "add_whitelist_contact": "Add whitelist contact"
+      "add_whitelist_contact": "Add whitelist contact",
+      "search_whitelist": "Search in Whitelist"
     },
     "blacklist": {
       "name": "Blacklist",
       "info": "Messages from contacts in the blacklist always go to <strong>Spam folder</strong>. Marking a message as spam adds the address to the Blacklist.",
-      "add_blacklist_contact": "Add blacklist contact"
+      "add_blacklist_contact": "Add blacklist contact",
+      "search_blacklist": "Search in Blacklist"
     },
     "add_to": "Add to",
     "username_required": "The username is required.",
@@ -718,6 +720,7 @@
     "hide_extra": "Hide extra content",
     "show_trimmed": "Show trimmed content",
     "attachment_message": "Do you want to forward attachments of this message?",
+    "include_attachment_message": "Do you want to include attachments of this message?",
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers",
     "delete_this_message": "Delete this Message",
@@ -727,6 +730,7 @@
     "show_raw_email": "Show raw email",
     "decryp_4096_bit": "Decrypting 4096 Bit Encrypted Email",
     "confirm_forward_attach": "Confirm Forward Attachments",
+    "confirm_include_attach": "Confirm Include Attachments",
     "show_plain_text": "Show Plain Text",
     "show_rich_text": "Show Rich Text"
   },

@@ -102,7 +102,7 @@ and match their checksum. It should be same as mentioned at the top of this docu
 
   ![img](https://github.com/ctemplar/webclient/blob/master/docs/images/calculate-hash-online-github2.png)
 
-#Why different checksum of electron client index.html
+## Why different checksum for electron client index.html
 
 Electron client `index.html` requires a `base-href='./'` instead of `base-href='/'`.
 That is the only one difference between electron client and webclient `index.html`.

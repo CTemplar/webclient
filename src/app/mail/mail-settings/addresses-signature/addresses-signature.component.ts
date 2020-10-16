@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -12,13 +12,7 @@ import { MailSettingsService } from '../../../store/services/mail-settings.servi
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
-import {
-  CreateMailbox,
-  DeleteMailbox,
-  SetDefaultMailbox,
-  SnackErrorPush,
-  UpdateMailboxOrder,
-} from '../../../store/actions';
+import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 
@@ -33,8 +27,6 @@ Quill.register(ImageFormat, true);
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss'],
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
-  @ViewChild('deleteAliasModal') deleteAliasModal;
-
   public mailBoxesState: MailBoxesState;
 
   public mailboxes: Mailbox[];
@@ -64,8 +56,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   reorder: boolean;
 
   reorderInProgress = false;
-
-  mailboxToDelete: Mailbox;
 
   signatureChanged: Subject<string> = new Subject<string>();
 
@@ -207,13 +197,21 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   submitNewAddress() {
     this.newAddressOptions.isSubmitted = true;
+    const newUserName = this.newAddressForm.controls.username.value;
+
     if (
       this.newAddressForm.valid &&
       this.newAddressOptions.usernameExists === false &&
-      this.newAddressForm.controls.username.value
+      newUserName
     ) {
       this.newAddressOptions.isBusy = true;
-      this.openPgpService.generateUserKeys(this.userState.username, atob(this.usersService.getUserKey()));
+      const currentDomain = this.newAddressForm.controls.domain.value;
+      if (currentDomain) {
+        this.openPgpService.generateUserKeys(newUserName, atob(this.usersService.getUserKey()), currentDomain);
+      } else {
+        this.openPgpService.generateUserKeys(newUserName, atob(this.usersService.getUserKey()));
+      }
+      
       if (this.openPgpService.getUserKeys()) {
         this.addNewAddress();
       } else {
@@ -257,20 +255,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       selectedMailbox.inProgress = true;
       this.store.dispatch(new MailboxSettingsUpdate({ ...selectedMailbox, [key]: value }));
     }
-  }
-
-  showConfirmDeleteMailboxModal(mailbox: Mailbox) {
-    this.mailboxToDelete = mailbox;
-    this.modalService.open(this.deleteAliasModal, {
-      centered: true,
-      windowClass: 'modal-sm users-action-modal',
-      backdrop: 'static',
-    });
-  }
-
-  deleteMailboxConfirmed() {
-    this.store.dispatch(new DeleteMailbox(this.mailboxToDelete));
-    this.mailboxes = this.mailboxes.filter(mailbox => mailbox.id !== this.mailboxToDelete.id);
   }
 
   sortDown(index: number) {

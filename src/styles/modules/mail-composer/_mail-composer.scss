@@ -137,8 +137,21 @@ a {
     left: 1.563rem;
     width: 80%;
     margin: auto;
-    top: 3rem;
+    top: 1rem;
     bottom: auto;
+
+    &:before {
+      content: '';
+      position: fixed;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      width: 100vw;
+      height: calc(100vh + 1rem);
+      top: -1rem;
+      z-index: -1;
+    }
+
     .mail-compose-editable-box {
       background: #ffffff;
     }
@@ -151,6 +164,7 @@ a {
 
       .mail-compose-box {
         max-height: none;
+        height: calc(100vh - 280px);
 
         .ql-editor {
           min-height: 640.867px;
