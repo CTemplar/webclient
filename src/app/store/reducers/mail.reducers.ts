@@ -177,7 +177,7 @@ export function reducer(
         folderMap.set(targetFolderName, targetFolderState);
       }
       // Update other folders
-      const folder_keys = [ ...folderMap.keys()].filter(key => key !== sourceFolderName || key !== targetFolderName);
+      const folder_keys = [ ...folderMap.keys()].filter(key => key !== sourceFolderName && key !== targetFolderName);
       folder_keys.forEach(key => {
         let folderInfo = folderMap.get(key);
         folderInfo.is_dirty = true;
@@ -363,32 +363,6 @@ export function reducer(
 
     case MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS:
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
-
-      // const folder_keys = [MailFolderType.DRAFT, MailFolderType.TRASH, MailFolderType.SPAM];
-      // folder_keys.map(key => {
-      //   const folder_info = state.info_by_folder.get(key);
-      //   if (folder_info) {
-      //     folder_info.is_dirty = true;
-      //   }
-      //   state.info_by_folder.set(key, folder_info);
-      // });
-      // if (action.payload.isMailDetailPage) {
-      //   return state;
-      // }
-      // if ((state.currentFolder === MailFolderType.DRAFT && action.payload.isDraft) || !action.payload.isDraft) {
-      //   const listOfIDs = action.payload.ids.split(',');
-      //   state.mails = state.mails.filter(mail => !listOfIDs.includes(mail.id.toString()));
-      //   if (
-      //     state.mailDetail &&
-      //     state.mailDetail.children &&
-      //     state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))
-      //   ) {
-      //     state.mailDetail.children = state.mailDetail.children.filter(
-      //       child => !listOfIDs.includes(child.id.toString()),
-      //     );
-      //   }
-      // }
-      // return { ...state, inProgress: false, noUnreadCountChange: true };
       const listOfIDs = action.payload.ids.split(',');
       let folderMap = new Map(state.folderMap);
       let mailMap = { ...state.mailMap };
@@ -530,11 +504,18 @@ export function reducer(
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
       const folderMap = state.folderMap;
+      let mailMap = state.mailMap;
       const mails = prepareMails(action.payload, folderMap, state.mailMap);
       const total_mail_count = folderMap.has(action.payload) ? folderMap.get(action.payload).total_mail_count : 0;
+      Object.keys(mailMap).forEach(key => {
+        let mail = mailMap[key];
+        mail.marked = false;
+        mailMap[key] = {...mail};
+      });
       return {
         ...state,
-        mails: mails,
+        mails,
+        mailMap,
         total_mail_count,
         currentFolder: action.payload,
       };
