@@ -353,6 +353,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       // Dispatch permanent delete mails event.
       if (ids) {
         this.store.dispatch(new DeleteMail({ ids }));
+        this.isDeleteDraftClicked = true;
       }
     } else {
       this.moveToFolder(MailFolderType.TRASH);
