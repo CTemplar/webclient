@@ -58,9 +58,6 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    if (this.draft) {
-      this.mailSubject = this.draft.subject;
-    }
     /**
      * Hide dialog when reply
      */
