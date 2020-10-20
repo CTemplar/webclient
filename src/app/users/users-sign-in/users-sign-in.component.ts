@@ -123,6 +123,8 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .subscribe((authState: AuthState) => {
         if (!authState.isAuthenticated) {
           this.isLoading = authState.inProgress;
+        } else {
+          this.isLoading = false;
         }
         this.errorMessage = authState.errorMessage;
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
