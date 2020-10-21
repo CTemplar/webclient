@@ -50,7 +50,7 @@ jobs:
         run: |
           ${{ secrets.DEPLOY_COMMAND }} webclient-master
 
-  release:
+  pre-release:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -69,7 +69,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Build and release Electron app
+      - name: Build and pre-release Electron apps
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
