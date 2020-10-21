@@ -263,7 +263,6 @@ export function reducer(
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
       let { mails } = state;
       let mailMap = state.mailMap;
-      // refactoring
       const undo_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
       let folderMap = state.folderMap;
       // Destination folder map
@@ -640,6 +639,14 @@ export function reducer(
           if (mailMap[mailID].id === newMail.parent) {
             mailMap[mailID].has_children = true;
             mailMap[mailID].children_count = mailMap[mailID].children_count + 1;
+            if (mailMap[mailID].children_folder_info) {
+              mailMap[mailID].children_folder_info = { ...mailMap[mailID].children_folder_info, non_trash_children_count: mailMap[mailID].children_folder_info.non_trash_children_count + 1 }
+            } else {
+              mailMap[mailID].children_folder_info = {
+                trash_children_count: 0,
+                non_trash_children_count: 1
+              }
+            }
           }
         });
       }
@@ -710,8 +717,10 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
   const mails = sortArray.map(mailID => {
     if (mailMap.hasOwnProperty(mailID)) {
       return mailMap[mailID];
+    } else {
+      return null;
     }
-  })
+  }).filter(mail => !!mail);
   const sorted = mails.sort((previous: any, next: any) => {
     const next_updated = next.updated || null;
     const previous_updated = previous.updated || null;
@@ -845,13 +854,15 @@ function prepareMails(folderName: MailFolderType, folders: Map<string, FolderSta
       let mail = mailMap[mailID] ? mailMap[mailID] : null;
       if (mail) {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-        if (mail.has_children) {
+        if (mail.children_folder_info) {
           if (folderName === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH) {
             mail.thread_count = mail.children_folder_info ? mail.children_folder_info.trash_children_count + 1: 0;
           } else if (folderName === MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) {
             mail.thread_count = mail.children_folder_info ? mail.children_folder_info.trash_children_count : 0;
-          } else {
+          } else if (folderName !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) {
             mail.thread_count = mail.children_folder_info ? mail.children_folder_info.non_trash_children_count + 1 : 0;
+          } else if (folderName !== MailFolderType.TRASH && mail.folder === MailFolderType.TRASH) {
+            mail.thread_count = mail.children_folder_info ? mail.children_folder_info.non_trash_children_count : 0;
           }
         }
       }
