@@ -434,7 +434,15 @@ export function reducer(
       return {
         ...state,
         mailDetail: action.payload,
+        mailDetailLoaded: true,
         noUnreadCountChange: true,
+      };
+    }
+
+    case MailActionTypes.GET_MAIL_DETAIL_FAILURE: {
+      return {
+        ...state,
+        mailDetailLoaded: true,
       };
     }
 
