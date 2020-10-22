@@ -370,7 +370,7 @@ export function reducer(
         folderMap,
         inProgress: false,
         noUnreadCountChange: true
-      }
+      };
     }
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
@@ -423,7 +423,7 @@ export function reducer(
         folderMap,
         inProgress: false,
         noUnreadCountChange: true
-      }
+      };
     }
 
     case MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS:
@@ -431,7 +431,6 @@ export function reducer(
       const listOfIDs = action.payload.ids.split(',');
       let folderMap = new Map(state.folderMap);
       let mailMap = { ...state.mailMap };
-      let mails = [ ...state.mails ];
       const folder_keys = [MailFolderType.DRAFT, MailFolderType.TRASH, MailFolderType.SPAM];
       folder_keys.forEach(key => {
         if (folderMap.has(key)) {
@@ -448,7 +447,7 @@ export function reducer(
           folderMap
         };
       }
-      mails = prepareMails(state.currentFolder, folderMap, mailMap);
+      const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
       state.total_mail_count = curMailFolder.total_mail_count;
 
@@ -470,7 +469,7 @@ export function reducer(
         mailMap,
         inProgress: false,
         noUnreadCountChange: true
-      }
+      };
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
