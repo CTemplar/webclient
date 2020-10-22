@@ -162,9 +162,6 @@ export function reducer(
       const listOfIDs = action.payload.ids.toString().split(',');
       let folderMap = state.folderMap;
       let mailMap = state.mailMap;
-      // action.payload.mail.forEach(mail => {
-      //   mailMap[mail.id] = mail;
-      // });
       
       // Update source folder's mails
       const sourceFolderName = action.payload.sourceFolder;
@@ -195,13 +192,12 @@ export function reducer(
         folderInfo.mails = [];
         folderMap.set(key, folderInfo);
       });
-
       // Update mail map
       const mailMapKeys = Object.keys(mailMap);
       mailMapKeys.forEach(key => {
         if (listOfIDs.includes(mailMap[key].id.toString())) {
           mailMap[key] = { ...mailMap[key], folder: action.payload.folder };
-          if (action.payload.folder === MailFolderType.TRASH && mailMap[key].has_children && mailMap[key].children_count > 0) {
+          if (action.payload.folder === MailFolderType.TRASH && mailMap[key].has_children && mailMap[key].children_count > 0 && action.payload.withChildren !== false) {
             // If moving parent to trash, children would be moved to trash as well
             mailMap[key].children_folder_info = {
               trash_children_count: mailMap[key].children_count,
