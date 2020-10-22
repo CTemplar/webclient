@@ -1,9 +1,7 @@
 import { MailActions, MailActionTypes } from '../actions';
 import { MailState, FolderState } from '../datatypes';
-import { Attachment, EmailDisplay, Mail, MailFolderType, Folder } from '../models';
+import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { FOLDER_COLORS } from '../../shared/config';
-import { filter, sampleTime } from 'rxjs/operators';
 
 export function reducer(
   state: MailState = {
@@ -214,7 +212,7 @@ export function reducer(
       });
       // This is to move to trash only child from any folder
       // should update children_folder_info as well
-      const incomeMails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail]
+      const incomeMails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
       incomeMails.forEach(mail => {
         if (action.payload.folder === MailFolderType.TRASH && mail.parent) {
           const parentID = mail.parent;
