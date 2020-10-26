@@ -13,6 +13,13 @@
       <button class="btn btn-sm btn-secondary float-right" (click)="startReorder()" *ngIf="!reorder && folders?.length > 1" [ngbTooltip]="'settings.reorder_addresses' | translate">
         <span [translate]="'settings.reorder'">Reorder</span>
       </button>
+      <button class="sort-alphabetic-btn btn btn-sm float-right " (click)="sortWithAlphabetic()" *ngIf="!sortedWithAlphabetic && folders?.length > 1" [ngbTooltip]="'settings.sort_with_alphabetic' | translate">
+        <i class="fas fa-long-arrow-alt-down cursor-pointer"></i>
+      </button>
+      <button class="sort-alphabetic-btn btn btn-sm float-right " (click)="sortWithAlphabetic()" *ngIf="sortedWithAlphabetic && folders?.length > 1" [ngbTooltip]="'settings.sort_with_analphabetic' | translate">
+        <i class="fas fa-long-arrow-alt-up cursor-pointer"></i>
+      </button>
+      <app-loading-spinner class="float-right" [showSpinner]="reorderInProgress && !reorder"></app-loading-spinner>
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
       <ul class="ui-list ui-list-styled list-styled folders-list">
         <li *ngFor="let folder of folders; let i = index" class="ui-list-item ui-list-item-xs-full">

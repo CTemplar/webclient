@@ -29,6 +29,8 @@ export class FoldersComponent implements OnInit, OnDestroy {
 
   reorder: boolean;
 
+  sortedWithAlphabetic: boolean = false;
+
   reorderInProgress = false;
 
   private unmodifiedFolders: Array<Folder>;
@@ -158,6 +160,22 @@ export class FoldersComponent implements OnInit, OnDestroy {
   cancelOrder() {
     this.reorder = false;
     this.folders = this.unmodifiedFolders;
+  }
+
+  sortWithAlphabetic() {
+    this.sortedWithAlphabetic = !this.sortedWithAlphabetic;
+    if (this.sortedWithAlphabetic) {
+      this.folders.sort((f, s) => f.name.localeCompare(s.name)).forEach((folder, index) => {
+        folder.sort_order = index + 1;
+        this.folders[index] = folder;
+      });
+    } else {
+      this.folders.sort((f, s) => -f.name.localeCompare(s.name)).forEach((folder, index) => {
+        folder.sort_order = index + 1;
+        this.folders[index] = folder;
+      });
+    }
+    this.saveOrder();
   }
 
   ngOnDestroy(): void {}

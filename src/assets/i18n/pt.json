@@ -606,6 +606,8 @@
     "renew": "Renovar",
     "reorder": "Reorganizar",
     "reorder_addresses": "Reorganizar endereços",
+    "sort_with_alphabetic": "Sort into alphabetic order",
+    "sort_with_analphabetic": "Sort into analphabetic order",
     "required": "Necessário",
     "required_field": "Campo necessário",
     "save_order": "Salvar ordem",
