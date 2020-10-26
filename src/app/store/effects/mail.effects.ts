@@ -18,6 +18,7 @@ import {
   EmptyFolderSuccess,
   GetMailDetail,
   GetMailDetailSuccess,
+  GetMailDetailFailure,
   GetMails,
   GetMailsSuccess,
   GetUnreadMailsCount,
@@ -180,7 +181,10 @@ export class MailEffects {
     ofType(MailActionTypes.GET_MAIL_DETAIL),
     map((action: GetMailDetail) => action.payload),
     switchMap(payload => {
-      return this.mailService.getMessage(payload).pipe(switchMap(res => of(new GetMailDetailSuccess(res))));
+      return this.mailService.getMessage(payload).pipe(
+        switchMap(res => of(new GetMailDetailSuccess(res))),
+        catchError(error => of(new GetMailDetailFailure(error))),
+      );
     }),
   );
 

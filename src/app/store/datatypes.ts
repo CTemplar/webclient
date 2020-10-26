@@ -370,6 +370,7 @@ export interface MailState {
   unreadMailsCount: any;
   customFolderMessageCount: any;
   noUnreadCountChange: boolean;
+  mailDetailLoaded?: boolean;
   canGetUnreadCount: boolean;
   isMailsMoved?: boolean;
   isComposerPopUp?: boolean;

@@ -39,7 +39,6 @@ declare let Scrambler;
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
   @ViewChild('includeAttachmentsModal') includeAttachmentsModal;
-
   @ViewChild('incomingHeadersModal') incomingHeadersModal;
 
   mail: Mail;
@@ -103,6 +102,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   forceLightMode: boolean;
 
+  progressBar: boolean;
+
   disableExternalImages: boolean;
 
   includeOriginMessage: boolean;
@@ -143,7 +144,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private composeMailService: ComposeMailService,
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
-    private mailService: MailService
+    private mailService: MailService,
   ) {}
 
   ngOnInit() {
@@ -208,7 +209,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
-              this.decryptedContents[this.mail.id] = this.mail.is_html ? decryptedContent.content.replace('<a ', '<a target="_blank" ') : decryptedContent.content;
+              this.decryptedContents[this.mail.id] = this.mail.is_html
+                ? decryptedContent.content.replace('<a ', '<a target="_blank" ')
+                : decryptedContent.content;
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
               }
@@ -261,6 +264,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             }, 1000);
           } else {
             this.parentMailCollapsed = false;
+          }
+        }
+        if (mailState.mailDetailLoaded) {
+          this.progressBar = true;
+          if (!this.mail) {
+            this.store.dispatch(
+              new SnackErrorPush({
+                message: 'Failed to load mail detail.',
+              }),
+            );
           }
         }
         if (this.mails.length > 0 && this.mail && mailState.loaded) {
@@ -459,7 +472,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
-        const decryptedContents = child.is_html ? childDecryptedContent.content.replace('<a ', '<a target="_blank" ') : childDecryptedContent.content;
+        const decryptedContents = child.is_html
+          ? childDecryptedContent.content.replace('<a ', '<a target="_blank" ')
+          : childDecryptedContent.content;
         this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
         if (child.is_subject_encrypted) {
@@ -1002,14 +1017,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getForwardMessageSummary(mail: Mail): string {
     let content =
       `</br>---------- Forwarded message ----------</br>` +
-      `From: ${EmailFormatPipe.transformToFormattedEmail(mail.sender_display.email, mail.sender_display.name, true)}</br>` +
+      `From: ${EmailFormatPipe.transformToFormattedEmail(
+        mail.sender_display.email,
+        mail.sender_display.name,
+        true,
+      )}</br>` +
       `Date: ${
         mail.sent_at
           ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium')
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
       `Subject: ${mail.subject}</br>` +
-      `To: ${mail.receiver_display.map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true)).join(', ')}</br>`;
+      `To: ${mail.receiver_display
+        .map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true))
+        .join(', ')}</br>`;
 
     if (mail.cc.length > 0) {
       content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
