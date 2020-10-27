@@ -14,10 +14,10 @@
         <span [translate]="'settings.reorder'">Reorder</span>
       </button>
       <button class="sort-alphabetic-btn btn btn-sm float-right " (click)="sortWithAlphabetic()" *ngIf="!sortedWithAlphabetic && folders?.length > 1" [ngbTooltip]="'settings.sort_with_alphabetic' | translate">
-        <i class="fas fa-long-arrow-alt-down cursor-pointer"></i>
+        <em class="fas fa-long-arrow-alt-down cursor-pointer"></em>
       </button>
       <button class="sort-alphabetic-btn btn btn-sm float-right " (click)="sortWithAlphabetic()" *ngIf="sortedWithAlphabetic && folders?.length > 1" [ngbTooltip]="'settings.sort_with_analphabetic' | translate">
-        <i class="fas fa-long-arrow-alt-up cursor-pointer"></i>
+        <em class="fas fa-long-arrow-alt-up cursor-pointer"></em>
       </button>
       <app-loading-spinner class="float-right" [showSpinner]="reorderInProgress && !reorder"></app-loading-spinner>
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
