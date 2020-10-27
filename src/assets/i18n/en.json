@@ -116,6 +116,7 @@
     "reset_password": "I understand that action will delete all data and generate a new encryption key.",
     "appearance": "Appearance",
     "display_name": "Display name",
+    "upgrade_to_paid": "Please upgrade to paid plan to edit signature",
     "signature": "Signature",
     "emails_per_page": "Emails per page",
     "load_embedded_content": "Load embedded content",
