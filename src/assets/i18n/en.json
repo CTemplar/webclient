@@ -378,6 +378,8 @@
     "conversations": " conversations )",
     "conversation": " conversation )",
     "reorder_addresses": "Reorder aliases",
+    "sort_with_alphabetic": "Sort into alphabetic order",
+    "sort_with_analphabetic": "Sort into analphabetic order",
     "move_up": "Move up",
     "move_down": "Move down",
     "warning": "Warning",

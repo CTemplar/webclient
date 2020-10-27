@@ -366,6 +366,8 @@
     "conversations": " conversations )",
     "conversation": " conversation )",
     "reorder_addresses": "Réorganiser les adresses",
+    "sort_with_alphabetic": "Sort into alphabetic order",
+    "sort_with_analphabetic": "Sort into analphabetic order",
     "move_up": "Déplacer vers le bas",
     "move_down": "Déplacer vers le haut",
     "warning": "Attention",
