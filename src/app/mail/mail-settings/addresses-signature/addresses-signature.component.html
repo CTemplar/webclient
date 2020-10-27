@@ -43,7 +43,7 @@
               <label for="signature" class="form-label mb-sm-0" [translate]="'settings.signature'"> Signature </label>
             </div>
             <div class="col">
-              <quill-editor id="signature" [ngModel]="selectedMailboxForSignature.signature" (ngModelChange)="onSignatureChange($event)" [modules]="quillModules" (onBlur)="signatureFocused(false)" (onFocus)="signatureFocused(true)"> </quill-editor>
+              <quill-editor id="signature" [ngModel]="selectedMailboxForSignature.signature" (ngModelChange)="onSignatureChange($event)" [modules]="quillModules" (onBlur)="signatureFocused(false)" (onFocus)="signatureFocused(true)" [disabled]="!userState.isPrime" [ngbTooltip]="!userState.isPrime && ('settings.upgrade_to_paid' | translate)"> </quill-editor>
             </div>
           </div>
         </div>
