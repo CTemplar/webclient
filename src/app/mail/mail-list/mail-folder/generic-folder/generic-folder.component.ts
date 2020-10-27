@@ -102,6 +102,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isDeleteDraftClicked = false;
 
+  isConversationView = true;
+
   constructor(
     public store: Store<AppState>,
     private router: Router,
@@ -155,6 +157,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
+        this.isConversationView = this.userState.settings && !this.userState.settings.is_conversation_mode ? false : true;
         this.customFolders = user.customFolders;
         if (this.mailFolder === MailFolderType.SEARCH) {
           user.customFolders.forEach(folder => {
@@ -353,6 +356,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       // Dispatch permanent delete mails event.
       if (ids) {
         this.store.dispatch(new DeleteMail({ ids }));
+        this.isDeleteDraftClicked = true;
       }
     } else {
       this.moveToFolder(MailFolderType.TRASH);
@@ -621,18 +625,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    const info_by_folder = this.mailState.info_by_folder.get(this.mailFolder);
-    if (info_by_folder && (info_by_folder.is_not_first_page || info_by_folder.is_dirty)) {
+    const curFolderMap = this.mailState.folderMap.get(this.mailFolder);
+    if (curFolderMap && (curFolderMap.is_not_first_page || curFolderMap.is_dirty)) {
       return true;
     }
-    if (this.mailState.folders) {
-      const cachedMails = this.mailState.folders.get(this.mailFolder);
-      if (cachedMails && cachedMails.length > 0) {
-        return false;
-      }
+    if (!curFolderMap || !curFolderMap.mails || curFolderMap.mails.length === 0) {
       return true;
     }
-    return true;
+    return false;
   }
 
   /**

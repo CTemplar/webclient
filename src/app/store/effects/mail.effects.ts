@@ -95,14 +95,13 @@ export class MailEffects {
     ofType(MailActionTypes.MOVE_MAIL),
     map((action: MoveMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.moveMail(payload.ids, payload.folder, payload.sourceFolder, payload.withChildren).pipe(
+      return this.mailService.moveMail(payload.ids, payload.folder, payload.sourceFolder, payload.withChildren, payload.fromTrash).pipe(
         switchMap(res => {
           const updateFolderActions = [];
 
           if (payload.shouldDeleteFolder) {
             updateFolderActions.push(new DeleteFolder(payload.folderToDelete));
           }
-
           updateFolderActions.push(new MoveMailSuccess(payload));
           if (!payload.shouldDeleteFolder) {
             updateFolderActions.push(
