@@ -167,7 +167,7 @@ function getBaseUrl() {
   }
   if (config.host === 'test.ctemplar.net') {
     return 'https://testapi.ctemplar.net/';
-}
+  }
   return 'https://testapi.ctemplar.net/';
 }
 

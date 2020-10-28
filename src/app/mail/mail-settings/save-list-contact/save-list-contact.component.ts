@@ -68,7 +68,7 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
             this.modalRef.close();
           } else {
             this.notificationService.showSnackBar(
-              `Failed to ${this.contact.id ? 'update' : 'save'} ${this.contactType} contact.${state.error}`,
+              `Failed to ${this.contact.id ? 'update' : 'add'} ${this.contactType} contact.${state.error}`,
             );
           }
         }
