@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -134,6 +134,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private shouldChangeMail = 0;
 
+  // If you are in non-trash folder, this means to show trash children or not
+  // If you are in trash folder, means to show non-trash children or not
+  private isShowTrashRelatedChildren: boolean = false;
+  
+  // indicate to contain trash / non-trash children on the conversation
+  private isContainTrashRelatedChildren: boolean = false;
+
+  private properFolderLastChildIndex: number = 0;
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -238,14 +247,26 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
           if (this.mail.children && this.mail.children.length > 0) {
+            // find the latest child with trash/non-trash folder
+            let filteredChildren = [];
+            if (this.mailFolder === MailFolderType.TRASH) {
+              filteredChildren = this.mail.children.filter(child => child.folder === MailFolderType.TRASH);
+            } else {
+              filteredChildren = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
+            }
+            if (filteredChildren.length > 0) this.decryptChildEmails(filteredChildren[filteredChildren.length - 1]);
             if (this.childMailCollapsed.length !== this.mail.children.length) {
               this.parentMailCollapsed = true;
               // Collapse all emails by default
               this.childMailCollapsed = this.makeArrayOf(true, this.mail.children.length);
-              // Do not collapse the last email in the list
-              this.childMailCollapsed[this.mail.children.length - 1] = false;
+              // Do not collapse the last email in the list, needs to consider the proper folder
+              if (filteredChildren.length > 0) {
+                this.properFolderLastChildIndex = this.mail.children.findIndex(child => child.id === filteredChildren[filteredChildren.length - 1].id);
+                this.childMailCollapsed[this.properFolderLastChildIndex] = false;
+              } else {
+                this.childMailCollapsed[this.mail.children.length - 1] = false;
+              }
             }
-            this.decryptChildEmails(this.mail.children[this.mail.children.length - 1]);
             this.mail.children.forEach(child => {
               this.backupChildDecryptedContent(child, mailState);
             });
@@ -301,6 +322,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (this.mail && this.mail.children) {
           const draft_children = this.mail.children.filter(child => child.folder === 'draft');
           draft_children.length > 0 ? (this.hasDraft = true) : (this.hasDraft = false);
+
+          // Get whether this contains trash/non-trash children
+          if (
+            (this.mailFolder !== MailFolderType.TRASH && this.mail.children.filter(child => child.folder === MailFolderType.TRASH).length > 0) || 
+            (this.mailFolder === MailFolderType.TRASH && this.mail.children.filter(child => child.folder !== MailFolderType.TRASH).length > 0)) {
+
+            this.isContainTrashRelatedChildren = true;
+          } else {
+            this.isContainTrashRelatedChildren = false;
+          }
         }
       });
 
@@ -719,7 +750,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onDelete(mail: Mail, index?: number, withChildren = true) {
-    if (mail.folder === MailFolderType.TRASH) {
+    if (mail.folder === MailFolderType.TRASH && this.mailFolder === MailFolderType.TRASH) {
       this.store.dispatch(new DeleteMail({ ids: mail.id.toString(), parent_only: !withChildren }));
       if (
         this.mail.children &&
@@ -752,9 +783,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     if (
       (mail.id === this.mail.id && (withChildren || !excepted_children || excepted_children.length === 0)) ||
-      (mail.id !== this.mail.id &&
-        (!excepted_children || excepted_children.length === 0) &&
-        this.mail.folder === MailFolderType.TRASH) ||
+      (mail.id !== this.mail.id && (!excepted_children || excepted_children.length === 0) && this.mail.folder === MailFolderType.TRASH) ||
       (mail.id === this.mail.id && this.mail.folder === MailFolderType.TRASH)
     ) {
       this.goBack(500);
@@ -1048,5 +1077,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private onClickChildHeader(childIndex) {
     this.childMailCollapsed[childIndex] = !this.childMailCollapsed[childIndex];
     this.decryptChildEmails(this.mail.children[childIndex]);
+  }
+
+  private onShowTrashRelatedChildren() {
+    this.isShowTrashRelatedChildren = !this.isShowTrashRelatedChildren;
   }
 }

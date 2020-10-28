@@ -192,8 +192,19 @@
         <span class="ml-1"> {{ mail.spam_reason.join(' ') }}</span>
       </ng-template>
     </div>
+    <div class="spam_reason row" *ngIf="isContainTrashRelatedChildren && !isShowTrashRelatedChildren">
+      <div class="col pt-1">
+        <span class="text-warning">Information:</span>
+        {{ mailFolder === mailFolderTypes.TRASH ? "This conversation contains non-trash messages." : "This conversation contains trash messages." }}
+      </div>
+      <div>
+        <button class="mark_not_spam btn btn-outline-warning" (click)="onShowTrashRelatedChildren()">
+          Load
+        </button>
+      </div>
+    </div>
 
-    <div class="ui-body is-xs bg-faded cursor-pointer mail-header" *ngIf="(mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)" (click)="parentMailCollapsed = !parentMailCollapsed">
+    <div class="ui-body is-xs bg-faded cursor-pointer mail-header" *ngIf="isShowTrashRelatedChildren || ((mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH))" (click)="parentMailCollapsed = !parentMailCollapsed">
       <div class="row">
         <div class="col-8">
           <div class="mailbox-sender-content">
@@ -291,7 +302,7 @@
   </section>
 
   <!--Mail Content-->
-  <section class="mailbox-section" *ngIf="(mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
+  <section class="mailbox-section" *ngIf="isShowTrashRelatedChildren || ((mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH))" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">
       <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="messageReplyDropdownMenuButton"></button>
@@ -377,7 +388,7 @@
 
   <!-- Child Mail-->
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
-    <ng-container *ngIf="mailFolder === mailFolderTypes.TRASH || childMail.folder !== mailFolderTypes.TRASH">
+    <ng-container *ngIf="isShowTrashRelatedChildren || ((mailFolder === mailFolderTypes.TRASH && childMail.folder === mailFolderTypes.TRASH) || (mailFolder !== mailFolderTypes.TRASH && childMail.folder !== mailFolderTypes.TRASH))">
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
           <div class="ui-body">
@@ -480,7 +491,7 @@
                     </div>
                   </div>
                 </div>
-                <app-progress-bar [active]="decryptedContents[childMail.id] == null" *ngIf="childIndex === mail.children.length - 1"> </app-progress-bar>
+                <app-progress-bar [active]="decryptedContents[childMail.id] == null" *ngIf="childIndex === properFolderLastChildIndex"> </app-progress-bar>
               </div>
             </section>
 
