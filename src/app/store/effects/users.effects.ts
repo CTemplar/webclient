@@ -354,7 +354,7 @@ export class UsersEffects {
     switchMap((payload: Settings) => {
       return this.userService.updateSettings(payload).pipe(
         switchMap(res => {
-          return of(new SettingsUpdateSuccess(payload));
+          return of(new SettingsUpdateSuccess(payload), new SnackPush({ message: 'Settings updated successfully.' }));
         }),
         catchError(error => of(new SnackErrorPush({ message: `Failed to save changes, ${error.error}` }))),
       );
