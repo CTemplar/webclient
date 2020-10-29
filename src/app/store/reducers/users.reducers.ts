@@ -146,7 +146,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         inProgress: false,
         isError: true,
-        error: action.payload.non_field_errors ? action.payload.non_field_errors[0] : '',
+        error: action.payload,
       };
     }
 
