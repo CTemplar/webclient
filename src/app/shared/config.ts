@@ -163,12 +163,12 @@ function getBaseUrl() {
       : 'https://api.ctemplar.com/';
   }
   if (AppConfig.local) {
-    return 'http://10.70.1.199:8000/';
+    return 'http://localhost:8000/';
   }
   if (config.host === 'test.ctemplar.net') {
     return 'https://testapi.ctemplar.net/';
   }
-  return 'https://testapi.ctemplar.net/';
+  return 'https://devapi.ctemplar.net/';
 }
 
 export function getWindowConfig(): { host: string; protocol: string } {
