@@ -322,11 +322,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (this.mail && this.mail.children) {
           const draft_children = this.mail.children.filter(child => child.folder === 'draft');
           draft_children.length > 0 ? (this.hasDraft = true) : (this.hasDraft = false);
-
           // Get whether this contains trash/non-trash children
           if (
-            (this.mailFolder !== MailFolderType.TRASH && this.mail.children.filter(child => child.folder === MailFolderType.TRASH).length > 0) || 
-            (this.mailFolder === MailFolderType.TRASH && this.mail.children.filter(child => child.folder !== MailFolderType.TRASH).length > 0)) {
+            (this.mailFolder !== MailFolderType.TRASH && (this.mail.children.filter(child => child.folder === MailFolderType.TRASH).length > 0 || this.mail.folder === MailFolderType.TRASH)) || 
+            (this.mailFolder === MailFolderType.TRASH && (this.mail.children.filter(child => child.folder !== MailFolderType.TRASH).length > 0 || this.mail.folder !== MailFolderType.TRASH))
+          ) {
 
             this.isContainTrashRelatedChildren = true;
           } else {

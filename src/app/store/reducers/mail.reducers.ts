@@ -238,6 +238,17 @@ export function reducer(
             state.mailDetail.children_count = state.mailDetail.children.length;
           }
         });
+        const sourceFolderChildren = state.mailDetail.children.filter(child => child.folder === sourceFolderName);
+        if (sourceFolderName && folderMap.has(sourceFolderName)) {
+          let sourceFolderState = folderMap.get(sourceFolderName);
+          sourceFolderState.mails = sourceFolderState.mails.filter(mailID => {
+            if (mailID === state.mailDetail.id && sourceFolderChildren.length === 0) {
+              return false;
+            }
+            return true;
+          });
+          folderMap.set(sourceFolderName, sourceFolderState);
+        }
       }
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, folder: action.payload.folder };

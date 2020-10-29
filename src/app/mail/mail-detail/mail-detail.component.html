@@ -322,7 +322,7 @@
             {{ 'mail_detail.cancel_send' | translate }}
           </a>
           <a class="dropdown-item" (click)="onPrint(mail)">{{ 'mail_detail.print' | translate }}</a>
-          <a class="dropdown-item" (click)="onDelete(mail, -1, false)" [translate]="mailFolder === mailFolderTypes.TRASH ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)"> </a>
+          <a class="dropdown-item" (click)="onDelete(mail, -1, false)" [translate]="mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)"> </a>
           <a class="dropdown-item" (click)="onDeleteForAll(mail)" *ngIf="mail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT" [ngbTooltip]="'mail_detail.messages_will_be_del' | translate" placement="left">
             {{ 'mail_detail.delete_from_receiver' | translate }}
           </a>
@@ -514,7 +514,7 @@
                     <a class="dropdown-item" *ngIf="childMail.delayed_delivery" (click)="onCancelSend(childMail)">
                       {{ 'mail_detail.cancel_send' | translate }}
                     </a>
-                    <a class="dropdown-item" (click)="onDelete(childMail, childIndex)" [translate]="mailFolder === mailFolderTypes.TRASH ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)"> </a>
+                    <a class="dropdown-item" (click)="onDelete(childMail, childIndex)" [translate]="mailFolder === mailFolderTypes.TRASH && childMail.folder === mailFolderTypes.TRASH ? ('mail_detail.delete_message' | translate) : ('mail_detail.delete_this_message' | translate)"> </a>
                     <a class="dropdown-item" (click)="onDeleteForAll(childMail)" *ngIf="childMail.folder === mailFolderTypes.SENT && mailFolder === mailFolderTypes.SENT" [ngbTooltip]="'mail_detail.messages_will_be_del' | translate" placement="left">
                       {{ 'mail_detail.delete_from_receiver' | translate }}
                     </a>
