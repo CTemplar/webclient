@@ -604,7 +604,7 @@
                     <label for="notificationEmail" class="form-label mb-sm-0" [translate]="'settings.notification_email'"> Notification email </label>
                   </div>
                   <form class="col-sm-7 col-md-5" autocomplete="off">
-                    <input class="form-control form-control-sm" id="notificationEmail" type="email" name="notificationEmail" autocomplete="off" [(ngModel)]="settings.notification_email" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('notification_email', $event.target.value)" placeholder="notify@example.com" onfocus="(this.placeholder='')" onfocusout="(this.placeholder='notify@example.com')" />
+                    <input class="form-control form-control-sm" id="notificationEmail" type="email" name="notificationEmail" autocomplete="off" [(ngModel)]="notificationEmail" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('notification_email', $event.target.value)" placeholder="notify@example.com" onfocus="(this.placeholder='')" onfocusout="(this.placeholder='notify@example.com')" />
                   </form>
                   <div class="info-card mx-3 mt-2 full-width">
                     <p [translate]="'settings.enter_notification_email'">Enter a notification email on which you would like to receive notification each day when you have new emails.</p>
