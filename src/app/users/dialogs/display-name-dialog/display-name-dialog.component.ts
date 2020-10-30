@@ -8,6 +8,7 @@ import { AppState, AuthState, MailBoxesState } from '../../../store/datatypes';
 import { Mailbox } from '../../../store/models';
 import { MailboxSettingsUpdate } from '../../../store/actions';
 import { SharedService } from '../../../store/services';
+import { NoWhiteSpaceValidator } from '../../../shared/validators/no-whitespace.validator';
 
 @UntilDestroy()
 @Component({
@@ -36,7 +37,7 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     
     this.changeDisplayNameForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
+      username: ['', [Validators.required, NoWhiteSpaceValidator.noWhiteSpaceValidator]],
     });
 
     this.store
