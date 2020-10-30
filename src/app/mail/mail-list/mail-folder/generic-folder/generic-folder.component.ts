@@ -148,6 +148,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
         ) {
           this.decryptAllSubjects();
         }
+        this.noEmailSelected = !this.isSomeEmailsSelected();
       });
     /**
      * Get user's settings and custom folders
