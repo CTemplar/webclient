@@ -90,7 +90,7 @@
             <i class="svg-inline--fa fa-2x far fa-envelope"></i>
           </a>
         </li>
-        <li>
+        <li [class.disabled]="selectedContacts?.length === 0">
           <a (click)="openConfirmDeleteModal(confirmDeleteModal)" [ngbTooltip]="'contacts.delete_tooltip' | translate" class="cursor-pointer border-radius-l-0"><i class="icon icon-garbage"></i></a>
         </li>
         <li class="pl-0" ngbTooltip="Import contacts">
