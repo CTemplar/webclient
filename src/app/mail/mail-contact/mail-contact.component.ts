@@ -219,6 +219,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   checkContact(contact: Contact) {
     this.selectAll = false;
     contact.markForDelete = !contact.markForDelete;
+    this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
   }
 
   openConfirmDeleteModal(modalReference) {
@@ -273,6 +274,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleSelectAll() {
     this.contactsState.contacts.forEach(item => (item.markForDelete = this.selectAll));
+    this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
   }
 
   openImportContactsModal() {

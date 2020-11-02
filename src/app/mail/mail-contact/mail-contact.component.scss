@@ -350,6 +350,10 @@
 .more-xs-options-list > li.checkbox-dropdown .fancy-field-group {
   margin-top: 4px;
 }
+.mailbox-actionbar-menu > li.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
 .mail-checkbox .fancy-field-group {
   margin-bottom: -16px;
 }
