@@ -34,10 +34,12 @@
     },
     "import_contacts": "Importer des contacts",
     "select_csv": "Pour importer des contacts, sélectionnez un fichier CSV parmi les choix suivants :",
+    "select_vcf": "Select a VCF file",
     "import_f_google": "Importer depuis Google",
     "import_f_yahoo": "Importer depuis Yahoo",
     "import_f_outlook": "Importer depuis Outlook",
     "import_f_other": "Importer (Autre)",
+    "import_f_drive": "Import from Drive",
     "contact_name": "Nom du contact",
     "type_email": "Type E-mail",
     "a_note": "A noter"

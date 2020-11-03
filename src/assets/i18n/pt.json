@@ -74,6 +74,7 @@
     "import_contacts": "Importar contatos",
     "import_f_google": "Importar do Google",
     "import_f_other": "Importar de outro",
+    "import_f_drive": "Import from Drive",
     "import_f_outlook": "Importar do Outlook",
     "import_f_yahoo": "Importar do Yahoo",
     "new_contact": "NOVO CONTATO",
@@ -99,6 +100,7 @@
       "name_required": "O nome é necessário"
     },
     "select_csv": "Selecione um arquivo CSV de alguns dos seguintes provedores.",
+    "select_vcf": "Select a VCF file",
     "type_email": "Digite o email"
   },
   "create_account": {
