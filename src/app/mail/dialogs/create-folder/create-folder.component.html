@@ -63,10 +63,6 @@
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.required">
         <span> {{ 'settings.folder_messages.name_required' | translate }}</span>
       </ng-container>
-      <ng-container *ngIf="customFolderForm.controls['folderName'].errors.pattern">
-        <span> Folder name must start with an alphabet and can only contain </span>
-        <em>a-z</em>, <em>A-Z</em>, <em>0-9</em>, <em>._-</em>
-      </ng-container>
       <ng-container *ngIf="customFolderForm.controls['folderName'].errors.maxlength">
         <span>{{ 'settings.folder_messages.name_len' | translate }}</span>
       </ng-container>
