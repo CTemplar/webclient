@@ -26,6 +26,7 @@ export enum ContactsProviderType {
   YAHOO = <any>'YAHOO',
   OUTLOOK = <any>'OUTLOOK',
   OTHER = <any>'OTHER',
+  VCARD = <any>'VCARD',
 }
 
 @UntilDestroy()
