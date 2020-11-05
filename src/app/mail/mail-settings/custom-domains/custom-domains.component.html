@@ -41,7 +41,7 @@
                     <div class="col-2">
                       <span class="text-capitalize font-weight-bold" [translate]="'settings.domain'"> Domain </span>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                       <span class="text-capitalize font-weight-bold" [translate]="'settings.current_status'"> Current Status </span>
                     </div>
                     <div class="col-1 text-center">
@@ -50,14 +50,16 @@
                     <div class="col-1 text-center">
                       <span class="text-capitalize font-weight-bold" [translate]="'settings.domains_and_users.users'">Users</span>
                     </div>
-                    <div class="col-2 text-center">
+                    <div class="col-1 text-center">
                       <span class="text-capitalize font-weight-bold" [translate]="'settings.catch_all'"> Catch all </span>
                     </div>
+                    <div class="col-2 text-center">
+                      <span class="text-capitalize font-weight-bold">Catch all Email</span>
+                    </div>
                   </div>
-
                   <div class="row d-none d-sm-flex bg-white align-items-start" *ngFor="let domain of domains">
                     <div class="col-2 text-dark text-domain font-weight-bold">{{ domain.domain }}</div>
-                    <div class="col-5 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
+                    <div class="col-4 text-uppercase text-small d-flex flex-wrap align-content-start domain-status">
                       <div class="failed" [class.verified]="domain.is_domain_verified">
                         <span [translate]="'settings.status_verification'">Verification</span>
                       </div>
@@ -88,8 +90,20 @@
                     </div>
                     <div class="col-1 text-dark text-domain text-center">{{ domain.number_of_aliases }}</div>
                     <div class="col-1 text-dark text-domain text-center">{{ domain.number_of_users }}</div>
-                    <div class="col-2 text-dark text-domain text-center">
+                    <div class="col-1 text-dark text-domain text-center">
                       <mat-checkbox type="checkbox" [checked]="domain.catch_all" (change)="domain.catch_all = $event.checked; updateDomain(domain)"> </mat-checkbox>
+                    </div>
+                    <div class="col-2 text-dark text-domain text-center catch-all-email-dropdown-container" *ngIf="mailboxesForCustomDomains.has(domain.id)">
+                      <div class="btn-dropdown btn-dropdown-select">
+                        <div ngbDropdown class="dropdown-sm">
+                          <button ngbDropdownToggle class="dropdown-toggle" [ngClass]="{'blank-dropdown': !domain.catch_all_email}" id="catchAllEmailDropdown" role="button" [disabled]="!domain.catch_all || !domain.number_of_aliases">
+                            {{domain.catch_all_email ? domain.catch_all_email : domain.number_of_aliases ? 'Select alias' : 'No alias'}}
+                          </button>
+                          <div ngbDropdownMenu aria-labelledby="catchAllEmailDropdown">
+                            <a class="dropdown-item" *ngFor="let email of mailboxesForCustomDomains.get(domain.id)" (click)="onSelectCatchAllEmail(domain, email)">{{email}}</a>
+                          </div>
+                        </div>
+                      </div>  
                     </div>
                     <div class="col-1 d-flex justify-content-end actions">
                       <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">

@@ -200,3 +200,18 @@
 i.fas.fa-copy {
   font-size: 20px;
 }
+
+.catch-all-email-dropdown-container {
+  .btn-dropdown {
+    margin-top: -8px;
+  }
+  #catchAllEmailDropdown {
+    width: 90%;
+  }
+  #catchAllEmailDropdown[disabled] {
+    color: #e0e0e0;
+  }
+  .blank-dropdown {
+    color: #e0e0e0;
+  }
+}

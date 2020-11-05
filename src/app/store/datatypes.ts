@@ -572,6 +572,7 @@ export interface DomainRecord {
 export interface Domain {
   id: number;
   catch_all?: boolean;
+  catch_all_email?: string;
   created: string;
   dkim_record: DomainRecord;
   dmarc_record: DomainRecord;
