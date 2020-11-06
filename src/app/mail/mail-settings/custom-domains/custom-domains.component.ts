@@ -88,6 +88,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
           this.newDomain = user.newCustomDomain;
           this.newDomainError = user.newCustomDomainError;
           this.currentStep = user.currentCreationStep;
+          this.prepareMapForDomainAlias(this.domains, this.mailboxes);
         }
       });
 
@@ -113,12 +114,16 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   prepareMapForDomainAlias(domains: Domain[], aliases: Array<any>) {
-    domains.forEach(domain => {
+    domains.forEach((domain, indexDomain) => {
       let aliasesForDomain = [];
       aliases.forEach(alias => {
         const domainForAlias = alias.email.split('@')[1];
         if (domain.domain === domainForAlias && alias.is_enabled) {
           aliasesForDomain.push(alias.email);
+          if (!domain.catch_all_email && aliasesForDomain.length === 1) {
+            domain.catch_all_email = alias.email;
+            this.domains[indexDomain] = domain;
+          }
         }
       });
       this.mailboxesForCustomDomains.set(domain.id, aliasesForDomain);
