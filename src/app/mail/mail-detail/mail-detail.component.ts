@@ -137,7 +137,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   // If you are in non-trash folder, this means to show trash children or not
   // If you are in trash folder, means to show non-trash children or not
   private isShowTrashRelatedChildren: boolean = false;
-  
+
   // indicate to contain trash / non-trash children on the conversation
   private isContainTrashRelatedChildren: boolean = false;
 
@@ -261,7 +261,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.childMailCollapsed = this.makeArrayOf(true, this.mail.children.length);
               // Do not collapse the last email in the list, needs to consider the proper folder
               if (filteredChildren.length > 0) {
-                this.properFolderLastChildIndex = this.mail.children.findIndex(child => child.id === filteredChildren[filteredChildren.length - 1].id);
+                this.properFolderLastChildIndex = this.mail.children.findIndex(
+                  child => child.id === filteredChildren[filteredChildren.length - 1].id,
+                );
                 this.childMailCollapsed[this.properFolderLastChildIndex] = false;
               } else {
                 this.childMailCollapsed[this.mail.children.length - 1] = false;
@@ -324,10 +326,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           draft_children.length > 0 ? (this.hasDraft = true) : (this.hasDraft = false);
           // Get whether this contains trash/non-trash children
           if (
-            (this.mailFolder !== MailFolderType.TRASH && (this.mail.children.filter(child => child.folder === MailFolderType.TRASH).length > 0 || this.mail.folder === MailFolderType.TRASH)) || 
-            (this.mailFolder === MailFolderType.TRASH && (this.mail.children.filter(child => child.folder !== MailFolderType.TRASH).length > 0 || this.mail.folder !== MailFolderType.TRASH))
+            (this.mailFolder !== MailFolderType.TRASH &&
+              (this.mail.children.filter(child => child.folder === MailFolderType.TRASH).length > 0 ||
+                this.mail.folder === MailFolderType.TRASH)) ||
+            (this.mailFolder === MailFolderType.TRASH &&
+              (this.mail.children.filter(child => child.folder !== MailFolderType.TRASH).length > 0 ||
+                this.mail.folder !== MailFolderType.TRASH))
           ) {
-
             this.isContainTrashRelatedChildren = true;
           } else {
             this.isContainTrashRelatedChildren = false;
@@ -756,7 +761,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mail.children &&
         !this.mail.children.filter(child => child.id !== mail.id).some(child => child.folder === MailFolderType.TRASH)
       ) {
-        this.goBack(500);
+        this.changeMailAfterDelete(this.currentMailIndex + 1);
       }
     } else {
       this.store.dispatch(
@@ -783,11 +788,24 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     if (
       (mail.id === this.mail.id && (withChildren || !excepted_children || excepted_children.length === 0)) ||
-      (mail.id !== this.mail.id && (!excepted_children || excepted_children.length === 0) && this.mail.folder === MailFolderType.TRASH) ||
+      (mail.id !== this.mail.id &&
+        (!excepted_children || excepted_children.length === 0) &&
+        this.mail.folder === MailFolderType.TRASH) ||
       (mail.id === this.mail.id && this.mail.folder === MailFolderType.TRASH)
     ) {
+      this.changeMailAfterDelete(this.currentMailIndex + 1);
+    }
+  }
+
+  changeMailAfterDelete(index: number) {
+    if (index < 0 || index >= this.mails.length) {
       this.goBack(500);
     }
+    this.mail = null;
+    setTimeout(() => {
+      this.markedAsRead = false;
+      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}/message/${this.mails[index].id}`);
+    }, 500);
   }
 
   onDeleteForAll(mail: Mail) {
@@ -796,7 +814,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
     }
     if (mail.id === this.mail.id) {
-      this.goBack(500);
+      this.changeMailAfterDelete(this.currentMailIndex + 1);
     }
   }
 
