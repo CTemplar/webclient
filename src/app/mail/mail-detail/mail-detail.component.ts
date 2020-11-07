@@ -291,13 +291,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
         if (mailState.mailDetailLoaded) {
           this.progressBar = true;
-          if (!this.mail) {
-            this.store.dispatch(
-              new SnackErrorPush({
-                message: 'Failed to load mail detail.',
-              }),
-            );
-          }
         }
         if (this.mails.length > 0 && this.mail && mailState.loaded) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
