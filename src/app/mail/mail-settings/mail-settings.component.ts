@@ -461,9 +461,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (notif.event.type === 'click') {
           notif.notification.close();
         }
+        this.store.dispatch(
+          new SnackPush({ message: "if you can't see notification, please change notification settings on browser" }),
+        );
       },
       error => {
-        console.log(error);
+        this.store.dispatch(new SnackPush({ message: error }));
       },
     );
   }
