@@ -8,7 +8,7 @@
     "background": "#f7c300",
     "messages_per_day": 200,
     "gb": 1,
-    "aliases": 1,
+    "aliases": 0,
     "custom_domains": 0,
     "ssl_tls": true,
     "encrypted_attachments": true,
