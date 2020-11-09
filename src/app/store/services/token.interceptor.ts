@@ -54,6 +54,7 @@ export class TokenInterceptor implements HttpInterceptor {
             !event.url.includes('auth/sign-out') &&
             !event.url.includes('auth/sign-in') &&
             !event.url.includes('auth/check-username') &&
+            !event.url.includes('emails/secure-message') &&
             !this.isAuthenticated
           ) {
             this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }));
