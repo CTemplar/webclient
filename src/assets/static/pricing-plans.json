@@ -14,7 +14,7 @@
     "encrypted_attachments": true,
     "encrypted_content": true,
     "encrypted_contacts": true,
-    "encrypted_subjects": false,
+    "encrypted_subjects": true,
     "encrypted_metadata": false,
     "two_fa": true,
     "anti_phishing": true,
