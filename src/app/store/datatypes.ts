@@ -340,28 +340,10 @@ export class Payment {
   payment_type?: PaymentType;
 }
 
-export class MailStateFolderInfo {
-  is_not_first_page?: boolean;
-
-  total_mail_count?: number;
-
-  is_dirty?: boolean;
-
-  constructor(data?: any) {
-    if (data) {
-      this.is_not_first_page = data.is_not_first_page;
-      this.total_mail_count = data.total_mail_count;
-      this.is_dirty = data.is_dirty;
-    }
-  }
-}
-
 export interface MailState {
   mails: Mail[];
   total_mail_count: number;
-  info_by_folder: Map<string, MailStateFolderInfo>;
   mailDetail: Mail;
-  folders: Map<string, Mail[]>;
   currentFolder?: MailFolderType;
   loaded?: boolean;
   inProgress?: boolean;
@@ -370,10 +352,23 @@ export interface MailState {
   unreadMailsCount: any;
   customFolderMessageCount: any;
   noUnreadCountChange: boolean;
+  mailDetailLoaded?: boolean;
   canGetUnreadCount: boolean;
   isMailsMoved?: boolean;
   isComposerPopUp?: boolean;
   currentSettingsTab?: string;
+
+  mailMap: any;
+  folderMap: Map<string, FolderState>;
+  pageLimit?: number;
+}
+
+export interface FolderState {
+  mails: Array<number>;
+  total_mail_count: number;
+  is_not_first_page: boolean;
+  offset: number;
+  is_dirty: boolean;
 }
 
 export class SecureContent {
@@ -577,6 +572,7 @@ export interface DomainRecord {
 export interface Domain {
   id: number;
   catch_all?: boolean;
+  catch_all_email?: string;
   created: string;
   dkim_record: DomainRecord;
   dmarc_record: DomainRecord;

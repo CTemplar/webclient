@@ -343,10 +343,16 @@
 .active-contact {
   background-color: #f5f5f5 !important;
 }
-
+.mailbox-actionbar {
+  max-height: 51.2px;
+}
 .mailbox-actionbar-menu > li.checkbox-dropdown .fancy-field-group,
 .more-xs-options-list > li.checkbox-dropdown .fancy-field-group {
   margin-top: 4px;
+}
+.mailbox-actionbar-menu > li.disabled {
+  pointer-events: none;
+  opacity: 0.6;
 }
 .mail-checkbox .fancy-field-group {
   margin-bottom: -16px;
@@ -372,4 +378,8 @@
   white-space: pre-wrap;
   background: #fff;
   padding: 1rem;
+}
+.mailbox-section {
+  height: calc(100vh - 118px);
+  overflow: auto;
 }

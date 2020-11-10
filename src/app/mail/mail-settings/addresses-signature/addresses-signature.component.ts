@@ -199,11 +199,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     this.newAddressOptions.isSubmitted = true;
     const newUserName = this.newAddressForm.controls.username.value;
 
-    if (
-      this.newAddressForm.valid &&
-      this.newAddressOptions.usernameExists === false &&
-      newUserName
-    ) {
+    if (this.newAddressForm.valid && this.newAddressOptions.usernameExists === false && newUserName) {
       this.newAddressOptions.isBusy = true;
       const currentDomain = this.newAddressForm.controls.domain.value;
       if (currentDomain) {
@@ -211,7 +207,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       } else {
         this.openPgpService.generateUserKeys(newUserName, atob(this.usersService.getUserKey()));
       }
-      
+
       if (this.openPgpService.getUserKeys()) {
         this.addNewAddress();
       } else {

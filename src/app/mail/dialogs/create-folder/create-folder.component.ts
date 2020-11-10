@@ -38,7 +38,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
     this.customFolderForm = this.fb.group({
       folderName: [
         this.folder.name,
-        [Validators.required, Validators.pattern(/^[A-Za-z]+[\d ._a-z-]*$/), Validators.maxLength(30)],
+        [Validators.required, Validators.maxLength(30)],
       ],
       color: this.folder.color,
     });

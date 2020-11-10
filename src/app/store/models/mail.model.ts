@@ -49,6 +49,7 @@ export interface Mail {
   starred?: boolean;
   subject?: string;
   thread_count?: number;
+  children_folder_info?: any;
 }
 
 export class EncryptionNonCTemplar {

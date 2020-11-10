@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { CreateDomain, DeleteDomain, GetDomains, UpdateDomain, VerifyDomain } from '../../../store/actions';
-import { AppState, AuthState, Domain, Settings, UserState } from '../../../store/datatypes';
+import { AppState, AuthState, Domain, Settings, UserState, MailBoxesState } from '../../../store/datatypes';
 import { SharedService } from '../../../store/services';
 import { PRIMARY_WEBSITE } from '../../../shared/config';
 
@@ -25,6 +25,8 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   authState: AuthState;
 
   settings: Settings;
+
+  mailboxes: Array<any>;
 
   domains: Domain[] = [];
 
@@ -49,6 +51,8 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   dmarcForm: FormGroup;
 
   isEditing: boolean;
+
+  mailboxesForCustomDomains: Map<number, Array<string>> = new Map();
 
   primaryWebsite = PRIMARY_WEBSITE;
 
@@ -84,12 +88,21 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
           this.newDomain = user.newCustomDomain;
           this.newDomainError = user.newCustomDomainError;
           this.currentStep = user.currentCreationStep;
+          this.prepareMapForDomainAlias(this.domains, this.mailboxes);
         }
       });
 
     this.domainNameForm = this.formBuilder.group({
       domainNameCtrl: ['', Validators.required],
     });
+
+    this.store
+      .select(state => state.mailboxes)
+      .pipe(untilDestroyed(this))
+      .subscribe((mailboxesState: MailBoxesState) => {
+        this.mailboxes = mailboxesState.mailboxes;
+        this.prepareMapForDomainAlias(this.domains, this.mailboxes);
+      });
 
     this.verifyForm = this.formBuilder.group({});
     this.mxForm = this.formBuilder.group({});
@@ -99,6 +112,23 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  prepareMapForDomainAlias(domains: Domain[], aliases: Array<any>) {
+    domains.forEach((domain, indexDomain) => {
+      let aliasesForDomain = [];
+      aliases.forEach(alias => {
+        const domainForAlias = alias.email.split('@')[1];
+        if (domain.domain === domainForAlias && alias.is_enabled) {
+          aliasesForDomain.push(alias.email);
+          if (!domain.catch_all_email && aliasesForDomain.length === 1) {
+            domain.catch_all_email = alias.email;
+            this.domains[indexDomain] = domain;
+          }
+        }
+      });
+      this.mailboxesForCustomDomains.set(domain.id, aliasesForDomain);
+    });
+  }
 
   startAddingNewDomain(domain: any = null) {
     this.newDomainError = null;
@@ -135,6 +165,13 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
 
   updateDomain(domain: Domain) {
     this.store.dispatch(new UpdateDomain(domain));
+  }
+
+  onSelectCatchAllEmail(domain: Domain, email: string) {
+    if (domain.catch_all_email !== email) {
+      domain.catch_all_email = email;
+      this.updateDomain(domain);
+    }
   }
 
   finishAddingNewDomain() {

@@ -103,6 +103,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   notificationsPermission: string;
 
+  notificationEmail: string;
+
   autosave_duration: any = {};
 
   WhitelistItems: any = [];
@@ -176,6 +178,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.WhitelistItems = user.whiteList;
         this.BlacklistItems = user.blackList;
         this.settings = user.settings;
+        this.notificationEmail = user.settings.notification_email;
         this.timeZoneFilter.setValue(user.settings.timezone);
         this.cdr.detectChanges();
         this.payment = user.payment_transaction;
@@ -382,14 +385,22 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         value = Number(value.slice(0, -1)) * 1000;
       }
     }
-    this.settingsService.updateSettings(this.settings, key, value);
+    if (key === 'notification_email' && value !== '' && !this.validateEmail(value)) {
+      this.store.dispatch(new SnackPush({ message: `"${value}" is not valid email address.` }));
+      this.notificationEmail = this.userState.settings.notification_email;
+    } else {
+      this.settingsService.updateSettings(this.settings, key, value);
+    }
+  }
+
+  validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);
   }
 
   ngOnDestroy(): void {}
 
-  onUpdateSettingsBtnClick() {
-    this.store.dispatch(new SnackPush({ message: 'Settings updated successfully.' }));
-  }
+  onUpdateSettingsBtnClick() {}
 
   onDeleteAccount() {
     this.deleteAccountOptions = {};
@@ -450,9 +461,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (notif.event.type === 'click') {
           notif.notification.close();
         }
+        this.store.dispatch(
+          new SnackPush({ message: "if you can't see notification, please change notification settings on browser" }),
+        );
       },
       error => {
-        console.log(error);
+        this.store.dispatch(new SnackPush({ message: error }));
       },
     );
   }

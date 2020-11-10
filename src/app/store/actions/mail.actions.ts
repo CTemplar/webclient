@@ -15,6 +15,7 @@ export enum MailActionTypes {
   CLEAR_MAILS_ON_CONVERSATION_MODE_CHANGE = '[Mail] CLEAR_MAILS_CONVERSATION_MODE_CHANGE',
   CLEAR_MAIL_DETAIL = '[Mail] CLEAR_MAIL_DETAIL',
   GET_MAIL_DETAIL_SUCCESS = '[Mail] GET_MAIL_DETAIL_SUCCESS',
+  GET_MAIL_DETAIL_FAILURE = '[Mail] GET_MAIL_DETAIL_FAILURE',
   UPDATE_MAIL_DETAIL_CHILDREN = '[Mail] UPDATE_MAIL_DETAIL_CHILDREN',
   MOVE_MAIL = '[Mail] MOVE',
   MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
@@ -139,6 +140,12 @@ export class ClearMailDetail implements Action {
 
 export class GetMailDetailSuccess implements Action {
   readonly type = MailActionTypes.GET_MAIL_DETAIL_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetMailDetailFailure implements Action {
+  readonly type = MailActionTypes.GET_MAIL_DETAIL_FAILURE;
 
   constructor(public payload: any) {}
 }
@@ -374,6 +381,7 @@ export type MailActions =
   | ClearMailsOnLogout
   | ClearMailDetail
   | GetMailDetailSuccess
+  | GetMailDetailFailure
   | UpdateMailDetailChildren
   | MoveMail
   | MoveMailSuccess

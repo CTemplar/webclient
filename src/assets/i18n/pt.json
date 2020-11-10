@@ -74,6 +74,7 @@
     "import_contacts": "Importar contatos",
     "import_f_google": "Importar do Google",
     "import_f_other": "Importar de outro",
+    "import_f_drive": "Import from Drive",
     "import_f_outlook": "Importar do Outlook",
     "import_f_yahoo": "Importar do Yahoo",
     "new_contact": "NOVO CONTATO",
@@ -99,6 +100,7 @@
       "name_required": "O nome é necessário"
     },
     "select_csv": "Selecione um arquivo CSV de alguns dos seguintes provedores.",
+    "select_vcf": "Select a VCF file",
     "type_email": "Digite o email"
   },
   "create_account": {
@@ -121,7 +123,7 @@
     "less": "Menos",
     "more_info": "Mais informações",
     "name": "Criar sua conta",
-    "new_email_address": "Este será seu novo endereço de email Ctemplar. ",
+    "new_email_address": "Este será seu novo endereço de email CTemplar. ",
     "password_connected": "Sua senha é conectada à sua chave de criptografia, se você mudar sua senha, então você receberá uma nova chave de criptografia e TODO o conteúdo da sua conta será perdido, exceto o seu endereço de e-mail.",
     "passwords_not_match": "As senhas não coincidem.",
     "recover_account": "Isto é usado para recuperar sua conta se você perder sua senha",
@@ -606,6 +608,8 @@
     "renew": "Renovar",
     "reorder": "Reorganizar",
     "reorder_addresses": "Reorganizar endereços",
+    "sort_with_alphabetic": "Sort into alphabetic order",
+    "sort_with_analphabetic": "Sort into analphabetic order",
     "required": "Necessário",
     "required_field": "Campo necessário",
     "save_order": "Salvar ordem",

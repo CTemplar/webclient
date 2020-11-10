@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store/datatypes';
+import { SnackPush } from '../../store/actions';
 @Injectable({
   providedIn: 'root',
 })
 export class PushNotificationService {
   public permission: Permission;
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
     this.permission = this.isSupported() ? 'default' : 'denied';
   }
 
@@ -30,15 +32,17 @@ export class PushNotificationService {
 
   create(title: string, options?: PushNotificationOptions): any {
     const self = this;
+    if (!('Notification' in window)) {
+      this.store.dispatch(new SnackPush({ message: 'Notifications are not available in this environment' }));
+      return;
+    }
+    if (self.permission !== 'granted') {
+      this.store.dispatch(
+        new SnackPush({ message: "The user hasn't granted you permission to send push notifications" }),
+      );
+      return;
+    }
     return new Observable(function (obs) {
-      if (!('Notification' in window)) {
-        console.log('Notifications are not available in this environment');
-        obs.complete();
-      }
-      if (self.permission !== 'granted') {
-        console.log("The user hasn't granted you permission to send push notifications");
-        obs.complete();
-      }
       const _notify = new Notification(title, options);
       _notify.addEventListener('show', function (e) {
         return obs.next({

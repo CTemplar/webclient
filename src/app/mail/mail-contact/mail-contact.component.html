@@ -11,7 +11,7 @@
       </button>
       <figure class="navbar-brand-holder hidden-sm-down">
         <a class="navbar-brand ff-roboto text-uppercase" routerLink="/mail">
-          <img alt="Ctemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
+          <img alt="CTemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
           <strong>ctemplar</strong>
         </a>
       </figure>
@@ -90,7 +90,7 @@
             <i class="svg-inline--fa fa-2x far fa-envelope"></i>
           </a>
         </li>
-        <li>
+        <li [class.disabled]="selectedContacts?.length === 0">
           <a (click)="openConfirmDeleteModal(confirmDeleteModal)" [ngbTooltip]="'contacts.delete_tooltip' | translate" class="cursor-pointer border-radius-l-0"><i class="icon icon-garbage"></i></a>
         </li>
         <li class="pl-0" ngbTooltip="Import contacts">
@@ -293,16 +293,16 @@
     </button>
   </div>
   <div class="modal-body bg-faded">
-    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder text-center">
+      <div class="form-group mb-0">
         {{ 'contacts.select_csv' | translate }}
       </div>
       <input type="file" #importContactsInput accept=".csv" (change)="onContactsFileSelected($event.target.files)" style="display: none" />
       <div *ngIf="importContactsError" class="l-alert l-alert-danger mb-3">
         {{ importContactsError }}
       </div>
-      <div class="form-group mb-0">
-        <button type="button" (click)="selectedContactsProvider = contactsProviderType.GOOGLE; importContactsInput.click()" class="btn btn-success btn-sm col col-sm-7" role="button">
+      <div class="form-group">
+        <button type="button" (click)="selectedContactsProvider = contactsProviderType.GOOGLE; importContactsInput.click()" class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">
           {{ 'contacts.import_f_google' | translate }}
         </button>
         <br />
@@ -316,6 +316,13 @@
         <br />
         <button type="button" (click)="selectedContactsProvider = contactsProviderType.OTHER; importContactsInput.click()" class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">
           {{ 'contacts.import_f_other' | translate }}
+        </button>
+        <div class="form-group mb-0 mt-3">
+          {{ 'contacts.select_vcf' | translate }}
+        </div>
+        <input type="file" #importVcfContactsInput accept=".vcf" (change)="onContactsFileSelected($event.target.files)" style="display: none" />
+        <button type="button" (click)="selectedContactsProvider = contactsProviderType.VCARD; importVcfContactsInput.click()" class="btn btn-success btn-sm col col-sm-7 mt-2" role="button">
+          {{ 'contacts.import_f_drive' | translate }}
         </button>
       </div>
     </div>
