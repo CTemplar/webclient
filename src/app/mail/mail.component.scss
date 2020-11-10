@@ -928,11 +928,11 @@
 
   &.is-unread {
     color: $brand-black !important;
-    background-color: #fff;
+    background: #f5f5f5;
   }
 
   &.is-read {
-    background: #f5f5f5;
+    background-color: #fff;
     color: $brand-gray;
   }
 
@@ -1112,7 +1112,7 @@
   .mail-file-size,
   .mail-sent-date {
     font-size: 0.75rem;
-    width: 5rem;
+    width: 4rem;
   }
 
   .mail-file-size {
@@ -1124,7 +1124,8 @@
   }
 
   .mail-security-status {
-    width: 4rem;
+    width: 3rem;
+    text-align: center;
     color: #34495e;
   }
 
