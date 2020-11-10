@@ -31,7 +31,7 @@
     "four_data_deletion_methods": false,
     "virus_detection_tool": false,
     "catch_all_email": false,
-    "unlimited_folders": false,
+    "unlimited_folders": true,
     "exclusive_access": false
   },
   "PRIME": {
