@@ -123,7 +123,7 @@
     "less": "Menos",
     "more_info": "Mais informações",
     "name": "Criar sua conta",
-    "new_email_address": "Este será seu novo endereço de email Ctemplar. ",
+    "new_email_address": "Este será seu novo endereço de email CTemplar. ",
     "password_connected": "Sua senha é conectada à sua chave de criptografia, se você mudar sua senha, então você receberá uma nova chave de criptografia e TODO o conteúdo da sua conta será perdido, exceto o seu endereço de e-mail.",
     "passwords_not_match": "As senhas não coincidem.",
     "recover_account": "Isto é usado para recuperar sua conta se você perder sua senha",
