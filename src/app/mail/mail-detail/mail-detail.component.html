@@ -487,6 +487,8 @@
                       </div>
                       <div>
                         <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{ childMail.folder }}</label>
+                        <i class="fas fa-angle-down expand-collapse" *ngIf="childMailCollapsed[childIndex]"></i>
+                        <i class="fas fa-angle-up expand-collapse" *ngIf="!childMailCollapsed[childIndex]"></i>
                       </div>
                     </div>
                   </div>
