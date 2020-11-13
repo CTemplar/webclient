@@ -61,7 +61,7 @@
         <!-- Outbox -->
         <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.OUTBOX">
           <a routerLink="/mail/outbox/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
-            <i class="icon icon-draft"></i>
+            <img alt="outbox" class="icon mail-outbox" src="assets/images/outbox.svg" />
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.outbox' | translate }}</span>
             <span class="badge outbox">
               <span class="badge-square hidden-sm-down badge-counter badge-success" *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter > 0">
@@ -76,14 +76,14 @@
         <!-- All emails -->
         <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.ALL_EMAILS">
           <a routerLink="/mail/allmails/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
-            <i class="icon icon-inbox"></i>
+            <img alt="all emails" class="icon mail-allemails" src="assets/images/all-emails.svg" />
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.all_emails' | translate }}</span>
           </a>
         </li>
         <!-- Unread -->
         <li class="mailbox-sidebar-nav-item" [class.active]="currentFolder === mailFolderType.UNREAD">
           <a routerLink="/mail/allunreadmails/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
-            <i class="icon icon-inbox"></i>
+            <img alt="unread" class="icon mail-unread" src="assets/images/mail-unread.svg" />
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.unread' | translate }}</span>
             <ng-container *ngIf="mailState?.unreadMailsCount?.total_unread_count > 0">
               <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{ mailState?.unreadMailsCount?.total_unread_count }}</span>
