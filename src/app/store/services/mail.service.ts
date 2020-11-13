@@ -123,11 +123,11 @@ export class MailService {
     return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { read: isMailRead });
   }
 
-  markAsStarred(ids: string, isMailStarred: boolean, folder: string): Observable<any[]> {
+  markAsStarred(ids: string, isMailStarred: boolean, folder: string, withChildren: boolean): Observable<any[]> {
     if (ids === 'all') {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${folder}`, { starred: isMailStarred });
+      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${folder}`, { starred: isMailStarred, with_children: withChildren });
     }
-    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred });
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred, with_children: withChildren });
   }
 
   moveMail(

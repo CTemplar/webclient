@@ -315,9 +315,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   toggleStarred(mail: Mail) {
     if (mail.starred) {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: false, folder: this.mailFolder }));
+      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: false, folder: this.mailFolder, withChildren: true }));
     } else {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: true, folder: this.mailFolder }));
+      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: true, folder: this.mailFolder, withChildren: true }));
     }
     mail.starred = !mail.starred;
   }
@@ -327,7 +327,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     const ids = this.getMailIDs();
     if (ids) {
       // Dispatch mark as starred event to store
-      this.store.dispatch(new StarMail({ ids, starred, folder: this.mailFolder }));
+      this.store.dispatch(new StarMail({ ids, starred, folder: this.mailFolder, withChildren: true }));
     }
   }
 
