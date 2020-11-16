@@ -101,10 +101,10 @@
               {{ 'mail_list.more' | translate }}
             </button>
             <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
-              <a *ngIf="isNeedAddStar(mail)" class="dropdown-item" (click)="markAsStarred(true)">
+              <a *ngIf="isNeedAddStar(mail)" class="dropdown-item" (click)="markAsStarred(true, true)">
                 {{ 'mail_list.add_star' | translate }}
               </a>
-              <a *ngIf="isNeedRemoveStar(mail)" class="dropdown-item" (click)="markAsStarred(false)">
+              <a *ngIf="isNeedRemoveStar(mail)" class="dropdown-item" (click)="markAsStarred(false, true)">
                 {{ 'mail_list.remove_star' | translate }}
               </a>
               <a class="dropdown-item" (click)="markAsRead(mail.id)">
@@ -163,7 +163,7 @@
         <i class="icon icon-secured icon-md text-muted ml-2" [ngClass]="{ 'text-faded': !mail.is_protected && mail?.zer !== 'support@ctemplar.com' }" [ngbTooltip]="!mail.is_protected && mail?.sender !== 'support@ctemplar.com' ? '' : ('mail_detail.encrypted' | translate)"> </i>
       </h5>
       <div class="icon-holder is-floated right y-center">
-        <i class="icon icon-md icon-star-filled cursor-pointer" (click)="ontoggleStarred(mail)" [ngClass]="{ 'icon-star': !mail.starred, 'text-info': mail.starred }"></i>
+        <i class="icon icon-md icon-star-filled cursor-pointer" (click)="ontoggleStarred($event, mail, true);" [ngClass]="{ 'icon-star': isConversationView ? !mail.has_starred_children : !mail.starred, 'text-info': isConversationView ? mail.has_starred_children : mail.starred }"></i>
       </div>
     </div>
     <div class="spam_reason row" *ngIf="xssPipe.hasExternalImages && disableExternalImages">
@@ -289,6 +289,7 @@
                   </ng-container>
                 </ng-template>
               </label>
+              <i class="icon icon-sm icon-star-filled cursor-pointer" (click)="ontoggleStarred($event, mail, false);" [ngClass]="{ 'icon-star': !mail.starred, 'text-info': mail.starred }"></i>
             </div>
             <div>
               <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{ mail.folder }}</label>
@@ -484,6 +485,7 @@
                             </ng-container>
                           </ng-template>
                         </label>
+                        <i class="icon icon-sm icon-star-filled cursor-pointer" (click)="ontoggleStarred($event, childMail, false)" [ngClass]="{ 'icon-star': !childMail.starred, 'text-info': childMail.starred }"></i>
                       </div>
                       <div>
                         <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{ childMail.folder }}</label>

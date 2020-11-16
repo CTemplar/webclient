@@ -211,8 +211,8 @@
             </td>
             <!-- Starred Message -->
             <td class="mail-status">
-              <a class="mail-status-type" [ngbTooltip]="mail.starred ? ('mail_list.remove_star' | translate) : ('mail_list.start_message' | translate)" placement="right" (click)="toggleStarred(mail)" [ngClass]="{ 'is-fav': mail.starred }">
-                <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': !mail.starred }"></i>
+              <a class="mail-status-type" [ngbTooltip]="(isConversationView ? mail.has_starred_children : mail.starred) ? ('mail_list.remove_star' | translate) : ('mail_list.start_message' | translate)" placement="right" (click)="toggleStarred(mail)" [ngClass]="{ 'is-fav': isConversationView ? mail.has_starred_children : mail.starred}">
+                <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': isConversationView ? !mail.has_starred_children : !mail.starred }"></i>
               </a>
             </td>
             <!-- Sender Name -->

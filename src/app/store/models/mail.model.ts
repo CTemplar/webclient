@@ -50,6 +50,7 @@ export interface Mail {
   subject?: string;
   thread_count?: number;
   children_folder_info?: any;
+  has_starred_children?: boolean;
 }
 
 export class EncryptionNonCTemplar {
