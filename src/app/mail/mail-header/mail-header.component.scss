@@ -52,7 +52,7 @@
       border: 0;
       border-radius: 0;
       color: #a1abb5 !important;
-      font-size: 0.875rem;
+      font-size: 1.25rem;
       height: auto;
       width: auto;
 
@@ -113,7 +113,7 @@
 
       @include media('<=sm') {
         color: #a1abb5 !important;
-        font-size: 1rem;
+        font-size: 1.25rem;
         padding: 0.6rem 0.4rem;
       }
 
@@ -143,6 +143,15 @@
 
     a {
       transition: unset;
+      display: flex;
+
+      i {
+        margin: 6px 0px;
+
+        @include media('<=sm') {
+          margin: 0;
+        }
+      }
     }
 
     a:hover,
@@ -314,8 +323,7 @@
     width: 56px;
 
     i {
-      margin-top: -2px;
-      font-size: 22px;
+      font-size: 20px;
     }
   }
 }
@@ -332,7 +340,6 @@
   color: green !important;
   background: transparent !important;
   border: 0 !important;
-  margin-top: 7px;
   padding: 0 !important;
 
   i {
