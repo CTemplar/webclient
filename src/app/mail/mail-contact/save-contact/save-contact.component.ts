@@ -55,13 +55,11 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedContact && changes.selectedContact.currentValue) {
-      // Get contactEmail, Domain and check if this is internalUser with domain
-      this.newContactModel = { ...this.selectedContact };
-      const contactEmail = this.newContactModel.email;
-      const getDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
-      this.internalUser = getDomain === 'ctemplar.com';
-    }
+    // Get contactEmail, Domain and check if this is internalUser with domain
+    this.newContactModel = { ...this.selectedContact };
+    const contactEmail = this.newContactModel.email;
+    const getDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
+    this.internalUser = getDomain === 'ctemplar.com';
   }
 
   ngAfterViewInit(): void {
