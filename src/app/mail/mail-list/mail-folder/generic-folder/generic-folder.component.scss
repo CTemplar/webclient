@@ -20,6 +20,7 @@ a.disabled {
     margin-bottom: -2px;
     overflow: hidden;
     text-overflow: ellipsis;
+    float: left;
   }
 }
 
@@ -104,10 +105,6 @@ a.disabled {
 }
 
 .mail-list-row {
-  .mail-checkbox {
-    width: 3rem;
-  }
-
   .mail-status {
     padding: 0;
     width: 2.5rem;
