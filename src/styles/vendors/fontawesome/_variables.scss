@@ -9,6 +9,8 @@ $fa-border-color: #eee !default;
 $fa-inverse: #fff !default;
 $fa-li-width: 2em !default;
 
+$fortfa-css-prefix: fortfa !default;
+
 // Convenience function used to set content property
 @function fa-content($fa-var) {
   @return unquote('"#{ $fa-var }"');
@@ -887,3 +889,5 @@ $fa-var-yen-sign: \f157;
 $fa-var-yoast: \f2b1;
 $fa-var-youtube: \f167;
 $fa-var-youtube-square: \f431;
+
+$fortfa-var-mastodon: \F4F6;

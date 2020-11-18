@@ -522,7 +522,10 @@
     "blog": "Blog",
     "support": "Support",
     "login": "Connexion",
-    "signup": "S'inscrire"
+    "signup": "S'inscrire",
+    "features": "Features",
+    "helpdesk": "Helpdesk",
+    "tor_browser": "Tor Browser"
   },
   "footer": {
     "register_to_world_most": "<strong>Inscrivez-vous pour le </strong>Courriel le Plus Sécurisé au Monde <strong>maintenant!</strong>.",

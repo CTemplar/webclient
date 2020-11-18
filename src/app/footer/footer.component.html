@@ -4,80 +4,71 @@
     <div class="row footer-widgets">
       <div class="col-6 footer-col footer-col-5">
         <div class="footer-widget">
-          <h4 class="footer-widget-title">CTemplar</h4>
           <div class="footer-widget-body">
-            <ul class="lists lists-arrow">
-              <li><a href="https://ctemplar.com/security" [translate]="'home_header.security'">Security</a></li>
-              <li><a href="https://ctemplar.com/pricing" [translate]="'home_header.pricing'">Pricing</a></li>
-              <li><a href="https://ctemplar.com/media-kit" [translate]="'footer.media_kit'">Media Kit</a></li>
-              <li><a href="https://ctemplar.com/tor-onion" [translate]="'footer.onion_site'">Onion site</a></li>
-            </ul>
+            <a href="https://ctemplar.com/about" target="_blank" rel="noopener noreferrer" [translate]="'home_header.about'">About</a>
+            <a href="https://ctemplar.com/blog" target="_blank" rel="noopener noreferrer" [translate]="'home_header.blog'">Blog</a>
+            <a routerLink="/donate" [translate]="'settings.donate.name'">Donate</a>
+            <a href="https://ctemplar.com/features" target="_blank" rel="noopener noreferrer" [translate]="'home_header.features'">Features</a>
+            <a href="https://ctemplar.com/help" target="_blank" rel="noopener noreferrer" [translate]="'home_header.helpdesk'">Helpdesk</a>
+            <a href="https://ctemplar.com/media-kit" target="_blank" rel="noopener noreferrer" [translate]="'footer.media_kit'">Media Kit</a>
           </div>
         </div>
       </div>
       <div class="col-6 footer-col footer-col-5">
         <div class="footer-widget">
-          <h4 class="footer-widget-title" [translate]="'footer.company'">Company</h4>
           <div class="footer-widget-body">
-            <ul class="lists lists-arrow">
-              <li><a href="https://ctemplar.com/about" [translate]="'home_header.about'">About</a></li>
-              <li>
-                <a href="https://ctemplar.com/blog" target="_blank" rel="noopener" [translate]="'home_header.blog'">Blog</a>
-              </li>
-              <li><a routerLink="/donate" [translate]="'settings.donate.name'">Donate</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 footer-col footer-col-5">
-        <div class="footer-widget">
-          <h4 class="footer-widget-title" [translate]="'footer.social'">Social</h4>
-          <div class="footer-widget-body">
-            <ul class="lists lists-arrow">
-              <li><a href="https://www.facebook.com/CTemplarEncryption" target="_blank">Facebook</a></li>
-              <li><a href="https://twitter.com/RealCTemplar" target="_blank">Twitter</a></li>
-              <li><a href="https://www.linkedin.com/company/ctemplarencryption/" target="_blank">LinkedIn</a></li>
-              <li><a href="https://www.reddit.com/r/ctemplar/" target="_blank">Reddit</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 footer-col footer-col-5">
-        <div class="footer-widget">
-          <h4 class="footer-widget-title" [translate]="'footer.legal'">Legal</h4>
-          <div class="footer-widget-body">
-            <ul class="lists lists-arrow">
-              <li><a href="https://ctemplar.com/privacy" [translate]="'footer.privacy_policy'">Privacy Policy</a></li>
-              <li>
-                <a href="https://ctemplar.com/terms" [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 footer-col footer-col-5">
-        <div class="footer-widget">
-          <h4 class="footer-widget-title" [translate]="'footer.help'">Help</h4>
-          <div class="footer-widget-body">
-            <ul class="lists lists-arrow">
-              <li><a href="https://get.ctemplar.help" target="_blank" [translate]="'footer.faq'">Knowledge Base</a></li>
-              <li>
-                <a href="https://ctemplar.com/support" target="_blank" [translate]="'footer.support'">Contact us</a>
-              </li>
-            </ul>
+            <a href="https://ctemplar.com/security" target="_blank" rel="noopener noreferrer" [translate]="'home_header.security'">Security</a>
+            <a href="https://ctemplar.com/support" target="_blank" rel="noopener noreferrer" [translate]="'footer.support'">Support</a>
+            <a href="https://ctemplar.com/privacy" target="_blank" rel="noopener noreferrer" [translate]="'footer.privacy_policy'">Privacy Policy</a>
+            <a href="https://ctemplar.com/terms" [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</a>
+            <a href="https://ctemplar.com/tor-browser" target="_blank" rel="noopener noreferrer" [translate]="'home_header.tor_browser'">Tor Browser</a>
           </div>
         </div>
       </div>
       <div class="col-12 footer-col footer-col-5">
         <div class="footer-widget">
-          <h4 class="footer-widget-title" [translate]="'footer.our_address'">Our Address</h4>
           <div class="footer-widget-body">
-            <address>
-              Orange Project ehf <br />
-              Armula 4 &amp; 6 <br />
-              Reykjavík, 108 <br />
+            <div class="footer-widget-body-title">
+              Send a letter
+            </div>
+            <div class="address">
+              Orange Project ehf Armula <br /> 
+              4&amp;6 Reykjavík, 108 <br />
               Iceland
-            </address>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 footer-col footer-col-5">
+        <div class="footer-widget">
+          <div class="footer-widget-body">
+            <div class="footer-widget-body-title">
+              Follow us
+            </div>
+            <div class="social">
+              <div>
+                <a href="https://www.facebook.com/CTemplarEncryption" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-facebook fab text-light"></i>
+                </a>
+                <a href="https://github.com/ctemplar" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-github fab text-light"></i>
+                </a>
+                <a href="https://linkedin.com/company/ctemplarencryption" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-linkedin fab text-light"></i>
+                </a>
+              </div>
+              <div>
+                <a href="https://mastodon.social/@ctemplar" target="_blank" rel="noopener noreferrer">
+                  <i class="fortfa-mastodon fortfa text-light"></i>
+                </a>
+                <a href="https://www.reddit.com/r/ctemplar/" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-reddit fab text-light"></i>
+                </a>
+                <a href="https://twitter.com/RealCTemplar" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-twitter fab text-light"></i>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

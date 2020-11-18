@@ -477,7 +477,10 @@
     "blog": "博客",
     "support": "支持",
     "login": "登录",
-    "signup": "注册"
+    "signup": "注册",
+    "features": "Features",
+    "helpdesk": "Helpdesk",
+    "tor_browser": "Tor Browser"
   },
   "footer": {
     "register_to_world_most": "<strong>注册</strong>世界上最安全的电子邮箱<strong>就是现在！</strong>",
