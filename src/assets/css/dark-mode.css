@@ -191,5 +191,17 @@ table.table-inbox *,
   color: #fff !important;
 }
 .msg-reply-content > *:not(style):not(title):not(meta):not(img) {
-  background: #fff !important;
+}
+input[type="radio"].fancy-field-control + label,
+input[type="checkbox"].fancy-field-control + label
+{
+  color: #ccc;
+}
+input[type="radio"].fancy-field-control:checked + label,
+input[type="checkbox"].fancy-field-control:checked + label
+{
+  color: #fff;
+}
+.decryption-spinner > div {
+  color: #fff!important;
 }
