@@ -161,7 +161,10 @@
     "pricing": "Preços",
     "security": "Segurança",
     "signup": "Inscreva-se",
-    "support": "Suporte"
+    "support": "Suporte",
+    "features": "Features",
+    "helpdesk": "Helpdesk",
+    "tor_browser": "Tor Browser"
   },
   "login": {
     "create_account": "Criar uma conta",

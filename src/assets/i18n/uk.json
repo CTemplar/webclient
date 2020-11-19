@@ -477,7 +477,10 @@
     "blog": "Блоґ",
     "support": "Підтримка",
     "login": "Вхід",
-    "signup": "Реєстрація"
+    "signup": "Реєстрація",
+    "features": "Features",
+    "helpdesk": "Helpdesk",
+    "tor_browser": "Tor Browser"
   },
   "footer": {
     "register_to_world_most": "<strong>Зареєструйте</strong> найнадійнішу поштову скриньку в світі <strong>просто зараз!</strong>",
