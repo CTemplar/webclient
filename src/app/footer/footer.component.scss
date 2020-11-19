@@ -58,7 +58,7 @@
 .footer-widget {
   &-title {
     margin-bottom: 0.75rem;
-    color: $brand-white;
+    color: #f8f9fa;
     font-size: 1.125rem;
     font-weight: bold;
 
@@ -67,6 +67,8 @@
     }
   }
   &-body {
+    width: max-content;
+    margin: auto;
     &-title {
       font-size: 1.5rem;
       font-weight: 700;
@@ -118,7 +120,7 @@
   position: relative;
   margin-top: 1.875rem;
   padding-top: 1.875rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(0,0,0,.1);
 
   @include media('>sm') {
     margin-top: 2.188rem;
@@ -134,7 +136,7 @@
   }
 
   .lists-link {
-    color: rgba(255, 255, 255, 0.5);
+    color: #f8f9fa;
     text-decoration: underline;
 
     &:hover {
@@ -145,6 +147,6 @@
 
 .site-footer {
   .app-credit {
-    color: rgba(255, 255, 255, 0.5);
+    color: #f8f9fa;
   }
 }
