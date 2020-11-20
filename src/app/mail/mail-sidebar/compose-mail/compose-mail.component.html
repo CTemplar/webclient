@@ -23,7 +23,7 @@
       <!-- 'To' field -->
       <div class="mail-compose-field mail-compose-field-to" #receiverInput>
         <span class="mail-label label-to">{{ 'settings.compose.to' | translate }}</span>
-        <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="valueChanged$.next(mailData.receiver)" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)" (click)="onClick($event)">
+        <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="onRemoveReceive()" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)" (click)="onClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
               <div class="compose-contacts-container">
@@ -45,7 +45,7 @@
       <!-- 'Cc' field -->
       <div class="mail-compose-field" [ngClass]="{ 'd-none': !options.isCcVisible }" #ccReceiverInput>
         <span class="mail-label label-cc">Cc:</span>
-        <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.cc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="ccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="valueChanged$.next(mailData.cc)" (onTextChange)="ccUpdateInputTextValue($event)" (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick($event)">
+        <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.cc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="ccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="onRemoveCc()" (onTextChange)="ccUpdateInputTextValue($event)" (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
               <div class="compose-contacts-container">
@@ -63,7 +63,7 @@
       <!-- 'Bcc' field -->
       <div class="mail-compose-field" [ngClass]="{ 'd-none': !options.isBccVisible }" #bccReceiverInput>
         <span class="mail-label label-bcc">Bcc:</span>
-        <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.bcc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="bccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="valueChanged$.next(mailData.bcc)" (onTextChange)="bccUpdateInputTextValue($event)" (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick($event)">
+        <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.bcc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="bccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="onRemoveBcc()" (onTextChange)="bccUpdateInputTextValue($event)" (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick($event)">
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
               <div class="compose-contacts-container">
@@ -330,17 +330,24 @@
               </button>
             </li>
             <!-- Self Destruct-->
-            <li class="p-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledSelfDestructBtn">
+            <li class="p-0" *ngIf="(userState?.isPrime || isTrialPrimeFeaturesAvailable) && isSelfDestruction; else disabledSelfDestructBtn">
               <button role="button" type="button" (click)="openSelfDestructModal()" class="actions-btn mail-clock-btn border-left-0 border-radius-0" [ngClass]="{ 'badge badge-warning text-white': selfDestruct.value }" placement="top" [ngbTooltip]="'settings.compose.self_destr_timer' | translate">
                 <i class="icon icon-clock"></i>
               </button>
             </li>
             <ng-template #disabledSelfDestructBtn>
-              <li class="px-0" ngbTooltip="Upgrade account to use Self Destruct Email feature">
+              <li class="px-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else upgradeAccount" ngbTooltip="Self Destruction is only for Ctemplar recipients. Please add ctemplar recipients for self destruction feature">
                 <button type="button" role="button" class="actions-btn mail-clock-btn border-left-0 border-radius-0" disabled>
                   <i class="icon icon-clock"></i>
                 </button>
               </li>
+              <ng-template #upgradeAccount>
+                <li class="px-0" ngbTooltip="Upgrade account to use Self Destruct Email feature">
+                  <button type="button" role="button" class="actions-btn mail-clock-btn border-left-0 border-radius-0" disabled>
+                    <i class="icon icon-clock"></i>
+                  </button>
+                </li>
+              </ng-template>
             </ng-template>
             <!-- Delayed Delivery -->
             <li class="p-0" *ngIf="userState?.isPrime || isTrialPrimeFeaturesAvailable; else disabledDelayedDeliveryBtn">

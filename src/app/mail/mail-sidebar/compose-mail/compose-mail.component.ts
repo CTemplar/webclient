@@ -263,6 +263,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   isKeyboardOpened: boolean;
 
+  isSelfDestruction: boolean;
+
   encryptForm: FormGroup;
 
   contacts: any = [];
@@ -521,6 +523,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       day: now.getDate(),
     };
 
+    this.isSelfDestructionEnable(); // check self destruction is possible or not
     this.initializeAutoSave(); // start auto save function
   }
 
@@ -534,6 +537,21 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   bccOnPaste($event) {
     this.bccIsPasted = true;
+  }
+
+  onRemoveReceive() {
+    this.valueChanged$.next(this.mailData.receiver);
+    this.isSelfDestructionEnable();
+  }
+
+  onRemoveCc() {
+    this.valueChanged$.next(this.mailData.cc);
+    this.isSelfDestructionEnable();
+  }
+
+  onRemoveBcc() {
+    this.valueChanged$.next(this.mailData.bcc);
+    this.isSelfDestructionEnable();
   }
 
   updateInputTextValue(value) {
@@ -581,15 +599,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onTagEdited($event) {
-    this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value };
+    this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
   }
 
   ccOnTagEdited($event) {
-    this.mailData.cc[$event.index] = { display: $event.display, value: $event.value };
+    this.mailData.cc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
   }
 
   bccOnTagEdited($event) {
-    this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value };
+    this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
   }
 
   onClick($event) {
@@ -1055,6 +1076,24 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
     this.hide.emit();
     this.resetValues();
+  }
+
+  isSelfDestructionEnable() {
+    this.isSelfDestruction = false;
+    const receivers: string[] = [
+      ...this.mailData.receiver.map(receiver => receiver.email),
+      ...this.mailData.cc.map(cc => cc.email),
+      ...this.mailData.bcc.map(bcc => bcc.email),
+    ];
+    receivers.forEach(receiver => {
+      const getDomain = receiver.substring(receiver.indexOf('@') + 1, receiver.length);
+      if (getDomain === 'ctemplar.com') {
+        this.isSelfDestruction = true;
+      }
+    });
+    if (!this.isSelfDestruction && this.selfDestruct.date) {
+      this.clearSelfDestructValue();
+    }
   }
 
   /**
@@ -1668,6 +1707,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       data.push(...emails);
     }
     this.valueChanged$.next(data);
+    this.isSelfDestructionEnable();
   }
 
   rfcStandardValidateEmail(address: string): boolean {
