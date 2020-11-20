@@ -438,7 +438,7 @@ export function reducer(
           if (action.payload.withChildren && children && children.length > 0) {
             children.forEach((child, index) => children[index].starred = action.payload.starred);
           }
-          const has_starred_children = children && children.length > 0 ? children.some(child => child.starred) || state.mailDetail.starred : state.mailDetail.starred;
+          const has_starred_children = children && children.length > 0 ? children.some(child => child.starred) || action.payload.starred : action.payload.starred;
           state.mailDetail = { ...state.mailDetail, starred: action.payload.starred, children, has_starred_children };
         } else {
           if (children && children.length > 0) {
