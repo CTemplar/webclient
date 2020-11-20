@@ -866,12 +866,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   ontoggleStarred(event, mail: Mail, withChildren: boolean = true) {
     event.stopPropagation();
     event.preventDefault();
-    if (mail.starred) {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: false, withChildren }));
-    } else {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: true, withChildren }));
-    }
-    mail.starred = !mail.starred;
+    this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: withChildren ? !mail.has_starred_children : !mail.starred, withChildren }));
   }
 
   moveToFolder(folder: MailFolderType | string) {

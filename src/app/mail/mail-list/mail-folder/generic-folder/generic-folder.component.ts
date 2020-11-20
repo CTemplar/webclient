@@ -314,12 +314,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   toggleStarred(mail: Mail) {
-    if (mail.starred) {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: false, folder: this.mailFolder, withChildren: true }));
-    } else {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: true, folder: this.mailFolder, withChildren: true }));
-    }
-    mail.starred = !mail.starred;
+      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: !mail.has_starred_children, folder: this.mailFolder, withChildren: true }));
   }
 
   markAsStarred(starred = true) {
@@ -504,34 +499,42 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   markReadMails() {
-    this.mails.map(mail => {
+    let isExist = false;
+    this.mails.forEach(mail => {
       mail.marked = mail.read;
-      return mail;
+      isExist = !isExist && mail.read ? true : isExist;
     });
+    this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
 
   markUnreadMails() {
-    this.mails.map(mail => {
+    let isExist = false;
+    this.mails.forEach(mail => {
       mail.marked = !mail.read;
-      return mail;
+      isExist = !isExist && mail.marked ? true : isExist;
     });
+    this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
 
   markStarredMails() {
-    this.mails.map(mail => {
-      mail.marked = mail.starred;
-      return mail;
+    let isExist = false;
+    this.mails.forEach(mail => {
+      mail.marked = mail.has_starred_children;
+      isExist = !isExist && mail.marked ? true : isExist;
     });
+    this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
 
   markUnstarredMails() {
-    this.mails.map(mail => {
-      mail.marked = !mail.starred;
-      return mail;
+    let isExist = false;
+    this.mails.forEach(mail => {
+      mail.marked = !mail.has_starred_children;
+      isExist = !isExist && mail.marked ? true : isExist;
     });
+    this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
 
