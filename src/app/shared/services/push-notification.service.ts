@@ -10,15 +10,17 @@ export class PushNotificationService {
   public permission: Permission;
 
   constructor(private store: Store<AppState>) {
-    this.permission = this.isSupported() ? 'default' : 'denied';
+    if (this.isSupported()) {
+      this.permission = Notification.permission;
+    }
   }
 
   public isSupported(): boolean {
     return 'Notification' in window;
   }
 
-  isGranted() {
-    return this.permission === 'granted';
+  isDefault() {
+    return this.permission === 'default';
   }
 
   requestPermission(): void {
@@ -31,15 +33,8 @@ export class PushNotificationService {
   }
 
   create(title: string, options?: PushNotificationOptions): any {
-    const self = this;
     if (!('Notification' in window)) {
       this.store.dispatch(new SnackPush({ message: 'Notifications are not available in this environment' }));
-      return;
-    }
-    if (self.permission !== 'granted') {
-      this.store.dispatch(
-        new SnackPush({ message: "The user hasn't granted you permission to send push notifications" }),
-      );
       return;
     }
     return new Observable(function (obs) {
