@@ -2,7 +2,6 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailState, FolderState } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
-import { MailDetailComponent } from '../../mail/mail-detail/mail-detail.component';
 
 export function reducer(
   state: MailState = {
