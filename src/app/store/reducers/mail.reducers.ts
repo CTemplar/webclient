@@ -391,7 +391,8 @@ export function reducer(
       const allIDS = Object.keys(mailMap);
       allIDS.forEach(mailID => {
         if (listOfIDs.includes(mailID.toString())) {
-          mailMap[mailID] = { ...mailMap[mailID], starred: action.payload.starred };
+          const has_starred_children = !action.payload.starred && action.payload.withChildren ? false : true;
+          mailMap[mailID] = { ...mailMap[mailID], starred: action.payload.starred, has_starred_children };
         }
       });
       
@@ -410,9 +411,18 @@ export function reducer(
           if (listOfIDs.includes(mailID.toString()) && !action.payload.starred) {
             updatedMailCount++;
             return false;
-          } else {
-            return true;
-          } 
+          } else if (state.mailDetail && mailID === state.mailDetail.id) {
+            const children = state.mailDetail.children;
+            if (children && children.length > 0) {
+              children.forEach((child, index) => {
+                if (listOfIDs.includes(child.id.toString())) {
+                  children[index] = { ...child, starred: action.payload.starred }
+                }
+              });
+              return children.some(child => child.starred);
+            }
+          }
+          return true;
         });
         if (!action.payload.starred) {
           currentFolderInfo.total_mail_count = currentFolderInfo.total_mail_count >= updatedMailCount ? currentFolderInfo.total_mail_count - updatedMailCount : 0;
@@ -420,13 +430,35 @@ export function reducer(
         currentFolderInfo.mails = updatedCurrentFolderMails;
         folderMap.set(MailFolderType.STARRED, currentFolderInfo);
       }
+      
+      if (state.mailDetail) {
+        let children = state.mailDetail.children;
+        if (listOfIDs.includes(state.mailDetail.id.toString())) {
+          if (action.payload.withChildren && children && children.length > 0) {
+            children.forEach((child, index) => children[index].starred = action.payload.starred);
+          }
+          const has_starred_children = children && children.length > 0 ? children.some(child => child.starred) || action.payload.starred : action.payload.starred;
+          state.mailDetail = { ...state.mailDetail, starred: action.payload.starred, children, has_starred_children };
+        } else {
+          if (children && children.length > 0) {
+            children.forEach((child, index) => {
+              if (listOfIDs.includes(child.id.toString())) {
+                children[index] = { ...child, starred: action.payload.starred };
+              }
+            });
+            const has_starred_children = children.some(child => child.starred) || state.mailDetail.starred;
+            state.mailDetail = { ...state.mailDetail, children, has_starred_children};
+            if (state.mailDetail.id in mailMap) {
+              mailMap[state.mailDetail.id] = { ...mailMap[state.mailDetail.id], has_starred_children }
+            }
+          }
+        }
+      }
+
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
       state.total_mail_count = curMailFolder.total_mail_count;
-      if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
-        state.mailDetail = { ...state.mailDetail, starred: action.payload.starred };
-      }
-      
+
       return {
         ...state,
         mails,

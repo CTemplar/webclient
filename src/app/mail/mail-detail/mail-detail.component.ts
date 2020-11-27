@@ -449,18 +449,30 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     win.focus();
   }
 
-  isNeedRemoveStar(mail: Mail) {
-    if (mail) {
-      return !!mail.starred;
+  isNeedRemoveStar(mail: Mail): boolean {
+    if (mail && !this.isConversationView) {
+      return mail.starred;
+    }
+    if (mail && mail.starred) {
+      return true;
+    }
+    if (mail.children && mail.children.length > 0) {
+      return mail.children.some(child => child.starred) || mail.starred;
     }
     return false;
   }
 
-  isNeedAddStar(mail: Mail) {
-    if (mail) {
+  isNeedAddStar(mail: Mail): boolean {
+    if (mail && !this.isConversationView) {
       return !mail.starred;
     }
-    return true;
+    if (mail && !mail.starred) {
+      return true;
+    }
+    if (mail.children && mail.children.length > 0) {
+      return mail.children.some(child => !child.starred) || !mail.starred;
+    }
+    return false;
   }
 
   toggleGmailExtra(mail: Mail) {
@@ -582,8 +594,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.shareService.downloadFile(attachment.decryptedDocument);
   }
 
-  markAsStarred(starred = true) {
-    this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred }));
+  markAsStarred(starred = true, withChildren: boolean = true) {
+    this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred, withChildren }));
   }
 
   markAsRead(mailID: number, read = true) {
@@ -851,13 +863,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(mail: Mail) {
-    if (mail.starred) {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: false }));
-    } else {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: true }));
-    }
-    mail.starred = !mail.starred;
+  ontoggleStarred(event, mail: Mail, withChildren: boolean = true) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: withChildren ? !mail.has_starred_children : !mail.starred, withChildren }));
   }
 
   moveToFolder(folder: MailFolderType | string) {

@@ -2620,3 +2620,6 @@ readers do not read off random characters that represent icons */
 .#{$fa-css-prefix}-youtube-square:before {
   content: fa-content($fa-var-youtube-square);
 }
+.#{$fortfa-css-prefix}-mastodon:before {
+  content: fa-content($fortfa-var-mastodon);
+}

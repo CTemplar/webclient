@@ -16,7 +16,14 @@ import { filter } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { AppState, MailBoxesState, MailState, PlanType, UserState } from '../../store/datatypes';
+import {
+  AppState,
+  MailBoxesState,
+  MailState,
+  PlanType,
+  UserState,
+  NotificationPermission,
+} from '../../store/datatypes';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
@@ -57,6 +64,10 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   currentRoute: string;
 
   isMenuOpened: boolean;
+
+  notificationsPermission: string;
+
+  notificationPermissionType = NotificationPermission;
 
   isSidebarOpened: boolean;
 
@@ -121,7 +132,10 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
                 is_from_socket: true,
               }),
             );
-            if (webSocketState.message.folder !== MailFolderType.SPAM) {
+            if (
+              webSocketState.message.folder !== MailFolderType.SPAM &&
+              this.notificationsPermission === this.notificationPermissionType.GRANTED
+            ) {
               this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
             }
             this.updateUnreadCount(webSocketState);
@@ -148,10 +162,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (!this.pushNotificationService.isGranted()) {
+    if (this.pushNotificationService.isDefault()) {
       setTimeout(() => {
         this.pushNotificationService.requestPermission();
       }, 3000);
+    }
+    if ('Notification' in window) {
+      this.notificationsPermission = Notification.permission;
     }
     /**
      * Set state variables from user's settings.

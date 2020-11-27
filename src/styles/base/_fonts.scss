@@ -117,3 +117,15 @@
 .fab {
   font-family: 'Font Awesome 5 Brands';
 }
+
+@font-face {
+  font-family: 'Fort Awesome 5 Brands';
+  font-style: normal;
+  font-weight: normal;
+  src: url('#{$fa-font-path}webfonts/fortfa-brands-400.ttf');
+}
+
+.fortfa {
+  font-family: 'Fort Awesome 5 Brands';
+  font-style: normal;
+}

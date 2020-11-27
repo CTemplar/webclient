@@ -57,7 +57,7 @@ export class DateTimeUtilService {
       return {
         date: {
           year: datetime.year(),
-          month: datetime.month(),
+          month: datetime.month() + 1,
           day: datetime.date(),
         },
         time: {

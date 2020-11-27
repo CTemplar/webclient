@@ -101,10 +101,10 @@
               {{ 'mail_list.more' | translate }}
             </button>
             <div id="moreOptionsDropdownMenu" ngbDropdownMenu aria-labelledby="moreOptionsDropdownMenuButton">
-              <a *ngIf="isNeedAddStar(mail)" class="dropdown-item" (click)="markAsStarred(true)">
+              <a *ngIf="isNeedAddStar(mail)" class="dropdown-item" (click)="markAsStarred(true, true)">
                 {{ 'mail_list.add_star' | translate }}
               </a>
-              <a *ngIf="isNeedRemoveStar(mail)" class="dropdown-item" (click)="markAsStarred(false)">
+              <a *ngIf="isNeedRemoveStar(mail)" class="dropdown-item" (click)="markAsStarred(false, true)">
                 {{ 'mail_list.remove_star' | translate }}
               </a>
               <a class="dropdown-item" (click)="markAsRead(mail.id)">
@@ -163,7 +163,7 @@
         <i class="icon icon-secured icon-md text-muted ml-2" [ngClass]="{ 'text-faded': !mail.is_protected && mail?.zer !== 'support@ctemplar.com' }" [ngbTooltip]="!mail.is_protected && mail?.sender !== 'support@ctemplar.com' ? '' : ('mail_detail.encrypted' | translate)"> </i>
       </h5>
       <div class="icon-holder is-floated right y-center">
-        <i class="icon icon-md icon-star-filled cursor-pointer" (click)="ontoggleStarred(mail)" [ngClass]="{ 'icon-star': !mail.starred, 'text-info': mail.starred }"></i>
+        <i class="icon icon-md icon-star-filled cursor-pointer" (click)="ontoggleStarred($event, mail, true);" [ngClass]="{ 'icon-star': isConversationView ? !mail.has_starred_children : !mail.starred, 'text-info': isConversationView ? mail.has_starred_children : mail.starred }"></i>
       </div>
     </div>
     <div class="spam_reason row" *ngIf="xssPipe.hasExternalImages && disableExternalImages">
@@ -195,16 +195,14 @@
     <div class="spam_reason row" *ngIf="isContainTrashRelatedChildren && !isShowTrashRelatedChildren">
       <div class="col pt-1">
         <span class="text-warning">Information:</span>
-        {{ mailFolder === mailFolderTypes.TRASH ? "This conversation contains non-trash messages." : "This conversation contains trash messages." }}
+        {{ mailFolder === mailFolderTypes.TRASH ? 'This conversation contains non-trash messages.' : 'This conversation contains trash messages.' }}
       </div>
       <div>
-        <button class="mark_not_spam btn btn-outline-warning" (click)="onShowTrashRelatedChildren()">
-          Load
-        </button>
+        <button class="mark_not_spam btn btn-outline-warning" (click)="onShowTrashRelatedChildren()">Load</button>
       </div>
     </div>
 
-    <div class="ui-body is-xs bg-faded cursor-pointer mail-header" *ngIf="isShowTrashRelatedChildren || ((mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH))" (click)="parentMailCollapsed = !parentMailCollapsed">
+    <div class="ui-body is-xs bg-faded cursor-pointer mail-header" *ngIf="isShowTrashRelatedChildren || (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)" (click)="parentMailCollapsed = !parentMailCollapsed">
       <div class="row">
         <div class="col-8">
           <div class="mailbox-sender-content">
@@ -291,9 +289,12 @@
                   </ng-container>
                 </ng-template>
               </label>
+              <i class="icon icon-sm icon-star-filled cursor-pointer" (click)="ontoggleStarred($event, mail, false);" [ngClass]="{ 'icon-star': !mail.starred, 'text-info': mail.starred }"></i>
             </div>
             <div>
               <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{ mail.folder }}</label>
+              <i class="fas fa-angle-down expand-collapse" *ngIf="parentMailCollapsed"></i>
+              <i class="fas fa-angle-up expand-collapse" *ngIf="!parentMailCollapsed"></i>
             </div>
           </div>
         </div>
@@ -302,7 +303,7 @@
   </section>
 
   <!--Mail Content-->
-  <section class="mailbox-section" *ngIf="isShowTrashRelatedChildren || ((mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH))" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
+  <section class="mailbox-section" *ngIf="isShowTrashRelatedChildren || (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">
       <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="messageReplyDropdownMenuButton"></button>
@@ -388,7 +389,7 @@
 
   <!-- Child Mail-->
   <ng-container *ngFor="let childMail of mail.children; let childIndex = index">
-    <ng-container *ngIf="isShowTrashRelatedChildren || ((mailFolder === mailFolderTypes.TRASH && childMail.folder === mailFolderTypes.TRASH) || (mailFolder !== mailFolderTypes.TRASH && childMail.folder !== mailFolderTypes.TRASH))">
+    <ng-container *ngIf="isShowTrashRelatedChildren || (mailFolder === mailFolderTypes.TRASH && childMail.folder === mailFolderTypes.TRASH) || (mailFolder !== mailFolderTypes.TRASH && childMail.folder !== mailFolderTypes.TRASH)">
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
           <div class="ui-body">
@@ -484,9 +485,12 @@
                             </ng-container>
                           </ng-template>
                         </label>
+                        <i class="icon icon-sm icon-star-filled cursor-pointer" (click)="ontoggleStarred($event, childMail, false)" [ngClass]="{ 'icon-star': !childMail.starred, 'text-info': childMail.starred }"></i>
                       </div>
                       <div>
                         <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{ childMail.folder }}</label>
+                        <i class="fas fa-angle-down expand-collapse" *ngIf="childMailCollapsed[childIndex]"></i>
+                        <i class="fas fa-angle-up expand-collapse" *ngIf="!childMailCollapsed[childIndex]"></i>
                       </div>
                     </div>
                   </div>

@@ -928,11 +928,11 @@
 
   &.is-unread {
     color: $brand-black !important;
-    background-color: #fff;
+    background: #f5f5f5;
   }
 
   &.is-read {
-    background: #f5f5f5;
+    background-color: #fff;
     color: $brand-gray;
   }
 
@@ -1090,8 +1090,7 @@
     font-weight: bold;
   }
 
-  .mail-checkbox,
-  .mail-status {
+  .mail-checkbox {
     width: 1.5rem;
   }
 
@@ -1112,7 +1111,7 @@
   .mail-file-size,
   .mail-sent-date {
     font-size: 0.75rem;
-    width: 5rem;
+    width: 4rem;
   }
 
   .mail-file-size {
@@ -1124,7 +1123,8 @@
   }
 
   .mail-security-status {
-    width: 4rem;
+    width: 3rem;
+    text-align: center;
     color: #34495e;
   }
 
@@ -1141,8 +1141,11 @@
   }
 
   .mail-from-name {
-    width: 12.5rem;
     vertical-align: middle;
+
+    @include media('>sm') {
+      width: 12.5rem;
+    }
   }
 
   .mail-subject .mail-content {
@@ -1175,21 +1178,18 @@
   @include media('<sm') {
     &.show-on-mobile {
       .fancy-field-group {
-        margin-top: -18px;
+        margin-top: -17px;
       }
     }
     .mail-from-name {
       position: relative;
-      padding-top: 15px;
+      padding: 15px 15px 0px;
       a {
         padding: 0 0 10px;
       }
       .text-danger {
         font-size: 16px;
         width: 60vw;
-      }
-      span {
-        display: block;
       }
       .mail-file-size {
         position: absolute;
@@ -1205,7 +1205,6 @@
       }
     }
     .mail-status {
-      width: 1rem;
       text-align: right;
       .mail-security-status {
         width: auto;
@@ -1305,7 +1304,7 @@
 }
 
 .msg-received-time {
-  margin-right: 0.938rem;
+  margin-right: 27px;
   font-size: 12px;
   min-width: 4rem;
   text-align: center;

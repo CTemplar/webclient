@@ -547,7 +547,10 @@
     "blog": "Blog",
     "support": "Support",
     "login": "Login",
-    "signup": "Sign up"
+    "signup": "Sign up",
+    "features": "Features",
+    "helpdesk": "Helpdesk",
+    "tor_browser": "Tor Browser"
   },
   "footer": {
     "register_to_world_most": "<strong>Register for the </strong> <span>World’s Most Secure Email</span> <strong>now!</strong>",

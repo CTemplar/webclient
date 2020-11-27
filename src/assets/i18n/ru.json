@@ -477,7 +477,10 @@
     "blog": "Блог",
     "support": "Поддержка",
     "login": "Вход",
-    "signup": "Регистрация"
+    "signup": "Регистрация",
+    "features": "Features",
+    "helpdesk": "Helpdesk",
+    "tor_browser": "Tor Browser"
   },
   "footer": {
     "register_to_world_most": "<strong>Зарегистрируйте </strong> самую надежную почту в мире <strong>прямо сейчас!</strong>",

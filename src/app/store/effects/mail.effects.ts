@@ -168,7 +168,7 @@ export class MailEffects {
     ofType(MailActionTypes.STAR_MAIL),
     map((action: ReadMail) => action.payload),
     mergeMap(payload => {
-      return this.mailService.markAsStarred(payload.ids, payload.starred, payload.folder).pipe(
+      return this.mailService.markAsStarred(payload.ids, payload.starred, payload.folder, payload.withChildren).pipe(
         switchMap(res => of(new StarMailSuccess(payload))),
         catchError(error => of(new SnackErrorPush({ message: 'Failed to mark as starred.' }))),
       );
