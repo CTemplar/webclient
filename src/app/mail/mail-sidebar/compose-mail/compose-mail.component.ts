@@ -1096,6 +1096,35 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
+  addHyperLink() {
+    var regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.com|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    this.quill.focus();
+    var contents = this.quill.getText();
+    var filtered = contents.trim().split(/\s+/);
+    for (let i = 0; i < filtered.length; i++) {
+      var match = filtered[i].match(regex);
+      if (match !== null) {
+        var url = match[0];
+        var hyperLink = url;
+        if (!/^https?:\/\//i.test(url)) {
+          hyperLink = `http://${url}`;
+        }
+        var position = contents.indexOf(url);
+        this.quill.updateContents([
+          { retain: position || this.quill.getLength() },
+          { delete: url.length },
+          {
+            insert: url,
+            attributes: {
+              link: hyperLink,
+              target: '_blank',
+            },
+          },
+        ]);
+      }
+    }
+  }
+
   /**
    * Check exceptions and validations of subject and receiver before send mail
    */
@@ -1141,6 +1170,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         windowClass: 'modal-sm users-action-modal',
       });
     } else {
+      this.addHyperLink();
       this.sendEmail();
     }
   }
