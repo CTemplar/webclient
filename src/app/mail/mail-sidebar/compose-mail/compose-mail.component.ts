@@ -76,6 +76,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 const Inline = Quill.import('blots/inline');
+const Delta = Quill.import('delta');
 
 /**
  * Define Custom Image Blot to store meta-data in Quill Editor
@@ -879,17 +880,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       link = `http://${link}`;
     }
     this.quill.focus();
-    this.quill.updateContents([
-      { retain: this.quill.getSelection().index || this.quill.getLength() },
-      {
-        // An image link
-        insert: text,
-        attributes: {
-          link,
-          target: '_blank',
-        },
-      },
-    ]);
+    this.quill.updateContents(
+      new Delta().retain(this.quill.getSelection().index).insert(text, { link, target: '_blank' }),
+    );
   }
 
   openInsertLinkModal() {
@@ -1110,17 +1103,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           hyperLink = `http://${url}`;
         }
         var position = contents.indexOf(url);
-        this.quill.updateContents([
-          { retain: position || this.quill.getLength() },
-          { delete: url.length },
-          {
-            insert: url,
-            attributes: {
-              link: hyperLink,
-              target: '_blank',
-            },
-          },
-        ]);
+        this.quill.updateContents(
+          new Delta().retain(position).delete(url.length).insert(url, { link: hyperLink, target: '_blank' }),
+        );
       }
     }
   }
