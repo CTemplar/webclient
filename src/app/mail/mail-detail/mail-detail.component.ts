@@ -219,7 +219,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
-                ? decryptedContent.content.replace('<a ', '<a target="_blank" ')
+                ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
                 : decryptedContent.content;
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
@@ -866,7 +866,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   ontoggleStarred(event, mail: Mail, withChildren: boolean = true) {
     event.stopPropagation();
     event.preventDefault();
-    this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: withChildren ? !mail.has_starred_children : !mail.starred, withChildren }));
+    this.store.dispatch(
+      new StarMail({
+        ids: mail.id.toString(),
+        starred: withChildren ? !mail.has_starred_children : !mail.starred,
+        withChildren,
+      }),
+    );
   }
 
   moveToFolder(folder: MailFolderType | string) {
