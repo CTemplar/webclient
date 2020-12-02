@@ -2,7 +2,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, Subscription } from 'rxjs';
-import { catchError, finalize, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, finalize, map, mergeMap, switchMap, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 
@@ -161,11 +161,15 @@ export class ComposeMailEffects {
   getUsersKeysEffect: Observable<any> = this.actions.pipe(
     ofType(ComposeMailActionTypes.GET_USERS_KEYS),
     map((action: GetUsersKeys) => action.payload),
-    mergeMap((payload: any) => {
-      return this.mailService.getUsersPublicKeys(payload.emails).pipe(
-        switchMap(keys => of(new GetUsersKeysSuccess({ draftId: payload.draftId, data: keys }))),
-        catchError(error => EMPTY),
-      );
+    concatMap((payload: any) => {
+      if (payload.emails.length > 0) {
+        return this.mailService.getUsersPublicKeys(payload.emails).pipe(
+          switchMap(keys => of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, data: keys, isBlind: false }))),
+          catchError(error => EMPTY),
+        );
+      } else {
+        return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));
+      }
     }),
   );
 }

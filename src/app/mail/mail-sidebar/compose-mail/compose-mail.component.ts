@@ -36,6 +36,7 @@ import {
   UpdateLocalDraft,
   UpdatePGPDecryptedContent,
   UploadAttachment,
+  // GetUsersKeysEvery
 } from '../../../store/actions';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
@@ -46,9 +47,11 @@ import {
   ComposeMailState,
   ContactsState,
   Draft,
+  GlobalPublicKey,
   MailAction,
   MailBoxesState,
   MailState,
+  PublicKey,
   SecureContent,
   Settings,
   UserState,
@@ -239,6 +242,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   draftId: number;
 
+  usersKeys: Map<string, GlobalPublicKey> = new Map();
+
   colors = COLORS;
 
   fonts = FONTS;
@@ -403,6 +408,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
         }
         this.draft = draft;
+        this.usersKeys = response.usersKeys;
       });
 
     /**
@@ -1110,11 +1116,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.confirmModalRef) {
       this.confirmModalRef.dismiss();
     }
-    const receivers: string[] = [
+    let receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
       ...this.mailData.bcc.map(bcc => bcc.display),
     ];
+    receivers = receivers.filter(email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching));
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
     }
@@ -1666,6 +1673,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       data.splice(0, this.mailData.receiver.length);
       data.push(...emails);
+    }
+    const receiversForKey = data.filter(receiver => !this.usersKeys.has(receiver.email) || (!this.usersKeys.get(receiver.email).key && !this.usersKeys.get(receiver.email).isFetching)).map(receiver => receiver.email);
+    
+    if (receiversForKey.length > 0) {
+      this.store.dispatch(
+        new GetUsersKeys({
+          emails: receiversForKey,
+        }),
+      );
     }
     this.valueChanged$.next(data);
   }
