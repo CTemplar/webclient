@@ -514,7 +514,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         const decryptedContents = child.is_html
-          ? childDecryptedContent.content.replace('<a ', '<a target="_blank" ')
+          ? childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
           : childDecryptedContent.content;
         this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
