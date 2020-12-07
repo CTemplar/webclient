@@ -36,7 +36,6 @@ import {
   UpdateLocalDraft,
   UpdatePGPDecryptedContent,
   UploadAttachment,
-  // GetUsersKeysEvery
 } from '../../../store/actions';
 import { FilenamePipe } from '../../../shared/pipes/filename.pipe';
 import { FilesizePipe } from '../../../shared/pipes/filesize.pipe';
@@ -51,7 +50,6 @@ import {
   MailAction,
   MailBoxesState,
   MailState,
-  PublicKey,
   SecureContent,
   Settings,
   UserState,
