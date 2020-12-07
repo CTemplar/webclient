@@ -212,7 +212,7 @@ export class ComposeMailService {
       ];
       let keys = [];
       receivers.forEach(receiver => {
-        keys.push(usersKeys.get(receiver));
+        keys.push(usersKeys.get(receiver).key);
       });
       return keys;
     }
