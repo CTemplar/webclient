@@ -29,6 +29,17 @@ function createWindow() {
     mainWindow = null;
   });
 
+  mainWindow.webContents.on('did-fail-load', () => {
+    mainWindow.loadURL(
+      url.format({
+        pathname: path.join(__dirname, 'dist/index.html'),
+        protocol: 'file:',
+        slashes: true,
+      }),
+    );
+    // REDIRECT TO FIRST WEBPAGE AGAIN
+  });
+
   // open external links with web browser
   mainWindow.webContents.on('will-navigate', (e, reqUrl) => {
     const getHost = host => require('url').parse(host).host;
