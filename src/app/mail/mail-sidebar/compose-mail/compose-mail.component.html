@@ -44,7 +44,8 @@
           (click)="onClick($event)"
           #input
         >
-          <ng-template let-item="item" let-index="index"> 
+          <ng-template let-item="item" let-index="index">
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
             <span>
                 {{ item.email }}
             </span>
@@ -90,6 +91,13 @@
           (onTagEdited)="ccOnTagEdited($event)" 
           (click)="onCcClick($event)"
         >
+          <ng-template let-item="item" let-index="index">
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
+            <span>
+                {{ item.email }}
+            </span>
+            <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
+          </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
               <div class="compose-contacts-container">
@@ -126,6 +134,13 @@
           (onTagEdited)="bccOnTagEdited($event)" 
           (click)="onBccClick($event)"
         >
+          <ng-template let-item="item" let-index="index">
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
+            <span>
+                {{ item.email }}
+            </span>
+            <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
+          </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
             <ng-template let-item="item" let-index="index">
               <div class="compose-contacts-container">

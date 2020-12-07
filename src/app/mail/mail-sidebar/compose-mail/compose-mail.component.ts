@@ -379,7 +379,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.resetMailData();
     this.initializeDraft();
-
     /**
      * Get current Compose state from Store and
      * Encrypt attachments of compose mail
@@ -1074,7 +1073,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }, 100);
       return;
     }
-
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
         new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }),
@@ -1089,6 +1087,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
+    }
+    if (receivers.some(receiver => this.usersKeys.has(receiver) && this.usersKeys.get(receiver).isFetching)) {
+      // If fetching for user key, wait to send
+      setTimeout(() => {
+        this.sendEmailCheck();
+      }, 100);
+      return;
     }
     const invalidAddress = receivers.find(receiver => !this.rfcStandardValidateEmail(receiver));
     if (invalidAddress) {
@@ -1684,6 +1689,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       );
     }
     this.valueChanged$.next(data);
+  }
+
+  getUserKeyFetchingStatus(email: string): boolean {
+    return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
   }
 
   rfcStandardValidateEmail(address: string): boolean {
