@@ -41,9 +41,11 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.authService = this.injector.get(UsersService);
-    request = request.clone({
-      withCredentials: true,
-    });
+    if (!request.url.includes('emails/secure-message')) {
+      request = request.clone({
+        withCredentials: true,
+      });
+    }
 
     return next.handle(request).pipe(
       tap(event => {

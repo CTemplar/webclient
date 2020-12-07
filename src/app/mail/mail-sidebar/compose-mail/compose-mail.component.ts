@@ -79,6 +79,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 const Inline = Quill.import('blots/inline');
+const Delta = Quill.import('delta');
 
 /**
  * Define Custom Image Blot to store meta-data in Quill Editor
@@ -267,6 +268,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   attachments: Attachment[] = [];
 
   isKeyboardOpened: boolean;
+
+  isSelfDestruction: boolean;
 
   encryptForm: FormGroup;
 
@@ -526,6 +529,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       day: now.getDate(),
     };
 
+    this.isSelfDestructionEnable(); // check self destruction is possible or not
     this.initializeAutoSave(); // start auto save function
   }
 
@@ -539,6 +543,21 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   bccOnPaste($event) {
     this.bccIsPasted = true;
+  }
+
+  onRemoveReceive() {
+    this.valueChanged$.next(this.mailData.receiver);
+    this.isSelfDestructionEnable();
+  }
+
+  onRemoveCc() {
+    this.valueChanged$.next(this.mailData.cc);
+    this.isSelfDestructionEnable();
+  }
+
+  onRemoveBcc() {
+    this.valueChanged$.next(this.mailData.bcc);
+    this.isSelfDestructionEnable();
   }
 
   updateInputTextValue(value) {
@@ -586,15 +605,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   onTagEdited($event) {
-    this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value };
+    this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
   }
 
   ccOnTagEdited($event) {
-    this.mailData.cc[$event.index] = { display: $event.display, value: $event.value };
+    this.mailData.cc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
   }
 
   bccOnTagEdited($event) {
-    this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value };
+    this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
   }
 
   onClick($event) {
@@ -863,17 +885,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       link = `http://${link}`;
     }
     this.quill.focus();
-    this.quill.updateContents([
-      { retain: this.quill.getSelection().index || this.quill.getLength() },
-      {
-        // An image link
-        insert: text,
-        attributes: {
-          link,
-          target: '_blank',
-        },
-      },
-    ]);
+    this.quill.updateContents(
+      new Delta().retain(this.quill.getSelection().index).insert(text, { link, target: '_blank' }),
+    );
   }
 
   openInsertLinkModal() {
@@ -1062,6 +1076,45 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.resetValues();
   }
 
+  isSelfDestructionEnable() {
+    this.isSelfDestruction = false;
+    const receivers: string[] = [
+      ...this.mailData.receiver.map(receiver => receiver.email),
+      ...this.mailData.cc.map(cc => cc.email),
+      ...this.mailData.bcc.map(bcc => bcc.email),
+    ];
+    receivers.forEach(receiver => {
+      const getDomain = receiver.substring(receiver.indexOf('@') + 1, receiver.length);
+      if (getDomain === 'ctemplar.com') {
+        this.isSelfDestruction = true;
+      }
+    });
+    if (!this.isSelfDestruction && this.selfDestruct.date) {
+      this.clearSelfDestructValue();
+    }
+  }
+
+  addHyperLink() {
+    var regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.com|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    this.quill.focus();
+    var contents = this.quill.getText();
+    var filtered = contents.trim().split(/\s+/);
+    for (let i = 0; i < filtered.length; i++) {
+      var match = filtered[i].match(regex);
+      if (match !== null) {
+        var url = match[0];
+        var hyperLink = url;
+        if (!/^https?:\/\//i.test(url)) {
+          hyperLink = `http://${url}`;
+        }
+        var position = contents.indexOf(url);
+        this.quill.updateContents(
+          new Delta().retain(position).delete(url.length).insert(url, { link: hyperLink, target: '_blank' }),
+        );
+      }
+    }
+  }
+
   /**
    * Check exceptions and validations of subject and receiver before send mail
    */
@@ -1113,6 +1166,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         windowClass: 'modal-sm users-action-modal',
       });
     } else {
+      this.addHyperLink();
       this.sendEmail();
     }
   }
@@ -1689,6 +1743,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       );
     }
     this.valueChanged$.next(data);
+    this.isSelfDestructionEnable();
   }
 
   getUserKeyFetchingStatus(email: string): boolean {
