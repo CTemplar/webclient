@@ -180,9 +180,11 @@ tag-input {
     height: 20px !important;
     border-radius: 20px !important;
     border: 1px solid lightgrey !important;
-
     .tag-wrapper {
       margin-top: -10px !important;
+    }
+    .ng-star-inserted {
+      margin-top: -10px;
     }
   }
 
