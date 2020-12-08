@@ -800,7 +800,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 // if attachment is encrypted, update draft attachment with decrypted attachment
                 const fileInfo = { attachment, type: response.file_type };
                 this.openPgpService
-                  .decryptAttachment(this.draftMail.mailbox, atob(response.data), fileInfo)
+                  .decryptAttachment(this.draftMail.mailbox, response.data, fileInfo)
                   .subscribe(decryptedAttachment => {
                     this.store.dispatch(
                       new UpdateDraftAttachment({
