@@ -68,7 +68,7 @@ export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new M
         state.drafts[action.payload.draftId] = {
           ...state.drafts[action.payload.draftId],
           ...action.payload.draft,
-          inProgress: true,
+          // inProgress: true,
           getUserKeyInProgress: true,
         };
       }

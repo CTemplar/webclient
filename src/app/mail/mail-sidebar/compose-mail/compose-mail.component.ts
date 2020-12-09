@@ -351,6 +351,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private oldMailbox: Mailbox;
 
+  isPreparingToSendEmail: boolean = false;
+
   constructor(
     private modalService: NgbModal,
     private store: Store<AppState>,
@@ -1117,13 +1119,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
    * Check exceptions and validations of subject and receiver before send mail
    */
   sendEmailCheck() {
-    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
-      // If saving is in progress, then wait to send.
-      setTimeout(() => {
-        this.sendEmailCheck();
-      }, 100);
-      return;
-    }
+    if (this.isPreparingToSendEmail) return;
+    this.isPreparingToSendEmail = true;
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
         new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }),
@@ -1137,18 +1134,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     ];
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
-      return false;
-    }
-    if (receivers.some(receiver => this.usersKeys.has(receiver) && this.usersKeys.get(receiver).isFetching)) {
-      // If fetching for user key, wait to send
-      setTimeout(() => {
-        this.sendEmailCheck();
-      }, 100);
       return;
     }
     const invalidAddress = receivers.find(receiver => !this.rfcStandardValidateEmail(receiver));
     if (invalidAddress) {
       this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
+      return;
+    }
+    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+      // If saving is in progress, then wait to send.
+      setTimeout(() => {
+        this.isPreparingToSendEmail = false;
+        this.sendEmailCheck();
+      }, 100);
+      return;
+    }
+    if (receivers.some(receiver => this.usersKeys.has(receiver) && this.usersKeys.get(receiver).isFetching)) {
+      // If fetching for user key, wait to send
+      setTimeout(() => {
+        this.isPreparingToSendEmail = false;
+        this.sendEmailCheck();
+      }, 100);
       return;
     }
     if (
