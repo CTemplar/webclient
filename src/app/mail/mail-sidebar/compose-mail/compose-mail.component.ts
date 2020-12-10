@@ -46,6 +46,7 @@ import {
   ComposeMailState,
   ContactsState,
   Draft,
+  GlobalPublicKey,
   MailAction,
   MailBoxesState,
   MailState,
@@ -240,6 +241,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   draftId: number;
 
+  usersKeys: Map<string, GlobalPublicKey> = new Map();
+
   colors = COLORS;
 
   fonts = FONTS;
@@ -377,7 +380,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.resetMailData();
     this.initializeDraft();
-
     /**
      * Get current Compose state from Store and
      * Encrypt attachments of compose mail
@@ -406,6 +408,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
         }
         this.draft = draft;
+        this.usersKeys = response.usersKeys;
       });
 
     /**
@@ -1121,7 +1124,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }, 100);
       return;
     }
-
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
         new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }),
@@ -1136,6 +1138,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
+    }
+    if (receivers.some(receiver => this.usersKeys.has(receiver) && this.usersKeys.get(receiver).isFetching)) {
+      // If fetching for user key, wait to send
+      setTimeout(() => {
+        this.sendEmailCheck();
+      }, 100);
+      return;
     }
     const invalidAddress = receivers.find(receiver => !this.rfcStandardValidateEmail(receiver));
     if (invalidAddress) {
@@ -1164,11 +1173,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.confirmModalRef) {
       this.confirmModalRef.dismiss();
     }
-    const receivers: string[] = [
+    let receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
       ...this.mailData.bcc.map(bcc => bcc.display),
     ];
+    receivers = receivers.filter(email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching));
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
     }
@@ -1721,8 +1731,21 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       data.splice(0, this.mailData.receiver.length);
       data.push(...emails);
     }
+    const receiversForKey = data.filter(receiver => !this.usersKeys.has(receiver.email) || (!this.usersKeys.get(receiver.email).key && !this.usersKeys.get(receiver.email).isFetching)).map(receiver => receiver.email);
+    
+    if (receiversForKey.length > 0) {
+      this.store.dispatch(
+        new GetUsersKeys({
+          emails: receiversForKey,
+        }),
+      );
+    }
     this.valueChanged$.next(data);
     this.isSelfDestructionEnable();
+  }
+
+  getUserKeyFetchingStatus(email: string): boolean {
+    return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
   }
 
   rfcStandardValidateEmail(address: string): boolean {
