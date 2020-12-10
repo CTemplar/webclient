@@ -3,7 +3,7 @@ import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
 import { ComposeMailState } from '../datatypes';
 import { MailFolderType } from '../models';
 
-export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new Map() }, action: ComposeMailActions): ComposeMailState {
+export function reducer(state: ComposeMailState = { drafts: {} }, action: ComposeMailActions): ComposeMailState {
   switch (action.type) {
     case ComposeMailActionTypes.SEND_MAIL:
     case ComposeMailActionTypes.CREATE_MAIL: {
@@ -64,41 +64,22 @@ export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new M
     }
 
     case ComposeMailActionTypes.GET_USERS_KEYS: {
-      if (action.payload.draftId && action.payload.draft) {
-        state.drafts[action.payload.draftId] = {
-          ...state.drafts[action.payload.draftId],
-          ...action.payload.draft,
-          inProgress: true,
-          getUserKeyInProgress: true,
-        };
-      }
-      let usersKeys = state.usersKeys;
-      action.payload.emails.forEach(email => {
-        usersKeys.set(email, { key: null, isFetching: true })
-      });
-      return { ...state, drafts: { ...state.drafts }, usersKeys };
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        ...action.payload.draft,
+        inProgress: true,
+        getUserKeyInProgress: true,
+      };
+      return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.GET_USERS_KEYS_SUCCESS: {
-      if (action.payload.draftId) {
-        state.drafts[action.payload.draftId] = {
-          ...state.drafts[action.payload.draftId],
-          getUserKeyInProgress: false,
-          usersKeys: !action.payload.isBlind && action.payload.data,
-        };
-      }
-      // Saving on global user keys
-      let usersKeys = state.usersKeys;
-      if (!action.payload.isBlind && action.payload.data.keys) {
-        action.payload.data.keys.forEach(key => {
-          usersKeys.set(key.email, { key: key, isFetching: false });
-        });
-      }
-      return { 
-        ...state, 
-        drafts: { ...state.drafts }, 
-        usersKeys 
+      state.drafts[action.payload.draftId] = {
+        ...state.drafts[action.payload.draftId],
+        getUserKeyInProgress: false,
+        usersKeys: action.payload.data,
       };
+      return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.UPDATE_PGP_ENCRYPTED_CONTENT: {

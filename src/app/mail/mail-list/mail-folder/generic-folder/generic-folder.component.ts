@@ -113,7 +113,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     private cdr: ChangeDetectorRef,
     private pgpService: OpenPgpService,
     private authService: UsersService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {

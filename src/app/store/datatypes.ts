@@ -436,13 +436,6 @@ export interface DraftState {
 
 export interface ComposeMailState {
   drafts: DraftState;
-  usersKeys?: Map<string, GlobalPublicKey>;
-  getUserKeyEveryInProgress?: boolean;
-}
-
-export interface GlobalPublicKey {
-  isFetching: boolean;
-  key: PublicKey;
 }
 
 export interface MailBoxesState {
