@@ -1,6 +1,6 @@
 <!-- PAGE SECTION -->
 <section class="l-block l-block-text bg-white text-center text-white gap-p-eq has-cover login-main" style="background-image: url(assets/images/user-actions/login-bg.jpg)">
-  <div class="container container-xs" *ngIf="!authState.isAuthenticated || authState.anti_phishing_phrase">
+  <div class="container container-xs" *ngIf="(!authState.isAuthenticated || authState.anti_phishing_phrase) && !isLoading">
     <header class="l-block-header position-relative mb-md-2">
       <div class="row justify-content-center">
         <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
@@ -142,10 +142,12 @@
     <img class="logo" style="width: 400px; height: 300px" [src]="loadingImage | safe: 'url'" />
     <p class="quote">Loading your mailbox...</p>
   </div>
+  <div align="center" class="logged-in-spinner" *ngIf="isLoading && !authState.isAuthenticated">
+    <img class="logo" style="width: 400px; height: 300px; margin-top: 70px" [src]="loadingImage | safe: 'url'" />
+    <p class="quote">Logging in...</p>
+  </div>
 </section>
 <!-- /.PAGE SECTION ENDS -->
-
-<img *ngIf="isLoading && !authState.isAuthenticated" class="loading-icon" src="assets/icons/spinner.svg" />
 
 <ng-template #resetPasswordModal let-c="close" let-d="dismiss">
   <div class="modal-header text-center justify-content-center">
