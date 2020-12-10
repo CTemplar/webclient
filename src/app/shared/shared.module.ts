@@ -33,7 +33,6 @@ import { LastActionPipe } from './pipes/last-action.pipe';
 import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
 import { EmailFormatPipe } from './pipes/email-formatting.pipe';
 import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
-import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinner.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, TagInputModule, MatIconModule, NgbModule],
@@ -60,8 +59,7 @@ import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinn
     LastActionPipe,
     CreditCardNumberPipe,
     LineBreakToBrTag,
-    EmailFormatPipe,
-    CircleBarSpinnerComponent,
+    EmailFormatPipe
   ],
   exports: [
     TranslateModule,
@@ -88,8 +86,7 @@ import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinn
     PaymentFailureNoticeComponent,
     CreditCardNumberPipe,
     LineBreakToBrTag,
-    EmailFormatPipe,
-    CircleBarSpinnerComponent
+    EmailFormatPipe
   ],
   providers: [
     SpinnerService,
