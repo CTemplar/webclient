@@ -120,10 +120,6 @@ on our website. Find the details of build and how to calculate checksum here : [
 
 This project is still in early phase so bug reports via Issues and Pull Requests are welcome.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
 ## License
 
 Apache License 2.0
