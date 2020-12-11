@@ -14,47 +14,63 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-### Build Electron client
-
-Run the following command in order to build electron client for all platform
+### Build cross-platform Electron client
 
 ```bash
-npm run pack-all
+npm run build:electron
+npm run pack -- --<platform> --<arch>
 ```
 
-Build for a specific platform
+Examples:
 
 ```bash
- npm run pack -- --platform=<platform> --arch=<arch>
+# Windows x64
+npm run build:electron
+npm run pack:electron -- --windows --x64
 ```
-
-For example:
+OR
 
 ```bash
- npm run pack -- --platform=win32 --arch=x64
+# macOS x64
+npm run build:electron
+npm run pack:electron -- --macos --x64
+```
 
 OR
 
- npm run pack -- --platform=darwin --arch=x64
+```bash
+# Linux x64
+npm run build:electron
+npm run pack:electron -- --linux --x64
+```
 
 OR
 
- npm run pack -- --platform=linux --arch=x64
+```bash
+# Linux arm64
+npm run build:electron
+npm run pack:electron -- --linux --arm64
 ```
 
-#### Supported platforms
+Then you can look for the executable in the new `release/` directory.
 
-You can generate executables/bundles for the following **target** platforms:
+For more information, execute `npm run pack:electron -- --help` or visit [electron-builder documentation](https://github.com/electron-userland/electron-builder).
 
-- Windows (also known as `win32`, for x86, x86_64, and arm64 architectures)
-- macOS (also known as `darwin`)
-- Linux (for x86, x86_64, armv7l, arm64, and mips64el architectures)
+### Troubleshooting
 
-For more information, visit electron-packager [documentation](https://github.com/electron/electron-packager#supported-platforms).
+If you get the following error when running on Linux:
+
+```[10777:1211/040811.848719:FATAL:setuid_sandbox_host.cc(158)] The SUID sandbox helper binary was found, but is not configured correctly. Rather than run without sandboxing I'm aborting now. You need to make sure that /tmp/.mount_CTemplR0XoE6/chrome-sandbox is owned by root and has mode 4755.```
+
+Try adding `--no-sandbox` when running the AppImage executable.
 
 ## Security
 
 CTemplar uses [bcrypt.js](https://github.com/dcodeIO/bcrypt.js) and [OpenPGP.js](https://github.com/openpgpjs/openpgpjs) for hashing and encryption.
+
+### Bug Bounties
+
+Please, refer to our [official publication](https://ctemplar.com/security) regarding vulnerabilities diclosure and bug bounty questions.
 
 ### Hash Password
 
