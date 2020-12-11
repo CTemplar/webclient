@@ -4,22 +4,6 @@
 
 Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service. 
 
-## Prerequisites
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3 and upgraded to 9.0.6.
-
-- Node (`v12.4.0` or higher)
-- Angular CLI
-  ```
-  npm install -g @angular/cli@9.0.6
-  ```
-
-## Installation
-
-```
-npm install
-```
-
 ## Usage
 
 ### Development server
