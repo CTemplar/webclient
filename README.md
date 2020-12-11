@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/CTemplar/webclient.svg?branch=master)](https://travis-ci.org/CTemplar/webclient)
 
-Official Angular cross-platform client for the CTemplar secure email service.
+Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service. 
 
 ## Prerequisites
 
