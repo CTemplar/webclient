@@ -219,7 +219,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             }
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
-                ? decryptedContent.content.replace('<a ', '<a target="_blank" ')
+                ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
                 : decryptedContent.content;
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
@@ -450,10 +450,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   isNeedRemoveStar(mail: Mail): boolean {
-    if (mail && !this.isConversationView) {
+    if (!mail) {
+      return false;
+    }
+    if (!this.isConversationView) {
       return mail.starred;
     }
-    if (mail && mail.starred) {
+    if (mail.starred) {
       return true;
     }
     if (mail.children && mail.children.length > 0) {
@@ -463,10 +466,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   isNeedAddStar(mail: Mail): boolean {
-    if (mail && !this.isConversationView) {
+    if (!mail) {
+      return false;
+    }
+    if (!this.isConversationView) {
       return !mail.starred;
     }
-    if (mail && !mail.starred) {
+    if (!mail.starred) {
       return true;
     }
     if (mail.children && mail.children.length > 0) {
@@ -514,7 +520,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         const decryptedContents = child.is_html
-          ? childDecryptedContent.content.replace('<a ', '<a target="_blank" ')
+          ? childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
           : childDecryptedContent.content;
         this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
@@ -866,7 +872,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   ontoggleStarred(event, mail: Mail, withChildren: boolean = true) {
     event.stopPropagation();
     event.preventDefault();
-    this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: withChildren ? !mail.has_starred_children : !mail.starred, withChildren }));
+    this.store.dispatch(
+      new StarMail({
+        ids: mail.id.toString(),
+        starred: withChildren ? !mail.has_starred_children : !mail.starred,
+        withChildren,
+      }),
+    );
   }
 
   moveToFolder(folder: MailFolderType | string) {

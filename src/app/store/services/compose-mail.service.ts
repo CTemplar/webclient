@@ -3,9 +3,10 @@ import { HttpResponse } from '@angular/common/http';
 import { finalize, take } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import * as parseEmail from 'email-addresses';
 
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
-import { AppState, ComposeMailState, Draft, DraftState, SecureContent, UserState } from '../datatypes';
+import { AppState, ComposeMailState, Draft, DraftState, GlobalPublicKey, PublicKey, SecureContent, UserState } from '../datatypes';
 import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
 
 import { MailService } from './mail.service';
@@ -44,6 +45,7 @@ export class ComposeMailService {
       .subscribe((response: ComposeMailState) => {
         Object.keys(response.drafts).forEach(key => {
           const draftMail: Draft = response.drafts[key];
+          const usersKeys = response.usersKeys;
           if (draftMail.draft) {
             if (
               draftMail.shouldSave &&
@@ -78,8 +80,9 @@ export class ComposeMailService {
                 if (!draftMail.getUserKeyInProgress) {
                   let keys = [];
                   if (draftMail.usersKeys) {
-                    keys = draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key);
+                    keys = this.getPublicKeys(draftMail, usersKeys).filter(item => item.is_enabled).map(item => item.public_key);
                   }
+
                   keys.push(draftMail.draft.encryption.public_key);
                   draftMail.attachments.forEach(attachment => {
                     this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, keys);
@@ -95,17 +98,13 @@ export class ComposeMailService {
                 if (!draftMail.isSshInProgress) {
                   let publicKeys = [];
                   let hasSshEncryption = false;
-
                   if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
                     hasSshEncryption = true;
                     publicKeys.push(draftMail.draft.encryption.public_key);
                   }
-                  if (draftMail.usersKeys.encrypt || hasSshEncryption) {
+                  if (this.getShouldBeEncrypted(draftMail, usersKeys) || hasSshEncryption) {
                     draftMail.draft.is_encrypted = true;
-                    publicKeys = [
-                      ...publicKeys,
-                      ...draftMail.usersKeys.keys.filter(item => item.is_enabled).map(item => item.public_key),
-                    ];
+                    publicKeys = this.getPublicKeys(draftMail, usersKeys).filter(item => item.is_enabled).map(item => item.public_key);
                   }
 
                   if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
@@ -195,6 +194,31 @@ export class ComposeMailService {
       .subscribe((user: UserState) => {
         this.userState = user;
       });
+  }
+
+  private getShouldBeEncrypted(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): boolean {
+    if (draftMail.draft) {
+      const keys = this.getPublicKeys(draftMail, usersKeys);
+      return keys.every(key => key.public_key);
+    }
+    return false;
+  }
+
+  private getPublicKeys(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): Array<PublicKey> {
+    if (draftMail.draft) {
+      const receivers: string[] = [
+        ...draftMail.draft.receiver.map(receiver => receiver),
+        ...draftMail.draft.cc.map(cc => cc),
+        ...draftMail.draft.bcc.map(bcc => bcc),
+      ];
+      let keys = [];
+      receivers.forEach(receiver => {
+        const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
+        keys.push(usersKeys.get(parsedEmail.address).key);
+      });
+      return keys;
+    }
+    return [];
   }
 
   private setEncryptedContent(draftMail: Draft) {

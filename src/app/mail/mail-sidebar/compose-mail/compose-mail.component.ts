@@ -46,6 +46,7 @@ import {
   ComposeMailState,
   ContactsState,
   Draft,
+  GlobalPublicKey,
   MailAction,
   MailBoxesState,
   MailState,
@@ -76,6 +77,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 const Inline = Quill.import('blots/inline');
+const Delta = Quill.import('delta');
 
 /**
  * Define Custom Image Blot to store meta-data in Quill Editor
@@ -239,6 +241,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   draftId: number;
 
+  usersKeys: Map<string, GlobalPublicKey> = new Map();
+
   colors = COLORS;
 
   fonts = FONTS;
@@ -376,7 +380,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.resetMailData();
     this.initializeDraft();
-
     /**
      * Get current Compose state from Store and
      * Encrypt attachments of compose mail
@@ -405,6 +408,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
         }
         this.draft = draft;
+        this.usersKeys = response.usersKeys;
       });
 
     /**
@@ -799,7 +803,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 // if attachment is encrypted, update draft attachment with decrypted attachment
                 const fileInfo = { attachment, type: response.file_type };
                 this.openPgpService
-                  .decryptAttachment(this.draftMail.mailbox, atob(response.data), fileInfo)
+                  .decryptAttachment(this.draftMail.mailbox, response.data, fileInfo)
                   .subscribe(decryptedAttachment => {
                     this.store.dispatch(
                       new UpdateDraftAttachment({
@@ -879,17 +883,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       link = `http://${link}`;
     }
     this.quill.focus();
-    this.quill.updateContents([
-      { retain: this.quill.getSelection().index || this.quill.getLength() },
-      {
-        // An image link
-        insert: text,
-        attributes: {
-          link,
-          target: '_blank',
-        },
-      },
-    ]);
+    this.quill.updateContents(
+      new Delta().retain(this.quill.getSelection().index).insert(text, { link, target: '_blank' }),
+    );
   }
 
   openInsertLinkModal() {
@@ -1096,6 +1092,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
+  addHyperLink() {
+    var regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.com|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    this.quill.focus();
+    var contents = this.quill.getText();
+    var filtered = contents.trim().split(/\s+/);
+    for (let i = 0; i < filtered.length; i++) {
+      var match = filtered[i].match(regex);
+      if (match !== null) {
+        var url = match[0];
+        var hyperLink = url;
+        if (!/^https?:\/\//i.test(url)) {
+          hyperLink = `http://${url}`;
+        }
+        var position = contents.indexOf(url);
+        this.quill.updateContents(
+          new Delta().retain(position).delete(url.length).insert(url, { link: hyperLink, target: '_blank' }),
+        );
+      }
+    }
+  }
+
   /**
    * Check exceptions and validations of subject and receiver before send mail
    */
@@ -1107,7 +1124,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }, 100);
       return;
     }
-
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
         new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }),
@@ -1122,6 +1138,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return false;
+    }
+    if (receivers.some(receiver => this.usersKeys.has(receiver) && this.usersKeys.get(receiver).isFetching)) {
+      // If fetching for user key, wait to send
+      setTimeout(() => {
+        this.sendEmailCheck();
+      }, 100);
+      return;
     }
     const invalidAddress = receivers.find(receiver => !this.rfcStandardValidateEmail(receiver));
     if (invalidAddress) {
@@ -1141,6 +1164,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         windowClass: 'modal-sm users-action-modal',
       });
     } else {
+      if (this.draftMail.is_html) {
+        this.addHyperLink();
+      }
       this.sendEmail();
     }
   }
@@ -1149,11 +1175,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.confirmModalRef) {
       this.confirmModalRef.dismiss();
     }
-    const receivers: string[] = [
+    let receivers: string[] = [
       ...this.mailData.receiver.map(receiver => receiver.display),
       ...this.mailData.cc.map(cc => cc.display),
       ...this.mailData.bcc.map(bcc => bcc.display),
     ];
+    receivers = receivers.filter(
+      email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
+    );
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
     }
@@ -1706,8 +1735,27 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       data.splice(0, this.mailData.receiver.length);
       data.push(...emails);
     }
+    const receiversForKey = data
+      .filter(
+        receiver =>
+          !this.usersKeys.has(receiver.email) ||
+          (!this.usersKeys.get(receiver.email).key && !this.usersKeys.get(receiver.email).isFetching),
+      )
+      .map(receiver => receiver.email);
+
+    if (receiversForKey.length > 0) {
+      this.store.dispatch(
+        new GetUsersKeys({
+          emails: receiversForKey,
+        }),
+      );
+    }
     this.valueChanged$.next(data);
     this.isSelfDestructionEnable();
+  }
+
+  getUserKeyFetchingStatus(email: string): boolean {
+    return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
   }
 
   rfcStandardValidateEmail(address: string): boolean {
