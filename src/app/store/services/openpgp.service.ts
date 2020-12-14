@@ -336,13 +336,13 @@ export class OpenPgpService {
     this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
   }
 
-  decryptSecureMessageAttachment(decryptedKey: any, uint8Array: Uint8Array, fileInfo: any): Observable<Attachment> {
+  decryptSecureMessageAttachment(decryptedKey: any, fileData: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
     this.pgpWorker.postMessage({
       decryptedKey,
-      fileData: uint8Array,
+      fileData: fileData,
       decryptSecureMessageAttachment: true,
       fileInfo,
       subjectId,

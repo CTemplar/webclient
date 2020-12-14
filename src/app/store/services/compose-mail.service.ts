@@ -3,6 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { finalize, take } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import * as parseEmail from 'email-addresses';
 
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { AppState, ComposeMailState, Draft, DraftState, GlobalPublicKey, PublicKey, SecureContent, UserState } from '../datatypes';
@@ -212,7 +213,8 @@ export class ComposeMailService {
       ];
       let keys = [];
       receivers.forEach(receiver => {
-        keys.push(usersKeys.get(receiver).key);
+        const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
+        keys.push(usersKeys.get(parsedEmail.address).key);
       });
       return keys;
     }
