@@ -450,10 +450,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   isNeedRemoveStar(mail: Mail): boolean {
-    if (mail && !this.isConversationView) {
+    if (!mail) {
+      return false;
+    }
+    if (!this.isConversationView) {
       return mail.starred;
     }
-    if (mail && mail.starred) {
+    if (mail.starred) {
       return true;
     }
     if (mail.children && mail.children.length > 0) {
@@ -463,10 +466,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   isNeedAddStar(mail: Mail): boolean {
-    if (mail && !this.isConversationView) {
+    if (!mail) {
+      return false;
+    }
+    if (!this.isConversationView) {
       return !mail.starred;
     }
-    if (mail && !mail.starred) {
+    if (!mail.starred) {
       return true;
     }
     if (mail.children && mail.children.length > 0) {

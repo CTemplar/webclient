@@ -84,7 +84,7 @@ export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new M
         state.drafts[action.payload.draftId] = {
           ...state.drafts[action.payload.draftId],
           getUserKeyInProgress: false,
-          usersKeys: !action.payload.isBlind && action.payload.data,
+          usersKeys: !action.payload.isBlind ? action.payload.data : state.drafts[action.payload.draftId].usersKeys,
         };
       }
       // Saving on global user keys

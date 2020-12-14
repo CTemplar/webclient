@@ -1170,7 +1170,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         windowClass: 'modal-sm users-action-modal',
       });
     } else {
-      this.addHyperLink();
+      if (this.draftMail.is_html) {
+        this.addHyperLink();
+      }
       this.sendEmail();
     }
   }
@@ -1184,7 +1186,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       ...this.mailData.cc.map(cc => cc.display),
       ...this.mailData.bcc.map(bcc => bcc.display),
     ];
-    receivers = receivers.filter(email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching));
+    receivers = receivers.filter(
+      email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
+    );
     if (this.encryptionData.password) {
       this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
     }
@@ -1737,8 +1741,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       data.splice(0, this.mailData.receiver.length);
       data.push(...emails);
     }
-    const receiversForKey = data.filter(receiver => !this.usersKeys.has(receiver.email) || (!this.usersKeys.get(receiver.email).key && !this.usersKeys.get(receiver.email).isFetching)).map(receiver => receiver.email);
-    
+    const receiversForKey = data
+      .filter(
+        receiver =>
+          !this.usersKeys.has(receiver.email) ||
+          (!this.usersKeys.get(receiver.email).key && !this.usersKeys.get(receiver.email).isFetching),
+      )
+      .map(receiver => receiver.email);
+
     if (receiversForKey.length > 0) {
       this.store.dispatch(
         new GetUsersKeys({

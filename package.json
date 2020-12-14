@@ -9,22 +9,19 @@
     "email": "support@ctemplar.com"
   },
   "scripts": {
-    "build": "ng build --prod --subresource-integrity",
+    "build:dev:electron": "tsc -p electron-tsconfig.json && ng build --subresource-integrity --base-href ./",
     "build:dev": "ng build --output-hashing all  --subresource-integrity",
-    "build:dev:electron": "tsc -p electron-tsconfig.json && ng build --subresource-integrity --base-href ./ && electron .",
-    "build:electron:linux": "npm run build:electron && electron-builder build --linux",
-    "build:electron:mac": "npm run build:electron && electron-builder build --mac",
-    "build:electron:start": "npm run build:electron && electron .",
-    "build:electron:windows": "npm run build:electron && electron-builder build --windows",
     "build:electron": "tsc -p electron-tsconfig.json && ng build --prod --subresource-integrity --base-href ./",
     "build:ipfs": "ng build --prod --subresource-integrity --base-href ./",
-    "lint": "eslint .",
+    "build": "ng build --prod --subresource-integrity",
     "lint:fix": "eslint . --fix",
+    "lint": "eslint .",
+    "pack:electron": "electron-builder build",
     "postinstall": "ngcc && node patch-webpack.js",
-    "start": "ng serve",
     "start:electron": "electron .",
     "start:local:ssl": "ng serve -c local --ssl",
-    "start:local": "ng serve -c local"
+    "start:local": "ng serve -c local",
+    "start": "ng serve"
   },
   "private": true,
   "dependencies": {
