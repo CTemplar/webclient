@@ -418,6 +418,7 @@
       "text_color": "Couleur du texte",
       "saving": "Enregistrement...",
       "sending": "Envoi...",
+      "processing": "Processing...",
       "saved": "Brouillon enregistré",
       "encrypt_for_non": "Cryptage pour les destinataires non CTemplar",
       "message_password": "Mot de passe du message",

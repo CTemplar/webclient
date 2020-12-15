@@ -404,6 +404,7 @@
       "self_destr_timer": "Temporizador do email autodestrutivo",
       "send": "Enviar",
       "sending": "Enviado...",
+      "processing": "Processing...",
       "small": "small",
       "subject": "Assunto:",
       "text_color": "Cor do texto",

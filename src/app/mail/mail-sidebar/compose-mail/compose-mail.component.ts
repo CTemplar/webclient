@@ -1120,7 +1120,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
    */
   sendEmailCheck() {
     if (this.isPreparingToSendEmail) return;
-    this.isPreparingToSendEmail = true;
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
         new SnackPush({ message: 'Selected email address is disabled. Please select a different email address.' }),
@@ -1141,6 +1140,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
       return;
     }
+    this.isPreparingToSendEmail = true;
     if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
