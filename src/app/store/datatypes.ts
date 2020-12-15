@@ -354,6 +354,7 @@ export interface MailState {
   noUnreadCountChange: boolean;
   mailDetailLoaded?: boolean;
   canGetUnreadCount: boolean;
+  starredFolderCount: number;
   isMailsMoved?: boolean;
   isComposerPopUp?: boolean;
   currentSettingsTab?: string;
