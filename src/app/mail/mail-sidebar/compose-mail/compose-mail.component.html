@@ -202,9 +202,16 @@
           <ul class="mail-composer-actions d-flex align-items-center">
             <!-- Send button -->
             <li class="send-mail-item">
-              <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" (click)="sendEmailCheck()" [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0" role="button" placement="top">
+
+              <button 
+                class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" 
+                (click)="sendEmailCheck()" 
+                [disabled]="this.isPreparingToSendEmail || isUploadingAttachment || isDownloadingAttachmentCounter > 0" 
+                role="button" 
+                placement="top"
+              >
                 <i class="hidden-sm-up icon icon-paper-plane"></i>
-                <span class="hidden-xs-down">{{ 'settings.compose.send' | translate }}</span>
+                <span class="hidden-xs-down">{{ isPreparingToSendEmail ? ('settings.compose.processing' | translate) : ('settings.compose.send' | translate) }}</span>
               </button>
             </li>
             <!-- Text formatting -->
