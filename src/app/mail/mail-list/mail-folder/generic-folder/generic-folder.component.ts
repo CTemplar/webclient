@@ -280,15 +280,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   markAllMails(checkAll) {
     if (checkAll && !this.isSomeEmailsSelected()) {
-      this.mails.map(mail => {
+      this.mails.forEach(mail => {
         mail.marked = true;
-        return mail;
       });
       this.noEmailSelected = false;
     } else {
-      this.mails.map(mail => {
+      this.mails.forEach(mail => {
         mail.marked = false;
-        return mail;
       });
       this.noEmailSelected = true;
       this.checkAll = false;
@@ -301,7 +299,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isSomeEmailsSelected() {
     const count = this.mails.filter(mail => mail.marked).length;
-    return count > 0 && count < this.mails.length;
+    return count > 0 && count <= this.mails.length;
   }
 
   markAsRead(isRead = true) {
