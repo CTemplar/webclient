@@ -8,6 +8,7 @@ export function reducer(
     mails: [],
     total_mail_count: 0,
     mailDetail: null,
+    starredFolderCount: 0,
     loaded: false,
     decryptedContents: {},
     unreadMailsCount: { inbox: 0 },
@@ -118,6 +119,10 @@ export function reducer(
         ...state,
         canGetUnreadCount: false,
       };
+    }
+
+    case MailActionTypes.STARRED_FOLDER_COUNT_UPDATE: {
+      return { ...state, starredFolderCount: action.payload.starred_count };
     }
 
     case MailActionTypes.GET_UNREAD_MAILS_COUNT: {
@@ -573,6 +578,7 @@ export function reducer(
         total_mail_count: 0,
         mailDetail: null,
         loaded: false,
+        starredFolderCount: 0,
         decryptedContents: {},
         unreadMailsCount: { inbox: 0 },
         noUnreadCountChange: true,
