@@ -155,11 +155,9 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.ACCOUNT_DETAILS_GET: {
-      console.log('start to get account detail', action.payload)
       return { ...state, isLoaded: false };
     }
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
-      console.log('account detail success reducer')
       return {
         ...state,
         id: action.payload.id,

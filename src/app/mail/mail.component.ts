@@ -72,7 +72,6 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('getting account detail')
     this.store.dispatch(new AccountDetailsGet());
     /**
      * Get user's state from store
@@ -81,7 +80,6 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
-        console.log('user state is changed ..............................', userState)
         if (userState.isLoaded && !this.isLoadedData) {
           // Initialize Sentry according to user's setting after login
           Sentry.init({

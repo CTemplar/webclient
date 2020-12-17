@@ -139,7 +139,6 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getAccountDetails().pipe(
         map(user => {
-          console.log('getting account detail successed!, user', user)
           return new AccountDetailsGetSuccess(user[0]);
         }),
         catchError(error => EMPTY),

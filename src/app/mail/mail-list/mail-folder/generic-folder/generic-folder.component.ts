@@ -120,13 +120,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     /**
      * Get mail state from store and follow user's actions
      */
-    console.log('generic component is inited')
     this.store
       .select(state => state.mail)
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        console.log('current mail state', this.mailState)
         this.showProgress = !mailState.loaded || mailState.inProgress;
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;

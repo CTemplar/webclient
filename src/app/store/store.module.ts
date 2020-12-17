@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreModule, ActionReducer, MetaReducer } from '@ngrx/store';
+import { StoreModule, ActionReducer, MetaReducer, INIT } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { AppConfig } from '../../environments/environment';
@@ -14,12 +14,33 @@ import { CustomSerializer, effects, reducers } from '.';
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
     keys: [{mail: ['decryptedSubjects']}],
-    rehydrate: true,
     removeOnUndefined: true,
     storageKeySerializer: (key) => `ctemplar_${key}`,
   })(reducer);
 }
-const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer, logoutReducer];
+
+export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function(state, action) {
+    const nextState = reducer(state, action);
+    
+    if (action.type === INIT) {
+      const storageValue = localStorage.getItem("ctemplar_mail");
+      try {
+        const parsedStorageValue = JSON.parse(storageValue);
+        if (parsedStorageValue && parsedStorageValue['decryptedSubjects']) {
+          const retVal = {...nextState, mail: {...nextState.mail, ...parsedStorageValue}}
+          return retVal;
+        }
+      } catch {
+        localStorage.removeItem("ctemplar_mail");
+      }
+    }
+ 
+    return nextState;
+  };
+}
+
+const metaReducers: Array<MetaReducer<any, any>> = [rehydrateMetaReducer, localStorageSyncReducer, logoutReducer];
 @NgModule({
   imports: [
     EffectsModule.forRoot(effects),
