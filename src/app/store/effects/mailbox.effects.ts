@@ -35,6 +35,7 @@ export class MailboxEffects {
     ofType(MailActionTypes.GET_MAILBOXES),
     map((action: GetMailboxes) => action.payload),
     switchMap(payload => {
+      console.log('get mail boxes is called', payload)
       return this.mailService.getMailboxes(payload.limit, payload.offset).pipe(
         switchMap(mails => of(new GetMailboxesSuccess(mails))),
         catchError(error => EMPTY),
