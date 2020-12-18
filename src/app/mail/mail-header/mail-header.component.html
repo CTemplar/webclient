@@ -27,7 +27,7 @@
       <ul class="mailbox-actions-menu d-flex justify-content-end">
         <!--Protected by SRI button -->
         <li>
-          <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity" target="_blank" class="sri-check" placement="bottom" ngbTooltip="Protected by SRI, click to read more">
+          <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity" target="_blank" rel="noopener noreferrer" class="sri-check" placement="bottom" ngbTooltip="Protected by SRI, click to read more">
             <i class="fas fa-shield-alt"></i>
           </a>
         </li>
@@ -38,7 +38,7 @@
               <i class="far fa-question-circle"></i>
             </button>
             <div ngbDropdownMenu class="dropdown-menu-right text-center faq-dropdown" aria-labelledby="helpDropdownMenuButton">
-              <a class="dropdown-item text-left" target="_blank" href="{{ primaryWebsite }}/faqs/"> FAQs </a>
+              <a class="dropdown-item text-left" target="_blank" rel="noopener noreferrer" href="{{ primaryWebsite }}/faqs/"> FAQs </a>
               <a class="dropdown-item text-left" (click)="openComposeMailDialog(['support@ctemplar.com'])" [innerHTML]="'settings.contact_support' | translate">Contact support </a>
             </div>
           </div>
