@@ -11,7 +11,7 @@
                 <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block">
                   <strong [translate]="'settings.domains'">Domains</strong>
                 </h5>
-                <a href="{{ primaryWebsite }}/help/answer/add-a-domain/" ngbTooltip="Learn more" class="learn-more-info-icon" target="_blank">
+                <a href="{{ primaryWebsite }}/help/answer/add-a-domain/" ngbTooltip="Learn more" class="learn-more-info-icon" target="_blank" rel="noopener noreferrer">
                   <i class="far fa-question-circle"></i>
                 </a>
               </div>
@@ -96,14 +96,14 @@
                     <div class="col-2 text-dark text-domain text-center catch-all-email-dropdown-container">
                       <div class="btn-dropdown btn-dropdown-select">
                         <div ngbDropdown class="dropdown-sm">
-                          <button ngbDropdownToggle class="dropdown-toggle" [ngClass]="{'blank-dropdown': !domain.catch_all_email}" id="catchAllEmailDropdown" role="button" [disabled]="!domain.catch_all || !domain.number_of_aliases">
-                            {{domain.catch_all_email ? domain.catch_all_email : 'No alias'}}
+                          <button ngbDropdownToggle class="dropdown-toggle" [ngClass]="{ 'blank-dropdown': !domain.catch_all_email }" id="catchAllEmailDropdown" role="button" [disabled]="!domain.catch_all || !domain.number_of_aliases">
+                            {{ domain.catch_all_email ? domain.catch_all_email : 'No alias' }}
                           </button>
                           <div ngbDropdownMenu aria-labelledby="catchAllEmailDropdown">
-                            <a class="dropdown-item" *ngFor="let email of mailboxesForCustomDomains.get(domain.id)" (click)="onSelectCatchAllEmail(domain, email)">{{email}}</a>
+                            <a class="dropdown-item" *ngFor="let email of mailboxesForCustomDomains.get(domain.id)" (click)="onSelectCatchAllEmail(domain, email)">{{ email }}</a>
                           </div>
                         </div>
-                      </div>  
+                      </div>
                     </div>
                     <div class="col-1 d-flex justify-content-end actions">
                       <div class="action action-normal d-none d-md-flex d-sm-none justify-content-center align-items-center">

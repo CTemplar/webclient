@@ -10,7 +10,7 @@
       <h4 class="font-weight-bold">Backup Your Recovery Key</h4>
       <p>
         Please save this recovery key in a safe place, if you forget your password, you can use it to reset your password even if you don't remember your recovery email.
-        <a href="https://ctemplar.com/help/answer/what-is-a-recovery-key/" target="_blank">Learn more</a>
+        <a href="https://ctemplar.com/help/answer/what-is-a-recovery-key/" target="_blank" rel="noopener noreferrer">Learn more</a>
       </p>
       <div class="bg-white px-3 py-3">
         <span class="text-dark"><b>Recovery key: </b>{{ recoveryKey }}</span>
@@ -28,7 +28,7 @@
           <span *ngIf="changeDisplayNameForm.controls['username'].errors && changeDisplayNameForm.controls['username'].touched" class="validate-message" [translate]="'create_account.display_name_req'">Enter a valid display name with maximum 32 characters. </span>
         </div>
       </div>
-      <p><span [translate]="'common.email'">Email</span>: "{{ email | emailFormat : changeDisplayNameForm.controls['username'].value }}". <br /><span [translate]="'create_account.can_change_settings'">You can change this in the settings page later.</span></p>
+      <p><span [translate]="'common.email'">Email</span>: "{{ email | emailFormat: changeDisplayNameForm.controls['username'].value }}". <br /><span [translate]="'create_account.can_change_settings'">You can change this in the settings page later.</span></p>
     </div>
   </div>
   <div class="modal-footer justify-content-center">
