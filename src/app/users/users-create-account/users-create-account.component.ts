@@ -14,6 +14,7 @@ import { OpenPgpService, SharedService, UsersService } from '../../store/service
 import { NotificationService } from '../../store/services/notification.service';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { ɵallowPreviousPlayerStylesMerge } from '@angular/animations/browser';
 
 export class PasswordValidation {
   static MatchPassword(AC: AbstractControl) {
@@ -112,6 +113,22 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         const { queryParams } = this.activatedRoute.snapshot;
         this.selectedPlan = state.signupState.plan_type || queryParams.plan || PlanType.PRIME;
         this.paymentType = state.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
+        if (Object.keys(queryParams).length !== 0 && !queryParams.billing) {
+          if (!Object.values(PlanType).includes(this.selectedPlan)) {
+            this.selectedPlan = PlanType.FREE;
+            this.router.navigateByUrl(`/create-account?plan=${this.selectedPlan}`);
+          }
+        } else if (
+          Object.keys(queryParams).length !== 0 &&
+          (!Object.values(PlanType).includes(this.selectedPlan) ||
+            !Object.values(PaymentType).includes(this.paymentType))
+        ) {
+          this.selectedPlan = PlanType.PRIME;
+          this.paymentType = PaymentType.ANNUALLY;
+          this.router.navigateByUrl(`/create-account?plan=${this.selectedPlan}&billing=${this.paymentType}`);
+        } else if (Object.keys(queryParams).length === 0) {
+          this.router.navigateByUrl(`/create-account?plan=${this.selectedPlan}&billing=${this.paymentType}`);
+        }
         this.errorMessage = state.errorMessage;
       });
 
