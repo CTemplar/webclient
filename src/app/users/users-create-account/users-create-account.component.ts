@@ -14,7 +14,6 @@ import { OpenPgpService, SharedService, UsersService } from '../../store/service
 import { NotificationService } from '../../store/services/notification.service';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
-import { ɵallowPreviousPlayerStylesMerge } from '@angular/animations/browser';
 
 export class PasswordValidation {
   static MatchPassword(AC: AbstractControl) {
