@@ -51,7 +51,7 @@
     "email": "Email",
     "phone": "Phone",
     "edit": "EDIT",
-    "search": "Search (We only support searching subjects and email addresses)",
+    "search": "Search (We only support searching email addresses)",
     "search_contacts": "Search contacts",
     "upgrade_account": "Upgrade account",
     "terms_and_privacy": "Terms of Service",
