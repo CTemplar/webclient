@@ -11,11 +11,18 @@ import { logoutReducer } from './reducers/auth.reducers';
 
 import { CustomSerializer, effects, reducers } from '.';
 
+import { REMEMBER_ME } from '../shared/config';
+
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  const isNeedSync = true // TODO should be read from local storage
+  const isRememberMe = localStorage.getItem(REMEMBER_ME) === 'true' ? true : false;
+  console.log
   return localStorageSync({
     keys: [{mail: ['decryptedSubjects']}],
     removeOnUndefined: true,
+    syncCondition: (state) => isNeedSync,
     storageKeySerializer: (key) => `ctemplar_${key}`,
+    storage: isRememberMe ? localStorage : sessionStorage,
   })(reducer);
 }
 

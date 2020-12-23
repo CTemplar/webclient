@@ -133,6 +133,9 @@ export const REFFERAL_CODE_KEY = 'referral_code';
 export const PROMO_CODE_KEY = 'promo_code';
 export const REFFERAL_ID_KEY = 'cjevent';
 export const JWT_AUTH_COOKIE = 'jwt_auth_cookie';
+export const REMEMBER_ME = 'remember_me';
+export const SYNC_DATA_WITH_STORE = 'sync_data_with_store';
+export const NOT_FIRST_LOGIN = 'not_first_login';
 
 export const SummarySeparator = '';
 const Quill: any = QuillNamespace;

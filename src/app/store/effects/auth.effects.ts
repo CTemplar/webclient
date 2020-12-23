@@ -53,6 +53,7 @@ import {
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
+import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
 
 @Injectable()
 export class AuthEffects {
@@ -69,7 +70,7 @@ export class AuthEffects {
     map((action: LogIn) => action.payload),
     switchMap(payload => {
       return this.authService.signIn(payload).pipe(
-        map(response => new LogInSuccess(response)),
+        map(response => new LogInSuccess({ ...response, rememberMe: payload.rememberMe })),
         catchError((errorResponse: any) => of(new LogInFailure(errorResponse.error))),
       );
     }),
@@ -80,6 +81,10 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap(response => {
       if (response.payload.token) {
+        // localStorage.setItem(NOT_FIRST_LOGIN, 'true');
+        if (response.payload.rememberMe) {
+          localStorage.setItem(REMEMBER_ME, 'true');
+        }
         if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
           this.router.navigateByUrl('/mail');
         }

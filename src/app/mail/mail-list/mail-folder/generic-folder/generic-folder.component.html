@@ -143,7 +143,7 @@
         </li>
         <!-- Delete all messages permanently -->
         <li *ngIf="(mailFolder === mailFolderTypes.TRASH || mailFolder === mailFolderTypes.SPAM) && mails?.length > 0">
-          <a (click)="confirmDeleteAll()" class="btn btn-sm delete-permanently-btn" placement="top" [ngbTooltip]="'mail_list.delete_messages' | translate">
+          <a (click)="openUseCacheConfirmDialog()" class="btn btn-sm delete-permanently-btn" placement="top" [ngbTooltip]="'mail_list.delete_messages' | translate">
             <i class="icon icon-garbage position-left"></i>
             <span [translate]="'mail_list.delete_all'"> Delete all permanently</span>
           </a>
@@ -450,3 +450,28 @@
     </div>
   </div> </ng-template
 ><!-- /.Confirm delete draft modal ends -->
+
+<!-- Confirm empty trash modal -->
+<ng-template #useCacheConfirmModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark">
+      <strong>Using cache for decrypted data</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        We provide the feature to store the decrypted subject on local or session storage for improve the speed. If you trust this machine, you can use this feature.
+        <a href="https://ctemplar.com/help/answer/what-is-a-recovery-key/" target="_blank">Learn more</a>
+      </div>
+      <div class="form-group text-right mb-0">
+        <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button" [translate]="'common.no'">NO</button>
+        <button (click)="onFlagSaveDecryptedSubject()" class="btn btn-danger btn-sm" role="button" [translate]="'common.yes'">YES</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- /.Confirm empty trash modal ends -->
