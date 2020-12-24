@@ -926,7 +926,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const from = document.getElementById(`${mail.id}-mail-from`).innerHTML;
       const to = document.getElementById(`${mail.id}-mail-to`).innerHTML;
       const date = document.getElementById(`${mail.id}-mail-date`).innerHTML;
-      const content = document.getElementById(`${mail.id}-mail-content`).innerHTML;
+      const content = document.getElementById(`${mail.id}-raw-mail-content`).innerHTML;
 
       const hasCC = document.getElementById(`${mail.id}-mail-cc`);
       let cc = '';
