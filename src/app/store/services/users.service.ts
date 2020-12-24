@@ -105,6 +105,7 @@ export class UsersService {
     this.router.navigateByUrl('/signin');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
+    localStorage.removeItem('ctemplar_mail');
     localStorage.removeItem(PROMO_CODE_KEY);
     localStorage.removeItem(REMEMBER_ME);
   }
@@ -112,6 +113,7 @@ export class UsersService {
   expireSession() {
     this.userKey = null;
     localStorage.removeItem('user_key');
+    localStorage.removeItem('ctemplar_mail');
     localStorage.removeItem(REMEMBER_ME);
     this.router.navigateByUrl('/signin');
     return this.http.get(`${apiUrl}auth/sign-out/`);

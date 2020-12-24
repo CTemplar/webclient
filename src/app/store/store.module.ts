@@ -13,34 +13,61 @@ import { CustomSerializer, effects, reducers } from '.';
 
 import { REMEMBER_ME, SYNC_DATA_WITH_STORE } from '../shared/config';
 
-export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  const isNeedSync = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false; // TODO should be read from local storage
-  const isRememberMe = localStorage.getItem(REMEMBER_ME) === 'true' ? true : false;
-  console.log('========>>>>>>>>>> is need sync is ', isNeedSync)
-  console.log('========>>>>>>>>>> is remember me is ', isRememberMe)
-  return localStorageSync({
-    keys: [{mail: ['decryptedSubjects']}],
-    removeOnUndefined: true,
-    syncCondition: (state) => isNeedSync,
-    storageKeySerializer: (key) => `ctemplar_${key}`,
-    storage: isRememberMe ? localStorage : sessionStorage,
-  })(reducer);
-}
+import { MailActionTypes } from '../store/actions/mail.actions';
 
-export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
     const nextState = reducer(state, action);
     
-    if (action.type === INIT) {
-      const storageValue = localStorage.getItem("ctemplar_mail");
-      try {
-        const parsedStorageValue = JSON.parse(storageValue);
-        if (parsedStorageValue && parsedStorageValue['decryptedSubjects']) {
-          const retVal = {...nextState, mail: {...nextState.mail, ...parsedStorageValue}}
-          return retVal;
+    if (
+      action.type === MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT && 
+      action['payload'].isDecryptingAllSubjects && 
+      !action['payload'].isPGPInProgress) {
+
+      const isNeedSync = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
+      if (isNeedSync) {
+        const isRememberMe = localStorage.getItem(REMEMBER_ME) === 'true' ? true : false;
+        const strDecryptedSubjects = JSON.stringify({ decryptedSubjects: nextState.mail.decryptedSubjects });
+        if (isRememberMe) {
+          localStorage.setItem('ctemplar_mail', strDecryptedSubjects);
+        } else {
+          sessionStorage.setItem('ctemplar_mail', strDecryptedSubjects);
         }
-      } catch {
-        localStorage.removeItem("ctemplar_mail");
+      }
+    }
+ 
+    return nextState;
+  }
+}
+
+export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  
+  return function(state, action) {
+    const nextState = reducer(state, action);
+    if (action.type === INIT) {
+      const isNeedSync = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
+      const isRememberMe = localStorage.getItem(REMEMBER_ME) === 'true' ? true : false;
+      if (isNeedSync) {
+        const storageValue = localStorage.getItem("ctemplar_mail");
+        try {
+          const parsedStorageValue = JSON.parse(storageValue);
+          if (parsedStorageValue && parsedStorageValue['decryptedSubjects']) {
+            const retVal = {...nextState, mail: {...nextState.mail, ...parsedStorageValue}}
+            return retVal;
+          }
+        } catch {
+          if (isRememberMe) {
+            localStorage.removeItem("ctemplar_mail");
+          } else {
+            sessionStorage.removeItem("ctemplar_mail");
+          }
+        }
+      } else {
+        if (isRememberMe) {
+          localStorage.removeItem("ctemplar_mail");
+        } else {
+          sessionStorage.removeItem("ctemplar_mail");
+        }
       }
     }
  
