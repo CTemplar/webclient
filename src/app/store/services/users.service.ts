@@ -14,6 +14,7 @@ import {
   REFFERAL_CODE_KEY,
   REFFERAL_ID_KEY,
   JWT_AUTH_COOKIE,
+  REMEMBER_ME,
 } from '../../shared/config';
 import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
 import { Filter } from '../models/filter.model';
@@ -105,11 +106,13 @@ export class UsersService {
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
     localStorage.removeItem(PROMO_CODE_KEY);
+    localStorage.removeItem(REMEMBER_ME);
   }
 
   expireSession() {
     this.userKey = null;
     localStorage.removeItem('user_key');
+    localStorage.removeItem(REMEMBER_ME);
     this.router.navigateByUrl('/signin');
     return this.http.get(`${apiUrl}auth/sign-out/`);
   }

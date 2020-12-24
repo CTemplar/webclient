@@ -81,7 +81,6 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap(response => {
       if (response.payload.token) {
-        // localStorage.setItem(NOT_FIRST_LOGIN, 'true');
         if (response.payload.rememberMe) {
           localStorage.setItem(REMEMBER_ME, 'true');
         }

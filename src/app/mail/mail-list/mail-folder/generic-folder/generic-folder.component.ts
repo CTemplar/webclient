@@ -246,9 +246,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     if (localStorage.getItem(NOT_FIRST_LOGIN) !== 'true') {
       console.log('=================>>>>>>>>>>>>>>> is first login')
       localStorage.setItem(NOT_FIRST_LOGIN, 'true');
-      
+      this.openUseCacheConfirmDialog();
     }
-    this.openUseCacheConfirmDialog()
   }
 
   openUseCacheConfirmDialog() {
@@ -260,7 +259,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   onFlagSaveDecryptedSubject() {
     localStorage.setItem(SYNC_DATA_WITH_STORE, 'true');
-    this.useCacheConfirmModal.dismiss();
+    this.useCacheDialogRef.dismiss();
   }
 
   refresh() {
