@@ -294,6 +294,7 @@
       "disable_2FA": "Disable 2 Factor authentication",
       "upgrade_to_paid": "Please upgrade to paid plan in order to use this feature",
       "contacts_encryption": "Contacts encryption",
+      "using_local_storage": "Using local/session storage",
       "anti_phishing_phrase": "The Anti-Phishing phrase allows users to link a custom word or phrase of your choice to your CTemplar account.Once set, if you ever log into your webmail and your Anti-Phishing phrase is either missing or incorrect, you may be the victim of phishing. You should immediately confirm that you are visiting ",
       "phishing_phrase_title": "Anti Phishing Phrase",
       "malicious_site": "If you are not, then a malicious site might have your login credentials for your CTemplar account. To prevent harm to your account, you should immediately visit",

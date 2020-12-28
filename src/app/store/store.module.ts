@@ -3,7 +3,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule, ActionReducer, MetaReducer, INIT } from '@ngrx/store';
-import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { AppConfig } from '../../environments/environment';
 
@@ -35,7 +34,6 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
         }
       }
     }
- 
     return nextState;
   }
 }
@@ -48,7 +46,7 @@ export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer
       const isNeedSync = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
       const isRememberMe = localStorage.getItem(REMEMBER_ME) === 'true' ? true : false;
       if (isNeedSync) {
-        const storageValue = localStorage.getItem("ctemplar_mail");
+        const storageValue = isRememberMe ? localStorage.getItem("ctemplar_mail") : sessionStorage.getItem("ctemplar_mail");
         try {
           const parsedStorageValue = JSON.parse(storageValue);
           if (parsedStorageValue && parsedStorageValue['decryptedSubjects']) {

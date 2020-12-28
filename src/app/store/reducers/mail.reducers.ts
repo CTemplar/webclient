@@ -632,6 +632,12 @@ export function reducer(
         mail.marked = false;
         mailMap[key] = {...mail};
       });
+      mails.forEach(mail => {
+        if (state.decryptedSubjects[mail.id]) {
+          mail.subject = state.decryptedSubjects[mail.id];
+          mail.is_subject_encrypted = false;
+        }
+      })
       return {
         ...state,
         mails,

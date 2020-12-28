@@ -30,7 +30,6 @@ import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/mo
 import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
-import { NOT_FIRST_LOGIN, SYNC_DATA_WITH_STORE } from '../../../../shared/config';
 
 declare let Scrambler;
 
@@ -54,9 +53,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('delateDraftModal') delateDraftModal;
 
   @ViewChild('input') input: ElementRef;
-
-  @ViewChild('useCacheConfirmModal') useCacheConfirmModal;
-
 
   customFolders: Folder[];
 
@@ -101,8 +97,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   private confirmEmptyTrashModalRef: NgbModalRef;
 
   private delateDraftModalRef: NgbModalRef;
-
-  private useCacheDialogRef: NgbModalRef;
 
   isMoveMailClicked = false;
 
@@ -240,26 +234,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
-    /**
-     * Check if first login or fresh login
-     */
-    if (localStorage.getItem(NOT_FIRST_LOGIN) !== 'true') {
-      console.log('=================>>>>>>>>>>>>>>> is first login')
-      localStorage.setItem(NOT_FIRST_LOGIN, 'true');
-      this.openUseCacheConfirmDialog();
-    }
-  }
-
-  openUseCacheConfirmDialog() {
-    this.useCacheDialogRef = this.modalService.open(this.useCacheConfirmModal, {
-      centered: true,
-      windowClass: 'modal-sm users-action-modal',
-    });
-  }
-
-  onFlagSaveDecryptedSubject() {
-    localStorage.setItem(SYNC_DATA_WITH_STORE, 'true');
-    this.useCacheDialogRef.dismiss();
   }
 
   refresh() {
