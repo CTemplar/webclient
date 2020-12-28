@@ -225,9 +225,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
             this.close.emit(true);
           }
         }
-        if (this.paymentMethod === PaymentMethod.BITCOIN) {
-          this.selectBitcoinMethod(false);
-        } else if (this.paymentMethod === PaymentMethod.STRIPE) {
+        if (this.paymentMethod === PaymentMethod.STRIPE) {
           this.loadStripeScripts();
         }
         this.inProgress = authState.inProgress;
