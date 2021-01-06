@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 export enum MailActionTypes {
   GET_MAILS = '[Mail] GET_MAILS',
+  STARRED_FOLDER_COUNT_UPDATE = '[Mail] STARRED_FOLDER_COUNT_UPDATE',
   GET_MAILS_SUCCESS = '[Mail] GET_MAILS_SUCCESS',
   GET_UNREAD_MAILS_COUNT = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT',
   GET_UNREAD_MAILS_COUNT_SUCCESS = '[Unread Mail Count] GET_UNREAD_MAILS_COUNT_SUCCESS',
@@ -57,6 +58,12 @@ export enum MailActionTypes {
 
 export class GetMails implements Action {
   readonly type = MailActionTypes.GET_MAILS;
+
+  constructor(public payload: any) {}
+}
+
+export class StarredFolderCountUpdate implements Action {
+  readonly type = MailActionTypes.STARRED_FOLDER_COUNT_UPDATE;
 
   constructor(public payload: any) {}
 }
@@ -369,6 +376,7 @@ export class EmptyOnlyFolder implements Action {
 export type MailActions =
   | GetMails
   | GetMailsSuccess
+  | StarredFolderCountUpdate
   | GetUnreadMailsCount
   | GetUnreadMailsCountSuccess
   | GetCustomFolderMessageCount

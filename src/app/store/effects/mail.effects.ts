@@ -95,33 +95,35 @@ export class MailEffects {
     ofType(MailActionTypes.MOVE_MAIL),
     map((action: MoveMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.moveMail(payload.ids, payload.folder, payload.sourceFolder, payload.withChildren, payload.fromTrash).pipe(
-        switchMap(res => {
-          const updateFolderActions = [];
+      return this.mailService
+        .moveMail(payload.ids, payload.folder, payload.sourceFolder, payload.withChildren, payload.fromTrash)
+        .pipe(
+          switchMap(res => {
+            const updateFolderActions = [];
 
-          if (payload.shouldDeleteFolder) {
-            updateFolderActions.push(new DeleteFolder(payload.folderToDelete));
-          }
-          updateFolderActions.push(new MoveMailSuccess(payload));
-          if (!payload.shouldDeleteFolder) {
-            updateFolderActions.push(
-              new SnackPush({
-                message: `Mail moved to ${payload.folder}`,
-                ids: payload.ids,
-                folder: payload.folder,
-                sourceFolder: payload.sourceFolder,
-                mail: payload.mail,
-                allowUndo: payload.allowUndo,
-              }),
-            );
-          }
-          if (payload.folder === MailFolderType.SPAM) {
-            updateFolderActions.push(new BlackListGet());
-          }
-          return of(...updateFolderActions);
-        }),
-        catchError(error => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
-      );
+            if (payload.shouldDeleteFolder) {
+              updateFolderActions.push(new DeleteFolder(payload.folderToDelete));
+            }
+            updateFolderActions.push(new MoveMailSuccess(payload));
+            if (!payload.shouldDeleteFolder) {
+              updateFolderActions.push(
+                new SnackPush({
+                  message: `Mail moved to ${payload.folder}`,
+                  ids: payload.ids,
+                  folder: payload.folder,
+                  sourceFolder: payload.sourceFolder,
+                  mail: payload.mail,
+                  allowUndo: payload.allowUndo,
+                }),
+              );
+            }
+            if (payload.folder === MailFolderType.SPAM) {
+              updateFolderActions.push(new BlackListGet());
+            }
+            return of(...updateFolderActions);
+          }),
+          catchError(error => of(new SnackErrorPush({ message: `Failed to move mail to ${payload.folder}.` }))),
+        );
     }),
   );
 
@@ -130,7 +132,7 @@ export class MailEffects {
     ofType(MailActionTypes.DELETE_MAIL),
     map((action: DeleteMail) => action.payload),
     switchMap(payload => {
-      return this.mailService.deleteMails(payload.ids, payload.parent_only).pipe(
+      return this.mailService.deleteMails(payload.ids, payload.folder, payload.parent_only).pipe(
         switchMap(res => of(new DeleteMailSuccess(payload))),
         catchError(error => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
       );

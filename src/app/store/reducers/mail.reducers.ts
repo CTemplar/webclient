@@ -8,6 +8,7 @@ export function reducer(
     mails: [],
     total_mail_count: 0,
     mailDetail: null,
+    starredFolderCount: 0,
     loaded: false,
     decryptedContents: {},
     unreadMailsCount: { inbox: 0 },
@@ -101,7 +102,6 @@ export function reducer(
         }
       });
       state.pageLimit = action.payload.limit;
-      //
       return {
         ...state,
         mails,
@@ -118,6 +118,10 @@ export function reducer(
         ...state,
         canGetUnreadCount: false,
       };
+    }
+
+    case MailActionTypes.STARRED_FOLDER_COUNT_UPDATE: {
+      return { ...state, starredFolderCount: action.payload.starred_count };
     }
 
     case MailActionTypes.GET_UNREAD_MAILS_COUNT: {
@@ -183,7 +187,7 @@ export function reducer(
         folderMap.set(targetFolderName, folderState);
       }
       // Update other folders
-      const folder_keys = [ ...folderMap.keys()].filter(key => key !== sourceFolderName && key !== targetFolderName);
+      const folder_keys = [ ...folderMap.keys()].filter(key => key !== sourceFolderName && key !== targetFolderName && key !== state.currentFolder);
       folder_keys.forEach(key => {
         let folderInfo = folderMap.get(key);
         folderInfo.is_dirty = true;
@@ -226,7 +230,7 @@ export function reducer(
       });
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       if (
         state.mailDetail &&
         state.mailDetail.children &&
@@ -573,6 +577,7 @@ export function reducer(
         total_mail_count: 0,
         mailDetail: null,
         loaded: false,
+        starredFolderCount: 0,
         decryptedContents: {},
         unreadMailsCount: { inbox: 0 },
         noUnreadCountChange: true,

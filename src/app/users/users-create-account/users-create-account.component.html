@@ -174,7 +174,7 @@
                   <small [translate]="'create_account.invite_code_explanation'">You can get invitation code from any existing paid customer or you can request from us.</small><br />
                   <small [translate]="'create_account.about_invite_code'">Why invite codes and how to get one?</small>
                   <small
-                    ><a target="_blank" href="{{ primaryWebsite }}/email-creation-restriction/">{{ 'mail_header.learn_more' | translate }}</a></small
+                    ><a target="_blank" rel="noopener noreferrer" href="{{ primaryWebsite }}/email-creation-restriction/">{{ 'mail_header.learn_more' | translate }}</a></small
                   >
                 </div>
                 <div class="form-group">
@@ -192,7 +192,7 @@
                   <span class="info-text">
                     <small>
                       <span [translate]="'create_account.check_box'">Please check this box if you agree to abide by our </span>
-                      <a href="{{ primaryWebsite }}/terms">
+                      <a href="{{ primaryWebsite }}/terms" target="_blank" rel="noopener noreferrer">
                         <u [innerHTML]="'create_account.terms_and_conditions' | translate">Terms &amp; Conditions</u>
                       </a>
                     </small>

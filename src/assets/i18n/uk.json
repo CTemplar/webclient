@@ -387,6 +387,7 @@
       "text_color": "Text Color",
       "saving": "Saving...",
       "sending": "Sending...",
+      "processing": "Processing...",
       "saved": "Saved",
       "encrypt_for_non": "Encrypt for non-CTemplar mail users",
       "message_password": "Message Password",

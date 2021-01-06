@@ -10,6 +10,11 @@ export class LoadingSpinnerComponent implements OnInit {
 
   @Input() optionalClasses = '';
 
+  // Width and Height in Pixel unit
+  @Input() width: number = 40;
+  @Input() height: number = 40;
+  @Input() color: string = "#3a4e63";
+
   constructor() {}
 
   ngOnInit() {}

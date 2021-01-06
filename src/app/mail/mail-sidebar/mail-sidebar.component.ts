@@ -34,6 +34,7 @@ import {
   GetUnreadMailsCountSuccess,
   ReadMailSuccess,
   SettingsUpdateUsedStorage,
+  StarredFolderCountUpdate,
 } from '../../store/actions';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
@@ -52,6 +53,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   EMAIL_LIMIT = 20; // limit to display emails
 
+  starredCount = 0; // starred folder count
   // Public property of boolean type set false by default
   public isComposeVisible = false;
 
@@ -148,6 +150,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           } else if (webSocketState.message.hasOwnProperty('used_storage')) {
             this.store.dispatch(new SettingsUpdateUsedStorage(webSocketState.message));
+          } else if (webSocketState.message.hasOwnProperty('starred_count')) {
+            this.store.dispatch(new StarredFolderCountUpdate(webSocketState.message));
           } else if (webSocketState.message.marked_as_read !== null) {
             this.updateUnreadCount(webSocketState);
             this.store.dispatch(
@@ -200,6 +204,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
+        this.starredCount = this.mailState.starredFolderCount ? this.mailState.starredFolderCount : 0;
         this.currentFolder = mailState.currentFolder;
         this.updateTitle();
       });

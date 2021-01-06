@@ -113,7 +113,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     private cdr: ChangeDetectorRef,
     private pgpService: OpenPgpService,
     private authService: UsersService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {
@@ -158,7 +158,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.isConversationView = this.userState.settings && !this.userState.settings.is_conversation_mode ? false : true;
+        this.isConversationView =
+          this.userState.settings && !this.userState.settings.is_conversation_mode ? false : true;
         this.customFolders = user.customFolders;
         if (this.mailFolder === MailFolderType.SEARCH) {
           user.customFolders.forEach(folder => {
@@ -280,15 +281,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   markAllMails(checkAll) {
     if (checkAll && !this.isSomeEmailsSelected()) {
-      this.mails.map(mail => {
+      this.mails.forEach(mail => {
         mail.marked = true;
-        return mail;
       });
       this.noEmailSelected = false;
     } else {
-      this.mails.map(mail => {
+      this.mails.forEach(mail => {
         mail.marked = false;
-        return mail;
       });
       this.noEmailSelected = true;
       this.checkAll = false;
@@ -301,7 +300,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   isSomeEmailsSelected() {
     const count = this.mails.filter(mail => mail.marked).length;
-    return count > 0 && count < this.mails.length;
+    return count > 0 && count <= this.mails.length;
   }
 
   markAsRead(isRead = true) {
@@ -314,7 +313,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   toggleStarred(mail: Mail) {
-      this.store.dispatch(new StarMail({ ids: mail.id.toString(), starred: !mail.has_starred_children, folder: this.mailFolder, withChildren: true }));
+    this.store.dispatch(
+      new StarMail({
+        ids: mail.id.toString(),
+        starred: !mail.has_starred_children,
+        folder: this.mailFolder,
+        withChildren: true,
+      }),
+    );
   }
 
   markAsStarred(starred = true) {
@@ -351,7 +357,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       const ids = this.getMailIDs();
       // Dispatch permanent delete mails event.
       if (ids) {
-        this.store.dispatch(new DeleteMail({ ids }));
+        this.store.dispatch(new DeleteMail({ ids, folder: this.mailFolder }));
         this.isDeleteDraftClicked = true;
       }
     } else {
@@ -437,7 +443,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     const ids = this.getMailIDs();
     // Dispatch permanent delete mails event.
     if (ids) {
-      this.store.dispatch(new DeleteMail({ ids }));
+      this.store.dispatch(new DeleteMail({ ids, folder: this.mailFolder }));
     }
     this.delateDraftModalRef.dismiss();
     this.isDeleteDraftClicked = true;
@@ -611,12 +617,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    */
   private getMailIDs() {
     const allString = 'all';
-    if (this.checkAll) {
+    let markedMails = this.getMarkedMails();
+    if (markedMails.length === this.LIMIT && this.checkAll) {
       return allString;
+    } else {
+      return this.getMarkedMails()
+        .map(mail => mail.id)
+        .join(',');
     }
-    return this.getMarkedMails()
-      .map(mail => mail.id)
-      .join(',');
   }
 
   getMarkedMails() {
@@ -644,36 +652,54 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @description Function to get tooltip, receiver, sender info.
    * @params Mail, isToolTip
    * @returns {String} The list of email or name for sender, receiver
-  */
+   */
   getMailSenderReceiverInfo(mail: Mail, isTooltip: boolean = false) {
     let info = '';
     if (this.mailFolder === this.mailFolderTypes.DRAFT) {
       info = 'Draft';
     } else if (this.mailFolder === this.mailFolderTypes.INBOX) {
-      info = isTooltip ? mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email : mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+      info = isTooltip
+        ? mail.sender_display_name
+          ? mail.sender_display_name
+          : mail.sender_display.email
+        : mail.sender_display_name
+        ? mail.sender_display_name
+        : mail.sender_display.name;
     } else if (this.mailFolder === this.mailFolderTypes.SENT || this.mailFolder === this.mailFolderTypes.OUTBOX) {
       info = mail.receiver_list;
     } else {
       // For Search, All Emails, Custom Folders
       switch (mail.folder) {
         case MailFolderType.INBOX:
-          info = isTooltip ? mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email : mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+          info = isTooltip
+            ? mail.sender_display_name
+              ? mail.sender_display_name
+              : mail.sender_display.email
+            : mail.sender_display_name
+            ? mail.sender_display_name
+            : mail.sender_display.name;
           break;
-  
+
         case MailFolderType.SENT:
         case MailFolderType.OUTBOX:
           info = mail.receiver_list;
           break;
-  
+
         case MailFolderType.DRAFT:
           info = 'Draft';
           break;
-      
+
         default:
           if (mail.send) {
             info = mail.receiver_list;
           } else {
-            info = isTooltip ? mail.sender_display_name ? mail.sender_display_name : mail.sender_display.email : mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+            info = isTooltip
+              ? mail.sender_display_name
+                ? mail.sender_display_name
+                : mail.sender_display.email
+              : mail.sender_display_name
+              ? mail.sender_display_name
+              : mail.sender_display.name;
           }
           break;
       }
