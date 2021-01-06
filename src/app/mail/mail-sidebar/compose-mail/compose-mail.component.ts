@@ -877,10 +877,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     } else if (this.content) {
       this.content = this.formatContent(this.content);
+      const allowedTags = ['a', 'b', 'br', 'div', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'img', 'label', 'li', 'ol', 'p', 'span', 'strong', 'table', 'td', 'th', 'tr', 'u', 'ul', 'i','blockquote'];
       // @ts-ignore
       let xssValue = xss(this.content, {
         onTag: (tag, html, options) => {
-          if (!options.isClosing) {
+          if (!options.isClosing && allowedTags.includes(tag.toLowerCase())) {
             let htmlAttributes = '';
             const reg = /\s/;
             const match = reg.exec(html);
@@ -888,18 +889,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             if (i !== -1) {
               htmlAttributes = html.slice(i + 1, -1).trim();
             }
-            let containsClassAttribute = false;
             let attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
               if (attributeName === 'class') {
-                containsClassAttribute = true;
-                return `${attributeName}="${attributeValue} keepHTML"`;
+                attributeValue = attributeValue.replace('gmail_quote', '');
               }
               return `${attributeName}="${attributeValue}"`;
             });
-            if (!containsClassAttribute) {
-              attributesHtml += ' class="keepHTML"';
-            }
-
             let outputHtml = `<${tag}`;
             if (attributesHtml) {
               outputHtml += ` ${attributesHtml}`;
@@ -911,7 +906,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
         }
       });
-      this.quill.clipboard.dangerouslyPasteHTML(0, xssValue);
+      this.quill.clipboard.dangerouslyPasteHTML(0, `<div class="keepHTML" style="white-space: normal;">${xssValue}</div>`);
     }
 
     this.updateSignature();
