@@ -7,7 +7,9 @@ assignees: ''
 ---
 
 ### Subject of the suggestion
+
 Describe your suggestion here.
 
 ### Expected behaviour
+
 Tell us what should happen.
