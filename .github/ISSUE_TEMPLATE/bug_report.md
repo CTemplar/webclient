@@ -6,10 +6,6 @@ labels: ''
 assignees: ''
 ---
 
-### Subject of the issue
-
-Describe your issue here.
-
 ### Your environment
 
 Include, at least, your web browser version and the operative system.
