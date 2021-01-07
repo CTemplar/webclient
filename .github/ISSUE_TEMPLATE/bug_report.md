@@ -12,7 +12,9 @@ Include, at least, your web browser version and the operative system.
 
 ### Steps to reproduce
 
-Tell us how to reproduce this issue, step by step. You can include media content like images or videos.
+Tell us how to reproduce this issue, step by step.
+
+You can include media content like images or videos.
 
 ### Expected behaviour
 
