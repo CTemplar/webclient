@@ -20,6 +20,7 @@ import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import * as xss from 'xss';
 
 import { COLORS, FONTS, SummarySeparator } from '../../../shared/config';
 import {
@@ -60,7 +61,20 @@ import { DateTimeUtilService } from '../../../store/services/datetime-util.servi
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
 const Quill: any = QuillNamespace;
+const BlockEmbed = Quill.import('blots/block/embed');
+class keepHTML extends BlockEmbed {
+  static create(node) {
+    return node;
+  }
+  static value(node) {
+    return node;
+  }
+};
+keepHTML.blotName = 'keepHTML';
+keepHTML.className = 'keepHTML';
+// keepHTML.tagName = 'div';
 
+Quill.register(keepHTML);
 /**
  * Add custom fonts, sizes, styles to quill
  */
@@ -863,7 +877,36 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     } else if (this.content) {
       this.content = this.formatContent(this.content);
-      this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
+      const allowedTags = ['a', 'b', 'br', 'div', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'img', 'label', 'li', 'ol', 'p', 'span', 'strong', 'table', 'td', 'th', 'tr', 'u', 'ul', 'i','blockquote'];
+      // @ts-ignore
+      let xssValue = xss(this.content, {
+        onTag: (tag, html, options) => {
+          if (!options.isClosing && allowedTags.includes(tag.toLowerCase())) {
+            let htmlAttributes = '';
+            const reg = /\s/;
+            const match = reg.exec(html);
+            const i = match ? match.index : -1;
+            if (i !== -1) {
+              htmlAttributes = html.slice(i + 1, -1).trim();
+            }
+            let attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
+              if (attributeName === 'class') {
+                attributeValue = attributeValue.replace('gmail_quote', '');
+              }
+              return `${attributeName}="${attributeValue}"`;
+            });
+            let outputHtml = `<${tag}`;
+            if (attributesHtml) {
+              outputHtml += ` ${attributesHtml}`;
+            }
+            outputHtml += '>';
+            return outputHtml;
+          } else {
+            return html;
+          }
+        }
+      });
+      this.quill.clipboard.dangerouslyPasteHTML(0, `<div class="keepHTML" style="white-space: normal;">${xssValue}</div>`);
     }
 
     this.updateSignature();
