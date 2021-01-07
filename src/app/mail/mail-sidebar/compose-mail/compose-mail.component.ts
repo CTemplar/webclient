@@ -1479,7 +1479,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.encryptForm.reset();
     this.encryptionData = {};
     this.valueChanged$.next(true);
-    this.closeEncryptionModal();
   }
 
   hasData() {
