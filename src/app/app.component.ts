@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public isLoading = true;
 
-  public isMail = true;
+  public isMail = false;
 
   quote: object;
 
