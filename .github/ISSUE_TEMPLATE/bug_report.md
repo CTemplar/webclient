@@ -1,32 +1,26 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Report here if you found something isn't working as expected.
 title: ''
 labels: ''
 assignees: ''
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+### Subject of the issue
+Describe your issue here.
 
-**Steps to reproduce the behavior**
+### Your environment
+Indicate all the details you known about your environment.
 
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+Include, at least, your web browser version and the operative system.
 
-**Your expectation**
-A clear and concise description of what you expected to happen.
+### Steps to reproduce
+Tell us how to reproduce this issue, step by step.
 
-**Environment**
+You can include media content like images or videos.
 
-- OS: [ios 14, windows 10, ...]
-- Device: [iphone 8, laptop model, ...]
-- Browser: [chrome 80, safari, ...]
+### Expected behaviour
+Tell us what should happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
-**Additional context**
-Add any other context about the problem here.
+### Actual behaviour
+Tell us what happens instead.
