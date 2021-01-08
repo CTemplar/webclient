@@ -79,6 +79,21 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewChecked() {
+    const allContent = document.getElementById('app-outer-id');
+    const header = document.getElementById('mastHead');
+    const footer = document.getElementById('colphon');
+    const mainContent = document.getElementById('login-main');
+    if (allContent && mainContent && window.innerHeight > allContent.getBoundingClientRect().height) {
+      mainContent.style.height =
+        (
+          window.innerHeight -
+          header.getBoundingClientRect().height -
+          footer.getBoundingClientRect().height
+        ).toString() + 'px';
+    }
+  }
+
   private updateLoadingStatus(): void {
     this.store
       .select(state => state.loading)
