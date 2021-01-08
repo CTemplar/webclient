@@ -80,6 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewChecked() {
+    // For big window height, fix bottom white space issue
     const allContent = document.getElementById('app-outer-id');
     const header = document.getElementById('mastHead');
     const footer = document.getElementById('colphon');
