@@ -16,10 +16,10 @@ Tell us how to reproduce this issue, step by step.
 
 You can include media content like images or videos.
 
-### Expected behaviour
+### Expected behavior
 
 Tell us what should happen.
 
-### Actual behaviour
+### Actual behavior
 
 Tell us what happens instead.
