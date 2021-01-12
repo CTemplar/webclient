@@ -126,6 +126,7 @@ export interface Attachment {
   progress?: number;
   request?: Subscription;
   size: string;
+  actual_size?: number;
 }
 
 export interface EmailDisplay {

@@ -948,7 +948,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
         )
         .subscribe(data => {
-          this.updateEmail();
+          if (!this.draft.isSaving) {
+            this.updateEmail();
+          }
         });
     }
   }
@@ -991,7 +993,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   onFilesSelected(files: FileList) {
     this.isProcessingAttachments = true;
-    if (!this.draftMail || !this.draftMail.id) {
+    if ((!this.draftMail || !this.draftMail.id) && !this.draft.isSaving) {
       this.updateEmail();
     }
     for (let i = 0; i < files.length; i++) {
@@ -1014,6 +1016,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         is_inline: isInline,
         is_encrypted: !isInline,
         inProgress: false,
+        actual_size: file.size,
       };
       this.attachments.push(attachment);
       if (!this.draftMail.id) {
