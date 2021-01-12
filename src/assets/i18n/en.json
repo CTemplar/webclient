@@ -115,7 +115,7 @@
     "change_now": "Change now",
     "last_time_changed": "Last time changed",
     "recovery_email": "Recovery email",
-    "reset_password": "I understand that action will delete all data and generate a new encryption key.",
+    "reset_password": "I understand that all data will be deleted irrevocably and a new encryption key will be generated.",
     "appearance": "Appearance",
     "display_name": "Display name",
     "upgrade_to_paid": "Please upgrade to paid plan to edit signature",
@@ -137,7 +137,7 @@
       "search_blacklist": "Search in Blacklist"
     },
     "add_to": "Add to",
-    "username_required": "The username is required.",
+    "username_required": "A username is required.",
     "email_required": "The email is required.",
     "payments": "Payments",
     "add_new_method": "Add new method",
@@ -632,10 +632,10 @@
   "login": {
     "name": "login",
     "user_login": "User Login",
-    "password_required": "The password is required.",
+    "password_required": "A password is required.",
     "reset_password": "Reset Password",
     "create_account": "Create Account",
-    "remember_me": "Remember me on this computer"
+    "remember_me": "Remember me on this device"
   },
   "create_account": {
     "name": "Create your account",
