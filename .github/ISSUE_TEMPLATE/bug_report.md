@@ -15,10 +15,10 @@ Include, at least, your web browser version and the operative system.
 1. Tell us how to reproduce this issue, step by step.
 2. ...
 
-### Expected behaviour
+### Expected behavior
 
 Tell us what should happen.
 
-### Actual behaviour
+### Actual behavior
 
 Tell us what happens instead. You also can paste any media content like images or videos here.

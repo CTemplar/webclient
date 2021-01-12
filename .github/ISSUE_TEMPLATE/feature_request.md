@@ -6,6 +6,6 @@ labels: ''
 assignees: ''
 ---
 
-### Expected behaviour
+### Expected behavior
 
 Tell us what should happen.
