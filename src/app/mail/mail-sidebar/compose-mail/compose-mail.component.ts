@@ -1016,6 +1016,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         is_inline: isInline,
         is_encrypted: !isInline,
         inProgress: false,
+        actual_size: file.size,
       };
       this.attachments.push(attachment);
       if (!this.draftMail.id) {
