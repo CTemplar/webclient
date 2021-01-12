@@ -621,7 +621,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
         </div>
          <div style="margin-top:5rem">
             <div><b class="color-primary" style="padding-right: 81px;">Storage </b>${
-              invoice.storage / (1024 * 1024)
+              invoice.storage / (1024 * 1024 * 1024)
             }GB</div>
             <div><b class="color-primary" style="padding-right: 18px;">Email addresses</b>${
               invoice.email_addresses
