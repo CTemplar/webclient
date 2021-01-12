@@ -107,7 +107,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   }
 
   saveInDrafts() {
-    this.composeMail.saveInDrafts();
+    this.composeMail.closeCompose();
   }
 
   discardEmail() {

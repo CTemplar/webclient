@@ -69,7 +69,7 @@ class keepHTML extends BlockEmbed {
   static value(node) {
     return node;
   }
-};
+}
 keepHTML.blotName = 'keepHTML';
 keepHTML.className = 'keepHTML';
 // keepHTML.tagName = 'div';
@@ -251,7 +251,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @ViewChild('confirmationModal') confirmationModal;
 
+  @ViewChild('closeConfirmationModal') closeConfirmationModal;
+
   confirmModalRef: NgbModalRef;
+
+  closeConfirmModalRef: NgbModalRef;
 
   draftId: number;
 
@@ -410,6 +414,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           this.inProgress = draft.inProgress;
           if (draft.isProcessingAttachments !== undefined) {
             this.isProcessingAttachments = draft.isProcessingAttachments;
+            if (!this.isProcessingAttachments && this.closeConfirmModalRef) {
+              this.closeConfirmModalRef.dismiss();
+            }
           }
           if (draft.draft && draft.draft.id && this.attachmentsQueue.length > 0) {
             // when open draft mail with attachments
@@ -877,7 +884,35 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     } else if (this.content) {
       this.content = this.formatContent(this.content);
-      const allowedTags = ['a', 'b', 'br', 'div', 'font', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'img', 'label', 'li', 'ol', 'p', 'span', 'strong', 'table', 'td', 'th', 'tr', 'u', 'ul', 'i','blockquote'];
+      const allowedTags = [
+        'a',
+        'b',
+        'br',
+        'div',
+        'font',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'hr',
+        'img',
+        'label',
+        'li',
+        'ol',
+        'p',
+        'span',
+        'strong',
+        'table',
+        'td',
+        'th',
+        'tr',
+        'u',
+        'ul',
+        'i',
+        'blockquote',
+      ];
       // @ts-ignore
       let xssValue = xss(this.content, {
         onTag: (tag, html, options) => {
@@ -904,9 +939,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           } else {
             return html;
           }
-        }
+        },
       });
-      this.quill.clipboard.dangerouslyPasteHTML(0, `<div class="keepHTML" style="white-space: normal;">${xssValue}</div>`);
+      this.quill.clipboard.dangerouslyPasteHTML(
+        0,
+        `<div class="keepHTML" style="white-space: normal;">${xssValue}</div>`,
+      );
     }
 
     this.updateSignature();
@@ -1082,6 +1120,42 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.saveInDrafts();
+      }, 100);
+      return;
+    }
+    this.saveToDraft();
+  }
+
+  closeCompose() {
+    if (this.isProcessingAttachments) {
+      this.closeConfirmModalRef = this.modalService.open(this.closeConfirmationModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+      });
+    } else {
+      this.saveToDraft();
+    }
+  }
+
+  closeComposeConfirm() {
+    if (this.closeConfirmModalRef) {
+      this.closeConfirmModalRef.dismiss();
+    }
+    if (this.isProcessingAttachments) {
+      for (let i = 0; i < this.attachments.length; i++) {
+        if (this.attachments[i].inProgress) {
+          this.removeAttachment(this.attachments[i]);
+        }
+      }
+    }
+    this.saveToDraft();
+  }
+
+  saveToDraft() {
+    if (this.inProgress || this.draft.isSaving) {
+      // If saving is in progress, then wait to send.
+      setTimeout(() => {
+        this.saveToDraft();
       }, 100);
       return;
     }
