@@ -409,7 +409,7 @@
       "confirm_send": "Confirm Send",
       "confirm_close": "Confirm Close",
       "send_without_all": "Are you sure, send this message without a subject or text in the body?",
-      "close_during_uploading": "Are you sure to close? the upload and encryption process will be lost if you close before uploading is not completed.",
+      "close_during_uploading": "Are you sure to close? Upload and encryption process will be lost if you close while attachments upload are processing.",
       "email_deleted": "Email will be deleted on selected datetime",
       "select_date": "Select Date",
       "select_time": "Select Time",
