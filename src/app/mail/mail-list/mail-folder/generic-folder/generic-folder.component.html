@@ -286,15 +286,15 @@
               </ng-template>
             </td>
             <!-- Icon Secured -->
-            <td class="mail-security-status fire-wall-protection" [ngClass]="{ 'text-faded': !mail.is_protected && mail.sender !== 'support@ctemplar.com' }">
+            <td class="mail-security-status fire-wall-protection">
               <img *ngIf="!userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
               <ng-template #fireWallIcon>
                 <i class="fas fa-chess-rook svg-inline--fa" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
               </ng-template>
             </td>
             <!-- Icon Secured -->
-            <td class="mail-security-status" [ngClass]="{ 'text-faded': !mail.is_protected && mail.sender !== 'support@ctemplar.com' }">
-              <i class="icon icon-secured" [ngbTooltip]="!mail.is_protected && mail.sender !== 'support@ctemplar.com' ? '' : ('mail_detail.encrypted' | translate)" placement="left"></i>
+            <td class="mail-security-status">
+              <i class="icon icon-secured" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_detail.encrypted' | translate" placement="left"></i>
             </td>
           </tr>
         </ng-container>
