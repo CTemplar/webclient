@@ -652,9 +652,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngAfterViewInit() {
     this.initializeComposeMail();
