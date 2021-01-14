@@ -42,7 +42,6 @@ export class WebsocketService implements OnDestroy {
     this.webSocket = new WebSocket(url);
     this.webSocket.onmessage = response => {
       const data = JSON.parse(response.data);
-      LoggerService.log('Web socket event:', data);
       if (data.logout === true || data.reason === 'INVALID_TOKEN') {
         this.disconnect();
         this.store.dispatch(new Logout(data));
