@@ -653,7 +653,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
   }
 
   ngAfterViewInit() {
