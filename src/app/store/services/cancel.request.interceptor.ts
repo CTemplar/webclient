@@ -24,10 +24,12 @@ export class HttpCancelService {
 
   /** Cancels all pending Http requests. */
   public cancelPendingRequests() {
+    console.log('cancel pending request')
     this.cancelPendingRequests$.next()
   }
 
   public onCancelPendingRequests() {
+    console.log('on cancel pending request')
     return this.cancelPendingRequests$.asObservable()
   }
 }

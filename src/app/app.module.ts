@@ -85,7 +85,7 @@ export class SentryErrorHandler implements ErrorHandler {
     SharedService,
     TimezoneService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CancelPendingRequestInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: CancelPendingRequestInterceptor, multi: true },
     { provide: ErrorHandler, useClass: SentryErrorHandler },
   ],
   bootstrap: [AppComponent],
