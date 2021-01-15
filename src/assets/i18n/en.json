@@ -540,7 +540,7 @@
     "no_conversations": "There are no conversations with this label.",
     "remove_star": "Remove Star",
     "start_message": "Star Message",
-    "4_Wall_Protection": "4 Wall Protection"
+    "4_Wall_Protection": "Protected by CTemplar 4-Wall technology"
   },
   "home_header": {
     "home": "Home",
@@ -713,7 +713,7 @@
     "max_strength": "Welcome to your Maximum strength mailbox"
   },
   "mail_detail": {
-    "encrypted": "End-to-End Encrypted",
+    "encrypted": "Encrypted at rest with zero-access",
     "message_in_span": "Why is this message in spam?",
     "mail_not_spam": "Mark email as not spam(whitelist) and move this email to inbox.",
     "mark_not_spam": "Mark not spam",
