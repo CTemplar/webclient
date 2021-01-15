@@ -652,8 +652,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngAfterViewInit() {
     this.initializeComposeMail();
@@ -1125,7 +1124,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }, 100);
       return;
     }
-    this.saveToDraft();
+    if (this.isSavedInDraft) {
+      // if email already saved in ngOnDestroy.
+      return;
+    }
+    this.isSavedInDraft = true;
+    this.updateEmail();
+    this.hide.emit();
+    this.resetValues();
   }
 
   closeCompose() {
@@ -1135,7 +1141,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         windowClass: 'modal-sm users-action-modal',
       });
     } else {
-      this.saveToDraft();
+      this.saveInDrafts();
     }
   }
 
@@ -1144,31 +1150,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.closeConfirmModalRef.dismiss();
     }
     if (this.isProcessingAttachments) {
-      for (let i = 0; i < this.attachments.length; i++) {
-        if (this.attachments[i].inProgress) {
-          this.removeAttachment(this.attachments[i]);
+      const attachments = this.attachments;
+      for (let i = 0; i < attachments.length; i++) {
+        if (attachments[i].inProgress) {
+          this.removeAttachment(attachments[i]);
         }
       }
     }
-    this.saveToDraft();
-  }
-
-  saveToDraft() {
-    if (this.inProgress || this.draft.isSaving) {
-      // If saving is in progress, then wait to send.
-      setTimeout(() => {
-        this.saveToDraft();
-      }, 100);
-      return;
-    }
-    if (this.isSavedInDraft) {
-      // if email already saved in ngOnDestroy.
-      return;
-    }
-    this.isSavedInDraft = true;
-    this.updateEmail();
-    this.hide.emit();
-    this.resetValues();
+    this.saveInDrafts();
   }
 
   discardEmail() {
