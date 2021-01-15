@@ -10,7 +10,6 @@ import { ExpireSession, Logout } from '../store/actions';
 import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../shared/config';
 import { SharedService } from '../store/services';
 import { UsersService } from '../store/services/users.service';
-import { HttpCancelService } from '../store/services/cancel.request.interceptor';
 
 @UntilDestroy()
 @Component({
@@ -42,7 +41,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public usersService: UsersService,
     private store: Store<AppState>,
     private translate: TranslateService,
-    private httpCancelService: HttpCancelService,
   ) {
     this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
   }
@@ -84,8 +82,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    console.log('asdfasdfasdfasdf')
-    this.httpCancelService.cancelPendingRequests();
     this.store.dispatch(new ExpireSession());
     setTimeout(() => {
       this.store.dispatch(new Logout());

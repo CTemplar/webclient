@@ -7,3 +7,4 @@ export * from './shared.service';
 export * from './bitcoin.service';
 export * from './donation.service';
 export * from './cancel.request.interceptor';
+export * from './cancel.request.service';

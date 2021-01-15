@@ -142,7 +142,6 @@
     <img class="logo" style="width: 400px; height: 300px" [src]="loadingImage | safe: 'url'" />
     <p class="quote">Loading your mailbox...</p>
   </div>
-  
   <div align="center" class="logged-in-spinner" *ngIf="isLoading && !authState.isAuthenticated">
     <img class="logo" style="width: 400px; height: 300px; margin-top: 70px" [src]="loadingImage | safe: 'url'" />
     <p class="quote">Logging in...</p>
