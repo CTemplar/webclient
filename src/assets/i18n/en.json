@@ -115,7 +115,7 @@
     "change_now": "Change now",
     "last_time_changed": "Last time changed",
     "recovery_email": "Recovery email",
-    "reset_password": "I understand that action will delete all data and generate a new encryption key.",
+    "reset_password": "I understand that all data will be deleted irrevocably and a new encryption key will be generated.",
     "appearance": "Appearance",
     "display_name": "Display name",
     "upgrade_to_paid": "Please upgrade to paid plan to edit signature",
@@ -137,7 +137,7 @@
       "search_blacklist": "Search in Blacklist"
     },
     "add_to": "Add to",
-    "username_required": "The username is required.",
+    "username_required": "A username is required.",
     "email_required": "The email is required.",
     "payments": "Payments",
     "add_new_method": "Add new method",
@@ -407,7 +407,9 @@
       "attach_url": "Input URL",
       "self_dest_email": "Self Destruct Email",
       "confirm_send": "Confirm Send",
+      "confirm_close": "Confirm Close",
       "send_without_all": "Are you sure, send this message without a subject or text in the body?",
+      "close_during_uploading": "Are you sure to close? Upload and encryption process will be lost if you close while attachments upload are processing.",
       "email_deleted": "Email will be deleted on selected datetime",
       "select_date": "Select Date",
       "select_time": "Select Time",
@@ -538,7 +540,7 @@
     "no_conversations": "There are no conversations with this label.",
     "remove_star": "Remove Star",
     "start_message": "Star Message",
-    "4_Wall_Protection": "4 Wall Protection"
+    "4_Wall_Protection": "Protected by CTemplar 4-Wall technology"
   },
   "home_header": {
     "home": "Home",
@@ -632,10 +634,10 @@
   "login": {
     "name": "login",
     "user_login": "User Login",
-    "password_required": "The password is required.",
+    "password_required": "A password is required.",
     "reset_password": "Reset Password",
     "create_account": "Create Account",
-    "remember_me": "Remember me on this computer"
+    "remember_me": "Remember me on this device"
   },
   "create_account": {
     "name": "Create your account",
@@ -711,7 +713,7 @@
     "max_strength": "Welcome to your Maximum strength mailbox"
   },
   "mail_detail": {
-    "encrypted": "End-to-End Encrypted",
+    "encrypted": "Encrypted at rest with zero-access",
     "message_in_span": "Why is this message in spam?",
     "mail_not_spam": "Mark email as not spam(whitelist) and move this email to inbox.",
     "mark_not_spam": "Mark not spam",

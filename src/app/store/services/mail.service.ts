@@ -180,6 +180,7 @@ export class MailService {
     formData.append('is_encrypted', attachment.is_encrypted.toString());
     formData.append('file_type', attachment.document.type.toString());
     formData.append('name', attachment.name.toString());
+    formData.append('actual_size', attachment.actual_size.toString());
     let request;
     if (attachment.id) {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${attachment.id}/`, formData, {

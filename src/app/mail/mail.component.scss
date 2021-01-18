@@ -1126,6 +1126,10 @@
     width: 3rem;
     text-align: center;
     color: #34495e;
+
+    @include media('<=xs') {
+      width: 1rem;
+    }
   }
 
   .mail-status-type .icon-star {

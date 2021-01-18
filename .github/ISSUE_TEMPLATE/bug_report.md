@@ -13,7 +13,7 @@ Include, at least, your web browser version and the operative system.
 ### Steps to reproduce
 
 1. Tell us how to reproduce this issue, step by step.
-2. ...
+2. You can include media content like images or videos.
 
 ### Expected behavior
 
@@ -21,4 +21,4 @@ Tell us what should happen.
 
 ### Actual behavior
 
-Tell us what happens instead. You also can paste any media content like images or videos here.
+Tell us what happens instead.
