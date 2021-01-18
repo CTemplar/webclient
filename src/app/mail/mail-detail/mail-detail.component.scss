@@ -21,6 +21,15 @@
   padding: 5px 1rem;
 }
 
+.icon-holder {
+  display: flex;
+  align-items: center;
+
+  i {
+    margin-left: 10px;
+  }
+}
+
 .clipped-content {
   white-space: nowrap;
   overflow: hidden;
