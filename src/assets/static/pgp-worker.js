@@ -272,3 +272,17 @@ async function decryptAttachment(data, privKeyObj) {
     return Promise.resolve(data);
   }
 }
+
+async function encryptWithPassword(data) {
+  if (!data) {
+    return Promise.resolve(data);
+  }
+  const options = {
+    message : openpgp.message.fromText(data.message),
+    passwords : [data.password],
+    armor : false
+  }
+  return openpgp.encrypt(options).then(payload => {
+    return payload.data;
+  });
+}

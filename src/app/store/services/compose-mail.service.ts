@@ -66,7 +66,6 @@ export class ComposeMailService {
                   !draftMail.isPGPInProgress)
               ) {
                 this.setEncryptedContent(draftMail);
-                if (!draftMail.isSshInProgress) {
                   if (!draftMail.isSaving) {
                     // Replace password with md5 string before sending email, if encryption email for non CTemplar Email
                     if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
@@ -81,34 +80,11 @@ export class ComposeMailService {
                       }),
                     );
                   }
-                }
-              } else if (this.drafts[key].isSshInProgress && !draftMail.isSshInProgress) {
-                if (!draftMail.getUserKeyInProgress) {
-                  let keys = [];
-                  if (draftMail.usersKeys) {
-                    keys = this.getPublicKeys(draftMail, usersKeys).filter(item => item.is_enabled).map(item => item.public_key);
-                  }
-
-                  keys.push(draftMail.draft.encryption.public_key);
-                  draftMail.attachments.forEach(attachment => {
-                    this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, keys);
-                  });
-                  this.openPgpService.encrypt(
-                    draftMail.draft.mailbox,
-                    draftMail.id,
-                    new SecureContent(draftMail.draft),
-                    keys,
-                  );
-                }
-              } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
-                if (!draftMail.isSshInProgress) {
+              } 
+              else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                   let publicKeys = [];
-                  let hasSshEncryption = false;
-                  if (draftMail.draft.encryption && draftMail.draft.encryption.public_key) {
-                    hasSshEncryption = true;
-                    publicKeys.push(draftMail.draft.encryption.public_key);
-                  }
-                  if (this.getShouldBeEncrypted(draftMail, usersKeys) || hasSshEncryption) {
+                  
+                  if (this.getShouldBeEncrypted(draftMail, usersKeys)/* || hasSshEncryption*/) {
                     draftMail.draft.is_encrypted = true;
                     publicKeys = this.getPublicKeys(draftMail, usersKeys).filter(item => item.is_enabled).map(item => item.public_key);
                   }
@@ -183,7 +159,7 @@ export class ComposeMailService {
                       }),
                     );
                   }
-                }
+                // }
               }
             }
           }

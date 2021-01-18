@@ -409,7 +409,7 @@ export interface Draft {
   encryptedContent?: SecureContent;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
-  isSshInProgress?: boolean;
+  // isSshInProgress?: boolean;
   attachments: Attachment[];
   shouldSend?: boolean;
   shouldSave?: boolean;
