@@ -591,6 +591,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.inputTextValue = '';
       this.isPasted = false;
+      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+        this.store.dispatch(
+          new GetUsersKeys({
+            emails: [value],
+          }),
+        );
+      }
     }
   }
 
@@ -604,6 +611,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
+      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+        this.store.dispatch(
+          new GetUsersKeys({
+            emails: [value],
+          }),
+        );
+      }
     }
   }
 
@@ -617,6 +631,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;
+      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+        this.store.dispatch(
+          new GetUsersKeys({
+            emails: [value],
+          }),
+        );
+      }
     }
   }
 
