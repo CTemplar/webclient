@@ -14,6 +14,7 @@ import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store/actions';
 import { AppState, UserState } from '../../store/datatypes';
 import { SearchState } from '../../store/reducers/search.reducers';
 import { LOADING_IMAGE } from '../../store/services';
+import { HttpCancelService } from '../../store/services';
 
 @UntilDestroy()
 @Component({
@@ -49,6 +50,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     @Inject(DOCUMENT) private document: Document,
     private composeMailService: ComposeMailService,
+    private httpCancelService: HttpCancelService,
   ) {
     config.autoClose = true;
   }
@@ -115,6 +117,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    this.httpCancelService.cancelPendingRequests();
     this.store.dispatch(new SaveDraftOnLogout());
     const modalReference = this.modalService.open(this.logoutModal, {
       centered: true,
