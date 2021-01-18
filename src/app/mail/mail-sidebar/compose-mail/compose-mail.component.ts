@@ -1652,6 +1652,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
       this.forwardAttachmentsMessageId = null;
     }
+    console.log('parent', this.parentId);
     if (this.parentId) {
       this.draftMail.parent = this.parentId;
     }
@@ -1676,6 +1677,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }),
       );
     } else {
+      if (this.draftMail.subject !== this.subject) {
+        this.draftMail.parent = null;
+      }
       this.store.dispatch(
         new UpdatePGPDecryptedContent({
           id: this.draftMail.id,
