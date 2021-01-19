@@ -247,6 +247,11 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
+  encryptWithOnlyPassword(draftId: number, mailData: SecureContent, password: string) {
+    this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
+    this.pgpWorker.postMessage({ mailData, encryptWithPassword: true, callerId: draftId, password });
+  }
+
   encryptContact(contact: Contact, isAddContact = true) {
     contact.is_encrypted = true;
     const content = JSON.stringify(contact);
@@ -323,8 +328,8 @@ export class OpenPgpService {
     }
   }
 
-  decryptSecureMessagePrivKey(privKey: string, password: string) {
-    this.pgpWorker.postMessage({ decryptSecureMessageKey: true, privKey, password });
+  decryptSecureMessagePrivKey(password: string) {
+    this.pgpWorker.postMessage({ decryptSecureMessageKey: true, password });
     this.store.dispatch(new UpdateSecureMessageKey({ decryptedKey: null, inProgress: true }));
   }
 

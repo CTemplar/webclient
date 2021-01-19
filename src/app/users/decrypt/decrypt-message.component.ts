@@ -98,6 +98,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
         this.secureMessageState = state;
       });
   }
+  
 
   ngOnDestroy() {
     this.sharedService.hideEntireFooter.emit(false);
@@ -108,7 +109,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     this.showFormErrors = true;
     if (this.decryptForm.valid && this.message) {
       this.isLoading = true;
-      this.openPgpService.decryptSecureMessagePrivKey(this.message.encryption.private_key, data.password);
+      this.openPgpService.decryptSecureMessagePrivKey(data.password);
     }
   }
 

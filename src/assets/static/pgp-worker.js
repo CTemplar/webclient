@@ -156,6 +156,12 @@ onmessage = async function (event) {
         postMessage({ ...event.data, content });
       });
     }
+  } else if (event.data.encryptWithPassword) {
+    encryptWithPassword(event.data.mailData.content, event.data.password).then(content => {
+      encryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
+        postMessage({ encryptedContent: { content, subject }, encrypted: true, callerId: event.data.callerId });
+      });
+    });
   }
 };
 
@@ -273,14 +279,14 @@ async function decryptAttachment(data, privKeyObj) {
   }
 }
 
-async function encryptWithPassword(data) {
+async function encryptWithPassword(data, password) {
   if (!data) {
     return Promise.resolve(data);
   }
   const options = {
-    message : openpgp.message.fromText(data.message),
-    passwords : [data.password],
-    armor : false
+    message : openpgp.message.fromText(data),
+    passwords : [password],
+    armor : true
   }
   return openpgp.encrypt(options).then(payload => {
     return payload.data;
