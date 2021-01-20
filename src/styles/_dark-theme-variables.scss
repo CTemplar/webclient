@@ -1,0 +1,16 @@
+// SideBar
+
+$siderbar-background-color: #fff;
+$siderbar-background-color-dark: #151e34;
+
+$sidebar-right-border-color: transparent;
+$sidebar-right-border-color-dark: #323a4c;
+
+$sidebar-right-border-width: 0px;
+$sidebar-right-border-width-dark: 2px;
+
+$variables: (
+  --siderbar-background-color: ($siderbar-background-color, $siderbar-background-color-dark),
+  --sidebar-right-border-color: ($sidebar-right-border-color, $sidebar-right-border-color-dark),
+  --sidebar-right-border-width: ($sidebar-right-border-width, $sidebar-right-border-width-dark),
+)

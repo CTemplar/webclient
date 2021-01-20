@@ -36,6 +36,7 @@ import {
   SettingsUpdateUsedStorage,
   StarredFolderCountUpdate,
 } from '../../store/actions';
+import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
@@ -100,6 +101,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private sharedService: SharedService,
     private cdr: ChangeDetectorRef,
+    private themeToggleService: ThemeToggleService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -188,7 +190,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
         }
-        this.handleDarkMode(user.settings.is_night_mode);
+        // this.handleDarkMode(user.settings.is_night_mode);
         this.handleCustomCss(user.settings.custom_css);
       });
 
@@ -228,7 +230,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
       this.forceLightMode = parameters.lightMode;
       if (this.forceLightMode) {
-        this.handleDarkMode(false);
+        this.themeToggleService.forceUpdateTheme(false);
       }
     });
   }
@@ -269,7 +271,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
-  handleDarkMode(isNightMode) {
+  handleDarkMode(isNightMode: boolean) {
     if (isNightMode && !this.forceLightMode) {
       document.querySelector('#night-mode').innerHTML = darkModeCss;
     } else {

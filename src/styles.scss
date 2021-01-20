@@ -71,6 +71,11 @@
 // Components global styles
 @import 'styles/components.styles';
 
+// Theme Change styles
+@import 'styles/dark-theme-variables';
+@import 'styles/animations';
+@import 'styles/theme';
+
 .loading-icon {
   position: absolute;
   top: 28vh;
