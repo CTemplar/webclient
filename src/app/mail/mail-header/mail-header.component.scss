@@ -7,8 +7,9 @@
 .mailbox-navbar {
   position: relative;
   padding: 0.5rem 0.938rem;
-  background-color: $brand-faded;
-  border: 1px solid $dropdown-border-color;
+  background-color: var(--navbar-background-color);
+  border: var(--navbar-border-width) solid var(--navbar-border-color);
+  border-bottom: var(--navbar-border-bottom-width) solid var(--navbar-border-bottom-color);
   border-right: 0;
   border-left: 0;
 

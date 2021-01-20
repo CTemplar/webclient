@@ -27,8 +27,9 @@
 }
 
 .mail-contact-header {
-  background: #f5f5f5;
+  background: var(--mailbox-main-header-background);
   border-radius: 2px 2px 0 0;
+  color: var(--contact-list-header-color);
 
   tr {
     th {
@@ -55,7 +56,7 @@
 }
 
 .mail-contact-body.is-bordered {
-  border: 1px solid #f5f5f5;
+  border: 1px solid var(--contacts-list-body-border);
   border-bottom: 0;
 
   tr {
@@ -96,7 +97,10 @@
 }
 
 .mail-contact .mail-list-row {
+  background: var(--mail-list-row-background-color);
+  color: var(--mail-list-row-color);
   border-color: #f5f5f5;
+  border-bottom: 1px solid var(--mail-list-row-border-bottom-color);
   font-size: 0.875rem;
 
   @include media('<ipad', '>sm') {
@@ -332,6 +336,10 @@
     right: 35px;
     top: 0;
     z-index: 1;
+
+    .pager-text {
+      color: var(--text-muted-color);
+    }
 
     @include media('<sm') {
       right: 15px;

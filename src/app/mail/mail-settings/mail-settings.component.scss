@@ -291,16 +291,16 @@ $error-red: #e94e4c;
     padding-left: 0.563rem;
 
     .icon {
-      color: $brand-light-gray;
+      color: var(--settings-whitelist-icon-color);
       font-size: 1.063rem;
       line-height: 1.188;
     }
     .fa-ban {
-      color: #e74c3c;
+      color: var(--settings-whitelist-fa-ban-color);
       font-size: 1.063rem;
     }
     .fa-user-circle {
-      color: #1d6fa5;
+      color: var(--settings-whitelist-fa-user-circle-color);
       font-size: 1.063rem;
     }
   }

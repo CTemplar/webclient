@@ -10,7 +10,7 @@
   bottom: 0;
   left: 0;
   padding: 1.5rem 0.938rem;
-  background: $brand-white;
+  background: var(--footer-background);
 
   @include media('>=ipad') {
     padding: 0.5rem 1.563rem;
@@ -32,7 +32,7 @@
     > a {
       position: relative;
       display: block;
-      color: $brand-gray;
+      color: var(--footer-color);
       &:hover {
         color: $brand-primary;
       }

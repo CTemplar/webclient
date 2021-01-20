@@ -572,3 +572,43 @@ button[disabled] {
   bottom: unset !important;
   transition: inherit;
 }
+
+.text-dark,
+.text-dark:hover,
+a.text-dark,
+a.text-dark:hover,
+a.text-dark:focus {
+  color: var(--text-dark-color)!important;
+}
+
+.text-gray-dark,
+.text-gray-dark:hover,
+a.text-gray-dark, 
+a.text-gray-dark:hover,
+a.text-gray-dark:focus {
+  color: var(--text-gray-dark-color)!important;
+}
+
+.text-secondary {
+  color: var(--text-secondary-color)!important;
+}
+::after,
+::before {
+  color: var(--after-color);
+}
+
+.bg-faded {
+  background-color: var(--theme-bg-faded)!important;
+}
+
+.bg-light {
+  background-color: var(--theme-bg-light)!important;
+}
+
+.bg-white {
+  background-color: var(--theme-bg-white)!important;
+}
+a.dropdown-item,
+a.dropdown-item:hover {
+  color: var(--dropdown-item-color);
+}

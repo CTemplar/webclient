@@ -1,16 +1,169 @@
+@import './base/variables';
+
+//Dark Variables
+$dark-background-1: #20273e;
+$dark-background-2: #363d51;
+$dark-border-color: #323a4c;
+
+
+// General
+$text-dark-color: rgba(0, 0, 0, 0.87);
+$text-dark-color-dark: #fff;
+
+$text-gray-dark-color: $gray-dark;
+$text-gray-dark-color-dark: #fff;
+
+$text-secondary-color: $brand-secondary;
+$text-secondary-color-dark: #fff;
+
+$after-color: inherit;
+$after-color-dark: #fff;
+
+$dropdown-item-color: $gray-dark;
+$dropdown-item-color-dark: #fff;
+
+$mailbox-content-background: inherit;
+$mailbox-content-background-dark: $dark-background-1;
+
+$action-bar-border-bottom-color: $input-border-color;
+$action-bar-border-bottom-color-dark: $dark-border-color;
+
+// Modal & ...
+$theme-bg-faded: $brand-faded;
+$theme-bg-light: inherit;
+$theme-bg-white: #fff;
+
+$theme-bg-modal-dark: $dark-background-2;
+
 // SideBar
 
-$siderbar-background-color: #fff;
+$siderbar-background-color: #34495e;
 $siderbar-background-color-dark: #151e34;
 
 $sidebar-right-border-color: transparent;
-$sidebar-right-border-color-dark: #323a4c;
+$sidebar-right-border-color-dark: $dark-border-color;
 
 $sidebar-right-border-width: 0px;
 $sidebar-right-border-width-dark: 2px;
 
+$sidebar-bottom-background-color: #29394e;
+$sidebar-bottom-background-color-dark: #151e34;
+
+// NavBar
+$navbar-background-color: $brand-faded;
+$navbar-background-color-dark: $dark-background-1;
+
+$navbar-border-color: $dropdown-border-color;
+$navbar-border-color-dark: transparent;
+
+$navbar-border-width: 1px;
+$navbar-border-width-dark: 0;
+
+$navbar-border-bottom-color: $dropdown-border-color;
+$navbar-border-bottom-color-dark: $dark-border-color;
+
+$navbar-border-bottom-width: 1px;
+$navbar-border-bottom-width-dark: 1px;
+
+// Mail, Contacts, List
+$mail-list-row-background-color: inherit;
+$mail-list-row-background-read-color: #fff;
+$mail-list-row-background-unread-color: #f5f5f5;
+$mail-list-row-background-checked-color:  rgba(241, 196, 15, 0.12);
+$mail-list-row-background-selected-color: #ffc;
+$mail-list-row-background-active-color: $brand-secondary!important;
+$mail-list-row-background-color-dark: $dark-background-1;
+$mail-list-row-background-color-selected-dark: #373c50;
+
+$mail-list-row-color: inherit;
+$mail-list-row-read-color: $brand-gray;
+$mail-list-row-unread-color: $brand-black!important;
+$mail-list-row-checked-color: inherit;
+$mail-list-row-selected-color: inherit;
+$mail-list-row-active-color: $brand-white!important;
+$mail-list-row-color-dark: #fff!important;
+
+$mail-list-row-border-bottom-color: #e0e0e0;
+$mail-list-row-border-bottom-color-dark: $dark-border-color;
+
+$mailbox-main-header-background: inherit;
+$mailbox-main-header-background-dark: $dark-background-1;
+$mailbox-main-header-color: inherit;
+$mailbox-main-header-color-dark: #fff;
+
+// Contacts
+$contacts-list-body-border: #f5f5f5;
+$contacts-list-body-border-dark: $dark-border-color;
+$contact-list-header-color: inherit;
+$contact-list-header-color-dark: #fff;
+
+// Footer
+$footer-background: $brand-white;
+$footer-background-dark: $dark-border-color;
+$footer-color: $brand-gray;
+$footer-color-dark: #fff;
+
+// Settings - Plan
+$settings-plan-item-color: #2e4053;
+$settings-plan-item-color-dark: #fff;
+// Settings - Whitelist
+$settings-whitelist-icon-color: $brand-light-gray;
+$settings-whitelist-icon-color-dark: #fff;
+$settings-whitelist-fa-ban-color: #e74c3c;
+$settings-whitelist-fa-ban-color-dark: #fff;
+$settings-whitelist-fa-user-circle-color: #1d6fa5;
+$settings-whitelist-fa-user-circle-color-dark: #fff;
+
 $variables: (
+  --text-muted-color: ($text-muted, $brand-white),
+  --text-dark-color: ($text-dark-color, $text-dark-color-dark),
+  --text-gray-dark-color: ($text-gray-dark-color, $text-gray-dark-color-dark),
+  --text-secondary-color: ($text-secondary-color, $text-secondary-color-dark),
+  --after-color: ($after-color, $after-color-dark),
+  --dropdown-item-color: ($dropdown-item-color, $dropdown-item-color-dark),
+  --theme-bg-faded: ($theme-bg-faded, $theme-bg-modal-dark),
+  --theme-bg-light: ($theme-bg-light, $theme-bg-modal-dark),
+  --theme-bg-white: ($theme-bg-white, $theme-bg-modal-dark),
+  --action-bar-border-bottom-color: ($action-bar-border-bottom-color, $action-bar-border-bottom-color-dark),
+
+  --mailbox-content-background: ($mailbox-content-background, $mailbox-content-background-dark),
+
   --siderbar-background-color: ($siderbar-background-color, $siderbar-background-color-dark),
   --sidebar-right-border-color: ($sidebar-right-border-color, $sidebar-right-border-color-dark),
   --sidebar-right-border-width: ($sidebar-right-border-width, $sidebar-right-border-width-dark),
+  --sidebar-bottom-background-color: ($sidebar-bottom-background-color, $sidebar-bottom-background-color-dark),
+
+  --navbar-background-color: ($navbar-background-color, $navbar-background-color-dark),
+  --navbar-border-color: ($navbar-border-color, $navbar-border-color-dark),
+  --navbar-border-width: ($navbar-border-width, $navbar-border-width-dark),
+  --navbar-border-bottom-color: ($navbar-border-bottom-color, $navbar-border-bottom-color-dark),
+  --navbar-border-bottom-width: ($navbar-border-bottom-width, $navbar-border-bottom-width-dark),
+
+  --mail-list-row-background-color: ($mail-list-row-background-color, $mail-list-row-background-color-dark),
+  --mail-list-row-background-read-color: ($mail-list-row-background-read-color, $mail-list-row-background-color-dark),
+  --mail-list-row-background-unread-color: ($mail-list-row-background-unread-color, $mail-list-row-background-color-dark),
+  --mail-list-row-background-checked-color: ($mail-list-row-background-checked-color, $mail-list-row-background-color-dark),
+  --mail-list-row-background-selected-color: ($mail-list-row-background-selected-color, $mail-list-row-background-color-selected-dark),
+  --mail-list-row-background-active-color: ($mail-list-row-background-active-color, $mail-list-row-background-color-dark),
+
+  --mail-list-row-color: ($mail-list-row-color, $mail-list-row-color-dark),
+  --mail-list-row-read-color: ($mail-list-row-read-color, $mail-list-row-color-dark),
+  --mail-list-row-unread-color: ($mail-list-row-unread-color, $mail-list-row-color-dark),
+  --mail-list-row-checked-color: ($mail-list-row-checked-color, $mail-list-row-color-dark),
+  --mail-list-row-selected-color: ($mail-list-row-selected-color, $mail-list-row-color-dark),
+  --mail-list-row-active-color: ($mail-list-row-active-color, $mail-list-row-color-dark),
+  --mail-list-row-border-bottom-color: ($mail-list-row-border-bottom-color, $mail-list-row-border-bottom-color-dark),
+
+  --contacts-list-body-border: ($contacts-list-body-border, $contacts-list-body-border-dark),
+  --mailbox-main-header-background: ($mailbox-main-header-background, $mailbox-main-header-background-dark),
+  --mailbox-main-header-color: ($mailbox-main-header-color, $mailbox-main-header-color-dark),
+  --contact-list-header-color: ($contact-list-header-color, $contact-list-header-color-dark),
+
+  --footer-background: ($footer-background, $footer-background-dark),
+  --footer-color: ($footer-color, $footer-color-dark),
+
+  --settings-plan-item-color: ($settings-plan-item-color, $settings-plan-item-color-dark),
+  --settings-whitelist-icon-color: ($settings-whitelist-icon-color, $settings-whitelist-icon-color-dark),
+  --settings-whitelist-fa-ban-color: ($settings-whitelist-fa-ban-color, $settings-whitelist-fa-ban-color-dark),
+  --settings-whitelist-fa-user-circle-color: ($settings-whitelist-fa-user-circle-color, $settings-whitelist-fa-user-circle-color-dark),
 )
