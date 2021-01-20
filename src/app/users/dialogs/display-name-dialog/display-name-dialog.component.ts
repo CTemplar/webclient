@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -9,6 +9,8 @@ import { Mailbox } from '../../../store/models';
 import { MailboxSettingsUpdate } from '../../../store/actions';
 import { SharedService } from '../../../store/services';
 import { NoWhiteSpaceValidator } from '../../../shared/validators/no-whitespace.validator';
+import { NOT_FIRST_LOGIN } from '../../../shared/config';
+import { UseCacheDialogComponent } from '../use-cache-dialog/use-cache-dialog.component'
 
 @UntilDestroy()
 @Component({
@@ -32,6 +34,7 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private sharedService: SharedService,
     private formBuilder: FormBuilder,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -83,5 +86,25 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
     this.activeModal.dismiss();
   }
 
-  ngOnDestroy(): void {}
+  openUseCacheConfirmDialog() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    };
+    this.modalService.open(
+      UseCacheDialogComponent,
+      ngbModalOptions
+    );
+  }
+
+  ngOnDestroy(): void {
+    /**
+     * Check if first login or fresh login
+     */
+    if (localStorage.getItem(NOT_FIRST_LOGIN) !== 'true') {
+      this.openUseCacheConfirmDialog();
+    }
+  }
 }

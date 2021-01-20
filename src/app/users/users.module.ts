@@ -16,6 +16,7 @@ import { UsersRoutingModule } from './users-routing.module';
 import { DisplayNameDialogComponent } from './dialogs/display-name-dialog/display-name-dialog.component';
 import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure-message.component';
 import { UserAccountInitDialogComponent } from './dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { UseCacheDialogComponent } from './dialogs/use-cache-dialog/use-cache-dialog.component';
 
 @NgModule({
   entryComponents: [DisplayNameDialogComponent, UserAccountInitDialogComponent],
@@ -28,6 +29,7 @@ import { UserAccountInitDialogComponent } from './dialogs/user-account-init-dial
     UsersCreateAccountComponent,
     UsersSignInComponent,
     UsersSignUpComponent,
+    UseCacheDialogComponent,
   ],
   imports: [
     CommonModule,
