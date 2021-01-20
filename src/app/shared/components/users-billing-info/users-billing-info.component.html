@@ -233,7 +233,7 @@
               </div>
               <ng-template #paidPlanButton>
                 <div class="form-group text-center mt-3 mt-sm-4 mb-0" [ngbTooltip]="paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess ? ('billing_info.pay_to_proceed' | translate) : ''">
-                  <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) || paymentMethod === paymentMethodType.MONERO" (click)="submitForm()">
+                  <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && authState.isAuthenticated && !paymentSuccess) || paymentMethod === paymentMethodType.MONERO" (click)="submitForm()">
                     <span *ngIf="!isAddNewCard && !isUpgradeAccount" [translate]="'login.create_account'">Create Account</span>
                     <span *ngIf="!isAddNewCard && isUpgradeAccount" [translate]="'common.upgrade_account'">Upgrade Account</span>
                     <span *ngIf="isAddNewCard" [translate]="'settings.add_new_method'">Add new payment</span>
