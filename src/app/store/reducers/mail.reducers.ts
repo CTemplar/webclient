@@ -102,7 +102,6 @@ export function reducer(
         }
       });
       state.pageLimit = action.payload.limit;
-      //
       return {
         ...state,
         mails,
@@ -188,7 +187,7 @@ export function reducer(
         folderMap.set(targetFolderName, folderState);
       }
       // Update other folders
-      const folder_keys = [ ...folderMap.keys()].filter(key => key !== sourceFolderName && key !== targetFolderName);
+      const folder_keys = [ ...folderMap.keys()].filter(key => key !== sourceFolderName && key !== targetFolderName && key !== state.currentFolder);
       folder_keys.forEach(key => {
         let folderInfo = folderMap.get(key);
         folderInfo.is_dirty = true;
@@ -231,7 +230,7 @@ export function reducer(
       });
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       if (
         state.mailDetail &&
         state.mailDetail.children &&
@@ -869,17 +868,25 @@ function getUpdatesFolderMap(
   });
   if (originalMailIDs && originalMailIDs.length > 0) {
     // Remove duplicated mails
-    originalMailIDs = originalMailIDs.filter(id => mailIDs.indexOf(id) < 0);
+    let duplicatedMailIDS = [];
+    originalMailIDs = originalMailIDs.filter(id => {
+      if (mailIDs.indexOf(id) < 0) {
+        return true;
+      } else {
+        duplicatedMailIDS = [...duplicatedMailIDS, id];
+        return false;
+      }
+    });
     // Check children mails
     // If new's parent is same with any original mail
     // Replace it with original mail on new mail array
-    let childMailCount = 0;
+    let parentWithChild = [];
     if (isConversationViewMode) {
       mailIDs = mailIDs.map(mailID => {
         const newMail = newMailsMap[mailID];
         if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
           originalMailIDs = originalMailIDs.filter(originMailID => originMailID !== newMail.parent);
-          childMailCount++;
+          parentWithChild = [ ...parentWithChild.filter(item => newMail.parent !== item), newMail.parent ];
           return newMail.parent;
         }
         return mailID;
@@ -891,7 +898,7 @@ function getUpdatesFolderMap(
     if (originalMailIDs.length > limit) {
       originalMailIDs = originalMailIDs.slice(0, limit);
     }
-    const total_mail_count = originalFolderState.total_mail_count + mailIDs.length - childMailCount >= 0 ? originalFolderState.total_mail_count + mailIDs.length - childMailCount : 0;
+    const total_mail_count = originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length >= 0 ? originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length : 0;
     return {
       mails: originalMailIDs,
       total_mail_count 

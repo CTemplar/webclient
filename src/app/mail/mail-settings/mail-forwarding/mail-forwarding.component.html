@@ -115,7 +115,7 @@
               </div>
               <div class="form-group form-group-sm">
                 <label for="verificationCode" class="d-block text-muted text-left hidden-sm-up" [translate]="'settings.forwarding.verif_code'"> Verification Code </label>
-                <input class="form-control text-dark" id="verificationCode" autocomplete="off" [placeholder]="'settings.forwarding.verif_code' | translate" type="number" name="forwardingAddress" formControlName="code" required />
+                <input class="form-control text-dark" id="verificationCode" autocomplete="off" [placeholder]="'settings.forwarding.verif_code' | translate" name="forwardingAddress" formControlName="code" required />
                 <ng-container *ngIf="codeForm.controls['code'].errors && showFormErrorMessages">
                   <span *ngIf="codeForm.controls['code'].errors.required" class="validate-message" [translate]="'settings.forwarding.code_req'"> The verification code is required. </span>
                 </ng-container>

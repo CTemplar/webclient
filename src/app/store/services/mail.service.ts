@@ -125,9 +125,15 @@ export class MailService {
 
   markAsStarred(ids: string, isMailStarred: boolean, folder: string, withChildren: boolean): Observable<any[]> {
     if (ids === 'all') {
-      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${folder}`, { starred: isMailStarred, with_children: withChildren });
+      return this.http.patch<any>(`${apiUrl}emails/messages/?folder=${folder}`, {
+        starred: isMailStarred,
+        with_children: withChildren,
+      });
     }
-    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, { starred: isMailStarred, with_children: withChildren });
+    return this.http.patch<any>(`${apiUrl}emails/messages/?id__in=${ids}`, {
+      starred: isMailStarred,
+      with_children: withChildren,
+    });
   }
 
   moveMail(
@@ -151,7 +157,10 @@ export class MailService {
     });
   }
 
-  deleteMails(ids: string, parent_only = false): Observable<any[]> {
+  deleteMails(ids: string, folder: string, parent_only = false): Observable<any[]> {
+    if (ids === 'all') {
+      return this.http.delete<any>(`${apiUrl}emails/messages/?folder=${folder}&parent_only=${parent_only ? 1 : 0}`);
+    }
     return this.http.delete<any>(`${apiUrl}emails/messages/?id__in=${ids}&parent_only=${parent_only ? 1 : 0}`);
   }
 
@@ -171,6 +180,7 @@ export class MailService {
     formData.append('is_encrypted', attachment.is_encrypted.toString());
     formData.append('file_type', attachment.document.type.toString());
     formData.append('name', attachment.name.toString());
+    formData.append('actual_size', attachment.actual_size.toString());
     let request;
     if (attachment.id) {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${attachment.id}/`, formData, {

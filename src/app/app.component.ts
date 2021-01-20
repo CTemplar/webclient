@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public isLoading = true;
 
-  public isMail = true;
+  public isMail = false;
 
   quote: object;
 
@@ -77,6 +77,22 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
       });
+  }
+
+  ngAfterViewChecked() {
+    // For big window height, fix bottom white space issue
+    const allContent = document.getElementById('app-outer-id');
+    const header = document.getElementById('mastHead');
+    const footer = document.getElementById('colphon');
+    const mainContent = document.getElementById('login-main');
+    if (allContent && mainContent && window.innerHeight > allContent.getBoundingClientRect().height) {
+      mainContent.style.height =
+        (
+          window.innerHeight -
+          header.getBoundingClientRect().height -
+          footer.getBoundingClientRect().height
+        ).toString() + 'px';
+    }
   }
 
   private updateLoadingStatus(): void {

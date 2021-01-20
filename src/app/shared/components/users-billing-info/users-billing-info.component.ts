@@ -177,25 +177,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]],
       promoCode: '',
     });
-    this.store
-      .select(state => state.bitcoin)
-      .pipe(untilDestroyed(this))
-      .subscribe((bitcoinState: BitcoinState) => {
-        this.bitcoinState = bitcoinState;
-        if (this.promoCode.is_valid) {
-          this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
-          this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
-        }
-        this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
-        if (
-          this.checkTransactionResponse &&
-          (this.checkTransactionResponse.status === TransactionStatus.PENDING ||
-            this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
-            this.checkTransactionResponse.status === TransactionStatus.SENT)
-        ) {
-          this.paymentSuccess = true;
-        }
-      });
+
     this.store
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
@@ -225,14 +207,26 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
             this.close.emit(true);
           }
         }
-        if (this.paymentMethod === PaymentMethod.BITCOIN) {
-          this.selectBitcoinMethod(false);
-        } else if (this.paymentMethod === PaymentMethod.STRIPE) {
+        if (this.paymentMethod === PaymentMethod.STRIPE) {
           this.loadStripeScripts();
         }
         this.inProgress = authState.inProgress;
       });
+    this.store
+      .select(state => state.bitcoin)
+      .pipe(untilDestroyed(this))
+      .subscribe((bitcoinState: BitcoinState) => {
+        this.bitcoinState = bitcoinState;
+        if (this.promoCode.is_valid) {
+          this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
+          this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
+        }
+        this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
 
+        if (this.checkTransactionResponse && this.checkTransactionResponse.status === TransactionStatus.RECEIVED) {
+          this.paymentSuccess = true;
+        }
+      });
     if (!this.isUpgradeAccount) {
       setTimeout(() => {
         this.validateSignupData();
@@ -414,11 +408,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   checkTransaction() {
-    if (
-      this.checkTransactionResponse.status === TransactionStatus.PENDING ||
-      this.checkTransactionResponse.status === TransactionStatus.RECEIVED ||
-      this.checkTransactionResponse.status === TransactionStatus.SENT
-    ) {
+    if (this.checkTransactionResponse.status === TransactionStatus.RECEIVED) {
       this.paymentSuccess = true;
       return;
     }

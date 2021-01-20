@@ -114,6 +114,8 @@ export const LANGUAGES: Language[] = [
   { name: 'French', locale: 'fr' },
   { name: 'Ukrainian', locale: 'uk' },
   { name: 'Portuguese', locale: 'pt' },
+  { name: 'Arabic', locale: 'ar' },
+  { name: 'German', locale: 'de' },
 ];
 
 export interface Language {

@@ -3,7 +3,7 @@
   <div class="container container-sm">
     <header class="l-block-header position-relative text-center">
       <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0">
+        <div class="col-sm-12 col-md-10 position-sm-static px-sm-5 px-md-0 mt-4">
           <h6 class="text-uppercase text-secondary m-0">
             <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
           </h6>
@@ -233,7 +233,7 @@
               </div>
               <ng-template #paidPlanButton>
                 <div class="form-group text-center mt-3 mt-sm-4 mb-0" [ngbTooltip]="paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess ? ('billing_info.pay_to_proceed' | translate) : ''">
-                  <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess) || paymentMethod === paymentMethodType.MONERO" (click)="submitForm()">
+                  <button class="btn btn-lg btn-secondary billing-submit-btn" type="submit" role="button" [disabled]="inProgress || (paymentMethod === paymentMethodType.BITCOIN && authState.isAuthenticated && !paymentSuccess) || paymentMethod === paymentMethodType.MONERO" (click)="submitForm()">
                     <span *ngIf="!isAddNewCard && !isUpgradeAccount" [translate]="'login.create_account'">Create Account</span>
                     <span *ngIf="!isAddNewCard && isUpgradeAccount" [translate]="'common.upgrade_account'">Upgrade Account</span>
                     <span *ngIf="isAddNewCard" [translate]="'settings.add_new_method'">Add new payment</span>
@@ -242,7 +242,7 @@
                 </div>
               </ng-template>
 
-              <div class="text-holder mt-2 text-center">
+              <div class="text-holder mt-2 mb-5 text-center">
                 <a href="" [translate]="'common.cancel'" (click)="onCancel($event)">Cancel</a>
               </div>
             </div>
