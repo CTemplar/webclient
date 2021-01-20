@@ -160,6 +160,10 @@ export function reducer(
       return { ...state, inProgress: true, noUnreadCountChange: true, isMailsMoved: false };
     }
 
+    case MailActionTypes.REVERT_MAILS_MOVED: {
+      return { ...state, isMailsMoved: false };
+    }
+
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
       let folderMap = state.folderMap;

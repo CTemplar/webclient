@@ -273,6 +273,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   bccInputTextValue = '';
 
+  night_mode: boolean;
+
   options: any = {};
 
   selfDestruct: any = {};
@@ -443,6 +445,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+        this.night_mode = this.settings.is_night_mode;
         // Set html/plain version from user's settings.
         if (this.draftMail && this.draftMail.is_html === null) {
           this.draftMail.is_html = !this.settings.is_html_disabled;
@@ -1660,6 +1663,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
       this.forwardAttachmentsMessageId = null;
     }
+    console.log('parent', this.parentId);
     if (this.parentId) {
       this.draftMail.parent = this.parentId;
     }
@@ -1684,6 +1688,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }),
       );
     } else {
+      if (this.draftMail.subject !== this.subject) {
+        this.draftMail.parent = null;
+      }
       this.store.dispatch(
         new UpdatePGPDecryptedContent({
           id: this.draftMail.id,
@@ -1889,6 +1896,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   getUserKeyFetchingStatus(email: string): boolean {
+    if (!this.usersKeys.has(email)) {
+      this.store.dispatch(
+        new GetUsersKeys({
+          emails: [email],
+        }),
+      );
+    }
     return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
   }
 

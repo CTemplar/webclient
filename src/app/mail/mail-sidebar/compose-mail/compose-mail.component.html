@@ -23,31 +23,11 @@
       <!-- 'To' field -->
       <div class="mail-compose-field mail-compose-field-to" #receiverInput>
         <span class="mail-label label-to">{{ 'settings.compose.to' | translate }}</span>
-        <tag-input 
-          [(ngModel)]="mailData.receiver" 
-          *ngIf="isLoaded" 
-          name="to" 
-          [placeholder]="' '" 
-          [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" 
-          [onTextChangeDebounce]="100" 
-          [onlyFromAutocomplete]="false" 
-          [addOnBlur]="true" 
-          [editable]="true" 
-          [separatorKeys]="[',']" 
-          [separatorKeyCodes]="[13]" 
-          [(inputText)]="inputTextValue" 
-          (onAdd)="onAddingReceiver($event, mailData.receiver)" 
-          (onRemove)="onRemoveReceive()"
-          (onTextChange)="updateInputTextValue($event)" 
-          (paste)="onPaste($event)" 
-          (onTagEdited)="onTagEdited($event)" 
-          (click)="onClick($event)"
-          #input
-        >
+        <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="onRemoveReceive()" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)" (click)="onClick($event)" #input>
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [night_mode]="night_mode"></app-circle-bar-spinner>
             <span>
-                {{ item.email }}
+              {{ item.email }}
             </span>
             <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
           </ng-template>
@@ -72,30 +52,11 @@
       <!-- 'Cc' field -->
       <div class="mail-compose-field" [ngClass]="{ 'd-none': !options.isCcVisible }" #ccReceiverInput>
         <span class="mail-label label-cc">Cc:</span>
-        <tag-input 
-          [(ngModel)]="mailData.cc" 
-          name="cc" 
-          [placeholder]="' '" 
-          [secondaryPlaceholder]="'settings.compose.cc_email' | translate" 
-          [onTextChangeDebounce]="100" 
-          [onlyFromAutocomplete]="false" 
-          [addOnBlur]="true" 
-          [editable]="true" 
-          [separatorKeys]="[',']" 
-          [separatorKeyCodes]="[13]" 
-          [(inputText)]="ccInputTextValue" 
-          (onAdd)="onAddingReceiver($event, mailData.cc)" 
-          (onRemove)="onRemoveCc()" 
-          (onTextChange)="ccUpdateInputTextValue($event)" 
-          (paste)="ccOnPaste($event)" 
-          (onTagEdited)="ccOnTagEdited($event)" 
-          (click)="onCcClick($event)"
-          #ccInput
-        >
+        <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.cc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="ccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="onRemoveCc()" (onTextChange)="ccUpdateInputTextValue($event)" (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick($event)" #ccInput>
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [night_mode]="night_mode"></app-circle-bar-spinner>
             <span>
-                {{ item.email }}
+              {{ item.email }}
             </span>
             <delete-icon (click)="ccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
@@ -116,30 +77,11 @@
       <!-- 'Bcc' field -->
       <div class="mail-compose-field" [ngClass]="{ 'd-none': !options.isBccVisible }" #bccReceiverInput>
         <span class="mail-label label-bcc">Bcc:</span>
-        <tag-input 
-          [(ngModel)]="mailData.bcc" 
-          name="bcc" 
-          [placeholder]="' '" 
-          [secondaryPlaceholder]="'settings.compose.bcc_email' | translate" 
-          [onTextChangeDebounce]="100" 
-          [onlyFromAutocomplete]="false" 
-          [addOnBlur]="true" 
-          [editable]="true" 
-          [separatorKeys]="[',']" 
-          [separatorKeyCodes]="[13]" 
-          [(inputText)]="bccInputTextValue" 
-          (onAdd)="onAddingReceiver($event, mailData.bcc)" 
-          (onRemove)="onRemoveBcc()" 
-          (onTextChange)="bccUpdateInputTextValue($event)" 
-          (paste)="bccOnPaste($event)" 
-          (onTagEdited)="bccOnTagEdited($event)" 
-          (click)="onBccClick($event)"
-          #bccInput
-        >
+        <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.bcc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="bccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="onRemoveBcc()" (onTextChange)="bccUpdateInputTextValue($event)" (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick($event)" #bccInput>
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [night_mode]="night_mode"></app-circle-bar-spinner>
             <span>
-                {{ item.email }}
+              {{ item.email }}
             </span>
             <delete-icon (click)="bccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
@@ -160,7 +102,7 @@
       <!-- 'Subject' field -->
       <div class="mail-compose-field">
         <span class="mail-label label-subject mail-subject">{{ 'settings.compose.subject' | translate }}</span>
-        <input type="text" class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject" [disabled]="action === mailAction.REPLY || action === mailAction.REPLY_ALL" (ngModelChange)="valueChanged$.next(mailData.subject); onSubjectChange(mailData.subject)" id="subject" />
+        <input type="text" class="mail-compose-control" name="subject" [(ngModel)]="mailData.subject" (ngModelChange)="valueChanged$.next(mailData.subject); onSubjectChange(mailData.subject)" id="subject" />
       </div>
       <!-- 'Subject' field -->
     </div>
@@ -202,14 +144,7 @@
           <ul class="mail-composer-actions d-flex align-items-center">
             <!-- Send button -->
             <li class="send-mail-item">
-
-              <button 
-                class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" 
-                (click)="sendEmailCheck()" 
-                [disabled]="this.isPreparingToSendEmail || isUploadingAttachment || isDownloadingAttachmentCounter > 0" 
-                role="button" 
-                placement="top"
-              >
+              <button class="btn btn-sm btn-secondary btn-mail-send btn-xs-rounded" (click)="sendEmailCheck()" [disabled]="this.isPreparingToSendEmail || isUploadingAttachment || isDownloadingAttachmentCounter > 0" role="button" placement="top">
                 <i class="hidden-sm-up icon icon-paper-plane"></i>
                 <span class="hidden-xs-down">{{ isPreparingToSendEmail ? ('settings.compose.processing' | translate) : ('settings.compose.send' | translate) }}</span>
               </button>

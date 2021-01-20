@@ -21,6 +21,7 @@ import {
   GetMails,
   GetUnreadMailsCount,
   MoveMail,
+  RevertMailsMoved,
   ReadMail,
   SetCurrentFolder,
   StarMail,
@@ -98,8 +99,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   private delateDraftModalRef: NgbModalRef;
 
-  isMoveMailClicked = false;
-
   isDeleteDraftClicked = false;
 
   isConversationView = true;
@@ -133,8 +132,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
             this.getMailReceiverList();
           }
         }
-        if (this.mailState.isMailsMoved && this.isMoveMailClicked) {
-          this.isMoveMailClicked = false;
+        if (this.mailState.isMailsMoved) {
+          this.store.dispatch(new RevertMailsMoved());
           this.refresh();
         }
         if (this.isDeleteDraftClicked) {
@@ -500,7 +499,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
           fromTrash: this.mailFolder === MailFolderType.TRASH,
         }),
       );
-      this.isMoveMailClicked = true;
     }
   }
 

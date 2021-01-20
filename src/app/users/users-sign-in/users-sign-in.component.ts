@@ -275,8 +275,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   onKeyPress(button: string) {
-    console.log('Button pressed', button);
-
     /**
      * If you want to handle the shift and caps lock buttons
      */
