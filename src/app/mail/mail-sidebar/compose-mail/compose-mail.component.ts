@@ -1008,7 +1008,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
         )
         .subscribe(data => {
-          if (!this.draft.isSaving) {
+          if (!this.draft.isSaving && this.hasData()) {
             this.updateEmail();
           }
         });
@@ -1573,11 +1573,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return (
-      (!this.draftMail.is_html ? this.mailData.content.length > 1 : this.quill.getLength() > 1) ||
+      (!this.draftMail.is_html
+        ? this.mailData.content.length > 1 &&
+          this.mailData.content.replace(/(^[ \t]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
+        : this.quill.getLength() > 1 &&
+          this.quill.getText().replace(/(^[ \t]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
       this.mailData.receiver.length > 0 ||
       this.mailData.cc.length > 0 ||
       this.mailData.bcc.length > 0 ||
-      this.mailData.subject
+      this.mailData.subject.length > 0
     );
   }
 
