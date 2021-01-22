@@ -1663,7 +1663,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
       this.forwardAttachmentsMessageId = null;
     }
-    console.log('parent', this.parentId);
     if (this.parentId) {
       this.draftMail.parent = this.parentId;
     }
