@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { EMPTY } from 'rxjs/internal/observable/empty';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { UsersService } from '../services';
 import {
@@ -53,6 +54,8 @@ import {
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
+import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
+import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
 
 @Injectable()
 export class AuthEffects {
@@ -61,6 +64,7 @@ export class AuthEffects {
     private authService: UsersService,
     private notificationService: NotificationService,
     private router: Router,
+    private modalService: NgbModal
   ) {}
 
   @Effect()
@@ -69,7 +73,7 @@ export class AuthEffects {
     map((action: LogIn) => action.payload),
     switchMap(payload => {
       return this.authService.signIn(payload).pipe(
-        map(response => new LogInSuccess(response)),
+        map(response => new LogInSuccess({ ...response, rememberMe: payload.rememberMe, fromLoginRequest: true })),
         catchError((errorResponse: any) => of(new LogInFailure(errorResponse.error))),
       );
     }),
@@ -80,8 +84,17 @@ export class AuthEffects {
     ofType(AuthActionTypes.LOGIN_SUCCESS),
     tap(response => {
       if (response.payload.token) {
+        if (response.payload.rememberMe) {
+          localStorage.setItem(REMEMBER_ME, 'true');
+        }
         if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
           this.router.navigateByUrl('/mail');
+        }
+        /**
+         * Check if first login or fresh login
+         */
+        if (localStorage.getItem(NOT_FIRST_LOGIN) !== 'true' && response.payload.fromLoginRequest) {
+          this.openUseCacheConfirmDialog();
         }
       }
     }),
@@ -107,7 +120,10 @@ export class AuthEffects {
       delete payload.monthlyPrice;
       delete payload.annualPricePerMonth;
       delete payload.annualPriceTotal;
-
+      localStorage.removeItem(NOT_FIRST_LOGIN);
+      localStorage.removeItem(SYNC_DATA_WITH_STORE);
+      sessionStorage.removeItem(NOT_FIRST_LOGIN);
+      sessionStorage.removeItem(SYNC_DATA_WITH_STORE);
       return this.authService.signUp(payload).pipe(
         switchMap(user => of(new SignUpSuccess(user), new LogInSuccess(user))),
         catchError(errorResponse =>
@@ -342,4 +358,17 @@ export class AuthEffects {
       );
     }),
   );
+
+  openUseCacheConfirmDialog() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop : 'static',
+      keyboard : false,
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    };
+    /*this.useCacheDialogRef =  */ this.modalService.open(
+      UseCacheDialogComponent,
+      ngbModalOptions
+    );
+  }
 }

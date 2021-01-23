@@ -160,6 +160,10 @@ export function reducer(
       return { ...state, inProgress: true, noUnreadCountChange: true, isMailsMoved: false };
     }
 
+    case MailActionTypes.REVERT_MAILS_MOVED: {
+      return { ...state, isMailsMoved: false };
+    }
+
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
       let folderMap = state.folderMap;
@@ -631,6 +635,12 @@ export function reducer(
         mail.marked = false;
         mailMap[key] = {...mail};
       });
+      mails.forEach(mail => {
+        if (state.decryptedSubjects[mail.id]) {
+          mail.subject = state.decryptedSubjects[mail.id];
+          mail.is_subject_encrypted = false;
+        }
+      })
       return {
         ...state,
         mails,

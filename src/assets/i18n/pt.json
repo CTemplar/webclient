@@ -631,6 +631,7 @@
       "contacts_being_decrypt": "Por favor, aguarde enquanto seus contatos são descriptografados. Não feche o seu navegador.",
       "contacts_decrypted": "contatos descriptografados",
       "contacts_encryption": "Criptografia de contatos",
+      "using_local_storage": "Using local/session storage",
       "contacts_search": "Os contatos não poderão ser pesquisados como antes",
       "contacts_suggestion": "A sugestão automática de contatos ao escrever um email não estará disponível",
       "data_message": "Selecione uma opção para manter/apagar os dados! ",

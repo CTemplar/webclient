@@ -143,7 +143,7 @@
         </li>
         <!-- Delete all messages permanently -->
         <li *ngIf="(mailFolder === mailFolderTypes.TRASH || mailFolder === mailFolderTypes.SPAM) && mails?.length > 0">
-          <a (click)="confirmDeleteAll()" class="btn btn-sm delete-permanently-btn" placement="top" [ngbTooltip]="'mail_list.delete_messages' | translate">
+          <a (click)="openUseCacheConfirmDialog()" class="btn btn-sm delete-permanently-btn" placement="top" [ngbTooltip]="'mail_list.delete_messages' | translate">
             <i class="icon icon-garbage position-left"></i>
             <span [translate]="'mail_list.delete_all'"> Delete all permanently</span>
           </a>
