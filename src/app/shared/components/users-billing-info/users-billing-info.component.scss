@@ -36,3 +36,13 @@
   max-height: 300px;
   overflow-y: scroll;
 }
+
+.bitcoin-payment {
+  background-color: var(--theme-bg-white);
+  color: var(--text-muted-color);
+  border: 1px solid var(--dark-border-color-1);
+  .card-header {
+    background-color: var(--theme-bg-white);
+    border-bottom: 1px solid var(--dark-border-color-1);
+  }
+}

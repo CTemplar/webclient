@@ -362,9 +362,30 @@
   pointer-events: none;
   opacity: 0.6;
 }
-.mail-checkbox .fancy-field-group {
+.mail-checkbox {
+  .fancy-field-group {
+    margin-bottom: -16px;
+  }
   margin-bottom: -16px;
+  ::ng-deep .mat-checkbox {
+    .mat-checkbox-frame,
+    .mat-checkbox-background {
+      border: 2px solid var(--checkbox-select-all-border-color);
+    }
+  }
 }
+
+.select-all-checkbox {
+  left: 8px;
+  position: absolute;
+  top: 8px;
+  ::ng-deep .mat-checkbox {
+    .mat-checkbox-frame,
+    .mat-checkbox-background {
+      border: 2px solid var(--checkbox-select-all-border-color);
+    }
+  }
+} 
 .mail-check-number {
   background-color: lightgray;
   height: 50px;

@@ -40,6 +40,9 @@ app-custom-domains {
   .mat-stepper-horizontal {
     font-family: 'Lato', Helvetica, Arial, sans-serif;
     word-break: break-all;
+    background-color: var(--theme-bg-white);
+    color: var(--text-muted-color);
+    border: var(--dark-border-color-1);
   }
 
   .mat-step {

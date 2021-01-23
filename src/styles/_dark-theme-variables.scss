@@ -4,7 +4,12 @@
 $dark-background-1: #20273e;
 $dark-background-2: #363d51;
 $dark-border-color: #323a4c;
-
+$dark-border-color-1: rgba(0, 0, 0, 0.125);
+$dark-border-color-1-dark: #474e61;
+$dark-text-color-1: rgba(0, 0, 0, 0.38);
+$dark-text-color-2: rgba(0, 0, 0, 0.54);
+$dark-zero-width: 0;
+$dark-one-pixel-width: 1px;
 
 // General
 $text-dark-color: rgba(0, 0, 0, 0.87);
@@ -22,18 +27,46 @@ $after-color-dark: #fff;
 $dropdown-item-color: $gray-dark;
 $dropdown-item-color-dark: #fff;
 
+$dark-action-menu-background: #fff;
+$dark-action-menu-background-dark: $dark-background-2;
+$dark-action-btn-background: #fafafa;
+$dark-action-btn-background-dark: $dark-background-2;
+$dark-action-btn-border-color: #e0e0e0;
+$dark-action-btn-border-color-dark: $dark-border-color-1-dark;
+$dark-action-btn-text-color: $dark-text-color-1;
+$dark-action-btn-text-color-dark: #fff;
+$dark-action-btn-hover-background: #fafafa;
+$dark-action-btn-hover-background-dark: $dark-background-2;
+$dark-dropdown-item-text-color: #292b2c;
+$dark-dropdown-item-text-color-dark: #fff;
+$dark-dropdown-item-border-color: transparent;
+$dark-dropdown-item-border-color-dark: $dark-border-color-1-dark;
+
 $mailbox-content-background: inherit;
 $mailbox-content-background-dark: $dark-background-1;
 
 $action-bar-border-bottom-color: $input-border-color;
 $action-bar-border-bottom-color-dark: $dark-border-color;
 
+// Checkbox
+$checkbox-list-border-color: #cccaca;
+$checkbox-list-border-color-dark: #fff;
+$checkbox-select-all-border-color: $dark-text-color-1;
+$checkbox-select-all-border-color-dark: #fff;
+$checkbox-background-border-color: transparent;
+$checkbox-background-border-color-dark: #fff;
+
 // Modal & ...
 $theme-bg-faded: $brand-faded;
 $theme-bg-light: inherit;
 $theme-bg-white: #fff;
-
 $theme-bg-modal-dark: $dark-background-2;
+$modal-header-footer-background: #fff;
+$modal-header-footer-background-dark: darken($theme-bg-modal-dark, 3%);
+$modal-header-footer-border-radius: 2px;
+$modal-header-footer-border-radius-dark: 0;
+$modal-header-footer-border-color: #eceeef;
+$modal-header-footer-border-color-dark: #eceeef;
 
 // SideBar
 
@@ -65,9 +98,17 @@ $navbar-border-bottom-color-dark: $dark-border-color;
 $navbar-border-bottom-width: 1px;
 $navbar-border-bottom-width-dark: 1px;
 
+$navbar-search-form-border-color: transparent;
+$navbar-search-form-border-color-dark: #474e61;
+
+$navbar-search-button-background: #34495e;
+$navbar-search-button-background-dark: #182034;
+$navbar-search-button-border-color: #34495e;
+$navbar-search-button-border-color-dark: transparent;
+
 // Mail, Contacts, List
 $mail-list-row-background-color: inherit;
-$mail-list-row-background-read-color: #fff;
+$mail-list-row-background-read-color: transparent;
 $mail-list-row-background-unread-color: #f5f5f5;
 $mail-list-row-background-checked-color:  rgba(241, 196, 15, 0.12);
 $mail-list-row-background-selected-color: #ffc;
@@ -113,6 +154,9 @@ $settings-whitelist-fa-ban-color: #e74c3c;
 $settings-whitelist-fa-ban-color-dark: #fff;
 $settings-whitelist-fa-user-circle-color: #1d6fa5;
 $settings-whitelist-fa-user-circle-color-dark: #fff;
+// Settings - Domains
+$settings-domains-action-hover-color: #949494;
+$settings-domains-action-hover-color-dark: #fff;
 
 $variables: (
   --text-muted-color: ($text-muted, $brand-white),
@@ -121,9 +165,30 @@ $variables: (
   --text-secondary-color: ($text-secondary-color, $text-secondary-color-dark),
   --after-color: ($after-color, $after-color-dark),
   --dropdown-item-color: ($dropdown-item-color, $dropdown-item-color-dark),
+  --dark-border-color-1: ($dark-border-color-1, $dark-border-color-1-dark),
+  --dark-zero-one-width: ($dark-zero-width, $dark-one-pixel-width),
+  --dark-one-zero-width: ($dark-one-pixel-width, $dark-zero-width),
+  --dark-lightgray-white-color: (lightgray, #fff),
+  --dark-text-color-2: ($dark-text-color-2, $text-dark-color-dark),
+
+  --checkbox-list-border-color: ($checkbox-list-border-color, $checkbox-list-border-color-dark),
+  --checkbox-select-all-border-color: ($checkbox-select-all-border-color, $checkbox-select-all-border-color-dark),
+  --checkbox-background-border-color: ($checkbox-background-border-color, $checkbox-background-border-color-dark),
+
+  --dark-action-btn-background: ($dark-action-btn-background, $dark-action-btn-background-dark),
+  --dark-action-btn-border-color: ($dark-action-btn-border-color, $dark-action-btn-border-color-dark),
+  --dark-action-btn-text-color: ($dark-action-btn-text-color, $dark-action-btn-text-color-dark),
+  --dark-action-menu-background: ($dark-action-menu-background, $dark-action-menu-background-dark),
+  --dark-action-btn-hover-background: ($dark-action-btn-hover-background, $dark-action-btn-hover-background-dark),
+  --dark-dropdown-item-text-color: ($dark-dropdown-item-text-color, $dark-dropdown-item-text-color-dark),
+  --dark-dropdown-item-border-color: ($dark-dropdown-item-border-color, $dark-dropdown-item-border-color-dark),
+
   --theme-bg-faded: ($theme-bg-faded, $theme-bg-modal-dark),
   --theme-bg-light: ($theme-bg-light, $theme-bg-modal-dark),
   --theme-bg-white: ($theme-bg-white, $theme-bg-modal-dark),
+  --modal-header-footer-background: ($modal-header-footer-background, $modal-header-footer-background-dark),
+  --modal-header-footer-border-radius: ($modal-header-footer-border-radius, $modal-header-footer-border-radius-dark),
+  --modal-header-footer-border-color: ($modal-header-footer-border-color, $modal-header-footer-border-color-dark),
   --action-bar-border-bottom-color: ($action-bar-border-bottom-color, $action-bar-border-bottom-color-dark),
 
   --mailbox-content-background: ($mailbox-content-background, $mailbox-content-background-dark),
@@ -138,6 +203,9 @@ $variables: (
   --navbar-border-width: ($navbar-border-width, $navbar-border-width-dark),
   --navbar-border-bottom-color: ($navbar-border-bottom-color, $navbar-border-bottom-color-dark),
   --navbar-border-bottom-width: ($navbar-border-bottom-width, $navbar-border-bottom-width-dark),
+  --navbar-search-form-border-color: ($navbar-search-form-border-color, $navbar-search-form-border-color-dark),
+  --navbar-search-button-background: ($navbar-search-button-background, $navbar-search-button-background-dark),
+  --navbar-search-button-border-color: ($navbar-search-button-border-color, $navbar-search-button-border-color-dark),
 
   --mail-list-row-background-color: ($mail-list-row-background-color, $mail-list-row-background-color-dark),
   --mail-list-row-background-read-color: ($mail-list-row-background-read-color, $mail-list-row-background-color-dark),
@@ -166,4 +234,7 @@ $variables: (
   --settings-whitelist-icon-color: ($settings-whitelist-icon-color, $settings-whitelist-icon-color-dark),
   --settings-whitelist-fa-ban-color: ($settings-whitelist-fa-ban-color, $settings-whitelist-fa-ban-color-dark),
   --settings-whitelist-fa-user-circle-color: ($settings-whitelist-fa-user-circle-color, $settings-whitelist-fa-user-circle-color-dark),
+  --settings-domains-action-hover-color: ($settings-domains-action-hover-color, $settings-domains-action-hover-color-dark),
+
+  --mail-composer-header-background: ($brand-secondary, $dark-background-1),
 )

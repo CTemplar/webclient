@@ -216,6 +216,11 @@
     width: 90%;
   }
 
+  .form-group {
+    border: 1px solid var(--navbar-search-form-border-color);
+    border-radius: 2px;
+  }
+
   .form-control {
     padding-right: 3.438rem + 0.938rem;
     height: 32px;
@@ -235,6 +240,8 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     min-width: 55px;
+    background-color: var(--navbar-search-button-background);
+    border-color: var(--navbar-search-button-border-color);
   }
 
   .clear-btn {

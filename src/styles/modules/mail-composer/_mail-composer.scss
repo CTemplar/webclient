@@ -268,7 +268,7 @@ a {
   align-items: center;
   position: relative;
   padding: 0.2rem $mail_composer_padding_x;
-  background: $brand-white;
+  background: var(--theme-bg-white);
   border-bottom: 1px solid $input-border-color;
 
   @include media('>sm') {

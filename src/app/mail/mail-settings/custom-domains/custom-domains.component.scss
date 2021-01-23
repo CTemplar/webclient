@@ -33,6 +33,9 @@
 
   .domains-list {
     padding: 1.875rem 0;
+    color: var(--text-muted-color);
+    background-color: var(--theme-bg-white);
+    border: var(--dark-zero-one-width) solid var(--dark-border-color-1);
     @include media('<=sm') {
       padding: 0;
     }
@@ -126,8 +129,8 @@
 
           &:hover {
             opacity: 1;
-            background-color: $brand-faded;
-            color: #949494;
+            background-color: var(--theme-bg-faded);
+            color: var(--settings-domains-action-hover-color);
           }
         }
       }
@@ -138,7 +141,9 @@
 .stepper-form {
   padding: 1.5625rem 1.875rem 2.5rem 1.875rem;
   font-size: 0.875rem;
-  background-color: #fafafa;
+  background-color: var(--theme-bg-faded);
+  color: var(--text-muted-color);
+  border: var(--dark-zero-one-width) solid var(--dark-border-color-1);
 
   .domain-input {
     width: 28.125rem;
@@ -213,5 +218,19 @@ i.fas.fa-copy {
   }
   .blank-dropdown {
     color: #e0e0e0;
+  }
+}
+
+.desc-card-body {
+  background-color: var(--theme-bg-white);
+  color: var(--text-muted-color);
+  border: var(--dark-zero-one-width) solid var(--dark-border-color-1);
+}
+
+::ng-deep .mat-checkbox {
+  .mat-checkbox-frame,
+  .mat-checkbox-background {
+    border: 2px solid var(--checkbox-list-border-color);
+    border-radius: 3px;
   }
 }

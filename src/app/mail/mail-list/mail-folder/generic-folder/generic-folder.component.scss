@@ -28,16 +28,6 @@ a.disabled {
   width: auto;
 }
 
-.select-all-checkbox {
-  left: 8px;
-  position: absolute;
-  top: 8px;
-
-  ::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: rgba(0, 0, 0, 0.38);
-  }
-}
-
 .encrypted-subject-placeholder {
   font-size: 18px;
 }
@@ -118,3 +108,28 @@ a.disabled {
     padding-left: 0;
   }
 }
+
+.mail-checkbox {
+  ::ng-deep .mat-checkbox {
+    .mat-checkbox-frame {
+      border: 2px solid var(--checkbox-list-border-color);
+    }
+    .mat-checkbox-background {
+      border: 2px solid var(--checkbox-background-border-color);
+    }
+  }
+}
+
+.select-all-checkbox {
+  left: 8px;
+  position: absolute;
+  top: 8px;
+  ::ng-deep .mat-checkbox {
+    .mat-checkbox-frame {
+      border: 2px solid var(--checkbox-select-all-border-color);
+    }
+    .mat-checkbox-background {
+      border: 2px solid var(--checkbox-background-border-color);
+    }
+  }
+} 

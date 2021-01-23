@@ -608,7 +608,87 @@ a.text-gray-dark:focus {
 .bg-white {
   background-color: var(--theme-bg-white)!important;
 }
-a.dropdown-item,
-a.dropdown-item:hover {
-  color: var(--dropdown-item-color);
+
+// button.actions-btn,
+// button.btn.btn-default.btn-sm,
+// button.btn.btn-user-action,
+// button.dropdown-toggle,
+// div.mailbox-actionbar div.mail-nav-control button,
+// input,
+// input::placeholder,
+// textarea,
+// textarea::placeholder {
+//   background: #363d51 !important;
+//   border: solid 1px #474e61 !important;
+//   color: #fff !important;
+// }
+
+button.actions-btn,
+// .dropdown-menu,
+// .dropdown-item:hover,
+textarea,
+textarea::placeholder,
+.form-control,
+input,
+input::placeholder,
+button.btn.btn-user-action,
+button.dropdown-toggle,
+app-mail-header .mailbox-actions-menu > li a,
+.nav-tabs.nav .nav-link,
+.nav-tabs.nav li,
+.nav.nav-tabs {
+  background: var(--dark-action-btn-background)!important;
+  border: solid 1px var(--dark-action-btn-border-color)!important;
+  color: var(--dark-action-btn-text-color)!important;
+}
+
+.dropdown-menu {
+  background: var(--dark-action-menu-background);
+  border: solid 1px var(--dark-action-btn-border-color)!important;
+  color: var(--dark-action-btn-text-color);
+}
+.dropdown-item {
+  background: var(--dark-action-menu-background);
+  color: var(--dark-dropdown-item-text-color);
+  border: 1px solid transparent!important;
+}
+a.dropdown-item:hover,
+a.dropdown-item:active,
+a.dropdown-item:focus {
+  background: var(--dark-action-btn-hover-background);
+  color: var(--dark-dropdown-item-text-color);
+  border-bottom: 1px solid var(--dark-dropdown-item-border-color)!important;
+  border-top: 1px solid var(--dark-dropdown-item-border-color)!important;
+  transition: none;
+}
+
+.text-muted,
+.sender-content-list,
+.msg-reply-type-holder {
+  color: var(--text-muted-color)!important;
+}
+
+.modal-header,
+.modal-footer {
+  background-color: var(--modal-header-footer-background);
+  border-radius: var(--modal-header-footer-border-radius);
+  border: var(--dark-one-zero-width) solid var(--modal-header-footer-border-color);
+}
+table,
+.modal-body {
+  color: var(--dark-text-color-2);
+}
+
+// .mail-compose-field button {
+//   border: 0 !important;
+// }
+.loading,
+app-compose-mail .mail-compose-box-inner,
+app-compose-mail .mail-compose-editable-box,
+app-compose-mail .mail-composer-footer,
+app-compose-mail .ng2-menu-item,
+app-compose-mail tag,
+ul.mail-composer-actions li div div div ul li button.ql-font,
+ul.mail-composer-actions li div div div ul li button.ql-size {
+  background: #363d51 !important;
 }
