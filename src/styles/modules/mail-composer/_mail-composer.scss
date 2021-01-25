@@ -406,6 +406,10 @@ a {
 }
 .composer-footer {
   margin-bottom: 1.4rem;
+
+  @include media('<=sm') {
+    margin-bottom: 0;
+  }
 }
 .mail-composer-actions {
   margin: 0 -0.375rem;
