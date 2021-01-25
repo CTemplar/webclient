@@ -27,13 +27,15 @@ import {
   GetNotification,
   SaveAutoResponder,
   WhiteListGet,
-  CardGet, ContactsGet
+  CardGet,
+  ContactsGet,
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
+import { SENTRY_DSN } from '../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -82,10 +84,12 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
       .subscribe((userState: UserState) => {
         if (userState.isLoaded && !this.isLoadedData) {
           // Initialize Sentry according to user's setting after login
-          Sentry.init({
-            dsn: 'https://e768a553906d4f87bcb0419a151e36b0@o190614.ingest.sentry.io/5256284',
-            enabled: userState.settings.is_enable_report_bugs,
-          });
+          if (userState.settings.is_enable_report_bugs) {
+            Sentry.init({
+              dsn: SENTRY_DSN,
+              enabled: true,
+            });
+          }
           this.isLoadedData = true;
           this.store.dispatch(new GetMailboxes());
           this.store.dispatch(new TimezoneGet());
