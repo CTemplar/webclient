@@ -4,17 +4,26 @@
 // Background
 $dark-background-1: #20273e;
 $dark-background-2: #363d51;
+$background-3: #fafafa;
 $dark-background-tag: #efefef;
+$background-color-info: #f5f5f5;
+$background-color-info-dark: $dark-background-2;
 // Border
 $dark-border-color: #323a4c;
 $dark-border-color-1: rgba(0, 0, 0, 0.125);
 $dark-border-color-1-dark: #474e61;
+$dark-border-color-2: #e0e0e0;
+$dark-border-color-2-dark: #474e61;
+$dark-border-color-3: #f2f2f2;
+$light-border-color-4: #fafafa;
+// $dark-border-color-3-dark: #fff;
 // Text
 $dark-text-color-1: rgba(0, 0, 0, 0.38);
 $dark-text-color-2: rgba(0, 0, 0, 0.54);
 $dark-text-color-tag: #444;
 $dark-zero-width: 0;
 $dark-one-pixel-width: 1px;
+$dark-2-pixel-width: 2px;
 
 // General
 $text-dark-color: rgba(0, 0, 0, 0.87);
@@ -32,14 +41,11 @@ $after-color-dark: #fff;
 $dropdown-item-color: $gray-dark;
 $dropdown-item-color-dark: #fff;
 
-$dark-border-color-2: #e0e0e0;
-$dark-border-color-2-dark: #474e61;
-
 $dark-action-menu-background: #fff;
 $dark-action-menu-background-dark: $dark-background-2;
 $dark-action-btn-background: #fafafa;
 $dark-action-btn-background-dark: $dark-background-2;
-$dark-action-btn-border-color: #e0e0e0;
+$dark-action-btn-border-color: $dark-border-color-2;
 $dark-action-btn-border-color-dark: $dark-border-color-1-dark;
 $dark-action-btn-text-color: $dark-text-color-1;
 $dark-action-btn-text-color-dark: #fff;
@@ -152,9 +158,17 @@ $footer-background-dark: $dark-border-color;
 $footer-color: $brand-gray;
 $footer-color-dark: #fff;
 
+// Settings - Tab
+$settings-nav-link-text-color: #616161;
+$dark-background-settings-tab-active: #f4f4f4;
+$dark-background-settings-tab-active-dark: #182034;
+$dark-settings-tab-border-color: #f5f5f5;
+$dark-settings-tab-border-color-dark: $dark-border-color-1-dark;
 // Settings - Plan
 $settings-plan-item-color: #2e4053;
 $settings-plan-item-color-dark: #fff;
+$settings-plan-select-btn-shadow-light: #e8dcdc;
+$settings-plan-select-btn-shadow-dark: #151e35;
 // Settings - Whitelist
 $settings-whitelist-icon-color: $brand-light-gray;
 $settings-whitelist-icon-color-dark: #fff;
@@ -165,6 +179,9 @@ $settings-whitelist-fa-user-circle-color-dark: #fff;
 // Settings - Domains
 $settings-domains-action-hover-color: #949494;
 $settings-domains-action-hover-color-dark: #fff;
+// Settings - Folders
+$settings-folders-sort-btn-background-light: rgb(239, 239, 239);
+$settings-folders-sort-btn-background-dark: #182034;
 
 $variables: (
   --text-muted-color: ($text-muted, $brand-white),
@@ -181,6 +198,10 @@ $variables: (
   --dark-text-color-2: ($dark-text-color-2, $text-dark-color-dark),
   --dark-background-tag: ($dark-background-tag, $dark-background-2),
   --dark-text-color-tag: ($dark-text-color-tag, $text-dark-color-dark),
+  --dark-nav-link-background: (transparent, $dark-background-2),
+  --background-color-info: ($background-color-info, $background-color-info-dark),
+  --background-3: ($background-3, $dark-background-2),
+  --dark-border-width-2-0: ($dark-2-pixel-width, $dark-zero-width),
   
   --dark-border-color-2: ($dark-border-color-2, $dark-border-color-2-dark),
   --dark-text-color-black-white: (#000, #fff),
@@ -244,11 +265,19 @@ $variables: (
   --footer-background: ($footer-background, $footer-background-dark),
   --footer-color: ($footer-color, $footer-color-dark),
 
+  --settings-plan-border-color: ($dark-border-color-3, $dark-border-color-1-dark),
+  --settings-bills-border-color: ($light-border-color-4, $dark-border-color-1-dark),
+  --settings-nav-link-text-color-dark: ($settings-nav-link-text-color, $text-dark-color-dark),
   --settings-plan-item-color: ($settings-plan-item-color, $settings-plan-item-color-dark),
+  --settings-plan-select-btn-shadow: ($settings-plan-select-btn-shadow-light, $settings-plan-select-btn-shadow-dark),
+  
   --settings-whitelist-icon-color: ($settings-whitelist-icon-color, $settings-whitelist-icon-color-dark),
   --settings-whitelist-fa-ban-color: ($settings-whitelist-fa-ban-color, $settings-whitelist-fa-ban-color-dark),
   --settings-whitelist-fa-user-circle-color: ($settings-whitelist-fa-user-circle-color, $settings-whitelist-fa-user-circle-color-dark),
   --settings-domains-action-hover-color: ($settings-domains-action-hover-color, $settings-domains-action-hover-color-dark),
+  --dark-background-settings-tab-active: ($dark-background-settings-tab-active, $dark-background-settings-tab-active-dark),
+  --dark-settings-tab-border-color: ($dark-settings-tab-border-color, $dark-settings-tab-border-color-dark),
+  --settings-folders-sort-btn-background: ($settings-folders-sort-btn-background-light, $settings-folders-sort-btn-background-dark),
 
   --mail-composer-header-background: ($brand-secondary, $dark-background-1),
 )

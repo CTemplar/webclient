@@ -130,12 +130,16 @@ app-custom-domains {
 }
 
 app-mail-settings {
+  div.tab-content {
+    color: var(--text-muted-color);
+  }
+  
   @media (min-width: 1000px) {
     ngb-tabset {
       ul.nav-tabs.nav {
         position: absolute;
         z-index: 10;
-        background: white;
+        background: var(--theme-bg-white);
         width: 100%;
       }
     }
@@ -159,8 +163,11 @@ app-mail-settings {
 
   .timezone-block {
     .mat-form-field-appearance-legacy .mat-form-field-infix {
-      border: 1px solid #e0e0e0;
-      color: black;
+      height: 32px;
+      border: 1px solid var(--dark-action-btn-border-color);
+      color: var(--text-muted-color);
+      background: var(--dark-action-btn-background);
+      border-radius: 2px;
     }
 
     .mat-form-field-underline {
@@ -265,4 +272,18 @@ app-compose-mail {
   .hg-button {
     color: black !important;
   }
+}
+
+.timezone-option {
+  background: var(--dark-action-btn-background)!important;
+  // border: 1px solid var(--dark-action-btn-border-color);
+  color: var(--text-muted-color)!important;
+}
+
+.mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
+  // background: rgba(0, 0, 0, 0.04);
+  background: var(--dark-action-btn-background)!important;
+  border-bottom: 1px solid var(--dark-action-btn-border-color);
+  border-top: 1px solid var(--dark-action-btn-border-color);
+  color: var(--text-muted-color)!important;
 }

@@ -338,11 +338,11 @@ button[disabled] {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--dark-settings-tab-border-color);
 }
 
 .nav-tabs.nav li {
-  border-right: 1px solid #f5f5f5;
+  border-right: 1px solid var(--dark-settings-tab-border-color);
 }
 
 .nav-tabs.nav .nav-link {
@@ -350,13 +350,13 @@ button[disabled] {
   align-items: center;
   height: 100%;
   text-decoration: none;
-  background-color: transparent;
+  background-color: var(--dark-nav-link-background);
   padding: 1rem 0.9rem;
   text-transform: unset;
-  border-radius: 0.25rem;
+  // border-radius: 0.25rem;
   font-size: 14px;
   font-weight: 600;
-  color: #616161;
+  color: var(--settings-nav-link-text-color-dark);
   text-align: center;
   max-width: 175px;
 }
@@ -376,7 +376,7 @@ button[disabled] {
   .nav-link {
     &:hover,
     &.active {
-      background: #f4f4f4;
+      background: var(--dark-background-settings-tab-active);
       border-radius: 0;
     }
   }
@@ -624,8 +624,6 @@ a.text-gray-dark:focus {
 // }
 
 button.actions-btn,
-// .dropdown-menu,
-// .dropdown-item:hover,
 textarea,
 textarea::placeholder,
 .form-control,
@@ -633,13 +631,16 @@ input,
 input::placeholder,
 button.btn.btn-user-action,
 button.dropdown-toggle,
-app-mail-header .mailbox-actions-menu > li a,
-.nav-tabs.nav .nav-link,
-.nav-tabs.nav li,
-.nav.nav-tabs {
+app-mail-header .mailbox-actions-menu > li a {
   background: var(--dark-action-btn-background)!important;
   border: solid 1px var(--dark-action-btn-border-color)!important;
   color: var(--dark-action-btn-text-color)!important;
+}
+
+.nav-tabs.nav .nav-link,
+.nav-tabs.nav li,
+.nav.nav-tabs {
+  
 }
 
 .dropdown-menu {
@@ -692,3 +693,20 @@ table,
 // ul.mail-composer-actions li div div div ul li button.ql-size {
 //   background: #363d51 !important;
 // }
+input[type="radio"].fancy-field-control + label,
+input[type="checkbox"].fancy-field-control + label
+{
+  color: var(--text-muted-color);
+}
+input[type="radio"].fancy-field-control:checked + label,
+input[type="checkbox"].fancy-field-control:checked + label
+{
+  color: var(--text-muted-color);
+}
+.decryption-spinner > div {
+  color: var(--text-muted-color);
+}
+
+.form-control + .input-group-addon:not(:first-child) {
+  border-left: var(--dark-zero-one-width) solid;
+}

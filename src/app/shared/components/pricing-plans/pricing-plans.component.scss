@@ -32,9 +32,10 @@
   }
 
   .plan-item {
-    background: #fafafa;
+    // background: #fafafa;
+    background: var(--background-3);
     height: 190px;
-    border-left: 2px solid white;
+    border-left: var(--dark-border-width-2-0) solid white;
     padding-top: 10px;
 
     div {
@@ -46,7 +47,7 @@
       line-height: 0;
       border-color: transparent;
       color: white !important;
-      box-shadow: 5px 10px 10px #e8dcdc;
+      box-shadow: 5px 10px 10px var(--settings-plan-select-btn-shadow);
       max-width: 90%;
       width: 100px;
       min-width: unset;
@@ -82,9 +83,11 @@
   }
 
   .plan-sub-item {
-    background: #fafafa;
-    border-bottom: 2px solid white;
-    border-left: 2px solid white;
+    background: var(--background-3);
+    border-bottom: 2px solid var(--dark-border-color-1);
+    border-left: 2px solid var(--dark-border-color-1);
+    border-top: var(--dark-zero-one-width) solid var(--dark-border-color-1);
+    border-right: var(--dark-zero-one-width) solid var(--dark-border-color-1);
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;

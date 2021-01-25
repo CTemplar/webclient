@@ -27,7 +27,9 @@
 }
 
 .sort-alphabetic-btn {
+  background-color: var(--settings-folders-sort-btn-background);
   color: rgba(0, 0, 0, 0.38);
   min-width: 40px;
   margin: 0 10px;
+  border: var(--dark-zero-one-width) solid var(--dark-border-color-1);
 }
