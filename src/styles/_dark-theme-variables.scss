@@ -1,13 +1,18 @@
 @import './base/variables';
 
-//Dark Variables
+// Dark Variables
+// Background
 $dark-background-1: #20273e;
 $dark-background-2: #363d51;
+$dark-background-tag: #efefef;
+// Border
 $dark-border-color: #323a4c;
 $dark-border-color-1: rgba(0, 0, 0, 0.125);
 $dark-border-color-1-dark: #474e61;
+// Text
 $dark-text-color-1: rgba(0, 0, 0, 0.38);
 $dark-text-color-2: rgba(0, 0, 0, 0.54);
+$dark-text-color-tag: #444;
 $dark-zero-width: 0;
 $dark-one-pixel-width: 1px;
 
@@ -26,6 +31,9 @@ $after-color-dark: #fff;
 
 $dropdown-item-color: $gray-dark;
 $dropdown-item-color-dark: #fff;
+
+$dark-border-color-2: #e0e0e0;
+$dark-border-color-2-dark: #474e61;
 
 $dark-action-menu-background: #fff;
 $dark-action-menu-background-dark: $dark-background-2;
@@ -169,7 +177,13 @@ $variables: (
   --dark-zero-one-width: ($dark-zero-width, $dark-one-pixel-width),
   --dark-one-zero-width: ($dark-one-pixel-width, $dark-zero-width),
   --dark-lightgray-white-color: (lightgray, #fff),
+  --dark-text-color-1: ($dark-text-color-1, $text-dark-color-dark),
   --dark-text-color-2: ($dark-text-color-2, $text-dark-color-dark),
+  --dark-background-tag: ($dark-background-tag, $dark-background-2),
+  --dark-text-color-tag: ($dark-text-color-tag, $text-dark-color-dark),
+  
+  --dark-border-color-2: ($dark-border-color-2, $dark-border-color-2-dark),
+  --dark-text-color-black-white: (#000, #fff),
 
   --checkbox-list-border-color: ($checkbox-list-border-color, $checkbox-list-border-color-dark),
   --checkbox-select-all-border-color: ($checkbox-select-all-border-color, $checkbox-select-all-border-color-dark),
