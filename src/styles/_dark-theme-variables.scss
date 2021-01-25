@@ -21,6 +21,7 @@ $light-border-color-4: #fafafa;
 $dark-text-color-1: rgba(0, 0, 0, 0.38);
 $dark-text-color-2: rgba(0, 0, 0, 0.54);
 $dark-text-color-tag: #444;
+
 $dark-zero-width: 0;
 $dark-one-pixel-width: 1px;
 $dark-2-pixel-width: 2px;
@@ -182,6 +183,9 @@ $settings-domains-action-hover-color-dark: #fff;
 // Settings - Folders
 $settings-folders-sort-btn-background-light: rgb(239, 239, 239);
 $settings-folders-sort-btn-background-dark: #182034;
+// Settings - Forwarding
+$settings-forwarding-switcher-text-color-light: rgba(0, 0, 0, 0.12);
+$settings-forwarding-switcher-text-color-dark: #fff;
 
 $variables: (
   --text-muted-color: ($text-muted, $brand-white),
@@ -278,6 +282,8 @@ $variables: (
   --dark-background-settings-tab-active: ($dark-background-settings-tab-active, $dark-background-settings-tab-active-dark),
   --dark-settings-tab-border-color: ($dark-settings-tab-border-color, $dark-settings-tab-border-color-dark),
   --settings-folders-sort-btn-background: ($settings-folders-sort-btn-background-light, $settings-folders-sort-btn-background-dark),
+  --settings-forwarding-switcher-text-color: ($settings-forwarding-switcher-text-color-light, $dark-text-color-tag),
+  --settings-forwarding-switcher-text-color-reverse: ($settings-forwarding-switcher-text-color-dark, $dark-text-color-1),
 
   --mail-composer-header-background: ($brand-secondary, $dark-background-1),
 )

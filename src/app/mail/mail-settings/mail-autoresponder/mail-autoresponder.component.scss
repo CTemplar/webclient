@@ -1,0 +1,28 @@
+@import '../../../../styles/base/variables';
+
+.toggle-switcher-control + label {
+    background: var(--theme-bg-faded);
+    border: 1px solid $input-border-color;
+
+    &::before,
+    &::after {
+        color: var(--settings-forwarding-switcher-text-color);
+    }
+
+    + .toggle-switcher-text {
+        color: var(--text-muted-color);
+    }
+}
+  
+.toggle-switcher-control:checked + label {
+    &::before {
+        color: var(--text-muted-color);
+    }
+    + .toggle-switcher-text {
+        color: var(--text-muted-color);
+    }
+}
+  
+::ng-deep .ql-editor.ql-blank::before {
+    color: var(--text-muted-color);
+}
