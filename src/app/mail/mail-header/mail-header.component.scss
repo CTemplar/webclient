@@ -211,7 +211,7 @@
 
 // == Search form
 .search-form {
-  @include media('<ipad') {
+  @include media('<ipad', '>sm') {
     width: 90%;
   }
 
@@ -278,7 +278,7 @@
 
   .dropdown-menu {
     position: absolute;
-    top: -0.5rem !important;
+    top: 0.2rem !important;
     right: 0.938rem;
     left: 0.938rem !important;
     z-index: $zindex-default;
