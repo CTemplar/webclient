@@ -7,9 +7,11 @@ import * as moment from 'moment-timezone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import * as Sentry from '@sentry/browser';
 
 import { MoveToBlacklist, MoveToWhitelist } from '../../store/actions';
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
+import { SENTRY_DSN } from '../../shared/config';
 import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
 import {
   BlackListDelete,
@@ -384,6 +386,12 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       if (value.slice(-1) === 's') {
         value = Number(value.slice(0, -1)) * 1000;
       }
+    }
+    if (key === 'is_enable_report_bugs') {
+      Sentry.init({
+        dsn: SENTRY_DSN,
+        enabled: value,
+      });
     }
     if (key === 'notification_email' && value !== '' && !this.validateEmail(value)) {
       this.store.dispatch(new SnackPush({ message: `"${value}" is not valid email address.` }));

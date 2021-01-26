@@ -7,6 +7,7 @@ export const IS_ELECTRON = window.location.protocol === 'file:';
 export const apiUrl = getBaseUrl();
 export const PRIMARY_DOMAIN = AppConfig.production ? 'ctemplar.com' : 'dev.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
+export const SENTRY_DSN = 'https://e768a553906d4f87bcb0419a151e36b0@o190614.ingest.sentry.io/5256284';
 
 export const COLORS: string[] = [
   '#000000',
