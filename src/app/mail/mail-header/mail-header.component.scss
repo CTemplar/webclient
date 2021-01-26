@@ -160,7 +160,7 @@
       background: $brand-faded;
       // TODO: add scss variables files in refactor
       color: #8a9095;
-      border-color: #8a9095;
+      border-color: var(--border-color-5)!important;
       border-right-color: #8a9095;
     }
 
@@ -169,7 +169,7 @@
       color: $brand-white;
       // TODO: add scss variables files in refactor
       background: #8a9095;
-      border-color: #8a9095;
+      border-color: var(--border-color-5)!important;
     }
 
     .border-right-no-color {
@@ -221,9 +221,13 @@
     border-radius: 2px;
   }
 
-  .form-control {
+  .form-control,
+  .form-control::placeholder {
     padding-right: 3.438rem + 0.938rem;
     height: 32px;
+    background: var(--dark-action-btn-background);
+    border: solid 1px var(--dark-action-btn-border-color);
+    color: var(--dark-action-btn-text-color);
     @include media('<ipad', '>sm') {
       margin-top: -1px;
       padding: 0.875rem 3.438rem + 0.938rem 0.875rem 0.938rem;
@@ -329,7 +333,9 @@
 
   .icon-button {
     width: 56px;
-
+    background: var(--dark-action-btn-background)!important;
+    border: solid 1px var(--dark-action-btn-border-color)!important;
+    color: var(--dark-action-btn-text-color)!important;
     i {
       font-size: 20px;
     }

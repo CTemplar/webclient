@@ -84,10 +84,10 @@
 
   .plan-sub-item {
     background: var(--background-3);
-    border-bottom: 2px solid var(--dark-border-color-1);
-    border-left: 2px solid var(--dark-border-color-1);
-    border-top: var(--dark-zero-one-width) solid var(--dark-border-color-1);
-    border-right: var(--dark-zero-one-width) solid var(--dark-border-color-1);
+    border-bottom: 2px solid var(--settings-plan-sub-item-border-color);
+    border-left: 2px solid var(--settings-plan-sub-item-border-color);
+    border-top: var(--dark-zero-one-width) solid var(--settings-plan-sub-item-border-color);
+    border-right: var(--dark-zero-one-width) solid var(--settings-plan-sub-item-border-color);
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;

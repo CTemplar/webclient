@@ -65,6 +65,9 @@ textarea:disabled {
 .mail-compose-control {
   outline: none;
   text-overflow: ellipsis;
+  background: var(--dark-action-btn-background);
+  border: solid 1px var(--dark-action-btn-border-color);
+  color: var(--dark-action-btn-text-color);
 }
 
 .compose-contacts-container {
@@ -104,5 +107,24 @@ textarea:disabled {
     i {
       color: black;
     }
+  }
+}
+
+.btn-dropdown {
+  button.dropdown-toggle {
+    background: var(--dark-action-btn-background);
+    border: solid 1px var(--dark-action-btn-border-color);
+    color: var(--dark-action-btn-text-color);
+  }
+}
+
+tag-input {
+  ::ng-deep input {
+    background: var(--dark-action-btn-background);
+    border: solid 1px var(--dark-action-btn-border-color);
+    color: var(--dark-action-btn-text-color);
+  }
+  ::ng-deep tag:hover {
+    box-shadow: 0 2px 3px 1px var(--compose-receiver-tag-shadow)!important;
   }
 }

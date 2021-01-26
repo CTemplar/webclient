@@ -626,21 +626,23 @@ a.text-gray-dark:focus {
 button.actions-btn,
 textarea,
 textarea::placeholder,
-.form-control,
-input,
-input::placeholder,
 button.btn.btn-user-action,
-button.dropdown-toggle,
 app-mail-header .mailbox-actions-menu > li a {
   background: var(--dark-action-btn-background)!important;
   border: solid 1px var(--dark-action-btn-border-color)!important;
   color: var(--dark-action-btn-text-color)!important;
 }
 
-.nav-tabs.nav .nav-link,
-.nav-tabs.nav li,
-.nav.nav-tabs {
-  
+.form-control,
+input,
+button.dropdown-toggle {
+  background: var(--theme-bg-white)!important;
+  color: var(--text-muted-color)!important;
+  border: 1px solid var(--dark-border-color-1)!important;
+}
+
+input::placeholder {
+  color: var(--text-placeholder-color)!important;
 }
 
 .dropdown-menu {
@@ -709,4 +711,10 @@ input[type="checkbox"].fancy-field-control:checked + label
 
 .form-control + .input-group-addon:not(:first-child) {
   border-left: var(--dark-zero-one-width) solid;
+}
+
+.l-alert {
+  background: var(--dark-action-btn-background);
+  border: solid 1px var(--dark-action-btn-border-color);
+  color: var(--dark-action-btn-text-color);
 }

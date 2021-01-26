@@ -133,3 +133,13 @@ a.disabled {
     }
   }
 } 
+
+.mailbox-actionbar {
+  .mailbox-actionbar-menu {
+    button.dropdown-toggle {
+      background: var(--dark-action-btn-background);
+      border: solid 1px var(--dark-action-btn-border-color);
+      color: var(--dark-action-btn-text-color);
+    }
+  }
+}

@@ -16,11 +16,14 @@ $dark-border-color-2: #e0e0e0;
 $dark-border-color-2-dark: #474e61;
 $dark-border-color-3: #f2f2f2;
 $light-border-color-4: #fafafa;
+$border-color-5-light: #8a9095;
+$border-color-5-dark: #394061;
 // $dark-border-color-3-dark: #fff;
 // Text
 $dark-text-color-1: rgba(0, 0, 0, 0.38);
 $dark-text-color-2: rgba(0, 0, 0, 0.54);
 $dark-text-color-tag: #444;
+$placeholder-text-color-dark: #cccccc;
 
 $dark-zero-width: 0;
 $dark-one-pixel-width: 1px;
@@ -147,6 +150,9 @@ $mailbox-main-header-background-dark: $dark-background-1;
 $mailbox-main-header-color: inherit;
 $mailbox-main-header-color-dark: #fff;
 
+$compose-receiver-tag-shadow-light: #d4d1d1;
+$compose-receiver-tag-shadow-dark: #151e35;
+
 // Contacts
 $contacts-list-body-border: #f5f5f5;
 $contacts-list-body-border-dark: $dark-border-color;
@@ -170,6 +176,7 @@ $settings-plan-item-color: #2e4053;
 $settings-plan-item-color-dark: #fff;
 $settings-plan-select-btn-shadow-light: #e8dcdc;
 $settings-plan-select-btn-shadow-dark: #151e35;
+$settings-plan-sub-item-border-color-light: #fff;
 // Settings - Whitelist
 $settings-whitelist-icon-color: $brand-light-gray;
 $settings-whitelist-icon-color-dark: #fff;
@@ -188,6 +195,7 @@ $settings-forwarding-switcher-text-color-light: rgba(0, 0, 0, 0.12);
 $settings-forwarding-switcher-text-color-dark: #fff;
 
 $variables: (
+  --text-placeholder-color: ($dark-text-color-1, $placeholder-text-color-dark),
   --text-muted-color: ($text-muted, $brand-white),
   --text-dark-color: ($text-dark-color, $text-dark-color-dark),
   --text-gray-dark-color: ($text-gray-dark-color, $text-gray-dark-color-dark),
@@ -206,6 +214,7 @@ $variables: (
   --background-color-info: ($background-color-info, $background-color-info-dark),
   --background-3: ($background-3, $dark-background-2),
   --dark-border-width-2-0: ($dark-2-pixel-width, $dark-zero-width),
+  --border-color-5: ($border-color-5-light, $border-color-5-dark),
   
   --dark-border-color-2: ($dark-border-color-2, $dark-border-color-2-dark),
   --dark-text-color-black-white: (#000, #fff),
@@ -261,6 +270,8 @@ $variables: (
   --mail-list-row-active-color: ($mail-list-row-active-color, $mail-list-row-color-dark),
   --mail-list-row-border-bottom-color: ($mail-list-row-border-bottom-color, $mail-list-row-border-bottom-color-dark),
 
+  --compose-receiver-tag-shadow: ($compose-receiver-tag-shadow-light, $compose-receiver-tag-shadow-dark),
+
   --contacts-list-body-border: ($contacts-list-body-border, $contacts-list-body-border-dark),
   --mailbox-main-header-background: ($mailbox-main-header-background, $mailbox-main-header-background-dark),
   --mailbox-main-header-color: ($mailbox-main-header-color, $mailbox-main-header-color-dark),
@@ -270,6 +281,7 @@ $variables: (
   --footer-color: ($footer-color, $footer-color-dark),
 
   --settings-plan-border-color: ($dark-border-color-3, $dark-border-color-1-dark),
+  --settings-plan-sub-item-border-color: ($settings-plan-sub-item-border-color-light, $dark-border-color-1-dark),
   --settings-bills-border-color: ($light-border-color-4, $dark-border-color-1-dark),
   --settings-nav-link-text-color-dark: ($settings-nav-link-text-color, $text-dark-color-dark),
   --settings-plan-item-color: ($settings-plan-item-color, $settings-plan-item-color-dark),
