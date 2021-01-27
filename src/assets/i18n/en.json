@@ -354,6 +354,8 @@
       "restrict": "Restrict to time range",
       "start_time": "Start Time",
       "end_time": "End Time",
+      "start_date": "Start Date",
+      "end_date": "End Date",
       "auto_message": "Email autoresponse message",
       "message": "Message",
       "vac_autoresponder": "Vacation Autoresponder",

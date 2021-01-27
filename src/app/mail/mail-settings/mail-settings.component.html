@@ -498,91 +498,93 @@
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
-            <div class="form-content-row">
-              <div class="row align-items-center">
-                <div class="col-sm-3">
-                  <label class="form-label mb-sm-0" [translate]="'settings.emails_per_page'"> Emails per page </label>
-                </div>
-                <div class="col-sm-7 col-md-5">
-                  <div class="row row-sm">
-                    <div class="col-6 flex-auto-col">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)" [checked]="settings?.emails_per_page === 20" />
-                        <label for="emailCoutField1">20</label>
+            <div class="form-content-holder">
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-sm-0" [translate]="'settings.emails_per_page'"> Emails per page </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField1" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 20)" [checked]="settings?.emails_per_page === 20" />
+                          <label for="emailCoutField1">20</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-6 flex-auto-col">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)" [checked]="settings?.emails_per_page === 50" />
-                        <label for="emailCoutField2">50</label>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField2" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 50)" [checked]="settings?.emails_per_page === 50" />
+                          <label for="emailCoutField2">50</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-6 flex-auto-col">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)" [checked]="settings?.emails_per_page === 100" />
-                        <label for="emailCoutField3">100</label>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="emailCoutField3" name="[5]" type="radio" (click)="updateSettings('emails_per_page', 100)" [checked]="settings?.emails_per_page === 100" />
+                          <label for="emailCoutField3">100</label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="form-content-row">
-              <div class="row align-items-center">
-                <div class="col-sm-3">
-                  <label class="form-label mb-0">Dark mode</label>
-                </div>
-                <div class="col-sm-7 col-md-5">
-                  <div class="row row-sm">
-                    <div class="col-6 flex-auto-col">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode1" name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', true)" [checked]="settings.is_night_mode" />
-                        <label for="darkMode1" [translate]="'common.enabled'">Enabled</label>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">Dark mode</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode1" name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', true)" [checked]="settings.is_night_mode" />
+                          <label for="darkMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-6 flex-auto-col">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode2" name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', false)" [checked]="!settings.is_night_mode" />
-                        <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="darkMode2" name="[darkMode]" type="radio" (click)="updateSettings('is_night_mode', false)" [checked]="!settings.is_night_mode" />
+                          <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="form-content-row">
-              <div class="row align-items-center">
-                <div class="col-sm-3">
-                  <label class="form-label mb-0">Conversation View</label>
-                </div>
-                <div class="col-sm-7 col-md-5">
-                  <div class="row row-sm">
-                    <div class="col-6 flex-auto-col">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode1" name="[conversationMode]" type="radio" (click)="updateConversationMode(true)" [checked]="settings.is_conversation_mode" />
-                        <label for="conversationViewMode1" [translate]="'common.enabled'">Enabled</label>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">Conversation View</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode1" name="[conversationMode]" type="radio" (click)="updateConversationMode(true)" [checked]="settings.is_conversation_mode" />
+                          <label for="conversationViewMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-6 flex-auto-col">
-                      <div class="fancy-field-group">
-                        <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode2" name="[conversationMode]" type="radio" (click)="updateConversationMode(false)" [checked]="!settings.is_conversation_mode" />
-                        <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="conversationViewMode2" name="[conversationMode]" type="radio" (click)="updateConversationMode(false)" [checked]="!settings.is_conversation_mode" />
+                          <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="form-content-row">
-              <div class="row align-items-center">
-                <div class="col-sm-3">
-                  <label for="customCss" class="form-label mb-sm-0"> Custom css </label>
-                </div>
-                <form class="col-sm-7 col-md-5" autocomplete="off">
-                  <textarea class="form-control form-control-sm resize-off" id="customCss" name="customCss" [(ngModel)]="settings.custom_css" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('custom_css', $event.target.value)" rows="3"> </textarea>
-                </form>
-                <div class="info-card mx-3 mt-2 full-width">
-                  <p>You can write the custom css here in order to customize the display of your mailbox.</p>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label for="customCss" class="form-label mb-sm-0"> Custom css </label>
+                  </div>
+                  <form class="col-sm-7 col-md-5" autocomplete="off">
+                    <textarea class="form-control form-control-sm resize-off" id="customCss" name="customCss" [(ngModel)]="settings.custom_css" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('custom_css', $event.target.value)" rows="3"> </textarea>
+                  </form>
+                  <div class="info-card mx-3 mt-2 full-width">
+                    <p>You can write the custom css here in order to customize the display of your mailbox.</p>
+                  </div>
                 </div>
               </div>
             </div>
