@@ -45,7 +45,7 @@
           #input
         >
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="'#fff'"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="settings.is_night_mode ? '#fff' : '#333'"></app-circle-bar-spinner>
             <span>
                 {{ item.email }}
             </span>
@@ -93,7 +93,7 @@
           #ccInput
         >
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="'#fff'"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="settings.is_night_mode ? '#fff' : '#333'"></app-circle-bar-spinner>
             <span>
                 {{ item.email }}
             </span>
@@ -137,7 +137,7 @@
           #bccInput
         >
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [color]="'#fff'" [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [color]="settings.is_night_mode ? '#fff' : '#333'" [showSpinner]="getUserKeyFetchingStatus(item.email)"></app-circle-bar-spinner>
             <span>
                 {{ item.email }}
             </span>

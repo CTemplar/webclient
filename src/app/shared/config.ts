@@ -165,7 +165,7 @@ function getBaseUrl() {
       : 'https://api.ctemplar.com/';
   }
   if (AppConfig.local) {
-    return 'http://localhost:8000/';
+    return 'http://10.70.3.105:8000/';
   }
   if (config.host === 'test.ctemplar.net') {
     return 'https://testapi.ctemplar.net/';

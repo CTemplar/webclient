@@ -20,14 +20,16 @@ $border-color-5-light: #8a9095;
 $border-color-5-dark: #394061;
 // $dark-border-color-3-dark: #fff;
 // Text
+$compose-input-text-color-light: #464a4c;
+$compose-input-text-color-dark: #fff;
 $dark-text-color-1: rgba(0, 0, 0, 0.38);
 $dark-text-color-2: rgba(0, 0, 0, 0.54);
 $dark-text-color-tag: #444;
 $placeholder-text-color-dark: #cccccc;
 
-$dark-zero-width: 0;
-$dark-one-pixel-width: 1px;
-$dark-2-pixel-width: 2px;
+$zero-width-pixel: 0;
+$one-width-pixel: 1px;
+$two-width-pixel: 2px;
 
 // General
 $text-dark-color: rgba(0, 0, 0, 0.87);
@@ -55,6 +57,10 @@ $dark-action-btn-text-color: $dark-text-color-1;
 $dark-action-btn-text-color-dark: #fff;
 $dark-action-btn-hover-background: #fafafa;
 $dark-action-btn-hover-background-dark: $dark-background-2;
+
+$action-btn-selected-background-dark: $dark-background-1;
+$action-btn-selected-background-light: $border-color-5-light;
+
 $dark-dropdown-item-text-color: #292b2c;
 $dark-dropdown-item-text-color-dark: #fff;
 $dark-dropdown-item-border-color: transparent;
@@ -101,6 +107,8 @@ $sidebar-bottom-background-color: #29394e;
 $sidebar-bottom-background-color-dark: #151e34;
 
 // NavBar
+$navbar-action-menu-button-hover-text-color-light: #8a9095;
+
 $navbar-background-color: $brand-faded;
 $navbar-background-color-dark: $dark-background-1;
 
@@ -150,6 +158,9 @@ $mailbox-main-header-background-dark: $dark-background-1;
 $mailbox-main-header-color: inherit;
 $mailbox-main-header-color-dark: #fff;
 
+// Compose
+$compose-receiver-tag-input-placeholder-color-light: #757575;
+$compose-receiver-tag-input-placeholder-color-dark: #fff;
 $compose-receiver-tag-shadow-light: #d4d1d1;
 $compose-receiver-tag-shadow-dark: #151e35;
 
@@ -195,6 +206,8 @@ $settings-forwarding-switcher-text-color-light: rgba(0, 0, 0, 0.12);
 $settings-forwarding-switcher-text-color-dark: #fff;
 
 $variables: (
+  --input-text-color: (#000, #fff),
+  --compose-input-text-color: ($compose-input-text-color-light, $compose-input-text-color-dark),
   --text-placeholder-color: ($dark-text-color-1, $placeholder-text-color-dark),
   --text-muted-color: ($text-muted, $brand-white),
   --text-dark-color: ($text-dark-color, $text-dark-color-dark),
@@ -203,8 +216,8 @@ $variables: (
   --after-color: ($after-color, $after-color-dark),
   --dropdown-item-color: ($dropdown-item-color, $dropdown-item-color-dark),
   --dark-border-color-1: ($dark-border-color-1, $dark-border-color-1-dark),
-  --dark-zero-one-width: ($dark-zero-width, $dark-one-pixel-width),
-  --dark-one-zero-width: ($dark-one-pixel-width, $dark-zero-width),
+  --dark-zero-one-width: ($zero-width-pixel, $one-width-pixel),
+  --dark-one-zero-width: ($one-width-pixel, $zero-width-pixel),
   --dark-lightgray-white-color: (lightgray, #fff),
   --dark-text-color-1: ($dark-text-color-1, $text-dark-color-dark),
   --dark-text-color-2: ($dark-text-color-2, $text-dark-color-dark),
@@ -213,7 +226,7 @@ $variables: (
   --dark-nav-link-background: (transparent, $dark-background-2),
   --background-color-info: ($background-color-info, $background-color-info-dark),
   --background-3: ($background-3, $dark-background-2),
-  --dark-border-width-2-0: ($dark-2-pixel-width, $dark-zero-width),
+  --dark-border-width-2-0: ($two-width-pixel, $zero-width-pixel),
   --border-color-5: ($border-color-5-light, $border-color-5-dark),
   
   --dark-border-color-2: ($dark-border-color-2, $dark-border-color-2-dark),
@@ -246,6 +259,8 @@ $variables: (
   --sidebar-right-border-width: ($sidebar-right-border-width, $sidebar-right-border-width-dark),
   --sidebar-bottom-background-color: ($sidebar-bottom-background-color, $sidebar-bottom-background-color-dark),
 
+  --navbar-action-menu-button-active-background: ($navbar-action-menu-button-hover-text-color-light, $dark-background-1),
+  --navbar-action-menu-button-hover-text-color: ($navbar-action-menu-button-hover-text-color-light, #fff),
   --navbar-background-color: ($navbar-background-color, $navbar-background-color-dark),
   --navbar-border-color: ($navbar-border-color, $navbar-border-color-dark),
   --navbar-border-width: ($navbar-border-width, $navbar-border-width-dark),
@@ -298,4 +313,8 @@ $variables: (
   --settings-forwarding-switcher-text-color-reverse: ($settings-forwarding-switcher-text-color-dark, $dark-text-color-1),
 
   --mail-composer-header-background: ($brand-secondary, $dark-background-1),
+
+  --compose-receiver-tag-input-placeholder-color: ($compose-receiver-tag-input-placeholder-color-light, $compose-receiver-tag-input-placeholder-color-dark),
+
+  --action-btn-selected-background: ($action-btn-selected-background-light, $action-btn-selected-background-dark),
 )

@@ -609,59 +609,50 @@ a.text-gray-dark:focus {
   background-color: var(--theme-bg-white)!important;
 }
 
-// button.actions-btn,
-// button.btn.btn-default.btn-sm,
-// button.btn.btn-user-action,
-// button.dropdown-toggle,
-// div.mailbox-actionbar div.mail-nav-control button,
-// input,
-// input::placeholder,
-// textarea,
-// textarea::placeholder {
-//   background: #363d51 !important;
-//   border: solid 1px #474e61 !important;
-//   color: #fff !important;
-// }
-
 button.actions-btn,
-textarea,
-textarea::placeholder,
 button.btn.btn-user-action,
 app-mail-header .mailbox-actions-menu > li a {
-  background: var(--dark-action-btn-background)!important;
-  border: solid 1px var(--dark-action-btn-border-color)!important;
-  color: var(--dark-action-btn-text-color)!important;
+  background: var(--dark-action-btn-background);
+  border: solid 1px var(--dark-action-btn-border-color);
+  color: var(--dark-action-btn-text-color);
 }
 
+textarea,
 .form-control,
 input,
 button.dropdown-toggle {
-  background: var(--theme-bg-white)!important;
-  color: var(--text-muted-color)!important;
-  border: 1px solid var(--dark-border-color-1)!important;
+  background: var(--theme-bg-white);
+  color: var(--input-text-color);
+  border: 1px solid var(--dark-border-color-1);
 }
 
+.form-control:focus {
+  background: var(--theme-bg-white);
+  color: var(--input-text-color);
+}
+
+textarea::placeholder,
 input::placeholder {
   color: var(--text-placeholder-color)!important;
 }
 
 .dropdown-menu {
   background: var(--dark-action-menu-background);
-  border: solid 1px var(--dark-action-btn-border-color)!important;
+  border: solid 1px var(--dark-action-btn-border-color);
   color: var(--dark-action-btn-text-color);
 }
 .dropdown-item {
   background: var(--dark-action-menu-background);
   color: var(--dark-dropdown-item-text-color);
-  border: 1px solid transparent!important;
+  border: 1px solid transparent;
 }
 a.dropdown-item:hover,
 a.dropdown-item:active,
 a.dropdown-item:focus {
   background: var(--dark-action-btn-hover-background);
   color: var(--dark-dropdown-item-text-color);
-  border-bottom: 1px solid var(--dark-dropdown-item-border-color)!important;
-  border-top: 1px solid var(--dark-dropdown-item-border-color)!important;
+  border-bottom: 1px solid var(--dark-dropdown-item-border-color);
+  border-top: 1px solid var(--dark-dropdown-item-border-color);
   transition: none;
 }
 
@@ -681,20 +672,6 @@ table,
 .modal-body {
   color: var(--dark-text-color-2);
 }
-
-// .mail-compose-field button {
-//   border: 0 !important;
-// }
-// .loading,
-// app-compose-mail .mail-compose-box-inner,
-// app-compose-mail .mail-compose-editable-box,
-// app-compose-mail .mail-composer-footer,
-// app-compose-mail .ng2-menu-item,
-// app-compose-mail tag,
-// ul.mail-composer-actions li div div div ul li button.ql-font,
-// ul.mail-composer-actions li div div div ul li button.ql-size {
-//   background: #363d51 !important;
-// }
 input[type="radio"].fancy-field-control + label,
 input[type="checkbox"].fancy-field-control + label
 {

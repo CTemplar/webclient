@@ -28,6 +28,10 @@ textarea:disabled {
 .from-dropdown {
   overflow-y: auto;
   max-height: 310px;
+  .dropdown-item {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+  }
 }
 
 .learn-more-info-icon {
@@ -65,9 +69,9 @@ textarea:disabled {
 .mail-compose-control {
   outline: none;
   text-overflow: ellipsis;
-  background: var(--dark-action-btn-background);
+  background: var(--theme-bg-white);
   border: solid 1px var(--dark-action-btn-border-color);
-  color: var(--dark-action-btn-text-color);
+  // color: var(--dark-action-btn-text-color);
 }
 
 .compose-contacts-container {
@@ -109,20 +113,21 @@ textarea:disabled {
     }
   }
 }
-
-.btn-dropdown {
-  button.dropdown-toggle {
-    background: var(--dark-action-btn-background);
-    border: solid 1px var(--dark-action-btn-border-color);
-    color: var(--dark-action-btn-text-color);
-  }
+button.dropdown-toggle {
+  background: var(--theme-bg-white)!important;
+  color: var(--compose-input-text-color)!important;
+  border: 0!important;
 }
+
 
 tag-input {
   ::ng-deep input {
-    background: var(--dark-action-btn-background);
+    background: var(--theme-bg-white);
     border: solid 1px var(--dark-action-btn-border-color);
-    color: var(--dark-action-btn-text-color);
+    color: var(--input-text-color)
+  }
+  ::ng-deep input::placeholder {
+    color: var(--compose-receiver-tag-input-placeholder-color);
   }
   ::ng-deep tag:hover {
     box-shadow: 0 2px 3px 1px var(--compose-receiver-tag-shadow)!important;
