@@ -90,6 +90,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+
+    label {
+      margin-bottom: 0;
+    }
   }
 }
 
