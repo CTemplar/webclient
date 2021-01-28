@@ -916,9 +916,9 @@
 }
 
 .mail-list-row {
-  position: relative;
+  // position: relative;
   padding: 0.75rem 0.938rem;
-  border-bottom: 1px solid $input-border-color;
+  border-bottom: 1px solid var(--mail-row-border-bottom-color);
   font-size: 0.75rem;
   line-height: 1;
   background-color: #fafaf9;
@@ -930,11 +930,11 @@
 
   &.is-unread {
     color: $brand-black !important;
-    background: #f5f5f5;
+    background: var(--mail-row-background-unread);
   }
 
   &.is-read {
-    background-color: #fff;
+    background-color: var(--mail-row-background);
     color: var(--brand-gray);
   }
 
@@ -944,12 +944,15 @@
 
   &.is-selected,
   &.is-selected:hover {
-    background: #ffc;
+    background: var(--mail-row-background-selected)!important;
   }
 
   &.is-active {
     background: $brand-secondary !important;
     color: $brand-white !important;
+  }
+  &:hover {
+    background: var(--mail-row-background-selected)!important;
   }
 }
 

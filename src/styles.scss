@@ -571,3 +571,19 @@ button[disabled] {
   bottom: unset !important;
   transition: inherit;
 }
+
+.text-dark {
+  color: var(--text-dark)!important;
+}
+.text-secondary {
+  color: var(--text-secondary)!important;
+}
+.text-faded {
+  background-color: var(--text-faded)!important;
+}
+.bg-faded {
+  background-color: var(--bg-faded)!important;
+}
+.bg-white {
+  background-color: var(--bg-white)!important;
+}

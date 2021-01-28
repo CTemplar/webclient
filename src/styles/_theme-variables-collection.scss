@@ -19,6 +19,13 @@ $variables: (
     --brand-light-gray: ($brand-light-gray, $brand-light-gray-dark),
     --brand-faded: ($brand-faded, $brand-faded-dark),
     --text-muted: ($text-muted, $text-muted-dark),
+    
+    --text-dark: ($text-dark-light, $text-dark-dark),
+    --text-secondary: ($text-secondary-light, $text-secondary-dark),
+    --text-faded: (#c4c4c4, #c4c4c4),
+    --bg-faded: ($bg-faded-light, $bg-faded-dark),
+    --bg-white: ($bg-white-light, $bg-white-dark),
+
 
     // Width
     --width-0-1: ($width-0, $width-1),
@@ -41,6 +48,11 @@ $variables: (
 
     // Customizing components
     --sidebar-footer-background: ($sidebar-footer-background-light, $sidebar-footer-background-dark),
-    // --sidebar-border-right: var(--width-0-2) solid var(--sidebar-border-right),
     --sidebar-border-right: ($sidebar-border-right-light, $sidebar-border-right-dark),
+
+    --mail-row-background: ($mail-row-background-light, $mail-row-background-dark),
+    --mail-row-background-active: ($mail-row-background-active-light, $mail-row-background-active-dark),
+    --mail-row-background-selected: ($mail-row-background-selected-light, $mail-row-background-selected-dark),
+    --mail-row-background-unread: ($mail-row-background-unread-light, $mail-row-background-unread-dark),
+    --mail-row-border-bottom-color: ($mail-row-border-bottom-color-light, $mail-row-border-bottom-color-dark),
 )

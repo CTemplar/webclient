@@ -3,6 +3,7 @@
 ////
 //== Variables
 ////
+
 // Sidebar background...
 $brand-secondary-dark: #161f34;
 $brand-secondary-darker: darken($brand-secondary-dark, 20%);
@@ -39,6 +40,12 @@ $brand-light-gray-dark: $dark-primary-fore-color;
 $brand-faded-dark: $brand-third-dark;
 $text-muted-dark: $dark-primary-fore-color;
 
+$text-dark-dark: $text-color-dark;
+$text-secondary-dark: $brand-secondary-dark;
+$text-faded-dark: #c4c4c4;
+$bg-faded-dark: $brand-faded-dark;
+$bg-white-dark: $brand-fourth-dark;
+
 // == Dropdowns
 $dropdown-link-active-bg-dark: $action-control-active-background;
 $dropdown-link-active-color-dark: $text-color-dark;
@@ -64,5 +71,8 @@ $close-color-dark: $text-color-dark;
 $sidebar-footer-background-dark: $brand-secondary-darker;
 $sidebar-border-right-dark: $control-border-1-color-dark;
 
-$mail-list-background-dark: $brand-third-dark;
-$mail-list-background-active-dark: lighten($brand-third-dark, 10%);
+$mail-row-background-dark: $brand-third-dark;
+$mail-row-background-active-dark: lighten($brand-third-dark, 10%);  // including hover
+$mail-row-background-selected-dark: lighten($brand-third-dark, 10%);
+$mail-row-background-unread-dark: lighten($brand-third-dark, 5%);
+$mail-row-border-bottom-color-dark: $control-border-1-color-dark;

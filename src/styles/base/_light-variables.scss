@@ -4,8 +4,21 @@ $brand-secondary-light: $brand-secondary;
 
 $control-text-color-light: $brand-secondary;
 
+$text-dark-light: rgba(0, 0, 0, 0.87);
+$text-secondary-light: $brand-secondary;
+$text-faded-light: #c4c4c4;
+
+$bg-faded-light: $brand-faded;
+$bg-white-light: $brand-white;
+
 //////
 //## Start Component customzing
 //////
 $sidebar-footer-background-light: #29394e;
 $sidebar-border-right-light: transparent;
+
+$mail-row-background-light: $white;
+$mail-row-background-active-light: rgba(0, 0, 0, 0.075); // including hover
+$mail-row-background-selected-light: #ffc;
+$mail-row-background-unread-light: #f5f5f5;
+$mail-row-border-bottom-color-light: $input-border-color;
