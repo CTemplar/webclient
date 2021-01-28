@@ -1,0 +1,46 @@
+@import 'base/dark-variables';
+@import 'base/light-variables';
+@import 'base/variables';
+
+$width-0: 0;
+$width-1: 1px;
+$width-2: 2px;
+$width-3: 3px;
+
+$variables: (
+    // General
+    --brand-secondary: ($brand-secondary, $brand-secondary-dark),
+    --text-color: ($text-color, $text-color-dark),
+    --body-color: ($body-color, $body-color-dark),
+    --control-label-text-color: ($control-text-color-light, $text-color-dark),
+    --divider-color: ($divider-color, $divider-color-dark),
+    --border-gray: ($border-gray, $border-gray-dark),
+    --brand-gray: ($brand-gray, $brand-gray-dark),
+    --brand-light-gray: ($brand-light-gray, $brand-light-gray-dark),
+    --brand-faded: ($brand-faded, $brand-faded-dark),
+    --text-muted: ($text-muted, $text-muted-dark),
+
+    // Width
+    --width-0-1: ($width-0, $width-1),
+    --width-1-0: ($width-1, $width-0),
+    --width-0-2: ($width-0, $width-2),
+    --width-2-0: ($width-2, $width-0),
+
+    // Dropdown
+    --dropdown-link-active-bg: ($dropdown-link-active-bg, $dropdown-link-active-bg-dark),
+    --dropdown-link-active-color: ($dropdown-link-active-color, $dropdown-link-active-color-dark),
+    --dropdown-border-color: ($dropdown-border-color, $dropdown-border-color-dark),
+    --dropdown-link-hover-bg: ($dropdown-link-hover-bg, $dropdown-link-hover-bg-dark),
+
+    // Form Fields
+    --input-border-color: ($input-border-color, $input-border-color-dark),
+    --input-border-focus: ($input-border-focus, $input-border-focus-dark),
+
+    // Modal
+    --close-color: ($close-color, $close-color-dark),
+
+    // Customizing components
+    --sidebar-footer-background: ($sidebar-footer-background-light, $sidebar-footer-background-dark),
+    // --sidebar-border-right: var(--width-0-2) solid var(--sidebar-border-right),
+    --sidebar-border-right: ($sidebar-border-right-light, $sidebar-border-right-dark),
+)

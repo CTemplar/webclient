@@ -1,6 +1,8 @@
 /**
 * Mail composer module
 */
+@import '../../theme-variables-collection';
+@import '../../themes';
 
 // == Mail composer
 $mail_composer_padding_x: 0.75rem;
@@ -119,7 +121,7 @@ a {
 
 // == Mail compose is-bordered
 .mail-composer.is-borderd {
-  border: 1px solid $dropdown-border-color;
+  border: 1px solid var(--dropdown-border-color);
 }
 
 // == Is minimized
@@ -374,7 +376,7 @@ a {
 // Mail composer footer
 .mail-composer-footer {
   padding: 0.5rem $mail_composer_padding_x;
-  background: $brand-faded;
+  background: var(--brand-faded);
   border: 1px solid $input-border-color;
   margin-bottom: -26px;
 
@@ -445,10 +447,10 @@ a {
 .actions-btn {
   position: relative;
   padding: 1rem 0.5rem;
-  background: $brand-faded;
+  background: var(--brand-faded);
   border: 1px solid $input-border-color;
   border-radius: 2px;
-  color: $brand-light-gray;
+  color: var(--brand-light-gray);
   height: 2rem;
   width: 2.25rem;
 
@@ -494,7 +496,7 @@ a {
   position: relative;
   margin-bottom: 0.5rem;
   padding: 0.563rem 1.563rem 0.563rem 0.75rem;
-  background: $brand-faded;
+  background: var(--brand-faded);
   border: 1px solid $input-border-color;
   border-radius: 2px;
   line-height: 1;
@@ -534,7 +536,7 @@ a {
   padding: 0 0;
   background: transparent;
   border: 0;
-  color: $brand-light-gray;
+  color: var(--brand-light-gray);
   font-size: 0.613rem;
   transform: translateY(-50%);
 }
@@ -784,12 +786,12 @@ a {
   .dropdown-link {
     display: block;
     padding: 0.5rem 0.75rem;
-    color: $brand-gray;
+    color: var(--brand-gray);
     font-size: 0.813rem;
     text-align: center;
 
     &:hover {
-      background: $brand-faded;
+      background: var(--brand-faded);
     }
   }
 }

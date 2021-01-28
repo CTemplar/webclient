@@ -1,6 +1,8 @@
 /**
 * Bootstrap form override
 */
+@import '../../theme-variables-collection';
+@import '../../themes';
 
 select::-ms-expand {
   display: none !important;
@@ -36,7 +38,7 @@ input:-webkit-autofill {
 
   &:focus {
     //box-shadow: 0 0 4px 0 rgba(51, 72, 93, 0.3) !important;
-    border-color: $brand-secondary !important;
+    border-color: var(--brand-secondary) !important;
   }
 
   .is-validate & {
@@ -50,7 +52,7 @@ input:-webkit-autofill {
       box-shadow: none !important;
 
       + .input-group-addon {
-        border-color: $brand-secondary;
+        border-color: var(--brand-secondary);
       }
     }
   }

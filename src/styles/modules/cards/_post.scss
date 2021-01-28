@@ -1,6 +1,8 @@
 /**
 * Post card modules scss file which includes reusable post cards
 */
+@import '../../theme-variables-collection';
+@import '../../themes';
 
 // == badge
 .badge {
@@ -21,7 +23,7 @@
 
 // == News / Blog post cards
 .news-card-holder {
-  color: $brand-gray;
+  color: var(--brand-gray);
   font-size: 0.875rem;
 
   @include media('>sm') {
@@ -30,7 +32,7 @@
 
   &:hover,
   &:focus {
-    color: $brand-gray;
+    color: var(--brand-gray);
   }
 
   &:hover {
@@ -86,7 +88,7 @@
   align-items: center;
   margin: 0 -10px;
   padding-left: 0;
-  color: $brand-light-gray;
+  color: var(--brand-light-gray);
   font-style: italic;
   list-style: none;
 

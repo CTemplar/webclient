@@ -46,7 +46,7 @@
   &:focus {
     color: $input-color-focus;
     background-color: $input-bg-focus;
-    border-color: $input-border-focus;
+    border-color: var(--input-border-focus);
     outline: none;
     @include box-shadow($input-box-shadow-focus);
   }

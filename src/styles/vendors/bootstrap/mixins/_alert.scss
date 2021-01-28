@@ -1,9 +1,11 @@
 // Alerts
+@import '../../../theme-variables-collection';
+@import '../../../themes';
 
 @mixin alert-variant($background, $border, $body-color) {
   background-color: $background;
   border-color: $border;
-  color: $body-color;
+  color: var(--body-color);
 
   hr {
     border-top-color: darken($border, 5%);

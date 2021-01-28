@@ -1,6 +1,8 @@
 /**
 * Package card modules scss file which includes style rules related to pricing
 */
+@import '../../theme-variables-collection';
+@import '../../themes';
 
 // == package card
 .package-card {
@@ -79,7 +81,7 @@
   }
 
   &.has-border {
-    border-bottom: 1px solid $border-gray;
+    border-bottom: 1px solid var(--border-gray);
 
     .fa {
       position: absolute;
@@ -260,7 +262,7 @@
     }
 
     > li > a {
-      color: $brand-gray;
+      color: var(--brand-gray);
       font-size: 0.875rem;
       font-weight: 500;
 

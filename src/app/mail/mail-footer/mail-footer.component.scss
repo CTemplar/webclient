@@ -32,7 +32,7 @@
     > a {
       position: relative;
       display: block;
-      color: $brand-gray;
+      color: var(--brand-gray);
       &:hover {
         color: $brand-primary;
       }
@@ -42,7 +42,7 @@
         top: 50%;
         right: -0.5rem;
         content: '';
-        border-right: 1px solid $brand-gray;
+        border-right: 1px solid var(--brand-gray);
         height: 10px;
         transform: translateY(-50%);
       }

@@ -1,14 +1,17 @@
+@import '../../theme-variables-collection';
+@import '../../themes';
+
 .close {
   float: right;
   font-size: $close-font-size;
   font-weight: $close-font-weight;
   line-height: 1;
-  color: $close-color;
+  color: var(--close-color);
   text-shadow: $close-text-shadow;
   opacity: 0.5;
 
   @include hover-focus {
-    color: $close-color;
+    color: var(--close-color);
     text-decoration: none;
     cursor: pointer;
     opacity: 0.75;

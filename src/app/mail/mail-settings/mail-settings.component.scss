@@ -2,6 +2,8 @@
 @import '../../../styles/vendors/include-media/include-media';
 @import '../../../styles/config/include-media-config';
 @import '../../../styles/vendors/ceaser/ceaser-easing';
+@import '../../../styles/theme-variables-collection';
+@import '../../../styles/themes';
 
 $error-red: #e94e4c;
 
@@ -31,9 +33,9 @@ $error-red: #e94e4c;
     }
 
     .info-list-detail {
-      background: white;
+      background: var(--brand-faded);
       i {
-        color: $body-color;
+        color: var(--body-color);
       }
       .info-list-action {
         margin-top: 1.5rem;
@@ -51,7 +53,7 @@ $error-red: #e94e4c;
   align-items: center;
   flex-wrap: wrap;
   padding: 1.188rem 0.938rem;
-  background: $brand-faded;
+  background: var(--brand-faded);
   border: 1px solid darken($brand-faded, 3%);
   font-size: 0.875rem;
   line-height: 1.14;
@@ -80,7 +82,7 @@ $error-red: #e94e4c;
 .info-list-val {
   width: calc(100% - 140px - 1.25rem); //~calc(100% - 65px - 1.25rem);
   i {
-    color: $body-color;
+    color: var(--body-color);
   }
 }
 
@@ -291,7 +293,7 @@ $error-red: #e94e4c;
     padding-left: 0.563rem;
 
     .icon {
-      color: $brand-light-gray;
+      color: var(--brand-light-gray);
       font-size: 1.063rem;
       line-height: 1.188;
     }

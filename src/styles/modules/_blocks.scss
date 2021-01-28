@@ -1,6 +1,8 @@
 /**
 * Block modules scss file which includes reusable block related style rules
 */
+@import '../theme-variables-collection';
+@import '../themes';
 
 // == Equal gap
 .gap-p-eq {
@@ -135,7 +137,7 @@
     top: -2rem;
     content: '';
     display: block;
-    background: $brand-faded;
+    background: var(--brand-faded);
     width: calc(115% + 4rem);
     height: 4.5rem;
     transform: skew(48deg) rotate(-4deg);

@@ -1,4 +1,8 @@
 // The dropdown wrapper (`<div>`)
+
+@import '../../theme-variables-collection';
+@import '../../themes';
+
 .dropup,
 .dropdown {
   position: relative;
@@ -45,12 +49,12 @@
   padding: $dropdown-padding-y 0;
   margin: $dropdown-margin-top 0 0; // override default ul
   font-size: $font-size-base; // Redeclare because nesting can cause inheritance issues
-  color: $body-color;
+  color: var(--body-color);
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   list-style: none;
   background-color: $dropdown-bg;
   background-clip: padding-box;
-  border: $dropdown-border-width solid $dropdown-border-color;
+  border: $dropdown-border-width solid var(--dropdown-border-color);
   @include border-radius($border-radius);
   @include box-shadow($dropdown-box-shadow);
 }
@@ -83,9 +87,9 @@
 
   &.active,
   &:active {
-    color: $dropdown-link-active-color;
+    color: var(--dropdown-link-active-color);
     text-decoration: none;
-    background-color: $dropdown-link-active-bg;
+    background-color: var(--dropdown-link-active-bg);
   }
 
   &.disabled,
