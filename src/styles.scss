@@ -188,6 +188,13 @@ tag-input {
     border: 1px solid lightgrey !important;
     color: var(--text-color)!important;
     background-color: var(--composer-tag-background)!important;
+    delete-icon {
+      svg {
+        path {
+          fill: var(--text-color)!important;
+        }
+      }
+    }
     .tag-wrapper {
       margin-top: -10px !important;
     }
