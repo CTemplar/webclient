@@ -186,6 +186,8 @@ tag-input {
     height: 20px !important;
     border-radius: 20px !important;
     border: 1px solid lightgrey !important;
+    color: var(--text-color)!important;
+    background-color: var(--composer-tag-background)!important;
     .tag-wrapper {
       margin-top: -10px !important;
     }

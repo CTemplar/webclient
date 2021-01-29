@@ -25,7 +25,7 @@
         <span class="mail-label label-to">{{ 'settings.compose.to' | translate }}</span>
         <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="onRemoveReceive()" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste($event)" (onTagEdited)="onTagEdited($event)" (click)="onClick($event)" #input>
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [night_mode]="night_mode"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
             <span>
               {{ item.email }}
             </span>
@@ -54,7 +54,7 @@
         <span class="mail-label label-cc">Cc:</span>
         <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.cc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="ccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="onRemoveCc()" (onTextChange)="ccUpdateInputTextValue($event)" (paste)="ccOnPaste($event)" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick($event)" #ccInput>
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [night_mode]="night_mode"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
             <span>
               {{ item.email }}
             </span>
@@ -79,7 +79,7 @@
         <span class="mail-label label-bcc">Bcc:</span>
         <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.bcc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="bccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="onRemoveBcc()" (onTextChange)="bccUpdateInputTextValue($event)" (paste)="bccOnPaste($event)" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick($event)" #bccInput>
           <ng-template let-item="item" let-index="index">
-            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [night_mode]="night_mode"></app-circle-bar-spinner>
+            <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
             <span>
               {{ item.email }}
             </span>
