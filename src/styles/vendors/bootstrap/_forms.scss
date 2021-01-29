@@ -1,5 +1,6 @@
 // scss-lint:disable QualifyingElement
-
+@import '../../theme-variables-collection';
+@import '../../themes';
 //
 // Textual form controls
 //
@@ -12,12 +13,12 @@
   padding: $input-padding-y $input-padding-x;
   font-size: $font-size-base;
   line-height: $input-line-height;
-  color: $input-color;
-  background-color: $input-bg;
+  color: var(--input-color);
+  background-color: var(--input-bg);
   // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214.
   background-image: none;
   background-clip: padding-box;
-  border: $input-btn-border-width solid $input-border-color;
+  border: $input-btn-border-width solid var(--input-border-color);
 
   // Note: This has no effect on <select>s in some browsers, due to the limited stylability of `<select>`s in CSS.
   @if $enable-rounded {
@@ -42,7 +43,7 @@
 
   // Placeholder
   &::placeholder {
-    color: $input-color-placeholder;
+    color: var(--input-color-placeholder);
     // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
     opacity: 1;
   }
@@ -54,7 +55,7 @@
   // don't honor that edge case; we style them as disabled anyway.
   &:disabled,
   &[readonly] {
-    background-color: $input-bg-disabled;
+    background-color: var(--input-bg-disabled);
     // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655.
     opacity: 1;
   }

@@ -1,5 +1,5 @@
 
-@import '../vendors/bootstrap/variables';
+@import 'variables';
 ////
 //== Variables
 ////
@@ -21,11 +21,21 @@ $control-border-color-dark: #474e61;
 $control-border-1-color-dark: #323a4c;
 
 // Text color
-$dark-primary-fore-color: $white;
+$dark-primary-fore-color: $brand-white;
+//// Mail row size or date fields...
+$dark-secondary-text-color: rgba(255, 255, 255, 0.54);
 
 // Controls
 $action-control-background: $brand-fourth-dark;
 $action-control-active-background: darken($brand-fourth-dark, 15%);
+
+// Buttons
+$btn-user-action-background-dark: $brand-fourth-dark;
+$btn-user-action-color-dark: $dark-primary-fore-color;
+$btn-user-action-border-color-dark: $dark-primary-fore-color;
+$btn-user-action-color-focus-dark: darken($dark-primary-fore-color, 20%);
+$btn-user-action-border-color-focus-dark: darken($dark-primary-fore-color, 20%);
+$btn-user-action-background-disabled-dark: lighten($brand-fourth-dark, 15%);
 
 //////
 //## Start redefining the variables on original variables
@@ -43,21 +53,41 @@ $text-muted-dark: $dark-primary-fore-color;
 $text-dark-dark: $text-color-dark;
 $text-secondary-dark: $brand-secondary-dark;
 $text-faded-dark: #c4c4c4;
-$bg-faded-dark: $brand-faded-dark;
+$bg-faded-dark: $brand-fourth-dark;
 $bg-white-dark: $brand-fourth-dark;
 
+// Border
+$border-class-color-dark: $control-border-color-dark;
+
 // == Dropdowns
+$dropdown-toggle-bg-dark: $action-control-background;
 $dropdown-link-active-bg-dark: $action-control-active-background;
 $dropdown-link-active-color-dark: $text-color-dark;
 $dropdown-border-color-dark: $control-border-color-dark;
 $dropdown-link-hover-bg-dark: $brand-faded-dark;
+$dropdown-link-color-dark: $text-color-dark;
+$dropdown-hover-background-dark: darken($action-control-background, 5%);
+
+// Action button on mail header
+$btn-mail-action-active-background-dark: darken($action-control-background, 15%);
 
 // == Form fields
 $input-border-color-dark: $control-border-color-dark;
 $input-border-focus-dark: $control-border-color-dark;
+$input-bg-dark: $action-control-background;
+$input-color-dark: $text-color-dark;
+$input-color-placeholder-dark: darken($text-color-dark, 25%);
 
 // == Modal
 $close-color-dark: $text-color-dark;
+$modal-header-background-dark: lighten($brand-fourth-dark, 5%);
+$modal-divider-color-dark: $control-border-color-dark;
+
+// == Checkbox - Materials
+$mat-checkbox-border-color-dark: $dark-primary-fore-color;
+
+// Controls - Checkbox, Radio
+$option-checked-color-dark: lighten($brand-secondary, 10%);
 
 //////
 //## End redefining the variables on original variables
@@ -68,6 +98,8 @@ $close-color-dark: $text-color-dark;
 //////
 //## Start Component customzing
 //////
+$main-content-background-dark: $brand-third-dark;
+
 $sidebar-footer-background-dark: $brand-secondary-darker;
 $sidebar-border-right-dark: $control-border-1-color-dark;
 
@@ -76,3 +108,20 @@ $mail-row-background-active-dark: lighten($brand-third-dark, 10%);  // including
 $mail-row-background-selected-dark: lighten($brand-third-dark, 10%);
 $mail-row-background-unread-dark: lighten($brand-third-dark, 5%);
 $mail-row-border-bottom-color-dark: $control-border-1-color-dark;
+$mail-row-read-sent-date-text-color-dark: $dark-secondary-text-color;
+$mail-row-unread-sent-date-text-color-dark: $dark-secondary-text-color;
+
+// Contacts
+$contacts-header-background-dark: $brand-third-dark;
+
+//// Settings ////
+//Tabs
+$settings-tabs-background-dark: $brand-fourth-dark;
+$settings-tabs-container-background-dark: $brand-third-dark;
+$settings-tabs-border-color-dark: $control-border-color-dark;
+$settings-tabs-color-dark: $text-color-dark;
+// Dashboard & Plans
+$settings-dashboard-plan-text-color-dark: $text-color-dark;
+$settings-dashboard-plan-btn-box-shadow-dark: darken(#e8dcdc, 80%);
+// Composer
+$composer-tag-box-shadow-dark: darken($brand-secondary-dark, 10%);

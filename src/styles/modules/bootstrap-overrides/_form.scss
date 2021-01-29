@@ -15,7 +15,7 @@ input:-webkit-autofill {
 }
 
 /* Include placeholder mixin */
-@include placeholder('.form-control', $brand-light-gray, '', $font-family-lato, 'initial', italic);
+@include placeholder('.form-control', var(--input-color-placeholder), '', $font-family-lato, 'initial', italic);
 @include placeholder('.form-control.error', $brand-danger, '', $font-family-lato, 'initial', italic);
 
 .form-group {

@@ -27,7 +27,7 @@
 }
 
 .mail-contact-header {
-  background: #f5f5f5;
+  background: var(--contacts-header-background);
   border-radius: 2px 2px 0 0;
 
   tr {
@@ -55,7 +55,7 @@
 }
 
 .mail-contact-body.is-bordered {
-  border: 1px solid #f5f5f5;
+  border: 1px solid var(--mail-row-border-bottom-color);
   border-bottom: 0;
 
   tr {
@@ -96,7 +96,7 @@
 }
 
 .mail-contact .mail-list-row {
-  border-color: #f5f5f5;
+  border-color: var(--mail-row-border-bottom-color);
   font-size: 0.875rem;
 
   @include media('<ipad', '>sm') {
@@ -382,4 +382,15 @@
 .mailbox-section {
   height: calc(100vh - 118px);
   overflow: auto;
+}
+
+.select-all-checkbox {
+  top: 4px;
+}
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border: 2px solid var(--mat-checkbox-border-color);
+}
+::ng-deep .mat-checkbox .mat-checkbox-background {
+  border: var(--width-0-2) solid var(--mat-checkbox-border-color);
 }

@@ -270,8 +270,8 @@ a {
   align-items: center;
   position: relative;
   padding: 0.2rem $mail_composer_padding_x;
-  background: $brand-white;
-  border-bottom: 1px solid $input-border-color;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border-class-color);
 
   @include media('>sm') {
     font-size: 0.75rem;
@@ -280,7 +280,7 @@ a {
   .mail-label {
     display: block;
     margin-right: 0.5rem;
-    color: rgba(0, 0, 0, 0.38);
+    color: var(--brand-light-gray);
     line-height: 1;
   }
 
@@ -292,6 +292,8 @@ a {
     resize: none;
     width: 100%;
     overflow: hidden;
+    background-color: var(--bg-white);
+    color: var(--text-color-black-white);
 
     @include media('>sm') {
       padding: 0.688rem 0 0.5rem;
@@ -339,7 +341,7 @@ a {
   overflow-x: hidden;
   overflow-y: auto;
   line-height: 1.67rem;
-  background: white;
+  background: var(--bg-white);
   max-height: 50vh;
   overflow-y: auto;
 
@@ -349,11 +351,11 @@ a {
 }
 
 .mail-compose-box-inner {
-  background: $brand-white;
+  background: var(--bg-white);
 }
 
 .mail-compose-editable-box {
-  background: $brand-white;
+  background: var(--bg-white);
 
   &[contenteditable]:focus {
     outline: 0;
@@ -362,7 +364,7 @@ a {
   .ql-editor {
     min-height: 385.867px;
     line-height: inherit;
-    color: black;
+    color: var(--text-color-black-white);
     .originalblock {
       border-left: 1px solid rgb(204, 204, 204);
       padding-left: 1ex;
@@ -377,7 +379,7 @@ a {
 .mail-composer-footer {
   padding: 0.5rem $mail_composer_padding_x;
   background: var(--brand-faded);
-  border: 1px solid $input-border-color;
+  border: 1px solid var(--border-class-color);
   margin-bottom: -26px;
 
   @include media('<=sm') {

@@ -53,8 +53,8 @@ $error-red: #e94e4c;
   align-items: center;
   flex-wrap: wrap;
   padding: 1.188rem 0.938rem;
-  background: var(--brand-faded);
-  border: 1px solid darken($brand-faded, 3%);
+  background: var(--bg-faded);
+  border: 1px solid var(--border-class-color);
   font-size: 0.875rem;
   line-height: 1.14;
 
@@ -330,7 +330,7 @@ $error-red: #e94e4c;
 }
 
 .info-card {
-  background: #f5f5f5;
+  background: var(--bg-faded);
 
   p {
     font-size: 14px;
@@ -457,7 +457,7 @@ $error-red: #e94e4c;
 
 .signup-form {
   position: relative;
-  padding-top: 5px;
+  // padding-top: 5px;
   .validate-message {
     display: block;
     margin-bottom: 0.375rem;
@@ -535,8 +535,8 @@ $error-red: #e94e4c;
 
 .plan-details {
   .desc-card-body {
-    background: #fafafa;
-    border: 1px solid #f2f2f2;
+    background: var(--bg-faded);
+    border: 1px solid var(--border-class-color);
   }
 
   .user-details {
@@ -546,7 +546,7 @@ $error-red: #e94e4c;
   }
 
   .subscription {
-    color: black;
+    color: var(--text-dark);
     margin-top: 10px;
 
     .subscription-tag {
@@ -597,12 +597,12 @@ $error-red: #e94e4c;
       padding: 1.5rem;
 
       li {
-        background: white;
-        border: 1px solid #f5f5f5;
+        background: var(-bg-white);
+        border: 1px solid var(--border-class-color);
         font-size: 0.875rem;
 
         &:first-child {
-          border: 1px solid #fafafa;
+          border: 1px solid var(--bg-faded);
           border-bottom: 0;
         }
       }

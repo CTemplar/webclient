@@ -10,7 +10,7 @@
   bottom: 0;
   left: 0;
   padding: 1.5rem 0.938rem;
-  background: $brand-white;
+  background: var(--bg-white);
 
   @include media('>=ipad') {
     padding: 0.5rem 1.563rem;

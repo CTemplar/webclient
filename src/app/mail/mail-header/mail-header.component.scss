@@ -121,7 +121,7 @@
 
       @include media('>sm') {
         padding: 0.438rem 0.813rem;
-        background: $brand-white;
+        background: var(--dropdown-toggle-bg);
         border: 1px solid var(--dropdown-border-color);
         color: var(--brand-light-gray);
         font-size: 1.25rem;
@@ -247,7 +247,7 @@
     background: transparent;
     border: 0;
     cursor: pointer;
-
+    color: var(--text-dark);
     i {
       &:hover {
         color: $brand-secondary;

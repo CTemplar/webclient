@@ -40,6 +40,7 @@ app-custom-domains {
   .mat-stepper-horizontal {
     font-family: 'Lato', Helvetica, Arial, sans-serif;
     word-break: break-all;
+    background-color: var(--bg-faded);
   }
 
   .mat-step {
@@ -132,7 +133,7 @@ app-mail-settings {
       ul.nav-tabs.nav {
         position: absolute;
         z-index: 10;
-        background: white;
+        background: var(--settings-tabs-container-background);
         width: 100%;
       }
     }
@@ -156,8 +157,9 @@ app-mail-settings {
 
   .timezone-block {
     .mat-form-field-appearance-legacy .mat-form-field-infix {
-      border: 1px solid #e0e0e0;
-      color: black;
+      border: 1px solid var(--dropdown-border-color);
+      color: var(--text-dark);
+      background-color: var(--bg-faded);
     }
 
     .mat-form-field-underline {
@@ -232,7 +234,7 @@ app-mail-detail {
   }
 
   div {
-    color: var(--sidebar-footer-background);
+    color: var(--text-color);
   }
 }
 

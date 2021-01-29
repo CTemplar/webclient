@@ -52,7 +52,7 @@
   color: var(--body-color);
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   list-style: none;
-  background-color: $dropdown-bg;
+  background-color: var(--dropdown-toggle-bg);
   background-clip: padding-box;
   border: $dropdown-border-width solid var(--dropdown-border-color);
   @include border-radius($border-radius);
@@ -73,16 +73,16 @@
   padding: 3px $dropdown-item-padding-x;
   clear: both;
   font-weight: $font-weight-normal;
-  color: $dropdown-link-color;
+  color: var(--dropdown-link-color);
   text-align: inherit; // For `<button>`s
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   background: none; // For `<button>`s
   border: 0; // For `<button>`s
 
   @include hover-focus {
-    color: $dropdown-link-hover-color;
+    color: var(--dropdown-link-color);
     text-decoration: none;
-    background-color: $dropdown-link-hover-bg;
+    background-color: var(--dropdown-hover-background);
   }
 
   &.active,

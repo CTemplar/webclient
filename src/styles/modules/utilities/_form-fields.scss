@@ -51,14 +51,14 @@ input[type='radio'].fancy-field-control + label {
 
 // == Checked
 input[type='radio'].fancy-field-control:checked + label {
-  color: var(--brand-secondary);
+  color: var(--option-checked-color);
 
   &::before {
-    border-color: var(--brand-secondary);
+    border-color: var(--option-checked-color);
   }
 
   &::after {
-    background: var(--brand-secondary);
+    background: var(--option-checked-color);
   }
 }
 

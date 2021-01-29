@@ -9,6 +9,7 @@ $width-3: 3px;
 
 $variables: (
     // General
+    --text-color-black-white: (#000, #fff),
     --brand-secondary: ($brand-secondary, $brand-secondary-dark),
     --text-color: ($text-color, $text-color-dark),
     --body-color: ($body-color, $body-color-dark),
@@ -25,6 +26,8 @@ $variables: (
     --text-faded: (#c4c4c4, #c4c4c4),
     --bg-faded: ($bg-faded-light, $bg-faded-dark),
     --bg-white: ($bg-white-light, $bg-white-dark),
+    --text-brand-secondary-white-color: ($brand-secondary, $text-color-dark),
+    --gray-9e9e9e: ($gray-9e9e9e, $text-color-dark),
 
 
     // Width
@@ -34,19 +37,48 @@ $variables: (
     --width-2-0: ($width-2, $width-0),
 
     // Dropdown
+    --dropdown-toogle-color: ($brand-black, $text-color-dark),
+    --dropdown-toggle-bg: ($dropdown-toggle-bg-light, $dropdown-toggle-bg-dark),
+    --dropdown-toggle-secondary-bg: ($dropdown-toggle-bg-secondary-light, $dropdown-toggle-bg-dark),
     --dropdown-link-active-bg: ($dropdown-link-active-bg, $dropdown-link-active-bg-dark),
     --dropdown-link-active-color: ($dropdown-link-active-color, $dropdown-link-active-color-dark),
     --dropdown-border-color: ($dropdown-border-color, $dropdown-border-color-dark),
     --dropdown-link-hover-bg: ($dropdown-link-hover-bg, $dropdown-link-hover-bg-dark),
+    --dropdown-link-color: ($dropdown-link-color-light, $dropdown-link-color-dark),
+    --dropdown-hover-background: ($dropdown-hover-background-light, $dropdown-hover-background-dark),
+
+    // Mail Action Buttons
+    --btn-mail-action-active-background: ($btn-mail-action-active-background-light, $btn-mail-action-active-background-dark),
 
     // Form Fields
     --input-border-color: ($input-border-color, $input-border-color-dark),
     --input-border-focus: ($input-border-focus, $input-border-focus-dark),
+    --input-bg: ($input-bg-light, $input-bg-dark),
+    --input-bg-disabled: ($input-bg-light, $input-bg-dark),
+    --input-color: ($input-color-light, $input-color-dark),
+    --input-color-placeholder: ($input-color-placeholder-light, $input-color-placeholder-dark),
+
+    // Checkbox
+    --mat-checkbox-border-color: ($mat-checkbox-border-color-light, $mat-checkbox-border-color-dark),
 
     // Modal
     --close-color: ($close-color, $close-color-dark),
+    --modal-header-background: ($modal-header-background-light, $modal-header-background-dark),
+    --modal-divider-color: ($modal-divider-color-light, $modal-divider-color-dark),
+
+    // Buttons - Reply, Forward...
+    --btn-user-action-background: ($btn-user-action-background-light, $btn-user-action-background-dark),
+    --btn-user-action-color: ($btn-user-action-color-light, $btn-user-action-color-dark),
+    --btn-user-action-border-color: ($btn-user-action-border-color-light, $btn-user-action-border-color-dark),
+    --btn-user-action-focus-color: ($btn-user-action-color-focus-light, $btn-user-action-color-focus-dark),
+    --btn-user-action-border-focus-color: ($btn-user-action-border-color-focus-light, $btn-user-action-border-color-focus-dark),
+    --btn-user-action-background-disabled: ($btn-user-action-background-disabled-light, $btn-user-action-background-disabled-dark),
+
+    --option-checked-color: ($option-checked-color-light, $option-checked-color-dark),
 
     // Customizing components
+    --main-content-background: ($main-content-background-light, $main-content-background-dark),
+
     --sidebar-footer-background: ($sidebar-footer-background-light, $sidebar-footer-background-dark),
     --sidebar-border-right: ($sidebar-border-right-light, $sidebar-border-right-dark),
 
@@ -55,4 +87,26 @@ $variables: (
     --mail-row-background-selected: ($mail-row-background-selected-light, $mail-row-background-selected-dark),
     --mail-row-background-unread: ($mail-row-background-unread-light, $mail-row-background-unread-dark),
     --mail-row-border-bottom-color: ($mail-row-border-bottom-color-light, $mail-row-border-bottom-color-dark),
+    --mail-row-read-sent-date-text-color: ($mail-row-read-sent-date-text-color-light, $mail-row-read-sent-date-text-color-dark),
+    --mail-row-unread-sent-date-text-color: ($mail-row-unread-sent-date-text-color-light, $mail-row-unread-sent-date-text-color-dark),
+
+    // Contacts
+    --contacts-header-background: ($contacts-header-background-light, $contacts-header-background-dark),
+
+    // Settings - Tabs
+    --settings-tabs-background: ($settings-tabs-background-light, $settings-tabs-background-dark),
+    --settings-tabs-container-background: ($settings-tabs-container-background-light, $settings-tabs-container-background-dark),
+    --settings-tabs-border-color: ($settings-tabs-border-color-light, $settings-tabs-border-color-dark),
+    --settings-tabs-color: ($settings-tabs-color-light, $settings-tabs-color-dark),
+    // Settings - Dashboard
+    --settings-dashboard-plan-text-color: ($settings-dashboard-plan-text-color-light, $settings-dashboard-plan-text-color-dark),
+    --settings-dashboard-plan-btn-box-shadow: ($settings-dashboard-plan-btn-box-shadow-light, $settings-dashboard-plan-btn-box-shadow-dark),
+    --settings-dashboard-plan-border-color: ($brand-white, $border-class-color-dark),
+
+    // Composer
+    --composer-header-background: ($brand-secondary, $brand-secondary-dark),
+    --composer-tag-box-shadow: ($composer-tag-box-shadow-light, $composer-tag-box-shadow-dark),
+
+    // Border
+    --border-class-color: ($border-class-color-light, $border-class-color-dark),
 )
