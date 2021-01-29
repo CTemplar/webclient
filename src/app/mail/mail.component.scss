@@ -2,6 +2,8 @@
 @import '../../styles/vendors/include-media/include-media';
 @import '../../styles/config/include-media-config';
 @import '../../styles/vendors/ceaser/ceaser-easing';
+@import '../../styles/theme-variables-collection';
+@import '../../styles/themes';
 
 // == Mailbox content
 .app-outer-mailbox {
@@ -31,6 +33,7 @@
   padding-bottom: 3.75rem;
   min-height: 100vh;
   height: 100vh;
+  background: var(--main-content-background);
 
   @include media('<ipad', '>sm') {
     margin-left: 68px;
@@ -47,7 +50,7 @@
   top: 0;
   bottom: 0;
   left: 0;
-  background-color: #34495e;
+  background-color: var(--brand-secondary);
   width: 220px;
 
   @include media('<ipad') {
@@ -354,11 +357,11 @@
 
 .divider-item {
   margin: 0.375rem 0.938rem;
-  border-top: 1px solid $divider-color;
+  border-top: 1px solid var(--divider-color);
 }
 
 .mailbox-sidebar-footer {
-  background: #29394e;
+  background: var(--sidebar-footer-background);
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -501,7 +504,7 @@
 // == Actions bar
 .mailbox-actionbar {
   padding: 0.6rem 0.938rem;
-  border-bottom: 1px solid $input-border-color;
+  border-bottom: 1px solid var(--dropdown-border-color);
 
   @include media('>=ipad') {
     padding-right: 1.563rem;
@@ -582,10 +585,10 @@
       display: flex;
       align-items: center;
       padding: 0.219rem 0.688rem;
-      background: #f5f5f5;
-      border: 1px solid $input-border-color;
+      background: var(--dropdown-toggle-secondary-bg);
+      border: 1px solid var(--dropdown-border-color);
       border-radius: 2px;
-      color: rgba(0, 0, 0, 0.38);
+      color: var(--brand-light-gray);
       font-weight: bold;
       height: 2rem;
       width: 2.52rem;
@@ -661,7 +664,7 @@
   li > a {
     transition: none;
     &:active {
-      background: #e4e4e4;
+      background: var(--btn-mail-action-active-background);
     }
   }
   .mailbox-dropdown .dropdown-item {
@@ -680,7 +683,7 @@
 .more-xs-options {
   .mobiledOptionsDropdown {
     padding: 0.75rem 0.938rem;
-    background: $brand-faded;
+    background: var(--brand-faded);
     &.dropdown-menu {
       margin-top: 1px;
       right: 0;
@@ -713,7 +716,7 @@
 
   [class*='mail-nav-control-'] {
     background: #f5f5f5;
-    border: 1px solid $dropdown-border-color;
+    border: 1px solid var(--dropdown-border-color);
     border-radius: 2px;
     color: $gray-9e9e9e;
     font-size: 0.75rem;
@@ -807,10 +810,10 @@
   justify-content: center;
 
   [class*='mail-nav-control-'] {
-    background: #f5f5f5;
-    border: 1px solid $dropdown-border-color;
+    background: var(--dropdown-toggle-secondary-bg);
+    border: 1px solid var(--dropdown-border-color);
     border-radius: 2px;
-    color: $gray-9e9e9e;
+    color: var(--gray-9e9e9e);
     font-size: 0.75rem;
     height: 2rem;
     width: 2rem;
@@ -846,13 +849,13 @@
   }
 
   &.ui-header-bordered {
-    border: 1px solid darken($brand-faded, 3%); //$dropdown-border-color;
+    border: 1px solid var(--border-class-color); //$dropdown-border-color;
     border-right: 0;
     border-left: 0;
   }
 
   &.border-all-corner {
-    border: 1px solid darken($brand-faded, 3%);
+    border: 1px solid var(--border-class-color);
   }
 }
 
@@ -914,9 +917,9 @@
 }
 
 .mail-list-row {
-  position: relative;
+  // position: relative;
   padding: 0.75rem 0.938rem;
-  border-bottom: 1px solid $input-border-color;
+  border-bottom: 1px solid var(--mail-row-border-bottom-color);
   font-size: 0.75rem;
   line-height: 1;
   background-color: #fafaf9;
@@ -927,13 +930,13 @@
   }
 
   &.is-unread {
-    color: $brand-black !important;
-    background: #f5f5f5;
+    color: var(--mail-row-unread-sent-date-text-color) !important;
+    background: var(--mail-row-background-unread);
   }
 
   &.is-read {
-    background-color: #fff;
-    color: $brand-gray;
+    background-color: var(--mail-row-background);
+    color: var(--mail-row-read-sent-date-text-color);
   }
 
   &.is-checked {
@@ -942,12 +945,15 @@
 
   &.is-selected,
   &.is-selected:hover {
-    background: #ffc;
+    background: var(--mail-row-background-selected)!important;
   }
 
   &.is-active {
     background: $brand-secondary !important;
     color: $brand-white !important;
+  }
+  &:hover {
+    background: var(--mail-row-background-active)!important;
   }
 }
 
@@ -1125,7 +1131,7 @@
   .mail-security-status {
     width: 3rem;
     text-align: center;
-    color: #34495e;
+    color: var(--text-brand-secondary-white-color);
 
     @include media('<=xs') {
       width: 1rem;
@@ -1133,7 +1139,7 @@
   }
 
   .mail-status-type .icon-star {
-    color: $dropdown-border-color;
+    color: var(--dropdown-border-color);
   }
 
   .mail-status-type.is-fav .icon-star-filled {
@@ -1355,7 +1361,7 @@
 
 .ngb-dp-header {
   padding-top: 1rem !important;
-  background: $brand-faded;
+  background: var(--brand-faded);
 }
 
 .ngb-dp-arrow {

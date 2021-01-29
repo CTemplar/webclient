@@ -135,7 +135,7 @@
     top: -2rem;
     content: '';
     display: block;
-    background: $brand-faded;
+    background: var(--brand-faded);
     width: calc(115% + 4rem);
     height: 4.5rem;
     transform: skew(48deg) rotate(-4deg);

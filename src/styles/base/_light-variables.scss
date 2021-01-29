@@ -1,0 +1,82 @@
+@import 'variables';
+
+$brand-secondary-light: $brand-secondary;
+
+$control-text-color-light: $brand-secondary;
+
+$text-dark-light: rgba(0, 0, 0, 0.87);
+$text-secondary-light: $brand-secondary;
+$text-faded-light: #c4c4c4;
+$main-background-color: $brand-white;
+
+// Border
+$border-class-color-light: #f2f2f2;
+
+// Unread mail row background, Mail header action button background
+$background-faded-secondary: #f5f5f5;
+
+$bg-faded-light: $brand-faded;
+$bg-white-light: $brand-white;
+
+$mat-checkbox-border-color-light: #cccaca;
+
+// Dropdown
+$dropdown-toggle-bg-light: $main-background-color;
+$dropdown-toggle-bg-secondary-light: $background-faded-secondary;
+$dropdown-link-color-light: #292b2c;
+$dropdown-hover-background-light: $brand-faded;
+
+// Action button on mail header
+$btn-mail-action-active-background-light: #e4e4e4;
+
+// Input
+$input-bg-light: $main-background-color;
+$input-color-light: #464a4c;
+$input-color-placeholder-light: $brand-light-gray;
+
+// Button - Reply, Forward button on mail detail ...
+$btn-user-action-background-light: #f1f1f1;
+$btn-user-action-color-light: #444;
+$btn-user-action-border-color-light: rgba(0, 0, 0, 0.1);
+$btn-user-action-color-focus-light: darken(#444, 20%);
+$btn-user-action-border-color-focus-light: darken(rgba(0, 0, 0, 0.1), 20%);
+$btn-user-action-background-disabled-light: #f1f0f0;
+
+// Modal
+$modal-header-background-light: $main-background-color;
+$modal-divider-color-light: #eceeef;
+
+// Controls - Checkbox, Radio
+$option-checked-color-light: $brand-secondary;
+
+//////
+//## Start Component customzing
+//////
+$main-content-background-light: $main-background-color;
+
+$sidebar-footer-background-light: #29394e;
+$sidebar-border-right-light: transparent;
+
+$mail-row-background-light: $brand-white;
+$mail-row-background-active-light: rgba(0, 0, 0, 0.075); // including hover
+$mail-row-background-selected-light: #ffc;
+$mail-row-background-unread-light: $background-faded-secondary;
+$mail-row-border-bottom-color-light: $input-border-color;
+$mail-row-read-sent-date-text-color-light: $text-color;
+$mail-row-unread-sent-date-text-color-light: $brand-black;
+
+// Contacts
+$contacts-header-background-light: $background-faded-secondary;
+
+//// Settings ////
+//Tabs
+$settings-tabs-background-light: $main-background-color;
+$settings-tabs-container-background-light: #f4f4f4;
+$settings-tabs-border-color-light: $background-faded-secondary;
+$settings-tabs-color-light: #616161;
+// Dashboard & Plans
+$settings-dashboard-plan-text-color-light: #2e4053;
+$settings-dashboard-plan-btn-box-shadow-light: #e8dcdc;
+// Composer
+$composer-tag-box-shadow-light: #d4d1d1;
+$composer-tag-background-light: #efefef;

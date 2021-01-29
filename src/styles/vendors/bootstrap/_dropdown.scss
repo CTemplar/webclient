@@ -1,4 +1,5 @@
 // The dropdown wrapper (`<div>`)
+
 .dropup,
 .dropdown {
   position: relative;
@@ -45,12 +46,12 @@
   padding: $dropdown-padding-y 0;
   margin: $dropdown-margin-top 0 0; // override default ul
   font-size: $font-size-base; // Redeclare because nesting can cause inheritance issues
-  color: $body-color;
+  color: var(--body-color);
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   list-style: none;
-  background-color: $dropdown-bg;
+  background-color: var(--dropdown-toggle-bg);
   background-clip: padding-box;
-  border: $dropdown-border-width solid $dropdown-border-color;
+  border: $dropdown-border-width solid var(--dropdown-border-color);
   @include border-radius($border-radius);
   @include box-shadow($dropdown-box-shadow);
 }
@@ -69,23 +70,23 @@
   padding: 3px $dropdown-item-padding-x;
   clear: both;
   font-weight: $font-weight-normal;
-  color: $dropdown-link-color;
+  color: var(--dropdown-link-color);
   text-align: inherit; // For `<button>`s
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   background: none; // For `<button>`s
   border: 0; // For `<button>`s
 
   @include hover-focus {
-    color: $dropdown-link-hover-color;
+    color: var(--dropdown-link-color);
     text-decoration: none;
-    background-color: $dropdown-link-hover-bg;
+    background-color: var(--dropdown-hover-background);
   }
 
   &.active,
   &:active {
-    color: $dropdown-link-active-color;
+    color: var(--dropdown-link-active-color);
     text-decoration: none;
-    background-color: $dropdown-link-active-bg;
+    background-color: var(--dropdown-link-active-bg);
   }
 
   &.disabled,

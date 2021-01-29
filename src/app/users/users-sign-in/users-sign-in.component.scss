@@ -43,7 +43,7 @@ $error-red: #e94e4c;
 .form-control {
   &:focus,
   &:focus + .input-group-addon {
-    border-color: $dropdown-border-color !important;
+    border-color: var(--dropdown-border-color) !important;
   }
   &[type='text'] {
     + span .fa-eye {

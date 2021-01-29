@@ -164,7 +164,7 @@
 }
 
 .actions-btn.actions-btn-inline {
-  color: $brand-light-gray;
+  color: var(--brand-light-gray);
   font-size: 0.625rem;
   min-width: 4.125rem;
   width: inherit;

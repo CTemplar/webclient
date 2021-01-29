@@ -1,4 +1,6 @@
 @import '~styles/base/variables';
+@import '~styles/theme-variables-collection';
+@import '~styles/themes';
 
 .users-body {
   padding-left: 1.563rem;
@@ -69,7 +71,7 @@
   padding: 10px 15px;
 
   &:hover {
-    background-color: $brand-faded;
+    background-color: var(--brand-faded);
   }
 }
 
