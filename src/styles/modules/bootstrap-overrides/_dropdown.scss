@@ -2,9 +2,6 @@
 * Bootstrap overrides dropdown scss file
 */
 
-@import '../../theme-variables-collection';
-@import '../../themes';
-
 .dropdown[placement='bottom-right'] .dropdown-menu {
   right: 0;
   left: auto;

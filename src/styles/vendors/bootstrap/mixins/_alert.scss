@@ -1,6 +1,4 @@
 // Alerts
-@import '../../../theme-variables-collection';
-@import '../../../themes';
 
 @mixin alert-variant($background, $border, $body-color) {
   background-color: $background;

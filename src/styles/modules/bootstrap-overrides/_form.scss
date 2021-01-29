@@ -1,8 +1,6 @@
 /**
 * Bootstrap form override
 */
-@import '../../theme-variables-collection';
-@import '../../themes';
 
 select::-ms-expand {
   display: none !important;
