@@ -92,6 +92,7 @@
 }
 
 .mailbox-sidebar {
+  border-right: var(--width-0-2) solid var(--sidebar-border-right);
   @include media('>sm', '<ipad') {
     .mailbox-sidebar-nav-link + button {
       display: none;

@@ -76,10 +76,10 @@
   .dropdown-toggle {
     position: relative;
     padding: 0.5rem 0.5rem 0.5rem;
-    background: $brand-white;
-    border: solid 1px $input-border-color;
+    background: var(--dropdown-toggle-bg);
+    border: solid 1px var(--dropdown-border-color);
     border-radius: 4px;
-    color: $brand-black;
+    color: var(--dropdown-toogle-color);
     cursor: pointer;
     font-family: $font-family-lato;
     font-size: 1rem;

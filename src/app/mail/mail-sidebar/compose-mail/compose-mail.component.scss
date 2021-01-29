@@ -91,7 +91,7 @@ textarea:disabled {
       width: 2.25rem;
       display: flex;
       justify-content: center;
-      background: #fafafa;
+      background: var(--bg-faded);
     }
     &:disabled {
       background-color: inherit;
@@ -102,7 +102,7 @@ textarea:disabled {
     }
     border: none;
     i {
-      color: black;
+      color: var(--text-color-black-white);
     }
   }
 }
