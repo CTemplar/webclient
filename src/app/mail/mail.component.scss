@@ -361,7 +361,7 @@
 }
 
 .mailbox-sidebar-footer {
-  background: var(--brand-secondary);
+  background: var(--sidebar-footer-background);
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -953,7 +953,7 @@
     color: $brand-white !important;
   }
   &:hover {
-    background: var(--mail-row-background-selected)!important;
+    background: var(--mail-row-background-active)!important;
   }
 }
 
