@@ -186,6 +186,10 @@
 // == Mail actions form
 .mail-actions-form-title {
   margin-bottom: 1.25rem;
+
+  .icon {
+    font-size: 0.75rem;
+  }
 }
 
 .mail-actions-form-holder {
@@ -294,10 +298,6 @@
     .actions-btn {
       margin-right: 0.625rem;
       width: 2.75rem;
-    }
-
-    .icon {
-      font-size: 0.75rem;
     }
   }
 
