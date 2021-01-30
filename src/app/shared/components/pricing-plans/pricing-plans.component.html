@@ -80,7 +80,7 @@
                 <a *ngIf="plan.name === planType.PRIME" class="switch-payment-type" (click)="togglePaymentType()"> Click here to switch to {{ selectedPaymentType === paymentTypeEnum.ANNUALLY ? 'monthly' : 'yearly' }} </a>
               </h3>
               <div class="px-2 py-3 plan-sub-item">{{ plan.messages_per_day }}<label *ngIf="plan.name !== planType.CHAMPION">/day</label></div>
-              <div class="px-2 py-3 plan-sub-item">{{ plan.attachment_upload_limit }}/MB</div>
+              <div class="px-2 py-3 plan-sub-item">{{ plan.attachment_upload_limit }}MB</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.gb }}GB</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.aliases }}</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.custom_domains }}</div>
