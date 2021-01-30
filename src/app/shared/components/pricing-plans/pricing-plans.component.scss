@@ -32,13 +32,15 @@
   }
 
   .plan-item {
-    background: #fafafa;
+    background: var(--bg-faded);
     height: 190px;
-    border-left: 2px solid white;
+    border-left: 2px solid var(--settings-dashboard-plan-border-color);
+    border-top: var(--width-0-1) solid var(--settings-dashboard-plan-border-color);
+    border-bottom: var(--width-0-1) solid var(--settings-dashboard-plan-border-color);
     padding-top: 10px;
 
     div {
-      color: #2e4053;
+      color: var(--settings-dashboard-plan-text-color);
     }
 
     .select-btn {
@@ -46,7 +48,7 @@
       line-height: 0;
       border-color: transparent;
       color: white !important;
-      box-shadow: 5px 10px 10px #e8dcdc;
+      box-shadow: 5px 10px 10px var(--settings-dashboard-plan-btn-box-shadow);
       max-width: 90%;
       width: 100px;
       min-width: unset;
@@ -82,14 +84,17 @@
   }
 
   .plan-sub-item {
-    background: #fafafa;
-    border-bottom: 2px solid white;
-    border-left: 2px solid white;
+    background: var(--bg-faded);
+    border: 1px solid var(--settings-dashboard-plan-border-color);
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+
+    label {
+      margin-bottom: 0;
+    }
   }
 }
 

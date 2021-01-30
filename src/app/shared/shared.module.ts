@@ -34,6 +34,7 @@ import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
 import { EmailFormatPipe } from './pipes/email-formatting.pipe';
 import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinner.component';
+import { ThemeToggleService } from './services/theme-toggle-service';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, TagInputModule, MatIconModule, NgbModule],
@@ -99,7 +100,8 @@ import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinn
     FilenamePipe,
     CreditCardNumberPipe,
     LineBreakToBrTag,
-    EmailFormatPipe
+    EmailFormatPipe,
+    ThemeToggleService
   ],
   entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent],
 })

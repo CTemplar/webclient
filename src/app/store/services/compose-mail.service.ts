@@ -294,14 +294,6 @@ export class ComposeMailService {
       newComponentReference.instance.isComposeVisible = true;
       newComponentReference.instance.isMinimized = false;
       this.getComposesWidth();
-      if (this.windowWidth < this.composesWidth) {
-        for (const i in this.componentRefList) {
-          if (this.componentRefList[i].instance.isComposeVisible) {
-            this.componentRefList[i].instance.isComposeVisible = false;
-            break;
-          }
-        }
-      }
       newComponentReference.instance.hide.subscribe(event => {
         const index = this.componentRefList.indexOf(newComponentReference);
         this.destroyComponent(newComponentReference, index);

@@ -43,7 +43,7 @@
       left: 0rem;
       counter-increment: counterStep;
       content: counter(counterStep);
-      background: $brand-faded;
+      background: var(--brand-faded);
       border-radius: 50%;
       box-shadow: 0 4px 7px 0 rgba(6, 0, 68, 0.15);
       color: $brand-black;
@@ -105,7 +105,7 @@
 // == Billing page
 .form-card-holder-top-border {
   padding-top: 0.938rem;
-  border-top: 1px solid $dropdown-border-color;
+  border-top: 1px solid var(--dropdown-border-color);
 
   @include media('>sm') {
     padding-top: 2rem;
@@ -222,7 +222,7 @@
 .form-step-card {
   .btn-dropdown-lg .dropdown-toggle {
     padding: 0.875rem 0.75rem;
-    color: $brand-light-gray;
+    color: var(--brand-light-gray);
     font-style: italic;
     height: 3rem;
 

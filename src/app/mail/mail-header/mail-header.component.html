@@ -24,7 +24,7 @@
     </div>
     <!--Action buttons -->
     <div class="col-sm-6 mailbox-navbar-col">
-      <ul class="mailbox-actions-menu d-flex justify-content-end">
+      <ul class="mailbox-actions-menu d-flex justify-content-end align-items-center">
         <!--Protected by SRI button -->
         <li>
           <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity" target="_blank" rel="noopener noreferrer" class="sri-check" placement="bottom" ngbTooltip="Protected by SRI, click to read more">
@@ -38,7 +38,7 @@
               <i class="far fa-question-circle"></i>
             </button>
             <div ngbDropdownMenu class="dropdown-menu-right text-center faq-dropdown" aria-labelledby="helpDropdownMenuButton">
-              <a class="dropdown-item text-left" target="_blank" rel="noopener noreferrer" href="{{ primaryWebsite }}/faqs/"> FAQs </a>
+              <a class="dropdown-item text-left" target="_blank" rel="noopener noreferrer" href="{{ primaryWebsite }}/help/"> Helpdesk </a>
               <a class="dropdown-item text-left" (click)="openComposeMailDialog(['support@ctemplar.com'])" [innerHTML]="'settings.contact_support' | translate">Contact support </a>
             </div>
           </div>
@@ -71,8 +71,11 @@
               <div class="form search-form">
                 <form>
                   <div class="form-group mb-0 position-relative">
-                    <input class="form-control form-control-sm" type="text" [placeholder]="'mail_header.search' | translate" />
-                    <button class="btn btn-sm btn-secondary search-btn" role="button">
+                    <input class="form-control form-control-sm" type="text" [formControl]="searchInput" (keyup.enter)="search()" [placeholder]="'mail_header.search' | translate" />
+                    <button class="clear-btn" *ngIf="searchInput.value?.length > 0" (click)="searchInput.setValue('')">
+                      <i class="fas fa-times"></i>
+                    </button>
+                    <button class="btn btn-sm btn-secondary search-btn" (click)="search()" role="button">
                       <i class="icon icon-search"></i>
                     </button>
                   </div>

@@ -613,6 +613,8 @@ export interface PricingPlan {
   domain_count: number;
   email_count: number;
   encrypted_attachments: boolean;
+  encryption_at_rest: boolean;
+  encrypted_body: boolean;
   encrypted_contacts: boolean;
   encrypted_content: boolean;
   encrypted_metadata: boolean;
@@ -632,7 +634,9 @@ export interface PricingPlan {
   two_fa: boolean;
   unlimited_folders: boolean;
   virus_detection_tool: boolean;
+  anonymized_ip: boolean;
   zero_knowledge_password: boolean;
+  remote_encrypted_link: boolean;
 }
 
 export enum TransactionStatus {

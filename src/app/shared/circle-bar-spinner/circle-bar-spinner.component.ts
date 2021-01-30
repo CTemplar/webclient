@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CircleBarSpinnerComponent implements OnInit {
 
   @Input() showSpinner: boolean;
+  @Input() color: string = '#333333';
   constructor() { }
 
   ngOnInit(): void {

@@ -143,7 +143,7 @@
         </li>
         <!-- Delete all messages permanently -->
         <li *ngIf="(mailFolder === mailFolderTypes.TRASH || mailFolder === mailFolderTypes.SPAM) && mails?.length > 0">
-          <a (click)="confirmDeleteAll()" class="btn btn-sm delete-permanently-btn" placement="top" [ngbTooltip]="'mail_list.delete_messages' | translate">
+          <a (click)="openUseCacheConfirmDialog()" class="btn btn-sm delete-permanently-btn" placement="top" [ngbTooltip]="'mail_list.delete_messages' | translate">
             <i class="icon icon-garbage position-left"></i>
             <span [translate]="'mail_list.delete_all'"> Delete all permanently</span>
           </a>
@@ -287,14 +287,14 @@
             </td>
             <!-- Icon Secured -->
             <td class="mail-security-status fire-wall-protection">
-              <img *ngIf="!userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
+              <img *ngIf="(mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
               <ng-template #fireWallIcon>
-                <i class="fas fa-chess-rook svg-inline--fa" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
+                <i class="fas fa-chess-rook svg-inline--fa" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
               </ng-template>
             </td>
             <!-- Icon Secured -->
             <td class="mail-security-status">
-              <i class="icon icon-secured" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_detail.encrypted' | translate" placement="left"></i>
+              <i class="icon icon-secured" [ngbTooltip]="'mail_detail.encrypted' | translate" placement="left"></i>
             </td>
           </tr>
         </ng-container>
@@ -371,10 +371,19 @@
                 <ng-template #createdAt>{{ mail.created_at | momentDate: 'mail-list' }}</ng-template>
               </span>
             </td>
+
+            <!-- Icon Secured -->
+            <td class="mail-security-status fire-wall-protection">
+              <img *ngIf="(mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
+              <ng-template #fireWallIcon>
+                <i class="fas fa-chess-rook svg-inline--fa" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
+              </ng-template>
+            </td>
+            <!-- Icon Secured -->
+            <td class="mail-security-status">
+              <i class="icon icon-secured" [ngbTooltip]="'mail_detail.encrypted' | translate" placement="left"></i>
+            </td>
             <td class="mail-status">
-              <span class="mail-security-status" [ngClass]="{ 'text-faded': !mail.is_protected && mail.sender !== 'support@ctemplar.com' }">
-                <i class="icon icon-secured" [ngbTooltip]="!mail.is_protected && mail.sender !== 'support@ctemplar.com' ? '' : ('mail_detail.encrypted' | translate)" placement="left"></i>
-              </span>
               <a class="mail-status-type" (click)="toggleStarred(mail)" [ngClass]="{ 'is-fav': mail.starred }">
                 <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': !mail.starred }"></i>
               </a>

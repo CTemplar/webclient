@@ -16,7 +16,7 @@ import {
 } from '../../../store/actions';
 import { OpenPgpService, SharedService } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
-import { apiUrl } from '../../../shared/config';
+import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -64,6 +64,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
   planTypeEnum = PlanType;
 
   planType: PlanType;
+
+  isUsingLocalStorage: boolean;
 
   private updatedPrivateKeys: Array<any>;
 
@@ -141,6 +143,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
         validator: PasswordValidation.MatchPassword,
       },
     );
+
+    this.isUsingLocalStorage = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
   }
 
   updateSettings(key?: string, value?: any) {
@@ -306,6 +310,11 @@ export class SecurityComponent implements OnInit, OnDestroy {
       return;
     }
     input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  updateUsingLocalStorage(isUsing) {
+    localStorage.setItem(SYNC_DATA_WITH_STORE, isUsing ? 'true' : 'false');
+    localStorage.setItem(NOT_FIRST_LOGIN, 'true');
   }
 
   ngOnDestroy(): void {}

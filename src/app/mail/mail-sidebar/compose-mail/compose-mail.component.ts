@@ -273,6 +273,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   bccInputTextValue = '';
 
+  night_mode: boolean;
+
   options: any = {};
 
   selfDestruct: any = {};
@@ -443,6 +445,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       .subscribe((user: UserState) => {
         this.userState = user;
         this.settings = user.settings;
+        this.night_mode = this.settings.is_night_mode;
         // Set html/plain version from user's settings.
         if (this.draftMail && this.draftMail.is_html === null) {
           this.draftMail.is_html = !this.settings.is_html_disabled;
@@ -591,6 +594,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.inputTextValue = '';
       this.isPasted = false;
+      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+        this.store.dispatch(
+          new GetUsersKeys({
+            emails: [value],
+          }),
+        );
+      }
     }
   }
 
@@ -604,6 +614,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
+      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+        this.store.dispatch(
+          new GetUsersKeys({
+            emails: [value],
+          }),
+        );
+      }
     }
   }
 
@@ -617,6 +634,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;
+      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+        this.store.dispatch(
+          new GetUsersKeys({
+            emails: [value],
+          }),
+        );
+      }
     }
   }
 
@@ -652,8 +676,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngAfterViewInit() {
     this.initializeComposeMail();
@@ -985,7 +1008,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
         )
         .subscribe(data => {
-          if (!this.draft.isSaving) {
+          if (!this.draft.isSaving && this.hasData()) {
             this.updateEmail();
           }
         });
@@ -1125,7 +1148,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }, 100);
       return;
     }
-    this.saveToDraft();
+    if (this.isSavedInDraft) {
+      // if email already saved in ngOnDestroy.
+      return;
+    }
+    this.isSavedInDraft = true;
+    this.updateEmail();
+    this.hide.emit();
+    this.resetValues();
   }
 
   closeCompose() {
@@ -1135,7 +1165,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         windowClass: 'modal-sm users-action-modal',
       });
     } else {
-      this.saveToDraft();
+      this.saveInDrafts();
     }
   }
 
@@ -1144,31 +1174,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.closeConfirmModalRef.dismiss();
     }
     if (this.isProcessingAttachments) {
-      for (let i = 0; i < this.attachments.length; i++) {
-        if (this.attachments[i].inProgress) {
-          this.removeAttachment(this.attachments[i]);
+      const attachments = this.attachments;
+      for (let i = 0; i < attachments.length; i++) {
+        if (attachments[i].inProgress) {
+          this.removeAttachment(attachments[i]);
         }
       }
     }
-    this.saveToDraft();
-  }
-
-  saveToDraft() {
-    if (this.inProgress || this.draft.isSaving) {
-      // If saving is in progress, then wait to send.
-      setTimeout(() => {
-        this.saveToDraft();
-      }, 100);
-      return;
-    }
-    if (this.isSavedInDraft) {
-      // if email already saved in ngOnDestroy.
-      return;
-    }
-    this.isSavedInDraft = true;
-    this.updateEmail();
-    this.hide.emit();
-    this.resetValues();
+    this.saveInDrafts();
   }
 
   discardEmail() {
@@ -1558,11 +1571,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
     return (
-      (!this.draftMail.is_html ? this.mailData.content.length > 1 : this.quill.getLength() > 1) ||
+      (!this.draftMail.is_html
+        ? this.mailData.content.length > 1 &&
+          this.mailData.content.replace(/(^[ \t]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
+        : this.quill.getLength() > 1 &&
+          this.quill.getText().replace(/(^[ \t]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
       this.mailData.receiver.length > 0 ||
       this.mailData.cc.length > 0 ||
       this.mailData.bcc.length > 0 ||
-      this.mailData.subject
+      this.mailData.subject.length > 0
     );
   }
 
@@ -1672,6 +1689,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }),
       );
     } else {
+      if (this.draftMail.subject !== this.subject) {
+        this.draftMail.parent = null;
+      }
       this.store.dispatch(
         new UpdatePGPDecryptedContent({
           id: this.draftMail.id,
@@ -1877,6 +1897,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   getUserKeyFetchingStatus(email: string): boolean {
+    if (!this.usersKeys.has(email)) {
+      this.store.dispatch(
+        new GetUsersKeys({
+          emails: [email],
+        }),
+      );
+    }
     return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
   }
 

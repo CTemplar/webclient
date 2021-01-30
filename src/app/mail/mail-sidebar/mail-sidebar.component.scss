@@ -92,6 +92,7 @@
 }
 
 .mailbox-sidebar {
+  border-right: var(--width-0-2) solid var(--sidebar-border-right);
   @include media('>sm', '<ipad') {
     .mailbox-sidebar-nav-link + button {
       display: none;
@@ -151,4 +152,10 @@
 .mail-outbox,
 .mail-allemails {
   opacity: 0.7;
+}
+
+.mailbox-sidebar-footer .warranty-canary-image {
+  height: 25px;
+  width: 26px;
+  margin-top: 6px;
 }

@@ -20,6 +20,7 @@ export enum MailActionTypes {
   UPDATE_MAIL_DETAIL_CHILDREN = '[Mail] UPDATE_MAIL_DETAIL_CHILDREN',
   MOVE_MAIL = '[Mail] MOVE',
   MOVE_MAIL_SUCCESS = '[Mail] MOVE SUCCESS',
+  REVERT_MAILS_MOVED = '[Mail] REVERT_MAILS_MOVED',
   DELETE_MAIL = '[Mail] DELETE',
   DELETE_MAIL_SUCCESS = '[Mail] DELETE SUCCESS',
   DELETE_MAIL_FOR_ALL = '[Mail] DELETE FOR ALL',
@@ -173,6 +174,12 @@ export class MoveMailSuccess implements Action {
   readonly type = MailActionTypes.MOVE_MAIL_SUCCESS;
 
   constructor(public payload: any) {}
+}
+
+export class RevertMailsMoved implements Action {
+  readonly type = MailActionTypes.REVERT_MAILS_MOVED;
+
+  constructor() {}
 }
 
 export class DeleteMail implements Action {
@@ -393,6 +400,7 @@ export type MailActions =
   | UpdateMailDetailChildren
   | MoveMail
   | MoveMailSuccess
+  | RevertMailsMoved
   | DeleteMail
   | DeleteMailSuccess
   | ReadMail
