@@ -922,7 +922,7 @@
   border-bottom: 1px solid var(--mail-row-border-bottom-color);
   font-size: 0.75rem;
   line-height: 1;
-  background-color: var(--mail-row-background);
+  background-color: #fafaf9;
   cursor: pointer;
 
   @include media('>=ipad') {
