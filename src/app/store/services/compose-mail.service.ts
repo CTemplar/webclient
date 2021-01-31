@@ -4,7 +4,6 @@ import { finalize, take } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
-import md5 from 'md5'
 
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { AppState, ComposeMailState, Draft, DraftState, GlobalPublicKey, PublicKey, SecureContent, UserState } from '../datatypes';
@@ -67,9 +66,7 @@ export class ComposeMailService {
               ) {
                 this.setEncryptedContent(draftMail);
                   if (!draftMail.isSaving) {
-                    // Replace password with md5 string before sending email, if encryption email for non CTemplar Email
                     if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
-                      const password = draftMail.draft.encryption.password;
                       draftMail.draft.encryption.password = '';
                     }
                     this.store.dispatch(new SendMail({ ...draftMail }));
@@ -89,6 +86,9 @@ export class ComposeMailService {
                   publicKeys = this.getPublicKeys(draftMail, usersKeys).filter(item => item.is_enabled).map(item => item.public_key);
                 }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
+                  draftMail.attachments.forEach(attachment => {
+                    this.openPgpService.encryptAttachmentWithOnlyPassword(attachment, draftMail.draft.encryption.password);
+                  });
                   this.openPgpService.encryptWithOnlyPassword(
                     draftMail.id, 
                     new SecureContent(draftMail.draft),

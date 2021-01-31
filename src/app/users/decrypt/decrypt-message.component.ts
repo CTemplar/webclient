@@ -43,6 +43,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   secureMessageState: SecureMessageState;
 
+  password: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
@@ -80,22 +82,15 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
           }
         }
         this.message = state.message;
-        if (this.secureMessageState) {
-          if (
-            this.secureMessageState.isKeyDecryptionInProgress &&
-            !state.isKeyDecryptionInProgress &&
-            !state.errorMessage
-          ) {
-            this.openPgpService.decryptSecureMessageContent(state.decryptedKey, new SecureContent(this.message));
-          } else if (this.secureMessageState.isContentDecryptionInProgress && !state.isContentDecryptionInProgress) {
-            this.decryptedContent = state.decryptedContent.content;
-            if (this.message && this.message.is_subject_encrypted) {
-              this.decryptedSubject = state.decryptedContent.subject;
-              this.message.subject = state.decryptedContent.subject;
+          if (state.decryptedContent) {
+            if (state.decryptedContent.content) {
+              this.decryptedContent = state.decryptedContent.content || '';
+            }
+            if (this.message && this.message.is_subject_encrypted && state.decryptedContent.subject) {
+              this.decryptedSubject = state.decryptedContent.subject || '';
+              this.message.subject = state.decryptedContent.subject || '';
             }
           }
-        }
-        this.secureMessageState = state;
       });
   }
   
@@ -107,9 +102,10 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   onSubmit(data: any) {
     this.showFormErrors = true;
+    this.password = data.password;
     if (this.decryptForm.valid && this.message) {
       this.isLoading = true;
-      this.openPgpService.decryptSecureMessagePrivKey(data.password);
+      this.openPgpService.decryptWithOnlyPassword(new SecureContent(this.message), data.password);
     }
   }
 

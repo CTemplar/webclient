@@ -55,20 +55,26 @@ onmessage = async function (event) {
     if (!event.data.mailData) {
       postMessage({ decryptedContent: '', decryptSecureMessageContent: true });
     } else {
-      decryptContent(event.data.mailData.content, decryptedSecureMsgPrivKeyObj).then(content => {
-        decryptContent(event.data.mailData.subject, decryptedSecureMsgPrivKeyObj).then(subject => {
-          if (event.data.mailData.content_plain) {
-            decryptContent(event.data.mailData.content_plain, decryptedSecureMsgPrivKeyObj).then(subject => {
-              postMessage({ mailData: { content, subject, content_plain }, decryptSecureMessageContent: true });
-            });
-          } else {
-            postMessage({ mailData: { content, subject, content_plain: '' }, decryptSecureMessageContent: true });
-          }
-        });
-      });
+      decryptWithPassword(event.data.mailData.content, event.data.password).then(content => {
+        decryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
+          postMessage({ mailData: { content, subject }, decryptSecureMessageContent: true });
+        })
+      })
+      // decryptContent(event.data.mailData.content, decryptedSecureMsgPrivKeyObj).then(content => {
+      //   decryptContent(event.data.mailData.subject, decryptedSecureMsgPrivKeyObj).then(subject => {
+      //     if (event.data.mailData.content_plain) {
+      //       decryptContent(event.data.mailData.content_plain, decryptedSecureMsgPrivKeyObj).then(subject => {
+      //         postMessage({ mailData: { content, subject, content_plain }, decryptSecureMessageContent: true });
+      //       });
+      //     } else {
+      //       postMessage({ mailData: { content, subject, content_plain: '' }, decryptSecureMessageContent: true });
+      //     }
+      //   });
+      // });
+
     }
   } else if (event.data.decryptSecureMessageAttachment) {
-    decryptAttachment(event.data.fileData, decryptedSecureMsgPrivKeyObj).then(content => {
+    decryptAttachmentWithPassword(event.data.fileData, event.data.password).then(content => {
       postMessage({
         decryptedContent: content,
         decryptedSecureMessageAttachment: true,
@@ -161,6 +167,10 @@ onmessage = async function (event) {
       encryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
         postMessage({ encryptedContent: { content, subject }, encrypted: true, callerId: event.data.callerId });
       });
+    });
+  } else if (event.data.encryptAttachmentWithPassword) {
+    encryptAttachmentWithPassword(event.data.fileData, event.data.password).then(content => {
+      postMessage({ encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment });
     });
   }
 };
@@ -279,6 +289,27 @@ async function decryptAttachment(data, privKeyObj) {
   }
 }
 
+async function decryptAttachmentWithPassword(data, password) {
+  const tmpDecodedData = atob(data);
+  const isArmored = tmpDecodedData.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
+  if (!data) {
+    return Promise.resolve(data);
+  }
+  try {
+    const options = {
+      message: isArmored ? await openpgp.message.readArmored(tmpDecodedData) : await openpgp.message.read(openpgp.util.b64_to_Uint8Array(data)),
+      passwords: [password],
+      format: 'binary'
+    };
+    return openpgp.decrypt(options).then(payload => {
+      return payload.data;
+    });
+  } catch (e) {
+    console.error(e);
+    return Promise.resolve(data);
+  }
+}
+
 async function encryptWithPassword(data, password) {
   if (!data) {
     return Promise.resolve(data);
@@ -288,6 +319,38 @@ async function encryptWithPassword(data, password) {
     passwords : [password],
     armor : true
   }
+  return openpgp.encrypt(options).then(payload => {
+    return payload.data;
+  });
+}
+
+async function decryptWithPassword(data, password) {
+  if (!data) {
+    return Promise.resolve(data);
+  }
+  try {
+    const options = {
+      message: await openpgp.message.readArmored(data),
+      passwords: [password],
+    };
+    return openpgp.decrypt(options).then(payload => {
+      return payload.data;
+    });
+  } catch (e) {
+    console.error(e);
+    return Promise.resolve(data);
+  }
+}
+
+async function encryptAttachmentWithPassword(data, password) {
+  if (!data) {
+    return Promise.resolve(data);
+  }
+  const options = {
+    message: await openpgp.message.fromBinary(data),
+    passwords : [password],
+    armor : true
+  };
   return openpgp.encrypt(options).then(payload => {
     return payload.data;
   });

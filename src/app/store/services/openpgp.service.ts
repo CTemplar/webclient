@@ -252,6 +252,17 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ mailData, encryptWithPassword: true, callerId: draftId, password });
   }
 
+  encryptAttachmentWithOnlyPassword(attachment: Attachment, password: string) {
+    this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
+    const reader = new FileReader();
+    reader.addEventListener('load', (event: any) => {
+      const buffer = event.target.result;
+      const uint8Array = new Uint8Array(buffer);
+      this.pgpWorker.postMessage({ fileData: uint8Array, password, encryptAttachmentWithPassword: true, attachment });
+    });
+    reader.readAsArrayBuffer(attachment.decryptedDocument);
+  }
+
   encryptContact(contact: Contact, isAddContact = true) {
     contact.is_encrypted = true;
     const content = JSON.stringify(contact);
@@ -354,6 +365,29 @@ export class OpenPgpService {
     });
     return subject.asObservable();
   }
+
+  decryptWithOnlyPassword(mailData: SecureContent, password: string) {
+    if (!mailData.isSubjectEncrypted) {
+      mailData.subject = null;
+    }
+    this.pgpWorker.postMessage({ decryptSecureMessageContent: true, password, mailData });
+    this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
+  }
+
+  decryptAttachmentWithOnlyPassword(fileData: string, fileInfo: any, password: string): Observable<Attachment> {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({
+      password,
+      fileData: fileData,
+      decryptSecureMessageAttachment: true,
+      fileInfo,
+      subjectId,
+    });
+    return subject.asObservable();
+  }
+
 
   clearData(publicKeys?: any) {
     this.decryptedPrivKeys = null;
