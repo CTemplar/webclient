@@ -815,7 +815,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.draftMail && this.draftMail.attachments
           ? this.draftMail.attachments.map(attachment => {
               attachment.progress = 100;
-              attachment.name = this.filenamePipe.transform(attachment.document);
+              attachment.name = attachment.name ? attachment.name : this.filenamePipe.transform(attachment.document);
               attachment.draftId = this.draftId;
               attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
               return attachment;
