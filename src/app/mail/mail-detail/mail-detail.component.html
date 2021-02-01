@@ -306,6 +306,34 @@
     </div>
   </section>
 
+  <!-- Password Decryption Form-->
+  <div class="ui-body is-xs bg-faded mail-header" #collapse="ngbCollapse" [(ngbCollapse)]="isShowPasswordDecryptionForm">
+    <div class="password-decryption-desc">
+      This message has been encrypted with password. Please enter the password that you set before.
+      <div class="password-decryption-desc-password-hint text-dark">
+        Password Hint: 
+        <div class="font-weight-bold font-style-italic d-inline-block">
+          123123
+        </div>
+      </div>
+    </div>
+    <div class="decrypt-password-form mt-3 mb-3">
+      <div class="input-group decrypt-password-element mr-2">
+        <input #passwordVC class="form-control form-control-sm border-right-0" type="password" id="password_noSpan" [placeholder]="'settings.password' | translate"/>
+        <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(passwordVC)">
+          <i class="fa fa-eye"></i>
+          <i class="fa fa-eye-slash"></i>
+        </span>
+      </div>
+      <div class="d-flex justify-content-end decrypt-password-element">
+        <button class="btn btn-user-action">
+          <i class="fas fa-unlock position-left"></i>
+          <span>Decrypt</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!--Mail Content-->
   <section class="mailbox-section" *ngIf="isShowTrashRelatedChildren || (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">

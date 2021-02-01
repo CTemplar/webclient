@@ -149,3 +149,15 @@
     line-height: 1.5;
   }
 }
+
+.decrypt-password-form {
+  display: flex;
+  width: 55%;
+  .decrypt-password-element {
+    height: 40px;
+    padding: 3px 0;
+    button {
+      color: var(--text-muted);
+    }
+  }
+}

@@ -114,6 +114,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   plainTextViewState: any = {};
 
+  isShowPasswordDecryptionForm: any = {};
+
   private currentMailbox: Mailbox;
 
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -137,6 +139,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   // If you are in non-trash folder, this means to show trash children or not
   // If you are in trash folder, means to show non-trash children or not
   private isShowTrashRelatedChildren: boolean = false;
+
+  // Indicate whether the parent is secure message or not
+  // If it's secure message, it would be encrypted based password, should be decrypted with password
+  private isSecureMessage: boolean = false;
 
   // indicate to contain trash / non-trash children on the conversation
   private isContainTrashRelatedChildren: boolean = false;
@@ -1113,5 +1119,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private onShowTrashRelatedChildren() {
     this.isShowTrashRelatedChildren = !this.isShowTrashRelatedChildren;
+  }
+
+  // == Toggle password visibility
+  togglePassword(input: any): any {
+    if (!input.value) {
+      return;
+    }
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 }
