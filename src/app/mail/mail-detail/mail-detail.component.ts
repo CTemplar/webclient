@@ -22,7 +22,7 @@ import {
   WhiteListAdd,
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState } from '../../store/datatypes';
+import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState, NumberBooleanMappedType } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
@@ -114,7 +114,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   plainTextViewState: any = {};
 
-  isShowPasswordDecryptionForm: any = {};
+  isPasswordEncrypted: NumberBooleanMappedType = {};
 
   private currentMailbox: Mailbox;
 
@@ -203,15 +203,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
-          if (this.mail.is_subject_encrypted) {
+          // Setting the password encryption mail or not
+          this.isPasswordEncrypted[this.mail.id] = this.mail.encryption ? true : false;
+          if (!this.isPasswordEncrypted[this.mail.id] && this.mail.is_subject_encrypted) {
             this.scrambleText('subject-scramble');
           }
+          
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
           const decryptedContent = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
+            // Do decrypting, if needed
             if (
+              !this.isPasswordEncrypted[this.mail.id] &&
               !this.mail.has_children &&
               this.mail.content != undefined &&
               !this.isDecrypting[this.mail.id] &&
@@ -223,6 +228,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
+            // If done to decrypt, 
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
@@ -252,6 +258,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (!this.mailOptions[this.mail.id]) {
             this.mailOptions[this.mail.id] = {};
           }
+
+          // Process for children
           if (this.mail.children && this.mail.children.length > 0) {
             // find the latest child with trash/non-trash folder
             let filteredChildren = [];
@@ -278,19 +286,19 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mail.children.forEach(child => {
               this.backupChildDecryptedContent(child, mailState);
             });
-            setTimeout(() => {
-              if (this.mail) {
-                if (
-                  !this.isDecrypting[this.mail.id] &&
-                  this.mail.content &&
-                  (!decryptedContent ||
-                    (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
-                ) {
-                  this.isDecrypting[this.mail.id] = true;
-                  this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
-                }
-              }
-            }, 1000);
+            // setTimeout(() => {
+            //   if (this.mail) {
+            //     if (
+            //       !this.isDecrypting[this.mail.id] &&
+            //       this.mail.content &&
+            //       (!decryptedContent ||
+            //         (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
+            //     ) {
+            //       this.isDecrypting[this.mail.id] = true;
+            //       this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
+            //     }
+            //   }
+            // }, 1000);
           } else {
             this.parentMailCollapsed = false;
           }
@@ -384,6 +392,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.isMobile = window.innerWidth <= 768;
+  }
+
+  decryptWithPassword(input: any, mail: Mail) {
+    if (!mail) return;
+    if (!input.value) {
+      return;
+    }
+    console.log('aaaaaa', input, mail)
+    this.isDecrypting[mail.id] = true;
+    this.pgpService.decryptPasswordEncryptedContent(this.mail.mailbox, this.mail.id, new SecureContent(this.mail), input.value);
   }
 
   scrambleText(elementId: string) {
@@ -1123,6 +1141,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   // == Toggle password visibility
   togglePassword(input: any): any {
+    console.log('aaaaaaaaaaaa', input)
     if (!input.value) {
       return;
     }

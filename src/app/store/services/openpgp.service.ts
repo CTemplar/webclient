@@ -171,6 +171,14 @@ export class OpenPgpService {
         this.store.dispatch(
           new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
         );
+        this.store.dispatch(
+          new UpdatePGPDecryptedContent({
+            id: event.data.callerId,
+            isPGPInProgress: false,
+            decryptedContent: event.data.decryptedContent,
+            isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+          }),
+        );
       } else if (event.data.changePassphrase) {
         event.data.keys.forEach(item => {
           item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
@@ -314,7 +322,6 @@ export class OpenPgpService {
 
   encryptSecureMessageContent(content, publicKeys: any[]) {
     this.store.dispatch(new UpdateSecureMessageEncryptedContent({ inProgress: true, encryptedContent: null }));
-
     this.pgpWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }
 
@@ -364,6 +371,20 @@ export class OpenPgpService {
       subjectId,
     });
     return subject.asObservable();
+  }
+
+  decryptPasswordEncryptedContent(mailboxId, mailId, mailData: SecureContent, password) {
+    if (!mailData.isSubjectEncrypted) {
+      mailData.subject = null;
+    }
+    this.store.dispatch(
+      new UpdatePGPDecryptedContent({
+        id: mailId,
+        isPGPInProgress: true,
+        decryptedContent: {},
+      }),
+    );
+    this.pgpWorker.postMessage({ mailboxId, mailData, decryptPasswordEncryptedContent: true, callerId: mailId, password });
   }
 
   decryptWithOnlyPassword(mailData: SecureContent, password: string) {

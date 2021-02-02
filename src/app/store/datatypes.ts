@@ -680,3 +680,7 @@ export enum MailAction {
   REPLY_ALL = 'REPLY_ALL',
   FORWARD = 'FORWARD',
 }
+
+export type NumberBooleanMappedType = {
+  [key: number]: boolean;
+}

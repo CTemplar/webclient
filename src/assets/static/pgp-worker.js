@@ -59,19 +59,7 @@ onmessage = async function (event) {
         decryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
           postMessage({ mailData: { content, subject }, decryptSecureMessageContent: true });
         })
-      })
-      // decryptContent(event.data.mailData.content, decryptedSecureMsgPrivKeyObj).then(content => {
-      //   decryptContent(event.data.mailData.subject, decryptedSecureMsgPrivKeyObj).then(subject => {
-      //     if (event.data.mailData.content_plain) {
-      //       decryptContent(event.data.mailData.content_plain, decryptedSecureMsgPrivKeyObj).then(subject => {
-      //         postMessage({ mailData: { content, subject, content_plain }, decryptSecureMessageContent: true });
-      //       });
-      //     } else {
-      //       postMessage({ mailData: { content, subject, content_plain: '' }, decryptSecureMessageContent: true });
-      //     }
-      //   });
-      // });
-
+      });
     }
   } else if (event.data.decryptSecureMessageAttachment) {
     decryptAttachmentWithPassword(event.data.fileData, event.data.password).then(content => {
@@ -122,6 +110,23 @@ onmessage = async function (event) {
             },
           );
         });
+      });
+    }
+  } else if(event.data.decryptPasswordEncryptedContent) {
+    if (!event.data.mailData) {
+      postMessage({ decryptedContent: {}, decrypted: true, callerId: event.data.callerId });
+    } else {
+      decryptWithPassword(event.data.mailData.content, event.data.password).then(content => {
+        decryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
+          decryptWithPassword(event.data.mailData.content_plain, event.data.password).then(content_plain => {
+            postMessage({
+              decryptedContent: { content, subject, content_plain },
+              decrypted: true,
+              callerId: event.data.callerId,
+              isDecryptingAllSubjects: false,
+            });
+          })
+        })
       });
     }
   } else if (event.data.changePassphrase) {
