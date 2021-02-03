@@ -159,6 +159,15 @@ export class OpenPgpService {
             isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
           }),
         );
+        if (this.subjects[event.data.subjectId]) {
+          if (event.data.error) {
+            this.subjects[event.data.subjectId].error();
+          } else {
+            this.subjects[event.data.subjectId].next();
+            this.subjects[event.data.subjectId].complete();
+          }
+          delete this.subjects[event.data.subjectId];
+        }
       } else if (event.data.decryptSecureMessageKey) {
         this.store.dispatch(
           new UpdateSecureMessageKey({
@@ -320,8 +329,36 @@ export class OpenPgpService {
     return subject.asObservable();
   }
 
+  decryptPasswordEncryptedContent(mailboxId, mailId, mailData: SecureContent, password) {
+    if (!mailData.isSubjectEncrypted) {
+      mailData.subject = null;
+    }
+
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    
+    this.store.dispatch(
+      new UpdatePGPDecryptedContent({
+        id: mailId,
+        isPGPInProgress: true,
+        decryptedContent: {},
+      }),
+    );
+    this.pgpWorker.postMessage({ 
+      mailboxId, 
+      mailData, 
+      decryptPasswordEncryptedContent: true, 
+      callerId: mailId,
+      password,
+      subjectId 
+    });
+    return subject.asObservable();
+  }
+
   encryptSecureMessageContent(content, publicKeys: any[]) {
     this.store.dispatch(new UpdateSecureMessageEncryptedContent({ inProgress: true, encryptedContent: null }));
+    console.log('encryptSecureMessageContent', content)
     this.pgpWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }
 
@@ -371,20 +408,6 @@ export class OpenPgpService {
       subjectId,
     });
     return subject.asObservable();
-  }
-
-  decryptPasswordEncryptedContent(mailboxId, mailId, mailData: SecureContent, password) {
-    if (!mailData.isSubjectEncrypted) {
-      mailData.subject = null;
-    }
-    this.store.dispatch(
-      new UpdatePGPDecryptedContent({
-        id: mailId,
-        isPGPInProgress: true,
-        decryptedContent: {},
-      }),
-    );
-    this.pgpWorker.postMessage({ mailboxId, mailData, decryptPasswordEncryptedContent: true, callerId: mailId, password });
   }
 
   decryptWithOnlyPassword(mailData: SecureContent, password: string) {

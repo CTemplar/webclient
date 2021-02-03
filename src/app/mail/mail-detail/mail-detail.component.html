@@ -317,7 +317,10 @@
         </div>
       </div>
     </div>
-    <div class="decrypt-password-form mt-3 mb-3">
+    <div class="mt-3" *ngIf="errorMessageForDecryptingWithPassword[mail.id]">
+      <span class="validate-message mt-3">Password is incorrect</span>
+    </div>
+    <div class="decrypt-password-form mb-3">
       <div class="input-group decrypt-password-element mr-2">
         <input #parentPasswordVC class="form-control form-control-sm border-right-0" type="password" id="password_noSpan" [placeholder]="'settings.password' | translate"/>
         <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword(parentPasswordVC)">

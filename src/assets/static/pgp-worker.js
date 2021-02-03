@@ -124,8 +124,18 @@ onmessage = async function (event) {
               decrypted: true,
               callerId: event.data.callerId,
               isDecryptingAllSubjects: false,
+              subjectId: event.data.subjectId,
             });
           })
+        })
+      }).catch(() => {
+        postMessage({
+          decryptedContent: { content: '', subject: '', content_plain: '' },
+          decrypted: true,
+          callerId: event.data.callerId,
+          isDecryptingAllSubjects: false,
+          subjectId: event.data.subjectId,
+          error: true
         })
       });
     }

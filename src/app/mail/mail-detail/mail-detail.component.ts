@@ -22,7 +22,7 @@ import {
   WhiteListAdd,
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState, NumberBooleanMappedType } from '../../store/datatypes';
+import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState, NumberBooleanMappedType, NumberStringMappedType } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
@@ -115,6 +115,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   plainTextViewState: any = {};
 
   isPasswordEncrypted: NumberBooleanMappedType = {};
+
+  errorMessageForDecryptingWithPassword: NumberStringMappedType = {};
 
   private currentMailbox: Mailbox;
 
@@ -399,9 +401,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (!input.value) {
       return;
     }
-    console.log('aaaaaa', input, mail)
     this.isDecrypting[mail.id] = true;
-    this.pgpService.decryptPasswordEncryptedContent(this.mail.mailbox, this.mail.id, new SecureContent(this.mail), input.value);
+    this.pgpService.decryptPasswordEncryptedContent(this.mail.mailbox, this.mail.id, new SecureContent(this.mail), input.value)
+      .pipe(take(1))
+      .subscribe(
+        () => {
+          this.errorMessageForDecryptingWithPassword[this.mail.id] = '';
+        },
+        error => {
+          this.errorMessageForDecryptingWithPassword[this.mail.id] = 'Password is incorrect';
+        },
+      );
   }
 
   scrambleText(elementId: string) {

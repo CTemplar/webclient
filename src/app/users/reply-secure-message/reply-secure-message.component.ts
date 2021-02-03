@@ -92,6 +92,8 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
       .pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
         this.inProgress = state.inProgress || state.isEncryptionInProgress;
+        console.log('state is changed', state)
+        console.log('original state', this.secureMessageState)
         if (this.secureMessageState) {
           if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {
             const keys = [
@@ -131,6 +133,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   onSend() {
+    console.log('on send =========>>>>>>>>>>>>>>>', this.hasData());
     if (this.hasData()) {
       this.message = {
         receiver: [this.sourceMessage.sender],
@@ -138,6 +141,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
         content: this.editor.nativeElement.firstChild.innerHTML,
         sender: this.senderId,
       };
+      console.log('on send ===========>> ', this.hash, this.secret)
       this.store.dispatch(new GetSecureMessageUserKeys({ hash: this.hash, secret: this.secret }));
     }
   }
