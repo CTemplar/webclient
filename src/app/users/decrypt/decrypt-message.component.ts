@@ -82,15 +82,15 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
           }
         }
         this.message = state.message;
-          if (state.decryptedContent) {
-            if (state.decryptedContent.content) {
-              this.decryptedContent = state.decryptedContent.content || '';
-            }
-            if (this.message && this.message.is_subject_encrypted && state.decryptedContent.subject) {
-              this.decryptedSubject = state.decryptedContent.subject || '';
-              this.message.subject = state.decryptedContent.subject || '';
-            }
+        if (state.decryptedContent) {
+          if (state.decryptedContent.content) {
+            this.decryptedContent = state.decryptedContent.content || '';
           }
+          if (this.message && this.message.is_subject_encrypted && state.decryptedContent.subject) {
+            this.decryptedSubject = state.decryptedContent.subject || '';
+            this.message.subject = state.decryptedContent.subject || '';
+          }
+        }
       });
   }
   

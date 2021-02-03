@@ -92,15 +92,12 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
       .pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
         this.inProgress = state.inProgress || state.isEncryptionInProgress;
-        console.log('state is changed', state)
-        console.log('original state', this.secureMessageState)
         if (this.secureMessageState) {
           if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {
             const keys = [
               ...state.usersKeys
                 .filter(item => this.message.receiver.includes(item.email) && item.is_enabled)
                 .map(item => item.public_key),
-              // this.sourceMessage.encryption.public_key,
             ];
             this.openPgpService.encryptSecureMessageContent(this.message.content, keys);
           } else if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
@@ -133,15 +130,14 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   }
 
   onSend() {
-    console.log('on send =========>>>>>>>>>>>>>>>', this.hasData());
     if (this.hasData()) {
       this.message = {
         receiver: [this.sourceMessage.sender],
         subject: this.sourceMessage.subject,
         content: this.editor.nativeElement.firstChild.innerHTML,
         sender: this.senderId,
+        parent: this.sourceMessage.id,
       };
-      console.log('on send ===========>> ', this.hash, this.secret)
       this.store.dispatch(new GetSecureMessageUserKeys({ hash: this.hash, secret: this.secret }));
     }
   }

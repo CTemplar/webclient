@@ -387,6 +387,8 @@ export class SecureContent {
 
   isSubjectEncrypted?: boolean;
 
+  parent?: number;
+
   constructor(data?: Mail) {
     if (data) {
       this.content = data.content;
@@ -394,6 +396,7 @@ export class SecureContent {
       this.subject = data.subject;
       this.incomingHeaders = data.incoming_headers;
       this.isSubjectEncrypted = data.is_subject_encrypted;
+      this.parent = data.parent;
     }
   }
 }
