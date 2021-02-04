@@ -945,7 +945,7 @@
 
   &.is-selected,
   &.is-selected:hover {
-    background: var(--mail-row-background-selected)!important;
+    background: var(--mail-row-background-selected) !important;
   }
 
   &.is-active {
@@ -953,7 +953,7 @@
     color: $brand-white !important;
   }
   &:hover {
-    background: var(--mail-row-background-active)!important;
+    background: var(--mail-row-background-active) !important;
   }
 }
 
