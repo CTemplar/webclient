@@ -150,14 +150,17 @@
   }
 }
 
-.decrypt-password-form {
-  display: flex;
-  width: 55%;
-  .decrypt-password-element {
-    height: 40px;
-    padding: 3px 0;
-    button {
-      color: var(--text-muted);
+.decrypt-password-form-container {
+  margin-bottom: 20px;
+  .decrypt-password-form {
+    display: flex;
+    width: 55%;
+    .decrypt-password-element {
+      height: 40px;
+      padding: 3px 0;
+      button {
+        color: var(--text-muted);
+      }
     }
   }
 }
