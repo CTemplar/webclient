@@ -297,23 +297,22 @@
             </div>
             <div>
               <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{ mail.folder }}</label>
-              <i class="fas fa-angle-down expand-collapse" *ngIf="parentMailCollapsed"></i>
-              <i class="fas fa-angle-up expand-collapse" *ngIf="!parentMailCollapsed"></i>
+              <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus[mail.id]"></i>
+              <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus[mail.id]"></i>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-
   <!-- Password Decryption Form -->
-  <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="parentMailCollapsed" id="ngb-collapse" *ngIf="isPasswordEncrypted[mail.id] && !decryptedContents[mail.id]">
+  <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[mail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[mail.id] && !decryptedContents[mail.id]">
     <div class="password-decryption-desc">
       This message has been encrypted with password. Please enter the password that you set before.
       <div class="password-decryption-desc-password-hint text-dark">
         Password Hint: 
         <div class="font-weight-bold font-style-italic d-inline-block">
-          123123
+          {{mail.encryption && mail.encryption.password_hint ? mail.encryption.password_hint : ''}}
         </div>
       </div>
     </div>
@@ -338,7 +337,7 @@
   </div>
 
   <!--Mail Content-->
-  <section class="mailbox-section" *ngIf="isShowTrashRelatedChildren || (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)" id="ngb-collapse" [ngbCollapse]="parentMailCollapsed">
+  <section class="mailbox-section" *ngIf="isShowTrashRelatedChildren || (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) || (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)" id="ngb-collapse" [ngbCollapse]="!mailExpandedStatus[mail.id]">
     <div class="ui-body mail-content" *ngIf="decryptedContents[mail.id]">
       <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
         <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="messageReplyDropdownMenuButton"></button>
@@ -383,8 +382,7 @@
         </ng-template>
       </div>
     </div>
-
-    <div align="center" class="decryption-spinner" *ngIf="decryptedContents[mail.id] == null && !isPasswordEncrypted[mail.id] && !parentMailCollapsed">
+    <div align="center" class="decryption-spinner" *ngIf="mailExpandedStatus[mail.id] && !decryptedContents[mail.id] && (isDecrypting[mail.id] || (!isDecrypting[mail.id] && !isPasswordEncrypted[mail.id]))">
       <img class="mt-3" [src]="loadingImage | safe: 'url'" />
       <div class="mt-3">
         {{ 'mail_detail.decryp_4096_bit' | translate }}
@@ -436,7 +434,7 @@
         <ng-container *ngSwitchDefault>
           <div [ngClass]="{ 'last-child': childIndex === mail.children.length - 1 }">
             <section class="mailbox-section" id="{{ childMail.id }}-print-section">
-              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer mail-header" (click)="onClickChildHeader(childIndex)">
+              <div class="ui-body is-bordered-bottom bg-faded cursor-pointer mail-header" (click)="onClickChildHeader(childMail)">
                 <div class="row">
                   <div class="col-8">
                     <div class="mailbox-sender-content">
@@ -524,24 +522,24 @@
                       </div>
                       <div>
                         <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{ childMail.folder }}</label>
-                        <i class="fas fa-angle-down expand-collapse" *ngIf="childMailCollapsed[childIndex]"></i>
-                        <i class="fas fa-angle-up expand-collapse" *ngIf="!childMailCollapsed[childIndex]"></i>
+                        <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus[childMail.id]"></i>
+                        <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus[childMail.id]"></i>
                       </div>
                     </div>
                   </div>
                 </div>
-                <app-progress-bar [active]="decryptedContents[childMail.id] == null" *ngIf="childIndex === properFolderLastChildIndex && !isPasswordEncrypted[childMail.id]"> </app-progress-bar>
+                <app-progress-bar [active]="decryptedContents[childMail.id] == null" *ngIf="mailExpandedStatus[childMail.id] && !decryptedContents[childMail.id] && (isDecrypting[childMail.id] || !isPasswordEncrypted[childMail.id])"> </app-progress-bar>
               </div>
             </section>
 
             <!-- Password Decryption Form -->
-            <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="childMailCollapsed[childIndex]" id="ngb-collapse" *ngIf="isPasswordEncrypted[childMail.id] && !decryptedContents[childMail.id]">
+            <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[childMail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[childMail.id] && !decryptedContents[childMail.id]">
               <div class="password-decryption-desc">
                 This message has been encrypted with password. Please enter the password that you set before.
                 <div class="password-decryption-desc-password-hint text-dark">
                   Password Hint: 
                   <div class="font-weight-bold font-style-italic d-inline-block">
-                    123123
+                    {{childMail.encryption && childMail.encryption.password_hint ? childMail.encryption.password_hint : ''}}
                   </div>
                 </div>
               </div>
@@ -565,7 +563,7 @@
               </div>
             </div>
             <!--Mail Content-->
-            <section class="mailbox-section" id="{{ childMail.id + '-ngb-collapse' }}" [ngbCollapse]="childMailCollapsed[childIndex]">
+            <section class="mailbox-section" id="{{ childMail.id + '-ngb-collapse' }}" [ngbCollapse]="!mailExpandedStatus[childMail.id]">
               <div class="ui-body mail-content" *ngIf="decryptedContents[childMail.id]">
                 <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
                   <button ngbDropdownToggle class="actions-btn actions-btn-sm msg-reply-btn" role="button" id="{{ childMail.id }}-messageReplyDropdownMenuButton"></button>
@@ -639,7 +637,11 @@
               </ul>
               <!-- Attachments list ends -->
             </section>
-            <div align="center" class="decryption-spinner" *ngIf="decryptedContents[childMail.id] == null && !isPasswordEncrypted[childMail.id] && !isDecrypting[childMail.id] && !childMailCollapsed[childIndex]">
+            <!-- {{'expanded ' + mailExpandedStatus[childMail.id]}}<br>
+            {{'content ' + !!decryptedContents[childMail.id]}}<br>
+            {{'decrypting ' +isDecrypting[childMail.id]}}<br>
+            {{'password ' + isPasswordEncrypted[childMail.id]}}<br> -->
+            <div align="center" class="decryption-spinner" *ngIf="mailExpandedStatus[childMail.id] && !decryptedContents[childMail.id] && (isDecrypting[childMail.id] || !isPasswordEncrypted[childMail.id])">
               <img class="mt-3" [src]="loadingImage | safe: 'url'" />
               <div class="mt-3">
                 {{ 'mail_detail.decryp_4096_bit' | translate }}
