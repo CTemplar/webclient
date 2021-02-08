@@ -772,7 +772,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mail.children &&
         !this.mail.children.filter(child => child.id !== mail.id).some(child => child.folder === MailFolderType.TRASH)
       ) {
-        this.changeMailAfterDelete(this.currentMailIndex + 1);
+        this.goBackAfterDelete(this.currentMailIndex + 1);
       }
     } else {
       this.store.dispatch(
@@ -804,19 +804,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mail.folder === MailFolderType.TRASH) ||
       (mail.id === this.mail.id && this.mail.folder === MailFolderType.TRASH)
     ) {
-      this.changeMailAfterDelete(this.currentMailIndex + 1);
+      this.goBackAfterDelete(this.currentMailIndex + 1);
     }
   }
 
-  changeMailAfterDelete(index: number) {
-    if (index < 0 || index >= this.mails.length) {
-      this.goBack(500);
-    }
+  goBackAfterDelete(index: number) {
+    this.goBack(500);
     this.mail = null;
-    setTimeout(() => {
-      this.markedAsRead = false;
-      this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}/message/${this.mails[index].id}`);
-    }, 500);
+    this.markedAsRead = false;
   }
 
   onDeleteForAll(mail: Mail) {
@@ -825,7 +820,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
     }
     if (mail.id === this.mail.id) {
-      this.changeMailAfterDelete(this.currentMailIndex + 1);
+      this.goBackAfterDelete(this.currentMailIndex + 1);
     }
   }
 
