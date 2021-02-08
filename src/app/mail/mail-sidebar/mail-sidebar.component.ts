@@ -318,12 +318,18 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.document.body.classList.contains('menu-open')) {
         this.isMenuOpened = true;
       }
-    } else if (this.breakpointsService.isSM() || this.breakpointsService.isMD()) {
+    } else if (this.breakpointsService.isMD()) {
       if (event) {
         this.isSidebarOpened = false;
       } else {
         this.isSidebarOpened = !this.isSidebarOpened;
       }
+    }
+  }
+
+  changeAsideExpand(event) {
+    if (this.breakpointsService.isSM()) {
+      this.isSidebarOpened = event.type === 'mouseover' ? true : false;
     }
   }
 
