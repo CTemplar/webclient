@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -176,6 +177,13 @@ export class FoldersComponent implements OnInit, OnDestroy {
       });
     }
     this.saveOrder();
+  }
+
+  onFolderDrop(event: CdkDragDrop<Folder[]>) {
+    moveItemInArray(this.folders, event.previousIndex, event.currentIndex);
+    this.folders.forEach((folder: Folder, index) => {
+      folder.sort_order = index + 1;
+    });
   }
 
   ngOnDestroy(): void {}
