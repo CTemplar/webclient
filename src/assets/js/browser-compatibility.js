@@ -23,6 +23,37 @@ function checkSupportBrowser() {
   return true;
 }
 
-!1 === navigator.cookieEnabled && alert('Cookies are required to use CTemplar. Please enable cookies in your browser.'), 
-checkSupportCryptoBrowser() || alert('A browser that has crypto (A Pseudo Random Number Generator) is required to use CTemplar. Please update your browser to latest version.');
-checkSupportBrowser() || alert('We do not support Internet Explorer');
+function openEdge() {
+  var openInEdge = document.querySelector('#openInEdge');
+  openInEdge.href = 'microsoft-edge:https://ctemplar.com';
+};
+
+if (!checkSupportBrowser()) {
+  document.body.style.backgroundColor = "#2a4c67";
+  document.body.style.color = "white";
+  document.body.style.textAlign = "center";
+  document.body.style.fontFamily = '"Lato", Helvetica, Arial, sans-serif';
+  document.body.innerHTML = ' \
+    <div style="margin-top: 120px; font-size: 3.5rem; font-weight: 600;"> CTEMPLAR </div> \
+    <div style="margin-top: 50px; font-size: 24px;"> We detected you are using Internet Explorer that we do not support,\
+      <a target="_blank" rel="noopener noreferrer" onclick="openEdge();" id="openInEdge" href="#" style="color: white;">click here to open Edge</a>\
+    </div> \
+    <div style="margin-top: 15px; color: lightgray; font-size: 18px;"> Please visit CTemplar\'s  \
+      <a target="_blank" rel="noopener noreferrer" href="microsoft-edge:https://ctemplar.com/help/answer/browser-support/" style="color: lightgray;">support browsers </a> \
+     for more information. </div> \
+  ';
+}
+
+if (!checkSupportCryptoBrowser()) {
+  document.body.style.backgroundColor = "#2a4c67";
+  document.body.style.color = "white";
+  document.body.style.textAlign = "center";
+  document.body.style.fontFamily = '"Lato", Helvetica, Arial, sans-serif';
+  document.body.innerHTML = ' \
+    <div style="margin-top: 120px; font-size: 3.5rem; font-weight: 600;"> CTEMPLAR </div> \
+    <div style="margin-top: 50px; font-size: 24px;"> A browser that has crypto (A Pseudo Random Number Generator) is required to use CTemplar.</div> \
+    <div style="margin-top: 15px; color: lightgray; font-size: 18px;"> Please visit CTemplar\'s  \
+      <a target="_blank" rel="noopener noreferrer" href="microsoft-edge:https://ctemplar.com/help/answer/browser-support/" style="color: lightgray;">support browsers </a> \
+     for more information. </div> \
+  ';
+}

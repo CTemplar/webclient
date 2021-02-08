@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,9 @@ import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/con
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+
+  @ViewChild('cookieLaw') cookieLawEl: any;
+
   public hideFooter = false;
 
   public hideHeader = false;
@@ -102,6 +105,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((loadingState: LoadingState) => {
         this.isLoading = loadingState.Loading;
       });
+  }
+
+  dismiss(): void {
+    this.cookieLawEl.dismiss();
   }
 
   ngOnDestroy(): void {}
