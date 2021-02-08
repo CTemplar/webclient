@@ -637,10 +637,6 @@
               </ul>
               <!-- Attachments list ends -->
             </section>
-            <!-- {{'expanded ' + mailExpandedStatus[childMail.id]}}<br>
-            {{'content ' + !!decryptedContents[childMail.id]}}<br>
-            {{'decrypting ' +isDecrypting[childMail.id]}}<br>
-            {{'password ' + isPasswordEncrypted[childMail.id]}}<br> -->
             <div align="center" class="decryption-spinner" *ngIf="mailExpandedStatus[childMail.id] && !decryptedContents[childMail.id] && (isDecrypting[childMail.id] || !isPasswordEncrypted[childMail.id])">
               <img class="mt-3" [src]="loadingImage | safe: 'url'" />
               <div class="mt-3">
