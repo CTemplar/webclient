@@ -308,9 +308,9 @@
   <!-- Password Decryption Form -->
   <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[mail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[mail.id] && !decryptedContents[mail.id]">
     <div class="password-decryption-desc">
-      This message has been encrypted with password. Please enter the password that you set before.
+      {{'mail_detail.password_encryption_message_desc' | translate}}
       <div class="password-decryption-desc-password-hint text-dark">
-        Password Hint: 
+        {{'mail_detail.password_hint' | translate}}
         <div class="font-weight-bold font-style-italic d-inline-block">
           {{mail.encryption && mail.encryption.password_hint ? mail.encryption.password_hint : ''}}
         </div>
@@ -535,9 +535,9 @@
             <!-- Password Decryption Form -->
             <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[childMail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[childMail.id] && !decryptedContents[childMail.id]">
               <div class="password-decryption-desc">
-                This message has been encrypted with password. Please enter the password that you set before.
+                {{'mail_detail.password_encryption_message_desc' | translate}}
                 <div class="password-decryption-desc-password-hint text-dark">
-                  Password Hint: 
+                  {{'mail_detail.password_hint' | translate}}
                   <div class="font-weight-bold font-style-italic d-inline-block">
                     {{childMail.encryption && childMail.encryption.password_hint ? childMail.encryption.password_hint : ''}}
                   </div>
