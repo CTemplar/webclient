@@ -115,6 +115,10 @@
                 <i class="icon icon-inbox"></i>
                 <span [translate]="'mail_sidebar.inbox'">Inbox</span>
               </a>
+              <a class="dropdown-item" (click)="moveToFolder(mailFolderTypes.SENT)" *ngIf="mailFolder === mailFolderTypes.INBOX">
+                <i class="icon icon-paper-plane"></i>
+                <span [translate]="'mail_sidebar.sent'">Sent</span>
+              </a>
               <ng-container *ngFor="let folder of customFolders; let i = index">
                 <a class="dropdown-item" *ngIf="mailFolder !== folder.name" (click)="moveToFolder(folder.name)">
                   <i class="folder-color-box icon" [style.background]="folder.color"></i>

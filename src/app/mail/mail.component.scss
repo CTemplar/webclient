@@ -1520,6 +1520,11 @@
 .folder-dropdown {
   max-height: 430px;
   overflow-y: auto;
+
+  a {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .last-action {
