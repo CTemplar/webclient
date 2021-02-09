@@ -41,7 +41,7 @@ import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
 import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { SharedService } from '../../store/services';
-import { darkModeCss, PRIMARY_WEBSITE } from '../../shared/config';
+import { PRIMARY_WEBSITE } from '../../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -190,7 +190,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
         }
-        // this.handleDarkMode(user.settings.is_night_mode);
         this.handleCustomCss(user.settings.custom_css);
       });
 
@@ -230,7 +229,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
       this.forceLightMode = parameters.lightMode;
       if (this.forceLightMode) {
-        // this.handleDarkMode(false);
         this.themeToggleService.forceUpdateTheme(false);
       }
     });
@@ -270,14 +268,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       return '';
     }
     return s.charAt(0).toUpperCase() + s.slice(1);
-  }
-
-  handleDarkMode(isNightMode) {
-    if (isNightMode && !this.forceLightMode) {
-      document.querySelector('#night-mode').innerHTML = darkModeCss;
-    } else {
-      document.querySelector('#night-mode').innerHTML = '';
-    }
   }
 
   handleCustomCss(customCss: string) {
