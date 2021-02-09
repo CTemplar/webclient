@@ -802,11 +802,36 @@ a {
 }
 
 /* Toolbar selected button css.*/
+
 .ql-active {
-  background: white !important;
+  background: var(--bg-white) !important;
   font-weight: bold !important;
 
   i {
     font-weight: bold !important;
+  }
+}
+
+.ql-snow {
+  .ql-picker-options {
+    background: var(--bg-white)!important;
+  }
+
+  .ql-stroke {
+    stroke: var(--btn-user-action-color)!important;
+  }
+  .ql-fill {
+    fill: var(--btn-user-action-color)!important;
+  }
+  .ql-picker {
+    color: var(--btn-user-action-color)!important;
+    .ql-picker-label {
+      color: var(--btn-user-action-color)!important;
+    }
+  }
+  button.ql-active {
+    .ql-stroke, .ql-fill {
+      stroke: #06c!important;
+    }
   }
 }

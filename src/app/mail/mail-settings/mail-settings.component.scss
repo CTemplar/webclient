@@ -623,7 +623,7 @@ $error-red: #e94e4c;
   }
 
   .no-data {
-    color: black;
+    color: var(--text-dark);
     padding: 14px 1.5rem;
   }
 }
