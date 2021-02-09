@@ -18,6 +18,7 @@ export class ThemeToggleService implements OnDestroy {
     private readonly DARK_THEME_CLASS_NAME = 'theme-dark';
 
     private isDarkMode = false;
+    private isForceLightMode = false;
     public theme$ = new BehaviorSubject<ThemeMode>(ThemeMode.LIGHT);
 
     constructor(
@@ -39,7 +40,7 @@ export class ThemeToggleService implements OnDestroy {
     }
 
     private updateTheme(isDarkMode) {
-        if (isDarkMode) {
+        if (isDarkMode && !this.isForceLightMode) {
             document.body.classList.add(this.DARK_THEME_CLASS_NAME);
             document.body.classList.remove(this.LIGHT_THEME_CLASS_NAME);
             this.theme$.next(ThemeMode.DARK);
@@ -50,8 +51,9 @@ export class ThemeToggleService implements OnDestroy {
         }
     }
 
-    public forceUpdateTheme(isDarkMode) {
-        this.updateTheme(isDarkMode);
+    public forceLightModeTheme() {
+        this.isForceLightMode = true;
+        this.updateTheme(false);
     }
 
     ngOnDestroy(): void {}

@@ -229,7 +229,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
       this.forceLightMode = parameters.lightMode;
       if (this.forceLightMode) {
-        this.themeToggleService.forceUpdateTheme(false);
+        this.themeToggleService.forceLightModeTheme();
       }
     });
   }
