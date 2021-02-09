@@ -119,7 +119,7 @@ a {
 
 // == Mail compose is-bordered
 .mail-composer.is-borderd {
-  border: 1px solid $dropdown-border-color;
+  border: 1px solid var(--dropdown-border-color);
 }
 
 // == Is minimized
@@ -268,8 +268,8 @@ a {
   align-items: center;
   position: relative;
   padding: 0.2rem $mail_composer_padding_x;
-  background: $brand-white;
-  border-bottom: 1px solid $input-border-color;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border-class-color);
 
   @include media('>sm') {
     font-size: 0.75rem;
@@ -278,7 +278,7 @@ a {
   .mail-label {
     display: block;
     margin-right: 0.5rem;
-    color: rgba(0, 0, 0, 0.38);
+    color: var(--brand-light-gray);
     line-height: 1;
   }
 
@@ -290,6 +290,8 @@ a {
     resize: none;
     width: 100%;
     overflow: hidden;
+    background-color: var(--bg-white);
+    color: var(--text-color-black-white);
 
     @include media('>sm') {
       padding: 0.688rem 0 0.5rem;
@@ -337,7 +339,7 @@ a {
   overflow-x: hidden;
   overflow-y: auto;
   line-height: 1.67rem;
-  background: white;
+  background: var(--bg-white);
   max-height: 50vh;
   overflow-y: auto;
 
@@ -347,11 +349,11 @@ a {
 }
 
 .mail-compose-box-inner {
-  background: $brand-white;
+  background: var(--bg-white);
 }
 
 .mail-compose-editable-box {
-  background: $brand-white;
+  background: var(--bg-white);
 
   &[contenteditable]:focus {
     outline: 0;
@@ -360,7 +362,7 @@ a {
   .ql-editor {
     min-height: 385.867px;
     line-height: inherit;
-    color: black;
+    color: var(--text-color-black-white);
     .originalblock {
       border-left: 1px solid rgb(204, 204, 204);
       padding-left: 1ex;
@@ -374,8 +376,8 @@ a {
 // Mail composer footer
 .mail-composer-footer {
   padding: 0.5rem $mail_composer_padding_x;
-  background: $brand-faded;
-  border: 1px solid $input-border-color;
+  background: var(--brand-faded);
+  border: 1px solid var(--border-class-color);
   margin-bottom: -26px;
 
   @include media('<=sm') {
@@ -406,6 +408,10 @@ a {
 }
 .composer-footer {
   margin-bottom: 1.4rem;
+
+  @include media('<=sm') {
+    margin-bottom: 0;
+  }
 }
 .mail-composer-actions {
   margin: 0 -0.375rem;
@@ -441,10 +447,10 @@ a {
 .actions-btn {
   position: relative;
   padding: 1rem 0.5rem;
-  background: $brand-faded;
+  background: var(--brand-faded);
   border: 1px solid $input-border-color;
   border-radius: 2px;
-  color: $brand-light-gray;
+  color: var(--brand-light-gray);
   height: 2rem;
   width: 2.25rem;
 
@@ -490,7 +496,7 @@ a {
   position: relative;
   margin-bottom: 0.5rem;
   padding: 0.563rem 1.563rem 0.563rem 0.75rem;
-  background: $brand-faded;
+  background: var(--brand-faded);
   border: 1px solid $input-border-color;
   border-radius: 2px;
   line-height: 1;
@@ -530,7 +536,7 @@ a {
   padding: 0 0;
   background: transparent;
   border: 0;
-  color: $brand-light-gray;
+  color: var(--brand-light-gray);
   font-size: 0.613rem;
   transform: translateY(-50%);
 }
@@ -780,12 +786,12 @@ a {
   .dropdown-link {
     display: block;
     padding: 0.5rem 0.75rem;
-    color: $brand-gray;
+    color: var(--brand-gray);
     font-size: 0.813rem;
     text-align: center;
 
     &:hover {
-      background: $brand-faded;
+      background: var(--brand-faded);
     }
   }
 }
@@ -796,11 +802,36 @@ a {
 }
 
 /* Toolbar selected button css.*/
+
 .ql-active {
-  background: white !important;
+  background: var(--bg-white) !important;
   font-weight: bold !important;
 
   i {
     font-weight: bold !important;
+  }
+}
+
+.ql-snow {
+  .ql-picker-options {
+    background: var(--bg-white)!important;
+  }
+
+  .ql-stroke {
+    stroke: var(--btn-user-action-color)!important;
+  }
+  .ql-fill {
+    fill: var(--btn-user-action-color)!important;
+  }
+  .ql-picker {
+    color: var(--btn-user-action-color)!important;
+    .ql-picker-label {
+      color: var(--btn-user-action-color)!important;
+    }
+  }
+  button.ql-active {
+    .ql-stroke, .ql-fill {
+      stroke: #06c!important;
+    }
   }
 }

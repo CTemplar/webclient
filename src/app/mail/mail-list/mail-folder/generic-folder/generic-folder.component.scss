@@ -35,7 +35,10 @@ a.disabled {
   top: 8px;
 
   ::ng-deep .mat-checkbox .mat-checkbox-frame {
-    border-color: rgba(0, 0, 0, 0.38);
+    border: 2px solid var(--mat-checkbox-border-color);
+  }
+  ::ng-deep .mat-checkbox .mat-checkbox-background {
+    border: var(--width-0-2) solid var(--mat-checkbox-border-color);
   }
 }
 

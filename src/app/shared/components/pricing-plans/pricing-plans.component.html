@@ -22,33 +22,30 @@
             <label class="pt-3" [translate]="'page_pricing.plan_price'">Plan & Price</label>
           </div>
           <h3 class="heading mt-4" [translate]="'page_pricing.packages'">Packages</h3>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.emails_allowed_to_send' | translate" [translate]="'page_pricing.messages_per_day'">Messages per day</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.upload_limit_MB' | translate" [translate]="'page_pricing.attachment_limit'">Attachment limit (MB)</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.storage_in_GB' | translate" [translate]="'page_pricing.storage'">Storage (GB)</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.emails_allowed_to_send' | translate" [translate]="'page_pricing.messages_per_day'">Sending limits</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.upload_limit_MB' | translate" [translate]="'page_pricing.attachment_limit'">Attachments limit</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.storage_in_GB' | translate" [translate]="'page_pricing.storage'">Storage</div>
           <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.mail_aliases' | translate" [translate]="'page_pricing.aliases'">Aliases</div>
           <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.custom_domains' | translate" [translate]="'page_pricing.custom_domains'">Custom domains</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.folders' | translate" [translate]="'page_pricing.folders'">Folders</div>
           <h3 class="heading mt-4" [translate]="'page_pricing.features'">Features</h3>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encryption_in_transit' | translate" [translate]="'page_pricing.encryption_in_transit'">Encryption in transit (SSL/TLS)</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted attachments" [innerHTML]="'page_pricing.encrypted_attachments' | translate">Encrypted attachments</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted content" [translate]="'page_pricing.encrypted_content'">Encrypted content</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted contacts" [translate]="'page_pricing.encrypted_contact'">Encrypted contacts</div>
-          <div class="bold px-2 py-3 plan-sub-item" ngbTooltip="Encrypted subjects" [translate]="'page_pricing.encrypted_subjects'">Encrypted subjects</div>
-          <div class="bold px-2 py-3 plan-sub-item" [innerHTML]="'page_pricing.encypted_metadata' | translate">Encrypted metadata <sup> (Coming soon)</sup></div>
-          <div class="bold px-2 py-3 plan-sub-item" [innerHTML]="'page_pricing.virus_detection' | translate">Virus detection tool</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.two_fac_authentication' | translate" [translate]="'page_pricing.two_factore_auth'">2 Factor authentication</div>
-          <div class="bold px-2 py-3 plan-sub-item" [translate]="'page_pricing.anti_phishing'">Anti phishing</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.brute_force' | translate" [translate]="'page_pricing.brute_force'">Brute force protection</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.zero_knowledge' | translate" [translate]="'page_pricing.zero_knowledge'">Zero knowledge passwords</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.stripes_ip' | translate" [translate]="'page_pricing.stripes_ip'">Strips IP from headers</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.unhackable_by_siri' | translate" [translate]="'page_pricing.unhackable_by_siri'">Unhackable by others with SRI</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.unhackable_by_checksum' | translate" [translate]="'page_pricing.unhackable_by_checksum'">Unhackable by us with checksums</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.support_custom_domains' | translate" [translate]="'page_pricing.multi_user'">Multi user support</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.self_destructing' | translate" [translate]="'page_pricing.self_destructing'">Self destructing emails</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.dead_man_timer' | translate" [translate]="'page_pricing.dead_man_timer'">Dead man timer</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encryption_in_transit' | translate" [translate]="'page_pricing.encryption_in_transit'">Encryption in transit</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encryption_at_rest' | translate" [translate]="'page_pricing.encryption_at_rest'">Encryption at rest</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encrypted_attachments' | translate" [translate]="'page_pricing.encrypted_attachments' | translate">Encrypted attachments</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encrypted_subjects' | translate" [translate]="'page_pricing.encrypted_subjects'">Encrypted subject</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encrypted_body' | translate" [translate]="'page_pricing.encrypted_body'">Encrypted body</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.virus_protection' | translate" [translate]="'page_pricing.virus_protection'">Virus protection</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.2fa_security' | translate" [translate]="'page_pricing.2fa_security'">2FA security</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.anti_phishing' | translate" [translate]="'page_pricing.anti_phishing'">Anti-phishing phrase</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.brute_force' | translate" [translate]="'page_pricing.brute_force'">Brute-force proof</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.zero_knowledge' | translate" [translate]="'page_pricing.zero_knowledge'">Zero-knowledge privacy</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.anonymized_ip' | translate" [translate]="'page_pricing.anonymized_ip'">Anonymized IP</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.self_destructing' | translate" [translate]="'page_pricing.self_destructing'">Self-destructing emails</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.dead_man_timer' | translate" [translate]="'page_pricing.dead_man_timer'">Dead-man timer</div>
           <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.delayed_delivery' | translate" [translate]="'page_pricing.delayed_delivery'">Delayed delivery</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.mails_of_custom_dom' | translate" [translate]="'page_pricing.catch_all_emails'">Catch all emails</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.unlimited_folders' | translate" [translate]="'page_pricing.unlimited_folders'">Unlimited folders</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.exclusive_access' | translate" [translate]="'page_pricing.exclusive_access'">Exclusive access to new features</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.mails_of_custom_dom' | translate" [translate]="'page_pricing.catch_all_emails'">Catch-all domains</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.remote_encrypted_link' | translate" [translate]="'page_pricing.remote_encrypted_link'">Remote encrypted link</div>
+          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.exclusive_access' | translate" [translate]="'page_pricing.exclusive_access'">Exclusive beta access</div>
         </div>
         <div class="col-9">
           <div class="row pricing-plans-list">
@@ -82,32 +79,29 @@
               <h3 class="heading mt-4 position-relative">
                 <a *ngIf="plan.name === planType.PRIME" class="switch-payment-type" (click)="togglePaymentType()"> Click here to switch to {{ selectedPaymentType === paymentTypeEnum.ANNUALLY ? 'monthly' : 'yearly' }} </a>
               </h3>
-              <div class="px-2 py-3 plan-sub-item">{{ plan.messages_per_day }}</div>
-              <div class="px-2 py-3 plan-sub-item">{{ plan.attachment_upload_limit }}</div>
-              <div class="px-2 py-3 plan-sub-item">{{ plan.gb }}</div>
+              <div class="px-2 py-3 plan-sub-item">{{ plan.messages_per_day }}<label *ngIf="plan.name !== planType.CHAMPION">/day</label></div>
+              <div class="px-2 py-3 plan-sub-item">{{ plan.attachment_upload_limit }}MB</div>
+              <div class="px-2 py-3 plan-sub-item">{{ plan.gb }}GB</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.aliases }}</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.custom_domains }}</div>
+              <div class="px-2 py-3 plan-sub-item">Unlimited</div>
               <h3 class="heading mt-4"></h3>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.ssl_tls }"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encryption_in_transit }"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encryption_at_rest }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_attachments }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_content }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_contacts }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_subjects }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_metadata }"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_body }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.virus_detection_tool }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.two_fa }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.anti_phishing }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.brute_force_protection }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.zero_knowledge_password }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.strip_ips }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.sri }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.checksums }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.multi_user_support }"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.anonymized_ip }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.self_destructing_emails }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.dead_man_timer }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.delayed_delivery }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.catch_all_email }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.unlimited_folders }"></ng-container>
+              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.remote_encrypted_link }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.exclusive_access }"></ng-container>
             </div>
           </div>

@@ -71,6 +71,10 @@
 // Components global styles
 @import 'styles/components.styles';
 
+// Theme styles
+@import 'styles/theme-variables-collection';
+@import 'styles/themes';
+
 .loading-icon {
   position: absolute;
   top: 28vh;
@@ -174,18 +178,32 @@ tag-input {
   .ng2-tag-input__text-input {
     height: 20px !important;
     font-size: 14px !important;
+    background-color: var(--bg-white);
+    color: var(--text-color-black-white);
   }
 
   tag {
     height: 20px !important;
     border-radius: 20px !important;
     border: 1px solid lightgrey !important;
+    color: var(--text-color)!important;
+    background-color: var(--composer-tag-background)!important;
+    delete-icon {
+      svg {
+        path {
+          fill: var(--text-color)!important;
+        }
+      }
+    }
     .tag-wrapper {
       margin-top: -10px !important;
     }
     .ng-star-inserted {
       margin-top: -10px;
     }
+  }
+  tag:hover {
+    box-shadow: 0 2px 3px 1px var(--composer-tag-box-shadow)!important;
   }
 
   .ng2-dropdown-menu {
@@ -203,9 +221,9 @@ tag-input {
   min-width: 54px;
   outline: 0;
   padding: 0 8px;
-  background-color: #f1f1f1;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: #444;
+  background-color: var(--btn-user-action-background);
+  border: 1px solid var(--btn-user-action-border-color);
+  color: var(--btn-user-action-color);
 
   .icon-lg {
     font-size: 1.1rem;
@@ -214,8 +232,8 @@ tag-input {
 
   &:hover,
   &:focus {
-    border: 1px solid #c6c6c6;
-    color: #333;
+    border: 1px solid var(--btn-user-action-border-focus-color);
+    color: var(--btn-user-action-focus-color);
   }
 
   &:active {
@@ -279,7 +297,7 @@ app-compose-mail {
 
 button[disabled] {
   cursor: not-allowed;
-  background-color: #f1f0f0;
+  background-color: var(--btn-user-action-background-disabled);
 }
 
 .menu-open .mailbox-sidebar {
@@ -333,11 +351,11 @@ button[disabled] {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--settings-tabs-border-color);
 }
 
 .nav-tabs.nav li {
-  border-right: 1px solid #f5f5f5;
+  border-right: 1px solid var(--settings-tabs-border-color);
 }
 
 .nav-tabs.nav .nav-link {
@@ -345,13 +363,13 @@ button[disabled] {
   align-items: center;
   height: 100%;
   text-decoration: none;
-  background-color: transparent;
+  background-color: var(--settings-tabs-background);
   padding: 1rem 0.9rem;
   text-transform: unset;
-  border-radius: 0.25rem;
+  // border-radius: 0.25rem;
   font-size: 14px;
   font-weight: 600;
-  color: #616161;
+  color: var(--settings-tabs-color);
   text-align: center;
   max-width: 175px;
 }
@@ -371,7 +389,7 @@ button[disabled] {
   .nav-link {
     &:hover,
     &.active {
-      background: #f4f4f4;
+      background: var(--settings-tabs-container-background);
       border-radius: 0;
     }
   }
@@ -437,7 +455,10 @@ button[disabled] {
     }
 
     .mat-checkbox-frame {
-      border: 2px solid #cccaca;
+      border: 2px solid var(--mat-checkbox-border-color);
+    }
+    .mat-checkbox-background {
+      border: var(--width-0-2) solid var(--mat-checkbox-border-color);
     }
   }
 }
@@ -566,4 +587,28 @@ button[disabled] {
 .dropup .dropdown-menu {
   bottom: unset !important;
   transition: inherit;
+}
+
+// Overriding global styles
+
+.text-dark, 
+.text-dark:hover,
+a.text-dark,
+a.text-dark:hover {
+  color: var(--text-dark)!important;
+}
+.text-secondary {
+  color: var(--text-muted)!important;
+}
+.text-faded {
+  color: var(--text-faded)!important;
+}
+.text-muted {
+  color: var(--text-muted)!important;
+}
+.bg-faded {
+  background-color: var(--bg-faded)!important;
+}
+.bg-white {
+  background-color: var(--bg-white)!important;
 }

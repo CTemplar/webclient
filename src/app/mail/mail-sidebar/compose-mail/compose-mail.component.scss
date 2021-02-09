@@ -19,6 +19,8 @@
   padding: 12px 15px;
   resize: none;
   font-size: 14px;
+  background-color: var(--bg-white);
+  color: var(--text-color-black-white);
 }
 
 textarea:disabled {
@@ -37,7 +39,7 @@ textarea:disabled {
   button {
     font-size: inherit !important;
     height: inherit !important;
-    color: rgba(0, 0, 0, 0.38);
+    color: var(--brand-light-gray);
   }
   .btn-more {
     background: #f5f5f5;
@@ -48,7 +50,7 @@ textarea:disabled {
     max-width: 152px;
   }
   a {
-    color: black;
+    color: var(--text-dark);
   }
   .item {
     margin-left: -25px;
@@ -91,7 +93,7 @@ textarea:disabled {
       width: 2.25rem;
       display: flex;
       justify-content: center;
-      background: #fafafa;
+      background: var(--bg-faded);
     }
     &:disabled {
       background-color: inherit;
@@ -102,7 +104,7 @@ textarea:disabled {
     }
     border: none;
     i {
-      color: black;
+      color: var(--text-color-black-white);
     }
   }
 }

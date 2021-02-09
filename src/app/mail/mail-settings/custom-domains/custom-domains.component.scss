@@ -2,6 +2,8 @@
 @import '~styles/vendors/include-media/include-media';
 @import '~styles/config/include-media-config';
 @import '~styles/vendors/ceaser/ceaser-easing';
+@import '~styles/theme-variables-collection';
+@import '~styles/themes';
 
 .domain-body {
   padding-left: 1.563rem;
@@ -126,7 +128,7 @@
 
           &:hover {
             opacity: 1;
-            background-color: $brand-faded;
+            background-color: var(--brand-faded);
             color: #949494;
           }
         }
@@ -138,7 +140,7 @@
 .stepper-form {
   padding: 1.5625rem 1.875rem 2.5rem 1.875rem;
   font-size: 0.875rem;
-  background-color: #fafafa;
+  background-color: var(--bg-faded);
 
   .domain-input {
     width: 28.125rem;

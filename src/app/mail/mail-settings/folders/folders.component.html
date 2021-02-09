@@ -21,10 +21,13 @@
       </button>
       <app-loading-spinner class="float-right" [showSpinner]="reorderInProgress && !reorder"></app-loading-spinner>
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
-      <ul class="ui-list ui-list-styled list-styled folders-list">
-        <li *ngFor="let folder of folders; let i = index" class="ui-list-item ui-list-item-xs-full">
+      <ul cdkDropList class="ui-list ui-list-styled list-styled folders-list" (cdkDropListDropped)="onFolderDrop($event)">
+        <li *ngFor="let folder of folders; let i = index" class="ui-list-item ui-list-item-xs-full" cdkDrag>
           <div class="row row-xs align-items-center folder-item">
             <div class="col-10 col-sm-8 show-ellipses">
+              <div class="drag-drop-handle" cdkDragHandle *ngIf="reorder">
+                <i class="fas fa-arrows-alt-v"></i>
+              </div>
               <span>
                 <i class="folder-color-box icon" [style.background]="folder.color"></i>
               </span>

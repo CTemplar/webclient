@@ -38,7 +38,6 @@
       <div class="col-sm-10">
         <input class="form-control form-control-sm" id="contactEmail" name="email" required [(ngModel)]="newContactModel.email" #contactEmail="ngModel" [placeholder]="'contacts.type_email' | translate" type="text" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" />
       </div>
-      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
   </div>
   <!-- Contact Encryption for InternalUsers-->
@@ -76,7 +75,6 @@
       <div class="col-sm-10">
         <input class="form-control form-control-sm" id="contactPhone1" name="phone" [(ngModel)]="newContactModel.phone" [placeholder]="'common.phone' | translate" type="text" />
       </div>
-      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
   </div>
   <!-- Contact Phone Number 2-->
@@ -88,7 +86,6 @@
       <div class="col-sm-10">
         <input class="form-control form-control-sm" id="contactPhone2" [placeholder]="'common.phone' | translate" name="phone2" [(ngModel)]="newContactModel.phone2" type="text" />
       </div>
-      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
   </div>
   <!-- Contact Address-->
@@ -100,7 +97,6 @@
       <div class="col-sm-10">
         <textarea class="form-control form-control-sm resize-off" id="contactAddress" [placeholder]="'contacts.address' | translate" name="address" [(ngModel)]="newContactModel.address" rows="3"></textarea>
       </div>
-      <button type="button" class="add-button-link"><img src="assets/images/plus@2x.png" /></button>
     </div>
   </div>
   <div class="mb-2 hidden-xs-down">&nbsp;</div>
