@@ -772,7 +772,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mail.children &&
         !this.mail.children.filter(child => child.id !== mail.id).some(child => child.folder === MailFolderType.TRASH)
       ) {
-        this.goBackAfterDelete(this.currentMailIndex + 1);
+        this.goBackAfterDelete();
       }
     } else {
       this.store.dispatch(
@@ -804,11 +804,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.mail.folder === MailFolderType.TRASH) ||
       (mail.id === this.mail.id && this.mail.folder === MailFolderType.TRASH)
     ) {
-      this.goBackAfterDelete(this.currentMailIndex + 1);
+      this.goBackAfterDelete();
     }
   }
 
-  goBackAfterDelete(index: number) {
+  goBackAfterDelete() {
     this.goBack(500);
     this.mail = null;
     this.markedAsRead = false;
@@ -820,7 +820,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.mail.children = this.mail.children.filter(child => child.id !== mail.id);
     }
     if (mail.id === this.mail.id) {
-      this.goBackAfterDelete(this.currentMailIndex + 1);
+      this.goBackAfterDelete();
     }
   }
 
