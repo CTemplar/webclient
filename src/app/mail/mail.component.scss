@@ -1400,7 +1400,7 @@
 .ngb-dp-day,
 .ngb-dp-weekday,
 .ngb-dp-week-number {
-  color: #212121 !important;
+  color: var(--dropdown-toogle-color) !important;
   font-family: 'Lato', Helvetica, Arial, sans-serif !important;
   font-size: 0.875rem;
   line-height: 1.875rem !important;
@@ -1456,6 +1456,7 @@
     border-radius: 4px;
     font-family: 'Lato', Helvetica, Arial, sans-serif !important;
     width: calc(50% - 0.375rem) !important;
+    color: var(--text-dark);
 
     &:not(:last-of-type) {
       margin-right: 0.375rem;
