@@ -84,7 +84,7 @@ export class SafePipe implements PipeTransform {
               });
 
               if (!containsTargetAttribute) {
-                attributesHtml += ' target="_blank"';
+                attributesHtml += ' target="_blank" rel="noopener noreferrer"';
               }
 
               let outputHtml = `<${tag}`;
@@ -258,9 +258,9 @@ export class SafePipe implements PipeTransform {
         const emailAddressPattern = /[\w.]+@[_a-z-]+?(?:\.[a-z]{2,6})+/gim;
 
         inputText = inputText
-          .replace(urlPattern, '<a target="_blank" rel="noopener" href="$&">$&</a>')
-          .replace(pseudoUrlPattern, '$1<a target="_blank" rel="noopener" href="http://$2">$2</a>')
-          .replace(emailAddressPattern, '<a target="_blank" rel="noopener" href="mailto:$&">$&</a>');
+          .replace(urlPattern, '<a target="_blank" rel="noopener noreferrer" href="$&">$&</a>')
+          .replace(pseudoUrlPattern, '$1<a target="_blank" rel="noopener noreferrer" href="http://$2">$2</a>')
+          .replace(emailAddressPattern, '<a target="_blank" rel="noopener noreferrer" href="mailto:$&">$&</a>');
       }
       inputText = inputText.replace(/\n/g, '<br>');
     }
