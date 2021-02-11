@@ -130,14 +130,14 @@ export class SafePipe implements PipeTransform {
         // Move style from style tag to inline style
         value = juice(value);
         // Sanitize Mail
-        value = this.processSanitization(value, disableExternalImages);
+        value = SafePipe.processSanitization(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
       default:
         throw new Error(`Invalid safe type specified: ${type}`);
     }
   }
 
-  processSanitization(value: string, disableExternalImages: boolean) {
+  static processSanitization(value: string, disableExternalImages: boolean) {
     const allowedTags = {
       a: [],
       b: [],
