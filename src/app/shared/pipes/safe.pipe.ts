@@ -248,19 +248,19 @@ export class SafePipe implements PipeTransform {
   replaceLinksInText(inputText: string) {
     if (!/<[a-z][\S\s]*>/i.test(inputText)) {
       if (typeof inputText === 'string') {
-        // http://, https://, ftp://
-        const urlPattern = /\b(?:https?|ftp):\/\/[\w!#%&+,./:;=?@|~-]*[\w#%&+/=@|~-]/gim;
+        // URLs starting with http://, https://, or ftp://
+        const urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
 
-        // www. sans http:// or https://
-        const pseudoUrlPattern = /(^|[^/])(www\.\S+(\b|$))/gim;
+        // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+        const pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
 
-        // Email addresses
-        const emailAddressPattern = /[\w.]+@[_a-z-]+?(?:\.[a-z]{2,6})+/gim;
+        // Change email addresses to mailto:: links.
+        const emailAddressPattern = /(\w+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
 
         inputText = inputText
-          .replace(urlPattern, '<a target="_blank" rel="noopener noreferrer" href="$&">$&</a>')
+          .replace(urlPattern, '<a target="_blank" rel="noopener noreferrer" href="$1">$1</a>')
           .replace(pseudoUrlPattern, '$1<a target="_blank" rel="noopener noreferrer" href="http://$2">$2</a>')
-          .replace(emailAddressPattern, '<a target="_blank" rel="noopener noreferrer" href="mailto:$&">$&</a>');
+          .replace(emailAddressPattern, '<a href="mailto:$1">$1</a>');
       }
       inputText = inputText.replace(/\n/g, '<br>');
     }
