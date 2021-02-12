@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 import ImageResize from 'quill-image-resize-module';
 import Quill from 'quill';
+import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
@@ -249,6 +250,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
     if (selectedMailbox[key] !== value) {
       selectedMailbox.inProgress = true;
+      // Sanitizing for signature & display_name
+      if (key === 'signature' || key === 'display_name') {
+        value = SafePipe.processSanitization(value, false);
+      }
       this.store.dispatch(new MailboxSettingsUpdate({ ...selectedMailbox, [key]: value }));
     }
   }

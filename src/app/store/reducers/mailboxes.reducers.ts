@@ -1,6 +1,7 @@
 import { MailActions, MailActionTypes } from '../actions';
 import { MailBoxesState } from '../datatypes';
 import { Mailbox } from '../models/mail.model';
+import { SafePipe } from '../../shared/pipes/safe.pipe';
 
 export function reducer(
   state: MailBoxesState = {
@@ -23,6 +24,8 @@ export function reducer(
         ...state,
         mailboxes: action.payload.map((item, index) => {
           item.sort_order = item.sort_order ? item.sort_order : index + 1;
+          item.display_name = SafePipe.processSanitization(item.display_name, false);
+          item.signature = SafePipe.processSanitization(item.signature, false);
           return item;
         }),
         inProgress: false,
