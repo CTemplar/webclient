@@ -37,4 +37,14 @@ $media-expressions: (
     display: none !important;
   }
 }
+@media (min-width: 767px) {
+  .hidden-sm-min {
+    display: none !important;
+  }
+}
+@media (max-width: 766px) {
+  .hidden-sm-max {
+    display: none !important;
+  }
+}
 // box-shadow: 0 6px 0 0 rgba(0,0,0,.01), 0 15px 32px 0 rgba(0,0,0,.06);

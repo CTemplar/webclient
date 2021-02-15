@@ -434,6 +434,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
         this.draft = draft;
         this.usersKeys = response.usersKeys;
+        const receivers = this.draftMail.receiver;
+        if (receivers && receivers.length > 0) {
+          const receiversToFetchKey = receivers.filter(rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching));
+          if (receiversToFetchKey.length > 0) {
+            this.store.dispatch(
+              new GetUsersKeys({
+                emails: receiversToFetchKey,
+              }),
+            );
+          }
+        }
       });
 
     /**
@@ -1897,13 +1908,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   getUserKeyFetchingStatus(email: string): boolean {
-    if (!this.usersKeys.has(email)) {
-      this.store.dispatch(
-        new GetUsersKeys({
-          emails: [email],
-        }),
-      );
-    }
     return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
   }
 

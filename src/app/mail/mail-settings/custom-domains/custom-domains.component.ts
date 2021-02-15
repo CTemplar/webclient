@@ -205,6 +205,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   }
 
   gotoPricingPlans() {
-    this.onGotoTab.emit('dashboard-plans');
+    this.onGotoTab.emit('dashboard-and-plans');
   }
 }

@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { QuillModule } from 'ngx-quill';
 
 import { SharedModule } from '../shared/shared.module';
@@ -78,6 +79,7 @@ import { MailRoutingModule } from './mail-routing.module';
     MatStepperModule,
     NgbModalModule,
     NgbModule,
+    DragDropModule,
     QuillModule.forRoot(),
     ReactiveFormsModule,
     SharedModule,
