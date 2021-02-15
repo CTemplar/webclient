@@ -1,5 +1,6 @@
 import { UsersActionAll, UsersActionTypes } from '../actions';
 import { Domain, PromoCode, Settings, UserState } from '../datatypes';
+import { SafePipe } from '../../shared/pipes/safe.pipe';
 
 export const initialState: UserState = {
   username: null,
@@ -158,6 +159,14 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, isLoaded: false };
     }
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
+
+      // Sanitize auto responder msg
+      if (action.payload.autoresponder && action.payload.autoresponder.autoresponder_message) {
+        action.payload.autoresponder.autoresponder_message = SafePipe.processSanitization(action.payload.autoresponder.autoresponder_message, false);
+      }
+      if (action.payload.autoresponder && action.payload.autoresponder.vacationautoresponder_message) {
+        action.payload.autoresponder.vacationautoresponder_message = SafePipe.processSanitization(action.payload.autoresponder.vacationautoresponder_message, false);
+      }
       return {
         ...state,
         id: action.payload.id,
