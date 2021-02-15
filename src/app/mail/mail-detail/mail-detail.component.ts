@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+import * as xss from 'xss';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -1083,7 +1084,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'medium')
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
-      `Subject: ${mail.subject}</br>` +
+      `Subject: ${xss.escapeHtml(mail.subject)}</br>` +
       `To: ${mail.receiver_display
         .map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true))
         .join(', ')}</br>`;
