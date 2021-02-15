@@ -1076,7 +1076,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       `</br>---------- Forwarded message ----------</br>` +
       `From: ${EmailFormatPipe.transformToFormattedEmail(
         mail.sender_display.email,
-        mail.sender_display.name,
+        xss.escapeHtml(mail.sender_display.name),
         true,
       )}</br>` +
       `Date: ${
