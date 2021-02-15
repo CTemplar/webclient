@@ -180,15 +180,6 @@ export class OpenPgpService {
         this.store.dispatch(
           new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
         );
-        // TODO should be updated or removed
-        // this.store.dispatch(
-        //   new UpdatePGPDecryptedContent({
-        //     id: event.data.callerId,
-        //     isPGPInProgress: false,
-        //     decryptedContent: event.data.decryptedContent,
-        //     isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-        //   }),
-        // );
       } else if (event.data.changePassphrase) {
         event.data.keys.forEach(item => {
           item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
