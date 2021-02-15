@@ -387,6 +387,8 @@ export class SecureContent {
 
   isSubjectEncrypted?: boolean;
 
+  parent?: number;
+
   constructor(data?: Mail) {
     if (data) {
       this.content = data.content;
@@ -394,6 +396,7 @@ export class SecureContent {
       this.subject = data.subject;
       this.incomingHeaders = data.incoming_headers;
       this.isSubjectEncrypted = data.is_subject_encrypted;
+      this.parent = data.parent;
     }
   }
 }
@@ -409,7 +412,7 @@ export interface Draft {
   encryptedContent?: SecureContent;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
-  isSshInProgress?: boolean;
+  // isSshInProgress?: boolean;
   attachments: Attachment[];
   shouldSend?: boolean;
   shouldSave?: boolean;
@@ -679,4 +682,12 @@ export enum MailAction {
   REPLY = 'REPLY',
   REPLY_ALL = 'REPLY_ALL',
   FORWARD = 'FORWARD',
+}
+
+export type NumberBooleanMappedType = {
+  [key: number]: boolean;
+}
+
+export type NumberStringMappedType = {
+  [key: number]: string;
 }

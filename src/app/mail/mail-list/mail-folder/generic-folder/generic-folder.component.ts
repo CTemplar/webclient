@@ -372,16 +372,21 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   decryptAllSubjects() {
+    // debugger
     this.queueForDecryptSubject = this.queueForDecryptSubject.filter(decryptingMail => {
       // Item on queue would be removed when the following condition is matched
       // 1. decrypting is finished
       // 2. mail doesn't be existed on mail list
+      // 3. mail (parent, if conversation mode) is encrypted with password
       let isExistMatchMail = false;
       for (let i = 0; i < this.mails.length; i++) {
         const mail = this.mails[i];
         if (mail.id === decryptingMail) {
           isExistMatchMail = true;
           if (!mail.is_subject_encrypted) {
+            return false;
+          }
+          if (mail.encryption && mail.encryption.password_hint) {
             return false;
           }
         }
@@ -392,7 +397,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     for (let i = 0; i < this.mails.length; i++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
         const mail = this.mails[i];
-        if (mail.is_subject_encrypted && !this.queueForDecryptSubject.includes(mail.id)) {
+        if (mail.is_subject_encrypted && !(mail.encryption && mail.encryption.password_hint) && !this.queueForDecryptSubject.includes(mail.id)) {
           this.processDecryptSubject(mail.id);
           this.queueForDecryptSubject.push(mail.id);
           this.scrambleText(mail.id);

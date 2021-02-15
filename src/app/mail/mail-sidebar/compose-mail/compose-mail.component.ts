@@ -1332,9 +1332,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     receivers = receivers.filter(
       email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
     );
-    if (this.encryptionData.password) {
-      this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
-    }
+    
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;

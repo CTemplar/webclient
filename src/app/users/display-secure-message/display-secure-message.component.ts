@@ -27,6 +27,8 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
 
   @Input() secret: any;
 
+  @Input() password: string;
+
   @Output() reply: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output() expired: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -75,7 +77,7 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
           }
           const fileInfo = { attachment, type: response.file_type };
           this.pgpService
-            .decryptSecureMessageAttachment(this.decryptedKey, response.data, fileInfo)
+            .decryptAttachmentWithOnlyPassword(response.data, fileInfo, this.password)
             .pipe(take(1))
             .subscribe(
               (decryptedAttachment: Attachment) => {
