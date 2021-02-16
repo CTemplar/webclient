@@ -219,6 +219,7 @@ export class SafePipe implements PipeTransform {
       tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
       u: ['style'],
       ul: ['dir', 'style'],
+      i: ['style']
     };
     // @ts-ignore
     value = xss(value, {
@@ -226,7 +227,7 @@ export class SafePipe implements PipeTransform {
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
       onIgnoreTagAttr: (tag, name, attribute, isWhiteAttribute) => {
-        if (name !== 'class') {
+        if (name !== 'class' && allowedAttributes[tag]) {
           // get attr whitelist for specific tag
           const attributeWhitelist = allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag
