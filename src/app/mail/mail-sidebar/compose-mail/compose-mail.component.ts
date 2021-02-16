@@ -1196,7 +1196,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   discardEmail() {
-    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+    if (this.inProgress || (this.draft && this.draft.isSaving) || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.discardEmail();
