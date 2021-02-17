@@ -566,7 +566,7 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getDomains().pipe(
         map(emailDomains => {
-          return new GetDomainsSuccess(emailDomains.results.sort((a, b) => a.id - b.id));
+          return new GetDomainsSuccess(emailDomains.results.sort((a: any, b: any) => a.id - b.id));
         }),
         catchError(error => EMPTY),
       );

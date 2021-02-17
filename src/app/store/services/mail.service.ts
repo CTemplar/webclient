@@ -49,7 +49,7 @@ export class MailService {
   getMessage(payload: { messageId: number; folder: string }): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
     return this.http.get<Mail>(url).pipe(
-      map(data => {
+      map((data: any) => {
         return data['results'] ? data['results'][0] : null;
       }),
     );
@@ -67,7 +67,7 @@ export class MailService {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url).pipe(
       map(data => {
-        const newData = data.results.map(mailbox => {
+        const newData = data.results.map((mailbox: any) => {
           mailbox.customFolders = mailbox.custom_folders;
           return mailbox;
         });

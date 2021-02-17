@@ -67,7 +67,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @ViewChild('passwordVC') passwordVC: ElementRef;
 
-  @ViewChild('resetPasswordModal') resetPasswordModal;
+  @ViewChild('resetPasswordModal') resetPasswordModal: any;
 
   @ViewChild('otpInput') otpInput: ElementRef;
 
@@ -176,7 +176,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
 
-  login(user, otp?: string, isOtp?: boolean) {
+  login(user: any, otp?: string, isOtp?: boolean) {
     this.showFormErrors = true;
     if (isOtp && !otp) {
       return;
@@ -195,7 +195,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     this.router.navigateByUrl('/mail');
   }
 
-  recoverPassword(data) {
+  recoverPassword(data: any) {
     this.showResetPasswordFormErrors = true;
     if (this.isConfirmedPrivacy === null) {
       this.isConfirmedPrivacy = false;
@@ -208,7 +208,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  resetPassword(data) {
+  resetPassword(data: any) {
     this.showResetPasswordFormErrors = true;
     if (this.resetPasswordForm.valid) {
       data.username = this.userService.trimUsername(data.username);
@@ -222,7 +222,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  waitForPGPKeys(data) {
+  waitForPGPKeys(data: any) {
     setTimeout(() => {
       if (this.openPgpService.getUserKeys()) {
         this.resetPasswordConfirmed(data);
@@ -232,7 +232,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     }, 1000);
   }
 
-  resetPasswordConfirmed(data) {
+  resetPasswordConfirmed(data: any) {
     this.isGeneratingKeys = false;
     const requestData = {
       code: data.code,
@@ -296,7 +296,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     });
   }
 
-  openOSK(input) {
+  openOSK(input: any) {
     if (!(this.isKeyboardOpened && this.currentInput !== input)) {
       this.isKeyboardOpened = !this.isKeyboardOpened;
     }
@@ -311,7 +311,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  onInputFocusChange(input) {
+  onInputFocusChange(input: any) {
     if (this.isKeyboardOpened) {
       this.isKeyboardOpened = false;
       this.openOSK(input);

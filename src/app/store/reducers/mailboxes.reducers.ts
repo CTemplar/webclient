@@ -22,7 +22,7 @@ export function reducer(
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
       return {
         ...state,
-        mailboxes: action.payload.map((item, index) => {
+        mailboxes: action.payload.map((item: any, index: number) => {
           item.sort_order = item.sort_order ? item.sort_order : index + 1;
           item.display_name = SafePipe.processSanitization(item.display_name, false);
           item.signature = SafePipe.processSanitization(item.signature, false);

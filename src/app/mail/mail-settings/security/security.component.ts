@@ -25,13 +25,13 @@ import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/c
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss'],
 })
 export class SecurityComponent implements OnInit, OnDestroy {
-  @ViewChild('changePasswordModal') changePasswordModal;
+  @ViewChild('changePasswordModal') changePasswordModal: any;
 
-  @ViewChild('auth2FAModal') auth2FAModal;
+  @ViewChild('auth2FAModal') auth2FAModal: any;
 
-  @ViewChild('decryptContactsModal') decryptContactsModal;
+  @ViewChild('decryptContactsModal') decryptContactsModal: any;
 
-  @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal;
+  @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal: any;
 
   private changePasswordModalRef: NgbModalRef;
 
@@ -312,7 +312,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
 
-  updateUsingLocalStorage(isUsing) {
+  updateUsingLocalStorage(isUsing: boolean) {
     localStorage.setItem(SYNC_DATA_WITH_STORE, isUsing ? 'true' : 'false');
     localStorage.setItem(NOT_FIRST_LOGIN, 'true');
   }

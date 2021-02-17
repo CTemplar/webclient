@@ -3,7 +3,10 @@ import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
 import { ComposeMailState } from '../datatypes';
 import { MailFolderType } from '../models';
 
-export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new Map() }, action: ComposeMailActions): ComposeMailState {
+export function reducer(
+  state: ComposeMailState = { drafts: {}, usersKeys: new Map() },
+  action: ComposeMailActions,
+): ComposeMailState {
   switch (action.type) {
     case ComposeMailActionTypes.SEND_MAIL:
     case ComposeMailActionTypes.CREATE_MAIL: {
@@ -22,7 +25,7 @@ export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new M
       const oldDraft = state.drafts[action.payload.draft.id];
       const draftMail = action.payload.response;
       if (action.payload.draft.draft.forward_attachments_of_message) {
-        oldDraft.attachments = draftMail.attachments.map(attachment => {
+        oldDraft.attachments = draftMail.attachments.map((attachment: any) => {
           attachment.progress = 100;
           if (!attachment.name) {
             attachment.name = FilenamePipe.tranformToFilename(attachment.document);
@@ -73,8 +76,8 @@ export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new M
         };
       }
       let usersKeys = state.usersKeys;
-      action.payload.emails.forEach(email => {
-        usersKeys.set(email, { key: null, isFetching: true })
+      action.payload.emails.forEach((email: string) => {
+        usersKeys.set(email, { key: null, isFetching: true });
       });
       return { ...state, drafts: { ...state.drafts }, usersKeys };
     }
@@ -90,14 +93,14 @@ export function reducer(state: ComposeMailState = { drafts: {}, usersKeys: new M
       // Saving on global user keys
       let usersKeys = state.usersKeys;
       if (!action.payload.isBlind && action.payload.data.keys) {
-        action.payload.data.keys.forEach(key => {
+        action.payload.data.keys.forEach((key: any) => {
           usersKeys.set(key.email, { key: key, isFetching: false });
         });
       }
-      return { 
-        ...state, 
-        drafts: { ...state.drafts }, 
-        usersKeys 
+      return {
+        ...state,
+        drafts: { ...state.drafts },
+        usersKeys,
       };
     }
 

@@ -15,9 +15,9 @@ import { AppState, Settings, UserState } from '../../../store/datatypes';
   styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss'],
 })
 export class MailForwardingComponent implements OnInit, OnDestroy {
-  @ViewChild('addAddressModal') addAddressModal;
+  @ViewChild('addAddressModal') addAddressModal: any;
 
-  @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal;
+  @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal: any;
 
   userState: UserState;
 

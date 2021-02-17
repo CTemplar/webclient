@@ -25,9 +25,9 @@ import { MoveTab } from '../../../../store/actions';
   styleUrls: ['./organization-users.component.scss'],
 })
 export class OrganizationUsersComponent implements OnInit, OnDestroy {
-  @ViewChild('addUserModal') addUserModal;
+  @ViewChild('addUserModal') addUserModal: any;
 
-  @ViewChild('confirmDeleteModal') confirmDeleteModal;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
 
   users: OrganizationUser[];
 

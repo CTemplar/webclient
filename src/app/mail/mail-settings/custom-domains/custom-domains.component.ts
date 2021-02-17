@@ -18,7 +18,7 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
 export class CustomDomainsComponent implements OnInit, OnDestroy {
   @Output() onGotoTab = new EventEmitter<string>();
 
-  @ViewChild('confirmDeleteModal') confirmDeleteModal;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
 
   userState: UserState;
 
@@ -116,7 +116,7 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
   prepareMapForDomainAlias(domains: Domain[], aliases: Array<any>) {
     if (domains && aliases) {
       domains.forEach((domain, indexDomain) => {
-        let aliasesForDomain = [];
+        let aliasesForDomain: any[] = [];
         aliases.forEach(alias => {
           const domainForAlias = alias.email.split('@')[1];
           if (domain.domain === domainForAlias && alias.is_enabled) {
