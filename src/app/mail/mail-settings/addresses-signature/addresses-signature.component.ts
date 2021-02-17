@@ -64,6 +64,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   isCustomDomainSelected: boolean;
 
+  aliasKeyExpandedStatus: Array<boolean> = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private openPgpService: OpenPgpService,
@@ -100,6 +102,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         this.mailBoxesState = mailboxesState;
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
+          this.aliasKeyExpandedStatus = new Array(this.mailboxes.length).fill(false);
           this.currentMailBox = mailboxesState.currentMailbox;
           if (!this.selectedMailboxForSignature || this.selectedMailboxForSignature.id === this.currentMailBox.id) {
             // update selected mailbox in case `currentMailbox` has been updated

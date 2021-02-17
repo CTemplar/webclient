@@ -320,3 +320,69 @@
     </div>
   </div>
 </section>
+
+<!-- Keys Section -->
+<section class="mailbox-section">
+  <header class="ui-header ui-header-bordered">
+    <h5 class="ui-header-subtitle text-dark mb-0">
+      <strong [translate]="'settings.keys.name'">Keys</strong>
+    </h5>
+  </header>
+  <div class="mailbox-section-body mailbox-section-body-sm">
+    <div class="form-content-holder">
+      <div class="mailbox-list-container">
+        <div class="row mailbox-list-header">
+          <div class="col-sm-5 mailbox-list-header-item">
+            <label class="form-label"> EMAIL </label>
+          </div>
+          <div class="col-sm-5 mailbox-list-header-item">
+            <label class="form-label"> FINGERPRINT </label>
+          </div>
+          <div class="col-sm-2 mailbox-list-header-item">
+            <label class="form-label"> KEY TYPE </label>
+          </div>
+        </div>
+        <div class="row mailbox-list-row" *ngFor="let mailbox of mailboxes; let i = index;">
+          <div class="col-sm-5 mailbox-list-row-item">
+            <i *ngIf="!aliasKeyExpandedStatus[i]" class="fa fa-chevron-right mr-2" (click)="aliasKeyExpandedStatus[i] = !aliasKeyExpandedStatus[i]" [attr.aria-expanded]="aliasKeyExpandedStatus[i]"></i>
+            <i *ngIf="aliasKeyExpandedStatus[i]" class="fa fa-chevron-down mr-2" (click)="aliasKeyExpandedStatus[i] = !aliasKeyExpandedStatus[i]" [attr.aria-expanded]="aliasKeyExpandedStatus[i]"></i>
+            {{mailbox.email}}
+          </div>
+          <div class="col-sm-5 mailbox-list-row-item">
+            {{mailbox.fingerprint}}
+          </div>
+          <div class="col-sm-2 mailbox-list-row-item">
+            RSA 4096 BIT
+          </div>
+          <div class="col-sm-12 key-list-container" #collapse="ngbCollapse" [(ngbCollapse)]="!aliasKeyExpandedStatus[i]">
+            <div class="row key-list-header">
+                <div class="col-sm-6 key-list-header-item">
+                  FINGERPRINT
+                </div>
+                <div class="col-sm-2 key-list-header-item">
+                  KEY TYPE
+                </div>
+                <div class="col-sm-3 key-list-header-item text-right">
+                  STATUS
+                </div>
+                <div class="col-sm-1 key-list-header-item">
+                  
+                </div>
+              </div>
+              <div class="row key-list-row">
+                <div class="col-sm-6 key-list-row-item">
+                </div>
+                <div class="col-sm-2 key-list-row-item">
+                </div>
+                <div class="col-sm-3 key-list-row-item text-right">
+                </div>
+                <div class="col-sm-1 key-list-row-item text-center">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
