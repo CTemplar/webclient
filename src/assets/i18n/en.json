@@ -543,7 +543,8 @@
     "no_conversations": "There are no conversations with this label.",
     "remove_star": "Remove Star",
     "start_message": "Star Message",
-    "4_Wall_Protection": "Protected by CTemplar 4-Wall technology"
+    "4_Wall_Protection": "Protected by CTemplar 4-Wall technology",
+    "passwored_encrpted_subject": "Password encrypted subject"
   },
   "home_header": {
     "home": "Home",
@@ -750,7 +751,9 @@
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Confirm Include Attachments",
     "show_plain_text": "Show Plain Text",
-    "show_rich_text": "Show Rich Text"
+    "show_rich_text": "Show Rich Text",
+    "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
+    "password_hint": "Password Hint: "
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

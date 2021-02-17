@@ -77,16 +77,9 @@ export class SharedService {
   /**
    * @description
    * Prime Users - Can create as many folders as they want
-   * Free Users - Only allow a maximum of 5 folders per account
    */
   openCreateFolderDialog(isPrime, customFolders: Folder[], callback: { self: any; method: string } = null) {
-    if (isPrime) {
-      this.openModal(callback);
-    } else if (customFolders === null || customFolders.length < 5) {
-      this.openModal(callback);
-    } else {
-      this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
-    }
+    this.openModal(callback);
   }
 
   private openModal(callback: { self: any; method: string } = null) {

@@ -750,10 +750,11 @@ export function reducer(
         let basicFolderState = getUpdatesFolderMap([newMail], targetFolderMap, state.pageLimit);
         folderMap.set(newMail.folder, basicFolderState);
       }
-
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      if (state.currentFolder) {
+        const curMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = curMailFolder.total_mail_count;
+      }
       return {
         ...state,
         mails,

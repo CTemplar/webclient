@@ -130,14 +130,14 @@ export class SafePipe implements PipeTransform {
         // Move style from style tag to inline style
         value = juice(value);
         // Sanitize Mail
-        value = this.processSanitization(value, disableExternalImages);
+        value = SafePipe.processSanitization(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
       default:
         throw new Error(`Invalid safe type specified: ${type}`);
     }
   }
 
-  processSanitization(value: string, disableExternalImages: boolean) {
+  static processSanitization(value: string, disableExternalImages: boolean) {
     const allowedTags = {
       a: [],
       b: [],
@@ -219,6 +219,7 @@ export class SafePipe implements PipeTransform {
       tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
       u: ['style'],
       ul: ['dir', 'style'],
+      i: ['style']
     };
     // @ts-ignore
     value = xss(value, {
@@ -226,7 +227,7 @@ export class SafePipe implements PipeTransform {
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
       onIgnoreTagAttr: (tag, name, attribute, isWhiteAttribute) => {
-        if (name !== 'class') {
+        if (name !== 'class' && allowedAttributes[tag]) {
           // get attr whitelist for specific tag
           const attributeWhitelist = allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag

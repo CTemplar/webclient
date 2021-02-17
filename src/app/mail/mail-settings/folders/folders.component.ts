@@ -101,18 +101,8 @@ export class FoldersComponent implements OnInit, OnDestroy {
       centered: true,
       windowClass: 'modal-sm mailbox-modal create-folder-modal',
     };
-
-    if (
-      this.userState.isPrime ||
-      this.userState.customFolders === null ||
-      this.userState.customFolders.length < MAX_FOLDERS_COUNT ||
-      edit
-    ) {
-      const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
-      component.folder = folder;
-    } else {
-      this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
-    }
+    const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
+    component.folder = folder;
   }
 
   deleteFolder() {

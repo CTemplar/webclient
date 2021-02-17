@@ -1196,7 +1196,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   discardEmail() {
-    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+    if (this.inProgress || (this.draft && this.draft.isSaving) || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.discardEmail();
@@ -1332,9 +1332,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     receivers = receivers.filter(
       email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
     );
-    if (this.encryptionData.password) {
-      this.openPgpService.generateEmailSshKeys(this.encryptionData.password, this.draftId);
-    }
+    
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;
