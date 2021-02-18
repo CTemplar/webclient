@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 
 import { MailService } from '../services';
@@ -37,7 +36,7 @@ export class MailboxEffects {
     switchMap(payload => {
       return this.mailService.getMailboxes(payload.limit, payload.offset).pipe(
         switchMap(mails => of(new GetMailboxesSuccess(mails))),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get mailboxes' }))),
       );
     }),
   );

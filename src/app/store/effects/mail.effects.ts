@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 
 import { MailService } from '../services';
@@ -57,7 +56,7 @@ export class MailEffects {
             is_from_socket: false,
           });
         }),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get messages' }))),
       );
     }),
   );
@@ -71,7 +70,7 @@ export class MailEffects {
         map(response => {
           return new GetUnreadMailsCountSuccess(response);
         }),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get unread mails count' }))),
       );
     }),
   );
@@ -85,7 +84,7 @@ export class MailEffects {
         map(response => {
           return new GetCustomFolderMessageCountSuccess(response);
         }),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get custome folder message count' }))),
       );
     }),
   );

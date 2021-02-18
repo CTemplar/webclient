@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs/internal/observable/empty';
+import { of } from 'rxjs/internal/observable/of';
 
 import { TimezoneActionTypes, TimezoneGet, TimezoneGetSuccess } from '../actions/timezone.action';
 import { TimezoneService } from '../services/timezone.service';
-
+import { SnackErrorPush } from '../actions';
 @Injectable()
 export class TimezoneEffects {
   constructor(private actions: Actions, private timezoneService: TimezoneService) {}
@@ -20,7 +20,7 @@ export class TimezoneEffects {
         map(timezones => {
           return new TimezoneGetSuccess(timezones);
         }),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get timezones' }))),
       );
     }),
   );

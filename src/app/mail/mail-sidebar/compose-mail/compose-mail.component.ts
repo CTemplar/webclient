@@ -436,7 +436,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.usersKeys = response.usersKeys;
         const receivers = this.draftMail.receiver;
         if (receivers && receivers.length > 0) {
-          const receiversToFetchKey = receivers.filter(rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching));
+          const receiversToFetchKey = receivers.filter(
+            rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching),
+          );
           if (receiversToFetchKey.length > 0) {
             this.store.dispatch(
               new GetUsersKeys({
@@ -885,7 +887,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 );
               }
             },
-            error => console.log(error),
+            error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to get attachments.' })),
           );
       }
     });
@@ -1332,7 +1334,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     receivers = receivers.filter(
       email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
     );
-    
+
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;

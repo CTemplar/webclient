@@ -35,6 +35,7 @@ import {
   ReadMailSuccess,
   SettingsUpdateUsedStorage,
   StarredFolderCountUpdate,
+  SnackErrorPush,
 } from '../../store/actions';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
@@ -337,7 +338,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       },
       error => {
-        console.log(error);
+        this.store.dispatch(new SnackErrorPush({ message: 'Failed to show notification.' }));
       },
     );
   }

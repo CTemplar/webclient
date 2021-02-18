@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 import {
   BitcoinActionTypes,
@@ -12,6 +11,7 @@ import {
   CreateNewWallet,
   CreateNewWalletSuccess,
 } from '../actions/bitcoin.action';
+import { SnackErrorPush } from '../actions';
 import { BitcoinService } from '../services/bitcoin.service';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class BitcoinEffects {
     switchMap(payload => {
       return this.bitcoinService.createNewWallet(payload).pipe(
         switchMap(res => of(new CreateNewWalletSuccess(res))),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to create new wallet' }))),
       );
     }),
   );
@@ -37,7 +37,7 @@ export class BitcoinEffects {
     switchMap(payload => {
       return this.bitcoinService.checkTransaction(payload).pipe(
         map(response => new CheckTransactionSuccess(response)),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to check transaction' }))),
       );
     }),
   );

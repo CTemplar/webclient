@@ -3,7 +3,6 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 import {
   GetMessage,
@@ -61,7 +60,7 @@ export class SecureMessageEffects {
     mergeMap((payload: any) => {
       return this.mailService.getSecureMessageKeys(payload.hash, payload.secret).pipe(
         switchMap(keys => of(new GetSecureMessageUserKeysSuccess(keys))),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get secure message user keys' }))),
       );
     }),
   );
