@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 import ImageResize from 'quill-image-resize-module';
 import Quill from 'quill';
@@ -28,6 +28,11 @@ Quill.register(ImageFormat, true);
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss'],
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
+
+  @ViewChild('downloadKeyModal') downloadKeyModal;
+
+  private downloadKeyModalRef: NgbModalRef;
+
   public mailBoxesState: MailBoxesState;
 
   public mailboxes: Mailbox[];
@@ -348,6 +353,14 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   updateSettings(key?: string, value?: any) {
     this.settingsService.updateSettings(this.settings, key, value);
+  }
+
+  onDownloadKey() {
+    this.downloadKeyModalRef = this.modalService.open(this.downloadKeyModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-sm',
+    });
   }
 
   ngOnDestroy(): void {
