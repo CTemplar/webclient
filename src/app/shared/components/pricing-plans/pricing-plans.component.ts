@@ -84,13 +84,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: any) {}
 
-  // == Toggle active state of the slide in price page
-  toggleSlides(index: number) {
-    this.selectedIndex = index;
-    document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document.querySelector('.package-prime-col').classList.remove('active-slide');
-  }
-
   setPricingPlans() {
     if (SharedService.PRICING_PLANS_ARRAY.length > 0) {
       this.pricingPlans = SharedService.PRICING_PLANS_ARRAY;

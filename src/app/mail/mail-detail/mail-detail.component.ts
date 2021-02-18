@@ -536,15 +536,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
   }
 
-  makeArrayOf(value: any, length: number) {
-    const array = [];
-    let i = length;
-    while (i--) {
-      array[i] = value;
-    }
-    return array;
-  }
-
   decryptChildEmails(child: Mail) {
     if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
       this.decryptedContents[child.id] = child.content;

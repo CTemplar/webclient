@@ -760,7 +760,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
-  onSubjectChange(subject: any) {
+  onSubjectChange(subject: string) {
     this.subjectChanged.emit(subject);
   }
 

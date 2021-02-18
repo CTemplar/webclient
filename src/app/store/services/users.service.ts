@@ -253,7 +253,7 @@ export class UsersService {
     return this.http.get<any>(url, body);
   }
 
-  addWhiteList(email: any, name: any) {
+  addWhiteList(email: string, name: string) {
     const url = `${apiUrl}users/whitelist/`;
     const body = { email, name };
     return this.http.post<any>(url, body);
@@ -263,7 +263,7 @@ export class UsersService {
     return this.http.patch<any>(`${apiUrl}users/settings/${data.id}/`, data);
   }
 
-  deleteWhiteList(id: any) {
+  deleteWhiteList(id: number) {
     const url = `${apiUrl}users/whitelist/${id}/`;
     const body = {};
     return this.http.delete<any>(url, body);
@@ -275,13 +275,13 @@ export class UsersService {
     return this.http.get<any>(url, body);
   }
 
-  addBlackList(email: any, name: any) {
+  addBlackList(email: string, name: string) {
     const url = `${apiUrl}users/blacklist/`;
     const body = { email, name };
     return this.http.post<any>(url, body);
   }
 
-  deleteBlackList(id: any) {
+  deleteBlackList(id: number) {
     const url = `${apiUrl}users/blacklist/${id}/`;
     const body = {};
     return this.http.delete<any>(url, body);

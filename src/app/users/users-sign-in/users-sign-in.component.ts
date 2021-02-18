@@ -45,7 +45,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   password = 'password';
 
-  layout: any = 'alphanumeric';
+  layout = 'alphanumeric';
 
   isKeyboardOpened: boolean;
 

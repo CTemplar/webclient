@@ -286,13 +286,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(`/mail/settings/${this.selectedTabQueryParams}`);
   }
 
-  // == Toggle active state of the slide in price page
-  toggleSlides(index: number) {
-    this.selectedIndex = index;
-    document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document.querySelector('.package-prime-col').classList.remove('active-slide');
-  }
-
   onAddNewCard() {
     if (this.userState.inProgress) {
       return;

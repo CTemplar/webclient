@@ -51,18 +51,6 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
     this.store.dispatch(new FinalLoading({ loadingState: false }));
   }
 
-  // == Toggle active state of the slide in price page
-  toggleSlides(index: number) {
-    this.selectedIndex = index;
-    document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document.querySelector('.package-prime-col').classList.remove('active-slide');
-  }
-
-  onChangeType(item: any) {
-    this.selectedStorage = item;
-    this.makePayments();
-  }
-
   makePayments() {
     this.mainPayments[0].moMoney = this.selectedStorage.price;
     this.mainPayments[1].moMoney = (this.selectedStorage.price * 0.8).toFixed(1);
