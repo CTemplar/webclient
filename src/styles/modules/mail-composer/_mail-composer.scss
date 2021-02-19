@@ -88,6 +88,10 @@ a {
       height: 82.5vh;
       width: 100vw;
       padding-top: 50px;
+
+      @include media('<=xs') {
+        padding-top: 82px;
+      }
     }
 
     .mail-compose-editable-box {
@@ -391,6 +395,14 @@ a {
 
 .mail-composer-actions-row {
   margin: 0 -0.625rem;
+
+  @include media('<=xs') {
+    flex-direction: column;
+  }
+
+  @include media('>xs') {
+    align-items: center !important;
+  }
 }
 
 .mail-composer-actions-col {
@@ -403,7 +415,10 @@ a {
 
   &-sm {
     flex: 0 0 30%;
-    max-width: 30%;
+
+    @include media('>xs') {
+      max-width: 30%;
+    }
   }
 }
 .composer-footer {
@@ -814,24 +829,25 @@ a {
 
 .ql-snow {
   .ql-picker-options {
-    background: var(--bg-white)!important;
+    background: var(--bg-white) !important;
   }
 
   .ql-stroke {
-    stroke: var(--btn-user-action-color)!important;
+    stroke: var(--btn-user-action-color) !important;
   }
   .ql-fill {
-    fill: var(--btn-user-action-color)!important;
+    fill: var(--btn-user-action-color) !important;
   }
   .ql-picker {
-    color: var(--btn-user-action-color)!important;
+    color: var(--btn-user-action-color) !important;
     .ql-picker-label {
-      color: var(--btn-user-action-color)!important;
+      color: var(--btn-user-action-color) !important;
     }
   }
   button.ql-active {
-    .ql-stroke, .ql-fill {
-      stroke: #06c!important;
+    .ql-stroke,
+    .ql-fill {
+      stroke: #06c !important;
     }
   }
 }
