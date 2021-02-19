@@ -527,7 +527,8 @@ export interface Contact {
   phone?: string;
   phone2?: string;
   provider?: string;
-  public_key?: string;
+  public_keys?: Array<MailboxKey>;
+  encryption_scheme?: PGPEncryptionScheme;
 }
 
 export interface AppState {
@@ -642,6 +643,15 @@ export interface PricingPlan {
   remote_encrypted_link: boolean;
 }
 
+// Key model for mailbox key and contacts key - if contact key, would be presented only public key
+export interface MailboxKey {
+  public_key?: string;
+  private_key?: string;
+  fingerprint?: string;
+  key_type?: string;
+  is_primary?: boolean;
+}
+
 export enum TransactionStatus {
   PENDING = 'Pending',
   RECEIVED = 'Received',
@@ -690,4 +700,9 @@ export type NumberBooleanMappedType = {
 
 export type NumberStringMappedType = {
   [key: number]: string;
+}
+
+export enum PGPEncryptionScheme {
+  PGP_MIME = 'PGP/Mime',
+  PGP_INLINE = 'PGP/Inline'
 }

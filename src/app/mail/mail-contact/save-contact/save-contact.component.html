@@ -36,12 +36,15 @@
         >
       </div>
       <div class="col-sm-10">
-        <input class="form-control form-control-sm" id="contactEmail" name="email" required [(ngModel)]="newContactModel.email" #contactEmail="ngModel" [placeholder]="'contacts.type_email' | translate" type="text" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" />
+        <div class="position-relative">
+          <input class="form-control form-control-sm" id="contactEmail" name="email" required [(ngModel)]="newContactModel.email" #contactEmail="ngModel" [placeholder]="'contacts.type_email' | translate" type="text" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" />
+          <i class="fas fa-cogs advanced-settings-icon cursor-pointer" ngbTooltip="Advanced Settings" *ngIf="!internalUser && !contactEmail.errors" (click)="onShowAdvancedSettings()"></i>
+        </div>
       </div>
     </div>
   </div>
   <!-- Contact Encryption for InternalUsers-->
-  <div class="form-group add-button" *ngIf="!internalUser">
+  <!-- <div class="form-group add-button" *ngIf="!internalUser">
     <div class="row align-items-center">
       <div class="col-sm-2 encryptionLabel">
         <label class="form-label mb-sm-0" for="enableEncryption">{{ 'contacts.encryption' | translate }}</label>
@@ -50,9 +53,9 @@
         <mat-checkbox type="checkbox" [checked]="newContactModel.enabled_encryption" [(ngModel)]="newContactModel.enabled_encryption" [name]="newContactModel.id"> </mat-checkbox>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Contact Encryption Public Key-->
-  <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && !internalUser">
+  <!-- <div class="form-group add-button" *ngIf="newContactModel.enabled_encryption && !internalUser">
     <div class="row align-items-center">
       <div class="col-sm-2">
         <label class="form-label mb-sm-0" for="contactPublicKey">{{ 'contacts.publickey' | translate }}</label>
@@ -64,7 +67,7 @@
         <em class="fas fa-times"></em>
       </button>
     </div>
-  </div>
+  </div> -->
   <div class="mb-2 hidden-xs-down">&nbsp;</div>
   <!-- Contact Phone Number 1-->
   <div class="form-group add-button">
@@ -116,7 +119,7 @@
     {{ 'contacts.save.error' | translate }}
   </div>
   <!-- Save button-->
-  <div class="form-group text-right mb-0" *ngIf="newContactModel.enabled_encryption && !newContactModel.public_key; else submitSaveContact">
+  <div class="form-group text-right mb-0" *ngIf="newContactModel.enabled_encryption && !newContactModel.public_keys; else submitSaveContact">
     <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
       <button type="submit" disabled class="btn btn-secondary btn-sm" role="button">
         {{ 'common.save' | translate }}
@@ -133,3 +136,146 @@
     </div>
   </ng-template>
 </form>
+
+<!--Advanced Settings Modal-->
+<ng-template #advancedSettingsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
+      <strong>Advanced Settings</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div>
+      <p class="text-holder text-dark text-medium">This change is available for only non-CTemplar recipients. 
+        <a href="#">Learn more</a>
+      </p>
+    </div>
+    <div class="mt-3">
+      <!-- Encryption Flag section -->
+      <div class="form-content-row mb-2">
+        <div class="row align-items-center">
+          <div class="col-sm-4">
+            <label class="form-label mb-0"> Encrypt </label>
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt1" name="[1]" type="radio" [checked]="newContactModel.enabled_encryption" (click)="onClickIsEncrypt(true)" />
+                  <label for="isEncrypt1" [translate]="'common.enabled'">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt2" name="[1]" type="radio" [checked]="!newContactModel.enabled_encryption" (click)="onClickIsEncrypt(false)" />
+                  <label for="isEncrypt2" [translate]="'common.disabled'">Disabled</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Encryption Scheme section -->
+      <div class="form-content-row mb-2">
+        <div class="row">
+          <div class="col-sm-4">
+            <label class="form-label mb-sm-0"> Encryption Scheme </label>
+            <ng-template #encryptionSchemeTooltip>
+              <div class="text-left">
+                PGP Encryption Scheme to be used when encrypting.
+              </div>
+              <div class="text-left">
+                Note that PGP/Inline is only available for only Plain Text Messages
+              </div>
+            </ng-template>
+            <i class="fas fa-info-circle ml-1" [ngbTooltip]="encryptionSchemeTooltip"></i>
+          </div>
+          <div class="col-sm-8">
+            <div class="btn-dropdown btn-dropdown-select">
+              <div ngbDropdown class="dropdown-sm">
+                <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button" [disabled]="!newContactModel.enabled_encryption">
+                  <span *ngIf="!newContactModel.encryption_scheme"> Select scheme </span>
+                  <span *ngIf="newContactModel.encryption_scheme"> {{newContactModel.encryption_scheme}} </span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
+                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/Mime')">
+                    <span>PGP/Mime</span>
+                  </a>
+                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/Inline')">
+                    <span>PGP/Inline</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Public keys section -->
+      <div class="form-content-row mb-2 mt-4 text-medium">
+        <div class="row">
+          <div class="col-12">
+            <label class="form-label mb-0"> Public Keys </label>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm-12 key-list-container">
+            <div class="row key-list-header mb-1">
+              <div class="col-sm-1 key-list-header-item">
+              </div>
+              <div class="col-sm-5 key-list-header-item">
+                <label class="form-label mb-0"> Fingerprint </label>
+              </div>
+              <div class="col-sm-3 key-list-header-item">
+                <label class="form-label mb-0"> Key Type </label>
+              </div>
+              <div class="col-sm-3 key-list-header-item">
+              </div>
+            </div>
+            <div class="row key-list-row">
+              <div class="col-sm-1 key-list-row-item">
+                <i class="fa fa-check" aria-hidden="true" ngbTooltip="This public key will be used to encrypt outgoing messages"></i>
+              </div>
+              <div class="col-sm-5 key-list-row-item show-ellipses">
+                ed76ee21fd6d0fe2c24a514c2ed010afaf36fda8
+              </div>
+              <div class="col-sm-3 key-list-row-item">
+                RSA 4096
+              </div>
+              <div class="col-sm-3 key-list-row-item text-left">
+                <i class="fa fa-download cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Download public key"></i>
+                <i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Remove public key"></i>
+                <i class="far fa-check-circle cursor-pointer" aria-hidden="true" ngbTooltip="Set public key as primary"></i>
+              </div>
+            </div>
+            <div class="row key-list-row">
+              <div class="col-sm-1 key-list-row-item">
+              </div>
+              <div class="col-sm-5 key-list-row-item show-ellipses">
+                ed76ee21fd6d0fe2c24a514c2ed010afaf36fda8
+              </div>
+              <div class="col-sm-3 key-list-row-item">
+                RSA 4096
+              </div>
+              <div class="col-sm-3 key-list-row-item text-left">
+                <i class="fa fa-download cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Download public key"></i>
+                <i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Remove public key"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="text-holder text-dark text-medium">
+      <div class="mx-auto mt-2 pt-sm-2">
+        <button type="button" class="btn btn-secondary btn-sm">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

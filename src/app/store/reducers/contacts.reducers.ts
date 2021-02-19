@@ -66,7 +66,8 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         contact.email = action.payload.email;
         contact.name = action.payload.name;
         contact.enabled_encryption = action.payload.enabled_encryption;
-        contact.public_key = action.payload.public_key;
+        // TODO should be updated to set public key list
+        // contact.public_key = action.payload.public_key;
         return { ...state, inProgress: false, isError: false };
       }
       state.totalContacts += 1;

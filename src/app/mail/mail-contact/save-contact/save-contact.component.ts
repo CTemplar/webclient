@@ -14,10 +14,14 @@ import {
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
-import { ContactAdd } from '../../../store';
+import { AppState, Contact, ContactsState, UserState, MailboxKey, PGPEncryptionScheme } from '../../../store/datatypes';
+import { ContactAdd, MailboxEffects, MoveToWhitelist } from '../../../store';
 import { OpenPgpService } from '../../../store/services';
+import { config } from 'rxjs';
+
+import { getEmailDomain } from '../../../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -32,6 +36,10 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   @ViewChild('newContactForm') newContactForm: NgForm;
 
+  @ViewChild('advancedSettingsModal') advancedSettingsModal;
+
+  private advancedSettingsModalRef: NgbModalRef;
+
   newContactModel: Contact = {
     name: '',
     email: '',
@@ -39,7 +47,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     note: '',
     phone: '',
     enabled_encryption: false,
-    public_key: '',
+    public_keys: new Array<MailboxKey>(),
   };
 
   public inProgress: boolean;
@@ -48,7 +56,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   private isContactsEncrypted: boolean;
 
-  constructor(private store: Store<AppState>, private openpgp: OpenPgpService, private cdr: ChangeDetectorRef) {}
+  PGPEncryptionScheme: PGPEncryptionScheme;
+
+  constructor(
+    private store: Store<AppState>, 
+    private openpgp: OpenPgpService, 
+    private cdr: ChangeDetectorRef,
+    private modalService: NgbModal) {}
 
   ngOnInit() {
     this.handleUserState();
@@ -58,8 +72,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     // Get contactEmail, Domain and check if this is internalUser with domain
     this.newContactModel = { ...this.selectedContact };
     const contactEmail = this.newContactModel.email;
-    const getDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
-    this.internalUser = getDomain === 'ctemplar.com';
+    const emailDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
+    this.internalUser = emailDomain === getEmailDomain();
   }
 
   ngAfterViewInit(): void {
@@ -103,7 +117,23 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
 
   clearPublicKey() {
-    this.newContactModel.public_key = '';
-    return false;
+    // this.newContactModel.public_key = '';
+    // return false;
+  }
+
+  onShowAdvancedSettings() {
+    this.advancedSettingsModalRef = this.modalService.open(this.advancedSettingsModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-lg',
+    });
+  }
+
+  onClickIsEncrypt(isEncrypt: boolean) {
+    this.newContactModel.enabled_encryption = isEncrypt;
+  }
+
+  onSelectEncryptionScheme(scheme: PGPEncryptionScheme) {
+    this.newContactModel.encryption_scheme = scheme;
   }
 }
