@@ -187,6 +187,21 @@ onmessage = async function (event) {
     encryptAttachmentWithPassword(event.data.fileData, event.data.password).then(content => {
       postMessage({ encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment });
     });
+  } else if (event.data.getKeyInfoFromPublicKey) {
+    getKeyInfoFromPublicKey(event.data.publicKey).then(keyInfo => {
+      postMessage({ 
+        getKeyInfoFromPublicKey: true, 
+        keyInfo, 
+        subjectId: event.data.subjectId 
+      });
+    }).catch(e => {
+      postMessage({
+        getKeyInfoFromPublicKey: true, 
+        errorMessage: e,
+        error: true,
+        subjectId: event.data.subjectId 
+      });
+    })
   }
 };
 
@@ -369,4 +384,40 @@ async function encryptAttachmentWithPassword(data, password) {
   return openpgp.encrypt(options).then(payload => {
     return payload.data;
   });
+}
+
+async function getKeyInfoFromPublicKey(publicKey) {
+  if (!publicKey) {
+    return Promise.resolve(publicKey);
+  }
+  try {
+    const pubKey = (await openpgp.key.readArmored(publicKey)).keys[0];
+    if (!pubKey) {
+      return Promise.reject("Invalid public key");
+    }
+    const fingerprint = pubKey.primaryKey.getFingerprint();
+    const keyId = pubKey.primaryKey.getKeyId().toHex();
+    // Getting user email, so that this public key is really for the selected contact
+    const users = pubKey.users;
+    let emails = [];
+    users.forEach(user => {
+      if (user.userId && user.userId.email) {
+        emails = [ ...emails, user.userId.email ];
+      }
+    });
+    
+    const creationTime = pubKey.primaryKey.getCreationTime();
+    const algorithmInfo = pubKey.primaryKey.getAlgorithmInfo();
+    const keyInfo = {
+      fingerprint,
+      keyId,
+      emails,
+      creationTime,
+      algorithmInfo
+    };
+    return Promise.resolve(keyInfo);
+  } catch (e) {
+    console.error(e);
+    return Promise.reject(publicKey);
+  }
 }

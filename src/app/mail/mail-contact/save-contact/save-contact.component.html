@@ -217,13 +217,23 @@
       <div class="form-content-row mb-2 mt-4 text-medium">
         <div class="row">
           <div class="col-12">
-            <label class="form-label mb-0"> Public Keys </label>
+            <div class="d-flex justify-content-between">
+              <label class="form-label mb-0"> Public Keys </label>
+              <input type="file" #importKeyFileTag accept=".txt" (change)="onSelectNewKeyFile($event.target.files)" style="display: none" />
+              <div>
+                <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
+                <a (click)="importKeyFileTag.click()">
+                  <i class="fas fa-plus-circle"></i>
+                  Add Key
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="row mt-2">
+        <div class="row mt-2" *ngIf="newContactModel.public_keys && newContactModel.public_keys.length > 0">
           <div class="col-sm-12 key-list-container">
             <div class="row key-list-header mb-1">
-              <div class="col-sm-1 key-list-header-item">
+              <div class="col-sm-2 key-list-header-item text-right">
               </div>
               <div class="col-sm-5 key-list-header-item">
                 <label class="form-label mb-0"> Fingerprint </label>
@@ -231,37 +241,33 @@
               <div class="col-sm-3 key-list-header-item">
                 <label class="form-label mb-0"> Key Type </label>
               </div>
-              <div class="col-sm-3 key-list-header-item">
+              <div class="col-sm-2 key-list-header-item">
+                <label class="form-label mb-0"> Actions </label>
               </div>
             </div>
-            <div class="row key-list-row">
-              <div class="col-sm-1 key-list-row-item">
-                <i class="fa fa-check" aria-hidden="true" ngbTooltip="This public key will be used to encrypt outgoing messages"></i>
+            <div class="row key-list-row" *ngFor="let key of newContactModel.public_keys">
+              <div class="col-sm-2 key-list-row-item text-right">
+                <i *ngIf="key.is_primary" class="fa fa-check" aria-hidden="true" ngbTooltip="This public key will be used to encrypt outgoing messages"></i>
+                <ng-template #userIdMismatchTooltip>
+                  <div class="text-left">
+                    This key is NOT assigned to {{selectedContact.email}}
+                  </div>
+                  <div class="text-left">
+                    Assigned User: {{ key.signedEmails.length > 0 ? key.signedEmails[0] : "N/A" }}
+                  </div>
+                </ng-template>
+                <i *ngIf="!keyMatchStatusForEmail[key.fingerprint]" class="fas fa-exclamation-triangle ml-2" aria-hidden="true" [ngbTooltip]="userIdMismatchTooltip"></i>
               </div>
               <div class="col-sm-5 key-list-row-item show-ellipses">
-                ed76ee21fd6d0fe2c24a514c2ed010afaf36fda8
+                {{key.fingerprint}}
               </div>
               <div class="col-sm-3 key-list-row-item">
-                RSA 4096
+                {{key.key_type}}
               </div>
-              <div class="col-sm-3 key-list-row-item text-left">
-                <i class="fa fa-download cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Download public key"></i>
-                <i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Remove public key"></i>
-                <i class="far fa-check-circle cursor-pointer" aria-hidden="true" ngbTooltip="Set public key as primary"></i>
-              </div>
-            </div>
-            <div class="row key-list-row">
-              <div class="col-sm-1 key-list-row-item">
-              </div>
-              <div class="col-sm-5 key-list-row-item show-ellipses">
-                ed76ee21fd6d0fe2c24a514c2ed010afaf36fda8
-              </div>
-              <div class="col-sm-3 key-list-row-item">
-                RSA 4096
-              </div>
-              <div class="col-sm-3 key-list-row-item text-left">
-                <i class="fa fa-download cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Download public key"></i>
-                <i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Remove public key"></i>
+              <div class="col-sm-2 key-list-row-item text-left">
+                <a ngbTooltip="Download public key"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
+                <a><i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Remove public key"></i></a>
+                <a><i *ngIf="!key.is_primary" class="far fa-check-circle cursor-pointer" aria-hidden="true" ngbTooltip="Set public key as primary"></i></a>
               </div>
             </div>
           </div>

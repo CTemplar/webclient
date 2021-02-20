@@ -650,6 +650,8 @@ export interface MailboxKey {
   fingerprint?: string;
   key_type?: string;
   is_primary?: boolean;
+  created_at?: Date;
+  signedEmails?: Array<string>;
 }
 
 export enum TransactionStatus {
@@ -700,6 +702,10 @@ export type NumberBooleanMappedType = {
 
 export type NumberStringMappedType = {
   [key: number]: string;
+}
+
+export type StringBooleanMappedType = {
+  [key: string]: boolean;
 }
 
 export enum PGPEncryptionScheme {

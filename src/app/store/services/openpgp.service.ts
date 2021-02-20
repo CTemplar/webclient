@@ -245,6 +245,19 @@ export class OpenPgpService {
             );
           }
         }
+      } else if (event.data.getKeyInfoFromPublicKey) {
+        // Handling error
+        if (event.data.error) {
+          if (this.subjects[event.data.subjectId]) {
+            this.subjects[event.data.subjectId].error(event.data.errorMessage);
+          }
+        } else {
+          if (this.subjects[event.data.subjectId]) {
+            this.subjects[event.data.subjectId].next(event.data.keyInfo);
+            this.subjects[event.data.subjectId].complete();
+            delete this.subjects[event.data.subjectId];
+          }
+        }
       }
     };
   }
@@ -486,6 +499,14 @@ export class OpenPgpService {
       fileInfo,
       subjectId,
     });
+    return subject.asObservable();
+  }
+
+  getKeyInfoFromPublicKey(publicKey: string) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ publicKey, getKeyInfoFromPublicKey: true, subjectId });
     return subject.asObservable();
   }
 }

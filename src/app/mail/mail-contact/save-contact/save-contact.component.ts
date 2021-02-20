@@ -15,9 +15,10 @@ import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { take } from 'rxjs/operators';
 
-import { AppState, Contact, ContactsState, UserState, MailboxKey, PGPEncryptionScheme } from '../../../store/datatypes';
-import { ContactAdd, MailboxEffects, MoveToWhitelist } from '../../../store';
+import { AppState, Contact, ContactsState, UserState, MailboxKey, PGPEncryptionScheme, StringBooleanMappedType } from '../../../store/datatypes';
+import { ContactAdd, MailboxEffects, MoveToWhitelist, SnackErrorPush } from '../../../store';
 import { OpenPgpService } from '../../../store/services';
 import { config } from 'rxjs';
 
@@ -57,6 +58,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   private isContactsEncrypted: boolean;
 
   PGPEncryptionScheme: PGPEncryptionScheme;
+
+  keyMatchStatusForEmail: StringBooleanMappedType = {};
 
   constructor(
     private store: Store<AppState>, 
@@ -135,5 +138,82 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   onSelectEncryptionScheme(scheme: PGPEncryptionScheme) {
     this.newContactModel.encryption_scheme = scheme;
+  }
+
+  onSelectNewKeyFile(files: Array<File>) {
+    if (files.length > 1) return;
+    if (files && files.length) {
+      const file = files[0];
+      let reader = new FileReader();
+      reader.addEventListener('load', (event: any) => {
+        const result = event.target.result;
+        this.openpgp.getKeyInfoFromPublicKey(result).pipe(take(1))
+        .subscribe(
+          (keyInfo) => {
+            const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
+            if (newKeyInfo) {
+              if (this.newContactModel.public_keys && this.newContactModel.public_keys.length > 0) {
+                let isExistedSameKey = false;
+                this.newContactModel.public_keys.forEach(key => {
+                  if (key.fingerprint === newKeyInfo.fingerprint) {
+                    isExistedSameKey = true;
+                    key.public_key = newKeyInfo.public_key;
+                    key.key_type = newKeyInfo.key_type;
+                    key.created_at = newKeyInfo.created_at;
+                    key.signedEmails = newKeyInfo.signedEmails;
+                  }
+                });
+                if (!isExistedSameKey) {
+                  this.newContactModel.public_keys = [ ...this.newContactModel.public_keys, newKeyInfo];
+                }
+              } else {
+                this.newContactModel.public_keys = [ newKeyInfo ];
+              }
+              this.newContactModel.public_keys.forEach(key => {
+                this.keyMatchStatusForEmail[key.fingerprint] = key.signedEmails.includes(this.selectedContact.email);
+              });
+            } else {
+              this.store.dispatch(
+                new SnackErrorPush({
+                  message: 'Failed to import the public key',
+                }),
+              );
+            }
+          },
+          error => {
+            this.store.dispatch(
+              new SnackErrorPush({
+                message: `${file.name} is not a valid PGP public key`,
+              }),
+            );
+          },
+        );
+      });
+      reader.readAsText(file);
+    }
+  }
+
+  getMailboxKeyModelFromParsedInfo(keyInfo): MailboxKey {
+    if (keyInfo) {
+      const mailboxKey: MailboxKey = {};
+      let keyType = '';
+      if (keyInfo.algorithmInfo) {
+        keyType = keyInfo.algorithmInfo.bits ? `RSA ${keyInfo.algorithmInfo.bits}` : keyInfo.algorithmInfo.curve
+      }
+      mailboxKey.public_key = keyInfo.public_key;
+      mailboxKey.key_type = keyType;
+      mailboxKey.created_at = keyInfo.creationTime;
+      mailboxKey.fingerprint = keyInfo.fingerprint;
+      mailboxKey.signedEmails = keyInfo.emails;
+
+      // If there is no already associated key, new key would be Primary key
+      if (!this.newContactModel.public_keys || this.newContactModel.public_keys.length === 0) {
+        mailboxKey.is_primary = true;
+      } else {
+        mailboxKey.is_primary = false;
+      }
+      return mailboxKey;
+    }
+    return null;
   }
 }
