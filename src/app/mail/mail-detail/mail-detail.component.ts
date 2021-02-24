@@ -23,7 +23,16 @@ import {
   WhiteListAdd,
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState, NumberBooleanMappedType, NumberStringMappedType } from '../../store/datatypes';
+import {
+  AppState,
+  MailAction,
+  MailBoxesState,
+  MailState,
+  SecureContent,
+  UserState,
+  NumberBooleanMappedType,
+  NumberStringMappedType,
+} from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
@@ -209,7 +218,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (!this.isPasswordEncrypted[this.mail.id] && this.mail.is_subject_encrypted) {
             this.scrambleText('subject-scramble');
           }
-          
+
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
           const decryptedContent = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
@@ -229,7 +238,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.isDecrypting[this.mail.id] = true;
               this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
-            // If done to decrypt, 
+            // If done to decrypt,
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
@@ -278,8 +287,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               if (!this.isPasswordEncrypted[lastFilteredChild.id]) {
                 this.decryptChildEmails(lastFilteredChild);
               }
-              
-              this.mailExpandedStatus[lastFilteredChild.id] = this.mailExpandedStatus[lastFilteredChild.id] !== undefined ? this.mailExpandedStatus[lastFilteredChild.id] : true;
+
+              this.mailExpandedStatus[lastFilteredChild.id] =
+                this.mailExpandedStatus[lastFilteredChild.id] !== undefined
+                  ? this.mailExpandedStatus[lastFilteredChild.id]
+                  : true;
             }
             this.mail.children.forEach(child => {
               this.backupChildDecryptedContent(child, mailState);
@@ -394,14 +406,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   decryptWithPassword(inputID: string, mail: Mail) {
-    const input = (<HTMLInputElement>document.getElementById(inputID));
+    const input = <HTMLInputElement>document.getElementById(inputID);
     if (!mail) return;
     if (!input.value) {
       return;
     }
     this.isDecrypting[mail.id] = true;
     this.mailExpandedStatus[mail.id] = true;
-    this.pgpService.decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), input.value)
+    this.pgpService
+      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), input.value)
       .pipe(take(1))
       .subscribe(
         () => {
@@ -770,9 +783,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: this.getForwardMessageSummary(mail),
       subject: `Fwd: ${this.mail.subject}`,
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
+      action: MailAction.FORWARD,
+      is_html: mail.is_html,
     };
     this.selectedMailToForward = mail;
-    this.composeMailData[mail.id].action = MailAction.FORWARD;
     this.setActionParent(mail, isChildMail, mainReply);
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
@@ -1125,7 +1139,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onClickParentHeader() {
     this.mailExpandedStatus[this.mail.id] = !this.mailExpandedStatus[this.mail.id];
-    if (this.mail.content != undefined && !this.decryptedContents[this.mail.id] && !this.isDecrypting[this.mail.id] && !this.isPasswordEncrypted[this.mail.id]) {
+    if (
+      this.mail.content != undefined &&
+      !this.decryptedContents[this.mail.id] &&
+      !this.isDecrypting[this.mail.id] &&
+      !this.isPasswordEncrypted[this.mail.id]
+    ) {
       this.isDecrypting[this.mail.id] = true;
       this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
     }
@@ -1150,11 +1169,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   // == Toggle password visibility
   togglePassword(inputID: string): any {
-    const input = (<HTMLInputElement>document.getElementById(inputID));
+    const input = <HTMLInputElement>document.getElementById(inputID);
     if (!input.value) {
       return;
     }
     input.type = input.type === 'password' ? 'text' : 'password';
   }
-
 }
