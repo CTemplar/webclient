@@ -436,7 +436,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.usersKeys = response.usersKeys;
         const receivers = this.draftMail.receiver;
         if (receivers && receivers.length > 0) {
-          const receiversToFetchKey = receivers.filter(rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching));
+          const receiversToFetchKey = receivers.filter(
+            rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching),
+          );
           if (receiversToFetchKey.length > 0) {
             this.store.dispatch(
               new GetUsersKeys({
@@ -723,6 +725,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         setTimeout(() => {
           this.mailData.content = content;
           this.updateSignature();
+          this.mailData.content = this.mailData.content.replace(/\n+$/, '');
         }, 300);
       }
     }
@@ -1332,7 +1335,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     receivers = receivers.filter(
       email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
     );
-    
+
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;
@@ -1372,7 +1375,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       if (this.settings && !this.draftMail.is_html) {
         // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
+        this.mailData.content = this.mailData.content ? this.mailData.content : '';
         if (this.selectedMailbox.signature) {
           this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}${this.mailData.content}`;
         }
