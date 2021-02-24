@@ -198,6 +198,7 @@ export interface ContactsState {
   noOfDecryptedContacts: number;
   contactsToDecrypt: Contact[];
   loaded: boolean;
+  selectedContactKeys: ContactKey[];
 }
 
 export interface EmailContact {
@@ -527,7 +528,6 @@ export interface Contact {
   phone?: string;
   phone2?: string;
   provider?: string;
-  public_keys?: Array<MailboxKey>;
   encryption_scheme?: PGPEncryptionScheme;
 }
 
@@ -643,7 +643,7 @@ export interface PricingPlan {
   remote_encrypted_link: boolean;
 }
 
-// Key model for mailbox key and contacts key - if contact key, would be presented only public key
+// Key model for mailbox key
 export interface MailboxKey {
   public_key?: string;
   private_key?: string;
@@ -652,6 +652,18 @@ export interface MailboxKey {
   is_primary?: boolean;
   created_at?: Date;
   signedEmails?: Array<string>;
+}
+
+// Key model for contact public key
+export interface ContactKey {
+  id?: number;
+  public_key?: string;
+  fingerprint?: string;
+  key_type?: string;
+  is_primary?: boolean;
+  // created_at?: Date;
+  parsed_emails?: Array<string>;
+  contact?: number;
 }
 
 export enum TransactionStatus {
@@ -708,7 +720,11 @@ export type StringBooleanMappedType = {
   [key: string]: boolean;
 }
 
+export type StringStringMappedType = {
+  [key: string]: string;
+}
+
 export enum PGPEncryptionScheme {
-  PGP_MIME = 'PGP/Mime',
-  PGP_INLINE = 'PGP/Inline'
+  PGP_MIME = 'PGP/MIME',
+  PGP_INLINE = 'PGP/INLINE'
 }

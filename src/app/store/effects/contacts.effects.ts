@@ -28,6 +28,15 @@ import {
   UpdateBatchContacts,
   UpdateBatchContactsSuccess,
   EmptyOnlyFolder,
+  ContactFetchKeys,
+  ContactFetchKeysSuccess,
+  ContactFetchKeysFailure,
+  ContactAddKeys,
+  ContactAddKeysSuccess,
+  ContactAddKeysFailure,
+  ContactRemoveKeys,
+  ContactRemoveKeysSuccess,
+  ContactRemoveKeysFailure,
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -183,6 +192,48 @@ export class ContactsEffects {
       return this.userService.updateBatchContacts(payload).pipe(
         switchMap(res => of(new UpdateBatchContactsSuccess(payload))),
         catchError(error => EMPTY),
+      );
+    }),
+  );
+
+  @Effect()
+  contactFetchKeys: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_FETCH_KEYS),
+    map((action: ContactFetchKeys) => action.payload),
+    switchMap(payload => {
+      return this.userService.contactFetchKeys(payload).pipe(
+        switchMap(res => of(new ContactFetchKeysSuccess(res))),
+        catchError(error => {
+          return of(new ContactFetchKeysFailure(error.error))
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  contactAddKeys: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_ADD_KEYS),
+    map((action: ContactAddKeys) => action.payload),
+    switchMap(payload => {
+      return this.userService.contactAddKeys(payload).pipe(
+        switchMap(res => of(new ContactAddKeysSuccess(res))),
+        catchError(error => {
+          return of(new ContactAddKeysFailure(error.error))
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  contactRemoveKeys: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_REMOVE_KEYS),
+    map((action: ContactAddKeys) => action.payload),
+    switchMap(payload => {
+      return this.userService.contactRemoveKeys(payload).pipe(
+        switchMap(res => of(new ContactRemoveKeysSuccess(payload))),
+        catchError(error => {
+          return of(new ContactRemoveKeysFailure(error.error))
+        }),
       );
     }),
   );

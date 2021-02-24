@@ -1,4 +1,4 @@
-import { ContactsState } from '../datatypes';
+import { ContactKey, ContactsState } from '../datatypes';
 import { ContactsActionAll, ContactsActionTypes } from '../actions/contacts.action';
 import { sortByString } from '../services';
 
@@ -8,6 +8,7 @@ export const initialState: ContactsState = {
   noOfDecryptedContacts: 0,
   loaded: false,
   contactsToDecrypt: [],
+  selectedContactKeys: [],
 };
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
@@ -123,6 +124,58 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         return contact;
       });
       return { ...state, contacts };
+    }
+
+    case ContactsActionTypes.CONTACT_FETCH_KEYS: {
+      return { ...state, inProgress: true };
+    }
+
+    case ContactsActionTypes.CONTACT_FETCH_KEYS_SUCCESS: {
+      const selectedContactKeys = action.payload.results;
+      return { 
+        ...state,
+        selectedContactKeys,
+        inProgress: false
+      };
+    }
+
+    case ContactsActionTypes.CONTACT_FETCH_KEYS_FAILURE: {
+      return { ...state, inProgress: false };
+    }
+
+    case ContactsActionTypes.CONTACT_ADD_KEYS: {
+      return { ...state, inProgress: true };
+    }
+
+    case ContactsActionTypes.CONTACT_ADD_KEYS_SUCCESS: {
+      const selectedContactKeys = state.selectedContactKeys;
+      let filteredKeys = selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
+      filteredKeys = [ ...filteredKeys, action.payload ];
+      return { 
+        ...state, 
+        selectedContactKeys: filteredKeys,
+        inProgress: false 
+      };
+    }
+
+    case ContactsActionTypes.CONTACT_ADD_KEYS_FAILURE: {
+      return { ...state, inProgress: false };
+    }
+
+    case ContactsActionTypes.CONTACT_REMOVE_KEYS: {
+      return { ...state, inProgress: true };
+    }
+
+    case ContactsActionTypes.CONTACT_REMOVE_KEYS_SUCCESS: {
+      const newContactKeys = state.selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
+      return { 
+        ...state, 
+        selectedContactKeys: newContactKeys,
+        inProgress: false };
+    }
+
+    case ContactsActionTypes.CONTACT_REMOVE_KEYS_FAILURE: {
+      return { ...state, inProgress: false };
     }
 
     default: {

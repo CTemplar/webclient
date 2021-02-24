@@ -38,7 +38,7 @@
       <div class="col-sm-10">
         <div class="position-relative">
           <input class="form-control form-control-sm" id="contactEmail" name="email" required [(ngModel)]="newContactModel.email" #contactEmail="ngModel" [placeholder]="'contacts.type_email' | translate" type="text" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" />
-          <i class="fas fa-cogs advanced-settings-icon cursor-pointer" ngbTooltip="Advanced Settings" *ngIf="!internalUser && !contactEmail.errors" (click)="onShowAdvancedSettings()"></i>
+          <i class="fas fa-cogs advanced-settings-icon cursor-pointer" ngbTooltip="Advanced Settings" *ngIf="!internalUser && !contactEmail.errors" (click)="onShowAdvancedSettings()" [disabled]="inProgress"></i>
         </div>
       </div>
     </div>
@@ -188,7 +188,7 @@
                 PGP Encryption Scheme to be used when encrypting.
               </div>
               <div class="text-left">
-                Note that PGP/Inline is only available for only Plain Text Messages
+                Note that PGP/Inline is only available for Plain Text Messages
               </div>
             </ng-template>
             <i class="fas fa-info-circle ml-1" [ngbTooltip]="encryptionSchemeTooltip"></i>
@@ -201,11 +201,11 @@
                   <span *ngIf="newContactModel.encryption_scheme"> {{newContactModel.encryption_scheme}} </span>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
-                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/Mime')">
-                    <span>PGP/Mime</span>
+                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/MIME')">
+                    <span>PGP/MIME</span>
                   </a>
-                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/Inline')">
-                    <span>PGP/Inline</span>
+                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/INLINE')">
+                    <span>PGP/INLINE</span>
                   </a>
                 </div>
               </div>
@@ -221,7 +221,6 @@
               <label class="form-label mb-0"> Public Keys </label>
               <input type="file" #importKeyFileTag accept=".txt" (change)="onSelectNewKeyFile($event.target.files)" style="display: none" />
               <div>
-                <app-loading-spinner [showSpinner]="true"></app-loading-spinner>
                 <a (click)="importKeyFileTag.click()">
                   <i class="fas fa-plus-circle"></i>
                   Add Key
@@ -230,7 +229,7 @@
             </div>
           </div>
         </div>
-        <div class="row mt-2" *ngIf="newContactModel.public_keys && newContactModel.public_keys.length > 0">
+        <div class="row mt-2" *ngIf="selectedContactPulbicKeys && selectedContactPulbicKeys.length > 0">
           <div class="col-sm-12 key-list-container">
             <div class="row key-list-header mb-1">
               <div class="col-sm-2 key-list-header-item text-right">
@@ -245,7 +244,7 @@
                 <label class="form-label mb-0"> Actions </label>
               </div>
             </div>
-            <div class="row key-list-row" *ngFor="let key of newContactModel.public_keys">
+            <div class="row key-list-row" *ngFor="let key of selectedContactPulbicKeys">
               <div class="col-sm-2 key-list-row-item text-right">
                 <i *ngIf="key.is_primary" class="fa fa-check" aria-hidden="true" ngbTooltip="This public key will be used to encrypt outgoing messages"></i>
                 <ng-template #userIdMismatchTooltip>
@@ -253,7 +252,7 @@
                     This key is NOT assigned to {{selectedContact.email}}
                   </div>
                   <div class="text-left">
-                    Assigned User: {{ key.signedEmails.length > 0 ? key.signedEmails[0] : "N/A" }}
+                    Assigned User: {{ key.parsedEmails && key.parsedEmails.length > 0 ? key.parsedEmails[0] : "N/A" }}
                   </div>
                 </ng-template>
                 <i *ngIf="!keyMatchStatusForEmail[key.fingerprint]" class="fas fa-exclamation-triangle ml-2" aria-hidden="true" [ngbTooltip]="userIdMismatchTooltip"></i>
@@ -265,9 +264,9 @@
                 {{key.key_type}}
               </div>
               <div class="col-sm-2 key-list-row-item text-left">
-                <a ngbTooltip="Download public key"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
-                <a><i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true" ngbTooltip="Remove public key"></i></a>
-                <a><i *ngIf="!key.is_primary" class="far fa-check-circle cursor-pointer" aria-hidden="true" ngbTooltip="Set public key as primary"></i></a>
+                <a [href]="downloadUrls[key.fingerprint] | safe: 'url'" ngbTooltip="Download public key" [download]="'publickey.' + this.selectedContact.email + '.asc'"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
+                <a ngbTooltip="Remove public key" (click)="onRemovePublicKey(key)"><i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true"></i></a>
+                <a ngbTooltip="Set as primary" *ngIf="newContactModel.enabled_encryption" (click)="onSetPrimary(key)"><i *ngIf="!key.is_primary" class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
               </div>
             </div>
           </div>
@@ -278,6 +277,7 @@
   <div class="modal-footer">
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
+        <app-loading-spinner [showSpinner]="inProgress || isImportingKey"></app-loading-spinner>
         <button type="button" class="btn btn-secondary btn-sm">
           Save
         </button>
