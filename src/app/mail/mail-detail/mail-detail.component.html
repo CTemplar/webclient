@@ -308,11 +308,11 @@
   <!-- Password Decryption Form -->
   <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[mail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[mail.id] && !decryptedContents[mail.id]">
     <div class="password-decryption-desc">
-      {{'mail_detail.password_encryption_message_desc' | translate}}
+      {{ 'mail_detail.password_encryption_message_desc' | translate }}
       <div class="password-decryption-desc-password-hint text-dark">
-        {{'mail_detail.password_hint' | translate}}
+        {{ 'mail_detail.password_hint' | translate }}
         <div class="font-weight-bold font-style-italic d-inline-block">
-          {{mail.encryption && mail.encryption.password_hint ? mail.encryption.password_hint : ''}}
+          {{ mail.encryption && mail.encryption.password_hint ? mail.encryption.password_hint : '' }}
         </div>
       </div>
     </div>
@@ -321,7 +321,7 @@
     </div>
     <div class="decrypt-password-form mb-3">
       <div class="input-group decrypt-password-element mr-2">
-        <input class="form-control form-control-sm border-right-0" type="password" id="parentPasswordVC" [placeholder]="'settings.password' | translate"/>
+        <input class="form-control form-control-sm border-right-0" type="password" id="parentPasswordVC" [placeholder]="'settings.password' | translate" />
         <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('parentPasswordVC')">
           <i class="fa fa-eye"></i>
           <i class="fa fa-eye-slash"></i>
@@ -375,7 +375,7 @@
       <div class="show_gmail_extra">
         <div *ngIf="plainTextViewState[mail.id]; then plainBlock; else htmlBlock"></div>
         <ng-template #htmlBlock>
-          <div class="msg-reply-content text-dark" id="{{ mail.id }}-raw-mail-content" [innerHTML]="mail.is_html ? (decryptedContents[mail.id] | safe: 'sanitize':disableExternalImages) : (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize':disableExternalImages)"></div>
+          <div class="msg-reply-content text-dark" id="{{ mail.id }}-raw-mail-content" [innerHTML]="mail.is_html ? decryptedContents[mail.id] : (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize':disableExternalImages)"></div>
         </ng-template>
         <ng-template #plainBlock>
           <div class="msg-reply-content text-dark" id="{{ mail.id }}-raw-mail-content" [innerHTML]="decryptedContentsPlain[mail.id] | linebreaktobrtag | safe: 'sanitize':disableExternalImages"></div>
@@ -535,11 +535,11 @@
             <!-- Password Decryption Form -->
             <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[childMail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[childMail.id] && !decryptedContents[childMail.id]">
               <div class="password-decryption-desc">
-                {{'mail_detail.password_encryption_message_desc' | translate}}
+                {{ 'mail_detail.password_encryption_message_desc' | translate }}
                 <div class="password-decryption-desc-password-hint text-dark">
-                  {{'mail_detail.password_hint' | translate}}
+                  {{ 'mail_detail.password_hint' | translate }}
                   <div class="font-weight-bold font-style-italic d-inline-block">
-                    {{childMail.encryption && childMail.encryption.password_hint ? childMail.encryption.password_hint : ''}}
+                    {{ childMail.encryption && childMail.encryption.password_hint ? childMail.encryption.password_hint : '' }}
                   </div>
                 </div>
               </div>
@@ -548,7 +548,7 @@
               </div>
               <div class="decrypt-password-form mb-3">
                 <div class="input-group decrypt-password-element mr-2">
-                  <input class="form-control form-control-sm border-right-0" type="password" [id]="'childPasswordVC_' + childIndex" [placeholder]="'settings.password' | translate"/>
+                  <input class="form-control form-control-sm border-right-0" type="password" [id]="'childPasswordVC_' + childIndex" [placeholder]="'settings.password' | translate" />
                   <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('childPasswordVC_' + childIndex)">
                     <i class="fa fa-eye"></i>
                     <i class="fa fa-eye-slash"></i>
