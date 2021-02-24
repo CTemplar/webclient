@@ -53,6 +53,8 @@ export class MailboxEffects {
           const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
           if (payload.successMsg) {
             actions.push(new SnackErrorPush({ message: payload.successMsg }));
+          } else {
+            actions.push(new SnackErrorPush({ message: 'Settings updated successfully.' }));
           }
           return of(...actions);
         }),
