@@ -17,8 +17,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
 
-import { AppState, Contact, ContactsState, UserState, MailboxKey, PGPEncryptionScheme, StringBooleanMappedType, StringStringMappedType, ContactKey } from '../../../store/datatypes';
-import { ContactAdd, ContactAddKeys, ContactFetchKeys, MailboxEffects, MoveToWhitelist, SnackErrorPush, ContactRemoveKeys } from '../../../store';
+import { AppState, Contact, ContactsState, UserState, MailboxKey, PGPEncryptionType, StringBooleanMappedType, StringStringMappedType, ContactKey } from '../../../store/datatypes';
+import { ContactAdd, ContactAddKeys, ContactFetchKeys, MailboxEffects, MoveToWhitelist, SnackErrorPush, ContactRemoveKeys, ContactBulkUpdateKeys } from '../../../store';
 import { OpenPgpService } from '../../../store/services';
 import { config } from 'rxjs';
 
@@ -52,13 +52,17 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   public inProgress: boolean;
 
+  public advancedSettingInProgress: boolean = false;
+
+  public isUpdatedPrimaryKey: boolean = false;
+
   public isImportingKey: boolean = false;
 
   public internalUser: boolean;
 
   private isContactsEncrypted: boolean;
 
-  PGPEncryptionScheme: PGPEncryptionScheme;
+  PGPEncryptionType: PGPEncryptionType;
 
   keyMatchStatusForEmail: StringBooleanMappedType = {};
 
@@ -107,11 +111,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
       .subscribe((contactsState: ContactsState) => {
         if (this.inProgress && !contactsState.inProgress) {
           this.inProgress = false;
-          if (!contactsState.isError) {
+          if (!contactsState.isError && !this.advancedSettingsModalRef) {
             this.userSaved.emit(true);
           }
         }
+        this.advancedSettingInProgress = contactsState.advancedSettingInProgress;
         this.selectedContactPulbicKeys = contactsState.selectedContactKeys;
+        
         this.selectedContactPulbicKeys.forEach(key => {
           this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails ? key.parsed_emails.includes(this.selectedContact.email) : false;
           this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(key.public_key)}`;
@@ -119,8 +125,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
       });
   }
 
-  createNewContact() {
-    if (this.newContactForm.invalid) {
+  createNewContact(isCheckForm: boolean = true) {
+    if (isCheckForm && this.newContactForm.invalid) {
       return false;
     }
     this.newContactModel.email = this.newContactModel.email.toLocaleLowerCase();
@@ -146,11 +152,21 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
 
   onClickIsEncrypt(isEncrypt: boolean) {
+    if (!this.selectedContactPulbicKeys || this.selectedContactPulbicKeys.length === 0) {
+      return;
+    }
     this.newContactModel.enabled_encryption = isEncrypt;
+    if (!this.newContactModel.encryption_type) {
+      this.newContactModel.encryption_type = PGPEncryptionType.PGP_MIME;
+    }
   }
 
-  onSelectEncryptionScheme(scheme: PGPEncryptionScheme) {
-    this.newContactModel.encryption_scheme = scheme;
+  onSelectEncryptionScheme(scheme: string) {
+    if (scheme === 'MIME') {
+      this.newContactModel.encryption_type = PGPEncryptionType.PGP_MIME;
+    } else if (scheme === 'INLINE') {
+      this.newContactModel.encryption_type = PGPEncryptionType.PGP_INLINE;
+    }
   }
 
   onSelectNewKeyFile(files: Array<File>) {
@@ -173,6 +189,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
                 this.selectedContactPulbicKeys.forEach(key => {
                   if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
                     newKeyInfo.id = key.id;
+                    newKeyInfo.is_primary = key.is_primary;
                   }
                 });
               }
@@ -229,17 +246,30 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
 
   onRemovePublicKey(key: ContactKey) {
-    this.inProgress = true;
+    const remainedKeys = this.selectedContactPulbicKeys.filter(originKey => originKey.id !== key.id);
+    if (remainedKeys.length === 0) {
+      this.newContactModel.encryption_type = null;
+      this.newContactModel.enabled_encryption = false;
+      this.createNewContact(false);
+    } else if (key.is_primary) {
+      remainedKeys[0].is_primary = true;
+      this.store.dispatch(new ContactBulkUpdateKeys([remainedKeys[0]]));
+    }
     this.store.dispatch(new ContactRemoveKeys(key));
   }
 
   onSetPrimary(key: ContactKey) {
-    this.inProgress = true;
     this.selectedContactPulbicKeys.forEach(originKey => {
       originKey.is_primary = false;
       if (originKey.fingerprint === key.fingerprint) {
         originKey.is_primary = true;
+        this.isUpdatedPrimaryKey = true;
       }
     });
+  }
+
+  onSaveAdvancedSettings() {
+    this.store.dispatch(new ContactBulkUpdateKeys(this.selectedContactPulbicKeys));
+    this.createNewContact(false);
   }
 }

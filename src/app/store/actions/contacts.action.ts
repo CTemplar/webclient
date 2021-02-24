@@ -33,6 +33,9 @@ export enum ContactsActionTypes {
   CONTACT_REMOVE_KEYS = '[Contacts] Remove Contact Keys',
   CONTACT_REMOVE_KEYS_SUCCESS = '[Contacts] Remove Contact Keys Success',
   CONTACT_REMOVE_KEYS_FAILURE = '[Contacts] Remove Contact Keys Failure',
+  CONTACT_BULK_UPDATE_KEYS = '[Contacts] Bulk Update Contact Keys',
+  CONTACT_BULK_UPDATE_KEYS_SUCCESS = '[Contacts] Bulk Update Contact Keys Success',
+  CONTACT_BULK_UPDATE_KEYS_FAILURE = '[Contacts] Bulk Update Contact Keys Failure',
 }
 
 export class ContactsGet implements Action {
@@ -208,6 +211,24 @@ export class ContactRemoveKeysFailure implements Action {
   constructor(public payload?: any) {}
 }
 
+export class ContactBulkUpdateKeys implements Action {
+  readonly type = ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS;
+
+  constructor(public payload?: any) {}
+}
+
+export class ContactBulkUpdateKeysSuccess implements Action {
+  readonly type = ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_SUCCESS;
+
+  constructor(public payload?: any) {}
+}
+
+export class ContactBulkUpdateKeysFailure implements Action {
+  readonly type = ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_FAILURE;
+
+  constructor(public payload?: any) {}
+}
+
 export type ContactsActionAll =
   | ContactsGet
   | ContactGetSuccess
@@ -237,4 +258,7 @@ export type ContactsActionAll =
   | ContactAddKeysFailure
   | ContactRemoveKeys
   | ContactRemoveKeysSuccess
-  | ContactRemoveKeysFailure;
+  | ContactRemoveKeysFailure
+  | ContactBulkUpdateKeys
+  | ContactBulkUpdateKeysSuccess
+  | ContactBulkUpdateKeysFailure;

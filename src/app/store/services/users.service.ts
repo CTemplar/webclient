@@ -510,6 +510,10 @@ export class UsersService {
     return this.http.delete<any>(`${apiUrl}users/contact-keys/${data.id}/`);
   }
 
+  contactBulkUpdateKeys(data: any) {
+    return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

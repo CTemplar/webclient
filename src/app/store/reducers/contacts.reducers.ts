@@ -126,27 +126,26 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { ...state, contacts };
     }
 
+    // Contact Fetch Keys
     case ContactsActionTypes.CONTACT_FETCH_KEYS: {
-      return { ...state, inProgress: true };
+      return { ...state, advancedSettingInProgress: true };
     }
-
     case ContactsActionTypes.CONTACT_FETCH_KEYS_SUCCESS: {
       const selectedContactKeys = action.payload.results;
       return { 
         ...state,
         selectedContactKeys,
-        inProgress: false
+        advancedSettingInProgress: false
       };
     }
-
     case ContactsActionTypes.CONTACT_FETCH_KEYS_FAILURE: {
-      return { ...state, inProgress: false };
+      return { ...state, advancedSettingInProgress: false };
     }
-
+    
+    // Contact Add Keys
     case ContactsActionTypes.CONTACT_ADD_KEYS: {
-      return { ...state, inProgress: true };
+      return { ...state, advancedSettingInProgress: true };
     }
-
     case ContactsActionTypes.CONTACT_ADD_KEYS_SUCCESS: {
       const selectedContactKeys = state.selectedContactKeys;
       let filteredKeys = selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
@@ -154,28 +153,43 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { 
         ...state, 
         selectedContactKeys: filteredKeys,
-        inProgress: false 
+        advancedSettingInProgress: false 
       };
     }
-
     case ContactsActionTypes.CONTACT_ADD_KEYS_FAILURE: {
-      return { ...state, inProgress: false };
+      return { ...state, advancedSettingInProgress: false };
     }
 
+
+    // Contact Remove Public Keys
     case ContactsActionTypes.CONTACT_REMOVE_KEYS: {
-      return { ...state, inProgress: true };
+      return { ...state, advancedSettingInProgress: true };
     }
-
     case ContactsActionTypes.CONTACT_REMOVE_KEYS_SUCCESS: {
       const newContactKeys = state.selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
       return { 
         ...state, 
         selectedContactKeys: newContactKeys,
-        inProgress: false };
+        advancedSettingInProgress: false 
+      };
+    }
+    case ContactsActionTypes.CONTACT_REMOVE_KEYS_FAILURE: {
+      return { ...state, advancedSettingInProgress: false };
     }
 
-    case ContactsActionTypes.CONTACT_REMOVE_KEYS_FAILURE: {
-      return { ...state, inProgress: false };
+    // Contact Bulk Update Public Keys
+    case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS: {
+      return { ...state, advancedSettingInProgress: true };
+    }
+    case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_SUCCESS: {
+      return { 
+        ...state, 
+        selectedContactKeys: action.payload,
+        advancedSettingInProgress: false 
+      };
+    }
+    case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_FAILURE: {
+      return { ...state, advancedSettingInProgress: false };
     }
 
     default: {

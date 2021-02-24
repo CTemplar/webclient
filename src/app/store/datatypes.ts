@@ -193,6 +193,7 @@ export interface ContactsState {
   contacts: Contact[];
   totalContacts: number;
   inProgress?: boolean;
+  advancedSettingInProgress?: boolean;
   isError?: boolean;
   emailContacts?: EmailContact[];
   noOfDecryptedContacts: number;
@@ -528,7 +529,7 @@ export interface Contact {
   phone?: string;
   phone2?: string;
   provider?: string;
-  encryption_scheme?: PGPEncryptionScheme;
+  encryption_type?: PGPEncryptionType;
 }
 
 export interface AppState {
@@ -724,7 +725,7 @@ export type StringStringMappedType = {
   [key: string]: string;
 }
 
-export enum PGPEncryptionScheme {
-  PGP_MIME = 'PGP/MIME',
-  PGP_INLINE = 'PGP/INLINE'
+export enum PGPEncryptionType {
+  PGP_MIME = 'PGP_MIME',
+  PGP_INLINE = 'PGP_INLINE'
 }

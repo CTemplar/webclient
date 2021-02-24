@@ -119,22 +119,12 @@
     {{ 'contacts.save.error' | translate }}
   </div>
   <!-- Save button-->
-  <div class="form-group text-right mb-0" *ngIf="newContactModel.enabled_encryption && !newContactModel.public_keys; else submitSaveContact">
-    <div class="saveContactSubmit" ngbTooltip="Public Key can't be empty when encryption is enabled.">
-      <button type="submit" disabled class="btn btn-secondary btn-sm" role="button">
-        {{ 'common.save' | translate }}
-      </button>
-    </div>
+  <div class="form-group text-right mb-0">
+    <button type="submit" [disabled]="inProgress" class="btn btn-secondary btn-sm" role="button">
+      {{ 'common.save' | translate }}
+    </button>
     <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
   </div>
-  <ng-template #submitSaveContact>
-    <div class="form-group text-right mb-0">
-      <button type="submit" [disabled]="inProgress" class="btn btn-secondary btn-sm" role="button">
-        {{ 'common.save' | translate }}
-      </button>
-      <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
-    </div>
-  </ng-template>
 </form>
 
 <!--Advanced Settings Modal-->
@@ -159,18 +149,19 @@
         <div class="row align-items-center">
           <div class="col-sm-4">
             <label class="form-label mb-0"> Encrypt </label>
+            <i class="fas fa-exclamation-triangle ml-1" *ngIf="!newContactModel.enabled_encryption && (!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0)" ngbTooltip="Please upload valid PGP public key to use this feature"></i>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt1" name="[1]" type="radio" [checked]="newContactModel.enabled_encryption" (click)="onClickIsEncrypt(true)" />
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt1" name="[1]" type="radio" [checked]="newContactModel.enabled_encryption" (click)="onClickIsEncrypt(true)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0"/>
                   <label for="isEncrypt1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt2" name="[1]" type="radio" [checked]="!newContactModel.enabled_encryption" (click)="onClickIsEncrypt(false)" />
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt2" name="[1]" type="radio" [checked]="!newContactModel.enabled_encryption" (click)="onClickIsEncrypt(false)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0"/>
                   <label for="isEncrypt2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
@@ -197,14 +188,13 @@
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
                 <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button" [disabled]="!newContactModel.enabled_encryption">
-                  <span *ngIf="!newContactModel.encryption_scheme"> Select scheme </span>
-                  <span *ngIf="newContactModel.encryption_scheme"> {{newContactModel.encryption_scheme}} </span>
+                  <span> {{ newContactModel.encryption_type ? newContactModel.encryption_type : 'PGP/MIME' }} </span>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
-                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/MIME')">
+                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('MIME')">
                     <span>PGP/MIME</span>
                   </a>
-                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('PGP/INLINE')">
+                  <a class="dropdown-item text-medium" (click)="onSelectEncryptionScheme('INLINE')">
                     <span>PGP/INLINE</span>
                   </a>
                 </div>
@@ -214,7 +204,7 @@
         </div>
       </div>
       <!-- Public keys section -->
-      <div class="form-content-row mb-2 mt-4 text-medium">
+      <div class="form-content-row mb-2 mt-4 text-medium contact-public-keys-section">
         <div class="row">
           <div class="col-12">
             <div class="d-flex justify-content-between">
@@ -230,40 +220,40 @@
           </div>
         </div>
         <div class="row mt-2" *ngIf="selectedContactPulbicKeys && selectedContactPulbicKeys.length > 0">
-          <div class="col-sm-12 key-list-container">
+          <div class="col-12 key-list-container">
             <div class="row key-list-header mb-1">
-              <div class="col-sm-2 key-list-header-item text-right">
+              <div class="col-2 key-list-header-item text-right">
               </div>
-              <div class="col-sm-5 key-list-header-item">
+              <div class="col-5 key-list-header-item">
                 <label class="form-label mb-0"> Fingerprint </label>
               </div>
-              <div class="col-sm-3 key-list-header-item">
+              <div class="col-3 key-list-header-item">
                 <label class="form-label mb-0"> Key Type </label>
               </div>
-              <div class="col-sm-2 key-list-header-item">
+              <div class="col-2 key-list-header-item">
                 <label class="form-label mb-0"> Actions </label>
               </div>
             </div>
             <div class="row key-list-row" *ngFor="let key of selectedContactPulbicKeys">
-              <div class="col-sm-2 key-list-row-item text-right">
+              <div class="col-2 key-list-row-item text-right">
                 <i *ngIf="key.is_primary" class="fa fa-check" aria-hidden="true" ngbTooltip="This public key will be used to encrypt outgoing messages"></i>
                 <ng-template #userIdMismatchTooltip>
                   <div class="text-left">
                     This key is NOT assigned to {{selectedContact.email}}
                   </div>
                   <div class="text-left">
-                    Assigned User: {{ key.parsedEmails && key.parsedEmails.length > 0 ? key.parsedEmails[0] : "N/A" }}
+                    Assigned User: {{ key.parsed_emails && key.parsed_emails.length > 0 ? key.parsed_emails[0] : "N/A" }}
                   </div>
                 </ng-template>
                 <i *ngIf="!keyMatchStatusForEmail[key.fingerprint]" class="fas fa-exclamation-triangle ml-2" aria-hidden="true" [ngbTooltip]="userIdMismatchTooltip"></i>
               </div>
-              <div class="col-sm-5 key-list-row-item show-ellipses">
+              <div class="col-5 key-list-row-item show-ellipses">
                 {{key.fingerprint}}
               </div>
-              <div class="col-sm-3 key-list-row-item">
+              <div class="col-3 key-list-row-item">
                 {{key.key_type}}
               </div>
-              <div class="col-sm-2 key-list-row-item text-left">
+              <div class="col-2 key-list-row-item text-left">
                 <a [href]="downloadUrls[key.fingerprint] | safe: 'url'" ngbTooltip="Download public key" [download]="'publickey.' + this.selectedContact.email + '.asc'"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
                 <a ngbTooltip="Remove public key" (click)="onRemovePublicKey(key)"><i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true"></i></a>
                 <a ngbTooltip="Set as primary" *ngIf="newContactModel.enabled_encryption" (click)="onSetPrimary(key)"><i *ngIf="!key.is_primary" class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
@@ -277,8 +267,8 @@
   <div class="modal-footer">
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
-        <app-loading-spinner [showSpinner]="inProgress || isImportingKey"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm">
+        <app-loading-spinner [showSpinner]="advancedSettingInProgress || isImportingKey"></app-loading-spinner>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onSaveAdvancedSettings()">
           Save
         </button>
       </div>

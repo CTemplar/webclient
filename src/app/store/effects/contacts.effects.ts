@@ -37,6 +37,9 @@ import {
   ContactRemoveKeys,
   ContactRemoveKeysSuccess,
   ContactRemoveKeysFailure,
+  ContactBulkUpdateKeys,
+  ContactBulkUpdateKeysSuccess,
+  ContactBulkUpdateKeysFailure,
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -216,9 +219,23 @@ export class ContactsEffects {
     map((action: ContactAddKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactAddKeys(payload).pipe(
-        switchMap(res => of(new ContactAddKeysSuccess(res))),
+        switchMap(res => {
+          if (payload.id) {
+            return of(
+              new ContactAddKeysSuccess(res),
+              new SnackPush({ message: `Public Key with fingerprint ${payload.fingerprint} has been updated` }),
+            );
+          } else {
+            return of(
+              new ContactAddKeysSuccess(res),
+            );
+          }
+        }),
         catchError(error => {
-          return of(new ContactAddKeysFailure(error.error))
+          return of(
+            new ContactAddKeysFailure(error.error),
+            new SnackErrorPush({ message: 'Failed to add public key' }),
+          )
         }),
       );
     }),
@@ -227,12 +244,34 @@ export class ContactsEffects {
   @Effect()
   contactRemoveKeys: Observable<any> = this.actions.pipe(
     ofType(ContactsActionTypes.CONTACT_REMOVE_KEYS),
-    map((action: ContactAddKeys) => action.payload),
+    map((action: ContactRemoveKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactRemoveKeys(payload).pipe(
         switchMap(res => of(new ContactRemoveKeysSuccess(payload))),
         catchError(error => {
-          return of(new ContactRemoveKeysFailure(error.error))
+          return of(
+            new ContactRemoveKeysFailure(error.error),
+            new SnackErrorPush({ message: 'Failed to remove public key' }),
+          )
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  contactBulkUpdateKeys: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS),
+    map((action: ContactBulkUpdateKeys) => action.payload),
+    switchMap(payload => {
+      return this.userService.contactBulkUpdateKeys(payload).pipe(
+        switchMap(res => of(
+          new ContactBulkUpdateKeysSuccess(payload),
+        )),
+        catchError(error => {
+          return of(
+            new ContactBulkUpdateKeysFailure(error.error),
+            new SnackErrorPush({ message: 'Failed to update advanced settings' }),
+          )
         }),
       );
     }),
