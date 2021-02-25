@@ -65,6 +65,9 @@ export enum MailActionTypes {
   DELETE_MAILBOX_KEYS = '[MAILBOX] DELETE MAILBOX KEYS',
   DELETE_MAILBOX_KEYS_SUCCESS = '[MAILBOX] DELETE MAILBOX KEYS SUCCESS',
   DELETE_MAILBOX_KEYS_FAILURE = '[MAILBOX] DELETE MAILBOX KEYS FAILURE',
+  SET_PRIMARY_MAILBOX_KEYS = '[MAILBOX] SET_PRIMARY MAILBOX KEYS',
+  SET_PRIMARY_MAILBOX_KEYS_SUCCESS = '[MAILBOX] SET_PRIMARY MAILBOX KEYS SUCCESS',
+  SET_PRIMARY_MAILBOX_KEYS_FAILURE = '[MAILBOX] SET_PRIMARY MAILBOX KEYS FAILURE',
 }
 
 export class GetMails implements Action {
@@ -444,6 +447,24 @@ export class DeleteMailboxKeysFailure implements Action {
   constructor(public payload: any = {}) {}
 }
 
+export class SetMailboxKeyPrimary implements Action {
+  readonly type = MailActionTypes.SET_PRIMARY_MAILBOX_KEYS;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class SetMailboxKeyPrimarySuccess implements Action {
+  readonly type = MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class SetMailboxKeyPrimaryFailure implements Action {
+  readonly type = MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_FAILURE;
+
+  constructor(public payload: any = {}) {}
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -507,4 +528,7 @@ export type MailActions =
   | AddMailboxKeysFailure
   | DeleteMailboxKeys
   | DeleteMailboxKeysSuccess
-  | DeleteMailboxKeysFailure;
+  | DeleteMailboxKeysFailure
+  | SetMailboxKeyPrimary
+  | SetMailboxKeyPrimarySuccess
+  | SetMailboxKeyPrimaryFailure;

@@ -34,7 +34,10 @@ import {
   AddMailboxKeysSuccess, 
   DeleteMailboxKeys, 
   DeleteMailboxKeysFailure, 
-  DeleteMailboxKeysSuccess 
+  DeleteMailboxKeysSuccess, 
+  SetMailboxKeyPrimary,
+  SetMailboxKeyPrimarySuccess,
+  SetMailboxKeyPrimaryFailure
 } from '../actions/mail.actions';
 import { SnackErrorPush, SnackPush } from '../actions/users.action';
 import { MailboxKey } from '../datatypes';
@@ -196,6 +199,26 @@ export class MailboxEffects {
         catchError(error => of(
           new DeleteMailboxKeysFailure(),
           new SnackErrorPush({ message: 'Failed to delete mailbox key' }),
+          )),
+      );
+    }),
+  );
+
+  @Effect()
+  setPrimaryMailboxKeys: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.SET_PRIMARY_MAILBOX_KEYS),
+    map((action: SetMailboxKeyPrimary) => action.payload),
+    switchMap((payload: MailboxKey) => {
+      return this.mailService.setPrimaryMailboxKeys(payload).pipe(
+        switchMap(res =>
+          of(
+            new SetMailboxKeyPrimarySuccess(payload),
+            new SnackPush({ message: 'Mailbox key has been updated successfully' }),
+          ),
+        ),
+        catchError(error => of(
+          new SetMailboxKeyPrimaryFailure(),
+          new SnackErrorPush({ message: 'Failed to set mailbox key as primary' }),
           )),
       );
     }),
