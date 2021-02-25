@@ -459,6 +459,8 @@ export interface MailBoxesState {
   encryptionInProgress: boolean;
   inProgress?: boolean;
   isUpdatingOrder?: boolean;
+  mailboxKeysMap?: Map<number, Array<MailboxKey>>; // Date Type => <Mailbox ID, Array of Keys>
+  mailboxKeyInProgress?: boolean;
 }
 
 export interface SecureMessageState {
@@ -646,13 +648,13 @@ export interface PricingPlan {
 
 // Key model for mailbox key
 export interface MailboxKey {
+  id?: number;
+  mailbox?: number;
   public_key?: string;
   private_key?: string;
   fingerprint?: string;
   key_type?: string;
   is_primary?: boolean;
-  created_at?: Date;
-  signedEmails?: Array<string>;
 }
 
 // Key model for contact public key
@@ -728,4 +730,9 @@ export type StringStringMappedType = {
 export enum PGPEncryptionType {
   PGP_MIME = 'PGP_MIME',
   PGP_INLINE = 'PGP_INLINE'
+}
+
+export enum PGPKeyType {
+  RSA_4096 = 'RSA 4096',
+  ECC = 'ECC'
 }

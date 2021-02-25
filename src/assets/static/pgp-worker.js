@@ -201,7 +201,22 @@ onmessage = async function (event) {
         error: true,
         subjectId: event.data.subjectId 
       });
-    })
+    });
+  } else if(event.data.generateKeysForEmail) {
+    generateKeys(event.data.options).then(data => {
+      postMessage({ 
+        generateKeysForEmail: true,
+        keys: data,
+        subjectId: event.data.subjectId 
+      });
+    }).catch(e => {
+      postMessage({
+        generateKeysForEmail: true, 
+        errorMessage: e,
+        error: true,
+        subjectId: event.data.subjectId 
+      });
+    });
   }
 };
 

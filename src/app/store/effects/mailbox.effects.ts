@@ -23,8 +23,21 @@ import {
   UpdateMailboxOrderSuccess,
 } from '../actions';
 import { Mailbox } from '../models';
-import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
-import { SnackErrorPush } from '../actions/users.action';
+import { 
+  FetchMailboxKeys, 
+  FetchMailboxKeysFailure, 
+  FetchMailboxKeysSuccess, 
+  MailboxSettingsUpdate, 
+  MailboxSettingsUpdateSuccess, 
+  AddMailboxKeys, 
+  AddMailboxKeysFailure, 
+  AddMailboxKeysSuccess, 
+  DeleteMailboxKeys, 
+  DeleteMailboxKeysFailure, 
+  DeleteMailboxKeysSuccess 
+} from '../actions/mail.actions';
+import { SnackErrorPush, SnackPush } from '../actions/users.action';
+import { MailboxKey } from '../datatypes';
 
 @Injectable()
 export class MailboxEffects {
@@ -36,7 +49,10 @@ export class MailboxEffects {
     map((action: GetMailboxes) => action.payload),
     switchMap(payload => {
       return this.mailService.getMailboxes(payload.limit, payload.offset).pipe(
-        switchMap(mails => of(new GetMailboxesSuccess(mails))),
+        switchMap(mails => of(
+          new GetMailboxesSuccess(mails),
+          new FetchMailboxKeys(),
+        )),
         catchError(error => EMPTY),
       );
     }),
@@ -125,6 +141,62 @@ export class MailboxEffects {
           ),
         ),
         catchError(error => of(new SnackErrorPush({ message: `Failed to delete alias. ${error.error}` }))),
+      );
+    }),
+  );
+
+  @Effect()
+  fetchMailboxKeys: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.FETCH_MAILBOX_KEYS),
+    map((action: FetchMailboxKeys) => action.payload),
+    switchMap(() => {
+      return this.mailService.fetchMailboxKeys().pipe(
+        switchMap(res =>
+          of(
+            new FetchMailboxKeysSuccess(res),
+          ),
+        ),
+        catchError(error => of(new FetchMailboxKeysFailure())),
+      );
+    }),
+  );
+
+  @Effect()
+  addMailboxKeys: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.ADD_MAILBOX_KEYS),
+    map((action: AddMailboxKeys) => action.payload),
+    switchMap((payload: MailboxKey) => {
+      return this.mailService.addMailboxKeys(payload).pipe(
+        switchMap(res =>
+          of(
+            new AddMailboxKeysSuccess({ ...res, private_key: payload.private_key }),
+            new SnackPush({ message: 'Mailbox Key has been added successfully' }),
+          ),
+        ),
+        catchError(error => of(
+          new AddMailboxKeysFailure(),
+          new SnackErrorPush({ message: 'Failed to add mailbox key' }),
+          )),
+      );
+    }),
+  );
+
+  @Effect()
+  deleteMailboxKeys: Observable<any> = this.actions.pipe(
+    ofType(MailActionTypes.DELETE_MAILBOX_KEYS),
+    map((action: DeleteMailboxKeys) => action.payload),
+    switchMap((payload: MailboxKey) => {
+      return this.mailService.deleteMailboxKeys(payload).pipe(
+        switchMap(res =>
+          of(
+            new DeleteMailboxKeysSuccess(payload),
+            new SnackPush({ message: 'Mailbox Key has been deleted successfully' }),
+          ),
+        ),
+        catchError(error => of(
+          new DeleteMailboxKeysFailure(),
+          new SnackErrorPush({ message: 'Failed to delete mailbox key' }),
+          )),
       );
     }),
   );

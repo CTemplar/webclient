@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
@@ -10,9 +10,9 @@ import Quill from 'quill';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
+import { AddMailboxKeys, AddMailboxKeysSuccess, MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
-import { AppState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
+import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
@@ -31,7 +31,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   @ViewChild('downloadKeyModal') downloadKeyModal;
 
+  @ViewChild('addNewKeyModal') addNewKeyModal;
+
   private downloadKeyModalRef: NgbModalRef;
+
+  private addNewKeyModalRef: NgbModalRef;
 
   public mailBoxesState: MailBoxesState;
 
@@ -70,6 +74,16 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   isCustomDomainSelected: boolean;
 
   aliasKeyExpandedStatus: Array<boolean> = [];
+
+  selectedMailboxForAddNewKey: Mailbox;
+
+  selectedKeyTypeForAddNewKey: PGPKeyType;
+
+  isGeneratingKeys: boolean = false;
+
+  mailboxKeyInProgress: boolean = false;
+
+  mailboxKeysMap: Map<number, Array<MailboxKey>> = new Map();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -118,6 +132,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
             this.onSelectedMailboxForKeyChanged(mailboxesState.currentMailbox);
           }
         }
+        this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
+        this.mailboxKeysMap = mailboxesState.mailboxKeysMap;
       });
 
     /**
@@ -361,6 +377,42 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       backdrop: 'static',
       windowClass: 'modal-sm',
     });
+  }
+
+  onAddNewKey() {
+    if (this.mailboxes && this.mailboxes.length > 0) {
+      this.selectedMailboxForAddNewKey = this.mailboxes[0];
+    }
+    this.selectedKeyTypeForAddNewKey = PGPKeyType.RSA_4096;
+    this.addNewKeyModalRef = this.modalService.open(this.addNewKeyModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-sm',
+    });
+  }
+
+  onSelectMailboxForAddNewKey(mailbox: Mailbox) {
+    this.selectedMailboxForAddNewKey = mailbox;
+  }
+
+  onGenerateKeys() {
+    if (!this.selectedKeyTypeForAddNewKey || !this.selectedMailboxForAddNewKey || this.isGeneratingKeys) {
+      return;
+    }
+    this.isGeneratingKeys = true;
+    this.openPgpService.generateUserKeysWithEmail(this.selectedMailboxForAddNewKey.email, atob(this.usersService.getUserKey())).pipe(take(1))
+      .subscribe(
+        (keys) => {
+          this.isGeneratingKeys = false;
+          keys['key_type'] = this.selectedKeyTypeForAddNewKey === PGPKeyType.RSA_4096 ? 'RSA4096' : 'ECC';
+          keys['mailbox'] = this.selectedMailboxForAddNewKey.id;
+          this.store.dispatch(new AddMailboxKeys(keys));
+        },
+        error => {
+          this.isGeneratingKeys = false;
+          this.store.dispatch(new SnackErrorPush({ message: error }));
+        },
+      );
   }
 
   ngOnDestroy(): void {

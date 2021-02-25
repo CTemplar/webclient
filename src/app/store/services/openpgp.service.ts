@@ -258,6 +258,19 @@ export class OpenPgpService {
             delete this.subjects[event.data.subjectId];
           }
         }
+      } else if (event.data.generateKeysForEmail) {
+        // Handling error
+        if (event.data.error) {
+          if (this.subjects[event.data.subjectId]) {
+            this.subjects[event.data.subjectId].error(event.data.errorMessage);
+          }
+        } else {
+          if (this.subjects[event.data.subjectId]) {
+            this.subjects[event.data.subjectId].next(event.data.keys);
+            this.subjects[event.data.subjectId].complete();
+            delete this.subjects[event.data.subjectId];
+          }
+        }
       }
     };
   }
@@ -507,6 +520,20 @@ export class OpenPgpService {
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
     this.pgpWorker.postMessage({ publicKey, getKeyInfoFromPublicKey: true, subjectId });
+    return subject.asObservable();
+  }
+
+  // Multiple mailbox keys
+  generateUserKeysWithEmail(email: string, password: string) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    const options = {
+      userIds: [{ email: email }],
+      numBits: 4096,
+      passphrase: password,
+    };
+    this.pgpWorker.postMessage({ options, generateKeysForEmail: true, subjectId });
     return subject.asObservable();
   }
 }
