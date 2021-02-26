@@ -166,7 +166,7 @@ export class ComposeMailEffects {
           switchMap(keys =>
             of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, data: keys, isBlind: false })),
           ),
-          catchError(error => of(new SnackErrorPush({ message: 'Failed to get public keys' }))),
+          catchError(error => of(new SnackErrorPush({ message: 'Failed to get public keys.' }))),
         );
       } else {
         return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));
