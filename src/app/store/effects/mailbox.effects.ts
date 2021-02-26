@@ -36,7 +36,7 @@ export class MailboxEffects {
     switchMap(payload => {
       return this.mailService.getMailboxes(payload.limit, payload.offset).pipe(
         switchMap(mails => of(new GetMailboxesSuccess(mails))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get mailboxes' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get mailboxes.' }))),
       );
     }),
   );
@@ -123,7 +123,7 @@ export class MailboxEffects {
             new DeleteMailboxSuccess(payload),
           ),
         ),
-        catchError(error => of(new SnackErrorPush({ message: `Failed to delete alias. ${error.error}` }))),
+        catchError(error => of(new SnackErrorPush({ message: `Failed to delete alias: ${error.error}` }))),
       );
     }),
   );
