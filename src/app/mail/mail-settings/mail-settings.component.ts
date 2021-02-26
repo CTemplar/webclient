@@ -362,6 +362,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateSettings();
   }
 
+  updateTimeZone(event: any) {
+    this.updateSettings('timezone', event.option.value);
+  }
+
   updateConversationMode(is_conversation_mode: boolean) {
     this.updateSettings('is_conversation_mode', is_conversation_mode);
     this.store.dispatch(new ClearMailsOnConversationModeChange());
