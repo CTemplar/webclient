@@ -262,21 +262,32 @@ export function reducer(
       const newPrimaryKey: MailboxKey = action.payload;
       // Update mailbox to set key info
       const mailboxes = state.mailboxes;
+      let curPrimaryMailbox: Mailbox;
       mailboxes.forEach(mailbox => {
-        mailbox.public_key = newPrimaryKey.public_key;
-        mailbox.private_key = newPrimaryKey.private_key;
-        mailbox.fingerprint = newPrimaryKey.fingerprint;
-        mailbox.key_type = newPrimaryKey.key_type;
+        if (mailbox.id === newPrimaryKey.mailbox) {
+          curPrimaryMailbox = { ...mailbox };
+          mailbox.public_key = newPrimaryKey.public_key;
+          mailbox.private_key = newPrimaryKey.private_key;
+          mailbox.fingerprint = newPrimaryKey.fingerprint;
+          mailbox.key_type = newPrimaryKey.key_type;
+        }
       });
 
       // Update mailbox key list
       const mailboxKeysMap = state.mailboxKeysMap;
       if (mailboxKeysMap.has(newPrimaryKey.mailbox) && mailboxKeysMap.get(newPrimaryKey.mailbox).length > 0) {
-        mailboxKeysMap.get(newPrimaryKey.mailbox).forEach(key => {
+        mailboxKeysMap.get(newPrimaryKey.mailbox).forEach((key, index) => {
+          if (index === 0) {
+            key.private_key = newPrimaryKey.private_key;
+            key.public_key = newPrimaryKey.public_key;
+            key.fingerprint = newPrimaryKey.fingerprint;
+            key.key_type = newPrimaryKey.key_type;
+          }
           if (key.id === newPrimaryKey.id) {
-            key.is_primary = true;
-          } else {
-            key.is_primary = false;
+            key.private_key = curPrimaryMailbox.private_key;
+            key.public_key = curPrimaryMailbox.public_key;
+            key.fingerprint = curPrimaryMailbox.fingerprint;
+            key.key_type = curPrimaryMailbox.key_type;
           }
         });
       }

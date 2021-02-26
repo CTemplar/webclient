@@ -10,7 +10,7 @@ import Quill from 'quill';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { AddMailboxKeys, AddMailboxKeysSuccess, MailboxSettingsUpdate, SetMailboxKeyPrimary } from '../../../store/actions/mail.actions';
+import { AddMailboxKeys, AddMailboxKeysSuccess, DeleteMailboxKeys, MailboxSettingsUpdate, SetMailboxKeyPrimary } from '../../../store/actions/mail.actions';
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
@@ -137,7 +137,9 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         this.mailBoxesState = mailboxesState;
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
-          this.aliasKeyExpandedStatus = new Array(this.mailboxes.length).fill(false);
+          if (this.aliasKeyExpandedStatus.length === 0) {
+            this.aliasKeyExpandedStatus = new Array(this.mailboxes.length).fill(false);
+          }
           this.currentMailBox = mailboxesState.currentMailbox;
           if (!this.selectedMailboxForSignature || this.selectedMailboxForSignature.id === this.currentMailBox.id) {
             // update selected mailbox in case `currentMailbox` has been updated
@@ -146,6 +148,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
           if (!this.selectedMailboxForKey || this.selectedMailboxForKey.id === this.currentMailBox.id) {
             // update selected mailbox in case `currentMailbox` has been updated
             this.onSelectedMailboxForKeyChanged(mailboxesState.currentMailbox);
+          }
+          if (this.mailboxKeyInProgress && !mailboxesState.mailboxKeyInProgress) {
+            if (this.addNewKeyModalRef) this.addNewKeyModalRef.dismiss();
+            if (this.deleteKeyConfirmModalRef) this.deleteKeyConfirmModalRef.dismiss();
+            if (this.setPrimaryKeyConfirmModalRef) this.setPrimaryKeyConfirmModalRef.dismiss();
           }
         }
         this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
@@ -404,11 +411,18 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   }
 
   onRemoveKey(key) {
+    this.pickedMailboxKeyForUpdate = key;
     this.deleteKeyConfirmModalRef = this.modalService.open(this.deleteKeyConfirmModal, {
       centered: true,
       backdrop: 'static',
       windowClass: 'modal-sm',
     });
+  }
+
+  onConfirmDeleteKey() {
+    if (this.pickedMailboxKeyForUpdate) {
+      this.store.dispatch(new DeleteMailboxKeys(this.pickedMailboxKeyForUpdate));
+    }
   }
 
   onAddNewKey() {
