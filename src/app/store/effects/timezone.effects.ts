@@ -20,7 +20,7 @@ export class TimezoneEffects {
         map(timezones => {
           return new TimezoneGetSuccess(timezones);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get timezones' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get timezones.' }))),
       );
     }),
   );
