@@ -310,11 +310,6 @@
                           </button>
                         </li>
                         <li>
-                          <button role="button" type="button" ngbTooltip="Insert image" class="ql-image actions-btn mail-attach-image-btn">
-                            <i class="icon fa fa-image"></i>
-                          </button>
-                        </li>
-                        <li>
                           <button role="button" ngbTooltip="Clear formatting" class="ql-clean actions-btn mail-format-clear-btn">
                             <i class="icon icon-format-clear"></i>
                           </button>
@@ -341,6 +336,19 @@
               <ng-template #insertLinkRef>
                 <button role="button" ngbTooltip="Insert link" (click)="openInsertLinkModal()" class="actions-btn insert-link-btn">
                   <i class="fas fa-link"></i>
+                </button>
+              </ng-template>
+            </li>
+            <!-- Insert Image -->
+            <li class="p-0">
+              <div *ngIf="!draftMail?.is_html; else insertImageRef" ngbTooltip="Insert Image is not available in plain text editor" class="dropdown">
+                <button class="actions-btn mail-attach-image-btn" disabled>
+                  <i class="icon fa fa-image"></i>
+                </button>
+              </div>
+              <ng-template #insertImageRef>
+                <button role="button" ngbTooltip="Insert Image" (click)="quillImageHandler()" class="actions-btn mail-attach-image-btn">
+                  <i class="icon fa fa-image"></i>
                 </button>
               </ng-template>
             </li>
