@@ -56,7 +56,7 @@ export class MailEffects {
             is_from_socket: false,
           });
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get messages' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get messages.' }))),
       );
     }),
   );
@@ -70,7 +70,7 @@ export class MailEffects {
         map(response => {
           return new GetUnreadMailsCountSuccess(response);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get unread mails count' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get unread mails count.' }))),
       );
     }),
   );
@@ -84,7 +84,7 @@ export class MailEffects {
         map(response => {
           return new GetCustomFolderMessageCountSuccess(response);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get custome folder message count' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get custome folder message count.' }))),
       );
     }),
   );
