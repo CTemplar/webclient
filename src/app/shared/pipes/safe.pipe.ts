@@ -84,7 +84,7 @@ export class SafePipe implements PipeTransform {
               });
 
               if (!containsTargetAttribute) {
-                attributesHtml += ' target="_blank"';
+                attributesHtml += ' target="_blank" rel="noopener noreferrer"';
               }
 
               let outputHtml = `<${tag}`;
@@ -130,14 +130,14 @@ export class SafePipe implements PipeTransform {
         // Move style from style tag to inline style
         value = juice(value);
         // Sanitize Mail
-        value = this.processSanitization(value, disableExternalImages);
+        value = SafePipe.processSanitization(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
       default:
         throw new Error(`Invalid safe type specified: ${type}`);
     }
   }
 
-  processSanitization(value: string, disableExternalImages: boolean) {
+  static processSanitization(value: string, disableExternalImages: boolean) {
     const allowedTags = {
       a: [],
       b: [],
@@ -219,6 +219,7 @@ export class SafePipe implements PipeTransform {
       tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
       u: ['style'],
       ul: ['dir', 'style'],
+      i: ['style']
     };
     // @ts-ignore
     value = xss(value, {
@@ -226,7 +227,7 @@ export class SafePipe implements PipeTransform {
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
       onIgnoreTagAttr: (tag, name, attribute, isWhiteAttribute) => {
-        if (name !== 'class') {
+        if (name !== 'class' && allowedAttributes[tag]) {
           // get attr whitelist for specific tag
           const attributeWhitelist = allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag
@@ -248,19 +249,19 @@ export class SafePipe implements PipeTransform {
   replaceLinksInText(inputText: string) {
     if (!/<[a-z][\S\s]*>/i.test(inputText)) {
       if (typeof inputText === 'string') {
-        // http://, https://, ftp://
-        const urlPattern = /\b(?:https?|ftp):\/\/[\w!#%&+,./:;=?@|~-]*[\w#%&+/=@|~-]/gim;
+        // URLs starting with http://, https://, or ftp://
+        const urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
 
-        // www. sans http:// or https://
-        const pseudoUrlPattern = /(^|[^/])(www\.\S+(\b|$))/gim;
+        // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+        const pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
 
-        // Email addresses
-        const emailAddressPattern = /[\w.]+@[_a-z-]+?(?:\.[a-z]{2,6})+/gim;
+        // Change email addresses to mailto:: links.
+        const emailAddressPattern = /(\w+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
 
         inputText = inputText
-          .replace(urlPattern, '<a target="_blank" rel="noopener" href="$&">$&</a>')
-          .replace(pseudoUrlPattern, '$1<a target="_blank" rel="noopener" href="http://$2">$2</a>')
-          .replace(emailAddressPattern, '<a target="_blank" rel="noopener" href="mailto:$&">$&</a>');
+          .replace(urlPattern, '<a target="_blank" rel="noopener noreferrer" href="$1">$1</a>')
+          .replace(pseudoUrlPattern, '$1<a target="_blank" rel="noopener noreferrer" href="http://$2">$2</a>')
+          .replace(emailAddressPattern, '<a href="mailto:$1">$1</a>');
       }
       inputText = inputText.replace(/\n/g, '<br>');
     }

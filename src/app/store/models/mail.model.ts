@@ -64,10 +64,6 @@ export class EncryptionNonCTemplar {
 
   password: string;
 
-  private_key?: string;
-
-  public_key?: string;
-
   random_secret?: string;
 }
 

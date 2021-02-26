@@ -2,17 +2,17 @@
   <!-- Mailbox left sidebar -->
   <div class="mailbox-sidebar-inner">
     <div class="mailbox-brand">
-      <button class="navbar-toggler hidden-md-up" role="button" (click)="toggleMenu()">
+      <button class="navbar-toggler hidden-sm-min" role="button" (click)="toggleMenu()">
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggler-icon"></span>
         <span class="navbar-toggle-text">{{ 'mail_sidebar.menu' | translate }}</span>
       </button>
-      <figure class="navbar-brand-holder hidden-sm-down">
-        <a class="navbar-brand ff-roboto text-uppercase" routerLink="/mail">
+      <figure class="navbar-brand-holder hidden-sm-max">
+        <a class="navbar-brand ff-robotos text-uppercase" routerLink="/mail">
           <img alt="CTemplar Logo" class="navbar-brand-logo" src="assets/images/logo.svg" />
-          <strong>ctemplar</strong>
+          <strong class="navbar-brand-name">ctemplar</strong>
         </a>
       </figure>
       <div class="prime-account-content">
@@ -32,7 +32,7 @@
       <ul class="mailbox-sidebar-nav">
         <li class="mailbox-sidebar-nav-item active">
           <a class="mailbox-sidebar-nav-link no-icon"
-            ><span class="mailbox-sidebar-nav-label">{{ 'contacts.all_contacts' | translate }}</span> <span class="badge badge-square">{{ contactsState?.totalContacts }}</span></a
+            ><span class="mailbox-sidebar-nav-label">{{ 'contacts.all_contacts' | translate }}</span> <span class="badge">{{ contactsState?.totalContacts }}</span></a
           >
         </li>
       </ul>

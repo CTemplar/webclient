@@ -35,13 +35,14 @@ import {
   ReadMailSuccess,
   SettingsUpdateUsedStorage,
   StarredFolderCountUpdate,
+  SnackErrorPush,
 } from '../../store/actions';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
 import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { SharedService } from '../../store/services';
-import { darkModeCss, PRIMARY_WEBSITE } from '../../shared/config';
+import { PRIMARY_WEBSITE } from '../../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -190,7 +191,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
         }
-        // this.handleDarkMode(user.settings.is_night_mode);
         this.handleCustomCss(user.settings.custom_css);
       });
 
@@ -230,8 +230,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
       this.forceLightMode = parameters.lightMode;
       if (this.forceLightMode) {
-        // this.handleDarkMode(false);
-        this.themeToggleService.forceUpdateTheme(false);
+        this.themeToggleService.forceLightModeTheme();
       }
     });
   }
@@ -272,14 +271,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
-  handleDarkMode(isNightMode) {
-    if (isNightMode && !this.forceLightMode) {
-      document.querySelector('#night-mode').innerHTML = darkModeCss;
-    } else {
-      document.querySelector('#night-mode').innerHTML = '';
-    }
-  }
-
   handleCustomCss(customCss: string) {
     document.querySelector('#ctemplar-custom-css').innerHTML = customCss;
   }
@@ -318,12 +309,18 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.document.body.classList.contains('menu-open')) {
         this.isMenuOpened = true;
       }
-    } else if (this.breakpointsService.isSM() || this.breakpointsService.isMD()) {
+    } else if (this.breakpointsService.isMD()) {
       if (event) {
         this.isSidebarOpened = false;
       } else {
         this.isSidebarOpened = !this.isSidebarOpened;
       }
+    }
+  }
+
+  changeAsideExpand(event) {
+    if (this.breakpointsService.isSM()) {
+      this.isSidebarOpened = event.type === 'mouseover' ? true : false;
     }
   }
 
@@ -341,7 +338,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       },
       error => {
-        console.log(error);
+        this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
       },
     );
   }

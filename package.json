@@ -1,6 +1,6 @@
 {
   "name": "ctemplar",
-  "version": "2.5.13",
+  "version": "2.5.15",
   "license": "Apache",
   "main": "electron-main.js",
   "description": "Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.",
