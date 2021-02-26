@@ -60,7 +60,7 @@ export class SecureMessageEffects {
     mergeMap((payload: any) => {
       return this.mailService.getSecureMessageKeys(payload.hash, payload.secret).pipe(
         switchMap(keys => of(new GetSecureMessageUserKeysSuccess(keys))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get secure message user keys' }))),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get secure message user keys.' }))),
       );
     }),
   );
