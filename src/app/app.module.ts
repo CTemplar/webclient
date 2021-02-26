@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import * as Sentry from '@sentry/browser';
+import { CookieLawModule } from 'angular2-cookie-law';
 
 import { AppComponent } from './app.component';
 import { AppStoreModule } from './store/store.module';
@@ -72,6 +73,7 @@ export class SentryErrorHandler implements ErrorHandler {
     }),
     SharedModule,
     UsersModule,
+    CookieLawModule,
   ],
   providers: [
     AuthGuard,

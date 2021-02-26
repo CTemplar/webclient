@@ -45,6 +45,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "@sentry/browser": "^5.23.0",
+    "angular2-cookie-law": "^7.0.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.2",
     "core-js": "^3.6.4",
