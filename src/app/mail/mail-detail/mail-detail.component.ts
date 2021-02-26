@@ -630,7 +630,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
                   this.downloadAttachment(decryptedAttachment);
                 },
-                error => console.log(error),
+                error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to decrypt attachment.' })),
               );
           },
           errorResponse =>

@@ -896,7 +896,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 );
               }
             },
-            error => console.log(error),
+            error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to get attachments.' })),
           );
       }
     });
