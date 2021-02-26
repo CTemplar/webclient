@@ -24,6 +24,6 @@ export class PagesDonateComponent implements OnInit {
           // Stripe Loaded Successfully
         });
       })
-      .catch(error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to load stripe loader.' })));
+      .catch(error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to load the payment processing gateway.' })));
   }
 }
