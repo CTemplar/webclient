@@ -911,9 +911,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.userState.settings.default_font) {
       this.quill.format('font', this.userState.settings.default_font);
     }
-    this.quill.getModule('toolbar').addHandler('image', () => {
-      this.quillImageHandler();
-    });
 
     this.quill.on('text-change', () => {
       this.valueChanged$.next();
