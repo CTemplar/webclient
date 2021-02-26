@@ -205,6 +205,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @Input() action: MailAction;
 
+  @Input() is_html: boolean;
+
   @Input() action_parent: number;
 
   @Input() isMailDetailPage: boolean;
@@ -456,7 +458,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.settings = user.settings;
         this.night_mode = this.settings.is_night_mode;
         // Set html/plain version from user's settings.
-        if (this.draftMail && this.draftMail.is_html === null) {
+        if (
+          (this.action === 'FORWARD' && this.is_html === undefined) ||
+          (this.draftMail && this.draftMail.is_html === null)
+        ) {
           this.draftMail.is_html = !this.settings.is_html_disabled;
         }
         if (user.settings.is_contacts_encrypted) {
@@ -562,6 +567,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       day: now.getDate(),
     };
 
+    if (this.action === 'FORWARD' && this.is_html !== undefined) {
+      this.draftMail.is_html = this.is_html;
+    }
     this.isSelfDestructionEnable(); // check self destruction is possible or not
     this.initializeAutoSave(); // start auto save function
   }
@@ -721,6 +729,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         setTimeout(() => {
           this.mailData.content = content;
           this.updateSignature();
+          this.mailData.content = this.mailData.content.replace(/\n+$/, '');
         }, 300);
       }
     }
@@ -883,7 +892,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 );
               }
             },
-            error => console.log(error),
+            error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to get attachments.' })),
           );
       }
     });
@@ -1370,7 +1379,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       if (this.settings && !this.draftMail.is_html) {
         // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
+        this.mailData.content = this.mailData.content ? this.mailData.content : '';
         if (this.selectedMailbox.signature) {
           this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}${this.mailData.content}`;
         }

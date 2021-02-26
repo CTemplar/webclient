@@ -308,11 +308,11 @@
   <!-- Password Decryption Form -->
   <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[mail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[mail.id] && !decryptedContents[mail.id]">
     <div class="password-decryption-desc">
-      {{'mail_detail.password_encryption_message_desc' | translate}}
+      {{ 'mail_detail.password_encryption_message_desc' | translate }}
       <div class="password-decryption-desc-password-hint text-dark">
-        {{'mail_detail.password_hint' | translate}}
+        {{ 'mail_detail.password_hint' | translate }}
         <div class="font-weight-bold font-style-italic d-inline-block">
-          {{mail.encryption && mail.encryption.password_hint ? mail.encryption.password_hint : ''}}
+          {{ mail.encryption && mail.encryption.password_hint ? mail.encryption.password_hint : '' }}
         </div>
       </div>
     </div>
@@ -321,7 +321,7 @@
     </div>
     <div class="decrypt-password-form mb-3">
       <div class="input-group decrypt-password-element mr-2">
-        <input class="form-control form-control-sm border-right-0" type="password" id="parentPasswordVC" [placeholder]="'settings.password' | translate"/>
+        <input class="form-control form-control-sm border-right-0" type="password" id="parentPasswordVC" [placeholder]="'settings.password' | translate" />
         <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('parentPasswordVC')">
           <i class="fa fa-eye"></i>
           <i class="fa fa-eye-slash"></i>
@@ -535,11 +535,11 @@
             <!-- Password Decryption Form -->
             <div class="ui-body is-xs bg-faded mail-header decrypt-password-form-container" [ngbCollapse]="!mailExpandedStatus[childMail.id]" id="ngb-collapse" *ngIf="isPasswordEncrypted[childMail.id] && !decryptedContents[childMail.id]">
               <div class="password-decryption-desc">
-                {{'mail_detail.password_encryption_message_desc' | translate}}
+                {{ 'mail_detail.password_encryption_message_desc' | translate }}
                 <div class="password-decryption-desc-password-hint text-dark">
-                  {{'mail_detail.password_hint' | translate}}
+                  {{ 'mail_detail.password_hint' | translate }}
                   <div class="font-weight-bold font-style-italic d-inline-block">
-                    {{childMail.encryption && childMail.encryption.password_hint ? childMail.encryption.password_hint : ''}}
+                    {{ childMail.encryption && childMail.encryption.password_hint ? childMail.encryption.password_hint : '' }}
                   </div>
                 </div>
               </div>
@@ -548,7 +548,7 @@
               </div>
               <div class="decrypt-password-form mb-3">
                 <div class="input-group decrypt-password-element mr-2">
-                  <input class="form-control form-control-sm border-right-0" type="password" [id]="'childPasswordVC_' + childIndex" [placeholder]="'settings.password' | translate"/>
+                  <input class="form-control form-control-sm border-right-0" type="password" [id]="'childPasswordVC_' + childIndex" [placeholder]="'settings.password' | translate" />
                   <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('childPasswordVC_' + childIndex)">
                     <i class="fa fa-eye"></i>
                     <i class="fa fa-eye-slash"></i>
@@ -682,7 +682,7 @@
       </div>
     </div>
     <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="mailOptions[mail.id]?.isComposeMailVisible && !draftNew?.id">
-      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers" [cc]="composeMailData[mail.id]?.cc" [content]="composeMailData[mail.id]?.content" [action]="composeMailData[mail.id]?.action" [action_parent]="composeMailData[mail.id].action_parent_id" [subject]="composeMailData[mail.id]?.subject" [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox" [parentId]="composeMailData[mail.id]?.parentId" [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId" [showSaveButton]="false" [isMailDetailPage]="true" (hide)="onComposeMailHide(mail)" (popUpChange)="onChangePopup($event)"> </app-compose-mail>
+      <app-compose-mail [receivers]="composeMailData[mail.id]?.receivers" [cc]="composeMailData[mail.id]?.cc" [content]="composeMailData[mail.id]?.content" [action]="composeMailData[mail.id]?.action" [action_parent]="composeMailData[mail.id].action_parent_id" [subject]="composeMailData[mail.id]?.subject" [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox" [parentId]="composeMailData[mail.id]?.parentId" [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId" [showSaveButton]="false" [isMailDetailPage]="true" [is_html]="composeMailData[mail.id]?.is_html" (hide)="onComposeMailHide(mail)" (popUpChange)="onChangePopup($event)"> </app-compose-mail>
     </div>
     <div *ngIf="isReplyContext && draftNew?.id && draftNew.folder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH" class="mail-composer is-borderd border-bottom-0 mt-2">
       <app-compose-mail [draftMail]="draftNew" [isMailDetailPage]="true" [showSaveButton]="false" (popUpChange)="onChangePopup($event)" (hide)="onComposeMailHide(draftNew)"></app-compose-mail>

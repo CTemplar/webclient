@@ -5,6 +5,7 @@ import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as bcrypt from 'bcryptjs';
+import * as Sentry from '@sentry/browser';
 
 import { LogInSuccess } from '../actions';
 import {
@@ -498,7 +499,7 @@ export class UsersService {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      Sentry.captureException(error.originalError || error);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

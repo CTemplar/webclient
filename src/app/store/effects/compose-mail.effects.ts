@@ -4,7 +4,6 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, Subscription } from 'rxjs';
 import { catchError, finalize, map, mergeMap, switchMap, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 import { MailService } from '../services';
 import {
@@ -167,7 +166,7 @@ export class ComposeMailEffects {
           switchMap(keys =>
             of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, data: keys, isBlind: false })),
           ),
-          catchError(error => EMPTY),
+          catchError(error => of(new SnackErrorPush({ message: 'Failed to get public keys.' }))),
         );
       } else {
         return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));

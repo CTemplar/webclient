@@ -621,7 +621,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
                   this.downloadAttachment(decryptedAttachment);
                 },
-                error => console.log(error),
+                error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to decrypt attachment.' })),
               );
           },
           errorResponse =>
@@ -774,9 +774,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: this.getForwardMessageSummary(mail),
       subject: `Fwd: ${this.mail.subject}`,
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
+      action: MailAction.FORWARD,
+      is_html: mail.is_html,
     };
     this.selectedMailToForward = mail;
-    this.composeMailData[mail.id].action = MailAction.FORWARD;
     this.setActionParent(mail, isChildMail, mainReply);
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {

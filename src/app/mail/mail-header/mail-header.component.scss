@@ -348,4 +348,8 @@
     font-size: 28px;
     line-height: 35px;
   }
+
+  @include media('<=xs') {
+    display: none !important;
+  }
 }
