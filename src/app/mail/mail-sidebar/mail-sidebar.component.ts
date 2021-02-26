@@ -338,7 +338,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       },
       error => {
-        this.store.dispatch(new SnackErrorPush({ message: 'Failed to show notification.' }));
+        this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
       },
     );
   }
