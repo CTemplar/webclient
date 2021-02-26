@@ -44,9 +44,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     // this.store.dispatch(new RefreshToken());
     this.store.dispatch(new FinalLoading({ loadingState: true }));
-    this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
-    this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
-    this.sharedService.isMail.subscribe(data => (this.isMail = data));
+    this.sharedService.hideHeader.subscribe((data: boolean) => (this.hideHeader = data));
+    this.sharedService.hideFooter.subscribe((data: boolean) => (this.hideFooter = data));
+    this.sharedService.isMail.subscribe((data: boolean) => (this.isMail = data));
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');

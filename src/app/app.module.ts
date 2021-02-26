@@ -26,7 +26,7 @@ import {
   OpenPgpService,
   SharedService,
   TokenInterceptor,
-  CancelPendingRequestInterceptor
+  CancelPendingRequestInterceptor,
 } from './store/services';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
@@ -43,7 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {}
 
-  handleError(error) {
+  handleError(error: any) {
     Sentry.captureException(error.originalError || error);
     // Sentry.showReportDialog({ eventId });
   }

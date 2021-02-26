@@ -36,13 +36,13 @@ export enum ContactsProviderType {
   styleUrls: ['./mail-contact.component.scss'],
 })
 export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('importContactsModal') importContactsModal;
+  @ViewChild('importContactsModal') importContactsModal: any;
 
-  @ViewChild('confirmDeleteModal') confirmDeleteModal;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
 
-  @ViewChild('addUserContent') addUserContent;
+  @ViewChild('addUserContent') addUserContent: any;
 
-  @ViewChild('notifyContactsModal') notifyContactsModal;
+  @ViewChild('notifyContactsModal') notifyContactsModal: any;
 
   contactsProviderType = ContactsProviderType;
 
@@ -124,7 +124,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     this.isMobile = window.innerWidth <= 768;
   }
 
@@ -195,7 +195,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedContact = null;
   }
 
-  addUserContactModalOpen(addUserContent) {
+  addUserContactModalOpen(addUserContent: any) {
     this.isNewContact = true;
     this.modalService.open(addUserContent, {
       centered: true,
@@ -208,7 +208,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  editContact(contact: Contact, addUserContent) {
+  editContact(contact: Contact, addUserContent: any) {
     this.selectedContact = contact;
     if (this.breakpointsService.isSM()) {
       this.addUserContactModalOpen(addUserContent);
@@ -223,7 +223,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
   }
 
-  openConfirmDeleteModal(modalReference) {
+  openConfirmDeleteModal(modalReference: any) {
     this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
     if (this.selectedContacts.length === 0) {
       return;
@@ -238,7 +238,7 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
     this.confirmModalRef.close();
   }
 
-  selectEntire(status) {
+  selectEntire(status: boolean) {
     if (status) {
       this.checkAll = true;
     } else {

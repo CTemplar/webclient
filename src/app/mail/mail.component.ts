@@ -145,7 +145,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   // get window width as real time when change screen's size
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     this.composeMailService.getWindowWidth(window.innerWidth);
   }
 

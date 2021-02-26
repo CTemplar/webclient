@@ -16,8 +16,8 @@ const BaseImageFormat = Quill.import('formats/image');
 const ImageFormatAttributesList = ['alt', 'height', 'width', 'style'];
 
 export class ImageFormat extends BaseImageFormat {
-  static formats(domNode) {
-    return ImageFormatAttributesList.reduce(function (formats, attribute) {
+  static formats(domNode: any) {
+    return ImageFormatAttributesList.reduce(function (formats: any, attribute) {
       if (domNode.hasAttribute(attribute)) {
         formats[attribute] = domNode.getAttribute(attribute);
       }
@@ -25,7 +25,7 @@ export class ImageFormat extends BaseImageFormat {
     }, {});
   }
 
-  format(name, value) {
+  format(name: string, value: any) {
     const self: any = this;
     if (ImageFormatAttributesList.includes(name)) {
       if (value) {
@@ -78,7 +78,7 @@ export class SharedService {
    * @description
    * Prime Users - Can create as many folders as they want
    */
-  openCreateFolderDialog(isPrime, customFolders: Folder[], callback: { self: any; method: string } = null) {
+  openCreateFolderDialog(isPrime: boolean, customFolders: Folder[], callback: { self: any; method: string } = null) {
     this.openModal(callback);
   }
 

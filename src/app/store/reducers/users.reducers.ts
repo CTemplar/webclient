@@ -34,8 +34,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CARD_READ_SUCCESS: {
       const cardsPayload = action.payload.cards;
-      const cards = [];
-      cardsPayload.forEach(card => {
+      const cards: any[] = [];
+      cardsPayload.forEach((card: any) => {
         cards.push(card);
       });
       return {
@@ -159,13 +159,18 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, isLoaded: false };
     }
     case UsersActionTypes.ACCOUNT_DETAILS_GET_SUCCESS: {
-
       // Sanitize auto responder msg
       if (action.payload.autoresponder && action.payload.autoresponder.autoresponder_message) {
-        action.payload.autoresponder.autoresponder_message = SafePipe.processSanitization(action.payload.autoresponder.autoresponder_message, false);
+        action.payload.autoresponder.autoresponder_message = SafePipe.processSanitization(
+          action.payload.autoresponder.autoresponder_message,
+          false,
+        );
       }
       if (action.payload.autoresponder && action.payload.autoresponder.vacationautoresponder_message) {
-        action.payload.autoresponder.vacationautoresponder_message = SafePipe.processSanitization(action.payload.autoresponder.vacationautoresponder_message, false);
+        action.payload.autoresponder.vacationautoresponder_message = SafePipe.processSanitization(
+          action.payload.autoresponder.vacationautoresponder_message,
+          false,
+        );
       }
       return {
         ...state,
@@ -174,12 +179,12 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         isPrime: action.payload.is_prime,
         joinedDate: action.payload.joined_date,
         settings: action.payload.settings,
-        mailboxes: action.payload.mailboxes.map((item, index) => {
+        mailboxes: action.payload.mailboxes.map((item: any, index: number) => {
           item.sort_order = item.sort_order || index + 1;
           return item;
         }),
         payment_transaction: action.payload.payment_transaction ? action.payload.payment_transaction : {},
-        customFolders: action.payload.custom_folders.map((item, index) => {
+        customFolders: action.payload.custom_folders.map((item: any, index: number) => {
           item.sort_order = item.sort_order || index + 1;
           return item;
         }),

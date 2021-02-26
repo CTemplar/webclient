@@ -88,7 +88,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   onClose() {
     if (this.action === MailAction.REPLY) {
-      setTimeout(res => {
+      setTimeout(() => {
         this.store.dispatch(new SetIsComposerPopUp(false));
       }, 2000);
     }
@@ -102,7 +102,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     }
   }
 
-  subjectChanged($event) {
+  subjectChanged($event: string) {
     this.mailSubject = $event;
   }
 

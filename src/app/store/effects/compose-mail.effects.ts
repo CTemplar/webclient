@@ -61,7 +61,7 @@ export class ComposeMailEffects {
     map((action: UploadAttachment) => action.payload),
     mergeMap(payload => {
       // TODO: replace custom observable with switchMap
-      return Observable.create(observer => {
+      return Observable.create((observer: any) => {
         const request: Subscription = this.mailService
           .uploadFile(payload)
           .pipe(finalize(() => observer.complete()))
@@ -106,7 +106,7 @@ export class ComposeMailEffects {
     ofType(ComposeMailActionTypes.SEND_MAIL),
     map((action: SendMail) => action.payload),
     mergeMap((payload: Draft) => {
-      let message;
+      let message: string;
       if (payload.draft.dead_man_duration || payload.draft.delayed_delivery) {
         if (payload.draft.delayed_delivery === 'CancelSend') {
           payload.draft.delayed_delivery = null;

@@ -84,10 +84,10 @@ export interface Payment {
   annualDiscountRate?: number;
   classId?: string;
   monthlyDiscountRate?: number;
-  monthlyFee: any;
+  monthlyFee: number;
   selected: boolean;
   title: string;
-  totalAnnualFee: any;
+  totalAnnualFee: number;
 }
 
 export interface UserMailbox {

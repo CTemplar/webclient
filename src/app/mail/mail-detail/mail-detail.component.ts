@@ -38,7 +38,7 @@ import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../..
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
-declare let Scrambler;
+declare let Scrambler: (arg0: { target: string; random: number[]; speed: number; text: string }) => void;
 
 @UntilDestroy()
 @Component({
@@ -47,9 +47,9 @@ declare let Scrambler;
   styleUrls: ['./mail-detail.component.scss'],
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
-  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
-  @ViewChild('includeAttachmentsModal') includeAttachmentsModal;
-  @ViewChild('incomingHeadersModal') incomingHeadersModal;
+  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
+  @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
+  @ViewChild('incomingHeadersModal') incomingHeadersModal: any;
 
   mail: Mail;
 
@@ -401,7 +401,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     this.isMobile = window.innerWidth <= 768;
   }
 
@@ -536,15 +536,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
   }
 
-  makeArrayOf(value, length) {
-    const array = [];
-    let i = length;
-    while (i--) {
-      array[i] = value;
-    }
-    return array;
-  }
-
   decryptChildEmails(child: Mail) {
     if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
       this.decryptedContents[child.id] = child.content;
@@ -592,8 +583,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       return [];
     }
     headers = JSON.parse(headers);
-    const headersArray = [];
-    headers.forEach(header => {
+    const headersArray: { key: string; value: any }[] = [];
+    headers.forEach((header: any) => {
       Object.keys(header).map(key => {
         if (header.hasOwnProperty(key)) {
           headersArray.push({ key, value: header[key] });
@@ -752,7 +743,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         : [mail.receiver, ...mail.cc, ...mail.bcc];
     }
     this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers.filter(
-      email => email !== this.currentMailbox.email,
+      (email: string) => email !== this.currentMailbox.email,
     );
     this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
@@ -836,7 +827,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       );
       this.onDeleteCollapseMail(mail.id);
     }
-    let excepted_children = [];
+    let excepted_children: any[] = [];
     if (this.mail.children) {
       excepted_children =
         this.mailFolder === this.mailFolderTypes.TRASH
@@ -906,7 +897,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(event, mail: Mail, withChildren: boolean = true) {
+  ontoggleStarred(event: any, mail: Mail, withChildren: boolean = true) {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(
@@ -934,7 +925,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack(500);
   }
 
-  onCancelSend(mail) {
+  onCancelSend(mail: any) {
     mail.delayed_delivery = 'CancelSend';
     const updatedMail = { draft: mail };
     this.store.dispatch(new SendMail(updatedMail));

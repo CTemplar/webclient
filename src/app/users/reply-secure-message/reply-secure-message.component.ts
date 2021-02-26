@@ -25,7 +25,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 
 class ImageBlot extends QuillBlockEmbed {
-  static create(value) {
+  static create(value: any) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
     if (value.content_id) {
@@ -34,7 +34,7 @@ class ImageBlot extends QuillBlockEmbed {
     return node;
   }
 
-  static value(node) {
+  static value(node: any) {
     return {
       content_id: node.getAttribute('data-content-id'),
       url: node.getAttribute('src'),
@@ -66,9 +66,9 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
 
   @Output() replySuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @ViewChild('editor') editor;
+  @ViewChild('editor') editor: any;
 
-  @ViewChild('toolbar') toolbar;
+  @ViewChild('toolbar') toolbar: any;
 
   colors = COLORS;
 
