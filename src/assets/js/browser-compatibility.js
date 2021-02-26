@@ -35,11 +35,11 @@ if (!checkSupportBrowser()) {
   document.body.style.fontFamily = '"Lato", Helvetica, Arial, sans-serif';
   document.body.innerHTML = ' \
     <div style="margin-top: 120px; font-size: 3.5rem; font-weight: 600;"> CTEMPLAR </div> \
-    <div style="margin-top: 50px; font-size: 24px;"> We detected you are using Internet Explorer that we do not support,\
-      <a target="_blank" rel="noopener noreferrer" onclick="openEdge();" id="openInEdge" href="#" style="color: white;">click here to open Edge</a>\
+    <div style="margin-top: 50px; font-size: 24px;"> We\'ve detected you are using an unsupported version of Internet Explorer,\
+      <a target="_blank" rel="noopener noreferrer" onclick="openEdge();" id="openInEdge" href="#" style="color: white;">click here to open in Edge</a>\
     </div> \
-    <div style="margin-top: 15px; color: lightgray; font-size: 18px;"> Please visit CTemplar\'s  \
-      <a target="_blank" rel="noopener noreferrer" href="microsoft-edge:https://ctemplar.com/help/answer/browser-support/" style="color: lightgray;">support browsers </a> \
+    <div style="margin-top: 15px; color: lightgray; font-size: 18px;"> or visit CTemplar\'s list of \
+      <a target="_blank" rel="noopener noreferrer" href="microsoft-edge:https://ctemplar.com/help/answer/browser-support/" style="color: lightgray;">supported browsers</a> \
      for more information. </div> \
   ';
 }
@@ -52,8 +52,8 @@ if (!checkSupportCryptoBrowser()) {
   document.body.innerHTML = ' \
     <div style="margin-top: 120px; font-size: 3.5rem; font-weight: 600;"> CTEMPLAR </div> \
     <div style="margin-top: 50px; font-size: 24px;"> A browser that has crypto (A Pseudo Random Number Generator) is required to use CTemplar.</div> \
-    <div style="margin-top: 15px; color: lightgray; font-size: 18px;"> Please visit CTemplar\'s  \
-      <a target="_blank" rel="noopener noreferrer" href="microsoft-edge:https://ctemplar.com/help/answer/browser-support/" style="color: lightgray;">support browsers </a> \
+    <div style="margin-top: 15px; color: lightgray; font-size: 18px;"> Please visit CTemplar\'s list of  \
+      <a target="_blank" rel="noopener noreferrer" href="microsoft-edge:https://ctemplar.com/help/answer/browser-support/" style="color: lightgray;">supported browsers</a> \
      for more information. </div> \
   ';
 }
