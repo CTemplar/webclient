@@ -157,6 +157,7 @@ export class OpenPgpService {
             isPGPInProgress: false,
             decryptedContent: event.data.decryptedContent,
             isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+            decryptError: event.data.error
           }),
         );
         if (this.subjects[event.data.subjectId]) {
@@ -283,7 +284,7 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
-  decrypt(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects = false) {
+  decryptProcess(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects = false, subjectId: number) {
     if (this.decryptedPrivKeys) {
       if (!mailData.isSubjectEncrypted) {
         mailData.subject = null;
@@ -296,12 +297,20 @@ export class OpenPgpService {
           decryptedContent: {},
         }),
       );
-      this.pgpWorker.postMessage({ mailboxId, mailData, isDecryptingAllSubjects, decrypt: true, callerId: mailId });
+      this.pgpWorker.postMessage({ mailboxId, mailData, isDecryptingAllSubjects, decrypt: true, callerId: mailId, subjectId });
     } else {
       setTimeout(() => {
-        this.decrypt(mailboxId, mailId, mailData);
+        this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId);
       }, 1000);
     }
+  }
+
+  decrypt(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects = false) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId);
+    return subject.asObservable();
   }
 
   // Encrypt - Decrypt Contacts

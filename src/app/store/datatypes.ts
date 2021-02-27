@@ -391,6 +391,8 @@ export class SecureContent {
 
   parent?: number;
 
+  decryptError?: boolean;
+
   constructor(data?: Mail) {
     if (data) {
       this.content = data.content;

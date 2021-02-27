@@ -82,7 +82,7 @@ onmessage = async function (event) {
     postMessage({ keys: decryptedPrivKeys, decryptPrivateKeys: true });
   } else if (event.data.decrypt) {
     if (!event.data.mailboxId) {
-      postMessage({ decryptedContent: {}, decrypted: true, callerId: event.data.callerId });
+      postMessage({ decryptedContent: {}, decrypted: true, callerId: event.data.callerId, subjectId: event.data.subjectId });
     } else {
       decryptContent(event.data.mailData.content, decryptedPrivKeys[event.data.mailboxId]).then(content => {
         decryptContent(event.data.mailData.subject, decryptedPrivKeys[event.data.mailboxId]).then(subject => {
@@ -109,6 +109,14 @@ onmessage = async function (event) {
               }
             },
           );
+        });
+      }).catch(() => {
+        postMessage({
+          decryptedContent: {},
+          decrypted: true,
+          callerId: event.data.callerId,
+          subjectId: event.data.subjectId,
+          error: true
         });
       });
     }

@@ -227,7 +227,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   this.mail.content != undefined))
             ) {
               this.isDecrypting[this.mail.id] = true;
-              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
+              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
+                .subscribe(
+                  () => {
+                  },
+                  error => {
+                    this.decryptedContents[this.mail.id] = this.mail.content;
+                    this.isDecrypting[this.mail.id] = false;
+                  },
+                );
             }
             // If done to decrypt, 
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
@@ -294,7 +302,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                     (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
                 ) {
                   this.isDecrypting[this.mail.id] = true;
-                  this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
+                  this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
+                    .pipe(take(1))
+                    .subscribe(
+                      () => {
+                      },
+                      error => {
+                        this.decryptedContents[this.mail.id] = this.mail.content;
+                        this.isDecrypting[this.mail.id] = false;
+                      },
+                    );
                 }
               }
             }, 1000);
