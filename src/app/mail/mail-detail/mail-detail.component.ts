@@ -1045,10 +1045,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   scrollTo(elementReference: any) {
     if (elementReference) {
       setTimeout(() => {
-        window.scrollTo({
-          top: elementReference.offsetTop,
-          behavior: 'smooth',
-        });
+        elementReference.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     }
   }
