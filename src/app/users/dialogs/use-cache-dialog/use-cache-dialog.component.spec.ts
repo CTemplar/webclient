@@ -8,9 +8,8 @@ describe('UseCacheDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UseCacheDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [UseCacheDialogComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

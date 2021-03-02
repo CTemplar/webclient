@@ -85,7 +85,9 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
                 this.downloadAttachment(decryptedAttachment);
               },
               error =>
-                this.store.dispatch(new SnackErrorPush({ message: 'Failed to decrypt the attachment with the password.' })),
+                this.store.dispatch(
+                  new SnackErrorPush({ message: 'Failed to decrypt the attachment with the password.' }),
+                ),
             );
         },
         errorResponse =>

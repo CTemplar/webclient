@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/CTemplar/webclient.svg?branch=master)](https://travis-ci.org/CTemplar/webclient)
 
-Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service. 
+Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.
 
 ## Usage
 
@@ -28,6 +28,7 @@ Examples:
 npm run build:electron
 npm run pack:electron -- --windows --x64
 ```
+
 OR
 
 ```bash
@@ -60,7 +61,7 @@ For more information, execute `npm run pack:electron -- --help` or visit [electr
 
 If you get the following error when running on Linux:
 
-```[10777:1211/040811.848719:FATAL:setuid_sandbox_host.cc(158)] The SUID sandbox helper binary was found, but is not configured correctly. Rather than run without sandboxing I'm aborting now. You need to make sure that /tmp/.mount_CTemplR0XoE6/chrome-sandbox is owned by root and has mode 4755.```
+`[10777:1211/040811.848719:FATAL:setuid_sandbox_host.cc(158)] The SUID sandbox helper binary was found, but is not configured correctly. Rather than run without sandboxing I'm aborting now. You need to make sure that /tmp/.mount_CTemplR0XoE6/chrome-sandbox is owned by root and has mode 4755.`
 
 Try adding `--no-sandbox` when running the AppImage executable.
 

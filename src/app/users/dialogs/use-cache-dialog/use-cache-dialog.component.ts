@@ -6,16 +6,12 @@ import { NOT_FIRST_LOGIN, SYNC_DATA_WITH_STORE } from '../../../shared/config';
 @Component({
   selector: 'app-use-cache-dialog',
   templateUrl: './use-cache-dialog.component.html',
-  styleUrls: ['./use-cache-dialog.component.scss']
+  styleUrls: ['./use-cache-dialog.component.scss'],
 })
 export class UseCacheDialogComponent implements OnInit {
+  constructor(public activeModal: NgbActiveModal) {}
 
-  constructor(
-    public activeModal: NgbActiveModal,
-  ) { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onFlagSaveDecryptedSubject() {
     localStorage.setItem(SYNC_DATA_WITH_STORE, 'true');
@@ -28,5 +24,4 @@ export class UseCacheDialogComponent implements OnInit {
     localStorage.setItem(SYNC_DATA_WITH_STORE, 'false');
     this.activeModal.dismiss();
   }
-
 }
