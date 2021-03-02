@@ -90,7 +90,7 @@ import { ThemeToggleService } from './services/theme-toggle-service';
     CreditCardNumberPipe,
     LineBreakToBrTag,
     EmailFormatPipe,
-    CircleBarSpinnerComponent
+    CircleBarSpinnerComponent,
   ],
   providers: [
     SpinnerService,
@@ -101,7 +101,7 @@ import { ThemeToggleService } from './services/theme-toggle-service';
     CreditCardNumberPipe,
     LineBreakToBrTag,
     EmailFormatPipe,
-    ThemeToggleService
+    ThemeToggleService,
   ],
   entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent],
 })

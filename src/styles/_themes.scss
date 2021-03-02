@@ -1,11 +1,11 @@
 .theme-light {
-    @each $name, $value in $variables {
-        #{$name}: nth($value, 1);
-    }
+  @each $name, $value in $variables {
+    #{$name}: nth($value, 1);
+  }
 }
 
 .theme-dark {
-    @each $name, $value in $variables {
-        #{$name}: nth($value, 2);
-    }
+  @each $name, $value in $variables {
+    #{$name}: nth($value, 2);
+  }
 }

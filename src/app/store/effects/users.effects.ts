@@ -762,9 +762,7 @@ export class UsersEffects {
         catchError(errorResponse =>
           of(
             new SnackErrorPush({
-              message: errorResponse.error
-                ? errorResponse.error
-                : 'Failed generate invite code.',
+              message: errorResponse.error ? errorResponse.error : 'Failed generate invite code.',
             }),
             new GenerateInviteCodeFailure(),
           ),

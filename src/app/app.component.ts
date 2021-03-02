@@ -18,7 +18,6 @@ import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/con
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-
   @ViewChild('cookieLaw') cookieLawEl: any;
 
   public hideFooter = false;
@@ -114,15 +113,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.cookieLawEl.dismiss();
   }
 
-  checkCookie(){
+  checkCookie() {
     let cookieEnabled = navigator.cookieEnabled;
-    if (!cookieEnabled){ 
+    if (!cookieEnabled) {
       // Checking if cookie is absolutely disabled
-        document.cookie = "testcookie";
-        cookieEnabled = document.cookie.indexOf("testcookie")!=-1;
+      document.cookie = 'testcookie';
+      cookieEnabled = document.cookie.indexOf('testcookie') != -1;
     }
     this.cookieEnabled = cookieEnabled;
-}
+  }
 
   ngOnDestroy(): void {}
 }
