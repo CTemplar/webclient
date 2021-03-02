@@ -36,8 +36,7 @@
             <i class="icon icon-inbox"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.inbox' | translate }}</span>
             <ng-container *ngIf="mailState?.unreadMailsCount?.inbox > 0">
-              <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{ mailState?.unreadMailsCount?.inbox }}</span>
-              <span class="badge badge-sm badge-square d-none d-sm-block">{{ mailState?.unreadMailsCount?.inbox }}</span>
+              <span class="badge">{{ mailState?.unreadMailsCount?.inbox }}</span>
             </ng-container>
           </a>
         </li>
@@ -46,7 +45,7 @@
           <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
             <i class="icon icon-draft"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.draft' | translate }}</span>
-            <span *ngIf="mailState?.unreadMailsCount?.draft" class="badge badge-square d-lg-block d-md-block d-sm-none">
+            <span *ngIf="mailState?.unreadMailsCount?.draft" class="badge">
               {{ mailState?.unreadMailsCount?.draft }}
             </span>
           </a>
@@ -64,10 +63,10 @@
             <img alt="outbox" class="icon mail-outbox" src="assets/images/outbox.svg" />
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.outbox' | translate }}</span>
             <span class="badge outbox">
-              <span class="badge-square hidden-sm-down badge-counter badge-success" *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter > 0">
+              <span class="badge-counter badge-success" *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter > 0">
                 {{ mailState?.unreadMailsCount?.outbox_delayed_delivery_counter }}
               </span>
-              <span class="badge-square hidden-sm-down badge-counter badge-danger" *ngIf="mailState?.unreadMailsCount?.outbox_dead_man_counter > 0">
+              <span class="badge-counter badge-danger" *ngIf="mailState?.unreadMailsCount?.outbox_dead_man_counter > 0">
                 {{ mailState?.unreadMailsCount?.outbox_dead_man_counter }}
               </span>
             </span>
@@ -86,8 +85,7 @@
             <img alt="unread" class="icon mail-unread" src="assets/images/mail-unread.svg" />
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.unread' | translate }}</span>
             <ng-container *ngIf="mailState?.unreadMailsCount?.total_unread_count > 0">
-              <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{ mailState?.unreadMailsCount?.total_unread_count }}</span>
-              <span class="badge badge-sm badge-square d-none d-sm-block">{{ mailState?.unreadMailsCount?.total_unread_count }}</span>
+              <span class="badge">{{ mailState?.unreadMailsCount?.total_unread_count }}</span>
             </ng-container>
           </a>
         </li>
@@ -97,8 +95,7 @@
             <i class="icon icon-star"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.starred' | translate }}</span>
             <ng-container *ngIf="starredCount > 0">
-              <span class="badge badge-square d-lg-block d-md-block d-sm-none">{{ starredCount }}</span>
-              <span class="badge badge-sm badge-square d-none d-sm-block">{{ starredCount }}</span>
+              <span class="badge">{{ starredCount }}</span>
             </ng-container>
           </a>
         </li>
@@ -114,7 +111,7 @@
           <a routerLink="/mail/spam/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
             <i class="icon icon-warning"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.spam' | translate }}</span>
-            <span *ngIf="mailState?.unreadMailsCount?.spam" class="badge badge-square d-lg-block d-md-block d-sm-none">
+            <span *ngIf="mailState?.unreadMailsCount?.spam" class="badge">
               {{ mailState?.unreadMailsCount?.spam }}
             </span>
           </a>
@@ -142,7 +139,7 @@
               <span class="mailbox-sidebar-nav-label">
                 {{ folder.name }}
               </span>
-              <span class="badge badge-square hidden-sm-down badge-position" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0">{{ mailState?.unreadMailsCount[folder.name] }}</span>
+              <span class="badge badge-square badge-position" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0">{{ mailState?.unreadMailsCount[folder.name] }}</span>
             </a>
           </div>
         </li>

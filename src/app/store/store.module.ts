@@ -15,14 +15,14 @@ import { REMEMBER_ME, SYNC_DATA_WITH_STORE } from '../shared/config';
 import { MailActionTypes } from '../store/actions/mail.actions';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action: any) {
     const nextState = reducer(state, action);
-    
-    if (
-      action.type === MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT && 
-      action['payload'].isDecryptingAllSubjects && 
-      !action['payload'].isPGPInProgress) {
 
+    if (
+      action.type === MailActionTypes.UPDATE_PGP_DECRYPTED_CONTENT &&
+      action['payload'].isDecryptingAllSubjects &&
+      !action['payload'].isPGPInProgress
+    ) {
       const isNeedSync = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
       if (isNeedSync) {
         const isRememberMe = localStorage.getItem(REMEMBER_ME) === 'true' ? true : false;
@@ -35,40 +35,41 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
       }
     }
     return nextState;
-  }
+  };
 }
 
 export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  
-  return function(state, action) {
+  return function (state, action) {
     const nextState = reducer(state, action);
     if (action.type === INIT) {
       const isNeedSync = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
       const isRememberMe = localStorage.getItem(REMEMBER_ME) === 'true' ? true : false;
       if (isNeedSync) {
-        const storageValue = isRememberMe ? localStorage.getItem("ctemplar_mail") : sessionStorage.getItem("ctemplar_mail");
+        const storageValue = isRememberMe
+          ? localStorage.getItem('ctemplar_mail')
+          : sessionStorage.getItem('ctemplar_mail');
         try {
           const parsedStorageValue = JSON.parse(storageValue);
           if (parsedStorageValue && parsedStorageValue['decryptedSubjects']) {
-            const retVal = {...nextState, mail: {...nextState.mail, ...parsedStorageValue}}
+            const retVal = { ...nextState, mail: { ...nextState.mail, ...parsedStorageValue } };
             return retVal;
           }
         } catch {
           if (isRememberMe) {
-            localStorage.removeItem("ctemplar_mail");
+            localStorage.removeItem('ctemplar_mail');
           } else {
-            sessionStorage.removeItem("ctemplar_mail");
+            sessionStorage.removeItem('ctemplar_mail');
           }
         }
       } else {
         if (isRememberMe) {
-          localStorage.removeItem("ctemplar_mail");
+          localStorage.removeItem('ctemplar_mail');
         } else {
-          sessionStorage.removeItem("ctemplar_mail");
+          sessionStorage.removeItem('ctemplar_mail');
         }
       }
     }
- 
+
     return nextState;
   };
 }

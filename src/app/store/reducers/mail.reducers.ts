@@ -51,7 +51,7 @@ export function reducer(
           ? oldFolderInfo && !oldFolderInfo.is_not_first_page
             ? filterAndMergeMailIDs(payloadMails, oldFolderInfo.mails, action.payload.limit)
             : oldFolderInfo.mails
-          : payloadMails.map(mail => mail.id);
+          : payloadMails.map((mail: any) => mail.id);
         const folderState = {
           mails: mailIDS,
           total_mail_count: action.payload.total_mail_count,
@@ -191,8 +191,8 @@ export function reducer(
       if (targetFolderName && folderMap.has(targetFolderName)) {
         const targetFolderState = folderMap.get(targetFolderName);
         const movedMails = listOfIDs
-          .map(movedID => (mailMap[movedID] ? mailMap[movedID] : null))
-          .filter(mail => !!mail);
+          .map((movedID: any) => (mailMap[movedID] ? mailMap[movedID] : null))
+          .filter((mail: any) => !!mail);
         const basicFolderState = getUpdatesFolderMap(movedMails, targetFolderState, state.pageLimit);
         const folderState = {
           ...targetFolderState,
@@ -243,7 +243,7 @@ export function reducer(
       // This is to move to trash only child from any folder
       // should update children_folder_info as well
       const incomeMails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
-      incomeMails.forEach(mail => {
+      incomeMails.forEach((mail: any) => {
         if (action.payload.folder === MailFolderType.TRASH && mail.parent) {
           const parentID = mail.parent;
           if (mailMap[parentID] && mailMap[parentID].children_folder_info) {
@@ -318,7 +318,7 @@ export function reducer(
         folderMap.set(action.payload.folder, oldFolderMap);
       }
       // Update mail children info
-      undo_mails.forEach(mail => {
+      undo_mails.forEach((mail: any) => {
         if (action.payload.sourceFolder === MailFolderType.TRASH && mail.has_children && mail.children_count > 0) {
           // Action from the other to Trash folder (undo from trash to the other folder)
           // All children would be set with Trash again
@@ -820,15 +820,15 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
     .filter(mail => !!mail);
   const sorted = mails
     .sort((previous: any, next: any) => {
-      const next_updated = next.updated || null;
-      const previous_updated = previous.updated || null;
+      const next_updated = next.updated || 0;
+      const previous_updated = previous.updated || 0;
       return <any>new Date(next_updated) - <any>new Date(previous_updated);
     })
     .map(mail => mail.id);
   return sorted;
 }
 
-function getTotalUnreadCount(data): number {
+function getTotalUnreadCount(data: any): number {
   if (data) {
     let total_count = 0;
     Object.keys(data).map(key => {
@@ -874,7 +874,7 @@ function filterAndMergeMailIDs(
   checkUnread: boolean = false,
 ): Array<number> {
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
-  let newMailsMap = {};
+  let newMailsMap: any = {};
   newMails.forEach(mail => {
     newMailsMap[mail.id] = mail;
   });
@@ -906,13 +906,13 @@ function getUpdatesFolderMap(
 ): any {
   let originalMailIDs = originalFolderState.mails;
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
-  let newMailsMap = {};
+  let newMailsMap: any = {};
   newMails.forEach(mail => {
     newMailsMap[mail.id] = mail;
   });
   if (originalMailIDs && originalMailIDs.length > 0) {
     // Remove duplicated mails
-    let duplicatedMailIDS = [];
+    let duplicatedMailIDS: any = [];
     originalMailIDs = originalMailIDs.filter(id => {
       if (mailIDs.indexOf(id) < 0) {
         return true;
@@ -924,13 +924,13 @@ function getUpdatesFolderMap(
     // Check children mails
     // If new's parent is same with any original mail
     // Replace it with original mail on new mail array
-    let parentWithChild = [];
+    let parentWithChild: any = [];
     if (isConversationViewMode) {
       mailIDs = mailIDs.map(mailID => {
         const newMail = newMailsMap[mailID];
         if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
           originalMailIDs = originalMailIDs.filter(originMailID => originMailID !== newMail.parent);
-          parentWithChild = [...parentWithChild.filter(item => newMail.parent !== item), newMail.parent];
+          parentWithChild = [...parentWithChild.filter((item: any) => newMail.parent !== item), newMail.parent];
           return newMail.parent;
         }
         return mailID;

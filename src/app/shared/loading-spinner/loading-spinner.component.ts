@@ -13,7 +13,7 @@ export class LoadingSpinnerComponent implements OnInit {
   // Width and Height in Pixel unit
   @Input() width: number = 40;
   @Input() height: number = 40;
-  @Input() color: string = "#3a4e63";
+  @Input() color: string = '#3a4e63';
 
   constructor() {}
 

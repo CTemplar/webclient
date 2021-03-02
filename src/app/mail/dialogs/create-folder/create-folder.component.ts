@@ -36,10 +36,7 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.customFolderForm = this.fb.group({
-      folderName: [
-        this.folder.name,
-        [Validators.required, Validators.maxLength(30)],
-      ],
+      folderName: [this.folder.name, [Validators.required, Validators.maxLength(30)]],
       color: this.folder.color,
     });
     if (this.folder.color) {

@@ -33,7 +33,7 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() paymentMethod: PaymentMethod;
 
-  @ViewChild('billingInfoModal') billingInfoModal;
+  @ViewChild('billingInfoModal') billingInfoModal: any;
 
   private billingInfoModalRef: NgbModalRef;
 
@@ -41,11 +41,11 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
 
   selectedPlan: PlanType;
 
-  availableStorage = [];
+  availableStorage: number[] = [];
 
-  availableEmailAddress = [];
+  availableEmailAddress: number[] = [];
 
-  availableCustomDomain = [];
+  availableCustomDomain: number[] = [];
 
   pricingPlans: Array<PricingPlan> = [];
 
@@ -83,13 +83,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: any) {}
-
-  // == Toggle active state of the slide in price page
-  toggleSlides(index) {
-    this.selectedIndex = index;
-    document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document.querySelector('.package-prime-col').classList.remove('active-slide');
-  }
 
   setPricingPlans() {
     if (SharedService.PRICING_PLANS_ARRAY.length > 0) {

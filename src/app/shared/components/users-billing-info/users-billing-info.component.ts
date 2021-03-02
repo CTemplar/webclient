@@ -58,7 +58,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   @Input() paymentMethod: PaymentMethod;
 
-  @Input() currency;
+  @Input() currency: any;
 
   @Input() storage: number;
 
@@ -68,7 +68,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   paymentTypeEnum = PaymentType;
 
-  cardNumber;
+  cardNumber: number;
 
   promoCode: PromoCode = new PromoCode();
 
@@ -78,11 +78,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   expiryYear = 'Year';
 
-  cvc;
+  cvc: number;
 
   months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
 
-  years = [];
+  years: number[] = [];
 
   paymentMethodType = PaymentMethod;
 
@@ -240,7 +240,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.timerObservable.unsubscribe();
     }
     const timerReference: any = timer(1000, 1000);
-    this.timerObservable = timerReference.pipe(untilDestroyed(this)).subscribe(t => {
+    this.timerObservable = timerReference.pipe(untilDestroyed(this)).subscribe((t: number) => {
       this.seconds = (3600 - t) % 60;
       this.minutes = (3600 - t - this.seconds) / 60;
     });
@@ -265,7 +265,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.isScriptsLoading = false;
         });
       })
-      .catch(error => console.log(error));
+      .catch(error =>
+        this.store.dispatch(new SnackErrorPush({ message: 'Failed to load the payment processing gateway.' })),
+      );
   }
 
   getToken() {
@@ -467,12 +469,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     );
   }
 
-  selectMonth(month) {
+  selectMonth(month: string) {
     this.expiryMonth = month;
     this.checkStripeValidation();
   }
 
-  selectYear(year) {
+  selectYear(year: string) {
     this.expiryYear = year;
     this.checkStripeValidation();
   }
@@ -488,7 +490,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     }
   }
 
-  onCancel(event) {
+  onCancel(event: any) {
     event.preventDefault();
     if (this.isUpgradeAccount) {
       this.close.emit(true);

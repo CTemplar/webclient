@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,8 @@ import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/con
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @ViewChild('cookieLaw') cookieLawEl: any;
+
   public hideFooter = false;
 
   public hideHeader = false;
@@ -32,6 +34,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isAuthenticated: boolean;
 
+  cookieEnabled: boolean = true;
+
   constructor(
     public router: Router,
     private sharedService: SharedService,
@@ -41,9 +45,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     // this.store.dispatch(new RefreshToken());
     this.store.dispatch(new FinalLoading({ loadingState: true }));
-    this.sharedService.hideHeader.subscribe(data => (this.hideHeader = data));
-    this.sharedService.hideFooter.subscribe(data => (this.hideFooter = data));
-    this.sharedService.isMail.subscribe(data => (this.isMail = data));
+    this.sharedService.hideHeader.subscribe((data: boolean) => (this.hideHeader = data));
+    this.sharedService.hideFooter.subscribe((data: boolean) => (this.hideFooter = data));
+    this.sharedService.isMail.subscribe((data: boolean) => (this.isMail = data));
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');
@@ -67,6 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.checkCookie();
   }
 
   ngOnInit() {
@@ -102,6 +107,20 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((loadingState: LoadingState) => {
         this.isLoading = loadingState.Loading;
       });
+  }
+
+  dismiss(): void {
+    this.cookieLawEl.dismiss();
+  }
+
+  checkCookie() {
+    let cookieEnabled = navigator.cookieEnabled;
+    if (!cookieEnabled) {
+      // Checking if cookie is absolutely disabled
+      document.cookie = 'testcookie';
+      cookieEnabled = document.cookie.indexOf('testcookie') != -1;
+    }
+    this.cookieEnabled = cookieEnabled;
   }
 
   ngOnDestroy(): void {}

@@ -64,7 +64,7 @@ export class AuthEffects {
     private authService: UsersService,
     private notificationService: NotificationService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   @Effect()
@@ -361,14 +361,11 @@ export class AuthEffects {
 
   openUseCacheConfirmDialog() {
     const ngbModalOptions: NgbModalOptions = {
-      backdrop : 'static',
-      keyboard : false,
+      backdrop: 'static',
+      keyboard: false,
       centered: true,
       windowClass: 'modal-sm users-action-modal',
     };
-    /*this.useCacheDialogRef =  */ this.modalService.open(
-      UseCacheDialogComponent,
-      ngbModalOptions
-    );
+    /*this.useCacheDialogRef =  */ this.modalService.open(UseCacheDialogComponent, ngbModalOptions);
   }
 }

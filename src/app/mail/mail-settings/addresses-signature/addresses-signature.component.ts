@@ -239,15 +239,15 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     )}`;
   }
 
-  onSignatureChange(value) {
+  onSignatureChange(value: string) {
     this.signatureChanged.next(value);
   }
 
-  signatureFocused(value) {
+  signatureFocused(value: boolean) {
     SharedService.isQuillEditorOpen = value;
   }
 
-  updateMailboxSettings(selectedMailbox: Mailbox, key: string, value: any) {
+  updateMailboxSettings(selectedMailbox: any, key: string, value: any) {
     if (selectedMailbox[key] !== value) {
       selectedMailbox.inProgress = true;
       // Sanitizing for signature & display_name

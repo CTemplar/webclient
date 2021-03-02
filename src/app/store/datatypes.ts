@@ -686,8 +686,8 @@ export enum MailAction {
 
 export type NumberBooleanMappedType = {
   [key: number]: boolean;
-}
+};
 
 export type NumberStringMappedType = {
   [key: number]: string;
-}
+};

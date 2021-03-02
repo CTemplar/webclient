@@ -23,7 +23,7 @@ import { HttpCancelService } from '../../store/services';
   styleUrls: ['./mail-header.component.scss'],
 })
 export class MailHeaderComponent implements OnInit, OnDestroy {
-  @ViewChild('logoutModal') logoutModal;
+  @ViewChild('logoutModal') logoutModal: any;
 
   // Public property of boolean type set false by default
   menuIsOpened = false;
@@ -93,7 +93,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  setSearchPlaceholder(url) {
+  setSearchPlaceholder(url: string) {
     this.isContactsPage = url === '/mail/contacts';
     this.searchPlaceholder = this.isContactsPage ? 'common.search_contacts' : 'common.search';
   }
@@ -133,7 +133,7 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
     }, 2500);
   }
 
-  openComposeMailDialog(receivers) {
+  openComposeMailDialog(receivers: any) {
     this.composeMailService.openComposeMailDialog({ receivers });
   }
 
