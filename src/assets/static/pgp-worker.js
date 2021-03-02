@@ -112,7 +112,7 @@ onmessage = async function (event) {
         });
       }).catch(() => {
         postMessage({
-          decryptedContent: {},
+          decryptedContent: { incomingHeaders: event.data.mailData.incomingHeaders, content: event.data.mailData.content, subject: event.data.mailData.subject, content_plain: event.data.mailData.content_plain },
           decrypted: true,
           callerId: event.data.callerId,
           subjectId: event.data.subjectId,
@@ -298,8 +298,8 @@ async function decryptContent(data, privKeyObj) {
       return payload.data;
     });
   } catch (e) {
-    console.error(e);
-    return Promise.resolve(data);
+    console.log(e);
+    return Promise.reject(data);
   }
 }
 

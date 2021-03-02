@@ -56,6 +56,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   decryptedHeaders: any = {};
 
+  isDecryptingError: boolean = false;
+
   selectedHeaders: string;
 
   mailOptions: any = {};
@@ -247,6 +249,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
               this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
+              this.isDecryptingError = decryptedContent.decryptError;
               this.handleEmailLinks();
 
               // Automatically scrolls to last element in the list
