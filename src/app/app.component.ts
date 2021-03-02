@@ -35,6 +35,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isAuthenticated: boolean;
 
+  cookieEnabled: boolean = true;
+
   constructor(
     public router: Router,
     private sharedService: SharedService,
@@ -70,6 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.checkCookie();
   }
 
   ngOnInit() {
@@ -110,6 +113,16 @@ export class AppComponent implements OnInit, OnDestroy {
   dismiss(): void {
     this.cookieLawEl.dismiss();
   }
+
+  checkCookie(){
+    let cookieEnabled = navigator.cookieEnabled;
+    if (!cookieEnabled){ 
+      // Checking if cookie is absolutely disabled
+        document.cookie = "testcookie";
+        cookieEnabled = document.cookie.indexOf("testcookie")!=-1;
+    }
+    this.cookieEnabled = cookieEnabled;
+}
 
   ngOnDestroy(): void {}
 }
