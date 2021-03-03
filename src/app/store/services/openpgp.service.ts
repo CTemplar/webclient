@@ -84,14 +84,13 @@ export class OpenPgpService {
           this.mailboxes = mailBoxesState.mailboxes;
           this.allPrivateKeys = this.allPrivateKeys || {};
           this.pubkeys = this.pubkeys || {};
+          this.pubkeysArray = [];
           const mailboxKeysMap = mailBoxesState.mailboxKeysMap;
           mailBoxesState.mailboxes.forEach(mailbox => {
             if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
               this.allPrivateKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => key.private_key);
-            }
-            if (!this.pubkeys[mailbox.id]) {
-              this.pubkeys[mailbox.id] = mailbox.public_key;
-              this.pubkeysArray.push(mailbox.public_key);
+              this.pubkeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => key.public_key);
+              this.pubkeysArray = [ ...this.pubkeysArray, ...this.pubkeys[mailbox.id] ];
             }
             if (mailbox.is_default && !this.primaryMailbox) {
               this.primaryMailbox = mailbox;
@@ -203,6 +202,7 @@ export class OpenPgpService {
           new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
         );
       } else if (event.data.changePassphrase) {
+        // TODO - should be updated
         event.data.keys.forEach(item => {
           item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
         });
@@ -300,8 +300,7 @@ export class OpenPgpService {
   // Encrypt - Decrypt content
   encrypt(mailboxId, draftId, mailData: SecureContent, publicKeys: any[] = []) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
-
-    publicKeys.push(this.pubkeys[mailboxId]);
+    publicKeys.concat(this.pubkeys[mailboxId]);
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
@@ -387,7 +386,7 @@ export class OpenPgpService {
   // Encrypt - Decrypt attachment
   encryptAttachment(mailboxId, attachment: Attachment, publicKeys: any[] = []) {
     this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
-    publicKeys.push(this.pubkeys[mailboxId]);
+    publicKeys.concat(this.pubkeys[mailboxId]);
     const reader = new FileReader();
     reader.addEventListener('load', (event: any) => {
       const buffer = event.target.result;

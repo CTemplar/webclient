@@ -120,7 +120,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
               pubKeys[item.mailbox_id] = item.public_key;
             });
             this.openPgpService.clearData(pubKeys);
-            this.openPgpService.decryptPrivateKeys(privKeys, this.changePasswordForm.value.password);
+            this.openPgpService.decryptAllPrivateKeys(privKeys, this.changePasswordForm.value.password);
           }
           this.inProgress = false;
         }
