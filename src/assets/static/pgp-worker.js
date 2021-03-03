@@ -3,13 +3,11 @@ self.window = { crypto: self.crypto }; // to make UMD bundles work
 importScripts('openpgp.min.js');
 var openpgp = window.openpgp;
 
-var decryptedPrivKeys = {};
 var decryptedAllPrivKeys = {};
 var decryptedSecureMsgPrivKeyObj;
 
 onmessage = async function (event) {
   if (event.data.clear) {
-    decryptedPrivKeys = {};
     decryptedAllPrivKeys = {};
   } else if (event.data.encrypt) {
     encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
@@ -22,7 +20,7 @@ onmessage = async function (event) {
       postMessage({ encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment });
     });
   } else if (event.data.decryptAttachment) {
-    decryptAttachment(event.data.fileData, decryptedPrivKeys[event.data.mailboxId]).then(content => {
+    decryptAttachment(event.data.fileData, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
       postMessage({
         decryptedContent: content,
         decryptedAttachment: true,
@@ -272,6 +270,7 @@ async function generateNewKeys(mailboxes, password, username) {
   return { keys: newKeys, changePassphrase: true };
 }
 
+// TODO - Should be updated with decryptedAllKey
 async function changePassphrase(passphrase) {
   var privkeys = [];
   for (var key in decryptedPrivKeys) {
@@ -343,6 +342,7 @@ async function encryptAttachment(data, publicKeys) {
 }
 
 async function decryptAttachment(data, privKeyObj) {
+  console.log('low level => decrypting attachment with privkey', privKeyObj)
   const tmpDecodedData = atob(data);
   const isArmored = tmpDecodedData.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
   if (!data) {
@@ -351,7 +351,7 @@ async function decryptAttachment(data, privKeyObj) {
   try {
     const options = {
       message: isArmored ? await openpgp.message.readArmored(tmpDecodedData) : await openpgp.message.read(openpgp.util.b64_to_Uint8Array(data)),
-      privateKeys: [privKeyObj],
+      privateKeys: privKeyObj,
       format: 'binary'
     };
     return openpgp.decrypt(options).then(payload => {

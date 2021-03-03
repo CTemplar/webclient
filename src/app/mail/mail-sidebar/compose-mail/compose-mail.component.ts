@@ -436,7 +436,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.usersKeys = response.usersKeys;
         const receivers = this.draftMail.receiver;
         if (receivers && receivers.length > 0) {
-          const receiversToFetchKey = receivers.filter(rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching));
+          const receiversToFetchKey = receivers.map(rec => (parseEmail.parseOneAddress(rec) as parseEmail.ParsedMailbox).address).filter(rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching));
           if (receiversToFetchKey.length > 0) {
             this.store.dispatch(
               new GetUsersKeys({

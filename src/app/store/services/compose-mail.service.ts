@@ -80,10 +80,9 @@ export class ComposeMailService {
               } 
               else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 let publicKeys = [];
-                
-                if (this.getShouldBeEncrypted(draftMail, usersKeys)/* || hasSshEncryption*/) {
+                if (this.getShouldBeEncrypted(draftMail, usersKeys)) {
                   draftMail.draft.is_encrypted = true;
-                  publicKeys = this.getPublicKeys(draftMail, usersKeys).filter(item => item.is_enabled).map(item => item.public_key);
+                  publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
                 }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                   draftMail.attachments.forEach(attachment => {
@@ -201,7 +200,7 @@ export class ComposeMailService {
       let keys = [];
       receivers.forEach(receiver => {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        keys.push(usersKeys.get(parsedEmail.address).key);
+        keys = [ ...keys, ...usersKeys.get(parsedEmail.address).key ];
       });
       return keys;
     }

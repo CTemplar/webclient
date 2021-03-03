@@ -450,7 +450,7 @@ export interface ComposeMailState {
 
 export interface GlobalPublicKey {
   isFetching: boolean;
-  key: PublicKey;
+  key: Array<PublicKey>;
 }
 
 export interface MailBoxesState {
