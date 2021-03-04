@@ -70,16 +70,6 @@ onmessage = async function (event) {
         subjectId: event.data.subjectId,
       });
     });
-  // } else if (event.data.decryptPrivateKeys) {
-  //   if (event.data.privkeys) {
-  //     event.data.privkeys.forEach(async key => {
-  //       if (!decryptedPrivKeys[key.mailboxId] || decryptedPrivKeys[key.mailboxId] !== key.privKey) {
-  //         decryptedPrivKeys[key.mailboxId] = (await openpgp.key.readArmored(key.privkey)).keys[0];
-  //         decryptedPrivKeys[key.mailboxId].decrypt(event.data.user_key);
-  //       }
-  //     });
-  //   }
-  //   postMessage({ keys: decryptedPrivKeys, decryptPrivateKeys: true });
   } else if (event.data.decryptAllPrivateKeys) {
     if (event.data.privkeys) {
       var keyMap = event.data.privkeys;
@@ -199,7 +189,7 @@ onmessage = async function (event) {
         postMessage({ ...event.data });
       });
     } else if (event.data.isContact) {
-      decryptContent(event.data.content, decryptedAllPrivKeysde[event.data.mailboxId]).then(content => {
+      decryptContent(event.data.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
         postMessage({ ...event.data, content });
       });
     }
@@ -272,18 +262,18 @@ async function generateNewKeys(mailboxes, password, username) {
 
 // TODO - Should be updated with decryptedAllKey
 async function changePassphrase(passphrase) {
-  var privkeys = [];
-  for (var key in decryptedPrivKeys) {
-    if (decryptedPrivKeys.hasOwnProperty(key)) {
-      await decryptedPrivKeys[key].encrypt(passphrase);
-      privkeys.push({
-        mailbox_id: key,
-        private_key: decryptedPrivKeys[key].armor(),
-      });
-      decryptedPrivKeys[key].decrypt(passphrase);
+  var keysMap = {};
+  for (const mailboxId in decryptedAllPrivKeys) {
+    var keys = [];
+    var keysByMailbox = decryptedAllPrivKeys[mailboxId];
+    for (var i = 0; i < keysByMailbox.length; i++) {
+      var tmpKey = keysByMailbox[i];
+      await tmpKey.encrypt(passphrase);
+      keys.push({ private_key: tmpKey.armor() });
     }
+    keysMap[mailboxId] = keys;
   }
-  return { keys: privkeys, changePassphrase: true };
+  return { keys: keysMap, changePassphrase: true };
 }
 
 async function encryptContent(data, publicKeys) {
@@ -305,7 +295,6 @@ async function encryptContent(data, publicKeys) {
 }
 
 async function decryptContent(data, privKeyObj) {
-  console.log('low level => decrypting content with privkey', privKeyObj)
   if (!data) {
     return Promise.resolve(data);
   }
@@ -342,7 +331,6 @@ async function encryptAttachment(data, publicKeys) {
 }
 
 async function decryptAttachment(data, privKeyObj) {
-  console.log('low level => decrypting attachment with privkey', privKeyObj)
   const tmpDecodedData = atob(data);
   const isArmored = tmpDecodedData.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
   if (!data) {

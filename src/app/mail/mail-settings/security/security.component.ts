@@ -67,7 +67,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   isUsingLocalStorage: boolean;
 
-  private updatedPrivateKeys: Array<any>;
+  private updatedPrivateKeys: Map<number, any>;
 
   private canDispatchChangePassphrase: boolean;
 
@@ -104,7 +104,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         this.auth2FA = authState.auth2FA;
         if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
           this.canDispatchChangePassphrase = false;
-          this.updatedPrivateKeys = [...authState.updatedPrivateKeys];
+          this.updatedPrivateKeys = {...authState.updatedPrivateKeys};
           this.changePasswordConfirmed();
           this.store.dispatch(new ChangePassphraseSuccess(null));
         }
@@ -113,14 +113,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
           if (authState.isChangePasswordError) {
             this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
           } else {
-            const privKeys: any = {};
-            const pubKeys: any = {};
-            this.updatedPrivateKeys.forEach(item => {
-              privKeys[item.mailbox_id] = item.private_key;
-              pubKeys[item.mailbox_id] = item.public_key;
+            let privateKeysMap = {};
+            Object.keys(this.updatedPrivateKeys).forEach(mailboxId => {
+              privateKeysMap[mailboxId] = this.updatedPrivateKeys[mailboxId].map(keys => keys.private_key);
             });
-            this.openPgpService.clearData(pubKeys);
-            this.openPgpService.decryptAllPrivateKeys(privKeys, this.changePasswordForm.value.password);
+            this.openPgpService.clearData(this.updatedPrivateKeys);
+            this.openPgpService.decryptAllPrivateKeys(privateKeysMap, this.changePasswordForm.value.password);
           }
           this.inProgress = false;
         }

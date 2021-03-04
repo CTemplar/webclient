@@ -31,7 +31,12 @@ export function reducer(
         primaryKey.fingerprint = mailbox.fingerprint;
         primaryKey.key_type = mailbox.key_type;
         primaryKey.is_primary = true;
-        mailboxKeysMap.set(mailbox.id, [ primaryKey ]);
+        if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
+          const tmpKeys = mailboxKeysMap.get(mailbox.id).filter((key, index) => index !== 0);
+          mailboxKeysMap.set(mailbox.id, [ primaryKey, ...tmpKeys ]);
+        } else {
+          mailboxKeysMap.set(mailbox.id, [ primaryKey ]);
+        }
       });
       return {
         ...state,
@@ -168,20 +173,46 @@ export function reducer(
     }
 
     case MailActionTypes.FETCH_MAILBOX_KEYS_SUCCESS: {
-      const mailboxKeys = action.payload.results;
       const mailboxKeysMap = state.mailboxKeysMap;
-      const mailboxes = state.mailboxes;
-      if (mailboxKeys && mailboxKeys.length > 0) {
-        mailboxes.forEach((mailbox: Mailbox) => {
-          const specificKeys = mailboxKeys.filter(key => key.mailbox === mailbox.id);
-          const originKeys = mailboxKeysMap.get(mailbox.id);
-          mailboxKeysMap.set(mailbox.id, [ ...originKeys, ...specificKeys]);
+      if (action.payload.updateKeyMap) {
+        const keyMap = action.payload.keyMap;
+        debugger
+        [ ...mailboxKeysMap.keys() ].forEach(mailboxId => {
+          if (mailboxKeysMap.get(mailboxId).length > 0 && keyMap[mailboxId] && keyMap[mailboxId].length > 0) {
+            const updatedKeys = mailboxKeysMap.get(mailboxId).map((key, index) => {
+              if (keyMap[mailboxId].length > index + 1) {
+                return {
+                  ...key,
+                  private_key: keyMap[mailboxId][index].private_key,
+                  public_key: keyMap[mailboxId][index].public_key,
+                };
+              } else {
+                return key;
+              }
+            });
+            mailboxKeysMap.set(mailboxId, updatedKeys);
+          }
         });
-      }
-      return {
-        ...state,
-        mailboxKeysMap,
-        mailboxKeyInProgress: false,
+        return {
+          ...state,
+          mailboxKeysMap,
+          mailboxKeyInProgress: false,
+        }
+      } else {
+        const mailboxKeys = action.payload.results;
+        const mailboxes = state.mailboxes;
+        if (mailboxKeys && mailboxKeys.length > 0) {
+          mailboxes.forEach((mailbox: Mailbox) => {
+            const specificKeys = mailboxKeys.filter(key => key.mailbox === mailbox.id);
+            const originKeys = mailboxKeysMap.get(mailbox.id);
+            mailboxKeysMap.set(mailbox.id, [ ...originKeys, ...specificKeys]);
+          });
+        }
+        return {
+          ...state,
+          mailboxKeysMap,
+          mailboxKeyInProgress: false,
+        }
       }
     }
 
