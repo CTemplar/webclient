@@ -486,6 +486,32 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">Universal Spam Filter</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="universalSpamFilter1" name="[universalSpamFilter]" type="radio" (click)="updateSettings('universal_spam_filter', true)" [checked]="settings.universal_spam_filter" />
+                          <label for="universalSpamFilter1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col" *ngIf="isPrime">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="universalSpamFilter2" name="[universalSpamFilter]" type="radio" (click)="updateSettings('universal_spam_filter', false)" [checked]="!settings.universal_spam_filter" />
+                          <label for="universalSpamFilter2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="info-card mt-2 mx-3 full-width" *ngIf="!isPrime">
+                    <p [translate]="'settings.upgrade_to_change_spam_filter'">Upgrade to Prime to change the spam filter setting!</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

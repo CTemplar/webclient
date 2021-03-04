@@ -107,6 +107,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   notificationEmail: string;
 
+  isPrime: boolean;
+
   autosave_duration: any = {};
 
   WhitelistItems: any = [];
@@ -176,6 +178,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
+        this.isPrime = user.isPrime;
         this.userState = user;
         this.WhitelistItems = user.whiteList;
         this.BlacklistItems = user.blackList;
