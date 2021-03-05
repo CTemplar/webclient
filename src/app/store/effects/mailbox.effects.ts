@@ -22,21 +22,21 @@ import {
   UpdateMailboxOrderSuccess,
 } from '../actions';
 import { Mailbox } from '../models';
-import { 
-  FetchMailboxKeys, 
-  FetchMailboxKeysFailure, 
-  FetchMailboxKeysSuccess, 
-  MailboxSettingsUpdate, 
-  MailboxSettingsUpdateSuccess, 
-  AddMailboxKeys, 
-  AddMailboxKeysFailure, 
-  AddMailboxKeysSuccess, 
-  DeleteMailboxKeys, 
-  DeleteMailboxKeysFailure, 
-  DeleteMailboxKeysSuccess, 
+import {
+  FetchMailboxKeys,
+  FetchMailboxKeysFailure,
+  FetchMailboxKeysSuccess,
+  MailboxSettingsUpdate,
+  MailboxSettingsUpdateSuccess,
+  AddMailboxKeys,
+  AddMailboxKeysFailure,
+  AddMailboxKeysSuccess,
+  DeleteMailboxKeys,
+  DeleteMailboxKeysFailure,
+  DeleteMailboxKeysSuccess,
   SetMailboxKeyPrimary,
   SetMailboxKeyPrimarySuccess,
-  SetMailboxKeyPrimaryFailure
+  SetMailboxKeyPrimaryFailure,
 } from '../actions/mail.actions';
 import { SnackErrorPush, SnackPush } from '../actions/users.action';
 import { MailboxKey } from '../datatypes';
@@ -51,10 +51,7 @@ export class MailboxEffects {
     map((action: GetMailboxes) => action.payload),
     switchMap(payload => {
       return this.mailService.getMailboxes(payload.limit, payload.offset).pipe(
-        switchMap(mails => of(
-          new GetMailboxesSuccess(mails),
-          new FetchMailboxKeys(),
-        )),
+        switchMap(mails => of(new GetMailboxesSuccess(mails), new FetchMailboxKeys())),
         catchError(error => of(new SnackErrorPush({ message: 'Failed to get mailboxes.' }))),
       );
     }),
@@ -155,11 +152,7 @@ export class MailboxEffects {
     map((action: FetchMailboxKeys) => action.payload),
     switchMap(() => {
       return this.mailService.fetchMailboxKeys().pipe(
-        switchMap(res =>
-          of(
-            new FetchMailboxKeysSuccess(res),
-          ),
-        ),
+        switchMap(res => of(new FetchMailboxKeysSuccess(res))),
         catchError(error => of(new FetchMailboxKeysFailure())),
       );
     }),
@@ -177,10 +170,9 @@ export class MailboxEffects {
             new SnackPush({ message: 'Mailbox Key has been added successfully' }),
           ),
         ),
-        catchError(error => of(
-          new AddMailboxKeysFailure(),
-          new SnackErrorPush({ message: 'Failed to add mailbox key' }),
-          )),
+        catchError(error =>
+          of(new AddMailboxKeysFailure(), new SnackErrorPush({ message: 'Failed to add mailbox key' })),
+        ),
       );
     }),
   );
@@ -197,10 +189,9 @@ export class MailboxEffects {
             new SnackPush({ message: 'Mailbox Key has been deleted successfully' }),
           ),
         ),
-        catchError(error => of(
-          new DeleteMailboxKeysFailure(),
-          new SnackErrorPush({ message: 'Failed to delete mailbox key' }),
-          )),
+        catchError(error =>
+          of(new DeleteMailboxKeysFailure(), new SnackErrorPush({ message: 'Failed to delete mailbox key' })),
+        ),
       );
     }),
   );
@@ -217,10 +208,12 @@ export class MailboxEffects {
             new SnackPush({ message: 'Mailbox key has been updated successfully' }),
           ),
         ),
-        catchError(error => of(
-          new SetMailboxKeyPrimaryFailure(),
-          new SnackErrorPush({ message: 'Failed to set mailbox key as primary' }),
-          )),
+        catchError(error =>
+          of(
+            new SetMailboxKeyPrimaryFailure(),
+            new SnackErrorPush({ message: 'Failed to set mailbox key as primary' }),
+          ),
+        ),
       );
     }),
   );

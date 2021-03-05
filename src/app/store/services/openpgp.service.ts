@@ -91,7 +91,7 @@ export class OpenPgpService {
             if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
               this.allPrivateKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => key.private_key);
               this.pubkeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => key.public_key);
-              this.pubkeysArray = [ ...this.pubkeysArray, ...this.pubkeys[mailbox.id] ];
+              this.pubkeysArray = [...this.pubkeysArray, ...this.pubkeys[mailbox.id]];
             }
             if (mailbox.is_default && !this.primaryMailbox) {
               this.primaryMailbox = mailbox;
@@ -160,7 +160,7 @@ export class OpenPgpService {
             isPGPInProgress: false,
             decryptedContent: event.data.decryptedContent,
             isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-            decryptError: event.data.error
+            decryptError: event.data.error,
           }),
         );
         if (this.subjects[event.data.subjectId]) {
@@ -288,7 +288,13 @@ export class OpenPgpService {
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
-  decryptProcess(mailboxId: number, mailId: number, mailData: SecureContent, isDecryptingAllSubjects = false, subjectId: number) {
+  decryptProcess(
+    mailboxId: number,
+    mailId: number,
+    mailData: SecureContent,
+    isDecryptingAllSubjects = false,
+    subjectId: number,
+  ) {
     if (this.decryptedAllPrivKeys) {
       if (!mailData.isSubjectEncrypted) {
         mailData.subject = null;
@@ -301,7 +307,14 @@ export class OpenPgpService {
           decryptedContent: {},
         }),
       );
-      this.pgpWorker.postMessage({ mailboxId, mailData, isDecryptingAllSubjects, decrypt: true, callerId: mailId, subjectId });
+      this.pgpWorker.postMessage({
+        mailboxId,
+        mailData,
+        isDecryptingAllSubjects,
+        decrypt: true,
+        callerId: mailId,
+        subjectId,
+      });
     } else {
       setTimeout(() => {
         this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId);

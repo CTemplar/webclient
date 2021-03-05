@@ -29,17 +29,17 @@ Quill.register(ImageFormat, true);
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
-  @ViewChild('downloadKeyModal') downloadKeyModal;
+  @ViewChild('downloadKeyModal') downloadKeyModal: any;
 
-  @ViewChild('addNewKeyModal') addNewKeyModal;
+  @ViewChild('addNewKeyModal') addNewKeyModal: any;
 
-  @ViewChild('deleteKeyConfirmModal') deleteKeyConfirmModal;
+  @ViewChild('deleteKeyConfirmModal') deleteKeyConfirmModal: any;
 
-  @ViewChild('setPrimaryKeyConfirmModal') setPrimaryKeyConfirmModal;
+  @ViewChild('setPrimaryKeyConfirmModal') setPrimaryKeyConfirmModal: any;
 
-  @ViewChild('downloadPrivateKeyRef') downloadPrivateKeyRef;
+  @ViewChild('downloadPrivateKeyRef') downloadPrivateKeyRef: any;
 
-  @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef;
+  @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef: any;
 
   private downloadKeyModalRef: NgbModalRef;
 
@@ -394,7 +394,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     this.settingsService.updateSettings(this.settings, key, value);
   }
 
-  onDownloadKey(key, mailbox) {
+  onDownloadKey(key: MailboxKey, mailbox: Mailbox) {
     this.pickedMailboxKeyForUpdate = key;
     this.pickedMailboxForUpdate = mailbox;
     this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
@@ -410,7 +410,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     });
   }
 
-  onRemoveKey(key) {
+  onRemoveKey(key: MailboxKey) {
     this.pickedMailboxKeyForUpdate = key;
     this.deleteKeyConfirmModalRef = this.modalService.open(this.deleteKeyConfirmModal, {
       centered: true,

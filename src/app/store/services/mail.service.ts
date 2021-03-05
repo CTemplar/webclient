@@ -237,13 +237,15 @@ export class MailService {
     return this.http.post(`${apiUrl}emails/mailbox-keys/`, data);
   }
 
-  deleteMailboxKeys(data) {
+  deleteMailboxKeys(data: MailboxKey) {
     return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`);
   }
 
   setPrimaryMailboxKeys(data: MailboxKey) {
-    return this.http.post<any>(`${apiUrl}emails/mailboxes-change-primary/`, { mailbox_id: data.mailbox, mailboxkey_id: data.id });
-    
+    return this.http.post<any>(`${apiUrl}emails/mailboxes-change-primary/`, {
+      mailbox_id: data.mailbox,
+      mailboxkey_id: data.id,
+    });
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
