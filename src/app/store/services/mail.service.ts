@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import * as Sentry from '@sentry/browser';
 
 import { apiUrl } from '../../shared/config';
+import { MailboxKey } from '../datatypes';
 import { Attachment, Folder, Mail, Mailbox } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
@@ -226,6 +227,23 @@ export class MailService {
 
   emptyFolder(data: any) {
     return this.http.post<any>(`${apiUrl}emails/empty-folder/`, data);
+  }
+
+  fetchMailboxKeys() {
+    return this.http.get(`${apiUrl}emails/mailbox-keys/`);
+  }
+
+  addMailboxKeys(data: MailboxKey) {
+    return this.http.post(`${apiUrl}emails/mailbox-keys/`, data);
+  }
+
+  deleteMailboxKeys(data) {
+    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`);
+  }
+
+  setPrimaryMailboxKeys(data: MailboxKey) {
+    return this.http.post<any>(`${apiUrl}emails/mailboxes-change-primary/`, { mailbox_id: data.mailbox, mailboxkey_id: data.id });
+    
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

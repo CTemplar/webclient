@@ -84,6 +84,7 @@ export function reducer(
 
     case ComposeMailActionTypes.GET_USERS_KEYS_SUCCESS: {
       if (action.payload.draftId) {
+        // TODO - should be check
         state.drafts[action.payload.draftId] = {
           ...state.drafts[action.payload.draftId],
           getUserKeyInProgress: false,
@@ -93,8 +94,13 @@ export function reducer(
       // Saving on global user keys
       let usersKeys = state.usersKeys;
       if (!action.payload.isBlind && action.payload.data.keys) {
-        action.payload.data.keys.forEach((key: any) => {
-          usersKeys.set(key.email, { key: key, isFetching: false });
+        action.payload.data.keys.forEach(key => {
+          usersKeys.set(key.email, 
+            { 
+              key: usersKeys.has(key.email) && usersKeys.get(key.email).key && usersKeys.get(key.email).key.length > 0 ? [ ...usersKeys.get(key.email).key, key] : [key] , 
+              isFetching: false 
+            }
+          );
         });
       }
       return {
