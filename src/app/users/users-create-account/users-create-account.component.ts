@@ -16,7 +16,7 @@ import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/conf
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 export class PasswordValidation {
-  static MatchPassword(AC: AbstractControl) {
+  static MatchPassword(AC: AbstractControl): any {
     const password = AC.get('password').value; // to get value in input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
     if (password !== confirmPassword) {

@@ -57,13 +57,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly planType = PlanType;
 
-  @ViewChild('tabSet') tabSet;
+  @ViewChild('tabSet') tabSet: any;
 
-  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal;
+  @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal: any;
 
-  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal;
+  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal: any;
 
-  @ViewChild('billingInfoModal') billingInfoModal;
+  @ViewChild('billingInfoModal') billingInfoModal: any;
 
   selectedIndex = -1; // Assuming no element are selected initially
 
@@ -244,7 +244,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  private _filterTimeZone(name) {
+  private _filterTimeZone(name: string) {
     return this.timezones.filter(option => option.value.toLowerCase().includes(name.toLowerCase()));
   }
 
@@ -256,7 +256,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
    * Convert milliseconds to time format(m:s)
    */
   initAutoSaving() {
-    const autosave_durations = [];
+    const autosave_durations: string[] = [];
     this.autosaveDurations.forEach((duration, index) => {
       if (duration !== 'none' && duration) {
         const perduration = Number(duration);
@@ -274,7 +274,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
-  navigateToTab($event) {
+  navigateToTab($event: any) {
     const tabSelected = $event.nextId;
     if (this.selectedTabQueryParams === tabSelected) {
       return;
@@ -284,13 +284,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeUrlParams() {
     this.router.navigateByUrl(`/mail/settings/${this.selectedTabQueryParams}`);
-  }
-
-  // == Toggle active state of the slide in price page
-  toggleSlides(index) {
-    this.selectedIndex = index;
-    document.querySelector('.package-xs-tab > li').classList.remove('active');
-    document.querySelector('.package-prime-col').classList.remove('active-slide');
   }
 
   onAddNewCard() {
@@ -319,7 +312,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(new CardMakePrimary(card.id));
   }
 
-  billingInfoModalOpen(billingInfoContent) {
+  billingInfoModalOpen(billingInfoContent: any) {
     this.isAddNewCard = false;
     this.modalService.open(billingInfoContent, {
       centered: true,
@@ -348,25 +341,29 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
       : this.userState.blackList;
   }
 
-  moveToBlacklist(id, name, email) {
+  moveToBlacklist(id: number, name: string, email: string) {
     this.store.dispatch(new MoveToBlacklist({ id: id, name: name, email: email }));
   }
 
-  moveToWhitelist(id, name, email) {
+  moveToWhitelist(id: number, name: string, email: string) {
     this.store.dispatch(new MoveToWhitelist({ id: id, name: name, email: email }));
   }
 
-  public deleteWhiteList(id) {
+  public deleteWhiteList(id: number) {
     this.store.dispatch(new WhiteListDelete(id));
   }
 
-  public deleteBlackList(id) {
+  public deleteBlackList(id: number) {
     this.store.dispatch(new BlackListDelete(id));
   }
 
   updateLanguage(language: Language) {
     this.settings.language = language.name;
     this.updateSettings();
+  }
+
+  updateTimeZone(event: any) {
+    this.updateSettings('timezone', event.option.value);
   }
 
   updateConversationMode(is_conversation_mode: boolean) {
@@ -401,7 +398,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  validateEmail(email) {
+  validateEmail(email: string) {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
@@ -465,7 +462,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
 
     this.pushNotificationService.create('Test Notification', options).subscribe(
-      notif => {
+      (notif: any) => {
         if (notif.event.type === 'click') {
           notif.notification.close();
         }
@@ -473,7 +470,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
           new SnackPush({ message: "if you can't see notification, please change notification settings on browser" }),
         );
       },
-      error => {
+      (error: any) => {
         this.store.dispatch(new SnackPush({ message: error }));
       },
     );

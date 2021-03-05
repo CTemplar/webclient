@@ -186,12 +186,12 @@ tag-input {
     height: 20px !important;
     border-radius: 20px !important;
     border: 1px solid lightgrey !important;
-    color: var(--text-color)!important;
-    background-color: var(--composer-tag-background)!important;
+    color: var(--text-color) !important;
+    background-color: var(--composer-tag-background) !important;
     delete-icon {
       svg {
         path {
-          fill: var(--text-color)!important;
+          fill: var(--text-color) !important;
         }
       }
     }
@@ -203,7 +203,7 @@ tag-input {
     }
   }
   tag:hover {
-    box-shadow: 0 2px 3px 1px var(--composer-tag-box-shadow)!important;
+    box-shadow: 0 2px 3px 1px var(--composer-tag-box-shadow) !important;
   }
 
   .ng2-dropdown-menu {
@@ -591,24 +591,35 @@ button[disabled] {
 
 // Overriding global styles
 
-.text-dark, 
+.text-dark,
 .text-dark:hover,
 a.text-dark,
 a.text-dark:hover {
-  color: var(--text-dark)!important;
+  color: var(--text-dark) !important;
 }
 .text-secondary {
-  color: var(--text-muted)!important;
+  color: var(--text-muted) !important;
 }
 .text-faded {
-  color: var(--text-faded)!important;
+  color: var(--text-faded) !important;
 }
 .text-muted {
-  color: var(--text-muted)!important;
+  color: var(--text-muted) !important;
 }
 .bg-faded {
-  background-color: var(--bg-faded)!important;
+  background-color: var(--bg-faded) !important;
 }
 .bg-white {
-  background-color: var(--bg-white)!important;
+  background-color: var(--bg-white) !important;
+}
+
+.cookie-law-wrapper {
+  box-shadow: 0px 0 10px rgba(0, 0, 0, 0.8);
+  background: #2e4154 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !important;
+  color: #f8f9fa !important;
+  a {
+    color: #f8f9fa !important;
+  }
 }

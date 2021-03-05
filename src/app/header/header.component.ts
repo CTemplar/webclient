@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private translate: TranslateService,
   ) {
-    this.sharedService.isExternalPage.subscribe(data => (this.externalPageCallToAction = data));
+    this.sharedService.isExternalPage.subscribe((data: boolean) => (this.externalPageCallToAction = data));
   }
 
   ngOnInit() {

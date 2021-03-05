@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 
 import { MailService } from '../services';
@@ -56,7 +55,7 @@ export class MailboxEffects {
           new GetMailboxesSuccess(mails),
           new FetchMailboxKeys(),
         )),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get mailboxes.' }))),
       );
     }),
   );
@@ -72,6 +71,8 @@ export class MailboxEffects {
           const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
           if (payload.successMsg) {
             actions.push(new SnackErrorPush({ message: payload.successMsg }));
+          } else {
+            actions.push(new SnackErrorPush({ message: 'Settings updated successfully.' }));
           }
           return of(...actions);
         }),
@@ -143,7 +144,7 @@ export class MailboxEffects {
             new DeleteMailboxSuccess(payload),
           ),
         ),
-        catchError(error => of(new SnackErrorPush({ message: `Failed to delete alias. ${error.error}` }))),
+        catchError(error => of(new SnackErrorPush({ message: `Failed to delete alias: ${error.error}` }))),
       );
     }),
   );

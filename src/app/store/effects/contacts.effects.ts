@@ -118,7 +118,7 @@ export class ContactsEffects {
         switchMap(contact => {
           return of(new ContactDeleteSuccess(payload), new SnackPush({ message: 'Contacts deleted successfully.' }));
         }),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete contacts.' }))),
       );
     }),
   );
@@ -160,14 +160,14 @@ export class ContactsEffects {
             return of(
               new ContactImportSuccess(event.body),
               new ContactsGet({ limit: 50, offset: 0 }),
-              new SnackPush({ message: 'Contacts imported successfully' }),
+              new SnackPush({ message: 'Contacts imported successfully.' }),
             );
           }
           return EMPTY;
         }),
         catchError(error => {
           return of(
-            new SnackErrorPush({ message: 'Failed to import contacts' }),
+            new SnackErrorPush({ message: 'Failed to import contacts.' }),
             new ContactImportFailure(error.error),
           );
         }),
@@ -182,7 +182,7 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.getEmailContacts().pipe(
         switchMap(res => of(new GetEmailContactsSuccess(res.results))),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to get email contacts.' }))),
       );
     }),
   );
@@ -194,7 +194,7 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.updateBatchContacts(payload).pipe(
         switchMap(res => of(new UpdateBatchContactsSuccess(payload))),
-        catchError(error => EMPTY),
+        catchError(error => of(new SnackErrorPush({ message: 'Failed to update batch contacts.' }))),
       );
     }),
   );

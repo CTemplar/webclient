@@ -9,7 +9,7 @@ import { AppState, UserState } from '../datatypes';
 export class DateTimeUtilService {
   readonly ISO8601_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 
-  readonly preDefinedFormats = {
+  readonly preDefinedFormats: any = {
     short: 'M/D/YY, h:mm A',
     medium: 'MMM D, YYYY, h:mm:ss A',
     long: 'MMMM D, YYYY, h:mm:ss A Z',

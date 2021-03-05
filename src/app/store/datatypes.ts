@@ -715,7 +715,7 @@ export enum MailAction {
 
 export type NumberBooleanMappedType = {
   [key: number]: boolean;
-}
+};
 
 export type NumberStringMappedType = {
   [key: number]: string;
@@ -738,3 +738,4 @@ export enum PGPKeyType {
   RSA_4096 = 'RSA 4096',
   ECC = 'ECC'
 }
+
