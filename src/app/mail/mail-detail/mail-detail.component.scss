@@ -116,6 +116,16 @@
   }
 }
 
+.message-error {
+  margin: 5px 5px;
+  padding: 1rem;
+  background: #c0392b;
+  color: white;
+  .error-title {
+    font-weight: bold;
+  }
+}
+
 .folder-batch {
   background: #4d5f71;
   color: white;

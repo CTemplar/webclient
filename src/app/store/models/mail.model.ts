@@ -82,6 +82,7 @@ export interface Mailbox {
   public_key: string;
   signature?: string;
   sort_order: number;
+  key_type: string;
 }
 
 export interface Folder {

@@ -193,11 +193,13 @@ export interface ContactsState {
   contacts: Contact[];
   totalContacts: number;
   inProgress?: boolean;
+  advancedSettingInProgress?: boolean;
   isError?: boolean;
   emailContacts?: EmailContact[];
   noOfDecryptedContacts: number;
   contactsToDecrypt: Contact[];
   loaded: boolean;
+  selectedContactKeys: ContactKey[];
 }
 
 export interface EmailContact {
@@ -389,6 +391,8 @@ export class SecureContent {
 
   parent?: number;
 
+  decryptError?: boolean;
+
   constructor(data?: Mail) {
     if (data) {
       this.content = data.content;
@@ -446,7 +450,7 @@ export interface ComposeMailState {
 
 export interface GlobalPublicKey {
   isFetching: boolean;
-  key: PublicKey;
+  key: Array<PublicKey>;
 }
 
 export interface MailBoxesState {
@@ -457,6 +461,8 @@ export interface MailBoxesState {
   encryptionInProgress: boolean;
   inProgress?: boolean;
   isUpdatingOrder?: boolean;
+  mailboxKeysMap?: Map<number, Array<MailboxKey>>; // Date Type => <Mailbox ID, Array of Keys>
+  mailboxKeyInProgress?: boolean;
 }
 
 export interface SecureMessageState {
@@ -527,7 +533,7 @@ export interface Contact {
   phone?: string;
   phone2?: string;
   provider?: string;
-  public_key?: string;
+  encryption_type?: PGPEncryptionType;
 }
 
 export interface AppState {
@@ -642,6 +648,29 @@ export interface PricingPlan {
   remote_encrypted_link: boolean;
 }
 
+// Key model for mailbox key
+export interface MailboxKey {
+  id?: number;
+  mailbox?: number;
+  public_key?: string;
+  private_key?: string;
+  fingerprint?: string;
+  key_type?: string;
+  is_primary?: boolean;
+}
+
+// Key model for contact public key
+export interface ContactKey {
+  id?: number;
+  public_key?: string;
+  fingerprint?: string;
+  key_type?: string;
+  is_primary?: boolean;
+  // created_at?: Date;
+  parsed_emails?: Array<string>;
+  contact?: number;
+}
+
 export enum TransactionStatus {
   PENDING = 'Pending',
   RECEIVED = 'Received',
@@ -686,8 +715,26 @@ export enum MailAction {
 
 export type NumberBooleanMappedType = {
   [key: number]: boolean;
-};
+}
 
 export type NumberStringMappedType = {
   [key: number]: string;
-};
+}
+
+export type StringBooleanMappedType = {
+  [key: string]: boolean;
+}
+
+export type StringStringMappedType = {
+  [key: string]: string;
+}
+
+export enum PGPEncryptionType {
+  PGP_MIME = 'PGP_MIME',
+  PGP_INLINE = 'PGP_INLINE'
+}
+
+export enum PGPKeyType {
+  RSA_4096 = 'RSA 4096',
+  ECC = 'ECC'
+}

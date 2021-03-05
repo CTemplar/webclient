@@ -1,4 +1,4 @@
-import { ContactsState } from '../datatypes';
+import { ContactKey, ContactsState } from '../datatypes';
 import { ContactsActionAll, ContactsActionTypes } from '../actions/contacts.action';
 import { sortByString } from '../services';
 
@@ -8,6 +8,7 @@ export const initialState: ContactsState = {
   noOfDecryptedContacts: 0,
   loaded: false,
   contactsToDecrypt: [],
+  selectedContactKeys: [],
 };
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
@@ -66,7 +67,8 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         contact.email = action.payload.email;
         contact.name = action.payload.name;
         contact.enabled_encryption = action.payload.enabled_encryption;
-        contact.public_key = action.payload.public_key;
+        // TODO should be updated to set public key list
+        // contact.public_key = action.payload.public_key;
         return { ...state, inProgress: false, isError: false };
       }
       state.totalContacts += 1;
@@ -122,6 +124,72 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         return contact;
       });
       return { ...state, contacts };
+    }
+
+    // Contact Fetch Keys
+    case ContactsActionTypes.CONTACT_FETCH_KEYS: {
+      return { ...state, advancedSettingInProgress: true };
+    }
+    case ContactsActionTypes.CONTACT_FETCH_KEYS_SUCCESS: {
+      const selectedContactKeys = action.payload.results;
+      return { 
+        ...state,
+        selectedContactKeys,
+        advancedSettingInProgress: false
+      };
+    }
+    case ContactsActionTypes.CONTACT_FETCH_KEYS_FAILURE: {
+      return { ...state, advancedSettingInProgress: false };
+    }
+    
+    // Contact Add Keys
+    case ContactsActionTypes.CONTACT_ADD_KEYS: {
+      return { ...state, advancedSettingInProgress: true };
+    }
+    case ContactsActionTypes.CONTACT_ADD_KEYS_SUCCESS: {
+      const selectedContactKeys = state.selectedContactKeys;
+      let filteredKeys = selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
+      filteredKeys = [ ...filteredKeys, action.payload ];
+      return { 
+        ...state, 
+        selectedContactKeys: filteredKeys,
+        advancedSettingInProgress: false 
+      };
+    }
+    case ContactsActionTypes.CONTACT_ADD_KEYS_FAILURE: {
+      return { ...state, advancedSettingInProgress: false };
+    }
+
+
+    // Contact Remove Public Keys
+    case ContactsActionTypes.CONTACT_REMOVE_KEYS: {
+      return { ...state, advancedSettingInProgress: true };
+    }
+    case ContactsActionTypes.CONTACT_REMOVE_KEYS_SUCCESS: {
+      const newContactKeys = state.selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
+      return { 
+        ...state, 
+        selectedContactKeys: newContactKeys,
+        advancedSettingInProgress: false 
+      };
+    }
+    case ContactsActionTypes.CONTACT_REMOVE_KEYS_FAILURE: {
+      return { ...state, advancedSettingInProgress: false };
+    }
+
+    // Contact Bulk Update Public Keys
+    case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS: {
+      return { ...state, advancedSettingInProgress: true };
+    }
+    case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_SUCCESS: {
+      return { 
+        ...state, 
+        selectedContactKeys: action.payload,
+        advancedSettingInProgress: false 
+      };
+    }
+    case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_FAILURE: {
+      return { ...state, advancedSettingInProgress: false };
     }
 
     default: {

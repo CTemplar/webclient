@@ -74,39 +74,34 @@ export class ComposeMailService {
                   !draftMail.isPGPInProgress)
               ) {
                 this.setEncryptedContent(draftMail);
-                if (!draftMail.isSaving) {
-                  if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
-                    draftMail.draft.encryption.password = '';
+                  if (!draftMail.isSaving) {
+                    if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
+                      draftMail.draft.encryption.password = '';
+                    }
+                    this.store.dispatch(new SendMail({ ...draftMail }));
+                  } else {
+                    this.store.dispatch(
+                      new SnackPush({
+                        message: 'Failed to send email, please try again. Email has been saved in draft.',
+                      }),
+                    );
                   }
-                  this.store.dispatch(new SendMail({ ...draftMail }));
-                } else {
-                  this.store.dispatch(
-                    new SnackPush({
-                      message: 'Failed to send email, please try again. Email has been saved in draft.',
-                    }),
-                  );
-                }
-              } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
+              } 
+              else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
                 let publicKeys: any[] = [];
-
-                if (this.getShouldBeEncrypted(draftMail, usersKeys) /* || hasSshEncryption*/) {
+                if (this.getShouldBeEncrypted(draftMail, usersKeys)) {
                   draftMail.draft.is_encrypted = true;
-                  publicKeys = this.getPublicKeys(draftMail, usersKeys)
-                    .filter(item => item.is_enabled)
-                    .map(item => item.public_key);
+                  publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
                 }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                   draftMail.attachments.forEach(attachment => {
-                    this.openPgpService.encryptAttachmentWithOnlyPassword(
-                      attachment,
-                      draftMail.draft.encryption.password,
-                    );
+                    this.openPgpService.encryptAttachmentWithOnlyPassword(attachment, draftMail.draft.encryption.password);
                   });
                   this.openPgpService.encryptWithOnlyPassword(
-                    draftMail.id,
+                    draftMail.id, 
                     new SecureContent(draftMail.draft),
-                    draftMail.draft.encryption.password,
-                  );
+                    draftMail.draft.encryption.password
+                    );
                 } else if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
                   draftMail.attachments.forEach(attachment => {
                     this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
@@ -214,7 +209,7 @@ export class ComposeMailService {
       let keys: any[] = [];
       receivers.forEach(receiver => {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        keys.push(usersKeys.get(parsedEmail.address).key);
+        keys = [ ...keys, ...usersKeys.get(parsedEmail.address).key ];
       });
       return keys;
     }
