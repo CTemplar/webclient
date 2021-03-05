@@ -176,7 +176,6 @@ export function reducer(
       const mailboxKeysMap = state.mailboxKeysMap;
       if (action.payload.updateKeyMap) {
         const keyMap = action.payload.keyMap;
-        debugger
         [ ...mailboxKeysMap.keys() ].forEach(mailboxId => {
           if (mailboxKeysMap.get(mailboxId).length > 0 && keyMap[mailboxId] && keyMap[mailboxId].length > 0) {
             const updatedKeys = mailboxKeysMap.get(mailboxId).map((key, index) => {
