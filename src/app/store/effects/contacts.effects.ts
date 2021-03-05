@@ -28,18 +28,6 @@ import {
   UpdateBatchContacts,
   UpdateBatchContactsSuccess,
   EmptyOnlyFolder,
-  ContactFetchKeys,
-  ContactFetchKeysSuccess,
-  ContactFetchKeysFailure,
-  ContactAddKeys,
-  ContactAddKeysSuccess,
-  ContactAddKeysFailure,
-  ContactRemoveKeys,
-  ContactRemoveKeysSuccess,
-  ContactRemoveKeysFailure,
-  ContactBulkUpdateKeys,
-  ContactBulkUpdateKeysSuccess,
-  ContactBulkUpdateKeysFailure,
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -195,80 +183,6 @@ export class ContactsEffects {
       return this.userService.updateBatchContacts(payload).pipe(
         switchMap(res => of(new UpdateBatchContactsSuccess(payload))),
         catchError(error => of(new SnackErrorPush({ message: 'Failed to update batch contacts.' }))),
-      );
-    }),
-  );
-
-  @Effect()
-  contactFetchKeys: Observable<any> = this.actions.pipe(
-    ofType(ContactsActionTypes.CONTACT_FETCH_KEYS),
-    map((action: ContactFetchKeys) => action.payload),
-    switchMap(payload => {
-      return this.userService.contactFetchKeys(payload).pipe(
-        switchMap(res => of(new ContactFetchKeysSuccess(res))),
-        catchError(error => {
-          return of(new ContactFetchKeysFailure(error.error));
-        }),
-      );
-    }),
-  );
-
-  @Effect()
-  contactAddKeys: Observable<any> = this.actions.pipe(
-    ofType(ContactsActionTypes.CONTACT_ADD_KEYS),
-    map((action: ContactAddKeys) => action.payload),
-    switchMap(payload => {
-      return this.userService.contactAddKeys(payload).pipe(
-        switchMap(res => {
-          if (payload.id) {
-            return of(
-              new ContactAddKeysSuccess(res),
-              new SnackPush({ message: `Public Key with fingerprint ${payload.fingerprint} has been updated` }),
-            );
-          } else {
-            return of(new ContactAddKeysSuccess(res));
-          }
-        }),
-        catchError(error => {
-          return of(
-            new ContactAddKeysFailure(error.error),
-            new SnackErrorPush({ message: 'Failed to add public key' }),
-          );
-        }),
-      );
-    }),
-  );
-
-  @Effect()
-  contactRemoveKeys: Observable<any> = this.actions.pipe(
-    ofType(ContactsActionTypes.CONTACT_REMOVE_KEYS),
-    map((action: ContactRemoveKeys) => action.payload),
-    switchMap(payload => {
-      return this.userService.contactRemoveKeys(payload).pipe(
-        switchMap(res => of(new ContactRemoveKeysSuccess(payload))),
-        catchError(error => {
-          return of(
-            new ContactRemoveKeysFailure(error.error),
-            new SnackErrorPush({ message: 'Failed to remove public key' }),
-          );
-        }),
-      );
-    }),
-  );
-
-  @Effect()
-  contactBulkUpdateKeys: Observable<any> = this.actions.pipe(
-    ofType(ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS),
-    map((action: ContactBulkUpdateKeys) => action.payload),
-    switchMap(payload => {
-      return this.userService.contactBulkUpdateKeys(payload).pipe(
-        switchMap(res => of(new ContactBulkUpdateKeysSuccess(payload))),
-        catchError(error => {
-          return of(
-            new ContactBulkUpdateKeysFailure(error.error),
-            new SnackErrorPush({ message: 'Failed to update advanced settings' }),
-          );
-        }),
       );
     }),
   );

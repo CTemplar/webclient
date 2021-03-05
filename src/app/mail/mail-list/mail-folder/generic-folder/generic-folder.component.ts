@@ -372,6 +372,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   decryptAllSubjects() {
+    // debugger
     this.queueForDecryptSubject = this.queueForDecryptSubject.filter((decryptingMail: number) => {
       // Item on queue would be removed when the following condition is matched
       // 1. decrypting is finished

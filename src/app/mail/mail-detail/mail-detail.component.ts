@@ -65,8 +65,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   decryptedHeaders: any = {};
 
-  isDecryptingError: boolean = false;
-
   selectedHeaders: string;
 
   mailOptions: any = {};
@@ -238,13 +236,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   this.mail.content != undefined))
             ) {
               this.isDecrypting[this.mail.id] = true;
-              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail)).subscribe(
-                () => {},
-                error => {
-                  this.decryptedContents[this.mail.id] = this.mail.content;
-                  this.isDecrypting[this.mail.id] = false;
-                },
-              );
+              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
             }
             // If done to decrypt,
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
@@ -256,7 +248,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
               this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
-              this.isDecryptingError = decryptedContent.decryptError;
               this.handleEmailLinks();
 
               // Automatically scrolls to last element in the list
@@ -315,16 +306,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                     (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
                 ) {
                   this.isDecrypting[this.mail.id] = true;
-                  this.pgpService
-                    .decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
-                    .pipe(take(1))
-                    .subscribe(
-                      () => {},
-                      error => {
-                        this.decryptedContents[this.mail.id] = this.mail.content;
-                        this.isDecrypting[this.mail.id] = false;
-                      },
-                    );
+                  this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
                 }
               }
             }, 1000);

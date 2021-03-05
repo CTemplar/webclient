@@ -1,6 +1,3 @@
-@import '../../../../styles/vendors/include-media/include-media';
-@import '../../../../styles/config/include-media-config';
-
 textarea {
   &.form-control {
     min-height: 7rem;
@@ -32,29 +29,4 @@ textarea {
 
 .encryptionLabel {
   margin-bottom: 0.5rem;
-}
-
-.advanced-settings-icon {
-  position: absolute;
-  right: 10px;
-  top: 15px;
-  @include media('>sm') {
-    top: 10px;
-  }
-}
-
-.dropdown.dropdown-sm .dropdown-toggle {
-  padding-right: 0.75rem;
-  padding-left: 0.75rem;
-  border-radius: 2px;
-  font-size: 14px;
-  height: 2rem;
-  width: 100%;
-  line-height: 1;
-}
-
-.key-list-container {
-  .key-list-header {
-    background: var(--brand-light-gray);
-  }
 }

@@ -154,7 +154,7 @@
         <strong id="{{ mail.id }}-mail-subject">
           <ng-container *ngIf="!mail.is_subject_encrypted">{{ mail.subject }}</ng-container>
           <ng-container *ngIf="mail.is_subject_encrypted">
-            <ng-container *ngIf="decryptedContents[mail.id] != null; else subjectLoader">{{ isDecryptingError ? '' : mail.subject }}</ng-container>
+            <ng-container *ngIf="decryptedContents[mail.id] != null; else subjectLoader">{{ mail.subject }}</ng-container>
             <ng-template #subjectLoader>
               <span id="subject-scramble"></span>
             </ng-template>
@@ -203,12 +203,6 @@
       </div>
       <div>
         <button class="mark_not_spam btn btn-outline-warning" (click)="onShowTrashRelatedChildren()">Load</button>
-      </div>
-    </div>
-    <div class="message-error row" *ngIf="isDecryptingError">
-      <div class="col pt-1">
-        <span class="error-title">Error:</span>
-        We have got failed to decrypt this message.
       </div>
     </div>
 
@@ -381,7 +375,7 @@
       <div class="show_gmail_extra">
         <div *ngIf="plainTextViewState[mail.id]; then plainBlock; else htmlBlock"></div>
         <ng-template #htmlBlock>
-          <div class="msg-reply-content text-dark" [style.white-space]="isDecryptingError ? 'break-spaces' : ''" id="{{ mail.id }}-raw-mail-content" [innerHTML]="mail.is_html ? (decryptedContents[mail.id] | safe: 'sanitize':disableExternalImages) : (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize':disableExternalImages)"></div>
+          <div class="msg-reply-content text-dark" id="{{ mail.id }}-raw-mail-content" [innerHTML]="mail.is_html ? (decryptedContents[mail.id] | safe: 'sanitize':disableExternalImages) : (decryptedContents[mail.id] | linebreaktobrtag | safe: 'sanitize':disableExternalImages)"></div>
         </ng-template>
         <ng-template #plainBlock>
           <div class="msg-reply-content text-dark" id="{{ mail.id }}-raw-mail-content" [innerHTML]="decryptedContentsPlain[mail.id] | linebreaktobrtag | safe: 'sanitize':disableExternalImages"></div>

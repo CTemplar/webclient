@@ -496,25 +496,6 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}users/payment-method/make-primary/`, { card_id: data });
   }
 
-  contactFetchKeys(data: any) {
-    return this.http.get<any>(`${apiUrl}users/contact-keys/?contact_id=${data.id}`);
-  }
-
-  contactAddKeys(data: any) {
-    if (data.id) {
-      return this.http.patch<any>(`${apiUrl}users/contact-keys/${data.id}/`, data);
-    }
-    return this.http.post<any>(`${apiUrl}users/contact-keys/`, data);
-  }
-
-  contactRemoveKeys(data: any) {
-    return this.http.delete<any>(`${apiUrl}users/contact-keys/${data.id}/`);
-  }
-
-  contactBulkUpdateKeys(data: any) {
-    return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
-  }
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

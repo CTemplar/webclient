@@ -186,17 +186,3 @@ export function getWindowConfig(): { host: string; protocol: string } {
   }
   return { host, protocol };
 }
-
-export function getEmailDomain(): string {
-  const config = getWindowConfig();
-  if (AppConfig.production) {
-    return 'ctemplar.com';
-  }
-  if (AppConfig.local) {
-    return 'dev.ctemplar.com';
-  }
-  if (config.host === 'test.ctemplar.net') {
-    return 'test.ctemplar.com';
-  }
-  return 'dev.ctemplar.com';
-}

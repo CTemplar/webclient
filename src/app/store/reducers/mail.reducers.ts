@@ -704,7 +704,6 @@ export function reducer(
           subject: action.payload.decryptedContent.subject,
           incomingHeaders: action.payload.decryptedContent.incomingHeaders,
           inProgress: action.payload.isPGPInProgress,
-          decryptError: action.payload.decryptError,
         };
       } else {
         state.decryptedContents[action.payload.id] = {
@@ -714,7 +713,6 @@ export function reducer(
           subject: action.payload.decryptedContent.subject,
           inProgress: action.payload.isPGPInProgress,
           incomingHeaders: action.payload.decryptedContent.incomingHeaders,
-          decryptError: action.payload.decryptError,
         };
       }
       return { ...state, decryptedContents: { ...state.decryptedContents }, noUnreadCountChange: true };
