@@ -237,7 +237,7 @@ export class MailService {
     return this.http.post(`${apiUrl}emails/mailbox-keys/`, data);
   }
 
-  deleteMailboxKeys(data) {
+  deleteMailboxKeys(data: MailboxKey) {
     return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`);
   }
 

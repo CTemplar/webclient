@@ -32,7 +32,7 @@ export function reducer(
         primaryKey.key_type = mailbox.key_type;
         primaryKey.is_primary = true;
         if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
-          const tmpKeys = mailboxKeysMap.get(mailbox.id).filter((key, index) => index !== 0);
+          const tmpKeys = mailboxKeysMap.get(mailbox.id).filter((key: MailboxKey, index: number) => index !== 0);
           mailboxKeysMap.set(mailbox.id, [ primaryKey, ...tmpKeys ]);
         } else {
           mailboxKeysMap.set(mailbox.id, [ primaryKey ]);
@@ -202,7 +202,7 @@ export function reducer(
         const mailboxes = state.mailboxes;
         if (mailboxKeys && mailboxKeys.length > 0) {
           mailboxes.forEach((mailbox: Mailbox) => {
-            const specificKeys = mailboxKeys.filter(key => key.mailbox === mailbox.id);
+            const specificKeys = mailboxKeys.filter((key: MailboxKey) => key.mailbox === mailbox.id);
             const originKeys = mailboxKeysMap.get(mailbox.id);
             mailboxKeysMap.set(mailbox.id, [ ...originKeys, ...specificKeys]);
           });

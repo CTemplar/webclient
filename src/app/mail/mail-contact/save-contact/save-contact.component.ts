@@ -37,7 +37,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   @ViewChild('newContactForm') newContactForm: NgForm;
 
-  @ViewChild('advancedSettingsModal') advancedSettingsModal;
+  @ViewChild('advancedSettingsModal') advancedSettingsModal: any;
 
   private advancedSettingsModalRef: NgbModalRef;
 
@@ -221,7 +221,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     this.store.dispatch(new ContactAddKeys(key));
   }
 
-  getMailboxKeyModelFromParsedInfo(keyInfo): ContactKey {
+  getMailboxKeyModelFromParsedInfo(keyInfo: any): ContactKey {
     if (keyInfo) {
       const mailboxKey: ContactKey = {};
       let keyType = '';

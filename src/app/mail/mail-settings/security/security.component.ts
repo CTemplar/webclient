@@ -68,7 +68,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   isUsingLocalStorage: boolean;
 
-  private updatedPrivateKeys: Map<number, any>;
+  private updatedPrivateKeys: Map<string, Array<any>>;
 
   private canDispatchChangePassphrase: boolean;
 
@@ -114,9 +114,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
           if (authState.isChangePasswordError) {
             this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
           } else {
-            let privateKeysMap = {};
-            Object.keys(this.updatedPrivateKeys).forEach(mailboxId => {
-              privateKeysMap[mailboxId] = this.updatedPrivateKeys[mailboxId].map(keys => keys.private_key);
+            let privateKeysMap: any = {};
+            Object.keys(this.updatedPrivateKeys).forEach((mailboxId: string) => {
+              privateKeysMap[mailboxId] = this.updatedPrivateKeys.get(mailboxId).map((keys: any) => keys.private_key);
             });
             this.openPgpService.clearData(this.updatedPrivateKeys);
             this.openPgpService.decryptAllPrivateKeys(privateKeysMap, this.changePasswordForm.value.password);
