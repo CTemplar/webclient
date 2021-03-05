@@ -139,7 +139,8 @@
   </div>
   <div class="modal-body bg-faded">
     <div>
-      <p class="text-holder text-dark text-medium">This change is available for only non-CTemplar recipients. 
+      <p class="text-holder text-dark text-medium">
+        This change is available for only non-CTemplar recipients.
         <a href="#">Learn more</a>
       </p>
     </div>
@@ -155,13 +156,13 @@
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt1" name="[1]" type="radio" [checked]="newContactModel.enabled_encryption" (click)="onClickIsEncrypt(true)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0"/>
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt1" name="[1]" type="radio" [checked]="newContactModel.enabled_encryption" (click)="onClickIsEncrypt(true)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0" />
                   <label for="isEncrypt1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt2" name="[1]" type="radio" [checked]="!newContactModel.enabled_encryption" (click)="onClickIsEncrypt(false)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0"/>
+                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt2" name="[1]" type="radio" [checked]="!newContactModel.enabled_encryption" (click)="onClickIsEncrypt(false)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0" />
                   <label for="isEncrypt2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
@@ -175,12 +176,8 @@
           <div class="col-sm-4">
             <label class="form-label mb-sm-0"> Encryption Scheme </label>
             <ng-template #encryptionSchemeTooltip>
-              <div class="text-left">
-                PGP Encryption Scheme to be used when encrypting.
-              </div>
-              <div class="text-left">
-                Note that PGP/Inline is only available for Plain Text Messages
-              </div>
+              <div class="text-left">PGP Encryption Scheme to be used when encrypting.</div>
+              <div class="text-left">Note that PGP/Inline is only available for Plain Text Messages</div>
             </ng-template>
             <i class="fas fa-info-circle ml-1" [ngbTooltip]="encryptionSchemeTooltip"></i>
           </div>
@@ -222,8 +219,7 @@
         <div class="row mt-2" *ngIf="selectedContactPulbicKeys && selectedContactPulbicKeys.length > 0">
           <div class="col-12 key-list-container">
             <div class="row key-list-header mb-1">
-              <div class="col-2 key-list-header-item text-right">
-              </div>
+              <div class="col-2 key-list-header-item text-right"></div>
               <div class="col-5 key-list-header-item">
                 <label class="form-label mb-0"> Fingerprint </label>
               </div>
@@ -238,20 +234,16 @@
               <div class="col-2 key-list-row-item text-right">
                 <i *ngIf="key.is_primary" class="fa fa-check" aria-hidden="true" ngbTooltip="This public key will be used to encrypt outgoing messages"></i>
                 <ng-template #userIdMismatchTooltip>
-                  <div class="text-left">
-                    This key is NOT assigned to {{selectedContact.email}}
-                  </div>
-                  <div class="text-left">
-                    Assigned User: {{ key.parsed_emails && key.parsed_emails.length > 0 ? key.parsed_emails[0] : "N/A" }}
-                  </div>
+                  <div class="text-left">This key is NOT assigned to {{ selectedContact.email }}</div>
+                  <div class="text-left">Assigned User: {{ key.parsed_emails && key.parsed_emails.length > 0 ? key.parsed_emails[0] : 'N/A' }}</div>
                 </ng-template>
                 <i *ngIf="!keyMatchStatusForEmail[key.fingerprint]" class="fas fa-exclamation-triangle ml-2" aria-hidden="true" [ngbTooltip]="userIdMismatchTooltip"></i>
               </div>
               <div class="col-5 key-list-row-item show-ellipses">
-                {{key.fingerprint}}
+                {{ key.fingerprint }}
               </div>
               <div class="col-3 key-list-row-item">
-                {{key.key_type}}
+                {{ key.key_type }}
               </div>
               <div class="col-2 key-list-row-item text-left">
                 <a [href]="downloadUrls[key.fingerprint] | safe: 'url'" ngbTooltip="Download public key" [download]="'publickey.' + this.selectedContact.email + '.asc'"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
@@ -268,9 +260,7 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="advancedSettingInProgress || isImportingKey"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onSaveAdvancedSettings()">
-          Save
-        </button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onSaveAdvancedSettings()">Save</button>
       </div>
     </div>
   </div>

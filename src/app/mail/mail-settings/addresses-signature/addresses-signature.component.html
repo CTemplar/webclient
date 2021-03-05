@@ -282,49 +282,39 @@
             <label class="form-label"> Key Type </label>
           </div>
         </div>
-        <div class="row mailbox-list-row" *ngFor="let mailbox of mailboxes; let i = index;">
+        <div class="row mailbox-list-row" *ngFor="let mailbox of mailboxes; let i = index">
           <div class="col-5 mailbox-list-row-item show-ellipses">
             <i *ngIf="!aliasKeyExpandedStatus[i]" class="fa fa-chevron-right mr-2" (click)="aliasKeyExpandedStatus[i] = !aliasKeyExpandedStatus[i]" [attr.aria-expanded]="aliasKeyExpandedStatus[i]"></i>
             <i *ngIf="aliasKeyExpandedStatus[i]" class="fa fa-chevron-down mr-2" (click)="aliasKeyExpandedStatus[i] = !aliasKeyExpandedStatus[i]" [attr.aria-expanded]="aliasKeyExpandedStatus[i]"></i>
-            {{mailbox.email}}
+            {{ mailbox.email }}
           </div>
           <div class="col-5 mailbox-list-row-item show-ellipses">
-            {{mailbox.fingerprint}}
+            {{ mailbox.fingerprint }}
           </div>
-          <div class="col-2 mailbox-list-row-item">
-            RSA 4096 BIT
-          </div>
-          <div class="col-12 key-list-container" #collapse="ngbCollapse" [(ngbCollapse)]="!aliasKeyExpandedStatus[i]" *ngIf=" mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0 ">
+          <div class="col-2 mailbox-list-row-item">RSA 4096 BIT</div>
+          <div class="col-12 key-list-container" #collapse="ngbCollapse" [(ngbCollapse)]="!aliasKeyExpandedStatus[i]" *ngIf="mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0">
             <div class="row key-list-header">
-                <div class="col-6 key-list-header-item">
-                  Fingerprint
-                </div>
-                <div class="col-2 key-list-header-item">
-                  Key Type
-                </div>
-                <div class="col-2 key-list-header-item text-center">
-                  Status
-                </div>
-                <div class="col-2 key-list-header-item">
-                  
-                </div>
+              <div class="col-6 key-list-header-item">Fingerprint</div>
+              <div class="col-2 key-list-header-item">Key Type</div>
+              <div class="col-2 key-list-header-item text-center">Status</div>
+              <div class="col-2 key-list-header-item"></div>
+            </div>
+            <div class="row key-list-row" *ngFor="let key of mailboxKeysMap.get(mailbox.id)">
+              <div class="col-6 key-list-row-item show-ellipses">
+                {{ key.fingerprint }}
               </div>
-              <div class="row key-list-row" *ngFor=" let key of mailboxKeysMap.get(mailbox.id) ">
-                <div class="col-6 key-list-row-item show-ellipses">
-                  {{ key.fingerprint }}
-                </div>
-                <div class="col-2 key-list-row-item">
-                  {{ key.key_type === 'RSA4096' || !key.key_type ? 'RSA 4096' : 'ECC' }}
-                </div>
-                <div class="col-2 key-list-row-item text-center">
-                  <span *ngIf="key.is_primary" class="badge badge-default" [translate]="'settings.primary'"> Primary </span>
-                  <a *ngIf="!key.is_primary" ngbTooltip="Set as primary" (click)="onSetPrimary(key)"><i class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
-                </div>
-                <div class="col-2 key-list-row-item text-left">
-                  <a (click)="onDownloadKey(key, mailbox)" ngbTooltip="Download Key"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
-                  <a *ngIf="!key.is_primary" ngbTooltip="Remove Key" (click)="onRemoveKey(key)"><i class="far fa-trash-alt cursor-pointer" aria-hidden="true"></i></a>
-                </div>
+              <div class="col-2 key-list-row-item">
+                {{ key.key_type === 'RSA4096' || !key.key_type ? 'RSA 4096' : 'ECC' }}
               </div>
+              <div class="col-2 key-list-row-item text-center">
+                <span *ngIf="key.is_primary" class="badge badge-default" [translate]="'settings.primary'"> Primary </span>
+                <a *ngIf="!key.is_primary" ngbTooltip="Set as primary" (click)="onSetPrimary(key)"><i class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
+              </div>
+              <div class="col-2 key-list-row-item text-left">
+                <a (click)="onDownloadKey(key, mailbox)" ngbTooltip="Download Key"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
+                <a *ngIf="!key.is_primary" ngbTooltip="Remove Key" (click)="onRemoveKey(key)"><i class="far fa-trash-alt cursor-pointer" aria-hidden="true"></i></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -351,13 +341,9 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <a #downloadPrivateKeyRef [href]="selectedMailboxPrivateKey | safe: 'url'" class="d-none" [download]="'privatekey.' + this.pickedMailboxForUpdate.email + '.asc'"></a>
-        <button type="button" class="btn btn-sm mr-2" (click)="downloadPrivateKeyRef.click()" >
-          Private Key
-        </button>
+        <button type="button" class="btn btn-sm mr-2" (click)="downloadPrivateKeyRef.click()">Private Key</button>
         <a #downloadPublicKeyRef [href]="selectedMailboxPublicKey | safe: 'url'" class="d-none" [download]="'publickey.' + this.pickedMailboxForUpdate.email + '.asc'"></a>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="downloadPublicKeyRef.click()">
-          Public Key
-        </button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="downloadPublicKeyRef.click()">Public Key</button>
       </div>
     </div>
   </div>
@@ -381,7 +367,7 @@
       <div class="form-content-row mt-1">
         <div class="btn-dropdown btn-dropdown-select">
           <div ngbDropdown class="dropdown-sm">
-            <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button" [disabled]="!selectedMailboxForAddNewKey" >
+            <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button" [disabled]="!selectedMailboxForAddNewKey">
               <span> {{ selectedMailboxForAddNewKey.email }} </span>
             </button>
             <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
@@ -398,13 +384,13 @@
         </div>
         <div class="flex-auto-col">
           <div class="fancy-field-group">
-            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType1" name="[1]" type="radio" [checked]="true" (click)="selectedKeyTypeForAddNewKey = 'RSA 4096'"/>
+            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType1" name="[1]" type="radio" [checked]="true" (click)="selectedKeyTypeForAddNewKey = 'RSA 4096'" />
             <label for="keyType1">RSA 4096</label>
           </div>
         </div>
         <div class="flex-auto-col">
           <div class="fancy-field-group">
-            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType2" name="[1]" type="radio" [checked]="false" (click)="selectedKeyTypeForAddNewKey = 'ECC'"/>
+            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType2" name="[1]" type="radio" [checked]="false" (click)="selectedKeyTypeForAddNewKey = 'ECC'" />
             <label for="keyType2">ECC</label>
           </div>
         </div>
@@ -414,7 +400,7 @@
   <div class="modal-footer">
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
-        <app-loading-spinner [showSpinner]=" isGeneratingKeys || mailboxKeyInProgress "></app-loading-spinner>
+        <app-loading-spinner [showSpinner]="isGeneratingKeys || mailboxKeyInProgress"></app-loading-spinner>
         <button type="button" class="btn btn-secondary btn-sm" (click)="onGenerateKeys()" [disabled]="mailboxKeyInProgress || isGeneratingKeys">
           {{ isGeneratingKeys || mailboxKeyInProgress ? 'Generating Keys...' : 'Generate Keys' }}
         </button>
@@ -441,10 +427,8 @@
   <div class="modal-footer">
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
-        <app-loading-spinner [showSpinner]=" mailboxKeyInProgress "></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmDeleteKey()" [disabled]="mailboxKeyInProgress">
-          Yes, I am sure
-        </button>
+        <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmDeleteKey()" [disabled]="mailboxKeyInProgress">Yes, I am sure</button>
       </div>
     </div>
   </div>
@@ -468,10 +452,8 @@
   <div class="modal-footer">
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
-        <app-loading-spinner [showSpinner]=" mailboxKeyInProgress "></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetPrimaryKey()" [disabled]="mailboxKeyInProgress">
-          Make as Primary
-        </button>
+        <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetPrimaryKey()" [disabled]="mailboxKeyInProgress">Make as Primary</button>
       </div>
     </div>
   </div>
