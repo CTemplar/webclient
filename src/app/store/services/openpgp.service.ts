@@ -284,7 +284,7 @@ export class OpenPgpService {
   // Encrypt - Decrypt content
   encrypt(mailboxId: number, draftId: number, mailData: SecureContent, publicKeys: any[] = []) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
-    publicKeys.concat(this.pubkeys[mailboxId]);
+    publicKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
