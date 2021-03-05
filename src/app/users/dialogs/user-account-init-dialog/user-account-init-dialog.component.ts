@@ -102,9 +102,9 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {}
 
-  onAnimationStart(event_) {}
+  onAnimationStart() {}
 
-  onAnimationDone(event_) {
+  onAnimationDone() {
     if (this.step === 2 && !this.isPgpGenerationComplete) {
       // pause animation because pgp key generation is not complete
     } else if (this.step === 3) {

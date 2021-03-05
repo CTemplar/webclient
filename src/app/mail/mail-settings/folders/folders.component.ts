@@ -22,7 +22,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
 
   userState: UserState;
 
-  @ViewChild('confirmationModal') confirmationModal;
+  @ViewChild('confirmationModal') confirmationModal: any;
 
   confirmModalRef: NgbModalRef;
 
@@ -72,7 +72,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        const mergeById = (a1, a2) =>
+        const mergeById = (a1: any[], a2: any[]) =>
           a1.map(itm => ({
             ...itm,
             ...a2.find(item => item.folder === itm.name && item),
@@ -101,18 +101,8 @@ export class FoldersComponent implements OnInit, OnDestroy {
       centered: true,
       windowClass: 'modal-sm mailbox-modal create-folder-modal',
     };
-
-    if (
-      this.userState.isPrime ||
-      this.userState.customFolders === null ||
-      this.userState.customFolders.length < MAX_FOLDERS_COUNT ||
-      edit
-    ) {
-      const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
-      component.folder = folder;
-    } else {
-      this.notificationService.showSnackBar('Free users can only create a maximum of 5 folders.');
-    }
+    const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
+    component.folder = folder;
   }
 
   deleteFolder() {
@@ -166,15 +156,19 @@ export class FoldersComponent implements OnInit, OnDestroy {
   sortWithAlphabetic() {
     this.sortedWithAlphabetic = !this.sortedWithAlphabetic;
     if (this.sortedWithAlphabetic) {
-      this.folders.sort((f, s) => f.name.localeCompare(s.name)).forEach((folder, index) => {
-        folder.sort_order = index + 1;
-        this.folders[index] = folder;
-      });
+      this.folders
+        .sort((f, s) => f.name.localeCompare(s.name))
+        .forEach((folder, index) => {
+          folder.sort_order = index + 1;
+          this.folders[index] = folder;
+        });
     } else {
-      this.folders.sort((f, s) => -f.name.localeCompare(s.name)).forEach((folder, index) => {
-        folder.sort_order = index + 1;
-        this.folders[index] = folder;
-      });
+      this.folders
+        .sort((f, s) => -f.name.localeCompare(s.name))
+        .forEach((folder, index) => {
+          folder.sort_order = index + 1;
+          this.folders[index] = folder;
+        });
     }
     this.saveOrder();
   }

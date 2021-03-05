@@ -32,7 +32,7 @@ import { OpenPgpService, SharedService, UsersService } from '../../../../store/s
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
 
-declare let Scrambler;
+declare let Scrambler: (arg0: { target: string; random: number[]; speed: number; text: string }) => void;
 
 @UntilDestroy()
 @Component({
@@ -49,9 +49,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
 
   @Input() fetchMails: boolean;
 
-  @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal;
+  @ViewChild('confirmEmptyTrashModal') confirmEmptyTrashModal: any;
 
-  @ViewChild('delateDraftModal') delateDraftModal;
+  @ViewChild('delateDraftModal') delateDraftModal: any;
 
   @ViewChild('input') input: ElementRef;
 
@@ -228,7 +228,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     this.isMobile = window.innerWidth <= 768;
   }
 
@@ -269,7 +269,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     });
   }
 
-  selectEntire(status) {
+  selectEntire(status: boolean) {
     if (status) {
       this.checkAll = true;
     } else {
@@ -278,7 +278,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
-  markAllMails(checkAll) {
+  markAllMails(checkAll: boolean) {
     if (checkAll && !this.isSomeEmailsSelected()) {
       this.mails.forEach(mail => {
         mail.marked = true;
@@ -372,16 +372,20 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   decryptAllSubjects() {
-    this.queueForDecryptSubject = this.queueForDecryptSubject.filter(decryptingMail => {
+    this.queueForDecryptSubject = this.queueForDecryptSubject.filter((decryptingMail: number) => {
       // Item on queue would be removed when the following condition is matched
       // 1. decrypting is finished
       // 2. mail doesn't be existed on mail list
+      // 3. mail (parent, if conversation mode) is encrypted with password
       let isExistMatchMail = false;
       for (let i = 0; i < this.mails.length; i++) {
         const mail = this.mails[i];
         if (mail.id === decryptingMail) {
           isExistMatchMail = true;
           if (!mail.is_subject_encrypted) {
+            return false;
+          }
+          if (mail.encryption && mail.encryption.password_hint) {
             return false;
           }
         }
@@ -392,7 +396,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     for (let i = 0; i < this.mails.length; i++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
         const mail = this.mails[i];
-        if (mail.is_subject_encrypted && !this.queueForDecryptSubject.includes(mail.id)) {
+        if (
+          mail.is_subject_encrypted &&
+          !(mail.encryption && mail.encryption.password_hint) &&
+          !this.queueForDecryptSubject.includes(mail.id)
+        ) {
           this.processDecryptSubject(mail.id);
           this.queueForDecryptSubject.push(mail.id);
           this.scrambleText(mail.id);
@@ -404,7 +412,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   isSubjectDecrypting(mailID: number) {
-    const queuedMail = this.queueForDecryptSubject.filter(mail => mail === mailID);
+    const queuedMail = this.queueForDecryptSubject.filter((mail: number) => mail === mailID);
     return queuedMail.length > 0;
   }
 
@@ -585,7 +593,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   // display scrambler while decrypt mail id
-  scrambleText(mailId) {
+  scrambleText(mailId: number) {
     setTimeout(() => {
       Scrambler({
         target: `#subject-scramble-${mailId}`,
@@ -596,7 +604,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }, 100);
   }
 
-  toggleEmailSelection(mail) {
+  toggleEmailSelection(mail: any) {
     mail.marked = !mail.marked;
     if (mail.marked) {
       this.noEmailSelected = false;

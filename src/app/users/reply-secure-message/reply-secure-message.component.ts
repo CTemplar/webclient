@@ -25,7 +25,7 @@ Quill.register(Quill.import('attributors/style/color'), true);
 const QuillBlockEmbed = Quill.import('blots/block/embed');
 
 class ImageBlot extends QuillBlockEmbed {
-  static create(value) {
+  static create(value: any) {
     const node: any = super.create(value);
     node.setAttribute('src', value.url);
     if (value.content_id) {
@@ -34,7 +34,7 @@ class ImageBlot extends QuillBlockEmbed {
     return node;
   }
 
-  static value(node) {
+  static value(node: any) {
     return {
       content_id: node.getAttribute('data-content-id'),
       url: node.getAttribute('src'),
@@ -66,9 +66,9 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
 
   @Output() replySuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @ViewChild('editor') editor;
+  @ViewChild('editor') editor: any;
 
-  @ViewChild('toolbar') toolbar;
+  @ViewChild('toolbar') toolbar: any;
 
   colors = COLORS;
 
@@ -98,7 +98,6 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
               ...state.usersKeys
                 .filter(item => this.message.receiver.includes(item.email) && item.is_enabled)
                 .map(item => item.public_key),
-              this.sourceMessage.encryption.public_key,
             ];
             this.openPgpService.encryptSecureMessageContent(this.message.content, keys);
           } else if (this.secureMessageState.isEncryptionInProgress && !state.isEncryptionInProgress) {
@@ -137,6 +136,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
         subject: this.sourceMessage.subject,
         content: this.editor.nativeElement.firstChild.innerHTML,
         sender: this.senderId,
+        parent: this.sourceMessage.id,
       };
       this.store.dispatch(new GetSecureMessageUserKeys({ hash: this.hash, secret: this.secret }));
     }

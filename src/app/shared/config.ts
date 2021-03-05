@@ -154,7 +154,7 @@ export const QUILL_FORMATTING_MODULES = {
     [{ direction: 'rtl' }], // text direction
     [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
     [{ color: COLORS }, { background: COLORS }], // dropdown with defaults from theme
-    [{ align: [] }],
+    [{ align: [] as any[] }],
     ['clean'], // remove formatting button
     ['link', 'image'], // link /not-allowed-in-simple-version(and image, video)
   ],
@@ -185,4 +185,18 @@ export function getWindowConfig(): { host: string; protocol: string } {
     host = AppConfig.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
   }
   return { host, protocol };
+}
+
+export function getEmailDomain(): string {
+  const config = getWindowConfig();
+  if (AppConfig.production) {
+    return 'ctemplar.com';
+  }
+  if (AppConfig.local) {
+    return 'dev.ctemplar.com';
+  }
+  if (config.host === 'test.ctemplar.net') {
+    return 'test.ctemplar.com';
+  }
+  return 'dev.ctemplar.com';
 }

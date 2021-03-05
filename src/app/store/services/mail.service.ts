@@ -2,8 +2,10 @@ import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as Sentry from '@sentry/browser';
 
 import { apiUrl } from '../../shared/config';
+import { MailboxKey } from '../datatypes';
 import { Attachment, Folder, Mail, Mailbox } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
@@ -49,7 +51,7 @@ export class MailService {
   getMessage(payload: { messageId: number; folder: string }): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
     return this.http.get<Mail>(url).pipe(
-      map(data => {
+      map((data: any) => {
         return data['results'] ? data['results'][0] : null;
       }),
     );
@@ -67,7 +69,7 @@ export class MailService {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url).pipe(
       map(data => {
-        const newData = data.results.map(mailbox => {
+        const newData = data.results.map((mailbox: any) => {
           mailbox.customFolders = mailbox.custom_folders;
           return mailbox;
         });
@@ -227,10 +229,29 @@ export class MailService {
     return this.http.post<any>(`${apiUrl}emails/empty-folder/`, data);
   }
 
+  fetchMailboxKeys() {
+    return this.http.get(`${apiUrl}emails/mailbox-keys/`);
+  }
+
+  addMailboxKeys(data: MailboxKey) {
+    return this.http.post(`${apiUrl}emails/mailbox-keys/`, data);
+  }
+
+  deleteMailboxKeys(data) {
+    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`);
+  }
+
+  setPrimaryMailboxKeys(data: MailboxKey) {
+    return this.http.post<any>(`${apiUrl}emails/mailboxes-change-primary/`, {
+      mailbox_id: data.mailbox,
+      mailboxkey_id: data.id,
+    });
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      Sentry.captureException(error.originalError || error);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

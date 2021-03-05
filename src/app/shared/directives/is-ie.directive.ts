@@ -13,7 +13,7 @@ export class IsIeDirective {
   ) {}
 
   @Input()
-  set showInIE(value) {
+  set showInIE(value: boolean) {
     if (value) {
       if (this.browserDetector.isIEBrowser()) {
         this.viewContainer.createEmbeddedView(this.templateReference);

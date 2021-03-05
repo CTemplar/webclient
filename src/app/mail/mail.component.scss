@@ -292,29 +292,22 @@
     color: $brand-white;
   }
 
-  > .icon,
-  > .badge {
+  > .icon {
+    font-size: 0.938rem;
     position: absolute;
     top: 50%;
     left: 0.938rem;
     transform: translateY(-50%);
-
-    @include media('<ipad', '>sm') {
-      .is-sidebar-expanded & {
-        left: 0.938rem;
-      }
-    }
 
     @include media('>sm') {
       left: 1.563rem;
     }
   }
 
-  > .icon {
-    font-size: 0.938rem;
-  }
-
   > .badge {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     right: 1.563rem;
     left: auto;
     padding: 0 0;
@@ -326,30 +319,11 @@
     line-height: 1.25rem;
     text-align: center;
 
-    @include media('<ipad') {
-      right: 1.313rem;
-
-      &.badge-sm {
-        top: 0.75rem;
-        right: 0.5rem;
-        padding: 0.125rem;
-        background: $brand-primary;
-        border-radius: 2px;
-        font-size: 0.5rem;
-        height: auto;
-        width: auto;
-        line-height: 1;
-      }
+    @include media('<ipad', '>sm') {
+      display: none;
 
       .is-sidebar-expanded & {
-        left: auto;
-        right: 0.938rem;
-      }
-    }
-
-    @include media('<=sm') {
-      &.badge-sm {
-        right: 0.938rem;
+        display: block;
       }
     }
   }

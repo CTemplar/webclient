@@ -14,6 +14,7 @@ import {
   ContactsGet,
   ClearContactsToDecrypt,
 } from '../../../store/actions';
+import { SnackErrorPush } from '../../../store';
 import { OpenPgpService, SharedService } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/config';
@@ -25,13 +26,13 @@ import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/c
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss'],
 })
 export class SecurityComponent implements OnInit, OnDestroy {
-  @ViewChild('changePasswordModal') changePasswordModal;
+  @ViewChild('changePasswordModal') changePasswordModal: any;
 
-  @ViewChild('auth2FAModal') auth2FAModal;
+  @ViewChild('auth2FAModal') auth2FAModal: any;
 
-  @ViewChild('decryptContactsModal') decryptContactsModal;
+  @ViewChild('decryptContactsModal') decryptContactsModal: any;
 
-  @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal;
+  @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal: any;
 
   private changePasswordModalRef: NgbModalRef;
 
@@ -67,7 +68,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   isUsingLocalStorage: boolean;
 
-  private updatedPrivateKeys: Array<any>;
+  private updatedPrivateKeys: Map<number, any>;
 
   private canDispatchChangePassphrase: boolean;
 
@@ -104,7 +105,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         this.auth2FA = authState.auth2FA;
         if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
           this.canDispatchChangePassphrase = false;
-          this.updatedPrivateKeys = [...authState.updatedPrivateKeys];
+          this.updatedPrivateKeys = { ...authState.updatedPrivateKeys };
           this.changePasswordConfirmed();
           this.store.dispatch(new ChangePassphraseSuccess(null));
         }
@@ -113,14 +114,12 @@ export class SecurityComponent implements OnInit, OnDestroy {
           if (authState.isChangePasswordError) {
             this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
           } else {
-            const privKeys: any = {};
-            const pubKeys: any = {};
-            this.updatedPrivateKeys.forEach(item => {
-              privKeys[item.mailbox_id] = item.private_key;
-              pubKeys[item.mailbox_id] = item.public_key;
+            let privateKeysMap = {};
+            Object.keys(this.updatedPrivateKeys).forEach(mailboxId => {
+              privateKeysMap[mailboxId] = this.updatedPrivateKeys[mailboxId].map(keys => keys.private_key);
             });
-            this.openPgpService.clearData(pubKeys);
-            this.openPgpService.decryptPrivateKeys(privKeys, this.changePasswordForm.value.password);
+            this.openPgpService.clearData(this.updatedPrivateKeys);
+            this.openPgpService.decryptAllPrivateKeys(privateKeysMap, this.changePasswordForm.value.password);
           }
           this.inProgress = false;
         }
@@ -312,9 +311,14 @@ export class SecurityComponent implements OnInit, OnDestroy {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
 
-  updateUsingLocalStorage(isUsing) {
+  updateUsingLocalStorage(isUsing: boolean) {
     localStorage.setItem(SYNC_DATA_WITH_STORE, isUsing ? 'true' : 'false');
     localStorage.setItem(NOT_FIRST_LOGIN, 'true');
+    this.store.dispatch(
+      new SnackErrorPush({
+        message: 'Settings updated successfully.',
+      }),
+    );
   }
 
   ngOnDestroy(): void {}

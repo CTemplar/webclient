@@ -107,6 +107,11 @@
     @include media('<=sm') {
       padding: 0 0.5rem;
       line-height: 1;
+      height: 40px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     > a {
@@ -276,6 +281,7 @@
 
   .dropdown {
     position: static;
+    margin-top: 1px;
   }
 
   .dropdown-menu {
@@ -347,5 +353,9 @@
   i {
     font-size: 28px;
     line-height: 35px;
+  }
+
+  @include media('<=xs') {
+    display: none !important;
   }
 }

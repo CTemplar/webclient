@@ -64,10 +64,6 @@ export class EncryptionNonCTemplar {
 
   password: string;
 
-  private_key?: string;
-
-  public_key?: string;
-
   random_secret?: string;
 }
 
@@ -86,6 +82,7 @@ export interface Mailbox {
   public_key: string;
   signature?: string;
   sort_order: number;
+  key_type: string;
 }
 
 export interface Folder {

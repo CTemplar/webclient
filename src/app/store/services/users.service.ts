@@ -5,6 +5,7 @@ import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as bcrypt from 'bcryptjs';
+import * as Sentry from '@sentry/browser';
 
 import { LogInSuccess } from '../actions';
 import {
@@ -56,7 +57,7 @@ export class UsersService {
     return +localStorage.getItem('token_expiration') < new Date().getTime();
   }
 
-  signIn(body): Observable<any> {
+  signIn(body: any): Observable<any> {
     const requestData: any = { ...body };
     requestData.username = this.trimUsername(requestData.username);
     requestData.password = this.hashData(requestData);
@@ -64,7 +65,7 @@ export class UsersService {
     return this.http.post<any>(url, requestData).pipe(
       tap(data => {
         if (data.token) {
-          this.setLoginData(data, body);
+          this.setLoginData(body);
         }
       }),
     );
@@ -84,7 +85,7 @@ export class UsersService {
     return bcrypt.hashSync(requestData[field], salt);
   }
 
-  private createSalt(salt, username) {
+  private createSalt(salt: string, username: string): any {
     username = username.replace(/[^ A-Za-z]/g, '');
     username = username || 'test';
     if (salt.length < 29) {
@@ -93,7 +94,7 @@ export class UsersService {
     return salt.slice(0, 29);
   }
 
-  private setLoginData(tokenResponse: any, requestData) {
+  private setLoginData(requestData: any) {
     this.userKey = btoa(requestData.password);
     this.setTokenExpiration();
     localStorage.setItem('user_key', this.userKey);
@@ -121,14 +122,14 @@ export class UsersService {
     return this.http.get(`${apiUrl}auth/sign-out/`);
   }
 
-  onBeforeLoader(e) {
+  onBeforeLoader(e: any) {
     const confirmationMessage =
       "If you close the window now all the progress will be lost and your account won't be created.";
     (e || window.event).returnValue = confirmationMessage; // Gecko + IE
     return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
   }
 
-  signUp(user): Observable<any> {
+  signUp(user: any): Observable<any> {
     const requestData = { ...user, timezone_offset: new Date().getTimezoneOffset() };
     const referralCode = localStorage.getItem(REFFERAL_CODE_KEY);
     if (referralCode) {
@@ -137,26 +138,26 @@ export class UsersService {
     requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, this.updateSignupDataWithPromo(requestData)).pipe(
       tap(data => {
-        this.setLoginData(data, user);
+        this.setLoginData(user);
       }),
     );
   }
 
-  recoverPassword(data): Observable<any> {
+  recoverPassword(data: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/recover/`, data);
   }
 
-  resetPassword(data): Observable<any> {
+  resetPassword(data: any): Observable<any> {
     const requestData = { ...data };
     requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
       tap(res => {
-        this.setLoginData(res, data);
+        this.setLoginData(data);
       }),
     );
   }
 
-  changePassword(data): Observable<any> {
+  changePassword(data: any): Observable<any> {
     const requestData = { ...data };
     requestData.old_password = this.hashData(requestData, 'old_password');
     requestData.password = this.hashData(requestData, 'password');
@@ -164,7 +165,7 @@ export class UsersService {
     delete requestData.username;
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
       tap(response => {
-        this.setLoginData(response, data);
+        this.setLoginData(data);
       }),
     );
   }
@@ -179,7 +180,7 @@ export class UsersService {
     return this.userKey || localStorage.getItem('user_key');
   }
 
-  getNecessaryTokenUrl(url) {
+  getNecessaryTokenUrl(url: string) {
     url = url.replace(apiUrl, '');
     const authenticatedUrls: string[] = [
       'users/myself/',
@@ -239,7 +240,7 @@ export class UsersService {
     return authenticated;
   }
 
-  getAccounts(id) {
+  getAccounts(id: string) {
     return this.http.get<any>(`${apiUrl}users/users/${id}/`);
   }
 
@@ -253,7 +254,7 @@ export class UsersService {
     return this.http.get<any>(url, body);
   }
 
-  addWhiteList(email, name) {
+  addWhiteList(email: string, name: string) {
     const url = `${apiUrl}users/whitelist/`;
     const body = { email, name };
     return this.http.post<any>(url, body);
@@ -263,7 +264,7 @@ export class UsersService {
     return this.http.patch<any>(`${apiUrl}users/settings/${data.id}/`, data);
   }
 
-  deleteWhiteList(id) {
+  deleteWhiteList(id: number) {
     const url = `${apiUrl}users/whitelist/${id}/`;
     const body = {};
     return this.http.delete<any>(url, body);
@@ -275,13 +276,13 @@ export class UsersService {
     return this.http.get<any>(url, body);
   }
 
-  addBlackList(email, name) {
+  addBlackList(email: string, name: string) {
     const url = `${apiUrl}users/blacklist/`;
     const body = { email, name };
     return this.http.post<any>(url, body);
   }
 
-  deleteBlackList(id) {
+  deleteBlackList(id: number) {
     const url = `${apiUrl}users/blacklist/${id}/`;
     const body = {};
     return this.http.delete<any>(url, body);
@@ -327,7 +328,7 @@ export class UsersService {
     return this.http.post<any>(url, payload);
   }
 
-  deleteContact(ids) {
+  deleteContact(ids: any) {
     if (ids === 'all') {
       return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
     }
@@ -348,7 +349,7 @@ export class UsersService {
     return this.http.request(request);
   }
 
-  checkUsernameAvailability(username): Observable<any> {
+  checkUsernameAvailability(username: string): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/check-username/`, { username });
   }
 
@@ -373,7 +374,7 @@ export class UsersService {
     return this.http.get<any>(url);
   }
 
-  upgradeAccount(data) {
+  upgradeAccount(data: any) {
     return this.http.post<any>(`${apiUrl}auth/upgrade/`, this.updateSignupDataWithPromo(data));
   }
 
@@ -416,7 +417,7 @@ export class UsersService {
     return this.http.get<any>(url, body);
   }
 
-  createDomain(domain) {
+  createDomain(domain: string) {
     const body = { domain };
     return this.http.post<any>(`${apiUrl}emails/domains/`, body);
   }
@@ -495,10 +496,29 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}users/payment-method/make-primary/`, { card_id: data });
   }
 
+  contactFetchKeys(data: any) {
+    return this.http.get<any>(`${apiUrl}users/contact-keys/?contact_id=${data.id}`);
+  }
+
+  contactAddKeys(data: any) {
+    if (data.id) {
+      return this.http.patch<any>(`${apiUrl}users/contact-keys/${data.id}/`, data);
+    }
+    return this.http.post<any>(`${apiUrl}users/contact-keys/`, data);
+  }
+
+  contactRemoveKeys(data: any) {
+    return this.http.delete<any>(`${apiUrl}users/contact-keys/${data.id}/`);
+  }
+
+  contactBulkUpdateKeys(data: any) {
+    return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      Sentry.captureException(error.originalError || error);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
@@ -507,7 +527,7 @@ export class UsersService {
 
   // TODO
   // This part is almost trick, but would work perfectly, needs to update later
-  doesHttpOnlyCookieExist(cookiename) {
+  doesHttpOnlyCookieExist(cookiename: string) {
     const d = new Date();
     d.setTime(d.getTime() + 1000);
     const expires = `expires=${d.toUTCString()}`;

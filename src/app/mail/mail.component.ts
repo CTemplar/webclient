@@ -29,6 +29,7 @@ import {
   WhiteListGet,
   CardGet,
   ContactsGet,
+  FetchMailboxKeys,
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
@@ -145,7 +146,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   // get window width as real time when change screen's size
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     this.composeMailService.getWindowWidth(window.innerWidth);
   }
 

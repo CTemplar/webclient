@@ -263,60 +263,198 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <div class="form-content-row">
-        <div class="row align-items-center">
-          <div class="col-sm-3">
-            <label class="form-label mb-sm-0" [translate]="'settings.keys.email_address'"> Email address </label>
-          </div>
-          <div class="col-sm-7 col-md-5">
-            <div class="btn-dropdown btn-dropdown-select">
-              <div ngbDropdown class="dropdown-sm">
-                <button ngbDropdownToggle class="dropdown-toggle" id="keyEmailAddressDropdownMenuButton" role="button">
-                  {{ selectedMailboxForKey?.email }}
-                </button>
-                <div ngbDropdownMenu aria-labelledby="keyEmailAddressDropdownMenuButton" class="aliases-dropdown">
-                  <a class="dropdown-item" *ngFor="let mailbox of mailboxes" (click)="onSelectedMailboxForKeyChanged(mailbox)">
-                    {{ mailbox.email }}
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="mb-3 row">
+        <div class="col-6">
+          <button type="button" (click)="onAddNewKey()" class="btn btn-sm btn-secondary">
+            <span>Add New Key</span>
+          </button>
         </div>
       </div>
-
-      <div class="form-content-row">
-        <div class="row label-align">
-          <div class="col-sm-3">
-            <label for="fingerPrint" class="form-label mb-sm-0" [translate]="'settings.keys.fingerprint'"> Fingerprint </label>
+      <div class="mailbox-list-container">
+        <div class="row mailbox-list-header">
+          <div class="col-5 mailbox-list-header-item">
+            <label class="form-label"> Email </label>
           </div>
-          <div class="col-sm-7 col-md-5">
-            <input class="form-control form-control-sm" id="fingerPrint" type="text" [value]="selectedMailboxForKey?.fingerprint" readonly="" />
-            <ng-container *ngIf="selectedMailboxPublicKey">
-              <span class="form-label-text mt-1">
-                <a [href]="selectedMailboxPublicKey | safe: 'url'">
-                  <strong>
-                    <u>
-                      <span [translate]="'settings.download_public_key'"> Download public key </span>
-                      (4096 Bit)
-                    </u>
-                  </strong>
-                </a>
-              </span>
-              <span class="form-label-text mt-1">
-                <a [href]="selectedMailboxPrivateKey | safe: 'url'">
-                  <strong>
-                    <u>
-                      <span [translate]="'settings.download_private_key'"> Download private key </span>
-                      (4096 Bit)
-                    </u>
-                  </strong>
-                </a>
-              </span>
-            </ng-container>
+          <div class="col-5 mailbox-list-header-item">
+            <label class="form-label"> Fingerprint </label>
+          </div>
+          <div class="col-2 mailbox-list-header-item">
+            <label class="form-label"> Key Type </label>
+          </div>
+        </div>
+        <div class="row mailbox-list-row" *ngFor="let mailbox of mailboxes; let i = index">
+          <div class="col-5 mailbox-list-row-item show-ellipses">
+            <i *ngIf="!aliasKeyExpandedStatus[i]" class="fa fa-chevron-right mr-2" (click)="aliasKeyExpandedStatus[i] = !aliasKeyExpandedStatus[i]" [attr.aria-expanded]="aliasKeyExpandedStatus[i]"></i>
+            <i *ngIf="aliasKeyExpandedStatus[i]" class="fa fa-chevron-down mr-2" (click)="aliasKeyExpandedStatus[i] = !aliasKeyExpandedStatus[i]" [attr.aria-expanded]="aliasKeyExpandedStatus[i]"></i>
+            {{ mailbox.email }}
+          </div>
+          <div class="col-5 mailbox-list-row-item show-ellipses">
+            {{ mailbox.fingerprint }}
+          </div>
+          <div class="col-2 mailbox-list-row-item">RSA 4096 BIT</div>
+          <div class="col-12 key-list-container" #collapse="ngbCollapse" [(ngbCollapse)]="!aliasKeyExpandedStatus[i]" *ngIf="mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0">
+            <div class="row key-list-header">
+              <div class="col-6 key-list-header-item">Fingerprint</div>
+              <div class="col-2 key-list-header-item">Key Type</div>
+              <div class="col-2 key-list-header-item text-center">Status</div>
+              <div class="col-2 key-list-header-item"></div>
+            </div>
+            <div class="row key-list-row" *ngFor="let key of mailboxKeysMap.get(mailbox.id)">
+              <div class="col-6 key-list-row-item show-ellipses">
+                {{ key.fingerprint }}
+              </div>
+              <div class="col-2 key-list-row-item">
+                {{ key.key_type === 'RSA4096' || !key.key_type ? 'RSA 4096' : 'ECC' }}
+              </div>
+              <div class="col-2 key-list-row-item text-center">
+                <span *ngIf="key.is_primary" class="badge badge-default" [translate]="'settings.primary'"> Primary </span>
+                <a *ngIf="!key.is_primary" ngbTooltip="Set as primary" (click)="onSetPrimary(key)"><i class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
+              </div>
+              <div class="col-2 key-list-row-item text-left">
+                <a (click)="onDownloadKey(key, mailbox)" ngbTooltip="Download Key"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
+                <a *ngIf="!key.is_primary" ngbTooltip="Remove Key" (click)="onRemoveKey(key)"><i class="far fa-trash-alt cursor-pointer" aria-hidden="true"></i></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<!--Download Keys Modal-->
+<ng-template #downloadKeyModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
+      <strong>Download Key</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div>
+      <p class="text-holder text-dark text-medium">Do you want to download the public key or the private key?</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="text-holder text-dark text-medium">
+      <div class="mx-auto mt-2 pt-sm-2">
+        <a #downloadPrivateKeyRef [href]="selectedMailboxPrivateKey | safe: 'url'" class="d-none" [download]="'privatekey.' + this.pickedMailboxForUpdate.email + '.asc'"></a>
+        <button type="button" class="btn btn-sm mr-2" (click)="downloadPrivateKeyRef.click()">Private Key</button>
+        <a #downloadPublicKeyRef [href]="selectedMailboxPublicKey | safe: 'url'" class="d-none" [download]="'publickey.' + this.pickedMailboxForUpdate.email + '.asc'"></a>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="downloadPublicKeyRef.click()">Public Key</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Add New Keys Modal-->
+<ng-template #addNewKeyModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
+      <strong>Add New Key</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mt-3 px-3">
+      <div>
+        <p class="text-holder text-dark text-medium">Please select a mailbox that you want to add new key</p>
+      </div>
+      <div class="form-content-row mt-1">
+        <div class="btn-dropdown btn-dropdown-select">
+          <div ngbDropdown class="dropdown-sm">
+            <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button" [disabled]="!selectedMailboxForAddNewKey">
+              <span> {{ selectedMailboxForAddNewKey.email }} </span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
+              <a *ngFor="let mailbox of mailboxes" class="dropdown-item text-medium" (click)="onSelectMailboxForAddNewKey(mailbox)">
+                <span>{{ mailbox.email }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-content-row">
+        <div>
+          <p class="text-holder text-dark text-medium">Please select a key type</p>
+        </div>
+        <div class="flex-auto-col">
+          <div class="fancy-field-group">
+            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType1" name="[1]" type="radio" [checked]="true" (click)="selectedKeyTypeForAddNewKey = 'RSA 4096'" />
+            <label for="keyType1">RSA 4096</label>
+          </div>
+        </div>
+        <div class="flex-auto-col">
+          <div class="fancy-field-group">
+            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType2" name="[1]" type="radio" [checked]="false" (click)="selectedKeyTypeForAddNewKey = 'ECC'" />
+            <label for="keyType2">ECC</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="text-holder text-dark text-medium">
+      <div class="mx-auto mt-2 pt-sm-2">
+        <app-loading-spinner [showSpinner]="isGeneratingKeys || mailboxKeyInProgress"></app-loading-spinner>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onGenerateKeys()" [disabled]="mailboxKeyInProgress || isGeneratingKeys">
+          {{ isGeneratingKeys || mailboxKeyInProgress ? 'Generating Keys...' : 'Generate Keys' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Delete Key Confirm Modal-->
+<ng-template #deleteKeyConfirmModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
+      <strong>Are you sure to delete this key?</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div>
+      <p class="text-holder text-medium text-danger">After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="text-holder text-dark text-medium">
+      <div class="mx-auto mt-2 pt-sm-2">
+        <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmDeleteKey()" [disabled]="mailboxKeyInProgress">Yes, I am sure</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Primary Key Change Confirm Modal-->
+<ng-template #setPrimaryKeyConfirmModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
+      <strong>Update Primary Key</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div>
+      <p class="text-holder text-medium text-dark">After changed the primary key, all of messages with this alias will be encrypted with this key. Primary key will always be placed in the top of the key list. Are you sure you want to continue?</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="text-holder text-dark text-medium">
+      <div class="mx-auto mt-2 pt-sm-2">
+        <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetPrimaryKey()" [disabled]="mailboxKeyInProgress">Make as Primary</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

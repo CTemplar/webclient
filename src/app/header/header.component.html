@@ -12,7 +12,7 @@
           </figure>
         </div>
         <div class="col navbar-col navbar-menu-col">
-          <button class="navbar-toggler" (click)="toggleState()" [ngClass]="{ opened: menuIsOpened, 'hidden-md-up': !externalPageCallToAction, 'd-none': externalPageCallToAction }" role="button" data-target="navbar-collapsable-content" aria-controls="ctemplarMenuContent" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> Menu</button>
+          <button class="navbar-toggler" (click)="toggleState()" [ngClass]="{ opened: menuIsOpened, 'hidden-md-up': !externalPageCallToAction, 'd-none': externalPageCallToAction }" role="button" data-target="navbar-collapsable-content" aria-controls="ctemplarMenuContent" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span></button>
           <div class="navbar-collapsable-content" [ngClass]="{ shown: menuIsOpened }" [hidden]="externalPageCallToAction">
             <ul class="navbar-nav my-0 px-0 list-style-none">
               <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">

@@ -1,5 +1,5 @@
 import { MailActions, MailActionTypes } from '../actions';
-import { MailBoxesState } from '../datatypes';
+import { MailBoxesState, MailboxKey } from '../datatypes';
 import { Mailbox } from '../models/mail.model';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 
@@ -9,6 +9,7 @@ export function reducer(
     currentMailbox: null,
     decryptKeyInProgress: false,
     encryptionInProgress: false,
+    mailboxKeysMap: new Map(),
   },
   action: MailActions,
 ): MailBoxesState {
@@ -20,14 +21,32 @@ export function reducer(
       };
     }
     case MailActionTypes.GET_MAILBOXES_SUCCESS: {
+      const mailboxes = action.payload;
+      // Filling up primary keys for multiple keys
+      const mailboxKeysMap = new Map();
+      mailboxes.forEach((mailbox: Mailbox) => {
+        const primaryKey: MailboxKey = {};
+        primaryKey.public_key = mailbox.public_key;
+        primaryKey.private_key = mailbox.private_key;
+        primaryKey.fingerprint = mailbox.fingerprint;
+        primaryKey.key_type = mailbox.key_type;
+        primaryKey.is_primary = true;
+        if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
+          const tmpKeys = mailboxKeysMap.get(mailbox.id).filter((key, index) => index !== 0);
+          mailboxKeysMap.set(mailbox.id, [primaryKey, ...tmpKeys]);
+        } else {
+          mailboxKeysMap.set(mailbox.id, [primaryKey]);
+        }
+      });
       return {
         ...state,
-        mailboxes: action.payload.map((item, index) => {
+        mailboxes: action.payload.map((item: any, index: number) => {
           item.sort_order = item.sort_order ? item.sort_order : index + 1;
           item.display_name = SafePipe.processSanitization(item.display_name, false);
           item.signature = SafePipe.processSanitization(item.signature, false);
           return item;
         }),
+        mailboxKeysMap,
         inProgress: false,
         currentMailbox: action.payload.find((item: Mailbox) => item.is_enabled),
       };
@@ -144,6 +163,179 @@ export function reducer(
 
     case MailActionTypes.DELETE_MAILBOX_SUCCESS: {
       return { ...state, mailboxes: state.mailboxes.filter(mailbox => mailbox.id !== action.payload.id) };
+    }
+
+    case MailActionTypes.FETCH_MAILBOX_KEYS: {
+      return {
+        ...state,
+        mailboxKeyInProgress: true,
+      };
+    }
+
+    case MailActionTypes.FETCH_MAILBOX_KEYS_SUCCESS: {
+      const mailboxKeysMap = state.mailboxKeysMap;
+      if (action.payload.updateKeyMap) {
+        const keyMap = action.payload.keyMap;
+        [...mailboxKeysMap.keys()].forEach(mailboxId => {
+          if (mailboxKeysMap.get(mailboxId).length > 0 && keyMap[mailboxId] && keyMap[mailboxId].length > 0) {
+            const updatedKeys = mailboxKeysMap.get(mailboxId).map((key, index) => {
+              if (keyMap[mailboxId].length > index + 1) {
+                return {
+                  ...key,
+                  private_key: keyMap[mailboxId][index].private_key,
+                  public_key: keyMap[mailboxId][index].public_key,
+                };
+              } else {
+                return key;
+              }
+            });
+            mailboxKeysMap.set(mailboxId, updatedKeys);
+          }
+        });
+        return {
+          ...state,
+          mailboxKeysMap,
+          mailboxKeyInProgress: false,
+        };
+      } else {
+        const mailboxKeys = action.payload.results;
+        const mailboxes = state.mailboxes;
+        if (mailboxKeys && mailboxKeys.length > 0) {
+          mailboxes.forEach((mailbox: Mailbox) => {
+            const specificKeys = mailboxKeys.filter(key => key.mailbox === mailbox.id);
+            const originKeys = mailboxKeysMap.get(mailbox.id);
+            mailboxKeysMap.set(mailbox.id, [...originKeys, ...specificKeys]);
+          });
+        }
+        return {
+          ...state,
+          mailboxKeysMap,
+          mailboxKeyInProgress: false,
+        };
+      }
+    }
+
+    case MailActionTypes.FETCH_MAILBOX_KEYS_FAILURE: {
+      return {
+        ...state,
+        mailboxKeyInProgress: false,
+      };
+    }
+
+    case MailActionTypes.ADD_MAILBOX_KEYS: {
+      return {
+        ...state,
+        mailboxKeyInProgress: true,
+      };
+    }
+
+    case MailActionTypes.ADD_MAILBOX_KEYS_SUCCESS: {
+      const newKey = action.payload;
+      const mailboxKeysMap = state.mailboxKeysMap;
+      if (mailboxKeysMap.has(newKey.mailbox)) {
+        let originKeys = mailboxKeysMap.get(newKey.mailbox);
+        mailboxKeysMap.set(newKey.mailbox, [...originKeys, newKey]);
+      } else {
+        mailboxKeysMap.set(newKey.mailbox, [newKey]);
+      }
+      return {
+        ...state,
+        mailboxKeysMap,
+        mailboxKeyInProgress: false,
+      };
+    }
+
+    case MailActionTypes.ADD_MAILBOX_KEYS_FAILURE: {
+      return {
+        ...state,
+        mailboxKeyInProgress: false,
+      };
+    }
+
+    case MailActionTypes.DELETE_MAILBOX_KEYS: {
+      return {
+        ...state,
+        mailboxKeyInProgress: true,
+      };
+    }
+
+    case MailActionTypes.DELETE_MAILBOX_KEYS_SUCCESS: {
+      const deletedKey = action.payload;
+      const mailboxKeysMap = state.mailboxKeysMap;
+      if (mailboxKeysMap.has(deletedKey.mailbox)) {
+        let originKeys = mailboxKeysMap.get(deletedKey.mailbox);
+        mailboxKeysMap.set(
+          deletedKey.mailbox,
+          originKeys.filter(key => deletedKey.id !== key.id),
+        );
+      }
+      return {
+        ...state,
+        mailboxKeysMap,
+        mailboxKeyInProgress: false,
+      };
+    }
+
+    case MailActionTypes.DELETE_MAILBOX_KEYS_FAILURE: {
+      return {
+        ...state,
+        mailboxKeyInProgress: false,
+      };
+    }
+
+    case MailActionTypes.SET_PRIMARY_MAILBOX_KEYS: {
+      return {
+        ...state,
+        mailboxKeyInProgress: true,
+      };
+    }
+
+    case MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_SUCCESS: {
+      const newPrimaryKey: MailboxKey = action.payload;
+      // Update mailbox to set key info
+      const mailboxes = state.mailboxes;
+      let curPrimaryMailbox: Mailbox;
+      mailboxes.forEach(mailbox => {
+        if (mailbox.id === newPrimaryKey.mailbox) {
+          curPrimaryMailbox = { ...mailbox };
+          mailbox.public_key = newPrimaryKey.public_key;
+          mailbox.private_key = newPrimaryKey.private_key;
+          mailbox.fingerprint = newPrimaryKey.fingerprint;
+          mailbox.key_type = newPrimaryKey.key_type;
+        }
+      });
+
+      // Update mailbox key list
+      const mailboxKeysMap = state.mailboxKeysMap;
+      if (mailboxKeysMap.has(newPrimaryKey.mailbox) && mailboxKeysMap.get(newPrimaryKey.mailbox).length > 0) {
+        mailboxKeysMap.get(newPrimaryKey.mailbox).forEach((key, index) => {
+          if (index === 0) {
+            key.private_key = newPrimaryKey.private_key;
+            key.public_key = newPrimaryKey.public_key;
+            key.fingerprint = newPrimaryKey.fingerprint;
+            key.key_type = newPrimaryKey.key_type;
+          }
+          if (key.id === newPrimaryKey.id) {
+            key.private_key = curPrimaryMailbox.private_key;
+            key.public_key = curPrimaryMailbox.public_key;
+            key.fingerprint = curPrimaryMailbox.fingerprint;
+            key.key_type = curPrimaryMailbox.key_type;
+          }
+        });
+      }
+      return {
+        ...state,
+        mailboxes,
+        mailboxKeysMap,
+        mailboxKeyInProgress: false,
+      };
+    }
+
+    case MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_FAILURE: {
+      return {
+        ...state,
+        mailboxKeyInProgress: false,
+      };
     }
 
     default: {

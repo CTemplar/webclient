@@ -35,6 +35,7 @@ import {
   ReadMailSuccess,
   SettingsUpdateUsedStorage,
   StarredFolderCountUpdate,
+  SnackErrorPush,
 } from '../../store/actions';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
@@ -263,7 +264,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     this.titleService.setTitle(title);
   }
 
-  capitalize(s) {
+  capitalize(s: string) {
     if (typeof s !== 'string') {
       return '';
     }
@@ -290,7 +291,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Toggle between display entire custom folders or limited count of folders
-  toggleDisplayLimit(totalItems) {
+  toggleDisplayLimit(totalItems: number) {
     if (this.LIMIT === totalItems) {
       this.LIMIT = 3;
     } else {
@@ -317,7 +318,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  changeAsideExpand(event) {
+  changeAsideExpand(event: any) {
     if (this.breakpointsService.isSM()) {
       this.isSidebarOpened = event.type === 'mouseover' ? true : false;
     }
@@ -330,14 +331,14 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
 
     this.pushNotificationService.create(title, options).subscribe(
-      notif => {
+      (notif: any) => {
         if (notif.event.type === 'click') {
           notif.notification.close();
           window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
         }
       },
-      error => {
-        console.log(error);
+      (error: any) => {
+        this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
       },
     );
   }

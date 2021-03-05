@@ -3,7 +3,7 @@
     <!-- Dashboard and Plans -->
     <ngb-tab id="dashboard-and-plans">
       <ng-template ngbTabTitle>
-        <span [translate]="'settings.dashboard_plans'"> Dashboard & plans </span>
+        <span [translate]="'settings.dashboard_plans'"> Dashboard & Plans </span>
       </ng-template>
       <ng-template ngbTabContent>
         <!-- Overview Section -->
@@ -260,7 +260,7 @@
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.general_settings'"> General settings </strong>
+              <strong [translate]="'settings.general_settings'"> General Settings </strong>
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -292,8 +292,8 @@
                       <div class="dropdown-sm timezone-block">
                         <mat-form-field class="timezone-filter" floatLabel="never">
                           <input type="text" placeholder="" aria-label="Number" [formControl]="timeZoneFilter" [matAutocomplete]="auto" [value]="settings.timezone" matInput />
-                          <mat-autocomplete #auto="matAutocomplete" class="timezone-option">
-                            <mat-option class="timezone-option" *ngFor="let timezone of timeZoneFilteredOptions | async" (onSelectionChange)="updateSettings('timezone', timezone.value)" [value]="timezone.value">
+                          <mat-autocomplete #auto="matAutocomplete" class="timezone-option" (optionSelected)="updateTimeZone($event)">
+                            <mat-option class="timezone-option" *ngFor="let timezone of timeZoneFilteredOptions | async" [value]="timezone.value">
                               {{ timezone.value }}
                             </mat-option>
                           </mat-autocomplete>
@@ -486,6 +486,32 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">Universal Spam Filter</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="universalSpamFilter1" name="[universalSpamFilter]" type="radio" (click)="updateSettings('universal_spam_filter', true)" [checked]="settings.universal_spam_filter" />
+                          <label for="universalSpamFilter1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col" *ngIf="userPlanType !== planType.FREE">
+                        <div class="fancy-field-group">
+                          <input class="d-none fancy-field-control fancy-field-control-sm" id="universalSpamFilter2" name="[universalSpamFilter]" type="radio" (click)="updateSettings('universal_spam_filter', false)" [checked]="!settings.universal_spam_filter" />
+                          <label for="universalSpamFilter2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="info-card mt-2 mx-3 full-width" *ngIf="userPlanType === planType.FREE">
+                    <p [translate]="'settings.upgrade_to_change_spam_filter'">Upgrade to Prime to change the spam filter setting!</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -669,7 +695,7 @@
     <!-- Filters and blocked addresses -->
     <ngb-tab id="filters-and-blocked-addresses">
       <ng-template ngbTabTitle>
-        <span [translate]="'settings.filters.title'">Filters & blocked addresses</span>
+        <span [translate]="'settings.filters.title'">Filters & Blocked Addresses</span>
       </ng-template>
       <ng-template ngbTabContent>
         <!-- Custom filters -->
@@ -797,7 +823,7 @@
 
     <!-- Addresses and Signatures -->
     <ngb-tab id="addresses-and-signatures">
-      <ng-template ngbTabTitle><span [translate]="'settings.signs_and_aliases'">Signatures & aliases</span> </ng-template>
+      <ng-template ngbTabTitle><span [translate]="'settings.signs_and_aliases'">Signatures & Aliases</span> </ng-template>
       <ng-template ngbTabContent>
         <app-addresses-signature></app-addresses-signature>
       </ng-template>
@@ -836,7 +862,7 @@
     <!-- Forwarding and auto responder -->
     <ngb-tab id="forwarding-and-auto-responder">
       <ng-template ngbTabTitle>
-        <div [translate]="'settings.forwarding_and_autores'">Forwarding & autoresponder</div>
+        <div [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</div>
       </ng-template>
       <ng-template ngbTabContent>
         <app-mail-forwarding></app-mail-forwarding>

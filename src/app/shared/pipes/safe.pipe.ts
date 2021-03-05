@@ -19,8 +19,8 @@ export class SafePipe implements PipeTransform {
       case 'html':
         value = this.removeTitle(value);
         const cssFilter = new cssfilter.FilterCSS({
-          onIgnoreAttr: (styleName, styleValue, options) => {
-            const blackList = {
+          onIgnoreAttr: (styleName: any, styleValue: string) => {
+            const blackList: any = {
               position: ['fixed'],
             };
             if (blackList.hasOwnProperty(styleName)) {
@@ -41,7 +41,7 @@ export class SafePipe implements PipeTransform {
         let xssValue = xss(value, {
           stripIgnoreTag: true,
           stripIgnoreTagBody: ['script', 'style'],
-          onTag: (tag, html, options) => {
+          onTag: (tag: string, html: string, options: any) => {
             if (tag === 'a' && !(options && options.isClosing === true)) {
               let htmlAttributes = '';
 
@@ -95,7 +95,7 @@ export class SafePipe implements PipeTransform {
               return outputHtml;
             }
           },
-          onIgnoreTagAttr: (tag, attributeName, attributeValue, isWhiteAttribute) => {
+          onIgnoreTagAttr: (tag: string, attributeName: string, attributeValue: string) => {
             if (attributeName === 'style' || attributeName === 'bgcolor') {
               const safeAttributeValue = xss.safeAttrValue(tag, attributeName, attributeValue, cssFilter);
               return `${attributeName}="${safeAttributeValue}"`;
@@ -107,7 +107,7 @@ export class SafePipe implements PipeTransform {
               return `${attributeName}="${attributeValue}"`;
             }
           },
-          onTagAttr: (tag, attributeName, attributeValue, isWhiteAttribute) => {
+          onTagAttr: (tag: string, attributeName: string, attributeValue: string) => {
             if (tag === 'img' && attributeName === 'src' && attributeValue.indexOf('data:image/png;base64,') === 0) {
               return `${attributeName}="${xss.friendlyAttrValue(attributeValue)}"`;
             }
@@ -138,7 +138,7 @@ export class SafePipe implements PipeTransform {
   }
 
   static processSanitization(value: string, disableExternalImages: boolean) {
-    const allowedTags = {
+    const allowedTags: any = {
       a: [],
       b: [],
       br: [],
@@ -167,7 +167,7 @@ export class SafePipe implements PipeTransform {
       i: [],
     };
     const headingAttributes = ['align', 'dir', 'id', 'style'];
-    const allowedAttributes = {
+    const allowedAttributes: any = {
       a: ['href', 'style', 'target'],
       b: ['style'],
       br: ['style'],
@@ -219,13 +219,14 @@ export class SafePipe implements PipeTransform {
       tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
       u: ['style'],
       ul: ['dir', 'style'],
+      i: ['style'],
     };
     // @ts-ignore
     value = xss(value, {
       whiteList: allowedTags,
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
-      onIgnoreTagAttr: (tag, name, attribute, isWhiteAttribute) => {
+      onIgnoreTagAttr: (tag: string, name: string, attribute: string) => {
         if (name !== 'class') {
           // get attr whitelist for specific tag
           const attributeWhitelist = allowedAttributes[tag];

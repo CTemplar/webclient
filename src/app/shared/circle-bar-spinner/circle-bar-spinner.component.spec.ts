@@ -8,9 +8,8 @@ describe('CircleBarSpinnerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CircleBarSpinnerComponent ]
-    })
-    .compileComponents();
+      declarations: [CircleBarSpinnerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -31,13 +31,13 @@ export class StripeFormComponent implements OnInit {
    */
   donationAmount: number;
 
-  cardNumber;
+  cardNumber: number;
 
   expiryMonth = 'Month';
 
   expiryYear = 'Year';
 
-  cvc;
+  cvc: number;
 
   /**
    * For filling Month and Year dropdowns
@@ -71,7 +71,7 @@ export class StripeFormComponent implements OnInit {
    * Selection method for month and initiating form validation
    * @param month - Expiry month specified on the card
    */
-  selectMonth(month) {
+  selectMonth(month: string) {
     this.expiryMonth = month;
     this.checkStripeValidation();
   }
@@ -82,7 +82,7 @@ export class StripeFormComponent implements OnInit {
    *
    * @param year - Expiry year specified on the card
    */
-  selectYear(year) {
+  selectYear(year: string) {
     this.expiryYear = year;
     this.checkStripeValidation();
   }

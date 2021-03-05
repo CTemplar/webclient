@@ -14,3 +14,48 @@
 .modal-title {
   font-size: 16px;
 }
+
+.mailbox-list-container {
+  padding: 0 0 0 20px;
+  margin-bottom: 50px;
+  .mailbox-list-header {
+    background-color: var(--bg-faded);
+    border: 1px solid var(--dropdown-border-color);
+    &-item {
+      padding-top: 5px;
+    }
+  }
+  .mailbox-list-row {
+    border: 1px solid var(--dropdown-border-color);
+    border-top: 0;
+    background: var(--btn-mail-action-active-background);
+    &-item {
+      padding-bottom: 6px;
+      background-color: var(--bg-white);
+      padding-top: 6px;
+      i {
+        cursor: pointer;
+      }
+    }
+    .key-list-container {
+      padding: 10px 25px 10px 38px;
+      border-top: 1px solid #e0e0e0;
+      .key-list-header {
+        padding: 5px 0;
+        margin-right: -5px;
+        background-color: var(--bg-faded);
+        border: 1px solid var(--dropdown-border-color);
+        border-bottom: 0;
+      }
+      .key-list-row {
+        padding: 3px 0;
+        margin-right: -5px;
+        border: 1px solid var(--dropdown-border-color);
+        background: var(--bg-white);
+        &-item {
+          padding: 5px 15px;
+        }
+      }
+    }
+  }
+}
