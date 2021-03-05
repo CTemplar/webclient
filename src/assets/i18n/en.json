@@ -120,6 +120,7 @@
     "appearance": "Appearance",
     "display_name": "Display name",
     "upgrade_to_paid": "Please upgrade to paid plan to edit signature",
+    "upgrade_to_change_spam_filter": "Upgrade to Prime to change the spam filter setting!",
     "signature": "Signature",
     "emails_per_page": "Emails per page",
     "load_embedded_content": "Load embedded content",

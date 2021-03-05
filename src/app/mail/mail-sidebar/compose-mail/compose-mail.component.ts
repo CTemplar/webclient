@@ -434,9 +434,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.usersKeys = response.usersKeys;
         const receivers = this.draftMail.receiver;
         if (receivers && receivers.length > 0) {
-          const receiversToFetchKey = receivers.filter(
-            rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching),
-          );
+          const receiversToFetchKey = receivers
+            .filter(
+              rec =>
+                !this.usersKeys.has(rec.toLowerCase()) ||
+                (!this.usersKeys.get(rec.toLowerCase()).key && !this.usersKeys.get(rec.toLowerCase()).isFetching),
+            )
+            .map(receiver => receiver.toLowerCase());
           if (receiversToFetchKey.length > 0) {
             this.store.dispatch(
               new GetUsersKeys({
@@ -611,10 +615,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.inputTextValue = '';
       this.isPasted = false;
-      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+      if (
+        !this.usersKeys.has(value.toLowerCase()) ||
+        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
+      ) {
         this.store.dispatch(
           new GetUsersKeys({
-            emails: [value],
+            emails: [value.toLowerCase()],
           }),
         );
       }
@@ -631,10 +638,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
-      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+      if (
+        !this.usersKeys.has(value.toLowerCase()) ||
+        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
+      ) {
         this.store.dispatch(
           new GetUsersKeys({
-            emails: [value],
+            emails: [value.toLowerCase()],
           }),
         );
       }
@@ -651,10 +661,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;
-      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+      if (
+        !this.usersKeys.has(value.toLowerCase()) ||
+        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
+      ) {
         this.store.dispatch(
           new GetUsersKeys({
-            emails: [value],
+            emails: [value.toLowerCase()],
           }),
         );
       }
@@ -1274,9 +1287,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       return;
     }
     const receivers: string[] = [
-      ...this.mailData.receiver.map((receiver: any) => receiver.email),
-      ...this.mailData.cc.map((cc: any) => cc.email),
-      ...this.mailData.bcc.map((bcc: any) => bcc.email),
+      ...this.mailData.receiver.map((receiver: any) => receiver.email.toLowerCase()),
+      ...this.mailData.cc.map((cc: any) => cc.email.toLowerCase()),
+      ...this.mailData.bcc.map((bcc: any) => bcc.email.toLowerCase()),
     ];
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
@@ -1296,7 +1309,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }, 100);
       return;
     }
-    if (receivers.some(receiver => this.usersKeys.has(receiver) && this.usersKeys.get(receiver).isFetching)) {
+    if (
+      receivers.some(
+        receiver => this.usersKeys.has(receiver.toLowerCase()) && this.usersKeys.get(receiver.toLowerCase()).isFetching,
+      )
+    ) {
       // If fetching for user key, wait to send
       setTimeout(() => {
         this.isPreparingToSendEmail = false;
@@ -1329,12 +1346,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.confirmModalRef.dismiss();
     }
     let receivers: string[] = [
-      ...this.mailData.receiver.map((receiver: any) => receiver.display),
-      ...this.mailData.cc.map((cc: any) => cc.display),
-      ...this.mailData.bcc.map((bcc: any) => bcc.display),
+      ...this.mailData.receiver.map((receiver: any) => receiver.display.toLowerCase()),
+      ...this.mailData.cc.map((cc: any) => cc.display.toLowerCase()),
+      ...this.mailData.bcc.map((bcc: any) => bcc.display.toLowerCase()),
     ];
     receivers = receivers.filter(
-      email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
+      email =>
+        !this.usersKeys.has(email.toLowerCase()) ||
+        (!this.usersKeys.get(email.toLowerCase()).key && !this.usersKeys.get(email.toLowerCase()).isFetching),
     );
 
     this.isMailSent = true;
@@ -1889,10 +1908,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     const receiversForKey = data
       .filter(
         receiver =>
-          !this.usersKeys.has(receiver.email) ||
-          (!this.usersKeys.get(receiver.email).key && !this.usersKeys.get(receiver.email).isFetching),
+          !this.usersKeys.has(receiver.email.toLowerCase()) ||
+          (!this.usersKeys.get(receiver.email.toLowerCase()).key &&
+            !this.usersKeys.get(receiver.email.toLowerCase()).isFetching),
       )
-      .map(receiver => receiver.email);
+      .map(receiver => receiver.email.toLowerCase());
 
     if (receiversForKey.length > 0) {
       this.store.dispatch(
@@ -1906,7 +1926,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   getUserKeyFetchingStatus(email: string): boolean {
-    return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
+    return (
+      !this.usersKeys.has(email.toLowerCase()) ||
+      (this.usersKeys.has(email.toLowerCase()) && this.usersKeys.get(email.toLowerCase()).isFetching)
+    );
   }
 
   rfcStandardValidateEmail(address: string): boolean {
