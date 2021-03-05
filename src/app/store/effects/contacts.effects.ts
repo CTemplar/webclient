@@ -29,7 +29,7 @@ import {
   UpdateBatchContactsSuccess,
   EmptyOnlyFolder,
 } from '../actions';
-import { Contact } from '../datatypes';
+import { Contact, ImportContactResponse } from '../datatypes';
 
 @Injectable()
 export class ContactsEffects {
@@ -145,17 +145,15 @@ export class ContactsEffects {
       return this.userService.importContacts(payload).pipe(
         mergeMap(event => {
           if (event instanceof HttpResponse) {
-            const result: any = event.body;
-            var message = '';
-            if (result.detail === 'success') {
-              message = result.success_count + ' contacts imported, ' + result.fail_count + ' contacts failed';
-            } else {
-              message = 'Failed to import contacts.';
-            }
+            const result: ImportContactResponse = event.body;
+            let message =
+              result.detail === 'success'
+                ? `${result.success_count} contacts imported, ${result.fail_count} contacts failed`
+                : 'Failed to import contacts.';
             return of(
               new ContactImportSuccess(event.body),
               new ContactsGet({ limit: 50, offset: 0 }),
-              new SnackPush({ message: message }),
+              new SnackPush({ message }),
             );
           }
           return EMPTY;

@@ -691,3 +691,9 @@ export type NumberBooleanMappedType = {
 export type NumberStringMappedType = {
   [key: number]: string;
 };
+
+export interface ImportContactResponse {
+  detail?: string;
+  success_count?: number;
+  fail_count?: number;
+}
