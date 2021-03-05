@@ -6,7 +6,16 @@ import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 
 import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
-import { AppState, ComposeMailState, Draft, DraftState, GlobalPublicKey, PublicKey, SecureContent, UserState } from '../datatypes';
+import {
+  AppState,
+  ComposeMailState,
+  Draft,
+  DraftState,
+  GlobalPublicKey,
+  PublicKey,
+  SecureContent,
+  UserState,
+} from '../datatypes';
 import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
 
 import { MailService } from './mail.service';
@@ -43,7 +52,7 @@ export class ComposeMailService {
     this.store
       .select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
-        Object.keys(response.drafts).forEach(key => {
+        Object.keys(response.drafts).forEach((key: any) => {
           const draftMail: Draft = response.drafts[key];
           const usersKeys = response.usersKeys;
           if (draftMail.draft) {
@@ -79,7 +88,7 @@ export class ComposeMailService {
                   }
               } 
               else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
-                let publicKeys = [];
+                let publicKeys: any[] = [];
                 if (this.getShouldBeEncrypted(draftMail, usersKeys)) {
                   draftMail.draft.is_encrypted = true;
                   publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
@@ -110,7 +119,7 @@ export class ComposeMailService {
                       ...encryptedAttachments.map(attachment => {
                         attachment.is_encrypted = false;
                         attachment.document = attachment.decryptedDocument;
-                        return Observable.create(observer => {
+                        return Observable.create((observer: any) => {
                           this.mailService
                             .uploadFile(attachment)
                             .pipe(finalize(() => observer.complete()))
@@ -197,7 +206,7 @@ export class ComposeMailService {
         ...draftMail.draft.cc.map(cc => cc),
         ...draftMail.draft.bcc.map(bcc => bcc),
       ];
-      let keys = [];
+      let keys: any[] = [];
       receivers.forEach(receiver => {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
         keys = [ ...keys, ...usersKeys.get(parsedEmail.address).key ];
@@ -288,16 +297,16 @@ export class ComposeMailService {
       );
       this.componentRefList.push(newComponentReference);
       Object.keys(inputData).forEach(key => {
-        newComponentReference.instance[key] = inputData[key];
+        (newComponentReference as any).instance[key] = inputData[key];
       });
       newComponentReference.instance.isComposeVisible = true;
       newComponentReference.instance.isMinimized = false;
       this.getComposesWidth();
-      newComponentReference.instance.hide.subscribe(event => {
+      newComponentReference.instance.hide.subscribe(() => {
         const index = this.componentRefList.indexOf(newComponentReference);
         this.destroyComponent(newComponentReference, index);
       });
-      newComponentReference.instance.minimize.subscribe(isMinimized => {
+      newComponentReference.instance.minimize.subscribe((isMinimized: boolean) => {
         if (!isMinimized) {
           // when Compose window is maximized
           this.componentRefList.forEach(componentReference => {
@@ -333,7 +342,7 @@ export class ComposeMailService {
           }
         }
       });
-      newComponentReference.instance.fullScreen.subscribe(isFullScreen => {
+      newComponentReference.instance.fullScreen.subscribe((isFullScreen: boolean) => {
         if (isFullScreen) {
           this.componentRefList.forEach(componentReference => {
             componentReference.instance.isFullScreen = false;

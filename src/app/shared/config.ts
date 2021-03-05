@@ -154,7 +154,7 @@ export const QUILL_FORMATTING_MODULES = {
     [{ direction: 'rtl' }], // text direction
     [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
     [{ color: COLORS }, { background: COLORS }], // dropdown with defaults from theme
-    [{ align: [] }],
+    [{ align: [] as any[] }],
     ['clean'], // remove formatting button
     ['link', 'image'], // link /not-allowed-in-simple-version(and image, video)
   ],

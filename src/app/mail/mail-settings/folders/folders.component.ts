@@ -22,7 +22,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
 
   userState: UserState;
 
-  @ViewChild('confirmationModal') confirmationModal;
+  @ViewChild('confirmationModal') confirmationModal: any;
 
   confirmModalRef: NgbModalRef;
 
@@ -72,7 +72,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        const mergeById = (a1, a2) =>
+        const mergeById = (a1: any[], a2: any[]) =>
           a1.map(itm => ({
             ...itm,
             ...a2.find(item => item.folder === itm.name && item),
@@ -156,15 +156,19 @@ export class FoldersComponent implements OnInit, OnDestroy {
   sortWithAlphabetic() {
     this.sortedWithAlphabetic = !this.sortedWithAlphabetic;
     if (this.sortedWithAlphabetic) {
-      this.folders.sort((f, s) => f.name.localeCompare(s.name)).forEach((folder, index) => {
-        folder.sort_order = index + 1;
-        this.folders[index] = folder;
-      });
+      this.folders
+        .sort((f, s) => f.name.localeCompare(s.name))
+        .forEach((folder, index) => {
+          folder.sort_order = index + 1;
+          this.folders[index] = folder;
+        });
     } else {
-      this.folders.sort((f, s) => -f.name.localeCompare(s.name)).forEach((folder, index) => {
-        folder.sort_order = index + 1;
-        this.folders[index] = folder;
-      });
+      this.folders
+        .sort((f, s) => -f.name.localeCompare(s.name))
+        .forEach((folder, index) => {
+          folder.sort_order = index + 1;
+          this.folders[index] = folder;
+        });
     }
     this.saveOrder();
   }

@@ -93,7 +93,6 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
         }
       });
   }
-  
 
   ngOnDestroy() {
     this.sharedService.hideEntireFooter.emit(false);

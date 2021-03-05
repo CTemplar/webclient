@@ -2,6 +2,7 @@ import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as Sentry from '@sentry/browser';
 
 import { apiUrl } from '../../shared/config';
 import { MailboxKey } from '../datatypes';
@@ -50,7 +51,7 @@ export class MailService {
   getMessage(payload: { messageId: number; folder: string }): Observable<Mail> {
     const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
     return this.http.get<Mail>(url).pipe(
-      map(data => {
+      map((data: any) => {
         return data['results'] ? data['results'][0] : null;
       }),
     );
@@ -68,7 +69,7 @@ export class MailService {
     const url = `${apiUrl}emails/mailboxes/?limit=${limit}&offset=${offset}`;
     return this.http.get<any>(url).pipe(
       map(data => {
-        const newData = data.results.map(mailbox => {
+        const newData = data.results.map((mailbox: any) => {
           mailbox.customFolders = mailbox.custom_folders;
           return mailbox;
         });
@@ -248,7 +249,7 @@ export class MailService {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      Sentry.captureException(error.originalError || error);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

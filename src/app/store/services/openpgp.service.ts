@@ -185,13 +185,8 @@ export class OpenPgpService {
           new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
         );
       } else if (event.data.changePassphrase) {
-        
-        // TODO - should be updated
-        // event.data.keys.forEach(item => {
-        //   item.public_key = item.public_key ? item.public_key : this.pubkeys[item.mailbox_id];
-        // });
         Object.keys(event.data.keys).forEach(mailboxId => {
-          event.data.keys[mailboxId].forEach((key, index) => {
+          event.data.keys[mailboxId].forEach((key: any, index: number) => {
             key.public_key = key.public_key ? key.public_key : this.pubkeys[mailboxId][index];
           });
         });
@@ -287,13 +282,13 @@ export class OpenPgpService {
   }
 
   // Encrypt - Decrypt content
-  encrypt(mailboxId, draftId, mailData: SecureContent, publicKeys: any[] = []) {
+  encrypt(mailboxId: number, draftId: number, mailData: SecureContent, publicKeys: any[] = []) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
     publicKeys.concat(this.pubkeys[mailboxId]);
     this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
   }
 
-  decryptProcess(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects = false, subjectId: number) {
+  decryptProcess(mailboxId: number, mailId: number, mailData: SecureContent, isDecryptingAllSubjects = false, subjectId: number) {
     if (this.decryptedAllPrivKeys) {
       if (!mailData.isSubjectEncrypted) {
         mailData.subject = null;
@@ -314,7 +309,7 @@ export class OpenPgpService {
     }
   }
 
-  decrypt(mailboxId, mailId, mailData: SecureContent, isDecryptingAllSubjects = false) {
+  decrypt(mailboxId: number, mailId: number, mailData: SecureContent, isDecryptingAllSubjects = false) {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
@@ -373,7 +368,7 @@ export class OpenPgpService {
   }
 
   // Encrypt - Decrypt attachment
-  encryptAttachment(mailboxId, attachment: Attachment, publicKeys: any[] = []) {
+  encryptAttachment(mailboxId: number, attachment: Attachment, publicKeys: any[] = []) {
     this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
     publicKeys.concat(this.pubkeys[mailboxId]);
     const reader = new FileReader();
@@ -385,15 +380,13 @@ export class OpenPgpService {
     reader.readAsArrayBuffer(attachment.decryptedDocument);
   }
 
-  decryptAttachment(mailboxId, fileData: string, fileInfo: any): Observable<Attachment> {
+  decryptAttachment(mailboxId: number, fileData: string, fileInfo: any): Observable<Attachment> {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
     this.pgpWorker.postMessage({ mailboxId, fileData, decryptAttachment: true, fileInfo, subjectId });
     return subject.asObservable();
   }
-
-  
 
   clearData(keyMap?: any) {
     this.decryptedAllPrivKeys = null;
@@ -475,7 +468,7 @@ export class OpenPgpService {
   }
 
   // For decrypting password encrypted content - CTemplar's end
-  decryptPasswordEncryptedContent(mailboxId, mailId, mailData: SecureContent, password) {
+  decryptPasswordEncryptedContent(mailboxId: number, mailId: number, mailData: SecureContent, password: string) {
     if (!mailData.isSubjectEncrypted) {
       mailData.subject = null;
     }
@@ -483,7 +476,7 @@ export class OpenPgpService {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    
+
     this.store.dispatch(
       new UpdatePGPDecryptedContent({
         id: mailId,
@@ -491,19 +484,19 @@ export class OpenPgpService {
         decryptedContent: {},
       }),
     );
-    this.pgpWorker.postMessage({ 
-      mailboxId, 
-      mailData, 
-      decryptPasswordEncryptedContent: true, 
+    this.pgpWorker.postMessage({
+      mailboxId,
+      mailData,
+      decryptPasswordEncryptedContent: true,
       callerId: mailId,
       password,
-      subjectId 
+      subjectId,
     });
     return subject.asObservable();
   }
 
   // For encrypting & decrypting password encrypted content - External's end
-  encryptSecureMessageContent(content, publicKeys: any[]) {
+  encryptSecureMessageContent(content: string, publicKeys: any[]) {
     this.store.dispatch(new UpdateSecureMessageEncryptedContent({ inProgress: true, encryptedContent: null }));
     this.pgpWorker.postMessage({ content, publicKeys, encryptSecureMessageReply: true });
   }

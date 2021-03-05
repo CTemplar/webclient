@@ -63,10 +63,10 @@ import { OpenPgpService } from '../../../store/services/openpgp.service';
 const Quill: any = QuillNamespace;
 const BlockEmbed = Quill.import('blots/block/embed');
 class keepHTML extends BlockEmbed {
-  static create(node) {
+  static create(node: any) {
     return node;
   }
-  static value(node) {
+  static value(node: any) {
     return node;
   }
 }
@@ -98,21 +98,17 @@ const Delta = Quill.import('delta');
  */
 class ImageBlot extends QuillBlockEmbed {
   // Converts the HTML tag to image blot
-  static create(value) {
+  static create(value: any) {
     const node: any = super.create(value);
-    if (value.url) {
-      node.setAttribute('src', value.url);
-    } else {
-      node.setAttribute('src', value);
-    }
     if (value) {
       node.setAttribute('data-content-id', value.content_id);
+      node.setAttribute('src', value.url ? value.url : value);
     }
     return node;
   }
 
   // Converts the image blot to HTML tag
-  static value(node) {
+  static value(node: any) {
     return {
       content_id: node.getAttribute('data-content-id'),
       url: node.getAttribute('src'),
@@ -130,14 +126,14 @@ Quill.register(ImageBlot);
  */
 class SignatureBlot extends QuillBlockEmbed {
   // Converts the HTML tag to text version
-  static create(value) {
+  static create(value: string) {
     const node: any = super.create(value);
     value = value.replace(/<br>/g, '\n');
     node.innerText = value;
     return node;
   }
 
-  static value(node) {
+  static value(node: any) {
     return node.innerHTML;
   }
 }
@@ -153,13 +149,13 @@ Quill.register(SignatureBlot);
  */
 class OriginalBlot extends Inline {
   // add custom class to node
-  static create(value) {
+  static create() {
     const node = super.create();
     node.setAttribute('class', 'originalblock');
     return node;
   }
 
-  static value(node) {
+  static value(node: any) {
     return node.innerHTML;
   }
 }
@@ -171,7 +167,7 @@ OriginalBlot.className = 'originalblock';
 Quill.register(OriginalBlot);
 
 export class PasswordValidation {
-  static MatchPassword(AC: AbstractControl) {
+  static MatchPassword(AC: AbstractControl): any {
     const password = AC.get('password').value; // to get value in password input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in confirm password input tag
     if (password !== confirmPassword) {
@@ -209,6 +205,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @Input() action: MailAction;
 
+  @Input() is_html: boolean;
+
   @Input() action_parent: number;
 
   @Input() isMailDetailPage: boolean;
@@ -225,17 +223,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @Output() popUpChange: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('editor', { read: ElementRef, static: false }) editor;
+  @ViewChild('editor', { read: ElementRef, static: false }) editor: any;
 
-  @ViewChild('attachmentHolder') attachmentHolder;
+  @ViewChild('attachmentHolder') attachmentHolder: any;
 
-  @ViewChild('toolbar') toolbar;
+  @ViewChild('toolbar') toolbar: any;
 
-  @ViewChild('attachImagesModal') attachImagesModal;
+  @ViewChild('attachImagesModal') attachImagesModal: any;
 
-  @ViewChild('selfDestructModal') selfDestructModal;
+  @ViewChild('selfDestructModal') selfDestructModal: any;
 
-  @ViewChild('delayedDeliveryModal') delayedDeliveryModal;
+  @ViewChild('delayedDeliveryModal') delayedDeliveryModal: any;
 
   @ViewChild('receiverInput') receiverInputRange: ElementRef;
 
@@ -243,15 +241,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   @ViewChild('bccReceiverInput') bccReceiverInputRange: ElementRef;
 
-  @ViewChild('deadManTimerModal') deadManTimerModal;
+  @ViewChild('deadManTimerModal') deadManTimerModal: any;
 
-  @ViewChild('encryptionModal') encryptionModal;
+  @ViewChild('encryptionModal') encryptionModal: any;
 
-  @ViewChild('insertLinkModal') insertLinkModal;
+  @ViewChild('insertLinkModal') insertLinkModal: any;
 
-  @ViewChild('confirmationModal') confirmationModal;
+  @ViewChild('confirmationModal') confirmationModal: any;
 
-  @ViewChild('closeConfirmationModal') closeConfirmationModal;
+  @ViewChild('closeConfirmationModal') closeConfirmationModal: any;
 
   confirmModalRef: NgbModalRef;
 
@@ -436,7 +434,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.usersKeys = response.usersKeys;
         const receivers = this.draftMail.receiver;
         if (receivers && receivers.length > 0) {
-          const receiversToFetchKey = receivers.map(rec => (parseEmail.parseOneAddress(rec) as parseEmail.ParsedMailbox).address).filter(rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching));
+          const receiversToFetchKey = receivers.map(rec => (parseEmail.parseOneAddress(rec.toLowerCase()) as parseEmail.ParsedMailbox).address).filter(rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching));
           if (receiversToFetchKey.length > 0) {
             this.store.dispatch(
               new GetUsersKeys({
@@ -458,7 +456,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.settings = user.settings;
         this.night_mode = this.settings.is_night_mode;
         // Set html/plain version from user's settings.
-        if (this.draftMail && this.draftMail.is_html === null) {
+        if (
+          (this.action === 'FORWARD' && this.is_html === undefined) ||
+          (this.draftMail && this.draftMail.is_html === null)
+        ) {
           this.draftMail.is_html = !this.settings.is_html_disabled;
         }
         if (user.settings.is_contacts_encrypted) {
@@ -564,19 +565,22 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       day: now.getDate(),
     };
 
+    if (this.action === 'FORWARD' && this.is_html !== undefined) {
+      this.draftMail.is_html = this.is_html;
+    }
     this.isSelfDestructionEnable(); // check self destruction is possible or not
     this.initializeAutoSave(); // start auto save function
   }
 
-  onPaste($event) {
+  onPaste() {
     this.isPasted = true;
   }
 
-  ccOnPaste($event) {
+  ccOnPaste() {
     this.ccIsPasted = true;
   }
 
-  bccOnPaste($event) {
+  bccOnPaste() {
     this.bccIsPasted = true;
   }
 
@@ -595,7 +599,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.isSelfDestructionEnable();
   }
 
-  updateInputTextValue(value) {
+  updateInputTextValue(value: string) {
     // add tag if pasted item is valid email
     if (this.isPasted && this.validateEmail(value)) {
       this.mailData.receiver.push({
@@ -605,17 +609,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.inputTextValue = '';
       this.isPasted = false;
-      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+      if (
+        !this.usersKeys.has(value.toLowerCase()) ||
+        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
+      ) {
         this.store.dispatch(
           new GetUsersKeys({
-            emails: [value],
+            emails: [value.toLowerCase()],
           }),
         );
       }
     }
   }
 
-  ccUpdateInputTextValue(value) {
+  ccUpdateInputTextValue(value: string) {
     // add tag if pasted item is valid email
     if (this.ccIsPasted && this.validateEmail(value)) {
       this.mailData.cc.push({
@@ -625,17 +632,20 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.ccInputTextValue = '';
       this.ccIsPasted = false;
-      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+      if (
+        !this.usersKeys.has(value.toLowerCase()) ||
+        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
+      ) {
         this.store.dispatch(
           new GetUsersKeys({
-            emails: [value],
+            emails: [value.toLowerCase()],
           }),
         );
       }
     }
   }
 
-  bccUpdateInputTextValue(value) {
+  bccUpdateInputTextValue(value: string) {
     // add tag if pasted item is valid email
     if (this.bccIsPasted && this.validateEmail(value)) {
       this.mailData.bcc.push({
@@ -645,45 +655,48 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       this.bccInputTextValue = '';
       this.bccIsPasted = false;
-      if (!this.usersKeys.has(value) || (!this.usersKeys.get(value).key && !this.usersKeys.get(value).isFetching)) {
+      if (
+        !this.usersKeys.has(value.toLowerCase()) ||
+        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
+      ) {
         this.store.dispatch(
           new GetUsersKeys({
-            emails: [value],
+            emails: [value.toLowerCase()],
           }),
         );
       }
     }
   }
 
-  validateEmail(email) {
+  validateEmail(email: string) {
     const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
-  onTagEdited($event) {
+  onTagEdited($event: any) {
     this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
   }
 
-  ccOnTagEdited($event) {
+  ccOnTagEdited($event: any) {
     this.mailData.cc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
   }
 
-  bccOnTagEdited($event) {
+  bccOnTagEdited($event: any) {
     this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
   }
 
-  onClick($event) {
+  onClick() {
     this.receiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  onCcClick($event) {
+  onCcClick() {
     this.ccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  onBccClick($event) {
+  onBccClick() {
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
@@ -723,6 +736,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         setTimeout(() => {
           this.mailData.content = content;
           this.updateSignature();
+          this.mailData.content = this.mailData.content.replace(/\n+$/, '');
         }, 300);
       }
     }
@@ -762,7 +776,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
   }
 
-  onSubjectChange(subject: any) {
+  onSubjectChange(subject: string) {
     this.subjectChanged.emit(subject);
   }
 
@@ -885,7 +899,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
                 );
               }
             },
-            error => console.log(error),
+            error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to get attachments.' })),
           );
       }
     });
@@ -904,11 +918,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (this.userState.settings.default_font) {
       this.quill.format('font', this.userState.settings.default_font);
     }
-    this.quill.getModule('toolbar').addHandler('image', () => {
-      this.quillImageHandler();
-    });
 
-    this.quill.on('text-change', (delta, oldDelta, source) => {
+    this.quill.on('text-change', () => {
       this.valueChanged$.next();
     });
     // need to change text to html contents
@@ -948,7 +959,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       ];
       // @ts-ignore
       let xssValue = xss(this.content, {
-        onTag: (tag, html, options) => {
+        onTag: (tag: string, html: string, options: any) => {
           if (!options.isClosing && allowedTags.includes(tag.toLowerCase())) {
             let htmlAttributes = '';
             const reg = /\s/;
@@ -1222,9 +1233,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   isSelfDestructionEnable() {
     this.isSelfDestruction = false;
     const receivers: string[] = [
-      ...this.mailData.receiver.map(receiver => receiver.email),
-      ...this.mailData.cc.map(cc => cc.email),
-      ...this.mailData.bcc.map(bcc => bcc.email),
+      ...this.mailData.receiver.map((receiver: any) => receiver.email),
+      ...this.mailData.cc.map((cc: any) => cc.email),
+      ...this.mailData.bcc.map((bcc: any) => bcc.email),
     ];
     receivers.forEach(receiver => {
       const getDomain = receiver.substring(receiver.indexOf('@') + 1, receiver.length);
@@ -1270,9 +1281,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       return;
     }
     const receivers: string[] = [
-      ...this.mailData.receiver.map(receiver => receiver.email),
-      ...this.mailData.cc.map(cc => cc.email),
-      ...this.mailData.bcc.map(bcc => bcc.email),
+      ...this.mailData.receiver.map((receiver: any) => receiver.email.toLowerCase()),
+      ...this.mailData.cc.map((cc: any) => cc.email.toLowerCase()),
+      ...this.mailData.bcc.map((bcc: any) => bcc.email.toLowerCase()),
     ];
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
@@ -1292,7 +1303,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }, 100);
       return;
     }
-    if (receivers.some(receiver => this.usersKeys.has(receiver) && this.usersKeys.get(receiver).isFetching)) {
+    if (
+      receivers.some(
+        receiver => this.usersKeys.has(receiver.toLowerCase()) && this.usersKeys.get(receiver.toLowerCase()).isFetching,
+      )
+    ) {
       // If fetching for user key, wait to send
       setTimeout(() => {
         this.isPreparingToSendEmail = false;
@@ -1325,14 +1340,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.confirmModalRef.dismiss();
     }
     let receivers: string[] = [
-      ...this.mailData.receiver.map(receiver => receiver.display),
-      ...this.mailData.cc.map(cc => cc.display),
-      ...this.mailData.bcc.map(bcc => bcc.display),
+      ...this.mailData.receiver.map((receiver: any) => receiver.display.toLowerCase()),
+      ...this.mailData.cc.map((cc: any) => cc.display.toLowerCase()),
+      ...this.mailData.bcc.map((bcc: any) => bcc.display.toLowerCase()),
     ];
     receivers = receivers.filter(
-      email => !this.usersKeys.has(email) || (!this.usersKeys.get(email).key && !this.usersKeys.get(email).isFetching),
+      email =>
+        !this.usersKeys.has(email.toLowerCase()) ||
+        (!this.usersKeys.get(email.toLowerCase()).key && !this.usersKeys.get(email.toLowerCase()).isFetching),
     );
-    
+
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;
@@ -1372,7 +1389,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       if (this.settings && !this.draftMail.is_html) {
         // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : ' ';
+        this.mailData.content = this.mailData.content ? this.mailData.content : '';
         if (this.selectedMailbox.signature) {
           this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}${this.mailData.content}`;
         }
@@ -1399,20 +1416,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             content = content.replace(new RegExp(`${oldSig}$`), '');
           }
           this.quill.clipboard.dangerouslyPasteHTML(content);
-        } else if (this.selectedMailbox.signature) {
+        } else if (this.selectedMailbox && this.selectedMailbox.signature) {
           // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
           content = `<br><br>${newSig}` + content;
           this.isSignatureAdded = true;
           this.quill.clipboard.dangerouslyPasteHTML(content);
-        } else if (this.quill && this.selectedMailbox) {
-          if (this.selectedMailbox.signature) {
-            const index = this.quill.getLength();
-            this.quill.insertText(index, '\n', 'silent');
-            const signature = this.selectedMailbox.signature.replace(/\n/g, '<br>');
-            this.quill.clipboard.dangerouslyPasteHTML(index + 1, signature || '', 'silent');
-            this.isSignatureAdded = true;
-          }
         }
       }
     }
@@ -1628,13 +1637,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
-    this.draftMail.receiver = this.mailData.receiver.map(receiver =>
+    this.draftMail.receiver = this.mailData.receiver.map((receiver: any) =>
       EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name),
     );
     this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.cc = this.mailData.cc.map(cc => EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name));
+    this.draftMail.cc = this.mailData.cc.map((cc: any) => EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name));
     this.draftMail.cc = this.draftMail.cc.filter(receiver => this.rfcStandardValidateEmail(receiver));
-    this.draftMail.bcc = this.mailData.bcc.map(bcc => EmailFormatPipe.transformToFormattedEmail(bcc.email, bcc.name));
+    this.draftMail.bcc = this.mailData.bcc.map((bcc: any) =>
+      EmailFormatPipe.transformToFormattedEmail(bcc.email, bcc.name),
+    );
     this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.rfcStandardValidateEmail(receiver));
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
@@ -1718,8 +1729,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       return;
     }
     const contents = this.quill.getContents().ops;
-    const currentAttachments = [];
-    contents.forEach(item => {
+    const currentAttachments: string[] = [];
+    contents.forEach((item: any) => {
       if (item.insert && item.insert.image && item.insert.image.content_id) {
         currentAttachments.push(item.insert.image.content_id);
       }
@@ -1845,7 +1856,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.deadManTimer.hours = 0;
   }
 
-  onFilesDrop(event) {
+  onFilesDrop(event: any) {
     event.preventDefault();
     event.stopPropagation();
     this.onFilesSelected(event.dataTransfer.files);
@@ -1871,12 +1882,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       }
     });
     if (tag.value && tag.value.split(',').length > 1) {
-      const emails = [];
+      const emails: any[] = [];
       data.forEach(item => {
         if (item.value === tag.value) {
           const tokens = tag.value.split(',');
           emails.push(
-            ...tokens.map(token => {
+            ...tokens.map((token: string) => {
               token = token.trim();
               return { value: token, display: token, email: token, name: token };
             }),
@@ -1891,10 +1902,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     const receiversForKey = data
       .filter(
         receiver =>
-          !this.usersKeys.has(receiver.email) ||
-          (!this.usersKeys.get(receiver.email).key && !this.usersKeys.get(receiver.email).isFetching),
+          !this.usersKeys.has(receiver.email.toLowerCase()) ||
+          (!this.usersKeys.get(receiver.email.toLowerCase()).key &&
+            !this.usersKeys.get(receiver.email.toLowerCase()).isFetching),
       )
-      .map(receiver => receiver.email);
+      .map(receiver => receiver.email.toLowerCase());
 
     if (receiversForKey.length > 0) {
       this.store.dispatch(
@@ -1908,7 +1920,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   }
 
   getUserKeyFetchingStatus(email: string): boolean {
-    return !this.usersKeys.has(email) || (this.usersKeys.has(email) && this.usersKeys.get(email).isFetching);
+    return (
+      !this.usersKeys.has(email.toLowerCase()) ||
+      (this.usersKeys.has(email.toLowerCase()) && this.usersKeys.get(email.toLowerCase()).isFetching)
+    );
   }
 
   rfcStandardValidateEmail(address: string): boolean {

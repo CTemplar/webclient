@@ -58,7 +58,7 @@ onmessage = async function (event) {
       decryptWithPassword(event.data.mailData.content, event.data.password).then(content => {
         decryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
           postMessage({ mailData: { content, subject }, decryptSecureMessageContent: true });
-        })
+        });
       });
     }
   } else if (event.data.decryptSecureMessageAttachment) {
@@ -128,32 +128,34 @@ onmessage = async function (event) {
         });
       }
     }
-  } else if(event.data.decryptPasswordEncryptedContent) {
+  } else if (event.data.decryptPasswordEncryptedContent) {
     if (!event.data.mailData) {
       postMessage({ decryptedContent: {}, decrypted: true, callerId: event.data.callerId });
     } else {
-      decryptWithPassword(event.data.mailData.content, event.data.password).then(content => {
-        decryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
-          decryptWithPassword(event.data.mailData.content_plain, event.data.password).then(content_plain => {
-            postMessage({
-              decryptedContent: { content, subject, content_plain },
-              decrypted: true,
-              callerId: event.data.callerId,
-              isDecryptingAllSubjects: false,
-              subjectId: event.data.subjectId,
+      decryptWithPassword(event.data.mailData.content, event.data.password)
+        .then(content => {
+          decryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
+            decryptWithPassword(event.data.mailData.content_plain, event.data.password).then(content_plain => {
+              postMessage({
+                decryptedContent: { content, subject, content_plain },
+                decrypted: true,
+                callerId: event.data.callerId,
+                isDecryptingAllSubjects: false,
+                subjectId: event.data.subjectId,
+              });
             });
-          })
+          });
         })
-      }).catch(() => {
-        postMessage({
-          decryptedContent: { content: '', subject: '', content_plain: '' },
-          decrypted: true,
-          callerId: event.data.callerId,
-          isDecryptingAllSubjects: false,
-          subjectId: event.data.subjectId,
-          error: true
-        })
-      });
+        .catch(() => {
+          postMessage({
+            decryptedContent: { content: '', subject: '', content_plain: '' },
+            decrypted: true,
+            callerId: event.data.callerId,
+            isDecryptingAllSubjects: false,
+            subjectId: event.data.subjectId,
+            error: true,
+          });
+        });
     }
   } else if (event.data.changePassphrase) {
     if (event.data.deleteData) {
@@ -359,9 +361,11 @@ async function decryptAttachmentWithPassword(data, password) {
   }
   try {
     const options = {
-      message: isArmored ? await openpgp.message.readArmored(tmpDecodedData) : await openpgp.message.read(openpgp.util.b64_to_Uint8Array(data)),
+      message: isArmored
+        ? await openpgp.message.readArmored(tmpDecodedData)
+        : await openpgp.message.read(openpgp.util.b64_to_Uint8Array(data)),
       passwords: [password],
-      format: 'binary'
+      format: 'binary',
     };
     return openpgp.decrypt(options).then(payload => {
       return payload.data;
@@ -377,10 +381,10 @@ async function encryptWithPassword(data, password) {
     return Promise.resolve(data);
   }
   const options = {
-    message : openpgp.message.fromText(data),
-    passwords : [password],
-    armor : true
-  }
+    message: openpgp.message.fromText(data),
+    passwords: [password],
+    armor: true,
+  };
   return openpgp.encrypt(options).then(payload => {
     return payload.data;
   });
@@ -410,8 +414,8 @@ async function encryptAttachmentWithPassword(data, password) {
   }
   const options = {
     message: await openpgp.message.fromBinary(data),
-    passwords : [password],
-    armor : true
+    passwords: [password],
+    armor: true,
   };
   return openpgp.encrypt(options).then(payload => {
     return payload.data;

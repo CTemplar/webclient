@@ -10,7 +10,7 @@ import { MailboxSettingsUpdate } from '../../../store/actions';
 import { SharedService } from '../../../store/services';
 import { NoWhiteSpaceValidator } from '../../../shared/validators/no-whitespace.validator';
 import { NOT_FIRST_LOGIN } from '../../../shared/config';
-import { UseCacheDialogComponent } from '../use-cache-dialog/use-cache-dialog.component'
+import { UseCacheDialogComponent } from '../use-cache-dialog/use-cache-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -34,11 +34,10 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private sharedService: SharedService,
     private formBuilder: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit() {
-    
     this.changeDisplayNameForm = this.formBuilder.group({
       username: ['', [Validators.required, NoWhiteSpaceValidator.noWhiteSpaceValidator]],
     });
@@ -88,15 +87,12 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
 
   openUseCacheConfirmDialog() {
     const ngbModalOptions: NgbModalOptions = {
-      backdrop : 'static',
-      keyboard : false,
+      backdrop: 'static',
+      keyboard: false,
       centered: true,
       windowClass: 'modal-sm users-action-modal',
     };
-    this.modalService.open(
-      UseCacheDialogComponent,
-      ngbModalOptions
-    );
+    this.modalService.open(UseCacheDialogComponent, ngbModalOptions);
   }
 
   ngOnDestroy(): void {

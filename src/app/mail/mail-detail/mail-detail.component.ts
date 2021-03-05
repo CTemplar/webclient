@@ -23,13 +23,22 @@ import {
   WhiteListAdd,
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
-import { AppState, MailAction, MailBoxesState, MailState, SecureContent, UserState, NumberBooleanMappedType, NumberStringMappedType } from '../../store/datatypes';
+import {
+  AppState,
+  MailAction,
+  MailBoxesState,
+  MailState,
+  SecureContent,
+  UserState,
+  NumberBooleanMappedType,
+  NumberStringMappedType,
+} from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
-declare let Scrambler;
+declare let Scrambler: (arg0: { target: string; random: number[]; speed: number; text: string }) => void;
 
 @UntilDestroy()
 @Component({
@@ -38,9 +47,9 @@ declare let Scrambler;
   styleUrls: ['./mail-detail.component.scss'],
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
-  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal;
-  @ViewChild('includeAttachmentsModal') includeAttachmentsModal;
-  @ViewChild('incomingHeadersModal') incomingHeadersModal;
+  @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
+  @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
+  @ViewChild('incomingHeadersModal') incomingHeadersModal: any;
 
   mail: Mail;
 
@@ -211,7 +220,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (!this.isPasswordEncrypted[this.mail.id] && this.mail.is_subject_encrypted) {
             this.scrambleText('subject-scramble');
           }
-          
+
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
           const decryptedContent = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
@@ -239,7 +248,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   },
                 );
             }
-            // If done to decrypt, 
+            // If done to decrypt,
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
@@ -289,8 +298,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               if (!this.isPasswordEncrypted[lastFilteredChild.id]) {
                 this.decryptChildEmails(lastFilteredChild);
               }
-              
-              this.mailExpandedStatus[lastFilteredChild.id] = this.mailExpandedStatus[lastFilteredChild.id] !== undefined ? this.mailExpandedStatus[lastFilteredChild.id] : true;
+
+              this.mailExpandedStatus[lastFilteredChild.id] =
+                this.mailExpandedStatus[lastFilteredChild.id] !== undefined
+                  ? this.mailExpandedStatus[lastFilteredChild.id]
+                  : true;
             }
             this.mail.children.forEach(child => {
               this.backupChildDecryptedContent(child, mailState);
@@ -409,19 +421,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     this.isMobile = window.innerWidth <= 768;
   }
 
   decryptWithPassword(inputID: string, mail: Mail) {
-    const input = (<HTMLInputElement>document.getElementById(inputID));
+    const input = <HTMLInputElement>document.getElementById(inputID);
     if (!mail) return;
     if (!input.value) {
       return;
     }
     this.isDecrypting[mail.id] = true;
     this.mailExpandedStatus[mail.id] = true;
-    this.pgpService.decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), input.value)
+    this.pgpService
+      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), input.value)
       .pipe(take(1))
       .subscribe(
         () => {
@@ -543,15 +556,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.mailOptions[mail.id].showGmailExtraContent = !this.mailOptions[mail.id].showGmailExtraContent;
   }
 
-  makeArrayOf(value, length) {
-    const array = [];
-    let i = length;
-    while (i--) {
-      array[i] = value;
-    }
-    return array;
-  }
-
   decryptChildEmails(child: Mail) {
     if (child.folder === MailFolderType.OUTBOX && !child.is_encrypted) {
       this.decryptedContents[child.id] = child.content;
@@ -599,8 +603,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       return [];
     }
     headers = JSON.parse(headers);
-    const headersArray = [];
-    headers.forEach(header => {
+    const headersArray: { key: string; value: any }[] = [];
+    headers.forEach((header: any) => {
       Object.keys(header).map(key => {
         if (header.hasOwnProperty(key)) {
           headersArray.push({ key, value: header[key] });
@@ -637,7 +641,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   this.decryptedAttachments[attachment.id] = { ...decryptedAttachment, inProgress: false };
                   this.downloadAttachment(decryptedAttachment);
                 },
-                error => console.log(error),
+                error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to decrypt attachment.' })),
               );
           },
           errorResponse =>
@@ -759,7 +763,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         : [mail.receiver, ...mail.cc, ...mail.bcc];
     }
     this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers.filter(
-      email => email !== this.currentMailbox.email,
+      (email: string) => email !== this.currentMailbox.email,
     );
     this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
@@ -790,9 +794,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: this.getForwardMessageSummary(mail),
       subject: `Fwd: ${this.mail.subject}`,
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
+      action: MailAction.FORWARD,
+      is_html: mail.is_html,
     };
     this.selectedMailToForward = mail;
-    this.composeMailData[mail.id].action = MailAction.FORWARD;
     this.setActionParent(mail, isChildMail, mainReply);
     if (mail.attachments.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
@@ -842,7 +847,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       );
       this.onDeleteCollapseMail(mail.id);
     }
-    let excepted_children = [];
+    let excepted_children: any[] = [];
     if (this.mail.children) {
       excepted_children =
         this.mailFolder === this.mailFolderTypes.TRASH
@@ -912,7 +917,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(event, mail: Mail, withChildren: boolean = true) {
+  ontoggleStarred(event: any, mail: Mail, withChildren: boolean = true) {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(
@@ -940,7 +945,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack(500);
   }
 
-  onCancelSend(mail) {
+  onCancelSend(mail: any) {
     mail.delayed_delivery = 'CancelSend';
     const updatedMail = { draft: mail };
     this.store.dispatch(new SendMail(updatedMail));
@@ -1060,10 +1065,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   scrollTo(elementReference: any) {
     if (elementReference) {
       setTimeout(() => {
-        window.scrollTo({
-          top: elementReference.offsetTop,
-          behavior: 'smooth',
-        });
+        elementReference.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     }
   }
@@ -1145,7 +1147,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onClickParentHeader() {
     this.mailExpandedStatus[this.mail.id] = !this.mailExpandedStatus[this.mail.id];
-    if (this.mail.content != undefined && !this.decryptedContents[this.mail.id] && !this.isDecrypting[this.mail.id] && !this.isPasswordEncrypted[this.mail.id]) {
+    if (
+      this.mail.content != undefined &&
+      !this.decryptedContents[this.mail.id] &&
+      !this.isDecrypting[this.mail.id] &&
+      !this.isPasswordEncrypted[this.mail.id]
+    ) {
       this.isDecrypting[this.mail.id] = true;
       this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
     }
@@ -1170,11 +1177,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   // == Toggle password visibility
   togglePassword(inputID: string): any {
-    const input = (<HTMLInputElement>document.getElementById(inputID));
+    const input = <HTMLInputElement>document.getElementById(inputID);
     if (!input.value) {
       return;
     }
     input.type = input.type === 'password' ? 'text' : 'password';
   }
-
 }
