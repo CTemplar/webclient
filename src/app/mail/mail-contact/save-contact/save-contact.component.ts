@@ -17,8 +17,27 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
 
-import { AppState, Contact, ContactsState, UserState, MailboxKey, PGPEncryptionType, StringBooleanMappedType, StringStringMappedType, ContactKey } from '../../../store/datatypes';
-import { ContactAdd, ContactAddKeys, ContactFetchKeys, MailboxEffects, MoveToWhitelist, SnackErrorPush, ContactRemoveKeys, ContactBulkUpdateKeys } from '../../../store';
+import {
+  AppState,
+  Contact,
+  ContactsState,
+  UserState,
+  MailboxKey,
+  PGPEncryptionType,
+  StringBooleanMappedType,
+  StringStringMappedType,
+  ContactKey,
+} from '../../../store/datatypes';
+import {
+  ContactAdd,
+  ContactAddKeys,
+  ContactFetchKeys,
+  MailboxEffects,
+  MoveToWhitelist,
+  SnackErrorPush,
+  ContactRemoveKeys,
+  ContactBulkUpdateKeys,
+} from '../../../store';
 import { OpenPgpService } from '../../../store/services';
 import { config } from 'rxjs';
 
@@ -71,10 +90,11 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   selectedContactPulbicKeys: Array<ContactKey> = [];
 
   constructor(
-    private store: Store<AppState>, 
-    private openpgp: OpenPgpService, 
+    private store: Store<AppState>,
+    private openpgp: OpenPgpService,
     private cdr: ChangeDetectorRef,
-    private modalService: NgbModal) {}
+    private modalService: NgbModal,
+  ) {}
 
   ngOnInit() {
     this.handleUserState();
@@ -117,10 +137,14 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
         }
         this.advancedSettingInProgress = contactsState.advancedSettingInProgress;
         this.selectedContactPulbicKeys = contactsState.selectedContactKeys;
-        
+
         this.selectedContactPulbicKeys.forEach(key => {
-          this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails ? key.parsed_emails.includes(this.selectedContact.email) : false;
-          this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(key.public_key)}`;
+          this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails
+            ? key.parsed_emails.includes(this.selectedContact.email)
+            : false;
+          this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(
+            key.public_key,
+          )}`;
         });
       });
   }
@@ -179,38 +203,40 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
       let reader = new FileReader();
       reader.addEventListener('load', (event: any) => {
         const result = event.target.result;
-        this.openpgp.getKeyInfoFromPublicKey(result).pipe(take(1))
-        .subscribe(
-          (keyInfo) => {
-            this.isImportingKey = false;
-            const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
-            if (newKeyInfo) {
-              if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
-                this.selectedContactPulbicKeys.forEach(key => {
-                  if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
-                    newKeyInfo.id = key.id;
-                    newKeyInfo.is_primary = key.is_primary;
-                  }
-                });
+        this.openpgp
+          .getKeyInfoFromPublicKey(result)
+          .pipe(take(1))
+          .subscribe(
+            keyInfo => {
+              this.isImportingKey = false;
+              const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
+              if (newKeyInfo) {
+                if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
+                  this.selectedContactPulbicKeys.forEach(key => {
+                    if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
+                      newKeyInfo.id = key.id;
+                      newKeyInfo.is_primary = key.is_primary;
+                    }
+                  });
+                }
+                this.makeCallForAddKeys(newKeyInfo);
+              } else {
+                this.store.dispatch(
+                  new SnackErrorPush({
+                    message: 'Failed to import the public key',
+                  }),
+                );
               }
-              this.makeCallForAddKeys(newKeyInfo);
-            } else {
+            },
+            error => {
+              this.isImportingKey = false;
               this.store.dispatch(
                 new SnackErrorPush({
-                  message: 'Failed to import the public key',
+                  message: `${file.name} is not a valid PGP public key`,
                 }),
               );
-            }
-          },
-          error => {
-            this.isImportingKey = false;
-            this.store.dispatch(
-              new SnackErrorPush({
-                message: `${file.name} is not a valid PGP public key`,
-              }),
-            );
-          },
-        );
+            },
+          );
       });
       reader.readAsText(file);
     }
@@ -226,7 +252,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
       const mailboxKey: ContactKey = {};
       let keyType = '';
       if (keyInfo.algorithmInfo) {
-        keyType = keyInfo.algorithmInfo.bits ? `RSA${keyInfo.algorithmInfo.bits}` : keyInfo.algorithmInfo.curve
+        keyType = keyInfo.algorithmInfo.bits ? `RSA${keyInfo.algorithmInfo.bits}` : keyInfo.algorithmInfo.curve;
       }
       mailboxKey.public_key = keyInfo.public_key;
       mailboxKey.key_type = keyType;

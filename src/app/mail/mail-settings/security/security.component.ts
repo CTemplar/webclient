@@ -105,7 +105,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
         this.auth2FA = authState.auth2FA;
         if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
           this.canDispatchChangePassphrase = false;
-          this.updatedPrivateKeys = {...authState.updatedPrivateKeys};
+          this.updatedPrivateKeys = { ...authState.updatedPrivateKeys };
           this.changePasswordConfirmed();
           this.store.dispatch(new ChangePassphraseSuccess(null));
         }

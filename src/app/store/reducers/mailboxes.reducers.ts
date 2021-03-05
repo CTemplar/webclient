@@ -33,9 +33,9 @@ export function reducer(
         primaryKey.is_primary = true;
         if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
           const tmpKeys = mailboxKeysMap.get(mailbox.id).filter((key, index) => index !== 0);
-          mailboxKeysMap.set(mailbox.id, [ primaryKey, ...tmpKeys ]);
+          mailboxKeysMap.set(mailbox.id, [primaryKey, ...tmpKeys]);
         } else {
-          mailboxKeysMap.set(mailbox.id, [ primaryKey ]);
+          mailboxKeysMap.set(mailbox.id, [primaryKey]);
         }
       });
       return {
@@ -169,14 +169,14 @@ export function reducer(
       return {
         ...state,
         mailboxKeyInProgress: true,
-      }
+      };
     }
 
     case MailActionTypes.FETCH_MAILBOX_KEYS_SUCCESS: {
       const mailboxKeysMap = state.mailboxKeysMap;
       if (action.payload.updateKeyMap) {
         const keyMap = action.payload.keyMap;
-        [ ...mailboxKeysMap.keys() ].forEach(mailboxId => {
+        [...mailboxKeysMap.keys()].forEach(mailboxId => {
           if (mailboxKeysMap.get(mailboxId).length > 0 && keyMap[mailboxId] && keyMap[mailboxId].length > 0) {
             const updatedKeys = mailboxKeysMap.get(mailboxId).map((key, index) => {
               if (keyMap[mailboxId].length > index + 1) {
@@ -196,7 +196,7 @@ export function reducer(
           ...state,
           mailboxKeysMap,
           mailboxKeyInProgress: false,
-        }
+        };
       } else {
         const mailboxKeys = action.payload.results;
         const mailboxes = state.mailboxes;
@@ -204,14 +204,14 @@ export function reducer(
           mailboxes.forEach((mailbox: Mailbox) => {
             const specificKeys = mailboxKeys.filter(key => key.mailbox === mailbox.id);
             const originKeys = mailboxKeysMap.get(mailbox.id);
-            mailboxKeysMap.set(mailbox.id, [ ...originKeys, ...specificKeys]);
+            mailboxKeysMap.set(mailbox.id, [...originKeys, ...specificKeys]);
           });
         }
         return {
           ...state,
           mailboxKeysMap,
           mailboxKeyInProgress: false,
-        }
+        };
       }
     }
 
@@ -219,45 +219,44 @@ export function reducer(
       return {
         ...state,
         mailboxKeyInProgress: false,
-      }
+      };
     }
 
     case MailActionTypes.ADD_MAILBOX_KEYS: {
       return {
         ...state,
         mailboxKeyInProgress: true,
-      }
+      };
     }
 
     case MailActionTypes.ADD_MAILBOX_KEYS_SUCCESS: {
-      
       const newKey = action.payload;
       const mailboxKeysMap = state.mailboxKeysMap;
       if (mailboxKeysMap.has(newKey.mailbox)) {
         let originKeys = mailboxKeysMap.get(newKey.mailbox);
-        mailboxKeysMap.set(newKey.mailbox, [ ...originKeys, newKey ]);
+        mailboxKeysMap.set(newKey.mailbox, [...originKeys, newKey]);
       } else {
-        mailboxKeysMap.set(newKey.mailbox, [ newKey ]);
+        mailboxKeysMap.set(newKey.mailbox, [newKey]);
       }
       return {
         ...state,
         mailboxKeysMap,
         mailboxKeyInProgress: false,
-      }
+      };
     }
 
     case MailActionTypes.ADD_MAILBOX_KEYS_FAILURE: {
       return {
         ...state,
         mailboxKeyInProgress: false,
-      }
+      };
     }
 
     case MailActionTypes.DELETE_MAILBOX_KEYS: {
       return {
         ...state,
         mailboxKeyInProgress: true,
-      }
+      };
     }
 
     case MailActionTypes.DELETE_MAILBOX_KEYS_SUCCESS: {
@@ -265,27 +264,30 @@ export function reducer(
       const mailboxKeysMap = state.mailboxKeysMap;
       if (mailboxKeysMap.has(deletedKey.mailbox)) {
         let originKeys = mailboxKeysMap.get(deletedKey.mailbox);
-        mailboxKeysMap.set(deletedKey.mailbox, originKeys.filter(key => deletedKey.id !== key.id));
+        mailboxKeysMap.set(
+          deletedKey.mailbox,
+          originKeys.filter(key => deletedKey.id !== key.id),
+        );
       }
       return {
         ...state,
         mailboxKeysMap,
         mailboxKeyInProgress: false,
-      }
+      };
     }
 
     case MailActionTypes.DELETE_MAILBOX_KEYS_FAILURE: {
       return {
         ...state,
         mailboxKeyInProgress: false,
-      }
+      };
     }
 
     case MailActionTypes.SET_PRIMARY_MAILBOX_KEYS: {
       return {
         ...state,
         mailboxKeyInProgress: true,
-      }
+      };
     }
 
     case MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_SUCCESS: {
@@ -326,14 +328,14 @@ export function reducer(
         mailboxes,
         mailboxKeysMap,
         mailboxKeyInProgress: false,
-      }
+      };
     }
 
     case MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_FAILURE: {
       return {
         ...state,
         mailboxKeyInProgress: false,
-      }
+      };
     }
 
     default: {

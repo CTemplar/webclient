@@ -132,16 +132,16 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     }
     case ContactsActionTypes.CONTACT_FETCH_KEYS_SUCCESS: {
       const selectedContactKeys = action.payload.results;
-      return { 
+      return {
         ...state,
         selectedContactKeys,
-        advancedSettingInProgress: false
+        advancedSettingInProgress: false,
       };
     }
     case ContactsActionTypes.CONTACT_FETCH_KEYS_FAILURE: {
       return { ...state, advancedSettingInProgress: false };
     }
-    
+
     // Contact Add Keys
     case ContactsActionTypes.CONTACT_ADD_KEYS: {
       return { ...state, advancedSettingInProgress: true };
@@ -149,17 +149,16 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     case ContactsActionTypes.CONTACT_ADD_KEYS_SUCCESS: {
       const selectedContactKeys = state.selectedContactKeys;
       let filteredKeys = selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
-      filteredKeys = [ ...filteredKeys, action.payload ];
-      return { 
-        ...state, 
+      filteredKeys = [...filteredKeys, action.payload];
+      return {
+        ...state,
         selectedContactKeys: filteredKeys,
-        advancedSettingInProgress: false 
+        advancedSettingInProgress: false,
       };
     }
     case ContactsActionTypes.CONTACT_ADD_KEYS_FAILURE: {
       return { ...state, advancedSettingInProgress: false };
     }
-
 
     // Contact Remove Public Keys
     case ContactsActionTypes.CONTACT_REMOVE_KEYS: {
@@ -167,10 +166,10 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     }
     case ContactsActionTypes.CONTACT_REMOVE_KEYS_SUCCESS: {
       const newContactKeys = state.selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
-      return { 
-        ...state, 
+      return {
+        ...state,
         selectedContactKeys: newContactKeys,
-        advancedSettingInProgress: false 
+        advancedSettingInProgress: false,
       };
     }
     case ContactsActionTypes.CONTACT_REMOVE_KEYS_FAILURE: {
@@ -182,10 +181,10 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { ...state, advancedSettingInProgress: true };
     }
     case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_SUCCESS: {
-      return { 
-        ...state, 
+      return {
+        ...state,
         selectedContactKeys: action.payload,
-        advancedSettingInProgress: false 
+        advancedSettingInProgress: false,
       };
     }
     case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_FAILURE: {
