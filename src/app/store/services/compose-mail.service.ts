@@ -214,7 +214,7 @@ export class ComposeMailService {
       let keys: any[] = [];
       receivers.forEach(receiver => {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        keys = [ ...keys, ...usersKeys.get(parsedEmail.address).key ];
+        keys = [...keys, ...usersKeys.get(parsedEmail.address).key];
       });
       return keys;
     }

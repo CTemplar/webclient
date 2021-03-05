@@ -95,12 +95,13 @@ export function reducer(
       let usersKeys = state.usersKeys;
       if (!action.payload.isBlind && action.payload.data.keys) {
         action.payload.data.keys.forEach(key => {
-          usersKeys.set(key.email, 
-            { 
-              key: usersKeys.has(key.email) && usersKeys.get(key.email).key && usersKeys.get(key.email).key.length > 0 ? [ ...usersKeys.get(key.email).key, key] : [key] , 
-              isFetching: false 
-            }
-          );
+          usersKeys.set(key.email, {
+            key:
+              usersKeys.has(key.email) && usersKeys.get(key.email).key && usersKeys.get(key.email).key.length > 0
+                ? [...usersKeys.get(key.email).key, key]
+                : [key],
+            isFetching: false,
+          });
         });
       }
       return {

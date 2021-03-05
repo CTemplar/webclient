@@ -207,7 +207,7 @@ export class ContactsEffects {
       return this.userService.contactFetchKeys(payload).pipe(
         switchMap(res => of(new ContactFetchKeysSuccess(res))),
         catchError(error => {
-          return of(new ContactFetchKeysFailure(error.error))
+          return of(new ContactFetchKeysFailure(error.error));
         }),
       );
     }),
@@ -226,16 +226,14 @@ export class ContactsEffects {
               new SnackPush({ message: `Public Key with fingerprint ${payload.fingerprint} has been updated` }),
             );
           } else {
-            return of(
-              new ContactAddKeysSuccess(res),
-            );
+            return of(new ContactAddKeysSuccess(res));
           }
         }),
         catchError(error => {
           return of(
             new ContactAddKeysFailure(error.error),
             new SnackErrorPush({ message: 'Failed to add public key' }),
-          )
+          );
         }),
       );
     }),
@@ -252,7 +250,7 @@ export class ContactsEffects {
           return of(
             new ContactRemoveKeysFailure(error.error),
             new SnackErrorPush({ message: 'Failed to remove public key' }),
-          )
+          );
         }),
       );
     }),
@@ -264,14 +262,12 @@ export class ContactsEffects {
     map((action: ContactBulkUpdateKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactBulkUpdateKeys(payload).pipe(
-        switchMap(res => of(
-          new ContactBulkUpdateKeysSuccess(payload),
-        )),
+        switchMap(res => of(new ContactBulkUpdateKeysSuccess(payload))),
         catchError(error => {
           return of(
             new ContactBulkUpdateKeysFailure(error.error),
             new SnackErrorPush({ message: 'Failed to update advanced settings' }),
-          )
+          );
         }),
       );
     }),

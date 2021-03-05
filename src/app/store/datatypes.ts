@@ -719,23 +719,22 @@ export type NumberBooleanMappedType = {
 
 export type NumberStringMappedType = {
   [key: number]: string;
-}
+};
 
 export type StringBooleanMappedType = {
   [key: string]: boolean;
-}
+};
 
 export type StringStringMappedType = {
   [key: string]: string;
-}
+};
 
 export enum PGPEncryptionType {
   PGP_MIME = 'PGP_MIME',
-  PGP_INLINE = 'PGP_INLINE'
+  PGP_INLINE = 'PGP_INLINE',
 }
 
 export enum PGPKeyType {
   RSA_4096 = 'RSA 4096',
-  ECC = 'ECC'
+  ECC = 'ECC',
 }
-
