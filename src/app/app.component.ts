@@ -97,6 +97,8 @@ export class AppComponent implements OnInit, OnDestroy {
           header.getBoundingClientRect().height -
           footer.getBoundingClientRect().height
         ).toString() + 'px';
+    } else {
+      mainContent.style.height = 'auto';
     }
   }
 
