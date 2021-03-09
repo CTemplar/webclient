@@ -599,7 +599,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   downloadAllAttachments(mail: Mail) {
-    if (mail && mail.attachments) {
+    if (mail?.attachments) {
       for (let i = 0; i < mail.attachments.length; i++) {
         this.decryptAttachment(mail.attachments[i], mail);
       }
