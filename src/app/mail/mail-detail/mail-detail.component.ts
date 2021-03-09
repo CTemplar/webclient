@@ -598,6 +598,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
   }
 
+  downloadAllAttachments(mail: Mail) {
+    if (mail?.attachments) {
+      for (let i = 0; i < mail.attachments.length; i++) {
+        this.decryptAttachment(mail.attachments[i], mail);
+      }
+    }
+  }
+
   // TODO: Merge with display-secure-message and compose-mail components
   decryptAttachment(attachment: Attachment, mail: Mail) {
     if (attachment.is_encrypted) {
