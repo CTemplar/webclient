@@ -364,6 +364,9 @@
           <a class="dropdown-item" (click)="showIncomingHeaders(mail)">
             {{ 'mail_detail.show_headers' | translate }}
           </a>
+          <a class="dropdown-item" (click)="downloadAllAttachments(mail)" *ngIf="decryptedContents[mail.id] && mail.attachments?.length > 0">
+            {{ 'mail_detail.download_attachments' | translate }}
+          </a>
           <a class="dropdown-item" *ngIf="!disableMoveTo" (click)="onMarkAsSpam(mail)">
             {{ 'mail_detail.mark_as_spam' | translate }}
           </a>
@@ -586,6 +589,9 @@
                       {{ 'mail_detail.delete_from_receiver' | translate }}
                     </a>
                     <a class="dropdown-item" (click)="showIncomingHeaders(childMail)">{{ 'mail_detail.show_headers' | translate }}</a>
+                    <a class="dropdown-item" (click)="downloadAllAttachments(childMail)" *ngIf="childMail.attachments?.length > 0">
+                      {{ 'mail_detail.download_attachments' | translate }}
+                    </a>
                     <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode(childMail)" *ngIf="decryptedContentsPlain[childMail.id]">
                       {{ plainTextViewState[childMail.id] ? ('mail_detail.show_rich_text' | translate) : ('mail_detail.show_plain_text' | translate) }}
                     </a>
