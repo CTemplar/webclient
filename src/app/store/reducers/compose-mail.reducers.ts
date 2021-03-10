@@ -93,7 +93,7 @@ export function reducer(
       }
       // Saving on global user keys
       let usersKeys = state.usersKeys;
-      if (!action.payload.isBlind && action.payload.data.keys) {
+      if (!action.payload.isBlind && action.payload.data && action.payload.data.keys) {
         action.payload.data.keys.forEach((key: any) => {
           usersKeys.set(key.email, {
             key:
@@ -325,6 +325,29 @@ export function reducer(
         }
       });
       return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.MATCH_CONTACT_USER_KEYS: {
+      const usersKeys = state.usersKeys;
+      if (action.payload.contactKeyAdd) {
+        const key = action.payload;
+        usersKeys.set(key.email, {
+          key:
+            usersKeys.has(key.email) && usersKeys.get(key.email).key && usersKeys.get(key.email).key.length > 0
+              ? [...usersKeys.get(key.email).key, { email: key.email, public_key: key.public_key }]
+              : [{ email: key.email, public_key: key.public_key }],
+          isFetching: false,
+        });
+      } else if (action.payload.contactKeyUpdate) {
+      } else if (action.payload.contactKeyRemove) {
+      } else if (action.payload.contactAdd) {
+        // setting encryption type
+        const email = action.payload.email;
+        if (usersKeys.has(email) && usersKeys.get(email).key && usersKeys.get(email).key.length > 0) {
+          usersKeys.set(email, { ...usersKeys.get(email), pgpEncryptionType: action.payload.enabled_encryption ? action.payload.encryption_type : null });
+        }
+      }
+      return { ...state, usersKeys };
     }
 
     default: {

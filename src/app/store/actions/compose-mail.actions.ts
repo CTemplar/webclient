@@ -24,6 +24,7 @@ export enum ComposeMailActionTypes {
   NEW_DRAFT = '[DraftState] NEW_DRAFT',
   CLEAR_DRAFT = '[DRAFT] CLEAR',
   UPDATE_DRAFT_ATTACHMENT = '[Attachment] UPDATE_DRAFT_ATTACHMENT',
+  MATCH_CONTACT_USER_KEYS = '[Mail] MATCH_CONTACT_USER_KEYS',
 }
 
 export class CreateMail implements Action {
@@ -164,6 +165,12 @@ export class UpdateDraftAttachment implements Action {
   constructor(public payload: any) {}
 }
 
+export class MatchContactUserKeys implements Action {
+  readonly type = ComposeMailActionTypes.MATCH_CONTACT_USER_KEYS;
+
+  constructor(public payload: any) {}
+}
+
 export type ComposeMailActions =
   | CreateMail
   | CreateMailSuccess
@@ -187,4 +194,5 @@ export type ComposeMailActions =
   | GetUsersKeysSuccess
   | NewDraft
   | ClearDraft
-  | UpdateDraftAttachment;
+  | UpdateDraftAttachment
+  | MatchContactUserKeys;

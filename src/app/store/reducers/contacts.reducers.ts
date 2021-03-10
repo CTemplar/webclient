@@ -67,6 +67,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
         contact.email = action.payload.email;
         contact.name = action.payload.name;
         contact.enabled_encryption = action.payload.enabled_encryption;
+        contact.encryption_type = action.payload.encryption_type;
         // TODO should be updated to set public key list
         // contact.public_key = action.payload.public_key;
         return { ...state, inProgress: false, isError: false };
@@ -181,6 +182,12 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { ...state, advancedSettingInProgress: true };
     }
     case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_SUCCESS: {
+      const contacts = state.contacts;
+      contacts.forEach(contact => {
+        if (contact.id === action.payload.id) {
+          contact.encryption_type = action.payload.encryption_type;
+        }
+      });
       return {
         ...state,
         selectedContactKeys: action.payload,

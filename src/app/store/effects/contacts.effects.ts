@@ -40,6 +40,8 @@ import {
   ContactBulkUpdateKeys,
   ContactBulkUpdateKeysSuccess,
   ContactBulkUpdateKeysFailure,
+  MatchContactUserKeys,
+  GetUsersKeys
 } from '../actions';
 import { Contact } from '../datatypes';
 
@@ -96,6 +98,10 @@ export class ContactsEffects {
           }
           return of(
             new ContactAddSuccess(contact),
+            // new MatchContactUserKeys({ ...contact, contactAdd: true }),
+            new GetUsersKeys({
+              emails: [contact.email],
+            }),
             new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` }),
           );
         }),
@@ -218,15 +224,25 @@ export class ContactsEffects {
     ofType(ContactsActionTypes.CONTACT_ADD_KEYS),
     map((action: ContactAddKeys) => action.payload),
     switchMap(payload => {
-      return this.userService.contactAddKeys(payload).pipe(
+      return this.userService.contactAddKeys(payload.key).pipe(
         switchMap(res => {
           if (payload.id) {
             return of(
               new ContactAddKeysSuccess(res),
+              // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyUpdate: true }),
+              new GetUsersKeys({
+                emails: [payload.email],
+              }),
               new SnackPush({ message: `Public Key with fingerprint ${payload.fingerprint} has been updated` }),
             );
           } else {
-            return of(new ContactAddKeysSuccess(res));
+            return of( 
+              new ContactAddKeysSuccess(res),
+              // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyAdd: true })
+              new GetUsersKeys({
+                emails: [payload.email],
+              }),
+            );
           }
         }),
         catchError(error => {
@@ -240,12 +256,18 @@ export class ContactsEffects {
   );
 
   @Effect()
-  contactRemoveKeys: Observable<any> = this.actions.pipe(
+  contactRemoveKeys: Observable<any> = this.actions.pipe( 
     ofType(ContactsActionTypes.CONTACT_REMOVE_KEYS),
     map((action: ContactRemoveKeys) => action.payload),
     switchMap(payload => {
-      return this.userService.contactRemoveKeys(payload).pipe(
-        switchMap(res => of(new ContactRemoveKeysSuccess(payload))),
+      return this.userService.contactRemoveKeys(payload.key).pipe(
+        switchMap(res => of(
+          new ContactRemoveKeysSuccess(payload.key),
+          // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyRemove: true })
+          new GetUsersKeys({
+            emails: [payload.email],
+          }),
+        )),
         catchError(error => {
           return of(
             new ContactRemoveKeysFailure(error.error),

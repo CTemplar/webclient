@@ -51,6 +51,7 @@ export interface Mail {
   thread_count?: number;
   children_folder_info?: any;
   has_starred_children?: boolean;
+  is_autocrypt_encrypted?: boolean;
 }
 
 export class EncryptionNonCTemplar {

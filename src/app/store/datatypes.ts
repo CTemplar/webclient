@@ -451,6 +451,7 @@ export interface ComposeMailState {
 export interface GlobalPublicKey {
   isFetching: boolean;
   key: Array<PublicKey>;
+  pgpEncryptionType?: PGPEncryptionType;
 }
 
 export interface MailBoxesState {
@@ -486,7 +487,7 @@ export interface UserKey {
 
 export interface PublicKey {
   email: string;
-  is_enabled: boolean;
+  is_enabled?: boolean;
   public_key: string;
 }
 

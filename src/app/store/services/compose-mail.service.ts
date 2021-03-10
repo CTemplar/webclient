@@ -12,6 +12,7 @@ import {
   Draft,
   DraftState,
   GlobalPublicKey,
+  PGPEncryptionType,
   PublicKey,
   SecureContent,
   UserState,
@@ -92,6 +93,12 @@ export class ComposeMailService {
                   draftMail.draft.is_encrypted = true;
                   publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
                 }
+                const encryptionTypeForExternal = this.getEncryptionTypeForExternal(draftMail, usersKeys);
+                if (encryptionTypeForExternal !== null && publicKeys.length > 0) {
+                  draftMail.draft.is_encrypted = false;
+                  draftMail.draft.is_subject_encrypted = false;
+                  draftMail.draft.is_autocrypt_encrypted = true;
+                }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                   draftMail.attachments.forEach(attachment => {
                     this.openPgpService.encryptAttachmentWithOnlyPassword(
@@ -105,6 +112,7 @@ export class ComposeMailService {
                     draftMail.draft.encryption.password,
                   );
                 } else if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
+                  debugger
                   draftMail.attachments.forEach(attachment => {
                     this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                   });
@@ -113,8 +121,10 @@ export class ComposeMailService {
                     draftMail.id,
                     new SecureContent(draftMail.draft),
                     publicKeys,
+                    encryptionTypeForExternal,
                   );
                 } else if (!draftMail.isSaving) {
+                  debugger
                   const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
                   if (encryptedAttachments.length > 0) {
                     forkJoin(
@@ -135,8 +145,7 @@ export class ComposeMailService {
                             );
                         });
                       }),
-                    )
-                      .pipe(take(1))
+                    ).pipe(take(1))
                       .subscribe(
                         responses => {
                           if (publicKeys.length === 0) {
@@ -165,6 +174,7 @@ export class ComposeMailService {
                       draftMail.id,
                       new SecureContent(draftMail.draft),
                       publicKeys,
+                      encryptionTypeForExternal,
                     );
                   }
                 } else {
@@ -216,6 +226,41 @@ export class ComposeMailService {
       return keys;
     }
     return [];
+  }
+
+  private getEncryptionTypeForExternal(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): PGPEncryptionType {
+    if (draftMail.draft) {
+      const receivers: string[] = [
+        ...draftMail.draft.receiver.map(receiver => receiver),
+        ...draftMail.draft.cc.map(cc => cc),
+        ...draftMail.draft.bcc.map(bcc => bcc),
+      ];
+      const isPGPInline = receivers.every(receiver => {
+        const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
+        if (usersKeys.has(parsedEmail.address)) {
+          return usersKeys.get(parsedEmail.address).pgpEncryptionType === PGPEncryptionType.PGP_INLINE;
+        } else {
+          return false;
+        }
+      });
+      if (isPGPInline) {
+        return PGPEncryptionType.PGP_INLINE;
+      }
+      const isPGPMime = receivers.every(receiver => {
+        const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
+        if (usersKeys.has(parsedEmail.address)) {
+          return usersKeys.get(parsedEmail.address).pgpEncryptionType === PGPEncryptionType.PGP_MIME;
+        } else {
+          return false;
+        }
+      });
+      if (isPGPMime) {
+        return PGPEncryptionType.PGP_MIME
+      };
+      return null;
+    } else {
+      return null;
+    }
   }
 
   private setEncryptedContent(draftMail: Draft) {

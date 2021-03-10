@@ -244,7 +244,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   makeCallForAddKeys(key: ContactKey) {
     key.contact = this.selectedContact.id;
-    this.store.dispatch(new ContactAddKeys(key));
+    this.store.dispatch(new ContactAddKeys({ key, email: this.selectedContact.email }));
   }
 
   getMailboxKeyModelFromParsedInfo(keyInfo: any): ContactKey {
@@ -281,7 +281,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
       remainedKeys[0].is_primary = true;
       this.store.dispatch(new ContactBulkUpdateKeys([remainedKeys[0]]));
     }
-    this.store.dispatch(new ContactRemoveKeys(key));
+    this.store.dispatch(new ContactRemoveKeys({ key, email: this.selectedContact.email }));
   }
 
   onSetPrimary(key: ContactKey) {

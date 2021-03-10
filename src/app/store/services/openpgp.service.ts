@@ -30,6 +30,7 @@ import {
   Contact,
   ContactsState,
   MailBoxesState,
+  PGPEncryptionType,
   SecureContent,
   Settings,
   UserState,
@@ -282,10 +283,10 @@ export class OpenPgpService {
   }
 
   // Encrypt - Decrypt content
-  encrypt(mailboxId: number, draftId: number, mailData: SecureContent, publicKeys: any[] = []) {
+  encrypt(mailboxId: number, draftId: number, mailData: SecureContent, publicKeys: any[] = [], pgpEncryptionTypeForExternal: PGPEncryptionType = null) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
     publicKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
-    this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId });
+    this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId, pgpEncryptionTypeForExternal });
   }
 
   decryptProcess(
@@ -383,7 +384,7 @@ export class OpenPgpService {
   // Encrypt - Decrypt attachment
   encryptAttachment(mailboxId: number, attachment: Attachment, publicKeys: any[] = []) {
     this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
-    publicKeys.concat(this.pubkeys[mailboxId]);
+    publicKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
     const reader = new FileReader();
     reader.addEventListener('load', (event: any) => {
       const buffer = event.target.result;

@@ -54,6 +54,8 @@ import {
   SecureContent,
   Settings,
   UserState,
+  Contact,
+  PGPEncryptionType
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { MailService, SharedService } from '../../../store/services';
@@ -432,6 +434,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         }
         this.draft = draft;
         this.usersKeys = response.usersKeys;
+        this.anaylizeUsersKeysWithContact();
         const receivers = this.draftMail.receiver;
         if (receivers && receivers.length > 0) {
           const receiversToFetchKey = receivers
@@ -497,6 +500,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           });
         }
         this.contactsState = contactsState;
+        this.anaylizeUsersKeysWithContact();
         this.loadEmailContacts();
       });
 
@@ -622,6 +626,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             emails: [value.toLowerCase()],
           }),
         );
+      } else {
+        this.anaylizeUsersKeysWithContact();
       }
     }
   }
@@ -645,6 +651,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             emails: [value.toLowerCase()],
           }),
         );
+      } else {
+        this.anaylizeUsersKeysWithContact();
       }
     }
   }
@@ -668,6 +676,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             emails: [value.toLowerCase()],
           }),
         );
+      } else {
+        this.anaylizeUsersKeysWithContact();
       }
     }
   }
@@ -1920,9 +1930,62 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       );
     }
     this.valueChanged$.next(data);
+    this.anaylizeUsersKeysWithContact();
     this.isSelfDestructionEnable();
   }
 
+  // Analyze user key based on contact keys
+  anaylizeUsersKeysWithContact() {
+    // Set Encryption Type with contacts
+    const localReceivers: string[] = [
+      ...this.mailData.receiver.map((receiver: any) => receiver.email),
+      ...this.mailData.cc.map((cc: any) => cc.email),
+      ...this.mailData.bcc.map((bcc: any) => bcc.email),
+    ];
+    if (localReceivers.length > 0) {
+      localReceivers.forEach(rec => {
+        if (
+          this.usersKeys.has(rec) && 
+          !this.usersKeys.get(rec).isFetching && 
+          this.usersKeys.get(rec).key && 
+          this.usersKeys.get(rec).key.length > 0
+        ) {
+          const keyObj: any = this.usersKeys.get(rec).key[0];
+          // If receiver is CTemplar user, will not check
+          if (keyObj.exists !== false && keyObj.is_enabled !== true) {
+            // Checking with contacts
+            if (this.contactsState && this.contactsState.contacts.length > 0) {
+              this.contactsState.contacts.forEach((contact: Contact) => {
+                if (contact.email === rec) {
+                  this.usersKeys.set(rec, { ...this.usersKeys.get(rec), pgpEncryptionType: contact.enabled_encryption ? contact.encryption_type : null });
+                }
+              })
+            }
+          }
+        }
+      });
+    }
+    // Set Editor style with encryption type
+    // If all receiver is based on PGP Inline, Plain Text Edtor
+    // If PGP Mime or null, Do Nothing
+    if (localReceivers.length > 0) {
+      const isPGPInline = localReceivers.every(rec => {
+        if (
+          this.usersKeys.has(rec) && 
+          !this.usersKeys.get(rec).isFetching
+        ) {
+          return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_INLINE;
+        } else {
+          return false;
+        }
+      });
+      if (isPGPInline) {
+        this.setHtmlEditor(false);
+      }
+    }
+  }
+
+  // TODO should be moved to template
   getUserKeyFetchingStatus(email: string): boolean {
     return (
       !this.usersKeys.has(email.toLowerCase()) ||

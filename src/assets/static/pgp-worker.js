@@ -10,11 +10,17 @@ onmessage = async function (event) {
   if (event.data.clear) {
     decryptedAllPrivKeys = {};
   } else if (event.data.encrypt) {
-    encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
-      encryptContent(event.data.mailData.subject, event.data.publicKeys).then(subject => {
-        postMessage({ encryptedContent: { content, subject }, encrypted: true, callerId: event.data.callerId });
+    if (event.data.encryptionTypeForExternal === null) {
+      encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
+        encryptContent(event.data.mailData.subject, event.data.publicKeys).then(subject => {
+          postMessage({ encryptedContent: { content, subject }, encrypted: true, callerId: event.data.callerId });
+        });
       });
-    });
+    } else {
+      encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
+        postMessage({ encryptedContent: { content, subject: event.data.mailData.subject }, encrypted: true, callerId: event.data.callerId });
+      });
+    }
   } else if (event.data.encryptAttachment) {
     encryptAttachment(event.data.fileData, event.data.publicKeys).then(content => {
       postMessage({ encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment });
