@@ -90,15 +90,15 @@ export class AppComponent implements OnInit, OnDestroy {
     const header = document.getElementById('mastHead');
     const footer = document.getElementById('colphon');
     const mainContent = document.getElementById('login-main');
-    if (allContent && mainContent && window.innerHeight > allContent.getBoundingClientRect().height) {
+    if (allContent && mainContent) {
       mainContent.style.height =
-        (
-          window.innerHeight -
-          header.getBoundingClientRect().height -
-          footer.getBoundingClientRect().height
-        ).toString() + 'px';
-    } else if (allContent && mainContent && window.innerHeight <= allContent.getBoundingClientRect().height) {
-      mainContent.style.height = 'auto';
+        window.innerHeight > allContent.getBoundingClientRect().height
+          ? (
+              window.innerHeight -
+              header.getBoundingClientRect().height -
+              footer.getBoundingClientRect().height
+            ).toString() + 'px'
+          : 'auto';
     }
   }
 
