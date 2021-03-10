@@ -111,8 +111,7 @@ export class ComposeMailService {
                     new SecureContent(draftMail.draft),
                     draftMail.draft.encryption.password,
                   );
-                } else if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
-                  debugger
+                } else if (publicKeys.length > 0) {
                   draftMail.attachments.forEach(attachment => {
                     this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                   });
@@ -124,7 +123,6 @@ export class ComposeMailService {
                     encryptionTypeForExternal,
                   );
                 } else if (!draftMail.isSaving) {
-                  debugger
                   const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
                   if (encryptedAttachments.length > 0) {
                     forkJoin(
