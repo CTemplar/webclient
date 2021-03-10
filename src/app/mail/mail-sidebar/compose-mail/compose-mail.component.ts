@@ -373,6 +373,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   isPreparingToSendEmail: boolean = false;
 
+  pgpEncryptionType: PGPEncryptionType = null; 
+
   constructor(
     private modalService: NgbModal,
     private store: Store<AppState>,
@@ -1979,7 +1981,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           return false;
         }
       });
-      if (isPGPInline) {
+      const isPGPMime = localReceivers.every(rec => {
+        if (
+          this.usersKeys.has(rec) && 
+          !this.usersKeys.get(rec).isFetching
+        ) {
+          return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_MIME;
+        } else {
+          return false;
+        }
+      });
+      this.pgpEncryptionType = isPGPInline ? PGPEncryptionType.PGP_INLINE : (isPGPMime ?  PGPEncryptionType.PGP_MIME : null);
+      if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE) {
         this.setHtmlEditor(false);
       }
     }

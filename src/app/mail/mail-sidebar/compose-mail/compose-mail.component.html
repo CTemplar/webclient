@@ -414,7 +414,7 @@
                   <i class="fa fa-ellipsis-v"></i>
                 </button>
                 <div ngbDropdownMenu class="dropdown-menu-right text-center dropdown-size" aria-labelledby="helpDropdownMenuButton">
-                  <button class="dropdown-item row" style="margin: 0px" (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html">
+                  <button class="dropdown-item row" style="margin: 0px" (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html || pgpEncryptionType === 'PGP_INLINE'">
                     <div class="row item">
                       <div class="col-2">
                         <i *ngIf="draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
