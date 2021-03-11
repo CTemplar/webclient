@@ -48,8 +48,11 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
+
   @ViewChild('externalLinkConfirmModal') externalLinkConfirmModal: any;
+
   @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
+
   @ViewChild('incomingHeadersModal') incomingHeadersModal: any;
 
   mail: Mail;
@@ -439,7 +442,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   confirmExternalLinks() {
     this.externalLinkChecked = false;
     setTimeout(() => {
-      var exLinks = document.querySelectorAll('.msg-reply-content a');
+      let exLinks = document.querySelectorAll('.msg-reply-content a');
       if (exLinks?.length > 0) {
         for (const i in exLinks) {
           if (exLinks[i]?.innerHTML && exLinks[i].getAttribute('href')) {
@@ -464,6 +467,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       }
     }, 1000);
+    return;
   }
 
   scrambleText(elementId: string) {
