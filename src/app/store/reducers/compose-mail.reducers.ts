@@ -125,6 +125,20 @@ export function reducer(
       };
     }
 
+    case ComposeMailActionTypes.UPDATE_PGP_MIME_ENCRYPTED: {
+      if (action.payload.draftId) {
+        state.drafts[action.payload.draftId] = {
+          ...state.drafts[action.payload.draftId],
+          isPGPMimeInProgress: action.payload.isPGPMimeInProgress,
+          // encryptedContent: action.payload.encryptedContent,
+        };
+      }
+      return {
+        ...state,
+        drafts: { ...state.drafts },
+      };
+    }
+
     case ComposeMailActionTypes.UPDATE_PGP_SSH_KEYS: {
       if (action.payload.draftId) {
         state.drafts[action.payload.draftId] = {

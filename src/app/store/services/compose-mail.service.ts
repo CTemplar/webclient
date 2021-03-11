@@ -112,16 +112,27 @@ export class ComposeMailService {
                     draftMail.draft.encryption.password,
                   );
                 } else if (publicKeys.length > 0) {
-                  draftMail.attachments.forEach(attachment => {
-                    this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
-                  });
-                  this.openPgpService.encrypt(
-                    draftMail.draft.mailbox,
-                    draftMail.id,
-                    new SecureContent(draftMail.draft),
-                    publicKeys,
-                    encryptionTypeForExternal,
-                  );
+                  if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
+                    // PGP/Mime message should encrypt content and attachment together as encrypted.asc
+                    this.openPgpService.encryptForPGPMime(
+                      draftMail.draft.mailbox,
+                      draftMail.id,
+                      new SecureContent(draftMail.draft),
+                      draftMail.attachments,
+                      publicKeys
+                    );
+                  } else {
+                    draftMail.attachments.forEach(attachment => {
+                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
+                    });
+                    this.openPgpService.encrypt(
+                      draftMail.draft.mailbox,
+                      draftMail.id,
+                      new SecureContent(draftMail.draft),
+                      publicKeys,
+                      encryptionTypeForExternal,
+                    );
+                  }
                 } else if (!draftMail.isSaving) {
                   const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
                   if (encryptedAttachments.length > 0) {

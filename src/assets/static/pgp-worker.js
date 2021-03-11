@@ -25,6 +25,11 @@ onmessage = async function (event) {
     encryptAttachment(event.data.fileData, event.data.publicKeys).then(content => {
       postMessage({ encryptedContent: content, encryptedAttachment: true, attachment: event.data.attachment });
     });
+  } else if (event.data.encryptForPGPMime) {
+    // Encryption for PGP/MIME message
+    encryptContent(event.data.mailData.subject, event.data.publicKeys).then(subject => {
+      postMessage({ encryptedContent: { content, subject }, encrypted: true, callerId: event.data.callerId });
+    });
   } else if (event.data.decryptAttachment) {
     decryptAttachment(event.data.fileData, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
       postMessage({
@@ -259,6 +264,24 @@ onmessage = async function (event) {
           subjectId: event.data.subjectId,
         });
       });
+  } else if (event.data.encryptForPGPMimeContent) {
+    encryptContent(event.data.mailData.content, event.data.publicKeys).then(data => {
+      postMessage({ 
+        data, 
+        encryptedForPGPMimeContent: true,
+        callerId: event.data.callerId,
+        draftId: event.data.draftId,
+       });
+    });
+  } else if (event.data.encryptForPGPMimeAttachment) {
+    encryptAttachment(event.data.fileData, event.data.publicKeys).then(content => {
+      postMessage({ 
+        data: content, 
+        encryptedForPGPMimeAttachment: true, 
+        draftId: event.data.draftId, 
+        attachmentId: event.data.attachmentId 
+      });
+    });
   }
 };
 

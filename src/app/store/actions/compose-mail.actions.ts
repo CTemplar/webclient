@@ -9,6 +9,7 @@ export enum ComposeMailActionTypes {
   UPDATE_LOCAL_DRAFT = '[Mail] UPDATE LOCAL DRAFT',
   CLOSE_MAILBOX = '[Mailbox] CLOSE',
   UPDATE_PGP_ENCRYPTED_CONTENT = '[PGP] UPDATE PGP ENCRYPTED CONTENT',
+  UPDATE_PGP_MIME_ENCRYPTED = '[PGP] UPDATE PGP MIME ENCRYPTED',
   UPDATE_PGP_SSH_KEYS = '[PGP] UPDATE PGP SSH KEYS',
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
@@ -71,6 +72,12 @@ export class SendMailFailure implements Action {
 
 export class UpdatePGPEncryptedContent implements Action {
   readonly type = ComposeMailActionTypes.UPDATE_PGP_ENCRYPTED_CONTENT;
+
+  constructor(public payload?: any) {}
+}
+
+export class UpdatePGPMimeEncrytion implements Action {
+  readonly type = ComposeMailActionTypes.UPDATE_PGP_MIME_ENCRYPTED;
 
   constructor(public payload?: any) {}
 }
@@ -195,4 +202,5 @@ export type ComposeMailActions =
   | NewDraft
   | ClearDraft
   | UpdateDraftAttachment
-  | MatchContactUserKeys;
+  | MatchContactUserKeys
+  | UpdatePGPMimeEncrytion;

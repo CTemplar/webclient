@@ -18,6 +18,7 @@ import {
   UpdateBatchContacts,
   UpdatePGPDecryptedContent,
   UpdatePGPEncryptedContent,
+  UpdatePGPMimeEncrytion,
   UpdatePGPSshKeys,
   UpdateSecureMessageContent,
   UpdateSecureMessageEncryptedContent,
@@ -35,7 +36,11 @@ import {
   Settings,
   UserState,
 } from '../datatypes';
-import { Attachment, Mailbox } from '../models';
+import { 
+  Attachment, 
+  Mailbox,
+  PGPMimeMessageProgressModel 
+} from '../models';
 
 import { UsersService } from './users.service';
 
@@ -74,6 +79,8 @@ export class OpenPgpService {
   private userSettings: Settings;
 
   private mailboxKeysInProgress: boolean;
+
+  private messageForPGPMimeInProcess: Map<number, PGPMimeMessageProgressModel> = new Map<number, PGPMimeMessageProgressModel>();
 
   constructor(private store: Store<AppState>, private usersService: UsersService) {
     this.pgpWorker = new Worker('assets/static/pgp-worker.js');
@@ -278,6 +285,8 @@ export class OpenPgpService {
             delete this.subjects[event.data.subjectId];
           }
         }
+      } else if (event.data.encryptedForPGPMimeContent || event.data.encryptedForPGPMimeAttachment) {
+        this.checkFinalizePGPMimeEncrypt(event.data);
       }
     };
   }
@@ -557,5 +566,55 @@ export class OpenPgpService {
     };
     this.pgpWorker.postMessage({ options, generateKeysForEmail: true, subjectId });
     return subject.asObservable();
+  }
+
+  // PGP/MIME encryption
+  encryptForPGPMime(mailboxId: number, draftId: number, mailData: SecureContent, attachments: Attachment[] = [], publicKeys: any[] = []) {
+    this.store.dispatch(new UpdatePGPMimeEncrytion({ isPGPMimeInProgress: true, encryptedContent: {}, draftId }));
+    publicKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
+    attachments.forEach(attachment => {
+      const reader = new FileReader();
+      reader.addEventListener('load', (event: any) => {
+        const buffer = event.target.result;
+        const uint8Array = new Uint8Array(buffer);
+        this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptForPGPMimeAttachment: true, attachmentId: attachment.attachmentId, draftId });
+      });
+      reader.readAsArrayBuffer(attachment.decryptedDocument);
+    });
+    this.pgpWorker.postMessage({ mailData, publicKeys, encryptForPGPMimeContent: true, draftId });
+    this.messageForPGPMimeInProcess.set(
+      draftId, 
+      {
+        content: mailData.content,
+        attachments,
+        encrypted_attachments: new Map<number, string>(),
+      });
+  }
+
+  checkFinalizePGPMimeEncrypt(encryptedData: any) {
+    const draftId: number = encryptedData.draftId;
+    if (this.messageForPGPMimeInProcess.has(draftId)) {
+      const currentMessageInProgress = this.messageForPGPMimeInProcess.get(draftId);
+      if (encryptedData.encryptedForPGPMimeAttachment) {
+        currentMessageInProgress.encrypted_attachments.set(encryptedData.attachmentId, encryptedData.data);
+      } else if (encryptedData.encryptedForPGPMimeContent) {
+        currentMessageInProgress.encrypted_content = encryptedData.data;
+      }
+      this.messageForPGPMimeInProcess.set(draftId, currentMessageInProgress);
+      // Check if finalized for encryption
+      let isFinishedForAttachmentEncryption = false;
+      if (currentMessageInProgress.attachments && currentMessageInProgress.attachments.length > 0) {
+        const attachmentIDS = currentMessageInProgress.attachments.map(att => att.attachmentId);
+        isFinishedForAttachmentEncryption = attachmentIDS.every(id => currentMessageInProgress.encrypted_attachments.has(id))
+      } else {
+        isFinishedForAttachmentEncryption = true;
+      }
+      if (isFinishedForAttachmentEncryption && currentMessageInProgress.encrypted_content) {
+        this.store.dispatch(new UpdatePGPMimeEncrytion({ isPGPMimeInProgress: false, encryptedContent: { ...currentMessageInProgress }, draftId }));
+        this.messageForPGPMimeInProcess.delete(draftId);
+      }
+    } else {
+      this.store.dispatch(new UpdatePGPMimeEncrytion({ isPGPMimeInProgress: false, encryptedContent: {}, draftId }));
+    }
   }
 }

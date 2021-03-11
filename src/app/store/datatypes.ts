@@ -416,6 +416,7 @@ export interface Draft {
   encryptedContent?: SecureContent;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
+  isPGPMimeInProgress?: boolean;
   // isSshInProgress?: boolean;
   attachments: Attachment[];
   shouldSend?: boolean;

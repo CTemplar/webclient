@@ -131,3 +131,10 @@ export interface EmailDisplay {
   email: string;
   name?: string;
 }
+
+export interface PGPMimeMessageProgressModel {
+  content?: string;
+  attachments?: Attachment[];
+  encrypted_content?: string;
+  encrypted_attachments?: Map<number, string>; // Map<attachmentId, encrypted_content>
+}
