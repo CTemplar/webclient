@@ -74,6 +74,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
+
   selectedMailToInclude: Mail;
 
   isDecrypting: any = {};
@@ -88,7 +89,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   markedAsRead: boolean;
 
-  externalLinkChecked = true;
+  externalLinkChecked: boolean = true;
 
   currentMailIndex: number;
 
