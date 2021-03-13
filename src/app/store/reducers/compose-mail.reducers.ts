@@ -130,7 +130,7 @@ export function reducer(
         state.drafts[action.payload.draftId] = {
           ...state.drafts[action.payload.draftId],
           isPGPMimeInProgress: action.payload.isPGPMimeInProgress,
-          // encryptedContent: action.payload.encryptedContent,
+          pgpMimeContent: action.payload.encryptedContent,
         };
       }
       return {

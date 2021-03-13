@@ -265,22 +265,12 @@ onmessage = async function (event) {
         });
       });
   } else if (event.data.encryptForPGPMimeContent) {
-    encryptContent(event.data.mailData.content, event.data.publicKeys).then(data => {
-      postMessage({ 
-        data, 
+    encryptContent(event.data.pgpMimeData, event.data.publicKeys).then(data => {
+      postMessage({
+        data,
         encryptedForPGPMimeContent: true,
-        callerId: event.data.callerId,
         draftId: event.data.draftId,
        });
-    });
-  } else if (event.data.encryptForPGPMimeAttachment) {
-    encryptAttachment(event.data.fileData, event.data.publicKeys).then(content => {
-      postMessage({ 
-        data: content, 
-        encryptedForPGPMimeAttachment: true, 
-        draftId: event.data.draftId, 
-        attachmentId: event.data.attachmentId 
-      });
     });
   }
 };

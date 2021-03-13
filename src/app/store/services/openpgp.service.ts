@@ -36,11 +36,7 @@ import {
   Settings,
   UserState,
 } from '../datatypes';
-import { 
-  Attachment, 
-  Mailbox,
-  PGPMimeMessageProgressModel 
-} from '../models';
+import { Attachment, Mailbox, PGPMimeMessageProgressModel } from '../models';
 
 import { UsersService } from './users.service';
 
@@ -80,7 +76,10 @@ export class OpenPgpService {
 
   private mailboxKeysInProgress: boolean;
 
-  private messageForPGPMimeInProcess: Map<number, PGPMimeMessageProgressModel> = new Map<number, PGPMimeMessageProgressModel>();
+  private messageForPGPMimeInProcess: Map<number, PGPMimeMessageProgressModel> = new Map<
+    number,
+    PGPMimeMessageProgressModel
+  >();
 
   constructor(private store: Store<AppState>, private usersService: UsersService) {
     this.pgpWorker = new Worker('assets/static/pgp-worker.js');
@@ -94,7 +93,7 @@ export class OpenPgpService {
           this.allPrivateKeys = this.allPrivateKeys || {};
           this.pubkeys = this.pubkeys || {};
           this.pubkeysArray = [];
-          const mailboxKeysMap = mailBoxesState.mailboxKeysMap;
+          const { mailboxKeysMap } = mailBoxesState;
           mailBoxesState.mailboxes.forEach(mailbox => {
             if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
               this.allPrivateKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => key.private_key);
@@ -265,12 +264,10 @@ export class OpenPgpService {
           if (this.subjects[event.data.subjectId]) {
             this.subjects[event.data.subjectId].error(event.data.errorMessage);
           }
-        } else {
-          if (this.subjects[event.data.subjectId]) {
-            this.subjects[event.data.subjectId].next(event.data.keyInfo);
-            this.subjects[event.data.subjectId].complete();
-            delete this.subjects[event.data.subjectId];
-          }
+        } else if (this.subjects[event.data.subjectId]) {
+          this.subjects[event.data.subjectId].next(event.data.keyInfo);
+          this.subjects[event.data.subjectId].complete();
+          delete this.subjects[event.data.subjectId];
         }
       } else if (event.data.generateKeysForEmail) {
         // Handling error
@@ -278,24 +275,40 @@ export class OpenPgpService {
           if (this.subjects[event.data.subjectId]) {
             this.subjects[event.data.subjectId].error(event.data.errorMessage);
           }
-        } else {
-          if (this.subjects[event.data.subjectId]) {
-            this.subjects[event.data.subjectId].next(event.data.keys);
-            this.subjects[event.data.subjectId].complete();
-            delete this.subjects[event.data.subjectId];
-          }
+        } else if (this.subjects[event.data.subjectId]) {
+          this.subjects[event.data.subjectId].next(event.data.keys);
+          this.subjects[event.data.subjectId].complete();
+          delete this.subjects[event.data.subjectId];
         }
-      } else if (event.data.encryptedForPGPMimeContent || event.data.encryptedForPGPMimeAttachment) {
-        this.checkFinalizePGPMimeEncrypt(event.data);
+      } else if (event.data.encryptedForPGPMimeContent) {
+        this.store.dispatch(
+          new UpdatePGPMimeEncrytion({
+            isPGPMimeInProgress: false,
+            encryptedContent: event.data.data,
+            draftId: event.data.draftId,
+          }),
+        );
       }
     };
   }
 
   // Encrypt - Decrypt content
-  encrypt(mailboxId: number, draftId: number, mailData: SecureContent, publicKeys: any[] = [], pgpEncryptionTypeForExternal: PGPEncryptionType = null) {
+  encrypt(
+    mailboxId: number,
+    draftId: number,
+    mailData: SecureContent,
+    publicKeys: any[] = [],
+    pgpEncryptionTypeForExternal: PGPEncryptionType = null,
+  ) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
-    publicKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
-    this.pgpWorker.postMessage({ mailData, publicKeys, encrypt: true, callerId: draftId, pgpEncryptionTypeForExternal });
+    const pubKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
+    this.pgpWorker.postMessage({
+      mailData,
+      publicKeys: pubKeys,
+      encrypt: true,
+      callerId: draftId,
+      pgpEncryptionTypeForExternal,
+    });
   }
 
   decryptProcess(
@@ -538,7 +551,7 @@ export class OpenPgpService {
     this.subjects[subjectId] = subject;
     this.pgpWorker.postMessage({
       password,
-      fileData: fileData,
+      fileData,
       decryptSecureMessageAttachment: true,
       fileInfo,
       subjectId,
@@ -560,7 +573,7 @@ export class OpenPgpService {
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
     const options = {
-      userIds: [{ email: email }],
+      userIds: [{ email }],
       numBits: 4096,
       passphrase: password,
     };
@@ -568,53 +581,15 @@ export class OpenPgpService {
     return subject.asObservable();
   }
 
-  // PGP/MIME encryption
-  encryptForPGPMime(mailboxId: number, draftId: number, mailData: SecureContent, attachments: Attachment[] = [], publicKeys: any[] = []) {
+  /**
+   * PGP/MIME encryption
+   * Try to encrypt everything for PGP/MIME message's content and attachment
+   */
+  encryptForPGPMime(pgpMimeData: string, mailboxId: number, draftId: number, publicKeys: any[] = []) {
     this.store.dispatch(new UpdatePGPMimeEncrytion({ isPGPMimeInProgress: true, encryptedContent: {}, draftId }));
-    publicKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
-    attachments.forEach(attachment => {
-      const reader = new FileReader();
-      reader.addEventListener('load', (event: any) => {
-        const buffer = event.target.result;
-        const uint8Array = new Uint8Array(buffer);
-        this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptForPGPMimeAttachment: true, attachmentId: attachment.attachmentId, draftId });
-      });
-      reader.readAsArrayBuffer(attachment.decryptedDocument);
-    });
-    this.pgpWorker.postMessage({ mailData, publicKeys, encryptForPGPMimeContent: true, draftId });
-    this.messageForPGPMimeInProcess.set(
-      draftId, 
-      {
-        content: mailData.content,
-        attachments,
-        encrypted_attachments: new Map<number, string>(),
-      });
-  }
-
-  checkFinalizePGPMimeEncrypt(encryptedData: any) {
-    const draftId: number = encryptedData.draftId;
-    if (this.messageForPGPMimeInProcess.has(draftId)) {
-      const currentMessageInProgress = this.messageForPGPMimeInProcess.get(draftId);
-      if (encryptedData.encryptedForPGPMimeAttachment) {
-        currentMessageInProgress.encrypted_attachments.set(encryptedData.attachmentId, encryptedData.data);
-      } else if (encryptedData.encryptedForPGPMimeContent) {
-        currentMessageInProgress.encrypted_content = encryptedData.data;
-      }
-      this.messageForPGPMimeInProcess.set(draftId, currentMessageInProgress);
-      // Check if finalized for encryption
-      let isFinishedForAttachmentEncryption = false;
-      if (currentMessageInProgress.attachments && currentMessageInProgress.attachments.length > 0) {
-        const attachmentIDS = currentMessageInProgress.attachments.map(att => att.attachmentId);
-        isFinishedForAttachmentEncryption = attachmentIDS.every(id => currentMessageInProgress.encrypted_attachments.has(id))
-      } else {
-        isFinishedForAttachmentEncryption = true;
-      }
-      if (isFinishedForAttachmentEncryption && currentMessageInProgress.encrypted_content) {
-        this.store.dispatch(new UpdatePGPMimeEncrytion({ isPGPMimeInProgress: false, encryptedContent: { ...currentMessageInProgress }, draftId }));
-        this.messageForPGPMimeInProcess.delete(draftId);
-      }
-    } else {
-      this.store.dispatch(new UpdatePGPMimeEncrytion({ isPGPMimeInProgress: false, encryptedContent: {}, draftId }));
+    if (pgpMimeData) {
+      const pubKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
+      this.pgpWorker.postMessage({ pgpMimeData, publicKeys: pubKeys, encryptForPGPMimeContent: true, draftId });
     }
   }
 }

@@ -437,6 +437,11 @@ export interface Draft {
    * @description It represents if the compose mail editor has been closed or not.
    */
   isClosed?: boolean;
+  /**
+   * @var pgpMimeContent
+   * @description will be used to store encrypted data, which would be used to make `encrypted.asc`
+   */
+  pgpMimeContent?: string;
 }
 
 export interface DraftState {
@@ -740,3 +745,17 @@ export enum PGPKeyType {
   RSA_4096 = 'RSA 4096',
   ECC = 'ECC',
 }
+
+// Email Builder - Content Type
+export enum EmailContentType {
+  TEXT_HTML = 'text/html',
+  TEXT_HTML_CHARSET_UTF8 = 'text/html; charset=UTF-8',
+  PLAIN_TEXT = 'text/plain',
+  PLAIN_TEXT_CHARSET_UTF8 = 'text/plain; charset=UTF-8',
+  MULTIPART_MIXED = 'multipart/mixed',
+  MULTIPART_ALTERNATE = 'multipart/alternate',
+  APPLICATION_OCTET_STREAM = 'application/octet-stream',
+  APPLICATION_PGP_ENCRYPTED = 'application/pgp-encrypted',
+  APPLICATION_PGP_SIGNATURE = 'application/pgp-signature',
+}
+
