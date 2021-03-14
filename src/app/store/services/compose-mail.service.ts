@@ -13,17 +13,18 @@ import {
   DraftState,
   EmailContentType,
   GlobalPublicKey,
+  PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
   PGPEncryptionType,
   PublicKey,
   SecureContent,
   UserState,
 } from '../datatypes';
 import { ClearDraft, CreateMail, SendMail, SnackPush, UploadAttachment } from '../actions';
+import { Attachment } from '../models';
 
 import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
-import { Attachment } from '../models';
 
 @Injectable()
 export class ComposeMailService {
@@ -78,8 +79,10 @@ export class ComposeMailService {
                   !draftMail.isProcessingAttachments &&
                   !draftMail.isPGPInProgress)
               ) {
-                // PGP Encryption has been finished
-                this.setEncryptedContent(draftMail);
+                // PGP Encryption has been finished, don't need to set encryption data, if it is PGP/MIME message
+                if (!draftMail.isPGPMimeMessage) {
+                  this.setEncryptedContent(draftMail);
+                }
                 if (!draftMail.isSaving) {
                   if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                     draftMail.draft.encryption.password = '';
@@ -309,15 +312,13 @@ export class ComposeMailService {
   }
 
   /**
-   * Making message with PGP/MIME format
-   * 1. Force Making `encrypted.asc` file with `draftMail.encryptedContent`
-   * 2. Force Making Message Content and composing
+   * Force Making `encrypted.asc` file with `draftMail.encryptedContent`
    * @param draftMail
    * @private
    */
   private processPGPMimeMessage(draftMail: Draft) {
     const { pgpMimeContent } = draftMail;
-    const newDocument = new File([pgpMimeContent], 'encrypted.asc', {
+    const newDocument = new File([pgpMimeContent], PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME, {
       type: '',
     });
     const attachmentToUpload: Attachment = {
@@ -327,11 +328,11 @@ export class ComposeMailService {
       is_inline: true,
       is_encrypted: false,
       message: draftMail.draft.id,
-      name: 'encrypted.asc',
+      name: PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
       size: newDocument.size.toString(),
       actual_size: newDocument.size,
     };
-    this.store.dispatch(new UploadAttachment({ ...attachmentToUpload }));
+    this.store.dispatch(new UploadAttachment({ ...attachmentToUpload, isPGPMimeMessage: true }));
   }
 
   initComposeMailContainer(container: ViewContainerRef) {

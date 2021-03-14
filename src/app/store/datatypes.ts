@@ -442,6 +442,12 @@ export interface Draft {
    * @description will be used to store encrypted data, which would be used to make `encrypted.asc`
    */
   pgpMimeContent?: string;
+  /**
+   * @var isPGPMimeMessage
+   * @description Represents if draft is PGPMime message or not -
+   * when would be decided after done to upload attachment (encrypted.asc): real composing process
+   */
+  isPGPMimeMessage?: boolean;
 }
 
 export interface DraftState {
@@ -759,3 +765,4 @@ export enum EmailContentType {
   APPLICATION_PGP_SIGNATURE = 'application/pgp-signature',
 }
 
+export const PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME = 'encrypted.asc';

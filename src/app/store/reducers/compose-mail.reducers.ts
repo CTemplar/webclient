@@ -1,7 +1,35 @@
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
-import { ComposeMailState } from '../datatypes';
-import { MailFolderType } from '../models';
+import { ComposeMailState, Draft, PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME } from '../datatypes';
+import { Attachment, MailFolderType } from '../models';
+
+/**
+ * 1. Force Making Draft Mail that contains general text content and  `encrypted.asc` as an attachment
+ * 2. Remove the other attachment because `encrypted.asc` already contains all of attachment and content
+ * 3. Set all of flags, so that it would be really composed after passed
+ * @param draftMail
+ * @param pgpMimeAttachment
+ * @private
+ */
+function updateDraftMailForPGPMimeMessage(
+  draftMail: Draft,
+  oldAttachment: Attachment,
+  newAttachment: Attachment,
+): Draft {
+  const newDraftMail = { ...draftMail };
+  newDraftMail.draft.content = 'Version 1';
+  newDraftMail.draft.content_plain = 'Verions: 1';
+  newDraftMail.draft.is_encrypted = false;
+  newDraftMail.draft.is_subject_encrypted = false;
+  newDraftMail.draft.is_autocrypt_encrypted = true;
+  newDraftMail.draft.attachments = [{ ...newAttachment, is_inline: true }];
+  newDraftMail.attachments = [{ ...newAttachment, is_inline: true }];
+  newDraftMail.isProcessingAttachments = false;
+  newDraftMail.encryptedContent = undefined;
+  newDraftMail.pgpMimeContent = undefined;
+  newDraftMail.isPGPMimeMessage = true;
+  return newDraftMail;
+}
 
 export function reducer(
   state: ComposeMailState = { drafts: {}, usersKeys: new Map() },
@@ -243,7 +271,7 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      const { data } = action.payload;
+      const { data, isPGPMimeMessage } = action.payload;
       state.drafts[data.draftId].attachments.forEach((attachment, index) => {
         if (attachment.attachmentId === data.attachmentId) {
           state.drafts[data.draftId].attachments[index] = {
@@ -260,6 +288,10 @@ export function reducer(
         attachment => attachment.inProgress,
       );
       state.drafts[data.draftId] = { ...state.drafts[data.draftId], isProcessingAttachments };
+      if (isPGPMimeMessage && data.name === PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME) {
+        // PGP/MIME message process
+        state.drafts[data.draftId] = updateDraftMailForPGPMimeMessage(state.drafts[data.draftId], data, action.payload.response);
+      }
       return { ...state, drafts: { ...state.drafts } };
     }
 
