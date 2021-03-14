@@ -776,6 +776,34 @@
 </ng-template>
 <!-- /.Confirm forward attachments modal ends -->
 
+<!-- External Link Confirmation Modal -->
+<ng-template #externalLinkConfirmModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{ 'settings.compose.confirm' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        {{ 'mail_detail.confirm_external_link' | translate }}
+      </div>
+      <div class="form-group text-right mb-0">
+        <button type="button" (click)="externalLinkConfirmModalRef.close(true)" class="btn btn-success btn-sm" role="button">
+          {{ 'common.continue_to_link' | translate }}
+        </button>
+        <button type="button" data-dismiss="modal" aria-label="Close" (click)="externalLinkConfirmModalRef.close(false)" class="btn btn-sm ml-1">
+          {{ 'common.cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- /.External Link Confirmation Modal End -->
+
 <!-- Incoming Headers modal -->
 <ng-template #incomingHeadersModal let-c="close" let-d="dismiss">
   <div class="modal-header">
