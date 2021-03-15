@@ -56,7 +56,7 @@ import {
   UserState,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { MailService, SharedService } from '../../../store/services';
+import { MailService, SharedService, getCryptoRandom } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
@@ -848,7 +848,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
               attachment.progress = 100;
               attachment.name = attachment.name ? attachment.name : this.filenamePipe.transform(attachment.document);
               attachment.draftId = this.draftId;
-              attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
+              attachment.attachmentId = performance.now() + Math.floor(getCryptoRandom() * 1000);
               return attachment;
             })
           : [],
@@ -1099,7 +1099,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         decryptedDocument: file,
         name: file.name,
         size: this.filesizePipe.transform(file.size),
-        attachmentId: performance.now() + Math.floor(Math.random() * 1000),
+        attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
         message: this.draftMail.id,
         is_inline: isInline,
         is_encrypted: !isInline,
