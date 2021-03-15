@@ -171,10 +171,26 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    if (this.selectedPlan !== PlanType.FREE) {
-      this.navigateToBillingPage();
+    let validInviteCode: boolean = true;
+    if (this.inviteCode?.includes('-')) {
+      const dividedCode = this.inviteCode.split('-');
+      for (let i = 0; i < dividedCode.length; i++) {
+        if (!/^\d+$/.test(dividedCode[i])) {
+          validInviteCode = false;
+        }
+      }
     } else {
-      this.signupFormCompleted();
+      validInviteCode = false;
+    }
+
+    if (validInviteCode) {
+      if (this.selectedPlan !== PlanType.FREE) {
+        this.navigateToBillingPage();
+      } else {
+        this.signupFormCompleted();
+      }
+    } else {
+      this.errorMessage = this.translate.instant('create_account.insert_valid_inviteCode');
     }
   }
 
