@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { MailAction } from '../datatypes';
+import { MailAction, PGPEncryptionType } from '../datatypes';
 
 export interface Mail {
   id?: number;
@@ -52,6 +52,7 @@ export interface Mail {
   children_folder_info?: any;
   has_starred_children?: boolean;
   is_autocrypt_encrypted?: boolean;
+  encryption_type?: PGPEncryptionType;
 }
 
 export class EncryptionNonCTemplar {

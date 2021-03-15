@@ -1,5 +1,6 @@
+
 import { MailActions, MailActionTypes } from '../actions';
-import { MailState, FolderState } from '../datatypes';
+import { MailState, FolderState, SecureContent } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
@@ -43,7 +44,7 @@ export function reducer(
     case MailActionTypes.GET_MAILS_SUCCESS: {
       const payloadMails = action.payload.mails;
       const mailMap = updateMailMap(state.mailMap, payloadMails);
-      let folderMap = new Map(state.folderMap);
+      const folderMap = new Map(state.folderMap);
       // Update Folder Map for ###TARGET FOLDER###
       if (!action.payload.is_from_socket || (action.payload.is_from_socket && folderMap.has(action.payload.folder))) {
         const oldFolderInfo = folderMap.get(action.payload.folder);
@@ -97,9 +98,9 @@ export function reducer(
         folderMap.set(MailFolderType.ALL_EMAILS, folderState);
       }
       // Update Current Viewing Folder
-      let mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curFolderMap = folderMap.get(state.currentFolder);
-      state.total_mail_count = curFolderMap.total_mail_count;
+      const mails = prepareMails(state.currentFolder, folderMap, mailMap);
+      const currentFolderMap = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentFolderMap.total_mail_count;
       mails.forEach((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
@@ -172,13 +173,13 @@ export function reducer(
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
-      let folderMap = state.folderMap;
-      let mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
 
       // Update source folder's mails
       const sourceFolderName = action.payload.sourceFolder;
       if (sourceFolderName && folderMap.has(sourceFolderName)) {
-        let sourceFolderState = folderMap.get(sourceFolderName);
+        const sourceFolderState = folderMap.get(sourceFolderName);
         sourceFolderState.mails = sourceFolderState.mails.filter(mail => !listOfIDs.includes(mail.toString()));
         sourceFolderState.total_mail_count =
           sourceFolderState.total_mail_count >= listOfIDs.length
@@ -206,7 +207,7 @@ export function reducer(
         key => key !== sourceFolderName && key !== targetFolderName && key !== state.currentFolder,
       );
       folder_keys.forEach(key => {
-        let folderInfo = folderMap.get(key);
+        const folderInfo = folderMap.get(key);
         folderInfo.is_dirty = true;
         folderInfo.mails = [];
         folderMap.set(key, folderInfo);
@@ -258,8 +259,8 @@ export function reducer(
         }
       });
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
       if (
         state.mailDetail &&
         state.mailDetail.children &&
@@ -273,7 +274,7 @@ export function reducer(
         });
         const sourceFolderChildren = state.mailDetail.children.filter(child => child.folder === sourceFolderName);
         if (sourceFolderName && folderMap.has(sourceFolderName)) {
-          let sourceFolderState = folderMap.get(sourceFolderName);
+          const sourceFolderState = folderMap.get(sourceFolderName);
           sourceFolderState.mails = sourceFolderState.mails.filter(mailID => {
             if (mailID === state.mailDetail.id && sourceFolderChildren.length === 0) {
               return false;
@@ -300,13 +301,13 @@ export function reducer(
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
       let { mails } = state;
-      let mailMap = state.mailMap;
+      const { mailMap } = state;
       const undo_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
-      let folderMap = state.folderMap;
+      const { folderMap } = state;
       // Destination folder map
       if (state.folderMap.has(action.payload.sourceFolder)) {
         const oldFolderMap = folderMap.get(action.payload.sourceFolder);
-        let basicFolderState = getUpdatesFolderMap(undo_mails, oldFolderMap, state.pageLimit);
+        const basicFolderState = getUpdatesFolderMap(undo_mails, oldFolderMap, state.pageLimit);
         basicFolderState.mails = sortByDueDateWithID(basicFolderState.mails, mailMap);
         folderMap.set(action.payload.sourceFolder, basicFolderState);
       }
@@ -334,8 +335,8 @@ export function reducer(
       // Update current folder map
       if (action.payload.sourceFolder === state.currentFolder) {
         mails = prepareMails(action.payload.sourceFolder, folderMap, state.mailMap);
-        const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        const currentMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = currentMailFolder.total_mail_count;
       }
       const listOfIDs = action.payload.ids.toString().split(',');
       if (
@@ -365,8 +366,8 @@ export function reducer(
 
     case MailActionTypes.READ_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
-      let folderMap = state.folderMap;
-      let mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
       const allIDS = Object.keys(mailMap);
       allIDS.forEach(mailID => {
         if (listOfIDs.includes(mailID.toString())) {
@@ -378,20 +379,19 @@ export function reducer(
       if (state.currentFolder !== MailFolderType.UNREAD) {
         if (folderMap.has(MailFolderType.UNREAD)) {
           // TODO should update manually
-          let unreadFolderMap = folderMap.get(MailFolderType.UNREAD);
+          const unreadFolderMap = folderMap.get(MailFolderType.UNREAD);
           unreadFolderMap.is_dirty = true;
           folderMap.set(MailFolderType.UNREAD, unreadFolderMap);
         }
       } else {
-        let currentFolderInfo = folderMap.get(MailFolderType.UNREAD);
+        const currentFolderInfo = folderMap.get(MailFolderType.UNREAD);
         let updatedMailCount = 0;
         const updatedCurrentFolderMails = currentFolderInfo.mails.filter(mailID => {
           if (listOfIDs.includes(mailID.toString()) && action.payload.read) {
             updatedMailCount++;
             return false;
-          } else {
-            return true;
           }
+          return true;
         });
         currentFolderInfo.mails = updatedCurrentFolderMails;
         if (action.payload.read) {
@@ -403,8 +403,8 @@ export function reducer(
         folderMap.set(MailFolderType.UNREAD, currentFolderInfo);
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder.total_mail_count;
 
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, read: action.payload.read };
@@ -422,12 +422,12 @@ export function reducer(
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
-      let folderMap = state.folderMap;
-      let mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
       const allIDS = Object.keys(mailMap);
       allIDS.forEach(mailID => {
         if (listOfIDs.includes(mailID.toString())) {
-          const has_starred_children = !action.payload.starred && action.payload.withChildren ? false : true;
+          const has_starred_children = !(!action.payload.starred && action.payload.withChildren);
           mailMap[mailID] = { ...mailMap[mailID], starred: action.payload.starred, has_starred_children };
         }
       });
@@ -436,19 +436,20 @@ export function reducer(
       if (state.currentFolder !== MailFolderType.STARRED) {
         if (folderMap.has(MailFolderType.STARRED)) {
           // TODO should update manually
-          let starredFolderMap = folderMap.get(MailFolderType.STARRED);
+          const starredFolderMap = folderMap.get(MailFolderType.STARRED);
           starredFolderMap.is_dirty = true;
           folderMap.set(MailFolderType.STARRED, starredFolderMap);
         }
       } else {
-        let currentFolderInfo = folderMap.get(MailFolderType.STARRED);
+        const currentFolderInfo = folderMap.get(MailFolderType.STARRED);
         let updatedMailCount = 0;
         const updatedCurrentFolderMails = currentFolderInfo.mails.filter(mailID => {
           if (listOfIDs.includes(mailID.toString()) && !action.payload.starred) {
             updatedMailCount++;
             return false;
-          } else if (state.mailDetail && mailID === state.mailDetail.id) {
-            const children = state.mailDetail.children;
+          }
+          if (state.mailDetail && mailID === state.mailDetail.id) {
+            const { children } = state.mailDetail;
             if (children && children.length > 0) {
               children.forEach((child, index) => {
                 if (listOfIDs.includes(child.id.toString())) {
@@ -471,7 +472,7 @@ export function reducer(
       }
 
       if (state.mailDetail) {
-        let children = state.mailDetail.children;
+        const { children } = state.mailDetail;
         if (listOfIDs.includes(state.mailDetail.id.toString())) {
           if (action.payload.withChildren && children && children.length > 0) {
             children.forEach((child, index) => (children[index].starred = action.payload.starred));
@@ -481,25 +482,23 @@ export function reducer(
               ? children.some(child => child.starred) || action.payload.starred
               : action.payload.starred;
           state.mailDetail = { ...state.mailDetail, starred: action.payload.starred, children, has_starred_children };
-        } else {
-          if (children && children.length > 0) {
-            children.forEach((child, index) => {
-              if (listOfIDs.includes(child.id.toString())) {
-                children[index] = { ...child, starred: action.payload.starred };
-              }
-            });
-            const has_starred_children = children.some(child => child.starred) || state.mailDetail.starred;
-            state.mailDetail = { ...state.mailDetail, children, has_starred_children };
-            if (state.mailDetail.id in mailMap) {
-              mailMap[state.mailDetail.id] = { ...mailMap[state.mailDetail.id], has_starred_children };
+        } else if (children && children.length > 0) {
+          children.forEach((child, index) => {
+            if (listOfIDs.includes(child.id.toString())) {
+              children[index] = { ...child, starred: action.payload.starred };
             }
+          });
+          const has_starred_children = children.some(child => child.starred) || state.mailDetail.starred;
+          state.mailDetail = { ...state.mailDetail, children, has_starred_children };
+          if (state.mailDetail.id in mailMap) {
+            mailMap[state.mailDetail.id] = { ...mailMap[state.mailDetail.id], has_starred_children };
           }
         }
       }
 
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder.total_mail_count;
 
       return {
         ...state,
@@ -514,12 +513,12 @@ export function reducer(
     case MailActionTypes.DELETE_MAIL_FOR_ALL_SUCCESS:
     case MailActionTypes.DELETE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
-      let folderMap = new Map(state.folderMap);
-      let mailMap = { ...state.mailMap };
+      const folderMap = new Map(state.folderMap);
+      const mailMap = { ...state.mailMap };
       const folder_keys = [MailFolderType.DRAFT, MailFolderType.TRASH, MailFolderType.SPAM];
       folder_keys.forEach(key => {
         if (folderMap.has(key)) {
-          let folderInfo = folderMap.get(key);
+          const folderInfo = folderMap.get(key);
           folderInfo.mails = folderInfo.mails.filter(mailID => !listOfIDs.includes(mailID.toString()));
           folderInfo.total_mail_count = folderInfo.total_mail_count > 0 ? folderInfo.total_mail_count - 1 : 0;
           folderInfo.is_dirty = true;
@@ -533,8 +532,8 @@ export function reducer(
         };
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder.total_mail_count;
 
       if (
         state.mailDetail &&
@@ -658,12 +657,12 @@ export function reducer(
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
-      const folderMap = state.folderMap;
-      let mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
       const mails = prepareMails(action.payload, folderMap, state.mailMap);
       const total_mail_count = folderMap.has(action.payload) ? folderMap.get(action.payload).total_mail_count : 0;
       Object.keys(mailMap).forEach(key => {
-        let mail = mailMap[key];
+        const mail = mailMap[key];
         mail.marked = false;
         mailMap[key] = { ...mail };
       });
@@ -696,34 +695,26 @@ export function reducer(
         }
         return { ...state };
       }
-      if (!state.decryptedContents[action.payload.id]) {
-        state.decryptedContents[action.payload.id] = {
-          id: action.payload.id,
-          content: action.payload.decryptedContent.content,
-          content_plain: action.payload.decryptedContent.content_plain,
-          subject: action.payload.decryptedContent.subject,
-          incomingHeaders: action.payload.decryptedContent.incomingHeaders,
-          inProgress: action.payload.isPGPInProgress,
-          decryptError: action.payload.decryptError,
-        };
-      } else {
-        state.decryptedContents[action.payload.id] = {
-          ...state.decryptedContents[action.payload.id],
-          content: action.payload.decryptedContent.content,
-          content_plain: action.payload.decryptedContent.content_plain,
-          subject: action.payload.decryptedContent.subject,
-          inProgress: action.payload.isPGPInProgress,
-          incomingHeaders: action.payload.decryptedContent.incomingHeaders,
-          decryptError: action.payload.decryptError,
-        };
-      }
-      return { ...state, decryptedContents: { ...state.decryptedContents }, noUnreadCountChange: true };
+      const { decryptedContents } = state;
+      let decryptedContent: SecureContent = decryptedContents[action.payload.id] || {};
+      decryptedContent = {
+        ...decryptedContent,
+        id: action.payload.id,
+        content: action.payload.decryptedContent.content,
+        content_plain: action.payload.decryptedContent.content_plain,
+        subject: action.payload.decryptedContent.subject,
+        inProgress: action.payload.isPGPInProgress,
+        incomingHeaders: action.payload.decryptedContent.incomingHeaders,
+        decryptError: action.payload.decryptError,
+      };
+      decryptedContents[action.payload.id] = decryptedContent;
+      return { ...state, decryptedContents, noUnreadCountChange: true };
     }
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
       let mailMap = { ...state.mailMap };
-      let folderMap = new Map(state.folderMap);
-      let newMail = { ...action.payload };
+      const folderMap = new Map(state.folderMap);
+      const newMail = { ...action.payload };
       // Update mail map
       mailMap = updateMailMap(mailMap, [newMail]);
       if (newMail.parent) {
@@ -748,14 +739,14 @@ export function reducer(
       }
       // update target folder map
       if (folderMap.has(newMail.folder)) {
-        let targetFolderMap = folderMap.get(newMail.folder);
-        let basicFolderState = getUpdatesFolderMap([newMail], targetFolderMap, state.pageLimit);
+        const targetFolderMap = folderMap.get(newMail.folder);
+        const basicFolderState = getUpdatesFolderMap([newMail], targetFolderMap, state.pageLimit);
         folderMap.set(newMail.folder, basicFolderState);
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       if (state.currentFolder) {
-        const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        const currentMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = currentMailFolder.total_mail_count;
       }
       return {
         ...state,
@@ -815,9 +806,8 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
     .map(mailID => {
       if (mailMap.hasOwnProperty(mailID)) {
         return mailMap[mailID];
-      } else {
-        return null;
       }
+      return null;
     })
     .filter(mail => !!mail);
   const sorted = mails
@@ -860,11 +850,11 @@ function getTotalUnreadCount(data: any): number {
 
 function updateMailMap(currentMap: any, mails: Mail[]): any {
   if (mails && mails.length > 0) {
-    let tmpMailMap = {};
+    let temporaryMailMap = {};
     mails.forEach(mail => {
-      tmpMailMap = { ...tmpMailMap, [mail.id]: mail };
+      temporaryMailMap = { ...temporaryMailMap, [mail.id]: mail };
     });
-    return { ...currentMap, ...tmpMailMap };
+    return { ...currentMap, ...temporaryMailMap };
   }
   return currentMap;
 }
@@ -873,15 +863,15 @@ function filterAndMergeMailIDs(
   newMails: Array<Mail>,
   originalMailIDs: Array<number>,
   limit: number,
-  checkUnread: boolean = false,
+  checkUnread = false,
 ): Array<number> {
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
-  let newMailsMap: any = {};
+  const newMailsMap: any = {};
   newMails.forEach(mail => {
     newMailsMap[mail.id] = mail;
   });
   if (originalMailIDs && originalMailIDs.length > 0) {
-    originalMailIDs = originalMailIDs.filter(id => mailIDs.indexOf(id) < 0);
+    originalMailIDs = originalMailIDs.filter(id => !mailIDs.includes(id));
     mailIDs = mailIDs.map(mailID => {
       const newMail = newMailsMap[mailID];
       if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
@@ -903,12 +893,12 @@ function getUpdatesFolderMap(
   newMails: Array<Mail>,
   originalFolderState: FolderState,
   limit: number,
-  checkUnread: boolean = false,
-  isConversationViewMode: boolean = true,
+  checkUnread = false,
+  isConversationViewMode = true,
 ): any {
   let originalMailIDs = originalFolderState.mails;
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
-  let newMailsMap: any = {};
+  const newMailsMap: any = {};
   newMails.forEach(mail => {
     newMailsMap[mail.id] = mail;
   });
@@ -916,12 +906,11 @@ function getUpdatesFolderMap(
     // Remove duplicated mails
     let duplicatedMailIDS: any = [];
     originalMailIDs = originalMailIDs.filter(id => {
-      if (mailIDs.indexOf(id) < 0) {
+      if (!mailIDs.includes(id)) {
         return true;
-      } else {
-        duplicatedMailIDS = [...duplicatedMailIDS, id];
-        return false;
       }
+      duplicatedMailIDS = [...duplicatedMailIDS, id];
+      return false;
     });
     // Check children mails
     // If new's parent is same with any original mail
@@ -962,9 +951,9 @@ function getUpdatesFolderMap(
 function prepareMails(folderName: MailFolderType, folders: Map<string, FolderState>, mailMap: any): Array<Mail> {
   if (folders.has(folderName)) {
     const folderInfo = folders.get(folderName);
-    let mails = folderInfo.mails
+    const mails = folderInfo.mails
       .map(mailID => {
-        let mail = mailMap[mailID] ? mailMap[mailID] : null;
+        const mail = mailMap[mailID] ? mailMap[mailID] : null;
         if (mail) {
           mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
           if (mail.children_folder_info) {
@@ -985,7 +974,6 @@ function prepareMails(folderName: MailFolderType, folders: Map<string, FolderSta
       })
       .filter(mail => mail !== null);
     return mails;
-  } else {
-    return [];
   }
+  return [];
 }

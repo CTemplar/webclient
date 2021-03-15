@@ -377,7 +377,7 @@ export interface FolderState {
 export class SecureContent {
   id?: number;
 
-  content: string;
+  content?: string;
 
   content_plain?: string;
 

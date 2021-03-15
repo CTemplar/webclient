@@ -1,4 +1,10 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild 
+} from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -31,10 +37,16 @@ import {
   SecureContent,
   UserState,
   NumberBooleanMappedType,
-  NumberStringMappedType,
+  NumberStringMappedType, PGPEncryptionType,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
+import {
+  LOADING_IMAGE,
+  MailService,
+  MessageDecryptService,
+  OpenPgpService,
+  SharedService
+} from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
@@ -46,6 +58,7 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
   templateUrl: './mail-detail.component.html',
   styleUrls: ['./mail-detail.component.scss'],
 })
+// eslint-disable-next-line import/prefer-default-export
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
   @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
@@ -65,13 +78,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   decryptedHeaders: any = {};
 
-  isDecryptingError: boolean = false;
+  isDecryptingError = false;
 
   selectedHeaders: string;
 
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
+
   selectedMailToInclude: Mail;
 
   isDecrypting: any = {};
@@ -148,18 +162,33 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private shouldChangeMail = 0;
 
-  // If you are in non-trash folder, this means to show trash children or not
-  // If you are in trash folder, means to show non-trash children or not
-  private isShowTrashRelatedChildren: boolean = false;
+  /**
+   * @private
+   * @var isShowTrashRelatedChildren
+   * @description
+   * If you are in trash folder, means to show non-trash children or not
+   * If you are in non-trash folder, this means to show trash children or not
+   */
+  private isShowTrashRelatedChildren = false;
 
-  // Indicate whether the parent is secure message or not
-  // If it's secure message, it would be encrypted based password, should be decrypted with password
-  private isSecureMessage: boolean = false;
+  /**
+   * @private
+   * @var isShowTrashRelatedChildren
+   * @description
+   * Indicate whether the parent is secure message or not
+   * If it's secure message, it would be encrypted based password, should be decrypted with password
+   */
+  private isSecureMessage = false;
 
-  // indicate to contain trash / non-trash children on the conversation
-  private isContainTrashRelatedChildren: boolean = false;
+  /**
+   * @private
+   * @var isShowTrashRelatedChildren
+   * @description
+   * Indicate to contain trash / non-trash children on the conversation
+   */
+  private isContainTrashRelatedChildren = false;
 
-  private properFolderLastChildIndex: number = 0;
+  private properFolderLastChildIndex = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -172,6 +201,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
     private mailService: MailService,
+    private messageDecryptService: MessageDecryptService,
   ) {}
 
   ngOnInit() {
@@ -230,24 +260,32 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (
               !this.isPasswordEncrypted[this.mail.id] &&
               !this.mail.has_children &&
-              this.mail.content != undefined &&
+              this.mail.content !== undefined &&
               !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent ||
-                (!decryptedContent.inProgress &&
-                  decryptedContent.content == undefined &&
-                  this.mail.content != undefined))
+              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content === undefined))
             ) {
               this.isDecrypting[this.mail.id] = true;
-              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail)).subscribe(
-                () => {},
-                error => {
-                  this.decryptedContents[this.mail.id] = this.mail.content;
-                  this.isDecrypting[this.mail.id] = false;
-                },
-              );
+              // TODO - This If statement should be removed after integrated all of decryption logic to 'MesssageDecryptService
+              if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
+                this.messageDecryptService.decryptMessage(this.mail).subscribe(
+                  () => {},
+                  error => {
+                    this.decryptedContents[this.mail.id] = this.mail.content;
+                    this.isDecrypting[this.mail.id] = false;
+                  },
+                );
+              } else {
+                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail)).subscribe(
+                  () => {},
+                  error => {
+                    this.decryptedContents[this.mail.id] = this.mail.content;
+                    this.isDecrypting[this.mail.id] = false;
+                  },
+                );
+              }
             }
             // If done to decrypt,
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
                 : decryptedContent.content;
@@ -280,9 +318,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
           // Process for children
           if (this.mail.children && this.mail.children.length > 0) {
-            if (this.mailExpandedStatus[this.mail.id] === undefined) this.mailExpandedStatus[this.mail.id] = false;
+            if (this.mailExpandedStatus[this.mail.id] === undefined) {
+              this.mailExpandedStatus[this.mail.id] = false;
+            }
             this.mail.children.forEach(child => {
-              this.isPasswordEncrypted[child.id] = child.encryption ? true : false;
+              this.isPasswordEncrypted[child.id] = !!child.encryption;
             });
             // find the latest child with trash/non-trash folder
             let filteredChildren = [];
@@ -359,7 +399,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
         if (this.mail && this.mail.children) {
           const draft_children = this.mail.children.filter(child => child.folder === 'draft');
-          draft_children.length > 0 ? (this.hasDraft = true) : (this.hasDraft = false);
+          this.hasDraft = !!(draft_children.length > 0);
           // Get whether this contains trash/non-trash children
           if (
             (this.mailFolder !== MailFolderType.TRASH &&
@@ -603,7 +643,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     headers = JSON.parse(headers);
     const headersArray: { key: string; value: any }[] = [];
     headers.forEach((header: any) => {
-      Object.keys(header).map(key => {
+      Object.keys(header).forEach(key => {
         if (header.hasOwnProperty(key)) {
           headersArray.push({ key, value: header[key] });
         }
@@ -657,7 +697,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.shareService.downloadFile(attachment.decryptedDocument);
   }
 
-  markAsStarred(starred = true, withChildren: boolean = true) {
+  markAsStarred(starred = true, withChildren = true) {
     this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred, withChildren }));
   }
 
@@ -701,7 +741,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
-      parentId: parentId,
+      parentId,
       content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
     };
@@ -710,7 +750,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       let lastSender = '';
       let lastReceiver = '';
-      if (mail.children && mail.children.length) {
+      if (mail.children && mail.children.length > 0) {
         for (let i = mail.children.length; i > 0; i--) {
           if (mail.children[i - 1].folder !== 'trash') {
             lastSender = mail.children[i - 1].sender;
@@ -915,7 +955,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(event: any, mail: Mail, withChildren: boolean = true) {
+  ontoggleStarred(event: any, mail: Mail, withChildren = true) {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(
@@ -1146,7 +1186,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onClickParentHeader() {
     this.mailExpandedStatus[this.mail.id] = !this.mailExpandedStatus[this.mail.id];
     if (
-      this.mail.content != undefined &&
+      this.mail.content !== undefined &&
       !this.decryptedContents[this.mail.id] &&
       !this.isDecrypting[this.mail.id] &&
       !this.isPasswordEncrypted[this.mail.id]

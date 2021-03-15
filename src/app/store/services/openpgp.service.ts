@@ -142,156 +142,6 @@ export class OpenPgpService {
     });
   }
 
-  listenWorkerPostMessages() {
-    this.pgpWorker.onmessage = (event: MessageEvent) => {
-      // Generate Keys
-      if (event.data.generateKeys) {
-        if (event.data.forEmail) {
-          this.store.dispatch(
-            new UpdatePGPSshKeys({
-              isSshInProgress: false,
-              keys: event.data.keys,
-              draftId: event.data.callerId,
-            }),
-          );
-        } else {
-          this.userKeys = event.data.keys;
-        }
-      } else if (event.data.decryptAllPrivateKeys) {
-        this.decryptedAllPrivKeys = event.data.keys;
-        this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedAllPrivKeys }));
-      } else if (event.data.decrypted) {
-        this.store.dispatch(
-          new UpdatePGPDecryptedContent({
-            id: event.data.callerId,
-            isPGPInProgress: false,
-            decryptedContent: event.data.decryptedContent,
-            isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-            decryptError: event.data.error,
-          }),
-        );
-        if (this.subjects[event.data.subjectId]) {
-          if (event.data.error) {
-            this.subjects[event.data.subjectId].error();
-          } else {
-            this.subjects[event.data.subjectId].next();
-            this.subjects[event.data.subjectId].complete();
-          }
-          delete this.subjects[event.data.subjectId];
-        }
-      } else if (event.data.decryptSecureMessageKey) {
-        this.store.dispatch(
-          new UpdateSecureMessageKey({
-            decryptedKey: event.data.decryptedKey,
-            inProgress: false,
-            error: event.data.error,
-          }),
-        );
-      } else if (event.data.decryptSecureMessageContent) {
-        this.store.dispatch(
-          new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
-        );
-      } else if (event.data.changePassphrase) {
-        Object.keys(event.data.keys).forEach(mailboxId => {
-          event.data.keys[mailboxId].forEach((key: any, index: number) => {
-            key.public_key = key.public_key ? key.public_key : this.pubkeys[mailboxId][index];
-          });
-        });
-        this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
-      } else if (event.data.encrypted) {
-        this.store.dispatch(
-          new UpdatePGPEncryptedContent({
-            isPGPInProgress: false,
-            encryptedContent: event.data.encryptedContent,
-            draftId: event.data.callerId,
-          }),
-        );
-      } else if (event.data.encryptedAttachment) {
-        const oldDocument = event.data.attachment.decryptedDocument;
-        const newDocument = new File([event.data.encryptedContent], oldDocument.name, {
-          type: oldDocument.type,
-          lastModified: oldDocument.lastModified,
-        });
-        const attachment: Attachment = { ...event.data.attachment, document: newDocument, is_encrypted: true };
-        this.store.dispatch(new UploadAttachment({ ...attachment }));
-      } else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
-        const array = event.data.decryptedContent;
-        const newDocument = new File(
-          [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
-          event.data.fileInfo.attachment.name,
-          { type: event.data.fileInfo.type },
-        );
-        const newAttachment: Attachment = { ...event.data.fileInfo.attachment, decryptedDocument: newDocument };
-        this.subjects[event.data.subjectId].next(newAttachment);
-        this.subjects[event.data.subjectId].complete();
-        delete this.subjects[event.data.subjectId];
-      } else if (event.data.encryptSecureMessageReply) {
-        this.store.dispatch(
-          new UpdateSecureMessageEncryptedContent({
-            inProgress: false,
-            encryptedContent: event.data.encryptedContent,
-          }),
-        );
-      } else if (event.data.encryptJson) {
-        if (event.data.isAddContact) {
-          this.store.dispatch(
-            new ContactAdd({
-              id: event.data.id,
-              encrypted_data: event.data.encryptedContent,
-              is_encrypted: true,
-            }),
-          );
-        }
-      } else if (event.data.decryptJson) {
-        if (event.data.isContact) {
-          this.store.dispatch(new ContactDecryptSuccess({ ...JSON.parse(event.data.content), id: event.data.id }));
-        } else if (event.data.isContactsArray) {
-          const totalDecryptedContacts = this.contactsState.noOfDecryptedContacts + event.data.contacts.length;
-          this.store.dispatch(new UpdateBatchContacts({ contact_list: event.data.contacts }));
-          if (this.contactsState.totalContacts > totalDecryptedContacts) {
-            this.store.dispatch(
-              new ContactsGet({
-                limit: 20,
-                offset: totalDecryptedContacts,
-                isDecrypting: true,
-              }),
-            );
-          }
-        }
-      } else if (event.data.getKeyInfoFromPublicKey) {
-        // Handling error
-        if (event.data.error) {
-          if (this.subjects[event.data.subjectId]) {
-            this.subjects[event.data.subjectId].error(event.data.errorMessage);
-          }
-        } else if (this.subjects[event.data.subjectId]) {
-          this.subjects[event.data.subjectId].next(event.data.keyInfo);
-          this.subjects[event.data.subjectId].complete();
-          delete this.subjects[event.data.subjectId];
-        }
-      } else if (event.data.generateKeysForEmail) {
-        // Handling error
-        if (event.data.error) {
-          if (this.subjects[event.data.subjectId]) {
-            this.subjects[event.data.subjectId].error(event.data.errorMessage);
-          }
-        } else if (this.subjects[event.data.subjectId]) {
-          this.subjects[event.data.subjectId].next(event.data.keys);
-          this.subjects[event.data.subjectId].complete();
-          delete this.subjects[event.data.subjectId];
-        }
-      } else if (event.data.encryptedForPGPMimeContent) {
-        this.store.dispatch(
-          new UpdatePGPMimeEncrytion({
-            isPGPMimeInProgress: false,
-            encryptedContent: event.data.data,
-            draftId: event.data.draftId,
-          }),
-        );
-      }
-    };
-  }
-
   // Encrypt - Decrypt content
   encrypt(
     mailboxId: number,
@@ -317,6 +167,7 @@ export class OpenPgpService {
     mailData: SecureContent,
     isDecryptingAllSubjects = false,
     subjectId: number,
+    isPGPMime = false,
   ) {
     if (this.decryptedAllPrivKeys) {
       if (!mailData.isSubjectEncrypted) {
@@ -337,19 +188,26 @@ export class OpenPgpService {
         decrypt: true,
         callerId: mailId,
         subjectId,
+        isPGPMime,
       });
     } else {
       setTimeout(() => {
-        this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId);
+        this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId, isPGPMime);
       }, 1000);
     }
   }
 
-  decrypt(mailboxId: number, mailId: number, mailData: SecureContent, isDecryptingAllSubjects = false) {
+  decrypt(
+    mailboxId: number,
+    mailId: number,
+    mailData: SecureContent,
+    isDecryptingAllSubjects = false,
+    isPGPMime = false,
+  ) {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId);
+    this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId, isPGPMime);
     return subject.asObservable();
   }
 
@@ -591,5 +449,169 @@ export class OpenPgpService {
       const pubKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
       this.pgpWorker.postMessage({ pgpMimeData, publicKeys: pubKeys, encryptForPGPMimeContent: true, draftId });
     }
+  }
+
+  listenWorkerPostMessages() {
+    this.pgpWorker.onmessage = (event: MessageEvent) => {
+      // Generate Keys
+      if (event.data.generateKeys) {
+        if (event.data.forEmail) {
+          this.store.dispatch(
+            new UpdatePGPSshKeys({
+              isSshInProgress: false,
+              keys: event.data.keys,
+              draftId: event.data.callerId,
+            }),
+          );
+        } else {
+          this.userKeys = event.data.keys;
+        }
+      } else if (event.data.decryptAllPrivateKeys) {
+        this.decryptedAllPrivKeys = event.data.keys;
+        this.store.dispatch(new SetDecryptedKey({ decryptedKey: this.decryptedAllPrivKeys }));
+      } else if (event.data.decrypted) {
+        // TODO - should be updated while integrating all of decryption logic
+        // Currently PGP/MIME message logic is separated with the others
+        if (event.data.decryptedPGPMime) {
+          if (this.subjects[event.data.subjectId]) {
+            if (event.data.error) {
+              this.subjects[event.data.subjectId].error(event.data);
+            } else {
+              this.subjects[event.data.subjectId].next(event.data);
+              this.subjects[event.data.subjectId].complete();
+            }
+            delete this.subjects[event.data.subjectId];
+          }
+        } else {
+          this.store.dispatch(
+            new UpdatePGPDecryptedContent({
+              id: event.data.callerId,
+              isPGPInProgress: false,
+              decryptedContent: event.data.decryptedContent,
+              isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+              decryptError: event.data.error,
+            }),
+          );
+          if (this.subjects[event.data.subjectId]) {
+            if (event.data.error) {
+              this.subjects[event.data.subjectId].error();
+            } else {
+              this.subjects[event.data.subjectId].next();
+              this.subjects[event.data.subjectId].complete();
+            }
+            delete this.subjects[event.data.subjectId];
+          }
+        }
+      } else if (event.data.decryptSecureMessageKey) {
+        this.store.dispatch(
+          new UpdateSecureMessageKey({
+            decryptedKey: event.data.decryptedKey,
+            inProgress: false,
+            error: event.data.error,
+          }),
+        );
+      } else if (event.data.decryptSecureMessageContent) {
+        this.store.dispatch(
+          new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
+        );
+      } else if (event.data.changePassphrase) {
+        Object.keys(event.data.keys).forEach(mailboxId => {
+          event.data.keys[mailboxId].forEach((key: any, index: number) => {
+            key.public_key = key.public_key ? key.public_key : this.pubkeys[mailboxId][index];
+          });
+        });
+        this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
+      } else if (event.data.encrypted) {
+        this.store.dispatch(
+          new UpdatePGPEncryptedContent({
+            isPGPInProgress: false,
+            encryptedContent: event.data.encryptedContent,
+            draftId: event.data.callerId,
+          }),
+        );
+      } else if (event.data.encryptedAttachment) {
+        const oldDocument = event.data.attachment.decryptedDocument;
+        const newDocument = new File([event.data.encryptedContent], oldDocument.name, {
+          type: oldDocument.type,
+          lastModified: oldDocument.lastModified,
+        });
+        const attachment: Attachment = { ...event.data.attachment, document: newDocument, is_encrypted: true };
+        this.store.dispatch(new UploadAttachment({ ...attachment }));
+      } else if (event.data.decryptedAttachment || event.data.decryptedSecureMessageAttachment) {
+        const array = event.data.decryptedContent;
+        const newDocument = new File(
+          [array.buffer.slice(array.byteOffset, array.byteLength + array.byteOffset)],
+          event.data.fileInfo.attachment.name,
+          { type: event.data.fileInfo.type },
+        );
+        const newAttachment: Attachment = { ...event.data.fileInfo.attachment, decryptedDocument: newDocument };
+        this.subjects[event.data.subjectId].next(newAttachment);
+        this.subjects[event.data.subjectId].complete();
+        delete this.subjects[event.data.subjectId];
+      } else if (event.data.encryptSecureMessageReply) {
+        this.store.dispatch(
+          new UpdateSecureMessageEncryptedContent({
+            inProgress: false,
+            encryptedContent: event.data.encryptedContent,
+          }),
+        );
+      } else if (event.data.encryptJson) {
+        if (event.data.isAddContact) {
+          this.store.dispatch(
+            new ContactAdd({
+              id: event.data.id,
+              encrypted_data: event.data.encryptedContent,
+              is_encrypted: true,
+            }),
+          );
+        }
+      } else if (event.data.decryptJson) {
+        if (event.data.isContact) {
+          this.store.dispatch(new ContactDecryptSuccess({ ...JSON.parse(event.data.content), id: event.data.id }));
+        } else if (event.data.isContactsArray) {
+          const totalDecryptedContacts = this.contactsState.noOfDecryptedContacts + event.data.contacts.length;
+          this.store.dispatch(new UpdateBatchContacts({ contact_list: event.data.contacts }));
+          if (this.contactsState.totalContacts > totalDecryptedContacts) {
+            this.store.dispatch(
+              new ContactsGet({
+                limit: 20,
+                offset: totalDecryptedContacts,
+                isDecrypting: true,
+              }),
+            );
+          }
+        }
+      } else if (event.data.getKeyInfoFromPublicKey) {
+        // Handling error
+        if (event.data.error) {
+          if (this.subjects[event.data.subjectId]) {
+            this.subjects[event.data.subjectId].error(event.data.errorMessage);
+          }
+        } else if (this.subjects[event.data.subjectId]) {
+          this.subjects[event.data.subjectId].next(event.data.keyInfo);
+          this.subjects[event.data.subjectId].complete();
+          delete this.subjects[event.data.subjectId];
+        }
+      } else if (event.data.generateKeysForEmail) {
+        // Handling error
+        if (event.data.error) {
+          if (this.subjects[event.data.subjectId]) {
+            this.subjects[event.data.subjectId].error(event.data.errorMessage);
+          }
+        } else if (this.subjects[event.data.subjectId]) {
+          this.subjects[event.data.subjectId].next(event.data.keys);
+          this.subjects[event.data.subjectId].complete();
+          delete this.subjects[event.data.subjectId];
+        }
+      } else if (event.data.encryptedForPGPMimeContent) {
+        this.store.dispatch(
+          new UpdatePGPMimeEncrytion({
+            isPGPMimeInProgress: false,
+            encryptedContent: event.data.data,
+            draftId: event.data.draftId,
+          }),
+        );
+      }
+    };
   }
 }

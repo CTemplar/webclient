@@ -107,48 +107,48 @@ onmessage = async function (event) {
       });
     } else {
       if (decryptedAllPrivKeys[event.data.mailboxId]) {
-        decryptContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId])
-          .then(content => {
+        decryptContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
+          decryptContent(event.data.mailData.incomingHeaders, decryptedAllPrivKeys[event.data.mailboxId]).then(incomingHeaders => {
             decryptContent(event.data.mailData.subject, decryptedAllPrivKeys[event.data.mailboxId]).then(subject => {
-              decryptContent(event.data.mailData.incomingHeaders, decryptedAllPrivKeys[event.data.mailboxId]).then(
-                incomingHeaders => {
-                  if (event.data.mailData.content_plain) {
-                    decryptContent(event.data.mailData.content_plain, decryptedAllPrivKeys[event.data.mailboxId]).then(
-                      content_plain => {
-                        postMessage({
-                          decryptedContent: { incomingHeaders, content, subject, content_plain },
-                          decrypted: true,
-                          callerId: event.data.callerId,
-                          isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-                        });
-                      },
-                    );
-                  } else {
-                    postMessage({
-                      decryptedContent: { incomingHeaders, content, subject, content_plain: '' },
-                      decrypted: true,
-                      callerId: event.data.callerId,
-                      isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-                    });
-                  }
-                },
-              );
-            });
-          })
-          .catch(() => {
-            postMessage({
-              decryptedContent: {
-                incomingHeaders: event.data.mailData.incomingHeaders,
-                content: event.data.mailData.content,
-                subject: event.data.mailData.subject,
-                content_plain: event.data.mailData.content_plain,
-              },
-              decrypted: true,
-              callerId: event.data.callerId,
-              subjectId: event.data.subjectId,
-              error: true,
+              if (!event.data.isPGPMime && event.data.mailData.content_plain) {
+                decryptContent(event.data.mailData.content_plain, decryptedAllPrivKeys[event.data.mailboxId]).then(content_plain => {
+                  postMessage({
+                    decryptedContent: { incomingHeaders, content, subject, content_plain },
+                    decrypted: true,
+                    callerId: event.data.callerId,
+                    subjectId: event.data.subjectId,
+                    decryptedPGPMime: false,
+                    isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+                  });
+                });
+              } else {
+                postMessage({
+                  decryptedContent: { incomingHeaders, content, subject, content_plain: '' },
+                  decrypted: true,
+                  callerId: event.data.callerId,
+                  subjectId: event.data.subjectId,
+                  decryptedPGPMime: event.data.isPGPMime,
+                  isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+                });
+              }
             });
           });
+        })
+        .catch(() => {
+          postMessage({
+            decryptedContent: {
+              incomingHeaders: '',
+              content: event.data.mailData.content,
+              subject: event.data.mailData.subject,
+              content_plain: event.data.mailData.content_plain,
+            },
+            decrypted: true,
+            callerId: event.data.callerId,
+            subjectId: event.data.subjectId,
+            decryptedPGPMime: event.data.isPGPMime,
+            error: true,
+          });
+        });
       }
     }
   } else if (event.data.decryptPasswordEncryptedContent) {
