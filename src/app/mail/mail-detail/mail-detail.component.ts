@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild 
-} from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -34,23 +28,18 @@ import {
   MailAction,
   MailBoxesState,
   MailState,
-  SecureContent,
-  UserState,
   NumberBooleanMappedType,
-  NumberStringMappedType, PGPEncryptionType,
+  NumberStringMappedType,
+  PGPEncryptionType,
+  SecureContent, StringBooleanMappedType,
+  UserState,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import {
-  LOADING_IMAGE,
-  MailService,
-  MessageDecryptService,
-  OpenPgpService,
-  SharedService
-} from '../../store/services';
+import { LOADING_IMAGE, MailService, MessageDecryptService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
-declare let Scrambler: (arg0: { target: string; random: number[]; speed: number; text: string }) => void;
+declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
 @UntilDestroy()
 @Component({
@@ -61,7 +50,9 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
 // eslint-disable-next-line import/prefer-default-export
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
+
   @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
+
   @ViewChild('incomingHeadersModal') incomingHeadersModal: any;
 
   mail: Mail;
@@ -78,7 +69,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   decryptedHeaders: any = {};
 
-  isDecryptingError = false;
+  isDecryptingError: StringBooleanMappedType = {};
 
   selectedHeaders: string;
 
@@ -246,7 +237,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           // Setting the password encryption mail or not
-          this.isPasswordEncrypted[this.mail.id] = this.mail.encryption ? true : false;
+          this.isPasswordEncrypted[this.mail.id] = !!this.mail.encryption;
           if (!this.isPasswordEncrypted[this.mail.id] && this.mail.is_subject_encrypted) {
             this.scrambleText('subject-scramble');
           }
@@ -284,7 +275,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 );
               }
             }
-            // If done to decrypt,
+            // If done to decrypt, or already existed decrypted content
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
@@ -294,7 +285,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
               this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
-              this.isDecryptingError = decryptedContent.decryptError;
+              this.isDecryptingError[this.mail.id] = decryptedContent.decryptError;
               this.handleEmailLinks();
 
               // Automatically scrolls to last element in the list
@@ -316,7 +307,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
 
-          // Process for children
+          /**
+           * Process for Childrens
+           */
           if (this.mail.children && this.mail.children.length > 0) {
             if (this.mailExpandedStatus[this.mail.id] === undefined) {
               this.mailExpandedStatus[this.mail.id] = false;
@@ -355,16 +348,29 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                     (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
                 ) {
                   this.isDecrypting[this.mail.id] = true;
-                  this.pgpService
-                    .decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
-                    .pipe(take(1))
-                    .subscribe(
-                      () => {},
-                      error => {
-                        this.decryptedContents[this.mail.id] = this.mail.content;
-                        this.isDecrypting[this.mail.id] = false;
-                      },
-                    );
+                  if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
+                    this.messageDecryptService
+                      .decryptMessage(this.mail, false)
+                      .pipe(take(1))
+                      .subscribe(
+                        () => {},
+                        error => {
+                          this.decryptedContents[this.mail.id] = this.mail.content;
+                          this.isDecrypting[this.mail.id] = false;
+                        },
+                      );
+                  } else {
+                    this.pgpService
+                      .decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
+                      .pipe(take(1))
+                      .subscribe(
+                        () => {},
+                        error => {
+                          this.decryptedContents[this.mail.id] = this.mail.content;
+                          this.isDecrypting[this.mail.id] = false;
+                        },
+                      );
+                  }
                 }
               }
             }, 1000);
@@ -605,7 +611,28 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))
       ) {
         this.isDecrypting[child.id] = true;
-        this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
+        if (child.encryption_type === PGPEncryptionType.PGP_MIME) {
+          this.messageDecryptService
+            .decryptMessage(child, false)
+            .pipe(take(1))
+            .subscribe(
+              () => {},
+              error => {
+                this.decryptedContents[child.id] = child.content;
+                this.isDecrypting[child.id] = false;
+              },
+            );
+        } else {
+          this.pgpService
+            .decrypt(child.mailbox, child.id, new SecureContent(child))
+            .pipe(take(1))
+            .subscribe(
+              () => {},
+              error => {
+                this.isDecrypting[child.id] = false;
+              },
+            );
+        }
       }
     }
   }
@@ -625,6 +652,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           child.subject = childDecryptedContent.subject;
         }
         this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
+        this.isDecryptingError[child.id] = childDecryptedContent.decryptError;
         this.handleEmailLinks();
       }
     }

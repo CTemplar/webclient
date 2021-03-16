@@ -1137,6 +1137,11 @@
     @include media('<=xs') {
       width: 1rem;
     }
+
+    .pgp-encrypted-icon {
+      font-size: 14px;
+      color: var(--body-color);
+    }
   }
 
   .mail-status-type .icon-star {

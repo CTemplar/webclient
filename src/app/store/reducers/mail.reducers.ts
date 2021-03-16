@@ -1,13 +1,209 @@
 import { MailActions, MailActionTypes } from '../actions';
-import { FolderState, MailState, SecureContent } from '../datatypes';
+import { FolderState, MailState, PGPEncryptionType, SecureContent } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+
+/**
+ ---Start Reducer Utilities---
+ * */
+function transformFilename(attachments: Attachment[]) {
+  if (attachments && attachments.length > 0) {
+    attachments = attachments.map(attachment => {
+      if (!attachment.name) {
+        attachment.name = FilenamePipe.tranformToFilename(attachment.document);
+      }
+      return attachment;
+    });
+  }
+  return attachments;
+}
+
+function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
+  const mails = sortArray
+    .map(mailID => {
+      if (mailMap.hasOwnProperty(mailID)) {
+        return mailMap[mailID];
+      }
+      return null;
+    })
+    .filter(mail => !!mail);
+  const sorted = mails
+    .sort((previous: any, next: any) => {
+      const next_updated = next.updated || 0;
+      const previous_updated = previous.updated || 0;
+      return <any>new Date(next_updated) - <any>new Date(previous_updated);
+    })
+    .map(mail => mail.id);
+  return sorted;
+}
+
+function getTotalUnreadCount(data: any): number {
+  if (data) {
+    let total_count = 0;
+    Object.keys(data).forEach(key => {
+      if (
+        key !== MailFolderType.SENT &&
+        key !== MailFolderType.TRASH &&
+        key !== MailFolderType.DRAFT &&
+        key !== MailFolderType.OUTBOX &&
+        key !== MailFolderType.SPAM &&
+        key !== 'total_unread_count' &&
+        key !== MailFolderType.STARRED &&
+        key !== 'updateUnreadCount' &&
+        key !== 'outbox_dead_man_counter' &&
+        key !== 'outbox_delayed_delivery_counter' &&
+        key !== 'outbox_self_destruct_counter'
+      ) {
+        if (!isNaN(data[`${key}`])) {
+          total_count += data[`${key}`];
+        }
+      }
+    });
+
+    return total_count;
+  }
+  return 0;
+}
+
+function updateMailMap(currentMap: any, mails: Mail[]): any {
+  if (mails && mails.length > 0) {
+    let temporaryMailMap = {};
+    mails.forEach(mail => {
+      temporaryMailMap = { ...temporaryMailMap, [mail.id]: mail };
+    });
+    return { ...currentMap, ...temporaryMailMap };
+  }
+  return currentMap;
+}
+
+function filterAndMergeMailIDs(
+  newMails: Array<Mail>,
+  originalMailIDs: Array<number>,
+  limit: number,
+  checkUnread = false,
+): Array<number> {
+  let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
+  const newMailsMap: any = {};
+  newMails.forEach(mail => {
+    newMailsMap[mail.id] = mail;
+  });
+  if (originalMailIDs && originalMailIDs.length > 0) {
+    originalMailIDs = originalMailIDs.filter(id => !mailIDs.includes(id));
+    mailIDs = mailIDs.map(mailID => {
+      const newMail = newMailsMap[mailID];
+      if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
+        originalMailIDs = originalMailIDs.filter(originMailID => originMailID !== newMail.parent);
+        return newMail.parent;
+      }
+      return mailID;
+    });
+    originalMailIDs = [...mailIDs, ...originalMailIDs];
+    if (originalMailIDs.length > limit) {
+      originalMailIDs = originalMailIDs.slice(0, limit);
+    }
+    return originalMailIDs;
+  }
+  return mailIDs;
+}
+
+function getUpdatesFolderMap(
+  newMails: Array<Mail>,
+  originalFolderState: FolderState,
+  limit: number,
+  checkUnread = false,
+  isConversationViewMode = true,
+): any {
+  let originalMailIDs = originalFolderState.mails;
+  let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
+  const newMailsMap: any = {};
+  newMails.forEach(mail => {
+    newMailsMap[mail.id] = mail;
+  });
+  if (originalMailIDs && originalMailIDs.length > 0) {
+    // Remove duplicated mails
+    let duplicatedMailIDS: any = [];
+    originalMailIDs = originalMailIDs.filter(id => {
+      if (!mailIDs.includes(id)) {
+        return true;
+      }
+      duplicatedMailIDS = [...duplicatedMailIDS, id];
+      return false;
+    });
+    // Check children mails
+    // If new's parent is same with any original mail
+    // Replace it with original mail on new mail array
+    let parentWithChild: any = [];
+    if (isConversationViewMode) {
+      mailIDs = mailIDs.map(mailID => {
+        const newMail = newMailsMap[mailID];
+        if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
+          originalMailIDs = originalMailIDs.filter(originMailID => originMailID !== newMail.parent);
+          parentWithChild = [...parentWithChild.filter((item: any) => newMail.parent !== item), newMail.parent];
+          return newMail.parent;
+        }
+        return mailID;
+      });
+    }
+    // Merge new with old
+    originalMailIDs = [...mailIDs, ...originalMailIDs];
+    // Check overflow
+    if (originalMailIDs.length > limit) {
+      originalMailIDs = originalMailIDs.slice(0, limit);
+    }
+    const total_mail_count =
+      originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length >= 0
+        ? originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length
+        : 0;
+    return {
+      mails: originalMailIDs,
+      total_mail_count,
+    };
+  }
+  return {
+    mails: mailIDs,
+    total_mail_count: mailIDs.length,
+  };
+}
+
+function prepareMails(folderName: MailFolderType, folders: Map<string, FolderState>, mailMap: any): Array<Mail> {
+  if (folders.has(folderName)) {
+    const folderInfo = folders.get(folderName);
+    const mails = folderInfo.mails
+      .map(mailID => {
+        const mail = mailMap[mailID] ? mailMap[mailID] : null;
+        if (mail) {
+          mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
+          if (mail.children_folder_info) {
+            if (folderName === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH) {
+              mail.thread_count = mail.children_folder_info ? mail.children_folder_info.trash_children_count + 1 : 0;
+            } else if (folderName === MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) {
+              mail.thread_count = mail.children_folder_info ? mail.children_folder_info.trash_children_count : 0;
+            } else if (folderName !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) {
+              mail.thread_count = mail.children_folder_info
+                ? mail.children_folder_info.non_trash_children_count + 1
+                : 0;
+            } else if (folderName !== MailFolderType.TRASH && mail.folder === MailFolderType.TRASH) {
+              mail.thread_count = mail.children_folder_info ? mail.children_folder_info.non_trash_children_count : 0;
+            }
+          }
+        }
+        return mail;
+      })
+      .filter(mail => mail !== null);
+    return mails;
+  }
+  return [];
+}
+
+/**
+ ---End Reducer Utilities---
+ * */
 
 export function reducer(
   state: MailState = {
     mails: [],
     total_mail_count: 0,
-    mailDetail: null,
+    mailDetail: undefined,
     starredFolderCount: 0,
     loaded: false,
     decryptedContents: {},
@@ -21,6 +217,7 @@ export function reducer(
     mailMap: {},
     folderMap: new Map(),
     pageLimit: 20,
+    decryptedAttachmentsMap: new Map(),
   },
   action: MailActions,
 ): MailState {
@@ -28,7 +225,7 @@ export function reducer(
     case MailActionTypes.GET_MAILS: {
       let mails = prepareMails(action.payload.folder, state.folderMap, state.mailMap);
       if (mails && mails.length === 0) {
-        mails = null;
+        mails = undefined;
       }
       return {
         ...state,
@@ -554,16 +751,33 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
+      const { decryptedAttachmentsMap } = state;
       const mail: Mail = action.payload;
       if (mail) {
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
           mail.is_subject_encrypted = false;
           mail.subject = state.decryptedSubjects[mail.id];
         }
-        mail.attachments = transformFilename(mail.attachments);
+        if (
+          mail.encryption_type === PGPEncryptionType.PGP_MIME &&
+          decryptedAttachmentsMap.has(mail.id) &&
+          decryptedAttachmentsMap.get(mail.id).length > 0
+        ) {
+          mail.attachments = decryptedAttachmentsMap.get(mail.id);
+        } else {
+          mail.attachments = transformFilename(mail.attachments);
+        }
         if (mail.children && mail.children.length > 0) {
           mail.children.forEach(item => {
-            item.attachments = transformFilename(item.attachments);
+            if (
+              item.encryption_type === PGPEncryptionType.PGP_MIME &&
+              decryptedAttachmentsMap.has(item.id) &&
+              decryptedAttachmentsMap.get(item.id).length > 0
+            ) {
+              item.attachments = decryptedAttachmentsMap.get(item.id);
+            } else {
+              item.attachments = transformFilename(item.attachments);
+            }
           });
         }
       }
@@ -783,205 +997,25 @@ export function reducer(
     }
 
     case MailActionTypes.SET_ATTACHMENTS_FOR_PGP_MIME: {
-      const { mailDetail } = state;
-      if (mailDetail) {
-        const { attachments } = action.payload;
-        mailDetail.attachments = attachments;
+      const { mailDetail, mailMap, decryptedAttachmentsMap } = state;
+      const { attachments } = action.payload;
+      if (attachments.length > 0) {
+        const referringMessageID = attachments[0].message;
+        if (mailDetail && referringMessageID === mailDetail.id) {
+          mailDetail.attachments = attachments;
+        }
+        Object.keys(mailMap).forEach(mailID => {
+          if (mailID === referringMessageID.toString()) {
+            mailMap[mailID].attachments = attachments;
+          }
+        });
+        decryptedAttachmentsMap.set(referringMessageID, attachments);
       }
-      return { ...state, mailDetail };
+      return { ...state, mailDetail, mailMap, decryptedAttachmentsMap };
     }
 
     default: {
       return state;
     }
   }
-}
-
-function transformFilename(attachments: Attachment[]) {
-  if (attachments && attachments.length > 0) {
-    attachments = attachments.map(attachment => {
-      if (!attachment.name) {
-        attachment.name = FilenamePipe.tranformToFilename(attachment.document);
-      }
-      return attachment;
-    });
-  }
-  return attachments;
-}
-
-function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
-  const mails = sortArray
-    .map(mailID => {
-      if (mailMap.hasOwnProperty(mailID)) {
-        return mailMap[mailID];
-      }
-      return null;
-    })
-    .filter(mail => !!mail);
-  const sorted = mails
-    .sort((previous: any, next: any) => {
-      const next_updated = next.updated || 0;
-      const previous_updated = previous.updated || 0;
-      return <any>new Date(next_updated) - <any>new Date(previous_updated);
-    })
-    .map(mail => mail.id);
-  return sorted;
-}
-
-function getTotalUnreadCount(data: any): number {
-  if (data) {
-    let total_count = 0;
-    Object.keys(data).forEach(key => {
-      if (
-        key !== MailFolderType.SENT &&
-        key !== MailFolderType.TRASH &&
-        key !== MailFolderType.DRAFT &&
-        key !== MailFolderType.OUTBOX &&
-        key !== MailFolderType.SPAM &&
-        key !== 'total_unread_count' &&
-        key !== MailFolderType.STARRED &&
-        key !== 'updateUnreadCount' &&
-        key !== 'outbox_dead_man_counter' &&
-        key !== 'outbox_delayed_delivery_counter' &&
-        key !== 'outbox_self_destruct_counter'
-      ) {
-        if (!isNaN(data[`${key}`])) {
-          total_count += data[`${key}`];
-        }
-      }
-    });
-
-    return total_count;
-  }
-  return 0;
-}
-
-function updateMailMap(currentMap: any, mails: Mail[]): any {
-  if (mails && mails.length > 0) {
-    let temporaryMailMap = {};
-    mails.forEach(mail => {
-      temporaryMailMap = { ...temporaryMailMap, [mail.id]: mail };
-    });
-    return { ...currentMap, ...temporaryMailMap };
-  }
-  return currentMap;
-}
-
-function filterAndMergeMailIDs(
-  newMails: Array<Mail>,
-  originalMailIDs: Array<number>,
-  limit: number,
-  checkUnread = false,
-): Array<number> {
-  let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
-  const newMailsMap: any = {};
-  newMails.forEach(mail => {
-    newMailsMap[mail.id] = mail;
-  });
-  if (originalMailIDs && originalMailIDs.length > 0) {
-    originalMailIDs = originalMailIDs.filter(id => !mailIDs.includes(id));
-    mailIDs = mailIDs.map(mailID => {
-      const newMail = newMailsMap[mailID];
-      if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
-        originalMailIDs = originalMailIDs.filter(originMailID => originMailID !== newMail.parent);
-        return newMail.parent;
-      }
-      return mailID;
-    });
-    originalMailIDs = [...mailIDs, ...originalMailIDs];
-    if (originalMailIDs.length > limit) {
-      originalMailIDs = originalMailIDs.slice(0, limit);
-    }
-    return originalMailIDs;
-  }
-  return mailIDs;
-}
-
-function getUpdatesFolderMap(
-  newMails: Array<Mail>,
-  originalFolderState: FolderState,
-  limit: number,
-  checkUnread = false,
-  isConversationViewMode = true,
-): any {
-  let originalMailIDs = originalFolderState.mails;
-  let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
-  const newMailsMap: any = {};
-  newMails.forEach(mail => {
-    newMailsMap[mail.id] = mail;
-  });
-  if (originalMailIDs && originalMailIDs.length > 0) {
-    // Remove duplicated mails
-    let duplicatedMailIDS: any = [];
-    originalMailIDs = originalMailIDs.filter(id => {
-      if (!mailIDs.includes(id)) {
-        return true;
-      }
-      duplicatedMailIDS = [...duplicatedMailIDS, id];
-      return false;
-    });
-    // Check children mails
-    // If new's parent is same with any original mail
-    // Replace it with original mail on new mail array
-    let parentWithChild: any = [];
-    if (isConversationViewMode) {
-      mailIDs = mailIDs.map(mailID => {
-        const newMail = newMailsMap[mailID];
-        if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
-          originalMailIDs = originalMailIDs.filter(originMailID => originMailID !== newMail.parent);
-          parentWithChild = [...parentWithChild.filter((item: any) => newMail.parent !== item), newMail.parent];
-          return newMail.parent;
-        }
-        return mailID;
-      });
-    }
-    // Merge new with old
-    originalMailIDs = [...mailIDs, ...originalMailIDs];
-    // Check overflow
-    if (originalMailIDs.length > limit) {
-      originalMailIDs = originalMailIDs.slice(0, limit);
-    }
-    const total_mail_count =
-      originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length >= 0
-        ? originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length
-        : 0;
-    return {
-      mails: originalMailIDs,
-      total_mail_count,
-    };
-  }
-  return {
-    mails: mailIDs,
-    total_mail_count: mailIDs.length,
-  };
-}
-
-function prepareMails(folderName: MailFolderType, folders: Map<string, FolderState>, mailMap: any): Array<Mail> {
-  if (folders.has(folderName)) {
-    const folderInfo = folders.get(folderName);
-    const mails = folderInfo.mails
-      .map(mailID => {
-        const mail = mailMap[mailID] ? mailMap[mailID] : null;
-        if (mail) {
-          mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
-          if (mail.children_folder_info) {
-            if (folderName === MailFolderType.TRASH && mail.folder === MailFolderType.TRASH) {
-              mail.thread_count = mail.children_folder_info ? mail.children_folder_info.trash_children_count + 1 : 0;
-            } else if (folderName === MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) {
-              mail.thread_count = mail.children_folder_info ? mail.children_folder_info.trash_children_count : 0;
-            } else if (folderName !== MailFolderType.TRASH && mail.folder !== MailFolderType.TRASH) {
-              mail.thread_count = mail.children_folder_info
-                ? mail.children_folder_info.non_trash_children_count + 1
-                : 0;
-            } else if (folderName !== MailFolderType.TRASH && mail.folder === MailFolderType.TRASH) {
-              mail.thread_count = mail.children_folder_info ? mail.children_folder_info.non_trash_children_count : 0;
-            }
-          }
-        }
-        return mail;
-      })
-      .filter(mail => mail !== null);
-    return mails;
-  }
-  return [];
 }

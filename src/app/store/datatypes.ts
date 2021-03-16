@@ -364,6 +364,11 @@ export interface MailState {
   mailMap: any;
   folderMap: Map<string, FolderState>;
   pageLimit?: number;
+  /**
+   * TODO - should be updated so as to contain all of decrypted attachments
+   * currently it stores only PGP/MIME message's attachment
+   */
+  decryptedAttachmentsMap?: Map<number, Attachment[]>;
 }
 
 export interface FolderState {

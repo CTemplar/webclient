@@ -36,7 +36,6 @@ export class MessageDecryptService {
         .decrypt(mail.mailbox, mail.id, new SecureContent(mail), isDecryptingAllSubjects, true)
         .subscribe(
           (decryptedData: any) => {
-            console.log('original data', decryptedData.decryptedContent.content)
             this.parseEmail(decryptedData.decryptedContent.content)
               .then(messageObject => {
                 const decryptedContent: SecureContent = {
