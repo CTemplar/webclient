@@ -150,7 +150,13 @@ export class ComposeMailService {
                           publicKeys,
                         );
                       })
-                      .catch(error => console.log(error));
+                      .catch(error => {
+                        this.store.dispatch(
+                          new SnackPush({
+                            message: 'Failed to send email, please try again. Email has been saved in draft.',
+                          }),
+                        );
+                      });
                   } else {
                     draftMail.attachments.forEach(attachment => {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
