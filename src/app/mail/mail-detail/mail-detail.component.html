@@ -220,6 +220,7 @@
                 <span class="position-relative">
                   <i *ngIf="mail.last_action" class="fas fa-{{ mail.last_action | lastAction }} last-action"></i>
                 </span>
+                <app-mail-detail-encryption-type-icon [mail]="mail"></app-mail-detail-encryption-type-icon>
               </li>
               <li id="{{ mail.id }}-mail-to">
                 {{ 'settings.compose.to' | translate }}
@@ -449,6 +450,7 @@
                           <span class="position-relative">
                             <i *ngIf="childMail.last_action" class="fas fa-{{ childMail.last_action | lastAction }} last-action"></i>
                           </span>
+                          <app-mail-detail-encryption-type-icon [mail]="childMail"></app-mail-detail-encryption-type-icon>
                         </li>
                         <li id="{{ childMail.id }}-mail-to">
                           <span>{{ 'settings.compose.to' | translate }}</span>

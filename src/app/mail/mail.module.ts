@@ -41,6 +41,7 @@ import { SaveListContactComponent } from './mail-settings/save-list-contact/save
 import { SecurityComponent } from './mail-settings/security/security.component';
 import { MailRoutingModule } from './mail-routing.module';
 import { MailDetailDecryptionErrorComponent } from './mail-detail/mail-detail-decryption-error/mail-detail-decryption-error.component';
+import { MailDetailEncryptionTypeIconComponent } from './mail-detail/mail-detail-encryption-type-icon/mail-detail-encryption-type-icon.component';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -68,6 +69,7 @@ import { MailDetailDecryptionErrorComponent } from './mail-detail/mail-detail-de
     SaveListContactComponent,
     SecurityComponent,
     MailDetailDecryptionErrorComponent,
+    MailDetailEncryptionTypeIconComponent,
   ],
   imports: [
     CommonModule,

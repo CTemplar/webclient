@@ -752,6 +752,12 @@ export enum PGPEncryptionType {
   PGP_INLINE = 'PGP_INLINE',
 }
 
+export enum EncryptionType {
+  PGP_MIME_INLINE = 'PGP_MIME_INLINE',
+  PGP_PASSWORD = 'PGP_PASSWORD',
+  PGP_END_TO_END = 'PGP_END_TO_END',
+}
+
 export enum PGPKeyType {
   RSA_4096 = 'RSA 4096',
   ECC = 'ECC',
