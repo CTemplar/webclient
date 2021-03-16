@@ -5,9 +5,9 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { Mail } from '../models';
+import { Attachment, Mail } from '../models';
 import { AppState, PGPEncryptionType, SecureContent } from '../datatypes';
-import { UpdatePGPDecryptedContent } from '../actions';
+import { SetAttachmentsForPGPMime, UpdatePGPDecryptedContent } from '../actions';
 
 import { OpenPgpService } from './openpgp.service';
 
@@ -36,6 +36,7 @@ export class MessageDecryptService {
         .decrypt(mail.mailbox, mail.id, new SecureContent(mail), isDecryptingAllSubjects, true)
         .subscribe(
           (decryptedData: any) => {
+            console.log('original data', decryptedData.decryptedContent.content)
             this.parseEmail(decryptedData.decryptedContent.content)
               .then(messageObject => {
                 const decryptedContent: SecureContent = {
@@ -53,6 +54,26 @@ export class MessageDecryptService {
                     decryptError: false,
                   }),
                 );
+                if (messageObject.attachments && messageObject.attachments.length > 0) {
+                  let attachments: Attachment[] = [];
+                  messageObject.attachments.forEach((parsedAttachment: any) => {
+                    const attachment: Attachment = {
+                      size: '',
+                      draftId: 0,
+                      document: URL.createObjectURL(
+                        new Blob([parsedAttachment.content], { type: parsedAttachment.mimeType }),
+                      ),
+                      content_id: parsedAttachment.contentId,
+                      is_encrypted: false,
+                      name: parsedAttachment.filename || 'attachment',
+                      is_inline: false,
+                      inProgress: false,
+                      message: decryptedData.callerId,
+                    };
+                    attachments = [...attachments, attachment];
+                  });
+                  this.store.dispatch(new SetAttachmentsForPGPMime({ attachments }));
+                }
               })
               .catch(error => {
                 this.store.dispatch(

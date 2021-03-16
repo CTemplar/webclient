@@ -1,6 +1,5 @@
-
 import { MailActions, MailActionTypes } from '../actions';
-import { MailState, FolderState, SecureContent } from '../datatypes';
+import { FolderState, MailState, SecureContent } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
@@ -783,6 +782,15 @@ export function reducer(
       return { ...state, inProgress: false };
     }
 
+    case MailActionTypes.SET_ATTACHMENTS_FOR_PGP_MIME: {
+      const { mailDetail } = state;
+      if (mailDetail) {
+        const { attachments } = action.payload;
+        mailDetail.attachments = attachments;
+      }
+      return { ...state, mailDetail };
+    }
+
     default: {
       return state;
     }
@@ -823,7 +831,7 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
 function getTotalUnreadCount(data: any): number {
   if (data) {
     let total_count = 0;
-    Object.keys(data).map(key => {
+    Object.keys(data).forEach(key => {
       if (
         key !== MailFolderType.SENT &&
         key !== MailFolderType.TRASH &&
