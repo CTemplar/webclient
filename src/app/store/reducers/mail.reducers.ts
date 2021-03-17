@@ -998,19 +998,24 @@ export function reducer(
 
     case MailActionTypes.SET_ATTACHMENTS_FOR_PGP_MIME: {
       const { mailDetail, mailMap, decryptedAttachmentsMap } = state;
-      const { attachments } = action.payload;
-      if (attachments.length > 0) {
-        const referringMessageID = attachments[0].message;
-        if (mailDetail && referringMessageID === mailDetail.id) {
+      const { attachments, messageID } = action.payload;
+      if (mailDetail) {
+        if (messageID === mailDetail.id) {
           mailDetail.attachments = attachments;
+        } else if (mailDetail.children?.length > 0) {
+          mailDetail.children.forEach(child => {
+            if (child.id === messageID) {
+              child.attachments = attachments;
+            }
+          });
         }
-        Object.keys(mailMap).forEach(mailID => {
-          if (mailID === referringMessageID.toString()) {
-            mailMap[mailID].attachments = attachments;
-          }
-        });
-        decryptedAttachmentsMap.set(referringMessageID, attachments);
       }
+      Object.keys(mailMap).forEach(mailID => {
+        if (mailID === messageID.toString()) {
+          mailMap[mailID].attachments = attachments;
+        }
+      });
+      decryptedAttachmentsMap.set(messageID, attachments);
       return { ...state, mailDetail, mailMap, decryptedAttachmentsMap };
     }
 

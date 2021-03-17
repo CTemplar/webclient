@@ -777,3 +777,4 @@ export enum EmailContentType {
 }
 
 export const PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME = 'encrypted.asc';
+export const PGP_MIME_DEFAULT_CONTENT = 'Version 1';

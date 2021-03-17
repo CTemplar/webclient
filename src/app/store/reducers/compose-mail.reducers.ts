@@ -1,6 +1,12 @@
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
-import { ComposeMailState, Draft, PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME, PGPEncryptionType } from '../datatypes';
+import {
+  ComposeMailState,
+  Draft,
+  PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
+  PGP_MIME_DEFAULT_CONTENT,
+  PGPEncryptionType,
+} from '../datatypes';
 import { Attachment, MailFolderType } from '../models';
 
 /**
@@ -17,8 +23,8 @@ function updateDraftMailForPGPMimeMessage(
   newAttachment: Attachment,
 ): Draft {
   const newDraftMail = { ...draftMail };
-  newDraftMail.draft.content = 'Version 1';
-  newDraftMail.draft.content_plain = 'Verions: 1';
+  newDraftMail.draft.content = PGP_MIME_DEFAULT_CONTENT;
+  newDraftMail.draft.content_plain = PGP_MIME_DEFAULT_CONTENT;
   newDraftMail.draft.is_encrypted = false;
   newDraftMail.draft.is_subject_encrypted = false;
   newDraftMail.draft.is_autocrypt_encrypted = true;

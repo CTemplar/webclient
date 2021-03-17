@@ -109,7 +109,31 @@ onmessage = async function (event) {
       if (decryptedAllPrivKeys[event.data.mailboxId]) {
         decryptContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
           decryptContent(event.data.mailData.incomingHeaders, decryptedAllPrivKeys[event.data.mailboxId]).then(incomingHeaders => {
-            decryptContent(event.data.mailData.subject, decryptedAllPrivKeys[event.data.mailboxId]).then(subject => {
+            if (isPGPEncrypted(event.data.mailData.subject)) {
+              decryptContent(event.data.mailData.subject, decryptedAllPrivKeys[event.data.mailboxId]).then(subject => {
+                if (!event.data.isPGPMime && event.data.mailData.content_plain) {
+                  decryptContent(event.data.mailData.content_plain, decryptedAllPrivKeys[event.data.mailboxId]).then(content_plain => {
+                    postMessage({
+                      decryptedContent: { incomingHeaders, content, subject, content_plain },
+                      decrypted: true,
+                      callerId: event.data.callerId,
+                      subjectId: event.data.subjectId,
+                      decryptedPGPMime: false,
+                      isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+                    });
+                  });
+                } else {
+                  postMessage({
+                    decryptedContent: { incomingHeaders, content, subject, content_plain: '' },
+                    decrypted: true,
+                    callerId: event.data.callerId,
+                    subjectId: event.data.subjectId,
+                    decryptedPGPMime: event.data.isPGPMime,
+                    isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
+                  });
+                }
+              });
+            } else {
               if (!event.data.isPGPMime && event.data.mailData.content_plain) {
                 decryptContent(event.data.mailData.content_plain, decryptedAllPrivKeys[event.data.mailboxId]).then(content_plain => {
                   postMessage({
@@ -123,7 +147,7 @@ onmessage = async function (event) {
                 });
               } else {
                 postMessage({
-                  decryptedContent: { incomingHeaders, content, subject, content_plain: '' },
+                  decryptedContent: { incomingHeaders, content, subject: event.data.mailData.subject, content_plain: '' },
                   decrypted: true,
                   callerId: event.data.callerId,
                   subjectId: event.data.subjectId,
@@ -131,7 +155,7 @@ onmessage = async function (event) {
                   isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
                 });
               }
-            });
+            }
           });
         })
         .catch(() => {
@@ -274,6 +298,10 @@ onmessage = async function (event) {
     });
   }
 };
+
+function isPGPEncrypted(content) {
+  return content.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
+}
 
 function generateKeys(options) {
   return openpgp.generateKey(options).then(async key => {
