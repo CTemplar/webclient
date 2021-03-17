@@ -137,15 +137,6 @@
   </div>
   <!-- /.Site container ends -->
   <div class="simple-keyboard" [style.visibility]="isKeyboardOpened ? 'visible' : 'hidden'"></div>
-
-  <div align="center" class="logged-in-spinner" *ngIf="authState.isAuthenticated && !authState.anti_phishing_phrase">
-    <img class="logo" style="width: 400px; height: 300px" [src]="loadingImage | safe: 'url'" />
-    <p class="quote">Loading your mailbox...</p>
-  </div>
-  <div align="center" class="logged-in-spinner" *ngIf="isLoading && !authState.isAuthenticated">
-    <img class="logo" style="width: 400px; height: 300px; margin-top: 70px" [src]="loadingImage | safe: 'url'" />
-    <p class="quote">Logging in...</p>
-  </div>
 </section>
 <!-- /.PAGE SECTION ENDS -->
 

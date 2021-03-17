@@ -34,8 +34,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   resetPasswordErrorMessage = '';
 
-  isLoading = false;
-
   isConfirmedPrivacy: boolean = null;
 
   // == NgBootstrap Modal stuffs
@@ -121,10 +119,11 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (!authState.isAuthenticated) {
-          this.isLoading = authState.inProgress;
-        } else {
-          this.isLoading = false;
+        if (!authState.isAuthenticated && authState.inProgress) {
+          this.store.dispatch(new FinalLoading({ loadingState: true }));
+        }
+        if (authState.isAuthenticated && authState.anti_phishing_phrase) {
+          this.store.dispatch(new FinalLoading({ loadingState: false }));
         }
         this.errorMessage = authState.errorMessage;
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
@@ -192,6 +191,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   continueLogin() {
     this.authState.anti_phishing_phrase = '';
+    this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.router.navigateByUrl('/mail');
   }
 

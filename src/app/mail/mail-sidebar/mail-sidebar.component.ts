@@ -36,6 +36,7 @@ import {
   SettingsUpdateUsedStorage,
   StarredFolderCountUpdate,
   SnackErrorPush,
+  FinalLoading,
 } from '../../store/actions';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
@@ -192,6 +193,11 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.LIMIT = this.customFolders.length;
         }
         this.handleCustomCss(user.settings.custom_css);
+        if (user.settings) {
+          setTimeout(() => {
+            this.store.dispatch(new FinalLoading({ loadingState: false }));
+          }, 1000);
+        }
       });
 
     this.store

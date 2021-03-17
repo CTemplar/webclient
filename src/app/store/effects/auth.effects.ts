@@ -51,6 +51,7 @@ import {
   SettingsUpdateSuccess,
   GetMailboxes,
   RefreshToken,
+  FinalLoading,
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -74,7 +75,9 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.signIn(payload).pipe(
         map(response => new LogInSuccess({ ...response, rememberMe: payload.rememberMe, fromLoginRequest: true })),
-        catchError((errorResponse: any) => of(new LogInFailure(errorResponse.error))),
+        catchError((errorResponse: any) =>
+          of(new LogInFailure(errorResponse.error), new FinalLoading({ loadingState: false })),
+        ),
       );
     }),
   );

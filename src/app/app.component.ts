@@ -29,6 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public isLoading = true;
 
+  public isMainContent = false;
+
   public isMail = false;
 
   quote: object;
@@ -54,9 +56,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translate.setDefaultLang('en');
     setTimeout(() => {
       this.updateLoadingStatus();
-      this.store.dispatch(new FinalLoading({ loadingState: false }));
+      this.isMainContent = true;
     }, 3000);
-
+    setTimeout(() => {
+      if (this.isLoading) {
+        this.store.dispatch(new FinalLoading({ loadingState: false }));
+      }
+    }, 10000);
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: any) => {
       if (parameters) {
         if (parameters.referral_code) {
@@ -82,6 +88,12 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
+        if (!authState.isAuthenticated && authState.inProgress) {
+          this.quote = { content: 'Logging in...', author: '' };
+        }
+        if (authState.isAuthenticated && !authState.anti_phishing_phrase) {
+          this.quote = { content: 'Loading your mailbox...', author: '' };
+        }
       });
   }
 
