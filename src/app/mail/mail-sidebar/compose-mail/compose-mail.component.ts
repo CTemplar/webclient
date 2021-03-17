@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, finalize } from 'rxjs/operators';
+import { debounceTime, filter, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -333,6 +333,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private autoSaveSubscription: Subscription;
 
+  private firstSaveSubscription: Subscription;
+
   private attachImagesModalRef: NgbModalRef;
 
   private selfDestructModalRef: NgbModalRef;
@@ -373,7 +375,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   isPreparingToSendEmail: boolean = false;
 
-  pgpEncryptionType: PGPEncryptionType = null; 
+  pgpEncryptionType: PGPEncryptionType = null;
 
   constructor(
     private modalService: NgbModal,
@@ -1051,6 +1053,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
         });
     }
+    this.firstSaveSubscription = this.valueChanged$.pipe(first(() => !this.draft.draft.id && this.hasData())).subscribe(data => {
+      this.updateEmail();
+    });
   }
 
   quillImageHandler() {
@@ -1766,6 +1771,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private resetValues() {
     this.unSubscribeAutoSave();
+    this.firstSaveSubscription.unsubscribe();
     this.options = {};
     this.attachments = [];
     if (this.quill) {
@@ -1947,9 +1953,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (localReceivers.length > 0) {
       localReceivers.forEach(rec => {
         if (
-          this.usersKeys.has(rec) && 
-          !this.usersKeys.get(rec).isFetching && 
-          this.usersKeys.get(rec).key && 
+          this.usersKeys.has(rec) &&
+          !this.usersKeys.get(rec).isFetching &&
+          this.usersKeys.get(rec).key &&
           this.usersKeys.get(rec).key.length > 0
         ) {
           const keyObj: any = this.usersKeys.get(rec).key[0];
@@ -1973,7 +1979,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (localReceivers.length > 0) {
       const isPGPInline = localReceivers.every(rec => {
         if (
-          this.usersKeys.has(rec) && 
+          this.usersKeys.has(rec) &&
           !this.usersKeys.get(rec).isFetching
         ) {
           return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_INLINE;
@@ -1983,7 +1989,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       });
       const isPGPMime = localReceivers.every(rec => {
         if (
-          this.usersKeys.has(rec) && 
+          this.usersKeys.has(rec) &&
           !this.usersKeys.get(rec).isFetching
         ) {
           return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_MIME;

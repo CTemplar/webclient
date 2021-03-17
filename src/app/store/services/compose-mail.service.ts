@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { finalize, take } from 'rxjs/operators';
-import { forkJoin, Observable } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 
@@ -19,7 +19,7 @@ import {
   SecureContent,
   UserState,
 } from '../datatypes';
-import { ClearDraft, CreateMail, SendMail, SnackPush, UploadAttachment } from '../actions';
+import { ClearDraft, CreateMail, SendMail, SnackPush, UpdatePGPDecryptedContent, UploadAttachment } from '../actions';
 import { Attachment } from '../models';
 
 import { MailService } from './mail.service';
@@ -133,30 +133,7 @@ export class ComposeMailService {
                   );
                 } else if (publicKeys.length > 0) {
                   if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
-                    messageBuilderService
-                      .getMimeData(
-                        new SecureContent(draftMail.draft),
-                        draftMail.attachments,
-                        true,
-                        true,
-                        true,
-                        PGPEncryptionType.PGP_MIME,
-                      )
-                      .then(mimeData => {
-                        this.openPgpService.encryptForPGPMime(
-                          mimeData,
-                          draftMail.draft.mailbox,
-                          draftMail.id,
-                          publicKeys,
-                        );
-                      })
-                      .catch(error => {
-                        this.store.dispatch(
-                          new SnackPush({
-                            message: 'Failed to send email, please try again. Email has been saved in draft.',
-                          }),
-                        );
-                      });
+                    this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
                   } else {
                     draftMail.attachments.forEach(attachment => {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
@@ -331,14 +308,44 @@ export class ComposeMailService {
       document: newDocument,
       draftId: draftMail.id,
       inProgress: false,
-      is_inline: true,
+      is_inline: false,
       is_encrypted: false,
       message: draftMail.draft.id,
       name: PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
       size: newDocument.size.toString(),
       actual_size: newDocument.size,
+      is_pgp_mime: true,
     };
     this.store.dispatch(new UploadAttachment({ ...attachmentToUpload, isPGPMimeMessage: true }));
+  }
+
+  buildPGPMimeMessageAndEncrypt(draftMailId: number, publicKeys: Array<any>) {
+    const draftMail: Draft = this.drafts[draftMailId];
+    if (draftMail?.draft?.id) {
+      this.messageBuilderService
+        .getMimeData(
+          new SecureContent(draftMail.draft),
+          draftMail.attachments,
+          true,
+          true,
+          true,
+          PGPEncryptionType.PGP_MIME,
+        )
+        .then(mimeData => {
+          this.openPgpService.encryptForPGPMime(mimeData, draftMail.draft.mailbox, draftMail.id, publicKeys);
+        })
+        .catch(error => {
+          this.store.dispatch(
+            new SnackPush({
+              message: 'Failed to send email, please try again. Email has been saved in draft.',
+            }),
+          );
+        });
+    } else {
+      setTimeout(() => {
+        this.buildPGPMimeMessageAndEncrypt(draftMailId, publicKeys);
+      }, 500);
+    }
   }
 
   initComposeMailContainer(container: ViewContainerRef) {

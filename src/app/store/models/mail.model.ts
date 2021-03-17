@@ -126,6 +126,7 @@ export interface Attachment {
   request?: Subscription;
   size: string;
   actual_size?: number;
+  is_pgp_mime?: boolean;
 }
 
 export interface EmailDisplay {
