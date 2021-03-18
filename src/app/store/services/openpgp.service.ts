@@ -472,6 +472,7 @@ export class OpenPgpService {
       } else if (event.data.decrypted) {
         // TODO - should be updated while integrating all of decryption logic
         // Currently PGP/MIME message logic is separated with the others
+        console.log('==========>>>>>>>>>>>>> done to decrypt', event.data)
         if (event.data.decryptedPGPMime) {
           if (this.subjects[event.data.subjectId]) {
             if (event.data.error) {
@@ -490,6 +491,7 @@ export class OpenPgpService {
               decryptedContent: event.data.decryptedContent,
               isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
               decryptError: event.data.error,
+              isSubjectDecryptedError: event.data.isSubjectDecryptedError,
             }),
           );
           if (this.subjects[event.data.subjectId]) {

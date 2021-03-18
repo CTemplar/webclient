@@ -107,72 +107,7 @@ onmessage = async function (event) {
       });
     } else {
       if (decryptedAllPrivKeys[event.data.mailboxId]) {
-        decryptContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
-          decryptContent(event.data.mailData.incomingHeaders, decryptedAllPrivKeys[event.data.mailboxId]).then(incomingHeaders => {
-            if (isPGPEncrypted(event.data.mailData.subject)) {
-              decryptContent(event.data.mailData.subject, decryptedAllPrivKeys[event.data.mailboxId]).then(subject => {
-                if (!event.data.isPGPMime && event.data.mailData.content_plain) {
-                  decryptContent(event.data.mailData.content_plain, decryptedAllPrivKeys[event.data.mailboxId]).then(content_plain => {
-                    postMessage({
-                      decryptedContent: { incomingHeaders, content, subject, content_plain },
-                      decrypted: true,
-                      callerId: event.data.callerId,
-                      subjectId: event.data.subjectId,
-                      decryptedPGPMime: false,
-                      isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-                    });
-                  });
-                } else {
-                  postMessage({
-                    decryptedContent: { incomingHeaders, content, subject, content_plain: '' },
-                    decrypted: true,
-                    callerId: event.data.callerId,
-                    subjectId: event.data.subjectId,
-                    decryptedPGPMime: event.data.isPGPMime,
-                    isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-                  });
-                }
-              });
-            } else {
-              if (!event.data.isPGPMime && event.data.mailData.content_plain) {
-                decryptContent(event.data.mailData.content_plain, decryptedAllPrivKeys[event.data.mailboxId]).then(content_plain => {
-                  postMessage({
-                    decryptedContent: { incomingHeaders, content, subject, content_plain },
-                    decrypted: true,
-                    callerId: event.data.callerId,
-                    subjectId: event.data.subjectId,
-                    decryptedPGPMime: false,
-                    isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-                  });
-                });
-              } else {
-                postMessage({
-                  decryptedContent: { incomingHeaders, content, subject: event.data.mailData.subject, content_plain: '' },
-                  decrypted: true,
-                  callerId: event.data.callerId,
-                  subjectId: event.data.subjectId,
-                  decryptedPGPMime: event.data.isPGPMime,
-                  isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
-                });
-              }
-            }
-          });
-        })
-        .catch(() => {
-          postMessage({
-            decryptedContent: {
-              incomingHeaders: '',
-              content: event.data.mailData.content,
-              subject: event.data.mailData.subject,
-              content_plain: event.data.mailData.content_plain,
-            },
-            decrypted: true,
-            callerId: event.data.callerId,
-            subjectId: event.data.subjectId,
-            decryptedPGPMime: event.data.isPGPMime,
-            error: true,
-          });
-        });
+        decryptContentProcess(event.data);
       }
     }
   } else if (event.data.decryptPasswordEncryptedContent) {
@@ -374,7 +309,8 @@ async function decryptContent(data, privKeyObj) {
       return payload.data;
     });
   } catch (e) {
-    console.error(e);
+    // TODO - should be removed
+    console.error(e)
     return Promise.reject(data);
   }
 }
@@ -399,7 +335,7 @@ async function encryptAttachment(data, publicKeys) {
 
 async function decryptAttachment(data, privKeyObj) {
   const tmpDecodedData = atob(data);
-  const isArmored = tmpDecodedData.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
+  const isArmored = isPGPEncrypted(tmpDecodedData);
   if (!data) {
     return Promise.resolve(data);
   }
@@ -524,3 +460,130 @@ async function getKeyInfoFromPublicKey(publicKey) {
     return Promise.reject(publicKey);
   }
 }
+
+/**
+ * Start to decrypt SecureContent - Content, IncomingHeaders, Subject, Content_plain
+ * This function would decrypt only content and jump into Decrypting Incoming Headers function,
+ * Even though decryption got success or failed.
+ * @param data
+ */
+function decryptContentProcess(data) {
+  let isDecryptedError = false;
+  let decryptedContent = {};
+  decryptContent(data.mailData.content, decryptedAllPrivKeys[data.mailboxId])
+    .then(content => {
+      decryptedContent = { ...decryptedContent, content };
+      console.log('content decrypt success')
+      decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
+    })
+    // Content decryption error catch
+    .catch(() => {
+      isDecryptedError = true;
+      decryptedContent = { ...decryptedContent, content: data.mailData.content };
+      console.error('content decrypt failed', data.mailData.content)
+      decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
+    });
+}
+
+/**
+ * Decrypt IncomingHeaders, called by decryptContentProcess
+ * @param data
+ * @param decryptedContent
+ * @param isDecryptedError
+ */
+function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError) {
+  decryptContent(data.mailData.incomingHeaders, decryptedAllPrivKeys[data.mailboxId])
+    .then(incomingHeaders => {
+      decryptedContent = { ...decryptedContent, incomingHeaders };
+      console.log('incomingHeaders decrypt success')
+      decryptSubjectProcess(data, decryptedContent, isDecryptedError);
+    })
+    // IncomingHeaders decryption error catch
+    .catch(() => {
+      isDecryptedError = true;
+      decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
+      console.error('incomingHeaders decrypt failed', data.mailData.incomingHeaders)
+      decryptSubjectProcess(data, decryptedContent, isDecryptedError);
+    });
+}
+
+/**
+ * Decrypt Subject, called by decryptIncomingHeadersProcess
+ * isSubjectDecryptedError would be treated especially, because it would decide to display subject or not.
+ * @param data
+ * @param decryptedContent
+ * @param isDecryptedError
+ */
+function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
+  decryptContent(data.mailData.subject, decryptedAllPrivKeys[data.mailboxId])
+    .then(subject => {
+      decryptedContent = { ...decryptedContent, subject };
+      console.log('subject decrypt success')
+      decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
+  })
+    // Subject decryption error catch
+    .catch(() => {
+      isDecryptedError = true;
+      decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
+      console.error('subject decrypt failed', data.mailData.subject)
+      decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
+    });
+}
+
+/**
+ * Decrypt Content_Plain, called by decryptSubjectProcess,
+ * This is final process for decrypting SecureContent, will emit the `decrypted: true` event
+ * @param data
+ * @param decryptedContent
+ * @param isDecryptedError
+ * @param isSubjectDecryptedError
+ */
+function decryptContentPlainProcess(data, decryptedContent, isDecryptedError, isSubjectDecryptedError) {
+  if (!data.isPGPMime && data.mailData.content_plain) {
+    decryptContent(data.mailData.content_plain, decryptedAllPrivKeys[data.mailboxId])
+      .then(content_plain => {
+        console.log('content_plain decrypt success')
+        decryptedContent = { ...decryptedContent, content_plain };
+        postMessage({
+          decryptedContent,
+          decrypted: true,
+          callerId: data.callerId,
+          subjectId: data.subjectId,
+          decryptedPGPMime: false,
+          isDecryptingAllSubjects: data.isDecryptingAllSubjects,
+          error: isDecryptedError,
+          isSubjectDecryptedError,
+        });
+      })
+      // Content plain decryption error catch
+      .catch(() => {
+        isDecryptedError = true;
+        decryptedContent = { ...decryptedContent, content_plain: data.mailData.content_plain };
+        console.error('content_plain decrypt failed', data.mailData.content_plain)
+        postMessage({
+          decryptedContent,
+          decrypted: true,
+          callerId: data.callerId,
+          subjectId: data.subjectId,
+          decryptedPGPMime: data.isPGPMime,
+          isDecryptingAllSubjects: data.isDecryptingAllSubjects,
+          error: isDecryptedError,
+          isSubjectDecryptedError,
+        });
+      });
+  } else {
+    decryptedContent = { ...decryptedContent, content_plain: '' };
+    console.log('skipped content_plain decrypting')
+    postMessage({
+      decryptedContent,
+      decrypted: true,
+      callerId: data.callerId,
+      subjectId: data.subjectId,
+      decryptedPGPMime: data.isPGPMime,
+      isDecryptingAllSubjects: data.isDecryptingAllSubjects,
+      error: isDecryptedError,
+      isSubjectDecryptedError,
+    });
+  }
+}
+
