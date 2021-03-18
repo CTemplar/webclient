@@ -291,9 +291,10 @@ async function encryptContent(data, publicKeys) {
     message: openpgp.message.fromText(data),
     publicKeys: pubkeys,
   };
-  return openpgp.encrypt(options).then(payload => {
-    return payload.data;
-  });
+  return openpgp.encrypt(options)
+    .then(payload => {
+      return payload.data;
+    });
 }
 
 async function decryptContent(data, privKeyObj) {

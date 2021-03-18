@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { finalize, take } from 'rxjs/operators';
-import { forkJoin, Observable, Subject } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 
@@ -11,7 +11,6 @@ import {
   ComposeMailState,
   Draft,
   DraftState,
-  EmailContentType,
   GlobalPublicKey,
   PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
   PGPEncryptionType,
@@ -19,7 +18,7 @@ import {
   SecureContent,
   UserState,
 } from '../datatypes';
-import { ClearDraft, CreateMail, SendMail, SnackPush, UpdatePGPDecryptedContent, UploadAttachment } from '../actions';
+import { ClearDraft, CreateMail, SendMail, SnackPush, UploadAttachment } from '../actions';
 import { Attachment } from '../models';
 
 import { MailService } from './mail.service';
@@ -118,6 +117,9 @@ export class ComposeMailService {
                   draftMail.draft.is_encrypted = false;
                   draftMail.draft.is_subject_encrypted = false;
                   draftMail.draft.is_autocrypt_encrypted = true;
+                  if (encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE) {
+                    draftMail.draft.encryption_type = PGPEncryptionType.PGP_INLINE;
+                  }
                 }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                   draftMail.attachments.forEach(attachment => {
@@ -319,6 +321,11 @@ export class ComposeMailService {
     this.store.dispatch(new UploadAttachment({ ...attachmentToUpload, isPGPMimeMessage: true }));
   }
 
+  /**
+   * Build PGP/MIME message with the standard format
+   * @param draftMailId
+   * @param publicKeys
+   */
   buildPGPMimeMessageAndEncrypt(draftMailId: number, publicKeys: Array<any>) {
     const draftMail: Draft = this.drafts[draftMailId];
     if (draftMail?.draft?.id) {
