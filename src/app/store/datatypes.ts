@@ -503,6 +503,7 @@ export interface UserKey {
 }
 
 export interface PublicKey {
+  exists?: boolean;
   email: string;
   is_enabled?: boolean;
   public_key: string;

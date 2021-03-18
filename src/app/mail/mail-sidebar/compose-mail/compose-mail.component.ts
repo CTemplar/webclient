@@ -1965,9 +1965,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             if (this.contactsState && this.contactsState.contacts.length > 0) {
               this.contactsState.contacts.forEach((contact: Contact) => {
                 if (contact.email === rec) {
-                  this.usersKeys.set(rec, { ...this.usersKeys.get(rec), pgpEncryptionType: contact.enabled_encryption ? contact.encryption_type : null });
+                  this.usersKeys.set(rec, {
+                    ...this.usersKeys.get(rec),
+                    pgpEncryptionType: contact.enabled_encryption ? contact.encryption_type : null,
+                  });
                 }
-              })
+              });
             }
           }
         }
