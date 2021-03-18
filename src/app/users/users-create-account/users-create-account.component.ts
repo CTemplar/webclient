@@ -171,19 +171,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    let validInviteCode: boolean = true;
-    if (this.inviteCode?.includes('-')) {
-      const dividedCode = this.inviteCode.split('-');
-      for (let i = 0; i < dividedCode.length; i++) {
-        if (!/^\d+$/.test(dividedCode[i])) {
-          validInviteCode = false;
-        }
-      }
-    } else {
-      validInviteCode = false;
-    }
-
-    if (validInviteCode) {
+    if (!!this.inviteCode?.match(/^[0-9]{4}-[0-9]{5,6}$/)) {
       if (this.selectedPlan !== PlanType.FREE) {
         this.navigateToBillingPage();
       } else {
