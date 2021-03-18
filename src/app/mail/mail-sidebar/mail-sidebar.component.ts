@@ -67,6 +67,10 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   currentRoute: string;
 
+  isloading = true;
+
+  quote: object;
+
   isMenuOpened: boolean;
 
   notificationsPermission: string;
@@ -169,6 +173,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.quote = { content: 'Loading your settings...', author: '' };
     if (this.pushNotificationService.isDefault()) {
       setTimeout(() => {
         this.pushNotificationService.requestPermission();
@@ -192,6 +197,11 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
           this.LIMIT = this.customFolders.length;
         }
         this.handleCustomCss(user.settings.custom_css);
+        if (user.settings) {
+          setTimeout(() => {
+            this.isloading = false;
+          }, 1000);
+        }
       });
 
     this.store
