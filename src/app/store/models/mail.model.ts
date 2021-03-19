@@ -85,6 +85,9 @@ export interface Mailbox {
   signature?: string;
   sort_order: number;
   key_type: string;
+  // Autocrypt settings
+  is_autocrypt_enabled?: boolean;
+  prefer_encrypt?: string;
 }
 
 export interface Folder {

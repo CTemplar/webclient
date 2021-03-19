@@ -10,9 +10,8 @@ enum ReceiverEncryptionType {
 @Component({
   selector: 'app-composer-receiver-icon',
   templateUrl: './composer-receiver-icon.component.html',
-  styleUrls: ['./composer-receiver-icon.component.scss']
+  styleUrls: ['./composer-receiver-icon.component.scss'],
 })
-
 export class ComposerReceiverIconComponent implements OnInit {
   @Input() usersKeys: Map<string, GlobalPublicKey>;
 
@@ -20,7 +19,7 @@ export class ComposerReceiverIconComponent implements OnInit {
 
   encryptionType: ReceiverEncryptionType;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {}
 

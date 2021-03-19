@@ -74,6 +74,13 @@ export function reducer(
       };
     }
 
+    case MailActionTypes.MAILBOX_SETTINGS_UPDATE: {
+      return {
+        ...state,
+        inProgress: true,
+      };
+    }
+
     case MailActionTypes.MAILBOX_SETTINGS_UPDATE_SUCCESS: {
       const updatedCurrentMailBox: Mailbox = action.payload;
       updatedCurrentMailBox.inProgress = false;
