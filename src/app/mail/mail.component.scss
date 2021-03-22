@@ -279,6 +279,13 @@
       padding-left: 0.938rem;
       transition: none;
     }
+
+    > .badge {
+      @include media('<ipad', '>sm') {
+        right: 2.563rem;
+        display: block;
+      }
+    }
   }
 
   .active & {
