@@ -6,7 +6,7 @@
         <span class="mail-label label-from">{{ 'settings.compose.from' | translate }}</span>
         <div class="col-sm p-0">
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
-            <div ngbDropdown class="dropdown-sm">
+            <div ngbDropdown class="dropdown-sm" >
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
                 {{ selectedMailbox?.email | emailFormat: selectedMailbox?.display_name }}
               </button>
@@ -26,9 +26,7 @@
         <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="onRemoveReceive()" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste()" (onTagEdited)="onTagEdited($event)" (click)="onClick()" #input>
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <span>
-              {{ item.email }}
-            </span>
+            <app-receiver-email-chip [contacts]="contacts" [email]="item.email"></app-receiver-email-chip>
             <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
           </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
