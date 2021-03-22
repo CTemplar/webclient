@@ -48,7 +48,11 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
+
+  @ViewChild('externalLinkConfirmModal') externalLinkConfirmModal: any;
+
   @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
+
   @ViewChild('incomingHeadersModal') incomingHeadersModal: any;
 
   mail: Mail;
@@ -70,6 +74,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
+
   selectedMailToInclude: Mail;
 
   isDecrypting: any = {};
@@ -83,6 +88,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   folderColors: any = {};
 
   markedAsRead: boolean;
+
+  externalLinkChecked: boolean = true;
 
   currentMailIndex: number;
 
@@ -129,6 +136,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private currentMailbox: Mailbox;
 
   private forwardAttachmentsModalRef: NgbModalRef;
+
+  externalLinkConfirmModalRef: NgbModalRef;
 
   private includeAttachmentsModalRef: NgbModalRef;
 
@@ -243,6 +252,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
                 : decryptedContent.content;
+              if (this.externalLinkChecked) {
+                this.confirmExternalLinks();
+              }
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
               }
@@ -428,6 +440,37 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       );
   }
 
+  confirmExternalLinks() {
+    this.externalLinkChecked = false;
+    setTimeout(() => {
+      let exLinks = document.querySelectorAll('.msg-reply-content a');
+      if (exLinks?.length > 0) {
+        for (const i in exLinks) {
+          if (exLinks[i]?.innerHTML && exLinks[i].getAttribute('href')) {
+            exLinks[i].addEventListener('click', event => {
+              event.preventDefault();
+              this.externalLinkConfirmModalRef = this.modalService.open(this.externalLinkConfirmModal, {
+                centered: true,
+                windowClass: 'modal-sm users-action-modal',
+              });
+              this.externalLinkConfirmModalRef.result.then(result => {
+                if (result) {
+                  const link = document.createElement('a');
+                  link.href = exLinks[i].getAttribute('href');
+                  link.target = '_blank';
+                  link.rel = 'noopener noreferrer';
+                  link.click();
+                }
+                this.externalLinkConfirmModalRef = null;
+              });
+            });
+          }
+        }
+      }
+    }, 1000);
+    return;
+  }
+
   scrambleText(elementId: string) {
     if (!this.decryptedContents[this.mail.id]) {
       setTimeout(() => {
@@ -596,6 +639,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   getMailDetail(messageId: number) {
     this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
+  }
+
+  downloadAllAttachments(mail: Mail) {
+    if (mail?.attachments) {
+      for (let i = 0; i < mail.attachments.length; i++) {
+        this.decryptAttachment(mail.attachments[i], mail);
+      }
+    }
   }
 
   // TODO: Merge with display-secure-message and compose-mail components

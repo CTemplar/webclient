@@ -2,6 +2,7 @@ import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
 import { ComposeMailState } from '../datatypes';
 import { MailFolderType } from '../models';
+import { getCryptoRandom } from '../services';
 
 export function reducer(
   state: ComposeMailState = { drafts: {}, usersKeys: new Map() },
@@ -31,7 +32,7 @@ export function reducer(
             attachment.name = FilenamePipe.tranformToFilename(attachment.document);
           }
           attachment.draftId = oldDraft.id;
-          attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
+          attachment.attachmentId = performance.now() + Math.floor(getCryptoRandom() * 1000);
           return attachment;
         });
       }

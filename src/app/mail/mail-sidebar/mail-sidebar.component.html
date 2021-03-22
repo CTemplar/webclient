@@ -1,3 +1,4 @@
+<app-loading [isLoading]="isloading" [quote]="quote"></app-loading>
 <aside id="mailbox-sidebar" (clickOutside)="toggleMenu($event)" class="mailbox-sidebar is-sidebar-expandedx" role="complementary" [ngClass]="{ 'is-sidebar-expanded': isSidebarOpened }" (mouseover)="changeAsideExpand($event)" (mouseout)="changeAsideExpand($event)">
   <div class="mailbox-sidebar-inner" [class.sidebar-opened]="isSidebarOpened">
     <!-- CTemplar Logo Section -->

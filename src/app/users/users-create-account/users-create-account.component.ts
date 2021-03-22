@@ -171,10 +171,14 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    if (this.selectedPlan !== PlanType.FREE) {
-      this.navigateToBillingPage();
+    if (!!this.inviteCode?.match(/^[0-9]{4}-[0-9]{5,6}$/)) {
+      if (this.selectedPlan !== PlanType.FREE) {
+        this.navigateToBillingPage();
+      } else {
+        this.signupFormCompleted();
+      }
     } else {
-      this.signupFormCompleted();
+      this.errorMessage = this.translate.instant('create_account.insert_valid_inviteCode');
     }
   }
 
