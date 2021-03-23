@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

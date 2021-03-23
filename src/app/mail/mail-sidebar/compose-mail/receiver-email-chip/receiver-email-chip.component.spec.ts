@@ -8,9 +8,8 @@ describe('ReceiverEmailChipComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReceiverEmailChipComponent ]
-    })
-    .compileComponents();
+      declarations: [ReceiverEmailChipComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
