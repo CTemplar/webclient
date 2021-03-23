@@ -3,8 +3,8 @@ import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Contact } from '../../../../store/datatypes';
-import { Mailbox } from "../../../../store/models";
-import parseEmail from "email-addresses";
+import { Mailbox } from '../../../../store/models';
+import parseEmail from 'email-addresses';
 
 @Component({
   selector: 'app-receiver-email-chip',
