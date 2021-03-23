@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Contact } from '../../../../store/datatypes';
 import { Mailbox } from "../../../../store/models";
+import parseEmail from "email-addresses";
 
 @Component({
   selector: 'app-receiver-email-chip',
@@ -19,15 +20,17 @@ export class ReceiverEmailChipComponent implements OnInit {
 
   @Input() name: string = '';
 
-  @Input() contacts: any[];
+  @Input() contacts: Contact[];
 
   @Input() isContactEncrypted: boolean;
 
   @Input() mailboxes: Mailbox[] = [];
 
-  selectedContact: any;
+  selectedContact: Contact;
 
   isMyMailbox = false;
+
+  isValidEmail = true;
 
   /**
    * This contact will be transferred to save contact component
@@ -47,6 +50,7 @@ export class ReceiverEmailChipComponent implements OnInit {
         }
       });
     }
+    this.isValidEmail = this.rfcStandardValidateEmail(this.email);
   }
 
   onAddContact(popOver: any, addUserContent: TemplateRef<any>) {
@@ -76,5 +80,9 @@ export class ReceiverEmailChipComponent implements OnInit {
 
   onClickBody(popOver: any) {
     popOver.isOpen() ? popOver.close() : popOver.open();
+  }
+
+  rfcStandardValidateEmail(address: string): boolean {
+    return !!parseEmail.parseOneAddress(address);
   }
 }

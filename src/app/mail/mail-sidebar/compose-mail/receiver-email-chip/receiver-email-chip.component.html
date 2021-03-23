@@ -30,7 +30,7 @@
 <ng-template #popContent>
   <!-- Popover Header -->
   <div class="receiver-email-chip-popover-receiver-info">
-    <div class="receiver-email-chip-popover-receiver-name">
+    <div *ngIf="isValidEmail" class="receiver-email-chip-popover-receiver-name">
       <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
         <i *ngIf="!!selectedContact" class="fas fa-edit"></i>
       </a>
@@ -38,6 +38,10 @@
         <i *ngIf="!selectedContact" class="fas fa-plus-circle"></i>
       </a>
       {{ selectedContact ? selectedContact.name : email }}
+    </div>
+    <div class="error-message" *ngIf="!isValidEmail">
+      {{ 'settings.compose.invalid_email_format' | translate }}
+
     </div>
     <div class="receiver-email-chip-popover-receiver-email">
       {{ email }}
