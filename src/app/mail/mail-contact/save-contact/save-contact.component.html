@@ -209,15 +209,15 @@
           <div class="col-sm-5">
             <label class="form-label mb-sm-0"> Prefer Encrypt </label>
             <ng-template #preferEncryptTooltip>
-              <div class="text-left">PGP Encryption Scheme to be used when encrypting.</div>
-              <div class="text-left">Note that PGP/Inline is only available for Plain Text Messages</div>
+              <div class="text-left">If "mutual" is selected and Prefer Encrypt of your mailbox is also "mutual",</div>
+              <div class="text-left">all of outgoing messages to this contact would be encrypted</div>
             </ng-template>
             <i class="fas fa-info-circle ml-1" [ngbTooltip]="preferEncryptTooltip"></i>
           </div>
           <div class="col-sm-7">
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
-                <button type="button" ngbDropdownToggle id="preferEncryptDropdownMenuBtn" role="button" [disabled]="!newContactModel.enabled_encryption">
+                <button type="button" ngbDropdownToggle id="preferEncryptDropdownMenuBtn" role="button" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0">
                   <span> {{ newContactModel.prefer_encrypt ? newContactModel.prefer_encrypt : 'nopreference' }} </span>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">

@@ -273,6 +273,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     if (remainedKeys.length === 0) {
       this.newContactModel.encryption_type = null;
       this.newContactModel.enabled_encryption = false;
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.NOPREFERENCE;
       this.createNewContact(false);
     } else if (key.is_primary) {
       remainedKeys[0].is_primary = true;

@@ -768,6 +768,23 @@ export enum AutocryptPreferEncryptType {
   MUTUAL = 'mutual',
 }
 
+export enum UIRecommendationValue {
+  DISABLE = 'DISABLE',
+  DISCOURAGE = 'DISCOURAGE',
+  AVAILABLE = 'AVAILABLE',
+  ENCRYPT = 'ENCRYPT',
+}
+
+export interface AutocryptEncryptDetermineForSingle {
+  recommendationValue: UIRecommendationValue;
+  encrypt: boolean;
+}
+
+export interface AutocryptEncryptDetermine {
+  encryptTotally: boolean;
+  receiversStatus: Map<string, AutocryptEncryptDetermineForSingle>;
+}
+
 export enum PGPKeyType {
   RSA_4096 = 'RSA 4096',
   ECC = 'ECC',
