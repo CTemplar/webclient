@@ -1,11 +1,40 @@
+<ng-template #addUserContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel">
+      <strong>{{ 'contacts.details' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <app-save-contact [selectedContact]="passingContact" (userSaved)="d()"></app-save-contact>
+    </div>
+  </div>
+</ng-template>
+
+<span
+  [ngbPopover]="popContent"
+  #popOver="ngbPopover"
+  container="body"
+  popoverClass="receiver-email-chip-popover"
+  placement="bottom-left"
+  [openDelay]="300"
+  triggers="manual"
+  (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault();"
+>
+  {{ email | emailFormat: name }}
+</span>
+
 <ng-template #popContent>
   <!-- Popover Header -->
   <div class="receiver-email-chip-popover-receiver-info">
     <div class="receiver-email-chip-popover-receiver-name">
-      <a class="mr-1" href="#" ngbTooltip="Edit Contact">
+      <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
         <i *ngIf="!!selectedContact" class="fas fa-edit"></i>
       </a>
-      <a class="mr-1" href="#" ngbTooltip="Add Contact">
+      <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
         <i *ngIf="!selectedContact" class="fas fa-plus-circle"></i>
       </a>
       {{ selectedContact ? selectedContact.name : email }}
@@ -16,15 +45,3 @@
 
   </div>
 </ng-template>
-
-<span
-  [ngbPopover]="popContent"
-  container="body"
-  popoverClass="receiver-email-chip-popover"
-  placement="bottom-left"
-  autoClose="outside"
-  animation="true"
-  [openDelay]="300"
->
-  {{ email }}
-</span>

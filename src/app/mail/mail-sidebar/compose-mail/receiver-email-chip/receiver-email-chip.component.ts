@@ -1,5 +1,9 @@
-import { Component, Input, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { Contact } from '../../../../store/datatypes';
+import { Mailbox } from "../../../../store/models";
 
 @Component({
   selector: 'app-receiver-email-chip',
@@ -7,15 +11,70 @@ import { Contact } from '../../../../store/datatypes';
   styleUrls: ['./receiver-email-chip.component.scss'],
 })
 export class ReceiverEmailChipComponent implements OnInit {
+  @ViewChild('addUserContent') addUserContent: any;
+
+  @Input() composePopover: boolean = true;
+
   @Input() email: string;
 
-  @Input() contacts: any[] = [];
+  @Input() name: string = '';
+
+  @Input() contacts: any[];
+
+  @Input() isContactEncrypted: boolean;
+
+  @Input() mailboxes: Mailbox[] = [];
 
   selectedContact: any;
 
-  constructor() {}
+  isMyMailbox = false;
 
-  ngOnInit(): void {
+  /**
+   * This contact will be transferred to save contact component
+   */
+  passingContact: Contact;
+
+  constructor(private modalService: NgbModal) {}
+
+  ngOnInit(): void {}
+
+  ngOnChanges(simpleChange: SimpleChanges): void {
     this.selectedContact = this.contacts.find(contact => this.email === contact.email);
+    if (!this.composePopover && this.mailboxes.length > 0) {
+      this.mailboxes.forEach(mailbox => {
+        if (mailbox.email === this.email) {
+          this.isMyMailbox = true;
+        }
+      });
+    }
+  }
+
+  onAddContact(popOver: any, addUserContent: TemplateRef<any>) {
+    this.passingContact = {
+      email: this.email,
+      name: this.email,
+    };
+    this.modalService.open(addUserContent, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+      beforeDismiss: () => {
+        return true;
+      },
+    });
+  }
+
+  onEditContact(popOver: any, addUserContent: TemplateRef<any>) {
+    this.passingContact = this.selectedContact;
+    this.modalService.open(addUserContent, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+      beforeDismiss: () => {
+        return true;
+      },
+    });
+  }
+
+  onClickBody(popOver: any) {
+    popOver.isOpen() ? popOver.close() : popOver.open();
   }
 }
