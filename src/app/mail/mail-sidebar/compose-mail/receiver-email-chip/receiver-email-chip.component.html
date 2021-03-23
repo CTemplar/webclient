@@ -14,16 +14,7 @@
   </div>
 </ng-template>
 
-<span
-  [ngbPopover]="popContent"
-  #popOver="ngbPopover"
-  container="body"
-  popoverClass="receiver-email-chip-popover"
-  placement="bottom-left"
-  [openDelay]="300"
-  triggers="manual"
-  (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault();"
->
+<span [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()">
   {{ email | emailFormat: name }}
 </span>
 
@@ -42,6 +33,5 @@
     <div class="receiver-email-chip-popover-receiver-email">
       {{ email }}
     </div>
-
   </div>
 </ng-template>

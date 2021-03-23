@@ -31,8 +31,9 @@ import {
   SecureContent,
   UserState,
   NumberBooleanMappedType,
-  NumberStringMappedType, ContactsState
-} from "../../store/datatypes";
+  NumberStringMappedType,
+  ContactsState,
+} from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
