@@ -552,11 +552,6 @@
     @media (max-width: 360px) {
       padding: 0 3px;
     }
-    &.checkbox-dropdown {
-      .fancy-field-group {
-        margin-top: -3px;
-      }
-    }
 
     @include media('<=sm') {
       &.more-xs-options {
@@ -1125,7 +1120,7 @@
   .mail-file-size,
   .mail-sent-date {
     font-size: 0.75rem;
-    width: 4rem;
+    width: 5rem;
   }
 
   .mail-file-size {
@@ -1538,8 +1533,6 @@
 
 .last-action {
   color: #989898;
-  position: absolute;
-  top: 3px;
   margin-left: 2px;
 }
 
