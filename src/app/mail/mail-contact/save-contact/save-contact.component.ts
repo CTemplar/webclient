@@ -19,27 +19,24 @@ import { take } from 'rxjs/operators';
 
 import {
   AppState,
+  AutocryptPreferEncryptType,
   Contact,
+  ContactKey,
   ContactsState,
-  UserState,
-  MailboxKey,
   PGPEncryptionType,
   StringBooleanMappedType,
   StringStringMappedType,
-  ContactKey,
+  UserState,
 } from '../../../store/datatypes';
 import {
   ContactAdd,
   ContactAddKeys,
-  ContactFetchKeys,
-  MailboxEffects,
-  MoveToWhitelist,
-  SnackErrorPush,
-  ContactRemoveKeys,
   ContactBulkUpdateKeys,
+  ContactFetchKeys,
+  ContactRemoveKeys,
+  SnackErrorPush,
 } from '../../../store';
 import { OpenPgpService } from '../../../store/services';
-import { config } from 'rxjs';
 
 import { getEmailDomain } from '../../../shared/config';
 
@@ -297,5 +294,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   onSaveAdvancedSettings() {
     this.store.dispatch(new ContactBulkUpdateKeys(this.selectedContactPulbicKeys));
     this.createNewContact(false);
+  }
+
+  onSelectPreferEncrypt(type: string) {
+    if (type === AutocryptPreferEncryptType.NOPREFERENCE) {
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.NOPREFERENCE;
+    } else {
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.MUTUAL;
+    }
   }
 }

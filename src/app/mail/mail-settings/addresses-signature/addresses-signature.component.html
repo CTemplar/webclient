@@ -238,7 +238,7 @@
                 </li>
                 <li>
                   <button type="button" role="button" class="btn-link" (click)="onSetAutocrypt(mailbox)">
-                    <i class="fab fa-connectdevelop" ngbTooltip="Set Autocrypt"></i>
+                    <span>Autocrypt</span>
                   </button>
                 </li>
               </ul>
@@ -511,7 +511,9 @@
         <div class="row">
           <div class="col-sm-4">
             <label class="form-label mb-sm-0"> Prefer Encrypt </label>
-            <i class="fas fa-info-circle ml-1" ngbTooltip="You must be selected as mutual to add Autocrypt Header"></i>
+            <a href="#">
+              <i class="fas fa-info-circle ml-1" ngbTooltip="If it is selected as mutual, then outgoing messages would be encrypted based on the recipient's Prefer Encrypt status"></i>
+            </a>
           </div>
           <div class="col-sm-8">
             <div class="btn-dropdown btn-dropdown-select">

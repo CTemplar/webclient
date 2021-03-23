@@ -27,7 +27,7 @@ function updateDraftMailForPGPMimeMessage(
   newDraftMail.draft.content_plain = PGP_MIME_DEFAULT_CONTENT;
   newDraftMail.draft.is_encrypted = false;
   newDraftMail.draft.is_subject_encrypted = false;
-  newDraftMail.draft.is_autocrypt_encrypted = true;
+  newDraftMail.draft.is_autocrypt_encrypted = false;
   newDraftMail.draft.encryption_type = PGPEncryptionType.PGP_MIME;
   newDraftMail.draft.attachments = [{ ...newAttachment, is_inline: true }];
   newDraftMail.attachments = [{ ...newAttachment, is_inline: true }];

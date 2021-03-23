@@ -200,12 +200,45 @@
           </div>
         </div>
       </div>
+      <!-- Autocrypt section -->
+      <div class="form-content-row mt-4 mb-2">
+        <div class="section-title text-dark">
+          <strong>Autocrypt Settings</strong>
+        </div>
+        <div class="row autocrypt-section-row">
+          <div class="col-sm-5">
+            <label class="form-label mb-sm-0"> Prefer Encrypt </label>
+            <ng-template #preferEncryptTooltip>
+              <div class="text-left">PGP Encryption Scheme to be used when encrypting.</div>
+              <div class="text-left">Note that PGP/Inline is only available for Plain Text Messages</div>
+            </ng-template>
+            <i class="fas fa-info-circle ml-1" [ngbTooltip]="preferEncryptTooltip"></i>
+          </div>
+          <div class="col-sm-7">
+            <div class="btn-dropdown btn-dropdown-select">
+              <div ngbDropdown class="dropdown-sm">
+                <button type="button" ngbDropdownToggle id="preferEncryptDropdownMenuBtn" role="button" [disabled]="!newContactModel.enabled_encryption">
+                  <span> {{ newContactModel.prefer_encrypt ? newContactModel.prefer_encrypt : 'nopreference' }} </span>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
+                  <a class="dropdown-item text-medium" (click)="onSelectPreferEncrypt('nopreference')">
+                    <span>nopreference (Default)</span>
+                  </a>
+                  <a class="dropdown-item text-medium" (click)="onSelectPreferEncrypt('mutual')">
+                    <span>mutual</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Public keys section -->
       <div class="form-content-row mb-2 mt-4 text-medium contact-public-keys-section">
         <div class="row">
           <div class="col-12">
             <div class="d-flex justify-content-between">
-              <label class="form-label mb-0"> Public Keys </label>
+              <strong class="text-dark">Public Keys</strong>
               <input type="file" #importKeyFileTag accept=".txt" (change)="onSelectNewKeyFile($event.target.files)" style="display: none" />
               <div>
                 <a (click)="importKeyFileTag.click()">

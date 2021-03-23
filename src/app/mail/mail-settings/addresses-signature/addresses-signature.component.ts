@@ -164,6 +164,9 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         }
         this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
         this.mailboxKeysMap = mailboxesState.mailboxKeysMap;
+        if (this.inProgress && !mailboxesState.inProgress && this.setAutocryptConfirmModalRef) {
+          this.setAutocryptConfirmModalRef.dismiss();
+        }
         this.inProgress = mailboxesState.inProgress;
       });
 

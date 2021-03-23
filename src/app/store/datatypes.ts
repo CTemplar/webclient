@@ -553,6 +553,10 @@ export interface Contact {
   phone2?: string;
   provider?: string;
   encryption_type?: PGPEncryptionType;
+  // Autocrypt
+  prefer_encrypt?: AutocryptPreferEncryptType;
+  autocrypt_timestamp?: string;
+  last_seen?: string;
 }
 
 export interface AppState {
@@ -757,6 +761,11 @@ export enum EncryptionType {
   PGP_MIME_INLINE = 'PGP_MIME_INLINE',
   PGP_PASSWORD = 'PGP_PASSWORD',
   PGP_END_TO_END = 'PGP_END_TO_END',
+}
+
+export enum AutocryptPreferEncryptType {
+  NOPREFERENCE = 'nopreference',
+  MUTUAL = 'mutual',
 }
 
 export enum PGPKeyType {
