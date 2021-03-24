@@ -348,7 +348,7 @@
 }
 .mailbox-actionbar-menu > li.checkbox-dropdown .fancy-field-group,
 .more-xs-options-list > li.checkbox-dropdown .fancy-field-group {
-  margin-top: 4px;
+  margin-top: 8px;
 }
 .mailbox-actionbar-menu > li.disabled {
   pointer-events: none;
@@ -384,13 +384,12 @@
   overflow: auto;
 }
 
-.select-all-checkbox {
-  top: 4px;
-}
-
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
   border: 2px solid var(--mat-checkbox-border-color);
 }
 ::ng-deep .mat-checkbox .mat-checkbox-background {
   border: var(--width-0-2) solid var(--mat-checkbox-border-color);
+}
+.mailbox-actionbar-menu .fa-upload {
+  font-size: 16px;
 }
