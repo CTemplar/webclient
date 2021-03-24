@@ -369,7 +369,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private oldMailbox: Mailbox;
 
-  isPreparingToSendEmail: boolean = false;
+  isPreparingToSendEmail = false;
+
+  /**
+   * This variable will be used for pass to suggest to add to the contact or update
+   */
+  clonedContacts: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -498,6 +503,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             });
           });
         }
+        this.clonedContacts =
+          contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
         this.contactsState = contactsState;
         this.loadEmailContacts();
       });
