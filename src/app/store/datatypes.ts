@@ -512,7 +512,7 @@ export interface BlackList {
 
 export interface Contact {
   id?: number;
-  address: string;
+  address?: string;
   email?: string;
   enabled_encryption?: boolean;
   encrypted_data?: string;

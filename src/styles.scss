@@ -623,3 +623,30 @@ a.text-dark:hover {
     color: #f8f9fa !important;
   }
 }
+
+
+.receiver-email-chip-popover {
+  background: var(--bg-faded);
+  z-index: 9999;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  margin-top: 10px;
+  box-shadow: 1px 10px;
+  -moz-box-shadow: 3px 3px 5px #aaa;
+  -webkit-box-shadow: 3px 3px 5px #aaa;
+  color: var(--text-color);
+  box-shadow: 3px 3px 5px #aaa;
+  .receiver-email-chip-popover-receiver-info {
+    padding: 7px 15px;
+    .receiver-email-chip-popover-receiver-name {
+      font-size: 20px;
+      a {
+        color: var(--tex-color);
+        cursor: pointer;
+        i {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
