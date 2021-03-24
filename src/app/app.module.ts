@@ -29,6 +29,7 @@ import {
   CancelPendingRequestInterceptor,
   MessageBuilderService,
   MessageDecryptService,
+  AutocryptProcessService,
 } from './store/services';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
@@ -90,6 +91,7 @@ export class SentryErrorHandler implements ErrorHandler {
     TimezoneService,
     MessageBuilderService,
     MessageDecryptService,
+    AutocryptProcessService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CancelPendingRequestInterceptor, multi: true },
     { provide: ErrorHandler, useClass: SentryErrorHandler },

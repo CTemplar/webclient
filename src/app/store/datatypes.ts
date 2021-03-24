@@ -782,7 +782,9 @@ export interface AutocryptEncryptDetermineForSingle {
 
 export interface AutocryptEncryptDetermine {
   encryptTotally: boolean;
-  receiversStatus: Map<string, AutocryptEncryptDetermineForSingle>;
+  senderAutocryptEnabled: boolean;
+  senderPreferEncrypt: AutocryptPreferEncryptType;
+  recommendationValue: UIRecommendationValue;
 }
 
 export enum PGPKeyType {

@@ -10,3 +10,5 @@ export * from './cancel.request.interceptor';
 export * from './cancel.request.service';
 export * from './message.builder.service';
 export * from './message.decrypt.service';
+export * from './autocrypt.process.service';
+

@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as parseEmail from 'email-addresses';
 
+import { Mailbox } from '../models';
 import {
   AppState,
+  AutocryptEncryptDetermine,
+  AutocryptEncryptDetermineForSingle,
   AutocryptPreferEncryptType,
   Contact,
   ContactsState,
@@ -9,30 +14,24 @@ import {
   GlobalPublicKey,
   MailBoxesState,
   UIRecommendationValue,
-  AutocryptEncryptDetermine,
-  AutocryptEncryptDetermineForSingle,
 } from '../datatypes';
-import { Mailbox } from '../models';
-import { untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngrx/store';
-
-import * as parseEmail from 'email-addresses';
 
 @Injectable()
 export class AutocryptProcessService {
   private mailboxes: Mailbox[] = [];
+
   private contacts: Contact[] = [];
+
   private senderMailbox: Mailbox;
+
   constructor(private store: Store<AppState>) {
     this.store
       .select(state => state.mailboxes)
-      .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
         this.mailboxes = mailBoxesState.mailboxes;
       });
     this.store
       .select(state => state.contacts)
-      .pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts = contactsState.contacts;
       });
@@ -44,13 +43,21 @@ export class AutocryptProcessService {
    * @param draftMail
    * @param usersKeys
    */
-  decideAutocryptDefaultEncryption(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): AutocryptEncryptDetermine {
+  decideAutocryptDefaultEncryption(
+    draftMail: Draft,
+    usersKeys: Map<string, GlobalPublicKey>,
+  ): AutocryptEncryptDetermine {
     if (draftMail.draft) {
       // Check sender mailbox is enabled for Autocrypt
       if (this.mailboxes.length > 0) {
         this.senderMailbox = this.mailboxes.find(mailbox => mailbox.id === draftMail.draft.mailbox);
         if (!this.senderMailbox || !this.senderMailbox.is_autocrypt_enabled) {
-          return false;
+          return {
+            encryptTotally: false,
+            senderAutocryptEnabled: false,
+            senderPreferEncrypt: AutocryptPreferEncryptType.NOPREFERENCE,
+            recommendationValue: UIRecommendationValue.DISABLE,
+          };
         }
       }
       const receivers: string[] = [
@@ -58,36 +65,55 @@ export class AutocryptProcessService {
         ...draftMail.draft.cc.map(cc => cc),
         ...draftMail.draft.bcc.map(bcc => bcc),
       ];
-      let receiversStatus = new Map<string, AutocryptEncryptDetermineForSingle>();
+      const receiversStatus = new Map<string, AutocryptEncryptDetermineForSingle>();
       receivers.forEach(receiver => {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        const contact = this.contacts.find(contact => contact.email === parsedEmail.address)
+        const contact = this.contacts.find(everyContact => everyContact.email === parsedEmail.address);
         if (!contact) {
           receiversStatus.set(contact.email, {
             recommendationValue: UIRecommendationValue.DISABLE,
             encrypt: false,
           });
+        } else if (
+          usersKeys.has(parsedEmail.address) &&
+          usersKeys.get(parsedEmail.address).key &&
+          usersKeys.get(parsedEmail.address).key.length > 0
+        ) {
+          // Completed checking STEP 1 (Determine if encryption is possible),
+          // the result is OK, will jump into the next process
+          // https://autocrypt.org/level1.html#determine-if-encryption-is-possible
+          const processResult = this.launchProcessForCheckAutocryptPossible(contact);
+          receiversStatus.set(contact.email, processResult);
         } else {
-          if (usersKeys.has(parsedEmail.address) && usersKeys.get(parsedEmail.address).key && usersKeys.get(parsedEmail.address).key.length > 0) {
-            // Completed checking STEP 1 (Determine if encryption is possible),
-            // the result is OK, will jump into the next process
-            // https://autocrypt.org/level1.html#determine-if-encryption-is-possible
-            const processResult = this.launchProcessForCheckAutocryptPossible(contact);
-            receiversStatus.set(contact.email, processResult);
-          } else {
-            receiversStatus.set(contact.email, {
-              recommendationValue: UIRecommendationValue.DISABLE,
-              encrypt: false,
-            });
-          }
+          receiversStatus.set(contact.email, {
+            recommendationValue: UIRecommendationValue.DISABLE,
+            encrypt: false,
+          });
         }
       });
-      const encryptTotally = [ ...receiversStatus.keys() ].every(key => receiversStatus.get(key).encrypt);
+      const encryptTotally = [...receiversStatus.keys()].every(key => receiversStatus.get(key).encrypt);
+      let recommendationValue = UIRecommendationValue.DISABLE;
+      if (encryptTotally) {
+        const isCourage = [...receiversStatus.keys()].every(
+          key =>
+            receiversStatus.get(key).recommendationValue === UIRecommendationValue.ENCRYPT ||
+            receiversStatus.get(key).recommendationValue === UIRecommendationValue.AVAILABLE,
+        );
+        recommendationValue = isCourage ? UIRecommendationValue.ENCRYPT : UIRecommendationValue.DISCOURAGE;
+      }
       return {
         encryptTotally,
-        receiversStatus,
-      }
+        recommendationValue,
+        senderPreferEncrypt: this.senderMailbox.prefer_encrypt === 'nopreference' ? AutocryptPreferEncryptType.NOPREFERENCE : AutocryptPreferEncryptType.MUTUAL,
+        senderAutocryptEnabled: true,
+      };
     }
+    return {
+      encryptTotally: false,
+      senderAutocryptEnabled: false,
+      senderPreferEncrypt: AutocryptPreferEncryptType.NOPREFERENCE,
+      recommendationValue: UIRecommendationValue.DISABLE,
+    };
   }
 
   private launchProcessForCheckAutocryptPossible(contact: Contact): any {
@@ -115,12 +141,16 @@ export class AutocryptProcessService {
     let encrypt = false;
     // If the preliminary-recommendation is available and
     // both peers[to-addr].prefer_encrypt and accounts[from-addr].prefer_encrypt are mutual.
-    if (this.senderMailbox.is_autocrypt_enabled && this.senderMailbox.prefer_encrypt === AutocryptPreferEncryptType.MUTUAL && contact.prefer_encrypt === AutocryptPreferEncryptType.MUTUAL) {
+    if (
+      this.senderMailbox.is_autocrypt_enabled &&
+      this.senderMailbox.prefer_encrypt === AutocryptPreferEncryptType.MUTUAL &&
+      contact.prefer_encrypt === AutocryptPreferEncryptType.MUTUAL
+    ) {
       encrypt = true;
     }
     return {
       recommendationValue,
-      encrypt
+      encrypt,
     };
   }
 
@@ -128,7 +158,7 @@ export class AutocryptProcessService {
     // Discard the time and time-zone information.
     const utc1 = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
     const utc2 = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
-    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
-    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+    return Math.floor((utc2 - utc1) / MS_PER_DAY);
   }
 }
