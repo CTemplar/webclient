@@ -14,7 +14,7 @@
   </div>
 </ng-template>
 
-<span [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault();">
+<span [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()">
   {{ email | emailFormat: name }}
 </span>
 
@@ -32,7 +32,6 @@
     </div>
     <div class="error-message" *ngIf="!isValidEmail">
       {{ 'settings.compose.invalid_email_format' | translate }}
-
     </div>
     <div class="receiver-email-chip-popover-receiver-email">
       {{ email }}

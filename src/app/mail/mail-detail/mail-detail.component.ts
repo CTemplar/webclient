@@ -414,7 +414,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.forceLightMode = parameters.lightMode;
     });
 
-    
     /**
      * Get user's contacts from store.
      */
