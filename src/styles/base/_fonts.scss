@@ -139,14 +139,15 @@
   font-weight: normal;
   font-style: normal;
   font-display: block;
-  src:  url('#{$fa-font-path}ctemplar/ctemplar-icon-info-circle.eot?345mpd');
-  src:  url('#{$fa-font-path}ctemplar/ctemplar-icon-info-circle.eot?345mpd#iefix') format('embedded-opentype'),
+  src: url('#{$fa-font-path}ctemplar/ctemplar-icon-info-circle.eot?345mpd');
+  src: url('#{$fa-font-path}ctemplar/ctemplar-icon-info-circle.eot?345mpd#iefix') format('embedded-opentype'),
     url('#{$fa-font-path}ctemplar/ctemplar-icon-info-circle.ttf?345mpd') format('truetype'),
     url('#{$fa-font-path}ctemplar/ctemplar-icon-info-circle.woff?345mpd') format('woff'),
     url('#{$fa-font-path}ctemplar/ctemplar-icon-info-circle.svg?345mpd#ctemplar-icon-info-circle') format('svg');
 }
 
-[class^="ctemplar-icon-"], [class*=" ctemplar-icon-"] {
+[class^='ctemplar-icon-'],
+[class*=' ctemplar-icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'ctemplar' !important;
   speak: never;
@@ -162,5 +163,5 @@
 }
 
 .ctemplar-icon-info-circle:before {
-  content: "\ea0c";
+  content: '\ea0c';
 }
