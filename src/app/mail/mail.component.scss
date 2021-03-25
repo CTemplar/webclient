@@ -297,6 +297,47 @@
   &:focus {
     background: darken(rgba(255, 255, 255, 0.12), 25%);
     color: $brand-white;
+    > .action {
+      opacity: 1;
+      transform: translateX(-35px) translateY(-50%);
+  
+      @include media('<ipad', '>sm') {
+        display: none;
+  
+        .is-sidebar-expanded & {
+          display: block;
+        }
+      }
+    }
+  }
+
+  > .action {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    left: auto;
+    padding: 0 0;
+    height: 1.25rem;
+    width: 1.563rem;
+    line-height: 1.25rem;
+    text-align: center;
+    opacity: 0;
+    transition-property:opacity;
+    transition-duration:0.2s;
+    transition-timing-function: linear;
+    transition: transform 0.4s;
+    a {
+      color: #fff;
+    }
+
+    @include media('<ipad', '>sm') {
+      display: none;
+
+      .is-sidebar-expanded & {
+        display: block;
+      }
+    }
   }
 
   > .icon {
