@@ -184,10 +184,11 @@ tag-input {
 
   tag {
     height: 20px !important;
-    border-radius: 20px !important;
+    border-radius: 3px !important;
     border: 1px solid lightgrey !important;
     color: var(--text-color) !important;
     background-color: var(--composer-tag-background) !important;
+    line-height: 35px !important;
     delete-icon {
       svg {
         path {
@@ -649,4 +650,8 @@ a.text-dark:hover {
       }
     }
   }
+}
+
+.font-size-1 {
+  font-size: 1em!important;
 }
