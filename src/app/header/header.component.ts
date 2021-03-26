@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { UsersService } from '../store/services/users.service';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
   // Public property of boolean type set false by default

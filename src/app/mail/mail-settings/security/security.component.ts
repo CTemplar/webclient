@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +24,7 @@ import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/c
   selector: 'app-settings-security',
   templateUrl: './security.component.html',
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SecurityComponent implements OnInit {
   @ViewChild('changePasswordModal') changePasswordModal: any;

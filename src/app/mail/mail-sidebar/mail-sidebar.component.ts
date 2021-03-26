@@ -7,6 +7,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -52,6 +53,7 @@ import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.co
   selector: 'app-mail-sidebar',
   templateUrl: './mail-sidebar.component.html',
   styleUrls: ['./mail-sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   LIMIT = 3; // limit of displayed custom folder's count

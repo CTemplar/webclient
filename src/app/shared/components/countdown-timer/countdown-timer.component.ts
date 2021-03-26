@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 import { timer } from 'rxjs/internal/observable/timer';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -8,6 +8,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   selector: 'app-countdown-timer',
   templateUrl: './countdown-timer.component.html',
   styleUrls: ['./countdown-timer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CountdownTimerComponent implements OnInit, OnDestroy {
   @Input() duration: number; // duration in seconds

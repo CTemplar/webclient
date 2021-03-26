@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { apiUrl } from '../../config';
 
@@ -6,6 +6,7 @@ import { apiUrl } from '../../config';
   selector: 'app-bitcoin-form',
   templateUrl: './bitcoin-form.component.html',
   styleUrls: ['./bitcoin-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BitcoinFormComponent implements OnInit {
   public apiUrl: string = apiUrl;

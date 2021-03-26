@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -12,6 +12,7 @@ import { SharedService } from '../../../store/services';
   selector: 'app-invite-codes',
   templateUrl: './invite-codes.component.html',
   styleUrls: ['./invite-codes.component.scss', '../mail-settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InviteCodesComponent implements OnInit {
   inviteCodes: InviteCode[] = [];

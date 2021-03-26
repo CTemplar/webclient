@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,9 @@ import { Folder } from '../../../store/models';
   selector: 'app-create-folder',
   templateUrl: './create-folder.component.html',
   styleUrls: ['./create-folder.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class CreateFolderComponent implements OnInit {
   @Input() folder: Folder = { id: null, name: '', color: '' };
 

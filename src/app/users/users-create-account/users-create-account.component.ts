@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +32,9 @@ export class PasswordValidation {
   selector: 'app-users-create-account',
   templateUrl: './users-create-account.component.html',
   styleUrls: ['./users-create-account.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isTextToggled = false;
 

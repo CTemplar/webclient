@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Storage, StorageData } from '../../store/models';
@@ -10,6 +10,7 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
   selector: 'app-users-sign-up',
   templateUrl: './users-sign-up.component.html',
   styleUrls: ['./users-sign-up.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersSignUpComponent implements OnDestroy, OnInit {
   public storageList: Storage[];

@@ -9,6 +9,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   HostListener,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -43,6 +44,7 @@ import { SENTRY_DSN } from '../shared/config';
   templateUrl: './mail.component.html',
   styleUrls: ['./mail.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;

@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy, OnInit, ViewChild } from '@angular/core';
 import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,6 +21,7 @@ import { HttpCancelService } from '../../store/services';
   selector: 'app-mail-header',
   templateUrl: './mail-header.component.html',
   styleUrls: ['./mail-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailHeaderComponent implements OnInit {
   @ViewChild('logoutModal') logoutModal: any;

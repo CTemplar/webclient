@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -46,6 +46,7 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
   selector: 'app-mail-detail',
   templateUrl: './mail-detail.component.html',
   styleUrls: ['./mail-detail.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;

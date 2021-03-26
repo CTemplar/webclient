@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
   selector: 'app-decrypt-message',
   templateUrl: './decrypt-message.component.html',
   styleUrls: ['./decrypt-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DecryptMessageComponent implements OnInit, OnDestroy {
   decryptForm: FormGroup;

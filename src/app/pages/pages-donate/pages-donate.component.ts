@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/datatypes';
 import { SnackErrorPush } from '../../store/actions';
@@ -8,6 +8,7 @@ import { DynamicScriptLoaderService } from '../../shared/services/dynamic-script
   selector: 'app-pages-donate',
   templateUrl: './pages-donate.component.html',
   styleUrls: ['./pages-donate.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PagesDonateComponent implements OnInit {
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private store: Store<AppState>) {}

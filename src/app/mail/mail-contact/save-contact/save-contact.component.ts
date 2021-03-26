@@ -5,7 +5,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnDestroy,
+  ChangeDetectionStrategy,
   OnInit,
   Output,
   SimpleChanges,
@@ -24,6 +24,7 @@ import { OpenPgpService } from '../../../store/services';
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
   styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SaveContactComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;

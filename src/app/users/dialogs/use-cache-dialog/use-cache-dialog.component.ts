@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { NOT_FIRST_LOGIN, SYNC_DATA_WITH_STORE } from '../../../shared/config';
@@ -7,6 +7,7 @@ import { NOT_FIRST_LOGIN, SYNC_DATA_WITH_STORE } from '../../../shared/config';
   selector: 'app-use-cache-dialog',
   templateUrl: './use-cache-dialog.component.html',
   styleUrls: ['./use-cache-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UseCacheDialogComponent {
   constructor(public activeModal: NgbActiveModal) {}

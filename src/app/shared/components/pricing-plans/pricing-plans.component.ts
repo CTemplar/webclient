@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,7 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
   selector: 'app-pricing-plans',
   templateUrl: './pricing-plans.component.html',
   styleUrls: ['./pricing-plans.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
   readonly planType = PlanType;

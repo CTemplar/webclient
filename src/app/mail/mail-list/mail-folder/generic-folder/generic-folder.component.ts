@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -39,6 +40,7 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
   selector: 'app-generic-folder',
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() mails: Mail[] = [];

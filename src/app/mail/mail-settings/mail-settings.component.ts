@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -59,6 +59,7 @@ import { PushNotificationOptions, PushNotificationService } from '../../shared/s
   selector: 'app-mail-settings',
   templateUrl: './mail-settings.component.html',
   styleUrls: ['./mail-settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit {
   readonly fonts = FONTS;

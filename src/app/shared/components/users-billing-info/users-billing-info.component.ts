@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -46,6 +46,7 @@ import { apiUrl, PROMO_CODE_KEY, LANGUAGES } from '../../config';
   selector: 'app-users-billing-info',
   templateUrl: './users-billing-info.component.html',
   styleUrls: ['./users-billing-info.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   @Input() isUpgradeAccount: boolean;

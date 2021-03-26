@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -13,6 +13,7 @@ import { AppState, Settings, UserState } from '../../../store/datatypes';
   selector: 'app-mail-forwarding',
   templateUrl: './mail-forwarding.component.html',
   styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailForwardingComponent implements OnInit {
   @ViewChild('addAddressModal') addAddressModal: any;

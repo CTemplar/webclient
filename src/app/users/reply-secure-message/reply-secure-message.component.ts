@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as QuillNamespace from 'quill';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -52,6 +52,7 @@ Quill.register(ImageBlot);
   selector: 'app-reply-secure-message',
   templateUrl: './reply-secure-message.component.html',
   styleUrls: ['./reply-secure-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
   @Input() sourceMessage: Mail;

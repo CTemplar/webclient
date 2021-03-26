@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,6 +10,7 @@ import * as parseEmail from 'email-addresses';
   selector: 'app-receiver-email-chip',
   templateUrl: './receiver-email-chip.component.html',
   styleUrls: ['./receiver-email-chip.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReceiverEmailChipComponent {
   @ViewChild('addUserContent') addUserContent: any;
