@@ -1,0 +1,45 @@
+<ng-template #addUserContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="makeDonationModalLabel">
+      <strong>{{ 'contacts.details' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <app-save-contact [selectedContact]="passingContact" (userSaved)="d()"></app-save-contact>
+    </div>
+  </div>
+</ng-template>
+
+<i *ngIf="composePopover" class="tag-chip-info icon icon-login align-middle ml-1 mr-1 mt-0 d-inline-block" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()"></i>
+<span *ngIf="composePopover">
+  {{ email | emailFormat: name }}
+</span>
+
+<span *ngIf="!composePopover" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="500" triggers="mouseenter">
+  {{ email | emailFormat: name }}
+</span>
+
+<ng-template #popContent>
+  <!-- Popover Header -->
+  <div class="receiver-email-chip-popover-receiver-info">
+    <div *ngIf="isValidEmail" class="receiver-email-chip-popover-receiver-name">
+      <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
+        <i *ngIf="!!selectedContact" class="fas fa-edit"></i>
+      </a>
+      <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
+        <i *ngIf="!selectedContact" class="fas fa-plus-circle"></i>
+      </a>
+      {{ selectedContact ? selectedContact.name : email }}
+    </div>
+    <div class="error-message" *ngIf="!isValidEmail">
+      {{ 'settings.compose.invalid_email_format' | translate }}
+    </div>
+    <div class="receiver-email-chip-popover-receiver-email">
+      {{ email }}
+    </div>
+  </div>
+</ng-template>

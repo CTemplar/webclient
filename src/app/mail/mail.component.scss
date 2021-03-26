@@ -279,6 +279,13 @@
       padding-left: 0.938rem;
       transition: none;
     }
+
+    > .badge {
+      @include media('<ipad', '>sm') {
+        right: 2.563rem;
+        display: block;
+      }
+    }
   }
 
   .active & {
@@ -544,11 +551,6 @@
     padding: 0 0.375rem;
     @media (max-width: 360px) {
       padding: 0 3px;
-    }
-    &.checkbox-dropdown {
-      .fancy-field-group {
-        margin-top: -3px;
-      }
     }
 
     @include media('<=sm') {
@@ -1118,7 +1120,7 @@
   .mail-file-size,
   .mail-sent-date {
     font-size: 0.75rem;
-    width: 4rem;
+    width: 5rem;
   }
 
   .mail-file-size {
@@ -1531,8 +1533,6 @@
 
 .last-action {
   color: #989898;
-  position: absolute;
-  top: 3px;
   margin-left: 2px;
 }
 

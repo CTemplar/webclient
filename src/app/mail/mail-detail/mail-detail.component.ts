@@ -32,6 +32,7 @@ import {
   UserState,
   NumberBooleanMappedType,
   NumberStringMappedType,
+  ContactsState,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
@@ -167,6 +168,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private isContainTrashRelatedChildren: boolean = false;
 
   private properFolderLastChildIndex: number = 0;
+
+  contacts: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -410,6 +413,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
       this.forceLightMode = parameters.lightMode;
     });
+
+    /**
+     * Get user's contacts from store.
+     */
+    this.store
+      .select((state: AppState) => state.contacts)
+      .pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
+        this.contacts =
+          contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
+      });
   }
 
   @HostListener('window:resize', ['$event'])

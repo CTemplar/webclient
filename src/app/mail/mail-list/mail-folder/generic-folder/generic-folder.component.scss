@@ -32,7 +32,7 @@ a.disabled {
 .select-all-checkbox {
   left: 8px;
   position: absolute;
-  top: 8px;
+  top: 6px;
 
   ::ng-deep .mat-checkbox .mat-checkbox-frame {
     border: 2px solid var(--mat-checkbox-border-color);

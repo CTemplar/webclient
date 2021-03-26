@@ -78,7 +78,7 @@ Quill.register(keepHTML);
 /**
  * Add custom fonts, sizes, styles to quill
  */
-const FontAttributor = Quill.import('attributors/style/font');
+const FontAttributor = Quill.import('attributors/class/font');
 FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
@@ -369,7 +369,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private oldMailbox: Mailbox;
 
-  isPreparingToSendEmail: boolean = false;
+  isPreparingToSendEmail = false;
+
+  /**
+   * This variable will be used for pass to suggest to add to the contact or update
+   */
+  clonedContacts: any[] = [];
 
   constructor(
     private modalService: NgbModal,
@@ -498,6 +503,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
             });
           });
         }
+        this.clonedContacts =
+          contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
         this.contactsState = contactsState;
         this.loadEmailContacts();
       });
@@ -920,9 +927,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         matchVisual: false,
       },
     });
+    if (this.settings) {
+      this.quill.format('color', this.settings.default_color);
+      this.quill.format('size', `${this.settings.default_size}px`);
+      this.quill.format('background', this.settings.default_background);
+      this.quill.format('font', this.settings.default_font);
 
-    if (this.userState.settings.default_font) {
-      this.quill.format('font', this.userState.settings.default_font);
+      const qlEditor = document.querySelectorAll('.ql-editor p');
+      for (const i in qlEditor) {
+        qlEditor[i].setAttribute('style', '');
+      }
     }
 
     this.quill.on('text-change', () => {

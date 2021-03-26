@@ -40,6 +40,7 @@ import { SaveContactComponent } from './mail-contact/save-contact/save-contact.c
 import { SaveListContactComponent } from './mail-settings/save-list-contact/save-list-contact.component';
 import { SecurityComponent } from './mail-settings/security/security.component';
 import { MailRoutingModule } from './mail-routing.module';
+import { ReceiverEmailChipComponent } from './mail-sidebar/compose-mail/receiver-email-chip/receiver-email-chip.component';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -66,6 +67,7 @@ import { MailRoutingModule } from './mail-routing.module';
     SaveContactComponent,
     SaveListContactComponent,
     SecurityComponent,
+    ReceiverEmailChipComponent,
   ],
   imports: [
     CommonModule,
