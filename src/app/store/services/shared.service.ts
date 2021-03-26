@@ -6,9 +6,10 @@ import Quill from 'quill';
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { Folder } from '../models';
-import { PlanType, PricingPlan } from '../datatypes';
+import { GlobalPublicKey, PlanType, PricingPlan } from '../datatypes';
 
 import { NotificationService } from './notification.service';
+import * as parseEmail from 'email-addresses';
 
 // image format for retrieving custom attributes
 
@@ -163,6 +164,44 @@ export class SharedService {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
+  }
+
+  /**
+   * Parsing UsersKeys is very annoying now due to unstructured BACKEND response for several user types
+   * Parsing UsersKeys with given email and RETURN
+   * @param usersKeys
+   * @param email
+   */
+  parseUserKey(usersKeys: Map<string, GlobalPublicKey>, email: string): any {
+    const parsedEmail = (parseEmail.parseOneAddress(email) as parseEmail.ParsedMailbox).address;
+    let isCTemplarKey = false;
+    let isExistKey = false;
+    let keys = [];
+    if (
+      usersKeys.has(parsedEmail) &&
+      !usersKeys.get(parsedEmail).isFetching &&
+      usersKeys.get(parsedEmail).key &&
+      usersKeys.get(parsedEmail).key.length > 0
+    ) {
+      const keyObject: any = usersKeys.get(parsedEmail).key[0];
+      // Check if it has keys, but STILL not sure if it is CTemplar user or NOT
+      if (keyObject.exists !== false) {
+        isExistKey = true;
+      }
+      // Check if it is CTemplar user - checking with `is_enabled` flag,
+      // TODO - Should be improved to check with `is_enabled` flag
+      if (keyObject.exists !== false && keyObject.is_enabled === true) {
+        isCTemplarKey = true;
+      }
+      if (isExistKey) {
+        keys = keyObject.key;
+      }
+    }
+    return {
+      isCTemplarKey,
+      isExistKey,
+      keys,
+    };
   }
 }
 

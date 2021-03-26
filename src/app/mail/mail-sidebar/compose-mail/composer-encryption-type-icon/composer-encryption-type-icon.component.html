@@ -1,4 +1,6 @@
 <ng-container [ngSwitch]="encryptionType">
-  <i *ngSwitchCase="'RECEIVER_PGP_MIME_INLINE'" class="fas fa-lock mr-1 pgp-mime-inline-icon" ngbTooltip="PGP Encrypted Message" container="body"></i>
-  <i *ngSwitchCase="'RECEIVER_END_TO_END'" class="fas fa-lock mr-1" ngbTooltip="End to End Encrypted Message" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE'" class="fas fa-lock mr-1 pgp-mime-inline-icon" ngbTooltip="PGP Encrypted Message" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_END_TO_END'" class="fas fa-lock mr-1" ngbTooltip="End to End Encrypted Message" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT'" class="fas fa-lock mr-2 autocrypt-enabled-icon" ngbTooltip="Mailbox was enabled as Autocrypt, autocrypt header would be attached" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_AND_MUTUAL'" class="fas fa-lock mr-2 autocrypt-enabled-mutual-icon" ngbTooltip="Mailbox was enabled as Autocrypt, message would be encrypted based on recipient's Prefer Encrypt value" container="body"></i>
 </ng-container>

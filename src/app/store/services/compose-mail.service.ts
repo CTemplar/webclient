@@ -118,7 +118,6 @@ export class ComposeMailService {
                 if (encryptionTypeForExternal !== null && publicKeys.length > 0) {
                   draftMail.draft.is_encrypted = false;
                   draftMail.draft.is_subject_encrypted = false;
-                  draftMail.draft.is_autocrypt_encrypted = true;
                   if (encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE) {
                     draftMail.draft.encryption_type = PGPEncryptionType.PGP_INLINE;
                   }
@@ -136,15 +135,17 @@ export class ComposeMailService {
                     draftMail.draft.encryption.password,
                   );
                 } else if (publicKeys.length > 0) {
-                  const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryption(
-                    draftMail,
-                    usersKeys,
-                  );
-                  if (determinedAutocryptStatus.encryptTotally) {
-                    this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
-                  } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
-                    this.sendEmailWithDecryptedAttachment(false, draftMail, publicKeys, encryptionTypeForExternal);
-                  } else if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
+                  // let determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryption(
+                  //   draftMail,
+                  //   usersKeys,
+                  // );
+                  // const determinedAutocryptStatus = {};
+                  // if (determinedAutocryptStatus.encryptTotally) {
+                  //   this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
+                  // } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
+                  //   this.sendEmailWithDecryptedData(false, draftMail, publicKeys, encryptionTypeForExternal);
+                  // } else
+                  if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
                     this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
                   } else {
                     draftMail.attachments.forEach(attachment => {
@@ -159,7 +160,7 @@ export class ComposeMailService {
                     );
                   }
                 } else if (!draftMail.isSaving) {
-                  this.sendEmailWithDecryptedAttachment(true, draftMail, publicKeys, encryptionTypeForExternal);
+                  this.sendEmailWithDecryptedData(true, draftMail, publicKeys, encryptionTypeForExternal);
                 } else {
                   this.store.dispatch(
                     new SnackPush({
@@ -204,7 +205,9 @@ export class ComposeMailService {
       let keys: any[] = [];
       receivers.forEach(receiver => {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        keys = [...keys, ...usersKeys.get(parsedEmail.address).key];
+        if (usersKeys.has(parsedEmail.address)) {
+          keys = [...keys, ...usersKeys.get(parsedEmail.address).key];
+        }
       });
       return keys;
     }
@@ -264,7 +267,7 @@ export class ComposeMailService {
    * @param encryptionTypeForExternal
    * @private
    */
-  private sendEmailWithDecryptedAttachment(
+  private sendEmailWithDecryptedData(
     isEncryptMessageContent: boolean,
     draftMail: Draft,
     publicKeys: any[] = [],
@@ -294,7 +297,7 @@ export class ComposeMailService {
         .pipe(take(1))
         .subscribe(
           responses => {
-            if (publicKeys.length === 0) {
+            if (!isEncryptMessageContent || publicKeys.length === 0) {
               this.store.dispatch(new SendMail({ ...draftMail }));
             } else {
               this.openPgpService.encrypt(
@@ -320,7 +323,6 @@ export class ComposeMailService {
         draftMail.id,
         new SecureContent(draftMail.draft),
         publicKeys,
-        encryptionTypeForExternal,
       );
     }
   }

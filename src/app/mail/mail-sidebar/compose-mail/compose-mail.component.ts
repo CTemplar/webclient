@@ -18,7 +18,7 @@ import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, filter, finalize, first } from 'rxjs/operators';
+import { debounceTime, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -44,21 +44,23 @@ import { EmailFormatPipe } from '../../../shared/pipes/email-formatting.pipe';
 import {
   AppState,
   AuthState,
+  AutocryptPreferEncryptType,
   ComposeMailState,
+  Contact,
   ContactsState,
   Draft,
   GlobalPublicKey,
   MailAction,
   MailBoxesState,
   MailState,
+  PGPEncryptionType,
   SecureContent,
   Settings,
   UserState,
-  Contact,
-  PGPEncryptionType
+  AutocryptEncryptDetermine,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { MailService, SharedService } from '../../../store/services';
+import { AutocryptProcessService, MailService, SharedService } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
@@ -373,9 +375,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   private oldMailbox: Mailbox;
 
-  isPreparingToSendEmail: boolean = false;
+  isPreparingToSendEmail = false;
 
   pgpEncryptionType: PGPEncryptionType = null;
+
+  autocryptInfo: AutocryptEncryptDetermine;
 
   constructor(
     private modalService: NgbModal,
@@ -388,6 +392,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     private filesizePipe: FilesizePipe,
     private filenamePipe: FilenamePipe,
     private cdr: ChangeDetectorRef,
+    private autocryptService: AutocryptProcessService,
   ) {}
 
   ngOnInit() {
@@ -1951,58 +1956,61 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       ...this.mailData.bcc.map((bcc: any) => bcc.email),
     ];
     if (localReceivers.length > 0) {
-      localReceivers.forEach(rec => {
-        if (
-          this.usersKeys.has(rec) &&
-          !this.usersKeys.get(rec).isFetching &&
-          this.usersKeys.get(rec).key &&
-          this.usersKeys.get(rec).key.length > 0
-        ) {
-          const keyObj: any = this.usersKeys.get(rec).key[0];
-          // If receiver is CTemplar user, will not check
-          if (keyObj.exists !== false && keyObj.is_enabled !== true) {
+      // Check Autocrypt status
+      this.autocryptInfo = this.autocryptService.decideAutocryptDefaultEncryption(
+        this.selectedMailbox,
+        localReceivers,
+        this.usersKeys,
+      );
+      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa', this.autocryptInfo)
+      if (!this.autocryptInfo.senderAutocryptEnabled) {
+        localReceivers.forEach(rec => {
+          const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
+          if (keyInfo.isExistKey && keyInfo.isCTemplarKey) {
             // Checking with contacts
             if (this.contactsState && this.contactsState.contacts.length > 0) {
               this.contactsState.contacts.forEach((contact: Contact) => {
                 if (contact.email === rec) {
+                  // Set Autocrypt status
+                  // if (this.selectedMailbox.is_autocrypt_enabled) {
+                  //   this.usersKeys.set(rec, {
+                  //     ...this.usersKeys.get(rec),
+                  //     autocryptPreferEncrypt:
+                  //       this.selectedMailbox.prefer_encrypt === 'mutual'
+                  //         ? AutocryptPreferEncryptType.MUTUAL
+                  //         : AutocryptPreferEncryptType.NOPREFERENCE,
+                  //   });
+                  // } else {
                   this.usersKeys.set(rec, {
                     ...this.usersKeys.get(rec),
                     pgpEncryptionType: contact.enabled_encryption ? contact.encryption_type : null,
                   });
+                  // }
                 }
               });
             }
           }
-        }
-      });
-    }
-    // Set Editor style with encryption type
-    // If all receiver is based on PGP Inline, Plain Text Edtor
-    // If PGP Mime or null, Do Nothing
-    if (localReceivers.length > 0) {
-      const isPGPInline = localReceivers.every(rec => {
-        if (
-          this.usersKeys.has(rec) &&
-          !this.usersKeys.get(rec).isFetching
-        ) {
-          return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_INLINE;
-        } else {
+        });
+
+        // Set Editor style with encryption type
+        // If all receiver is based on PGP Inline, Plain Text Editor
+        // If PGP Mime or null, Do Nothing
+        const isPGPInline = localReceivers.every(rec => {
+          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
+            return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_INLINE;
+          }
           return false;
-        }
-      });
-      const isPGPMime = localReceivers.every(rec => {
-        if (
-          this.usersKeys.has(rec) &&
-          !this.usersKeys.get(rec).isFetching
-        ) {
-          return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_MIME;
-        } else {
+        });
+        const isPGPMime = localReceivers.every(rec => {
+          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
+            return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_MIME;
+          }
           return false;
+        });
+        this.pgpEncryptionType = isPGPInline ? PGPEncryptionType.PGP_INLINE : (isPGPMime ?  PGPEncryptionType.PGP_MIME : null);
+        if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE) {
+          this.setHtmlEditor(false);
         }
-      });
-      this.pgpEncryptionType = isPGPInline ? PGPEncryptionType.PGP_INLINE : (isPGPMime ?  PGPEncryptionType.PGP_MIME : null);
-      if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE) {
-        this.setHtmlEditor(false);
       }
     }
   }

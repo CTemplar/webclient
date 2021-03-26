@@ -469,6 +469,7 @@ export interface GlobalPublicKey {
   isFetching: boolean;
   key: Array<PublicKey>;
   pgpEncryptionType?: PGPEncryptionType;
+  autocryptPreferEncrypt?: AutocryptPreferEncryptType;
 }
 
 export interface MailBoxesState {
@@ -781,10 +782,11 @@ export interface AutocryptEncryptDetermineForSingle {
 }
 
 export interface AutocryptEncryptDetermine {
-  encryptTotally: boolean;
+  encryptTotally: boolean; // Store determined value whehter encrypt or decrypt
   senderAutocryptEnabled: boolean;
   senderPreferEncrypt: AutocryptPreferEncryptType;
-  recommendationValue: UIRecommendationValue;
+  recommendationValue: UIRecommendationValue; // Store UIRecommendationValue totally
+  receiversStatus?: Map<string, AutocryptEncryptDetermineForSingle>;
 }
 
 export enum PGPKeyType {
@@ -807,3 +809,12 @@ export enum EmailContentType {
 
 export const PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME = 'encrypted.asc';
 export const PGP_MIME_DEFAULT_CONTENT = 'Version 1';
+
+// eslint-disable-next-line no-shadow
+export enum ComposerEncryptionType {
+  COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE = 'COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE',
+  COMPOSER_ENCRYPTION_TYPE_END_TO_END = 'COMPOSER_ENCRYPTION_TYPE_END_TO_END',
+  COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT',
+  COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_AND_MUTUAL = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_AND_MUTUAL',
+  COMPOSER_ENCRYPTION_TYPE_NONE = 'COMPOSER_ENCRYPTION_TYPE_NONE',
+}

@@ -86,6 +86,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   selectedContactPulbicKeys: Array<ContactKey> = [];
 
+  isAutocryptEnabled: boolean;
+
   constructor(
     private store: Store<AppState>,
     private openpgp: OpenPgpService,
