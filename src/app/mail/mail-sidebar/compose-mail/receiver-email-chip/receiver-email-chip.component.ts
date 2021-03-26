@@ -4,7 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Contact } from '../../../../store/datatypes';
 import { Mailbox } from '../../../../store/models';
-import * as parseEmail from 'email-addresses';
+
+import { SharedService } from '../../../../store/services';
 
 @Component({
   selector: 'app-receiver-email-chip',
@@ -37,7 +38,7 @@ export class ReceiverEmailChipComponent implements OnInit {
    */
   passingContact: Contact;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal, private sharedService: SharedService) {}
 
   ngOnInit(): void {}
 
@@ -50,7 +51,7 @@ export class ReceiverEmailChipComponent implements OnInit {
         }
       });
     }
-    this.isValidEmail = this.rfcStandardValidateEmail(this.email);
+    this.isValidEmail = this.sharedService.isRFCStandardValidEmail(this.email);
   }
 
   onAddContact(popOver: any, addUserContent: TemplateRef<any>) {
@@ -80,9 +81,5 @@ export class ReceiverEmailChipComponent implements OnInit {
 
   onClickBody(popOver: any) {
     popOver.isOpen() ? popOver.close() : popOver.open();
-  }
-
-  rfcStandardValidateEmail(address: string): boolean {
-    return !!parseEmail.parseOneAddress(address);
   }
 }
