@@ -8,7 +8,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
@@ -36,6 +36,7 @@ import {
   SettingsUpdateUsedStorage,
   StarredFolderCountUpdate,
   SnackErrorPush,
+  DeleteFolder,
 } from '../../store/actions';
 import { WebsocketService } from '../../shared/services/websocket.service';
 import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
@@ -43,6 +44,8 @@ import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { SharedService } from '../../store/services';
 import { PRIMARY_WEBSITE } from '../../shared/config';
+
+import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 
 @UntilDestroy()
 @Component({
@@ -93,6 +96,12 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private forceLightMode: boolean;
 
+  @ViewChild('confirmationModal') confirmationModal: any;
+
+  confirmModalRef: NgbModalRef;
+
+  selectedFolderForRemove: Folder;
+
   constructor(
     private store: Store<AppState>,
     config: NgbDropdownConfig,
@@ -107,6 +116,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     private sharedService: SharedService,
     private cdr: ChangeDetectorRef,
     private themeToggleService: ThemeToggleService,
+    private modalService: NgbModal,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -351,6 +361,37 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
       },
     );
+  }
+
+  /**
+   * @description
+   */
+  // == Open NgbModal
+  editFolder(folder: Folder) {
+    if (folder) {
+      const options: any = {
+        centered: true,
+        windowClass: 'modal-sm mailbox-modal create-folder-modal',
+      };
+      const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
+      component.folder = folder;
+      component.edit = true;
+    }
+  }
+
+  showConfirmationModal(folder: Folder) {
+    this.confirmModalRef = this.modalService.open(this.confirmationModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    });
+    this.selectedFolderForRemove = folder;
+  }
+
+  deleteFolder() {
+    this.store.dispatch(new DeleteFolder(this.selectedFolderForRemove));
+    setTimeout(() => {
+      this.confirmModalRef.dismiss();
+    }, 1000);
   }
 
   ngOnDestroy(): void {

@@ -927,17 +927,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         matchVisual: false,
       },
     });
-    if (this.settings) {
-      this.quill.format('color', this.settings.default_color);
-      this.quill.format('size', `${this.settings.default_size}px`);
-      this.quill.format('background', this.settings.default_background);
-      this.quill.format('font', this.settings.default_font);
-
-      const qlEditor = document.querySelectorAll('.ql-editor p');
-      for (const i in qlEditor) {
-        qlEditor[i].setAttribute('style', '');
-      }
-    }
 
     this.quill.on('text-change', () => {
       this.valueChanged$.next();
@@ -1012,7 +1001,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     }
 
     this.updateSignature();
+    if (this.settings) {
+      this.quill.format('color', this.settings.default_color);
+      this.quill.format('size', `${this.settings.default_size}px`);
+      this.quill.format('background', this.settings.default_background);
+      this.quill.format('font', this.settings.default_font);
 
+      const qlEditor = document.querySelectorAll('.ql-editor p');
+      for (var i = 0; i < qlEditor.length; i++) {
+        qlEditor[i].setAttribute('style', '');
+      }
+    }
     setTimeout(() => {
       this.quill.setSelection(0, 0, 'silent');
     }, 100);
@@ -1309,7 +1308,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return;
     }
-    const invalidAddress = receivers.find(receiver => !this.rfcStandardValidateEmail(receiver));
+    const invalidAddress = receivers.find(receiver => !this.sharedService.isRFCStandardValidEmail(receiver));
     if (invalidAddress) {
       this.store.dispatch(new SnackErrorPush({ message: `"${invalidAddress}" is not valid email address.` }));
       return;
@@ -1660,13 +1659,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.draftMail.receiver = this.mailData.receiver.map((receiver: any) =>
       EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name),
     );
-    this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.rfcStandardValidateEmail(receiver));
+    this.draftMail.receiver = this.draftMail.receiver.filter(receiver =>
+      this.sharedService.isRFCStandardValidEmail(receiver),
+    );
     this.draftMail.cc = this.mailData.cc.map((cc: any) => EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name));
-    this.draftMail.cc = this.draftMail.cc.filter(receiver => this.rfcStandardValidateEmail(receiver));
+    this.draftMail.cc = this.draftMail.cc.filter(receiver => this.sharedService.isRFCStandardValidEmail(receiver));
     this.draftMail.bcc = this.mailData.bcc.map((bcc: any) =>
       EmailFormatPipe.transformToFormattedEmail(bcc.email, bcc.name),
     );
-    this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.rfcStandardValidateEmail(receiver));
+    this.draftMail.bcc = this.draftMail.bcc.filter(receiver => this.sharedService.isRFCStandardValidEmail(receiver));
     this.draftMail.subject = this.mailData.subject;
     this.draftMail.destruct_date = this.selfDestruct.value || null;
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
@@ -1944,9 +1945,5 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       !this.usersKeys.has(email.toLowerCase()) ||
       (this.usersKeys.has(email.toLowerCase()) && this.usersKeys.get(email.toLowerCase()).isFetching)
     );
-  }
-
-  rfcStandardValidateEmail(address: string): boolean {
-    return !!parseEmail.parseOneAddress(address);
   }
 }

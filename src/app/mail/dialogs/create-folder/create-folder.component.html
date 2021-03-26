@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-    <strong>{{ 'settings.create_folder' | translate }}</strong>
+    <strong>{{ (edit ? 'settings.edit_folder' : 'settings.create_folder') | translate }}</strong>
   </h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onHide()">
     <span aria-hidden="true">&times;</span>
