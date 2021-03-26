@@ -32,6 +32,8 @@ export class ReceiverEmailChipComponent implements OnInit {
 
   isValidEmail = true;
 
+  myDisplayName: string;
+
   /**
    * This contact will be transferred to save contact component
    */
@@ -47,6 +49,7 @@ export class ReceiverEmailChipComponent implements OnInit {
       this.mailboxes.forEach(mailbox => {
         if (mailbox.email === this.email) {
           this.isMyMailbox = true;
+          this.myDisplayName = mailbox.display_name ? mailbox.display_name : this.email;
         }
       });
     }
