@@ -25,7 +25,9 @@ import { Mailbox } from '../models';
 import { MailboxSettingsUpdate, MailboxSettingsUpdateSuccess } from '../actions/mail.actions';
 import { SnackErrorPush } from '../actions/users.action';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MailboxEffects {
   constructor(private actions: Actions, private mailService: MailService) {}
 

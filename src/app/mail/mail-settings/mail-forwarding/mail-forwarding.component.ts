@@ -14,7 +14,7 @@ import { AppState, Settings, UserState } from '../../../store/datatypes';
   templateUrl: './mail-forwarding.component.html',
   styleUrls: ['./mail-forwarding.component.scss', '../mail-settings.component.scss'],
 })
-export class MailForwardingComponent implements OnInit, OnDestroy {
+export class MailForwardingComponent implements OnInit {
   @ViewChild('addAddressModal') addAddressModal: any;
 
   @ViewChild('confirmDeleteAddressModal') confirmDeleteAddressModal: any;
@@ -68,8 +68,6 @@ export class MailForwardingComponent implements OnInit, OnDestroy {
       code: ['', [Validators.required]],
     });
   }
-
-  ngOnDestroy(): void {}
 
   onAddAddress() {
     this.showFormErrorMessages = false;

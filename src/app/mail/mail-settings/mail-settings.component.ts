@@ -60,7 +60,7 @@ import { PushNotificationOptions, PushNotificationService } from '../../shared/s
   templateUrl: './mail-settings.component.html',
   styleUrls: ['./mail-settings.component.scss'],
 })
-export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MailSettingsComponent implements OnInit, AfterViewInit {
   readonly fonts = FONTS;
 
   readonly colors = COMPOSE_COLORS;
@@ -420,8 +420,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
-
-  ngOnDestroy(): void {}
 
   onUpdateSettingsBtnClick() {}
 

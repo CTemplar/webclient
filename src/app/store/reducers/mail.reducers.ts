@@ -831,7 +831,7 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
 function getTotalUnreadCount(data: any): number {
   if (data) {
     let total_count = 0;
-    Object.keys(data).map(key => {
+    Object.keys(data).forEach(key => {
       if (
         key !== MailFolderType.SENT &&
         key !== MailFolderType.TRASH &&

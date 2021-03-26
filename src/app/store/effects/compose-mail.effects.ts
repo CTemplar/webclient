@@ -33,7 +33,9 @@ import {
 import { Draft } from '../datatypes';
 import { MailFolderType } from '../models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ComposeMailEffects {
   constructor(private actions: Actions, private mailService: MailService) {}
 

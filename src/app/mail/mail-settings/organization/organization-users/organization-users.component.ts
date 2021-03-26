@@ -24,7 +24,7 @@ import { MoveTab } from '../../../../store/actions';
   templateUrl: './organization-users.component.html',
   styleUrls: ['./organization-users.component.scss'],
 })
-export class OrganizationUsersComponent implements OnInit, OnDestroy {
+export class OrganizationUsersComponent implements OnInit {
   @ViewChild('addUserModal') addUserModal: any;
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
@@ -259,6 +259,4 @@ export class OrganizationUsersComponent implements OnInit, OnDestroy {
     }
     input.type = input.type === 'password' ? 'text' : 'password';
   }
-
-  ngOnDestroy(): void {}
 }

@@ -22,7 +22,7 @@ import { HttpCancelService } from '../../store/services';
   templateUrl: './mail-header.component.html',
   styleUrls: ['./mail-header.component.scss'],
 })
-export class MailHeaderComponent implements OnInit, OnDestroy {
+export class MailHeaderComponent implements OnInit {
   @ViewChild('logoutModal') logoutModal: any;
 
   // Public property of boolean type set false by default
@@ -136,6 +136,4 @@ export class MailHeaderComponent implements OnInit, OnDestroy {
   openComposeMailDialog(receivers: any) {
     this.composeMailService.openComposeMailDialog({ receivers });
   }
-
-  ngOnDestroy(): void {}
 }

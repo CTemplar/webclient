@@ -8,7 +8,9 @@ import { apiUrl } from '../../shared/config';
 import { Attachment, Folder, Mail, Mailbox } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MailService {
   constructor(private http: HttpClient) {}
 

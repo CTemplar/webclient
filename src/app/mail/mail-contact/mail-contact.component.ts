@@ -35,7 +35,7 @@ export enum ContactsProviderType {
   templateUrl: './mail-contact.component.html',
   styleUrls: ['./mail-contact.component.scss'],
 })
-export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MailContactComponent implements OnInit, AfterViewInit {
   @ViewChild('importContactsModal') importContactsModal: any;
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
@@ -131,8 +131,6 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-
-  ngOnDestroy(): void {}
 
   private updateUsersStatus(): void {
     /**

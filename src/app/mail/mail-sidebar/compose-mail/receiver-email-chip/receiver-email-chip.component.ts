@@ -11,7 +11,7 @@ import * as parseEmail from 'email-addresses';
   templateUrl: './receiver-email-chip.component.html',
   styleUrls: ['./receiver-email-chip.component.scss'],
 })
-export class ReceiverEmailChipComponent implements OnInit {
+export class ReceiverEmailChipComponent {
   @ViewChild('addUserContent') addUserContent: any;
 
   @Input() composePopover: boolean = true;
@@ -40,8 +40,6 @@ export class ReceiverEmailChipComponent implements OnInit {
   passingContact: Contact;
 
   constructor(private modalService: NgbModal) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(simpleChange: SimpleChanges): void {
     this.selectedContact = this.contacts.find(contact => this.email === contact.email);

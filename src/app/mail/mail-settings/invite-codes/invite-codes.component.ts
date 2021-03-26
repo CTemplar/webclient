@@ -13,7 +13,7 @@ import { SharedService } from '../../../store/services';
   templateUrl: './invite-codes.component.html',
   styleUrls: ['./invite-codes.component.scss', '../mail-settings.component.scss'],
 })
-export class InviteCodesComponent implements OnInit, OnDestroy {
+export class InviteCodesComponent implements OnInit {
   inviteCodes: InviteCode[] = [];
 
   inProgress: boolean;
@@ -48,6 +48,4 @@ export class InviteCodesComponent implements OnInit, OnDestroy {
   copyToClipboard(value: string) {
     this.sharedService.copyToClipboard(value);
   }
-
-  ngOnDestroy(): void {}
 }

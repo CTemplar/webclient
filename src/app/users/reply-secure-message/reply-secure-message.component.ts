@@ -53,7 +53,7 @@ Quill.register(ImageBlot);
   templateUrl: './reply-secure-message.component.html',
   styleUrls: ['./reply-secure-message.component.scss'],
 })
-export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
   @Input() sourceMessage: Mail;
 
   @Input() hash: string;
@@ -118,8 +118,6 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   ngAfterViewInit() {
     this.initializeQuillEditor();
   }
-
-  ngOnDestroy(): void {}
 
   initializeQuillEditor() {
     this.quill = new Quill(this.editor.nativeElement, {

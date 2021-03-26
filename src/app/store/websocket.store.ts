@@ -27,7 +27,9 @@ export class WebSocketClose implements Action {
 
 export type WebSocketActionAll = WebSocketNewMessage | WebSocketClose;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class WebSocketEffects {
   constructor(private actions: Actions) {}
 

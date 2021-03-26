@@ -18,7 +18,7 @@ import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/con
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   @ViewChild('cookieLaw') cookieLawEl: any;
 
   public hideFooter = false;
@@ -125,6 +125,4 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     this.cookieEnabled = cookieEnabled;
   }
-
-  ngOnDestroy(): void {}
 }

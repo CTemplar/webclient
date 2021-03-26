@@ -108,7 +108,9 @@ import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { GetOrganizationUsers } from '../organization.store';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UsersEffects {
   constructor(
     private actions: Actions,

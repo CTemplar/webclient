@@ -64,7 +64,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   @Input() planType: PlanType;
 
-  @Output() close = new EventEmitter<boolean>();
+  @Output() closeBillingInfo = new EventEmitter<boolean>();
 
   paymentTypeEnum = PaymentType;
 
@@ -204,7 +204,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           if (authState.errorMessage) {
             this.errorMessage = authState.errorMessage;
           } else {
-            this.close.emit(true);
+            this.closeBillingInfo.emit(true);
           }
         }
         if (this.paymentMethod === PaymentMethod.STRIPE) {
@@ -338,7 +338,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     if (stripe_token) {
       if (this.isAddNewCard) {
         this.store.dispatch(new CardAdd(stripe_token));
-        this.close.emit(true);
+        this.closeBillingInfo.emit(true);
       } else if (this.isUpgradeAccount) {
         this.store.dispatch(new UpgradeAccount(this.getSignupData({ stripe_token })));
       } else {
@@ -493,7 +493,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   onCancel(event: any) {
     event.preventDefault();
     if (this.isUpgradeAccount) {
-      this.close.emit(true);
+      this.closeBillingInfo.emit(true);
     } else {
       this.router.navigateByUrl('/');
     }

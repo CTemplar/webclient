@@ -18,7 +18,9 @@ import {
 } from '../actions';
 import { MailService } from '../services';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SecureMessageEffects {
   constructor(private actions: Actions, private mailService: MailService) {}
 

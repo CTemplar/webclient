@@ -57,7 +57,9 @@ import { NotificationService } from '../services/notification.service';
 import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
 import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthEffects {
   constructor(
     private actions: Actions,

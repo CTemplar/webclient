@@ -15,7 +15,7 @@ import { Folder } from '../../../store/models';
   templateUrl: './create-folder.component.html',
   styleUrls: ['./create-folder.component.scss'],
 })
-export class CreateFolderComponent implements OnInit, OnDestroy {
+export class CreateFolderComponent implements OnInit {
   @Input() folder: Folder = { id: null, name: '', color: '' };
 
   @Input() edit = false;
@@ -98,6 +98,4 @@ export class CreateFolderComponent implements OnInit, OnDestroy {
   onHide() {
     this.activeModal.close();
   }
-
-  ngOnDestroy(): void {}
 }

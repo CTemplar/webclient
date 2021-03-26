@@ -20,7 +20,9 @@ import {
 import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UsersService {
   private userKey: string;
 

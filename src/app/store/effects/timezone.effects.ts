@@ -7,7 +7,9 @@ import { of } from 'rxjs/internal/observable/of';
 import { TimezoneActionTypes, TimezoneGet, TimezoneGetSuccess } from '../actions/timezone.action';
 import { TimezoneService } from '../services/timezone.service';
 import { SnackErrorPush } from '../actions';
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TimezoneEffects {
   constructor(private actions: Actions, private timezoneService: TimezoneService) {}
 

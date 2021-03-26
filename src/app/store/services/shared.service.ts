@@ -39,7 +39,9 @@ export class ImageFormat extends BaseImageFormat {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SharedService {
   static PRICING_PLANS: any;
 

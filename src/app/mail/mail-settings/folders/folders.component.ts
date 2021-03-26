@@ -17,7 +17,7 @@ import { NotificationService } from '../../../store/services/notification.servic
   templateUrl: './folders.component.html',
   styleUrls: ['../mail-settings.component.scss', './folders.component.scss'],
 })
-export class FoldersComponent implements OnInit, OnDestroy {
+export class FoldersComponent implements OnInit {
   folders: Array<Folder> = [];
 
   userState: UserState;
@@ -180,6 +180,4 @@ export class FoldersComponent implements OnInit, OnDestroy {
       folder.sort_order = index + 1;
     });
   }
-
-  ngOnDestroy(): void {}
 }

@@ -14,7 +14,9 @@ import {
 import { SnackErrorPush } from '../actions';
 import { BitcoinService } from '../services/bitcoin.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BitcoinEffects {
   constructor(private actions: Actions, private bitcoinService: BitcoinService) {}
 

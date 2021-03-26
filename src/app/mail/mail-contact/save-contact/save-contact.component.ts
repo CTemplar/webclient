@@ -25,7 +25,7 @@ import { OpenPgpService } from '../../../store/services';
   templateUrl: './save-contact.component.html',
   styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss'],
 })
-export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+export class SaveContactComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() selectedContact: Contact;
 
   @Output() userSaved = new EventEmitter<boolean>();
@@ -65,8 +65,6 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-
-  ngOnDestroy(): void {}
 
   private handleUserState(): void {
     this.store

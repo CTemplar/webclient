@@ -110,7 +110,9 @@ export type OrganizationActionAll =
   | UpdateOrganizationUserSuccess
   | UpdateOrganizationUserFailure;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrganizationEffects {
   constructor(private actions: Actions, private userService: UsersService) {}
 

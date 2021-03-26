@@ -642,7 +642,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     headers = JSON.parse(headers);
     const headersArray: { key: string; value: any }[] = [];
     headers.forEach((header: any) => {
-      Object.keys(header).map(key => {
+      Object.keys(header).forEach(key => {
         if (header.hasOwnProperty(key)) {
           headersArray.push({ key, value: header[key] });
         }

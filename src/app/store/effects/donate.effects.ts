@@ -10,7 +10,9 @@ import { DonationActionTypes, MakeStripDonation, MakeStripeDonationSuccess } fro
 import { SnackErrorPush } from '../actions/users.action';
 import { NotificationService } from '../services/notification.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DonateEffects {
   constructor(
     private actions: Actions,

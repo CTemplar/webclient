@@ -25,7 +25,7 @@ import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/c
   templateUrl: './security.component.html',
   styleUrls: ['./../mail-settings.component.scss', './security.component.scss'],
 })
-export class SecurityComponent implements OnInit, OnDestroy {
+export class SecurityComponent implements OnInit {
   @ViewChild('changePasswordModal') changePasswordModal: any;
 
   @ViewChild('auth2FAModal') auth2FAModal: any;
@@ -322,6 +322,4 @@ export class SecurityComponent implements OnInit, OnDestroy {
       }),
     );
   }
-
-  ngOnDestroy(): void {}
 }

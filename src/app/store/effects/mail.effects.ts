@@ -37,7 +37,9 @@ import {
 } from '../actions';
 import { MailFolderType } from '../models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MailEffects {
   constructor(private actions: Actions, private mailService: MailService) {}
 

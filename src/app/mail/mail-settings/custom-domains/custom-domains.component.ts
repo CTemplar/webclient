@@ -15,7 +15,7 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
   templateUrl: './custom-domains.component.html',
   styleUrls: ['./custom-domains.component.scss'],
 })
-export class CustomDomainsComponent implements OnInit, OnDestroy {
+export class CustomDomainsComponent implements OnInit {
   @Output() onGotoTab = new EventEmitter<string>();
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
@@ -110,8 +110,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     this.dkimForm = this.formBuilder.group({});
     this.dmarcForm = this.formBuilder.group({});
   }
-
-  ngOnDestroy(): void {}
 
   prepareMapForDomainAlias(domains: Domain[], aliases: Array<any>) {
     if (domains && aliases) {

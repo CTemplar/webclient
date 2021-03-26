@@ -31,7 +31,9 @@ import {
 } from '../actions';
 import { Contact, ImportContactResponse } from '../datatypes';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ContactsEffects {
   constructor(
     private actions: Actions,

@@ -14,7 +14,7 @@ import { NotificationService } from '../../../store/services/notification.servic
   templateUrl: './save-list-contact.component.html',
   styleUrls: ['./save-list-contact.component.scss'],
 })
-export class SaveListContactComponent implements OnInit, OnDestroy {
+export class SaveListContactComponent implements OnInit {
   @Input() public contactType: 'Whitelist' | 'Blacklist' = 'Whitelist';
 
   @Input() public contact: WhiteList | BlackList = { email: '', name: '' };
@@ -104,6 +104,4 @@ export class SaveListContactComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  ngOnDestroy(): void {}
 }

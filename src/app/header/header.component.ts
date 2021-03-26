@@ -17,7 +17,7 @@ import { UsersService } from '../store/services/users.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
   // Public property of boolean type set false by default
   public navIsFixed = false;
 
@@ -87,6 +87,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.store.dispatch(new Logout());
     }, 500);
   }
-
-  ngOnDestroy(): void {}
 }

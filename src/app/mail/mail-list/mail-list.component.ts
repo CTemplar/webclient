@@ -12,7 +12,7 @@ import { Folder, MailFolderType } from '../../store/models';
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.scss'],
 })
-export class MailListComponent implements OnInit, OnDestroy {
+export class MailListComponent implements OnInit {
   mailFolder: string = MailFolderType.INBOX;
 
   mailFolderTypes = MailFolderType;
@@ -40,6 +40,4 @@ export class MailListComponent implements OnInit, OnDestroy {
         this.customFolders = user.customFolders;
       });
   }
-
-  ngOnDestroy(): void {}
 }
