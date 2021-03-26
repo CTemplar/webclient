@@ -103,6 +103,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
     };
     const component = this.modalService.open(CreateFolderComponent, options).componentInstance;
     component.folder = folder;
+    component.edit = edit;
   }
 
   deleteFolder() {

@@ -130,7 +130,11 @@ export const MAX_FOLDERS_COUNT = 5;
 export const VALID_EMAIL_REGEX: any = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
+export const COMPOSE_COLORS = ['none', 'red', 'blue', 'green', 'white', 'black', 'pink', 'grey'];
+export const SIZES = [10, 14, 18, 32];
+export const BACKGROUNDS = ['none', 'red', 'blue', 'green', 'white', 'black', 'pink', 'grey'];
 export const AUTOSAVE_DURATION = ['none', '5000', '10000', '20000', '30000'];
+export const DEFAULT_FONT_SIZE = 14;
 
 export const REFFERAL_CODE_KEY = 'referral_code';
 export const PROMO_CODE_KEY = 'promo_code';

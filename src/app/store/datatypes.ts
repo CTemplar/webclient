@@ -238,6 +238,12 @@ export class Settings {
 
   default_font?: string;
 
+  default_color?: string;
+
+  default_background?: string;
+
+  default_size?: number;
+
   autosave_duration?: string;
 
   enable_forwarding?: boolean;

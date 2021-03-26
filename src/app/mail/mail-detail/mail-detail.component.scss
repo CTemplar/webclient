@@ -141,7 +141,8 @@
 }
 
 .mail-subject {
-  max-width: 97%;
+  width: 100%;
+  padding-right: 80px;
 }
 
 @include media('<=sm') {
