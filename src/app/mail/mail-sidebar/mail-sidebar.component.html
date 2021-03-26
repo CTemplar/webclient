@@ -142,10 +142,10 @@
               </span>
               <span class="badge badge-square badge-position" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0">{{ mailState?.unreadMailsCount[folder.name] }}</span>
               <div class="action">
-                <a role="button" [ngbTooltip]="'settings.edit_folder' | translate" container="body" (click)="editFolder(folder)">
+                <a role="button" [ngbTooltip]="'settings.edit_folder' | translate" container="body" (click)="editFolder(folder); $event.stopPropagation(); $event.preventDefault()">
                   <i class="icon icon-edit"></i>
                 </a>
-                <a class="ml-2" role="button" [ngbTooltip]="'settings.delete_folder' | translate" container="body" (click)="showConfirmationModal(folder)">
+                <a class="ml-2" role="button" [ngbTooltip]="'settings.delete_folder' | translate" container="body" (click)="showConfirmationModal(folder); $event.stopPropagation(); $event.preventDefault()">
                   <i class="icon icon-garbage"></i>
                 </a>
               </div>
