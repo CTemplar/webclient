@@ -19,8 +19,10 @@
   {{ email | emailFormat: name }}
 </span>
 
-<span *ngIf="!composePopover" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="500" triggers="mouseenter">
+<span *ngIf="!composePopover" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="500" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault();">
+  <a class="text-gray-dark text-muted">
   {{ email | emailFormat: name }}
+  </a>
 </span>
 
 <ng-template #popContent>
@@ -33,7 +35,12 @@
       <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
         <i *ngIf="!selectedContact" class="fas fa-plus-circle"></i>
       </a>
-      {{ selectedContact ? selectedContact.name : email }}
+      <ng-container *ngIf="isMyMailbox; else contactInfo">
+        {{ myDisplayName }}
+      </ng-container>
+      <ng-template #contactInfo>
+        {{ selectedContact ? selectedContact.name : email }}
+      </ng-template>
     </div>
     <div class="error-message" *ngIf="!isValidEmail">
       {{ 'settings.compose.invalid_email_format' | translate }}
