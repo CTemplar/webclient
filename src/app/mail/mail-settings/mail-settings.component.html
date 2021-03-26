@@ -352,7 +352,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_font'"> Default Mail Compose Font </label>
+                    <label class="form-label mb-0" [translate]="'settings.compose_font'"> Default composing font </label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
@@ -363,6 +363,81 @@
                         <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
                           <a class="dropdown-item text-capitalize" *ngFor="let font of fonts" (click)="updateSettings('default_font', font)">
                             {{ font }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_color'"> Default composing color </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultColorDropdownMenuButton">
+                          <span *ngIf="settings.default_color; else notDefaultColor"> {{ settings.default_color }} </span>
+                          <ng-template #notDefaultColor>
+                            <span> None </span>
+                          </ng-template>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultColorDropdownMenuButton">
+                          <a class="dropdown-item text-capitalize" *ngFor="let color of colors" (click)="updateSettings('default_color', color)">
+                            {{ color }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_background'"> Default composing background </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultBackgroundDropdownMenuButton">
+                          <span *ngIf="settings.default_background; else notDefaultBackground"> {{ settings.default_background }} </span>
+                          <ng-template #notDefaultBackground>
+                            <span> None </span>
+                          </ng-template>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultBackgroundDropdownMenuButton">
+                          <a class="dropdown-item text-capitalize" *ngFor="let background of backgrounds" (click)="updateSettings('default_background', background)">
+                            {{ background }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_size'"> Default composing size </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultSizeDropdownMenuButton">
+                          <span *ngIf="settings.default_size && settings.default_size !== defaultFontSize; else displayDefault"> {{ settings.default_size }}px </span>
+                          <ng-template #displayDefault>
+                            <span> {{ defaultFontSize }}px(default) </span>
+                          </ng-template>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultSizeDropdownMenuButton">
+                          <a class="dropdown-item text-capitalize" *ngFor="let size of sizes" (click)="updateSettings('default_size', size)">
+                            <span *ngIf="size !== defaultFontSize; else setDefault"> {{ size }}px </span>
+                            <ng-template #setDefault>
+                              <span> {{ size }}px(default) </span>
+                            </ng-template>
                           </a>
                         </div>
                       </div>
