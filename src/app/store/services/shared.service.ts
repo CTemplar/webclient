@@ -157,7 +157,7 @@ export class SharedService {
   }
 
   isRFCStandardValidEmail(address: string): boolean {
-    return !!parseEmail.parseOneAddress({input: address, rejectTLD: true});
+    return !!parseEmail.parseOneAddress({ input: address, rejectTLD: true });
   }
 }
 

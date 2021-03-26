@@ -1653,7 +1653,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.draftMail.receiver = this.mailData.receiver.map((receiver: any) =>
       EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name),
     );
-    this.draftMail.receiver = this.draftMail.receiver.filter(receiver => this.sharedService.isRFCStandardValidEmail(receiver));
+    this.draftMail.receiver = this.draftMail.receiver.filter(receiver =>
+      this.sharedService.isRFCStandardValidEmail(receiver),
+    );
     this.draftMail.cc = this.mailData.cc.map((cc: any) => EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name));
     this.draftMail.cc = this.draftMail.cc.filter(receiver => this.sharedService.isRFCStandardValidEmail(receiver));
     this.draftMail.bcc = this.mailData.bcc.map((bcc: any) =>
