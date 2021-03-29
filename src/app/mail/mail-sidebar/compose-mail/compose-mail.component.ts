@@ -22,7 +22,7 @@ import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
-import { COLORS, FONTS, SummarySeparator } from '../../../shared/config';
+import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
   CloseMailbox,
   DeleteAttachment,
@@ -83,7 +83,10 @@ FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
-SizeAttributor.whitelist = ['10px', '18px', '32px'];
+const updatedSizes = SIZES.map((size, index) => {
+  return size + 'px';
+});
+SizeAttributor.whitelist = updatedSizes;
 Quill.register(SizeAttributor, true);
 Quill.register(Quill.import('attributors/style/align'), true);
 Quill.register(Quill.import('attributors/style/background'), true);
@@ -262,6 +265,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   colors = COLORS;
 
   fonts = FONTS;
+
+  sizes = updatedSizes;
 
   mailData: any = {};
 
