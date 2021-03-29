@@ -413,7 +413,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         validator: PasswordValidation.MatchPassword,
       },
     );
-
     this.resetMailData();
     this.initializeDraft();
     /**
@@ -1071,8 +1070,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         });
     }
     this.firstSaveSubscription = this.valueChanged$.pipe(first(() => !this.draft.draft.id && this.hasData())).subscribe(data => {
-      this.updateEmail();
-    });
+        this.updateEmail();
+      });
   }
 
   quillImageHandler() {
@@ -1334,7 +1333,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
       return;
     }
     this.isPreparingToSendEmail = true;
-    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+    if (this.inProgress || (this.draft && this.draft.isSaving) || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.isPreparingToSendEmail = false;
@@ -1671,9 +1670,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
     }
-
     this.draft.isSaving = shouldSave;
-
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map((receiver: any) =>

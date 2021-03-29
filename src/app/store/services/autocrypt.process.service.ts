@@ -34,7 +34,10 @@ export class AutocryptProcessService {
       });
   }
 
-  decideAutocryptDefaultEncryptionWithDraft(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>) {
+  decideAutocryptDefaultEncryptionWithDraft(
+    draftMail: Draft,
+    usersKeys: Map<string, GlobalPublicKey>,
+  ): AutocryptEncryptDetermine {
     if (draftMail.draft) {
       const senderMailbox: Mailbox = this.mailboxes.find(mailbox => draftMail.draft.mailbox === mailbox.id);
       const receivers: string[] = [

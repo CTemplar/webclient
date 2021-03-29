@@ -26,26 +26,45 @@ export class ComposerEncryptionTypeIconComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.isAutocrypt) {
-      // Sender Icon
+      /**
+       * Sender Icon
+       */
       if (this.autocryptInfo && this.autocryptInfo.senderAutocryptEnabled) {
         if (this.isAutocryptEncrypt) {
-          // Autocrypt Encrypt possible
+          /**
+           * Autocrypt *** Encrypt *** is possible
+           */
           if (!this.autocryptInfo.encryptTotally) {
+            /**
+             * NO Encrypt
+             */
             this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
           } else if (this.autocryptInfo.recommendationValue === UIRecommendationValue.DISCOURAGE) {
+            /**
+             * Encrypt, but Discourage
+             */
             this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT_DISCOURAGE;
           } else if (
             this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT ||
             this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE
           ) {
+            /**
+             * Encrypt!!!
+             */
             this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
           }
         } else if (this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL) {
+          /**
+           * Autocrypt Enabled and *** Mutual ***
+           */
           this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_MUTUAL;
         } else if (
           !this.autocryptInfo.senderPreferEncrypt ||
           this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.NOPREFERENCE
         ) {
+          /**
+           * Autocrypt Enabled and *** Preference ***
+           */
           this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NOPREERENCE;
         } else {
           this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
@@ -54,16 +73,30 @@ export class ComposerEncryptionTypeIconComponent {
         this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
       }
     } else if (this.selectedEmail && this.encryptionTypeMap && this.encryptionTypeMap[this.selectedEmail]) {
-      // Recipient Icon
-      if (
-        this.autocryptInfo &&
-        this.autocryptInfo.senderAutocryptEnabled &&
-        this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL &&
-        this.autocryptInfo.encryptTotally &&
-        (this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE ||
-          this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT)
-      ) {
-        this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
+      /**
+       * Recipient Icon
+       */
+      if (this.autocryptInfo && this.autocryptInfo.senderAutocryptEnabled) {
+        /**
+         * Autocryp Enabled
+         * At this case, Autocrypt icon would be showed
+         */
+        if (
+          this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL &&
+          this.autocryptInfo.encryptTotally &&
+          (this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE ||
+            this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT)
+        ) {
+          /**
+           * Fully Autocrypt Enabled and Encrypted
+           */
+          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
+        } else {
+          /**
+           * Autocrypt Enabled, but would be attached JUST Autocrypt Header
+           */
+          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
+        }
       } else {
         this.encryptionType = this.encryptionTypeMap[this.selectedEmail];
       }

@@ -728,9 +728,10 @@ export function reducer(
         };
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const currentMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = currentMailFolder.total_mail_count;
-
+      if (state.currentFolder && folderMap.has(state.currentFolder)) {
+        const currentMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = currentMailFolder.total_mail_count;
+      }
       if (
         state.mailDetail &&
         state.mailDetail.children &&

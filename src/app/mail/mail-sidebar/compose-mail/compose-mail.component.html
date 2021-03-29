@@ -9,7 +9,7 @@
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
                 <app-composer-encryption-type-icon [isAutocrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>
-                <app-composer-encryption-type-icon [isAutocrypt]="true" [isAutocryptEncrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>
+<!--                <app-composer-encryption-type-icon [isAutocrypt]="true" [isAutocryptEncrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>-->
                 {{ selectedMailbox?.email | emailFormat: selectedMailbox?.display_name }}
               </button>
               <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu class="from-dropdown" aria-labelledby="fromEmailDropdownMenuButton">

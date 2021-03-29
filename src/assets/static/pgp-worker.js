@@ -235,7 +235,7 @@ onmessage = async function (event) {
 };
 
 function isPGPEncrypted(content) {
-  return content.includes('-----BEGIN PGP MESSAGE-----') ? true : false;
+  return !content || content.indexOf('-----BEGIN PGP MESSAGE-----') === 0 ? true : false;
 }
 
 function generateKeys(options) {
@@ -264,12 +264,12 @@ async function generateNewKeys(mailboxes, password, username) {
 
 // TODO - Should be updated with decryptedAllKey
 async function changePassphrase(passphrase) {
-  var keysMap = {};
+  let keysMap = {};
   for (const mailboxId in decryptedAllPrivKeys) {
-    var keys = [];
-    var keysByMailbox = decryptedAllPrivKeys[mailboxId];
-    for (var i = 0; i < keysByMailbox.length; i++) {
-      var tmpKey = keysByMailbox[i];
+    let keys = [];
+    let keysByMailbox = decryptedAllPrivKeys[mailboxId];
+    for (let i = 0; i < keysByMailbox.length; i++) {
+      let tmpKey = keysByMailbox[i];
       await tmpKey.encrypt(passphrase);
       keys.push({ private_key: tmpKey.armor() });
     }
@@ -471,6 +471,12 @@ async function getKeyInfoFromPublicKey(publicKey) {
 function decryptContentProcess(data) {
   let isDecryptedError = false;
   let decryptedContent = {};
+  if (!isPGPEncrypted(data.mailData.content)) {
+    isDecryptedError = true;
+    decryptedContent = { ...decryptedContent, content: data.mailData.content };
+    decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
+  }
+  if (data.mailData.content)
   decryptContent(data.mailData.content, decryptedAllPrivKeys[data.mailboxId])
     .then(content => {
       decryptedContent = { ...decryptedContent, content };
@@ -491,6 +497,11 @@ function decryptContentProcess(data) {
  * @param isDecryptedError
  */
 function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError) {
+  if (!isPGPEncrypted(data.mailData.incomingHeaders)) {
+    isDecryptedError = true;
+    decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
+    decryptSubjectProcess(data, decryptedContent, isDecryptedError);
+  }
   decryptContent(data.mailData.incomingHeaders, decryptedAllPrivKeys[data.mailboxId])
     .then(incomingHeaders => {
       decryptedContent = { ...decryptedContent, incomingHeaders };
@@ -512,6 +523,11 @@ function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError)
  * @param isDecryptedError
  */
 function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
+  if (!isPGPEncrypted(data.mailData.subject)) {
+    isDecryptedError = true;
+    decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
+    decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
+  }
   decryptContent(data.mailData.subject, decryptedAllPrivKeys[data.mailboxId])
     .then(subject => {
       decryptedContent = { ...decryptedContent, subject };
@@ -535,6 +551,20 @@ function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
  */
 function decryptContentPlainProcess(data, decryptedContent, isDecryptedError, isSubjectDecryptedError) {
   if (!data.isPGPMime && data.mailData.content_plain) {
+    if (!isPGPEncrypted(data.mailData.content_plain)) {
+      isDecryptedError = true;
+      decryptedContent = { ...decryptedContent, content_plain: data.mailData.content_plain };
+      postMessage({
+        decryptedContent,
+        decrypted: true,
+        callerId: data.callerId,
+        subjectId: data.subjectId,
+        decryptedPGPMime: data.isPGPMime,
+        isDecryptingAllSubjects: data.isDecryptingAllSubjects,
+        error: isDecryptedError,
+        isSubjectDecryptedError,
+      });
+    }
     decryptContent(data.mailData.content_plain, decryptedAllPrivKeys[data.mailboxId])
       .then(content_plain => {
         decryptedContent = { ...decryptedContent, content_plain };
