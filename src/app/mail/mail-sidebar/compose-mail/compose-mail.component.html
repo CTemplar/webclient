@@ -184,24 +184,9 @@
                             <div ngbDropdownMenu class="typo-size-dropdown-menu" aria-labelledby="typoSizeDropdownMenu">
                               <div class="typo-holder">
                                 <ul class="typo-list list-styled">
-                                  <li>
-                                    <button value="10px" class="ql-size typo-select-link is-small">
-                                      {{ 'settings.compose.small' | translate }}
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button value="" class="ql-size typo-select-link is-normal">
-                                      {{ 'settings.compose.normal' | translate }}
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button value="18px" class="ql-size typo-select-link is-large">
-                                      {{ 'settings.compose.large' | translate }}
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button value="32px" class="ql-size typo-select-link is-huge">
-                                      {{ 'settings.compose.huge' | translate }}
+                                  <li *ngFor="let size of sizes">
+                                    <button [value]="size" class="ql-size typo-select-link">
+                                      {{ size }}
                                     </button>
                                   </li>
                                 </ul>

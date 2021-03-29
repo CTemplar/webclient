@@ -66,17 +66,10 @@
                           <div ngbDropdownMenu class="typo-size-dropdown-menu" aria-labelledby="typoSizeDropdownMenu">
                             <div class="typo-holder">
                               <ul class="typo-list list-styled">
-                                <li>
-                                  <button value="10px" class="ql-size typo-select-link is-small">Small</button>
-                                </li>
-                                <li>
-                                  <button value="" class="ql-size typo-select-link is-normal">Normal</button>
-                                </li>
-                                <li>
-                                  <button value="18px" class="ql-size typo-select-link is-large">Large</button>
-                                </li>
-                                <li>
-                                  <button value="32px" class="ql-size typo-select-link is-huge">Huge</button>
+                                <li *ngFor="let size of sizes">
+                                  <button [value]="size" class="ql-size typo-select-link">
+                                    {{ size }}
+                                  </button>
                                 </li>
                               </ul>
                             </div>
