@@ -8,8 +8,8 @@
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
-                <app-composer-encryption-type-icon *ngIf="selectedMailbox.is_autocrypt_enabled && selectedMailbox.prefer_encrypt === 'mutual'" [selectedMailbox]="selectedMailbox" [basedOnUsersKeys]="false" [passedEncryptionType]="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_AND_MUTUAL'"></app-composer-encryption-type-icon>
-                <app-composer-encryption-type-icon *ngIf="selectedMailbox.is_autocrypt_enabled && selectedMailbox.prefer_encrypt == 'nopreference'" [selectedMailbox]="selectedMailbox" [basedOnUsersKeys]="false" [passedEncryptionType]="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT'"></app-composer-encryption-type-icon>
+                <app-composer-encryption-type-icon [isAutocrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>
+                <app-composer-encryption-type-icon [isAutocrypt]="true" [isAutocryptEncrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>
                 {{ selectedMailbox?.email | emailFormat: selectedMailbox?.display_name }}
               </button>
               <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu class="from-dropdown" aria-labelledby="fromEmailDropdownMenuButton">
@@ -48,7 +48,7 @@
         >
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <app-composer-encryption-type-icon *ngIf="usersKeys?.has(item.email)" [addedItem]="item" [selectedMailbox]="selectedMailbox" [usersKeys]="usersKeys"></app-composer-encryption-type-icon>
+            <app-composer-encryption-type-icon [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap" [selectedEmail]="item.email" ></app-composer-encryption-type-icon>
             <span>
               {{ item.email }}
             </span>
@@ -97,7 +97,7 @@
         >
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <app-composer-encryption-type-icon *ngIf="usersKeys?.has(item.email)" [addedItem]="item" [selectedMailbox]="selectedMailbox" [usersKeys]="usersKeys"></app-composer-encryption-type-icon>
+            <app-composer-encryption-type-icon [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap" [selectedEmail]="item.email" ></app-composer-encryption-type-icon>
             <span>
               {{ item.email }}
             </span>
@@ -142,7 +142,7 @@
         >
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <app-composer-encryption-type-icon *ngIf="usersKeys?.has(item.email)" [addedItem]="item" [selectedMailbox]="selectedMailbox" [usersKeys]="usersKeys"></app-composer-encryption-type-icon>
+            <app-composer-encryption-type-icon [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap" [selectedEmail]="item.email" ></app-composer-encryption-type-icon>
             <span>
               {{ item.email }}
             </span>

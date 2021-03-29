@@ -9,6 +9,7 @@ import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail
 import {
   AppState,
   ComposeMailState,
+  Contact, ContactsState,
   Draft,
   DraftState,
   GlobalPublicKey,
@@ -47,6 +48,8 @@ export class ComposeMailService {
   composesWidth: number;
 
   countCommonCompose: number;
+
+  contacts: Contact[] = [];
 
   constructor(
     private store: Store<AppState>,
@@ -135,17 +138,15 @@ export class ComposeMailService {
                     draftMail.draft.encryption.password,
                   );
                 } else if (publicKeys.length > 0) {
-                  // let determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryption(
-                  //   draftMail,
-                  //   usersKeys,
-                  // );
-                  // const determinedAutocryptStatus = {};
-                  // if (determinedAutocryptStatus.encryptTotally) {
-                  //   this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
-                  // } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
-                  //   this.sendEmailWithDecryptedData(false, draftMail, publicKeys, encryptionTypeForExternal);
-                  // } else
-                  if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
+                  const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(
+                    draftMail,
+                    usersKeys,
+                  );
+                  if (determinedAutocryptStatus.encryptTotally) {
+                    this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
+                  } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
+                    this.sendEmailWithDecryptedData(false, draftMail, publicKeys, encryptionTypeForExternal);
+                  } else if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
                     this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
                   } else {
                     draftMail.attachments.forEach(attachment => {
@@ -185,6 +186,12 @@ export class ComposeMailService {
       .subscribe((user: UserState) => {
         this.userState = user;
       });
+
+    this.store
+      .select((state: AppState) => state.contacts)
+      .subscribe((contactsState: ContactsState) => {
+        this.contacts = contactsState.contacts;
+      });
   }
 
   private getShouldBeEncrypted(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): boolean {
@@ -217,24 +224,30 @@ export class ComposeMailService {
   private getEncryptionTypeForExternal(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): PGPEncryptionType {
     if (draftMail.draft) {
       const receivers: string[] = [
-        ...draftMail.draft.receiver.map(receiver => receiver),
-        ...draftMail.draft.cc.map(cc => cc),
-        ...draftMail.draft.bcc.map(bcc => bcc),
+        ...draftMail.draft.receiver.map(
+          receiver => (parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox).address,
+        ),
+        ...draftMail.draft.cc.map(cc => (parseEmail.parseOneAddress(cc) as parseEmail.ParsedMailbox).address),
+        ...draftMail.draft.bcc.map(bcc => (parseEmail.parseOneAddress(bcc) as parseEmail.ParsedMailbox).address),
       ];
-      const isPGPInline = receivers.every(receiver => {
-        const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        if (usersKeys.has(parsedEmail.address)) {
-          return usersKeys.get(parsedEmail.address).pgpEncryptionType === PGPEncryptionType.PGP_INLINE;
+      const isPGPInline = receivers.every(rec => {
+        if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
+          const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
+          if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_INLINE) {
+            return true;
+          }
         }
         return false;
       });
       if (isPGPInline) {
         return PGPEncryptionType.PGP_INLINE;
       }
-      const isPGPMime = receivers.every(receiver => {
-        const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        if (usersKeys.has(parsedEmail.address)) {
-          return usersKeys.get(parsedEmail.address).pgpEncryptionType === PGPEncryptionType.PGP_MIME;
+      const isPGPMime = receivers.every(rec => {
+        if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
+          const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
+          if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_MIME) {
+            return true;
+          }
         }
         return false;
       });

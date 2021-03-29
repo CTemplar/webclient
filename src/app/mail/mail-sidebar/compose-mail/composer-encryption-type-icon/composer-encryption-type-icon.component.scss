@@ -2,10 +2,12 @@
   color: green;
 }
 
-.autocrypt-enabled-icon {
+.autocrypt-enabled-icon,
+.autocrypt-encrypt-discourage-icon {
   color: rgb(251, 140, 2);
 }
 
-.autocrypt-enabled-mutual-icon {
+.autocrypt-enabled-mutual-icon,
+.autocrypt-encrypt-icon {
   color: #005fa9;
 }

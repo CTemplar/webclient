@@ -44,8 +44,9 @@ import { EmailFormatPipe } from '../../../shared/pipes/email-formatting.pipe';
 import {
   AppState,
   AuthState,
-  AutocryptPreferEncryptType,
+  AutocryptEncryptDetermine,
   ComposeMailState,
+  ComposerEncryptionType,
   Contact,
   ContactsState,
   Draft,
@@ -57,7 +58,6 @@ import {
   SecureContent,
   Settings,
   UserState,
-  AutocryptEncryptDetermine,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { AutocryptProcessService, MailService, SharedService } from '../../../store/services';
@@ -377,9 +377,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   isPreparingToSendEmail = false;
 
+  /**
+   * Decide to set html or plaintext mode with this variable
+   */
   pgpEncryptionType: PGPEncryptionType = null;
 
   autocryptInfo: AutocryptEncryptDetermine;
+
+  receiverEncryptTypeMap: any = {};
 
   constructor(
     private modalService: NgbModal,
@@ -551,6 +556,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           this.selectedMailbox = mailBoxesState.currentMailbox;
         }
         this.mailBoxesState = mailBoxesState;
+        this.anaylizeUsersKeysWithContact();
       });
 
     /**
@@ -589,6 +595,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.initializeAutoSave(); // start auto save function
   }
 
+  ngOnChanges(changes: SimpleChanges): void {}
+
   onPaste() {
     this.isPasted = true;
   }
@@ -604,16 +612,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   onRemoveReceive() {
     this.valueChanged$.next(this.mailData.receiver);
     this.isSelfDestructionEnable();
+    this.anaylizeUsersKeysWithContact();
   }
 
   onRemoveCc() {
     this.valueChanged$.next(this.mailData.cc);
     this.isSelfDestructionEnable();
+    this.anaylizeUsersKeysWithContact();
   }
 
   onRemoveBcc() {
     this.valueChanged$.next(this.mailData.bcc);
     this.isSelfDestructionEnable();
+    this.anaylizeUsersKeysWithContact();
   }
 
   updateInputTextValue(value: string) {
@@ -699,16 +710,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   onTagEdited($event: any) {
     this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
+    this.anaylizeUsersKeysWithContact();
   }
 
   ccOnTagEdited($event: any) {
     this.mailData.cc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
+    this.anaylizeUsersKeysWithContact();
   }
 
   bccOnTagEdited($event: any) {
     this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
+    this.anaylizeUsersKeysWithContact();
   }
 
   onClick() {
@@ -722,8 +736,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   onBccClick() {
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   ngAfterViewInit() {
     this.initializeComposeMail();
@@ -1079,6 +1091,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.oldMailbox = oldMailbox;
     this.updateSignature();
     this.valueChanged$.next(this.selectedMailbox);
+    this.anaylizeUsersKeysWithContact();
   }
 
   onImagesSelected(files: FileList) {
@@ -1949,67 +1962,73 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   // Analyze user key based on contact keys
   anaylizeUsersKeysWithContact() {
+    if (!this.selectedMailbox) return;
     // Set Encryption Type with contacts
     const localReceivers: string[] = [
       ...this.mailData.receiver.map((receiver: any) => receiver.email),
       ...this.mailData.cc.map((cc: any) => cc.email),
       ...this.mailData.bcc.map((bcc: any) => bcc.email),
     ];
+    // Check Autocrypt status
+    this.autocryptInfo = this.autocryptService.decideAutocryptDefaultEncryption(
+      this.selectedMailbox,
+      localReceivers,
+      this.usersKeys,
+    );
     if (localReceivers.length > 0) {
-      // Check Autocrypt status
-      this.autocryptInfo = this.autocryptService.decideAutocryptDefaultEncryption(
-        this.selectedMailbox,
-        localReceivers,
-        this.usersKeys,
-      );
-      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa', this.autocryptInfo)
-      if (!this.autocryptInfo.senderAutocryptEnabled) {
-        localReceivers.forEach(rec => {
-          const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
-          if (keyInfo.isExistKey && keyInfo.isCTemplarKey) {
+      localReceivers.forEach(rec => {
+        const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
+        if (keyInfo.isExistKey) {
+          if (keyInfo.isCTemplarKey) {
+            this.receiverEncryptTypeMap = {
+              ...this.receiverEncryptTypeMap,
+              [rec]: ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_END_TO_END,
+            };
+          } else if (this.contactsState && this.contactsState.contacts.length > 0) {
             // Checking with contacts
-            if (this.contactsState && this.contactsState.contacts.length > 0) {
-              this.contactsState.contacts.forEach((contact: Contact) => {
-                if (contact.email === rec) {
-                  // Set Autocrypt status
-                  // if (this.selectedMailbox.is_autocrypt_enabled) {
-                  //   this.usersKeys.set(rec, {
-                  //     ...this.usersKeys.get(rec),
-                  //     autocryptPreferEncrypt:
-                  //       this.selectedMailbox.prefer_encrypt === 'mutual'
-                  //         ? AutocryptPreferEncryptType.MUTUAL
-                  //         : AutocryptPreferEncryptType.NOPREFERENCE,
-                  //   });
-                  // } else {
-                  this.usersKeys.set(rec, {
-                    ...this.usersKeys.get(rec),
-                    pgpEncryptionType: contact.enabled_encryption ? contact.encryption_type : null,
-                  });
-                  // }
-                }
-              });
-            }
+            this.contactsState.contacts.forEach((contact: Contact) => {
+              if (contact.email === rec && contact.enabled_encryption) {
+                this.receiverEncryptTypeMap = {
+                  ...this.receiverEncryptTypeMap,
+                  [rec]: ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE,
+                };
+              }
+            });
           }
-        });
-
+        } else {
+          this.receiverEncryptTypeMap = {
+            ...this.receiverEncryptTypeMap,
+            [rec]: ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE,
+          };
+        }
+      });
+      if (!this.autocryptInfo.senderAutocryptEnabled) {
         // Set Editor style with encryption type
         // If all receiver is based on PGP Inline, Plain Text Editor
         // If PGP Mime or null, Do Nothing
         const isPGPInline = localReceivers.every(rec => {
           if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
-            return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_INLINE;
+            const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
+            if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_INLINE) {
+              return true;
+            }
           }
           return false;
         });
         const isPGPMime = localReceivers.every(rec => {
           if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
-            return this.usersKeys.get(rec).pgpEncryptionType === PGPEncryptionType.PGP_MIME;
+            const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
+            if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_MIME) {
+              return true;
+            }
           }
           return false;
         });
         this.pgpEncryptionType = isPGPInline ? PGPEncryptionType.PGP_INLINE : (isPGPMime ?  PGPEncryptionType.PGP_MIME : null);
-        if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE) {
+        if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail.is_html) {
           this.setHtmlEditor(false);
+        } else if (this.pgpEncryptionType === PGPEncryptionType.PGP_MIME && !this.draftMail.is_html) {
+          this.setHtmlEditor(true);
         }
       }
     }

@@ -1,69 +1,74 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import {
+  AutocryptEncryptDetermine,
   AutocryptPreferEncryptType,
   ComposerEncryptionType,
-  GlobalPublicKey,
-  PGPEncryptionType,
+  UIRecommendationValue,
 } from '../../../../store/datatypes';
-import { Mailbox } from '../../../../store/models';
 
 @Component({
   selector: 'app-composer-encryption-type-icon',
   templateUrl: './composer-encryption-type-icon.component.html',
   styleUrls: ['./composer-encryption-type-icon.component.scss'],
 })
-export class ComposerEncryptionTypeIconComponent implements OnInit {
-  @Input() usersKeys: Map<string, GlobalPublicKey>;
+export class ComposerEncryptionTypeIconComponent {
+  @Input() autocryptInfo: AutocryptEncryptDetermine;
 
-  @Input() addedItem: any;
+  @Input() isAutocrypt: boolean;
 
-  /**
-   * Decide whether icon should be based on usersKeys parameter from parent,
-   * If true, will parsing usersKeys parameter for getting which icon should be showed
-   * If false, just would take passedEncryptionType parameter
-   */
-  @Input() basedOnUsersKeys = true;
+  @Input() isAutocryptEncrypt: boolean;
 
-  @Input() passedEncryptionType: ComposerEncryptionType;
+  @Input() encryptionTypeMap: any;
 
-  @Input() selectedMailbox: Mailbox;
+  @Input() selectedEmail: string;
 
   encryptionType: ComposerEncryptionType;
 
-  constructor() {}
-
-  ngOnInit(): void {
-    if (!this.basedOnUsersKeys) {
-      this.encryptionType = this.passedEncryptionType;
-    }
-  }
-
-  ngDoCheck(): void {
-    if (this.basedOnUsersKeys) {
-      const keys = this.usersKeys.get(this.addedItem.email);
-      if (!keys.isFetching) {
-        if (this.selectedMailbox.is_autocrypt_enabled && keys.autocryptPreferEncrypt) {
-          // Autocrypt
-          this.encryptionType =
-            keys.autocryptPreferEncrypt === AutocryptPreferEncryptType.MUTUAL
-              ? ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_AND_MUTUAL
-              : ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT;
-        } else if (
-          keys.pgpEncryptionType === PGPEncryptionType.PGP_INLINE ||
-          keys.pgpEncryptionType === PGPEncryptionType.PGP_MIME
-        ) {
-          // PGPEncryption
-          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE;
-        } else if (keys.key.length > 0) {
-          if (keys.key[0].exists === false) {
-            // Non Encrypted - External
-            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
-          } else {
-            // CTemplar - Internal
-            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_END_TO_END;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.isAutocrypt) {
+      // Sender Icon
+      if (this.autocryptInfo && this.autocryptInfo.senderAutocryptEnabled) {
+        if (this.isAutocryptEncrypt) {
+          // Autocrypt Encrypt possible
+          if (!this.autocryptInfo.encryptTotally) {
+            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
+          } else if (this.autocryptInfo.recommendationValue === UIRecommendationValue.DISCOURAGE) {
+            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT_DISCOURAGE;
+          } else if (
+            this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT ||
+            this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE
+          ) {
+            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
           }
+        } else if (this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL) {
+          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_MUTUAL;
+        } else if (
+          !this.autocryptInfo.senderPreferEncrypt ||
+          this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.NOPREFERENCE
+        ) {
+          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NOPREERENCE;
+        } else {
+          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
         }
+      } else {
+        this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
       }
+    } else if (this.selectedEmail && this.encryptionTypeMap && this.encryptionTypeMap[this.selectedEmail]) {
+      // Recipient Icon
+      if (
+        this.autocryptInfo &&
+        this.autocryptInfo.senderAutocryptEnabled &&
+        this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL &&
+        this.autocryptInfo.encryptTotally &&
+        (this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE ||
+          this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT)
+      ) {
+        this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
+      } else {
+        this.encryptionType = this.encryptionTypeMap[this.selectedEmail];
+      }
+    } else {
+      this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
     }
   }
 }

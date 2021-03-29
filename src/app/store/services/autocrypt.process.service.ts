@@ -9,8 +9,7 @@ import {
   AutocryptEncryptDetermineForSingle,
   AutocryptPreferEncryptType,
   Contact,
-  ContactsState,
-  Draft,
+  ContactsState, Draft,
   GlobalPublicKey,
   MailBoxesState,
   UIRecommendationValue,
@@ -35,6 +34,26 @@ export class AutocryptProcessService {
       });
   }
 
+  decideAutocryptDefaultEncryptionWithDraft(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>) {
+    if (draftMail.draft) {
+      const senderMailbox: Mailbox = this.mailboxes.find(mailbox => draftMail.draft.mailbox === mailbox.id);
+      const receivers: string[] = [
+        ...draftMail.draft.receiver.map(
+          receiver => (parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox).address,
+        ),
+        ...draftMail.draft.cc.map(cc => (parseEmail.parseOneAddress(cc) as parseEmail.ParsedMailbox).address),
+        ...draftMail.draft.bcc.map(bcc => (parseEmail.parseOneAddress(bcc) as parseEmail.ParsedMailbox).address),
+      ];
+      return this.decideAutocryptDefaultEncryption(senderMailbox, receivers, usersKeys);
+    }
+    return {
+      encryptTotally: false,
+      senderAutocryptEnabled: false,
+      senderPreferEncrypt: AutocryptPreferEncryptType.NOPREFERENCE,
+      recommendationValue: UIRecommendationValue.DISABLE,
+    };
+  }
+
   /**
    * Lanuch Autocrypt Default Encryption checking based on
    * https://autocrypt.org/level1.html#provide-a-recommendation-for-message-encryption
@@ -55,6 +74,17 @@ export class AutocryptProcessService {
         recommendationValue: UIRecommendationValue.DISABLE,
       };
     }
+    if (!receivers || receivers.length === 0) {
+      return {
+        encryptTotally: senderMailbox.prefer_encrypt === 'mutual',
+        senderAutocryptEnabled: true,
+        senderPreferEncrypt:
+          senderMailbox.prefer_encrypt === 'mutual'
+            ? AutocryptPreferEncryptType.MUTUAL
+            : AutocryptPreferEncryptType.NOPREFERENCE,
+        recommendationValue: UIRecommendationValue.AVAILABLE,
+      };
+    }
     const receiversStatus = new Map<string, AutocryptEncryptDetermineForSingle>();
     receivers.forEach(receiver => {
       const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
@@ -73,7 +103,7 @@ export class AutocryptProcessService {
         // Completed checking STEP 1 (Determine if encryption is possible),
         // the result is OK, will jump into the next process
         // https://autocrypt.org/level1.html#determine-if-encryption-is-possible
-        const processResult = this.launchProcessForCheckAutocryptPossible(contact);
+        const processResult = this.launchProcessForCheckAutocryptPossible(senderMailbox, contact);
         receiversStatus.set(contact.email, processResult);
       } else {
         receiversStatus.set(contact.email, {
@@ -101,7 +131,7 @@ export class AutocryptProcessService {
     };
   }
 
-  private launchProcessForCheckAutocryptPossible(contact: Contact): any {
+  private launchProcessForCheckAutocryptPossible(senderMailbox: Mailbox, contact: Contact): any {
     // STEP 2
     // Checking Preliminary Recommendation
     // https://autocrypt.org/level1.html#preliminary-recommendation
@@ -127,8 +157,8 @@ export class AutocryptProcessService {
     // If the preliminary-recommendation is available and
     // both peers[to-addr].prefer_encrypt and accounts[from-addr].prefer_encrypt are mutual.
     if (
-      this.senderMailbox.is_autocrypt_enabled &&
-      this.senderMailbox.prefer_encrypt === AutocryptPreferEncryptType.MUTUAL &&
+      senderMailbox.is_autocrypt_enabled &&
+      senderMailbox.prefer_encrypt === AutocryptPreferEncryptType.MUTUAL &&
       contact.prefer_encrypt === AutocryptPreferEncryptType.MUTUAL
     ) {
       encrypt = true;
