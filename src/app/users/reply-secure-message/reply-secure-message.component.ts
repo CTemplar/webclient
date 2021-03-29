@@ -77,6 +77,8 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
 
   fonts = FONTS;
 
+  sizes = updatedSizes;
+
   attachments: Attachment[] = [];
 
   inProgress: boolean;
