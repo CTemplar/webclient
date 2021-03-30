@@ -166,7 +166,7 @@
                 <div class="form-group">
                   <label for="cardName" class="d-block text-left hidden-sm-up label-error" [translate]="'settings.donate.card_number'">Card Number </label>
                   <span class="d-block text-right font-weight-bold">*</span>
-                  <input id="cardNumber" name="cardNumber" class="form-control number" [ngClass]="{ 'error': cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched), 'stripe-error': cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched) }" [placeholder]="'settings.donate.card_number' | translate" type="text" formControlName="cardNumber" required (change)="checkStripeValidation()"/>
+                  <input id="cardNumber" name="cardNumber" class="form-control number" [ngClass]="{ error: cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched), 'stripe-error': cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched) }" [placeholder]="'settings.donate.card_number' | translate" type="text" formControlName="cardNumber" required (change)="checkStripeValidation()" />
                   <ng-container *ngIf="cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched)">
                     <span *ngIf="cardNumberFormControl.errors.required" class="d-block text-right error-msg" [translate]="'settings.required_field'">Required field</span>
                     <span *ngIf="cardNumberFormControl.errors.pattern" class="d-block text-right error-msg">Number Only</span>

@@ -133,9 +133,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   private btcTimer: Subscription;
 
-  get cardNumberFormControl() { return this.billingForm.get('cardNumber'); }
+  get cardNumberFormControl() {
+    return this.billingForm.get('cardNumber');
+  }
 
-  get promoCodeFormControl() { return this.billingForm.get('promoCode'); }
+  get promoCodeFormControl() {
+    return this.billingForm.get('promoCode');
+  }
 
   constructor(
     private sharedService: SharedService,
@@ -178,7 +182,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       });
 
     this.billingForm = this.formBuilder.group({
-      cardNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"),]],
+      cardNumber: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       promoCode: '',
     });
 
