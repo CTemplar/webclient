@@ -309,6 +309,17 @@
         }
       }
     }
+    > .badge-hover-action {
+      transform: translateX(-40px) translateY(-50%);
+
+      @include media('<ipad', '>sm') {
+        display: none;
+
+        .is-sidebar-expanded & {
+          display: block;
+        }
+      }
+    }
   }
 
   > .action {
@@ -374,6 +385,12 @@
         display: block;
       }
     }
+  }
+
+  > .badge-hover-action {
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
+    transition: transform 0.4s;
   }
 
   .mailbox-sidebar-nav-label {
