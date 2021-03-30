@@ -133,6 +133,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   private btcTimer: Subscription;
 
+  get cardNumberFormControl() { return this.billingForm.get('cardNumber'); }
+
+  get promoCodeFormControl() { return this.billingForm.get('promoCode'); }
+
   constructor(
     private sharedService: SharedService,
     private store: Store<AppState>,
@@ -174,7 +178,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       });
 
     this.billingForm = this.formBuilder.group({
-      cardNumber: ['', [Validators.minLength(16), Validators.maxLength(16)]],
+      cardNumber: ['', [Validators.required, Validators.pattern("^[0-9]*$"),]],
       promoCode: '',
     });
 
@@ -274,7 +278,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.inProgress = true;
     (<any>window).Stripe.card.createToken(
       {
-        number: this.cardNumber,
+        number: this.cardNumberFormControl.value,
         exp_month: this.expiryMonth,
         exp_year: this.expiryYear,
         cvc: this.cvc,
@@ -481,7 +485,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   checkStripeValidation() {
     this.stripePaymentValidation.message = '';
-    if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumber)) {
+    if (!(<any>window).Stripe.card.validateCardNumber(this.cardNumberFormControl.value)) {
       this.stripePaymentValidation.param = 'number';
     } else if (!(<any>window).Stripe.card.validateExpiry(this.expiryMonth, this.expiryYear)) {
       this.stripePaymentValidation.param = 'exp_year exp_month';
