@@ -85,24 +85,6 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngAfterViewChecked() {
-    // For big window height, fix bottom white space issue
-    const allContent = document.getElementById('app-outer-id');
-    const header = document.getElementById('mastHead');
-    const footer = document.getElementById('colphon');
-    const mainContent = document.getElementById('login-main');
-    if (allContent && mainContent) {
-      mainContent.style.height =
-        window.innerHeight > allContent.getBoundingClientRect().height
-          ? (
-              window.innerHeight -
-              header.getBoundingClientRect().height -
-              footer.getBoundingClientRect().height
-            ).toString() + 'px'
-          : 'auto';
-    }
-  }
-
   private updateLoadingStatus(): void {
     this.store
       .select(state => state.loading)

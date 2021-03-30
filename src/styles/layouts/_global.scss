@@ -29,6 +29,18 @@ body {
   overflow-x: hidden;
   overflow-y: hidden;
   position: relative;
+  min-height: 1150px;
+  @include media('<ipad') {
+    min-height: 1080px;
+  }
+  #main {
+    .content {
+      height: 100%;
+    }
+  }
+  #main.visible-signin {
+    height: calc(100% - 439px);
+  }
 
   // == inner page app outer
   .inner-template &,
@@ -62,6 +74,10 @@ body {
   }
 }
 
+.app-outer.visible-signin {
+  overflow-y: auto;
+  height: 100%;
+}
 // == custom container
 .container-lg {
   max-width: 1310px;
