@@ -118,6 +118,8 @@ $variables: (
   --receiver-chip-popover-background: ($receiver-chip-popover-background-light, $receiver-chip-popover-background-dark),
   --receiver-chip-popover-border: ($receiver-chip-popover-border-light, $receiver-chip-popover-border-dark),
   --receiver-chip-popover-shadow: ($receiver-chip-popover-background-light, transparent),
-  --receiver-chip-popover-divider-color: ($receiver-chip-popover-divider-color-light, $receiver-chip-popover-divider-color-dark),
-  
+  --receiver-chip-popover-divider-color: (
+    $receiver-chip-popover-divider-color-light,
+    $receiver-chip-popover-divider-color-dark
+  )
 );

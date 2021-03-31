@@ -8,7 +8,7 @@ import { Mailbox } from '../../../../store/models';
 
 import { SharedService } from '../../../../store/services';
 
-import { BlackListAdd, WhiteListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions'
+import { BlackListAdd, WhiteListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions';
 
 @Component({
   selector: 'app-receiver-email-chip',
@@ -51,11 +51,7 @@ export class ReceiverEmailChipComponent implements OnInit {
 
   isWhitelisted = false;
 
-  constructor(
-    private modalService: NgbModal,
-    private sharedService:SharedService,
-    private store: Store<AppState>
-  ) {}
+  constructor(private modalService: NgbModal, private sharedService: SharedService, private store: Store<AppState>) {}
 
   ngOnInit(): void {}
 
@@ -106,20 +102,26 @@ export class ReceiverEmailChipComponent implements OnInit {
   }
 
   onAddBlacklist() {
-    this.store.dispatch(new BlackListAdd({ email: this.email, name: this.name ? this.name : this.email.split('@')[0] }));
+    this.store.dispatch(
+      new BlackListAdd({ email: this.email, name: this.name ? this.name : this.email.split('@')[0] }),
+    );
   }
 
   onMoveBlacklist() {
     const whitelistedItem = this.whitelist.find(item => item.email === this.email);
     if (whitelistedItem) {
-      this.store.dispatch(new MoveToBlacklist({ id: whitelistedItem.id, name: whitelistedItem.name, email: whitelistedItem.email }));
+      this.store.dispatch(
+        new MoveToBlacklist({ id: whitelistedItem.id, name: whitelistedItem.name, email: whitelistedItem.email }),
+      );
     }
   }
 
   onMoveWhitelist() {
     const blacklistedItem = this.blacklist.find(item => item.email === this.email);
     if (blacklistedItem) {
-      this.store.dispatch(new MoveToWhitelist({ id: blacklistedItem.id, name: blacklistedItem.name, email: blacklistedItem.email }));
+      this.store.dispatch(
+        new MoveToWhitelist({ id: blacklistedItem.id, name: blacklistedItem.name, email: blacklistedItem.email }),
+      );
     }
   }
 
@@ -127,4 +129,3 @@ export class ReceiverEmailChipComponent implements OnInit {
     popOver.isOpen() ? popOver.close() : popOver.open();
   }
 }
- 
