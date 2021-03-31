@@ -114,7 +114,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
           if (authState.isChangePasswordError) {
             this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
           } else {
-            let privateKeysMap: any = {};
+            const privateKeysMap: any = {};
             Object.keys(this.updatedPrivateKeys).forEach((mailboxId: string) => {
               privateKeysMap[mailboxId] = this.updatedPrivateKeys.get(mailboxId).map((keys: any) => keys.private_key);
             });
@@ -143,7 +143,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
       },
     );
 
-    this.isUsingLocalStorage = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
+    this.isUsingLocalStorage = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true';
   }
 
   updateSettings(key?: string, value?: any) {
