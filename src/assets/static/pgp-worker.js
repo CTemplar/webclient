@@ -483,7 +483,8 @@ function decryptContentProcess(data) {
       decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
     })
     // Content decryption error catch
-    .catch(() => {
+    .catch((error) => {
+      console.error(error)
       isDecryptedError = true;
       decryptedContent = { ...decryptedContent, content: data.mailData.content };
       decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
@@ -508,7 +509,8 @@ function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError)
       decryptSubjectProcess(data, decryptedContent, isDecryptedError);
     })
     // IncomingHeaders decryption error catch
-    .catch(() => {
+    .catch((error) => {
+      console.error(error)
       isDecryptedError = true;
       decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
       decryptSubjectProcess(data, decryptedContent, isDecryptedError);
@@ -534,7 +536,8 @@ function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
       decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
   })
     // Subject decryption error catch
-    .catch(() => {
+    .catch((error) => {
+      console.error(error)
       isDecryptedError = true;
       decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
       decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
@@ -580,7 +583,8 @@ function decryptContentPlainProcess(data, decryptedContent, isDecryptedError, is
         });
       })
       // Content plain decryption error catch
-      .catch(() => {
+      .catch((error) => {
+        console.error(error)
         isDecryptedError = true;
         decryptedContent = { ...decryptedContent, content_plain: data.mailData.content_plain };
         postMessage({

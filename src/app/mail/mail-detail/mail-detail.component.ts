@@ -279,7 +279,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
-                : decryptedContent.content;
+                : decryptedContent.content || decryptedContent.content_plain;
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
               }
@@ -668,16 +668,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (!headers) {
       return [];
     }
-    headers = JSON.parse(headers);
-    const headersArray: { key: string; value: any }[] = [];
-    headers.forEach((header: any) => {
-      Object.keys(header).forEach(key => {
-        if (header.hasOwnProperty(key)) {
-          headersArray.push({ key, value: header[key] });
-        }
+    try {
+      headers = JSON.parse(headers);
+      const headersArray: { key: string; value: any }[] = [];
+      headers.forEach((header: any) => {
+        Object.keys(header).forEach(key => {
+          if (header.hasOwnProperty(key)) {
+            headersArray.push({ key, value: header[key] });
+          }
+        });
       });
-    });
-    return headersArray;
+      return headersArray;
+    } catch {
+      return [];
+    };
   }
 
   getMailDetail(messageId: number) {

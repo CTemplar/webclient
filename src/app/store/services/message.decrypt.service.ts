@@ -105,7 +105,7 @@ export class MessageDecryptService {
           this.parseEmail(decryptedData.decryptedContent.content)
             .then(messageObject => {
               const decryptedContent: SecureContent = {
-                content: messageObject.html,
+                content: messageObject.html ? messageObject.html : messageObject.text,
                 content_plain: messageObject.text,
                 incomingHeaders: '',
                 subject: decryptedData.decryptedContent.subject,
