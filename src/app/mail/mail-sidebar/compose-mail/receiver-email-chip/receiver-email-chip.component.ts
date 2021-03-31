@@ -1,11 +1,14 @@
 import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
 
-import { Contact } from '../../../../store/datatypes';
+import { AppState, BlackList, Contact, WhiteList } from '../../../../store/datatypes';
 import { Mailbox } from '../../../../store/models';
 
 import { SharedService } from '../../../../store/services';
+
+import { BlackListAdd, WhiteListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions'
 
 @Component({
   selector: 'app-receiver-email-chip',
@@ -27,6 +30,10 @@ export class ReceiverEmailChipComponent implements OnInit {
 
   @Input() mailboxes: Mailbox[] = [];
 
+  @Input() blacklist: BlackList[] = [];
+
+  @Input() whitelist: WhiteList[] = [];
+
   selectedContact: Contact;
 
   isMyMailbox = false;
@@ -40,7 +47,15 @@ export class ReceiverEmailChipComponent implements OnInit {
    */
   passingContact: Contact;
 
-  constructor(private modalService: NgbModal, private sharedService: SharedService) {}
+  isBlacklisted = false;
+
+  isWhitelisted = false;
+
+  constructor(
+    private modalService: NgbModal,
+    private sharedService:SharedService,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {}
 
@@ -55,6 +70,14 @@ export class ReceiverEmailChipComponent implements OnInit {
       });
     }
     this.isValidEmail = this.sharedService.isRFCStandardValidEmail(this.email);
+    this.isBlacklisted = false;
+    this.isWhitelisted = false;
+    if (this.blacklist.length > 0) {
+      this.isBlacklisted = this.blacklist.some(blacklistItem => blacklistItem.email === this.email);
+    }
+    if (this.whitelist.length > 0) {
+      this.isWhitelisted = this.whitelist.some(whitelistItem => whitelistItem.email === this.email);
+    }
   }
 
   onAddContact(popOver: any, addUserContent: TemplateRef<any>) {
@@ -82,7 +105,26 @@ export class ReceiverEmailChipComponent implements OnInit {
     });
   }
 
+  onAddBlacklist() {
+    this.store.dispatch(new BlackListAdd({ email: this.email, name: this.name ? this.name : this.email.split('@')[0] }));
+  }
+
+  onMoveBlacklist() {
+    const whitelistedItem = this.whitelist.find(item => item.email === this.email);
+    if (whitelistedItem) {
+      this.store.dispatch(new MoveToBlacklist({ id: whitelistedItem.id, name: whitelistedItem.name, email: whitelistedItem.email }));
+    }
+  }
+
+  onMoveWhitelist() {
+    const blacklistedItem = this.blacklist.find(item => item.email === this.email);
+    if (blacklistedItem) {
+      this.store.dispatch(new MoveToWhitelist({ id: blacklistedItem.id, name: blacklistedItem.name, email: blacklistedItem.email }));
+    }
+  }
+
   onClickBody(popOver: any) {
     popOver.isOpen() ? popOver.close() : popOver.open();
   }
 }
+ 

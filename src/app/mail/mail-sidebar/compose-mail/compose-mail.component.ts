@@ -54,6 +54,8 @@ import {
   SecureContent,
   Settings,
   UserState,
+  BlackList,
+  WhiteList,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { MailService, SharedService, getCryptoRandom } from '../../../store/services';
@@ -376,6 +378,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   isPreparingToSendEmail = false;
 
+  blacklist: BlackList[] = [];
+
+  whitelist: WhiteList[] = [];
+
   /**
    * This variable will be used for pass to suggest to add to the contact or update
    */
@@ -471,6 +477,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.userState = user;
         this.settings = user.settings;
         this.night_mode = this.settings.is_night_mode;
+        this.blacklist = this.userState.blackList;
+        this.whitelist = this.userState.whiteList;
         // Set html/plain version from user's settings.
         if (
           (this.action === 'FORWARD' && this.is_html === undefined) ||

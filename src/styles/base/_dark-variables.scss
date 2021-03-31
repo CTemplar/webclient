@@ -123,3 +123,7 @@ $settings-dashboard-plan-btn-box-shadow-dark: darken(#e8dcdc, 80%);
 // Composer
 $composer-tag-box-shadow-dark: darken($brand-secondary-dark, 10%);
 $composer-tag-background-dark: $brand-fourth-dark;
+// PopOver
+$receiver-chip-popover-background-dark: white;
+$receiver-chip-popover-border-dark: transparent;
+$receiver-chip-popover-divider-color-dark: $brand-secondary-darker;
