@@ -306,6 +306,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   isLoaded: boolean;
 
+  delayDeliverTimeString: string;
+
+  selfDestructTimeString: string;
+
   showEncryptFormErrors: boolean;
 
   isTrialPrimeFeaturesAvailable = false;
@@ -1524,6 +1528,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.selfDestruct.date,
         this.selfDestruct.time,
       );
+      this.selfDestructTimeString = dateTimeString;
       if (this.dateTimeUtilService.isDateTimeInPast(dateTimeString)) {
         this.selfDestruct.error = 'Selected datetime is in past.';
       } else {
@@ -1533,6 +1538,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.clearDeadManTimerValue();
         this.valueChanged$.next(this.selfDestruct.value);
       }
+    }
+  }
+
+  changeSelfDestruct() {
+    if (this.selfDestruct.date && this.selfDestruct.time) {
+      const dateTimeString = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(
+        this.selfDestruct.date,
+        this.selfDestruct.time,
+      );
+      this.selfDestructTimeString = dateTimeString;
     }
   }
 
@@ -1548,6 +1563,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.delayedDelivery.date,
         this.delayedDelivery.time,
       );
+      this.delayDeliverTimeString = dateTimeString;
       if (this.dateTimeUtilService.isDateTimeInPast(dateTimeString)) {
         this.delayedDelivery.error = 'Selected datetime is in past.';
       } else {
@@ -1557,6 +1573,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.clearDeadManTimerValue();
         this.valueChanged$.next(this.delayedDelivery.value);
       }
+    }
+  }
+
+  changeDelayDeliver() {
+    if (this.delayedDelivery.date && this.delayedDelivery.time) {
+      const dateTimeString = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(
+        this.delayedDelivery.date,
+        this.delayedDelivery.time,
+      );
+      this.delayDeliverTimeString = dateTimeString;
     }
   }
 
