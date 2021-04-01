@@ -291,6 +291,20 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   changePasswordConfirmed() {
     const data = this.changePasswordForm.value;
+    let new_keys: any[] = [];
+    Object.keys(this.updatedPrivateKeys).forEach((mailboxId: string) => {
+      // this.updatedPrivateKeys.get(mailboxId).forEach(key => {
+      //
+      // });
+      // new_keys = [
+      //   ...new_keys,
+      //   {
+      //     mailbox_id: mailboxId,
+      //     private_key: this.updatedPrivateKeys.get(mailboxId)[0]?.private_key,
+      //     public_key: this.updatedPrivateKeys.get(mailboxId)[0]?.public_key,
+      //   },
+      // ];
+    });
     const requestData = {
       username: this.userState.username,
       old_password: data.oldPassword,

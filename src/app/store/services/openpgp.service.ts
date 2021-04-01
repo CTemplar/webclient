@@ -60,13 +60,49 @@ export class OpenPgpService {
 
   private primaryMailbox: Mailbox;
 
-  private privkeys: any;
+  /**
+   * Stores all private keys by mailbox_id
+   * @example
+   * {
+   *   1111(mailbox_id): [
+   *     {
+   *       is_primary: true,
+   *       mailbox_key_id: 0, // is_primary is true, then mailbox_key_id has no value
+   *       private_key: xxx
+   *     },
+   *     {
+   *       mailbox_key_id: 123,
+   *       private_key: yyy
+   *     }
+   *   ],
+   * }
+   *
+   * @private
+   */
+  private privateKeys: any;
 
-  private allPrivateKeys: any;
+  /**
+   * Stores all private keys by mailbox_id
+   * @example
+   * {
+   *   1111(mailbox_id): [
+   *     {
+   *       is_primary: true,
+   *       mailbox_key_id: 0, // is_primary is true, then mailbox_key_id has no value
+   *       public_key: xxx
+   *     },
+   *     {
+   *       mailbox_key_id: 123,
+   *       public_key: yyy
+   *     }
+   *   ],
+   * }
+   *
+   * @private
+   */
+  private publicKeys: any;
 
-  private pubkeys: any;
-
-  private pubkeysArray: Array<string> = [];
+  // private pubkeysArray: Array<string> = [];
 
   private subjects: any = {};
 
@@ -90,21 +126,33 @@ export class OpenPgpService {
       .subscribe((mailBoxesState: MailBoxesState) => {
         if (mailBoxesState.mailboxes.length > 0) {
           this.mailboxes = mailBoxesState.mailboxes;
-          this.allPrivateKeys = this.allPrivateKeys || {};
-          this.pubkeys = this.pubkeys || {};
-          this.pubkeysArray = [];
+          this.privateKeys = this.privateKeys || {};
+          this.publicKeys = this.publicKeys || {};
           const { mailboxKeysMap } = mailBoxesState;
+          console.log('openpgpservice mailboxKeysMap', mailboxKeysMap)
           mailBoxesState.mailboxes.forEach(mailbox => {
             if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
-              this.allPrivateKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => key.private_key);
-              this.pubkeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => key.public_key);
-              this.pubkeysArray = [...this.pubkeysArray, ...this.pubkeys[mailbox.id]];
+              this.privateKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => {
+                return {
+                  private_key: key.private_key,
+                  is_primary: key.is_primary,
+                  mailbox_key_id: key.id,
+                };
+              });
+              this.publicKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => {
+                return {
+                  public_key: key.public_key,
+                  is_primary: key.is_primary,
+                  mailbox_key_id: key.id,
+                };
+              });
+              // this.pubkeysArray = [...this.pubkeysArray, ...this.pubkeys[mailbox.id]];
             }
             if (mailbox.is_default && !this.primaryMailbox) {
               this.primaryMailbox = mailbox;
             }
           });
-          if (this.mailboxKeysInProgress && !mailBoxesState.mailboxKeyInProgress && this.allPrivateKeys) {
+          if (this.mailboxKeysInProgress && !mailBoxesState.mailboxKeyInProgress && this.privateKeys) {
             this.decryptAllPrivateKeys();
           }
         }
@@ -133,11 +181,11 @@ export class OpenPgpService {
       this.store.dispatch(new Logout());
       return;
     }
-    this.allPrivateKeys = privKeys || this.allPrivateKeys;
+    this.privateKeys = privKeys || this.privateKeys;
     this.store.dispatch(new SetDecryptInProgress(true));
     this.pgpWorker.postMessage({
       decryptAllPrivateKeys: true,
-      privkeys: this.allPrivateKeys,
+      privateKeys: this.privateKeys,
       user_key: atob(userKey),
     });
   }
@@ -151,7 +199,10 @@ export class OpenPgpService {
     pgpEncryptionTypeForExternal: PGPEncryptionType = null,
   ) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
-    const pubKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
+    const pubKeys =
+      publicKeys.length > 0
+        ? publicKeys.concat(this.publicKeys[mailboxId].map((key: any) => key.public_key))
+        : this.publicKeys[mailboxId].map((key: any) => key.public_key);
     this.pgpWorker.postMessage({
       mailData,
       publicKeys: pubKeys,
@@ -215,11 +266,17 @@ export class OpenPgpService {
   encryptContact(contact: Contact, isAddContact = true) {
     contact.is_encrypted = true;
     const content = JSON.stringify(contact);
+    const allPublicKeysArray: any[] = [];
+    Object.keys(this.publicKeys).forEach(mailboxId => {
+      this.publicKeys[mailboxId].forEach((key: any) => {
+        allPublicKeysArray.push(key.public_key);
+      });
+    });
     this.pgpWorker.postMessage({
       content,
       isAddContact,
       email: contact.email,
-      publicKeys: this.pubkeysArray,
+      publicKeys: allPublicKeysArray,
       encryptJson: true,
       id: contact.id,
     });
@@ -264,12 +321,15 @@ export class OpenPgpService {
   // Encrypt - Decrypt attachment
   encryptAttachment(mailboxId: number, attachment: Attachment, publicKeys: any[] = []) {
     this.store.dispatch(new StartAttachmentEncryption({ ...attachment }));
-    publicKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
+    const pubKeys =
+      publicKeys.length > 0
+        ? publicKeys.concat(this.publicKeys[mailboxId].map((key: any) => key.public_key))
+        : this.publicKeys[mailboxId].map((key: any) => key.public_key);
     const reader = new FileReader();
     reader.addEventListener('load', (event: any) => {
       const buffer = event.target.result;
       const uint8Array = new Uint8Array(buffer);
-      this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys, encryptAttachment: true, attachment });
+      this.pgpWorker.postMessage({ fileData: uint8Array, publicKeys: pubKeys, encryptAttachment: true, attachment });
     });
     reader.readAsArrayBuffer(attachment.decryptedDocument);
   }
@@ -284,10 +344,10 @@ export class OpenPgpService {
 
   clearData(keyMap?: any) {
     this.decryptedAllPrivKeys = null;
-    this.pubkeys = null;
-    this.privkeys = null;
+    this.publicKeys = null;
     this.userKeys = null;
     this.primaryMailbox = null;
+    this.privateKeys = null;
     this.store.dispatch(new SetDecryptedKey({ decryptedKey: null }));
     this.pgpWorker.postMessage({ clear: true });
 
@@ -335,6 +395,7 @@ export class OpenPgpService {
   }
 
   changePassphrase(passphrase: string, deleteData: boolean, username: string) {
+    console.log('change passphrase on openpgpservice', this.mailboxes)
     this.pgpWorker.postMessage({ passphrase, deleteData, username, mailboxes: this.mailboxes, changePassphrase: true });
   }
 
@@ -446,7 +507,10 @@ export class OpenPgpService {
   encryptForPGPMime(pgpMimeData: string, mailboxId: number, draftId: number, publicKeys: any[] = []) {
     this.store.dispatch(new UpdatePGPMimeEncrytion({ isPGPMimeInProgress: true, encryptedContent: {}, draftId }));
     if (pgpMimeData) {
-      const pubKeys = publicKeys.length > 0 ? publicKeys.concat(this.pubkeys[mailboxId]) : this.pubkeys[mailboxId];
+      const pubKeys =
+        publicKeys.length > 0
+          ? publicKeys.concat(this.publicKeys[mailboxId].map((key: any) => key.public_key))
+          : this.publicKeys[mailboxId].map((key: any) => key.public_key);
       this.pgpWorker.postMessage({ pgpMimeData, publicKeys: pubKeys, encryptForPGPMimeContent: true, draftId });
     }
   }
@@ -517,10 +581,16 @@ export class OpenPgpService {
         );
       } else if (event.data.changePassphrase) {
         Object.keys(event.data.keys).forEach(mailboxId => {
-          event.data.keys[mailboxId].forEach((key: any, index: number) => {
-            key.public_key = key.public_key ? key.public_key : this.pubkeys[mailboxId][index];
+          event.data.keys[mailboxId].forEach((key: any) => {
+            if (!key.public_key) {
+              // eslint-disable-next-line no-param-reassign
+              key.public_key = this.publicKeys[mailboxId].find((pubKey: any) =>
+                key.is_primary ? pubKey.is_primary : key.id === pubKey.id,
+              );
+            }
           });
         });
+        console.log('done change phassphrase', event.data.keys)
         this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
       } else if (event.data.encrypted) {
         this.store.dispatch(

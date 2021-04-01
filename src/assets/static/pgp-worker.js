@@ -82,17 +82,21 @@ onmessage = async function (event) {
       });
     });
   } else if (event.data.decryptAllPrivateKeys) {
-    if (event.data.privkeys) {
-      var keyMap = event.data.privkeys;
-      Object.keys(keyMap).forEach(key => {
-        if (keyMap[key] && keyMap[key].length > 0) {
-          var decryptedPrivKeyAry = [];
-          keyMap[key].forEach(async priv => {
-            var tmpKey = (await openpgp.key.readArmored(priv)).keys[0];
+    if (event.data.privateKeys) {
+      let keyMap = event.data.privateKeys;
+      Object.keys(keyMap).forEach(mailboxId => {
+        if (keyMap[mailboxId] && keyMap[mailboxId].length > 0) {
+          let decryptedPrivateKeyAry = [];
+          keyMap[mailboxId].forEach(async key => {
+            let tmpKey = (await openpgp.key.readArmored(key.private_key)).keys[0];
             tmpKey.decrypt(event.data.user_key);
-            decryptedPrivKeyAry.push(tmpKey);
+            decryptedPrivateKeyAry.push({
+              private_key: tmpKey,
+              is_primary: key.is_primary,
+              mailbox_key_id: key.mailbox_key_id,
+            });
           });
-          decryptedAllPrivKeys[key] = decryptedPrivKeyAry;
+          decryptedAllPrivKeys[mailboxId] = decryptedPrivateKeyAry;
         }
       });
     }
@@ -270,8 +274,13 @@ async function changePassphrase(passphrase) {
     let keysByMailbox = decryptedAllPrivKeys[mailboxId];
     for (let i = 0; i < keysByMailbox.length; i++) {
       let tmpKey = keysByMailbox[i];
-      await tmpKey.encrypt(passphrase);
-      keys.push({ private_key: tmpKey.armor() });
+      await tmpKey.private_key.encrypt(passphrase);
+      console.log('pgp worker', tmpKey)
+      keys.push({
+        private_key: tmpKey.armor(),
+        is_primary: tmpKey.is_primary,
+        mailbox_key_id: tmpKey.mailbox_key_id
+      });
     }
     keysMap[mailboxId] = keys;
   }
@@ -297,14 +306,14 @@ async function encryptContent(data, publicKeys) {
     });
 }
 
-async function decryptContent(data, privKeyObj) {
+async function decryptContent(data, privateKeyObj) {
   if (!data) {
     return Promise.resolve(data);
   }
   try {
     const options = {
       message: await openpgp.message.readArmored(data),
-      privateKeys: privKeyObj,
+      privateKeys: privateKeyObj.map(obj => obj.private_key),
     };
     return openpgp.decrypt(options).then(payload => {
       return payload.data;
@@ -334,7 +343,7 @@ async function encryptAttachment(data, publicKeys) {
   });
 }
 
-async function decryptAttachment(data, privKeyObj) {
+async function decryptAttachment(data, privateKeyObj) {
   const tmpDecodedData = atob(data);
   const isArmored = isPGPEncrypted(tmpDecodedData);
   if (!data) {
@@ -345,7 +354,7 @@ async function decryptAttachment(data, privKeyObj) {
       message: isArmored
         ? await openpgp.message.readArmored(tmpDecodedData)
         : await openpgp.message.read(openpgp.util.b64_to_Uint8Array(data)),
-      privateKeys: privKeyObj,
+      privateKeys: privateKeyObj.map(obj => obj.private_key),
       format: 'binary',
     };
     return openpgp.decrypt(options).then(payload => {
