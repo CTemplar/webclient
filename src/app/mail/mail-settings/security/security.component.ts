@@ -68,7 +68,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   isUsingLocalStorage: boolean;
 
-  private updatedPrivateKeys: Map<string, Array<any>>;
+  private updatedPrivateKeys: any;
 
   private canDispatchChangePassphrase: boolean;
 
@@ -109,14 +109,20 @@ export class SecurityComponent implements OnInit, OnDestroy {
           this.changePasswordConfirmed();
           this.store.dispatch(new ChangePassphraseSuccess(null));
         }
-        if (this.inProgress && !authState.inProgress) {
+        if (this.inProgress && !authState.passwordChangeInProgress) {
           this.changePasswordModalRef.dismiss();
           if (authState.isChangePasswordError) {
             this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
           } else {
             const privateKeysMap: any = {};
             Object.keys(this.updatedPrivateKeys).forEach((mailboxId: string) => {
-              privateKeysMap[mailboxId] = this.updatedPrivateKeys.get(mailboxId).map((keys: any) => keys.private_key);
+              privateKeysMap[mailboxId] = this.updatedPrivateKeys[mailboxId].map((key: any) => {
+                return {
+                  is_primary: key.is_primary,
+                  mailbox_key_id: key.mailbox_key_id,
+                  private_key: key.private_key,
+                };
+              });
             });
             this.openPgpService.clearData(this.updatedPrivateKeys);
             this.openPgpService.decryptAllPrivateKeys(privateKeysMap, this.changePasswordForm.value.password);
@@ -291,27 +297,34 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   changePasswordConfirmed() {
     const data = this.changePasswordForm.value;
-    let new_keys: any[] = [];
+    const new_keys: any[] = [];
+    const extra_keys: any[] = [];
     Object.keys(this.updatedPrivateKeys).forEach((mailboxId: string) => {
-      // this.updatedPrivateKeys.get(mailboxId).forEach(key => {
-      //
-      // });
-      // new_keys = [
-      //   ...new_keys,
-      //   {
-      //     mailbox_id: mailboxId,
-      //     private_key: this.updatedPrivateKeys.get(mailboxId)[0]?.private_key,
-      //     public_key: this.updatedPrivateKeys.get(mailboxId)[0]?.public_key,
-      //   },
-      // ];
+      this.updatedPrivateKeys[mailboxId].forEach((key: any) => {
+        if (key.is_primary) {
+          new_keys.push({
+            mailbox_id: mailboxId,
+            private_key: key.private_key,
+            public_key: key.public_key,
+          });
+        } else {
+          extra_keys.push({
+            mailbox_id: mailboxId,
+            private_key: key.private_key,
+            public_key: key.public_key,
+            mailbox_key_id: key.mailbox_key_id,
+          });
+        }
+      });
     });
     const requestData = {
       username: this.userState.username,
       old_password: data.oldPassword,
       password: data.password,
       confirm_password: data.confirmPwd,
-      new_keys: this.updatedPrivateKeys,
       delete_data: this.deleteData,
+      new_keys,
+      extra_keys,
     };
     this.store.dispatch(new ChangePassword(requestData));
     this.inProgress = true;

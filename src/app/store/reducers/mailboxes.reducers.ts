@@ -2,6 +2,7 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailBoxesState, MailboxKey } from '../datatypes';
 import { Mailbox } from '../models/mail.model';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
+import { debounce } from 'rxjs/operators';
 
 export function reducer(
   state: MailBoxesState = {

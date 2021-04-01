@@ -102,8 +102,6 @@ export class OpenPgpService {
    */
   private publicKeys: any;
 
-  // private pubkeysArray: Array<string> = [];
-
   private subjects: any = {};
 
   private userKeys: any;
@@ -129,7 +127,6 @@ export class OpenPgpService {
           this.privateKeys = this.privateKeys || {};
           this.publicKeys = this.publicKeys || {};
           const { mailboxKeysMap } = mailBoxesState;
-          console.log('openpgpservice mailboxKeysMap', mailboxKeysMap)
           mailBoxesState.mailboxes.forEach(mailbox => {
             if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
               this.privateKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => {
@@ -146,7 +143,6 @@ export class OpenPgpService {
                   mailbox_key_id: key.id,
                 };
               });
-              // this.pubkeysArray = [...this.pubkeysArray, ...this.pubkeys[mailbox.id]];
             }
             if (mailbox.is_default && !this.primaryMailbox) {
               this.primaryMailbox = mailbox;
@@ -395,7 +391,6 @@ export class OpenPgpService {
   }
 
   changePassphrase(passphrase: string, deleteData: boolean, username: string) {
-    console.log('change passphrase on openpgpservice', this.mailboxes)
     this.pgpWorker.postMessage({ passphrase, deleteData, username, mailboxes: this.mailboxes, changePassphrase: true });
   }
 
@@ -583,14 +578,14 @@ export class OpenPgpService {
         Object.keys(event.data.keys).forEach(mailboxId => {
           event.data.keys[mailboxId].forEach((key: any) => {
             if (!key.public_key) {
-              // eslint-disable-next-line no-param-reassign
-              key.public_key = this.publicKeys[mailboxId].find((pubKey: any) =>
+              const properPublicKey = this.publicKeys[mailboxId].find((pubKey: any) =>
                 key.is_primary ? pubKey.is_primary : key.id === pubKey.id,
               );
+              // eslint-disable-next-line no-param-reassign
+              key.public_key = properPublicKey ? properPublicKey.public_key : '';
             }
           });
         });
-        console.log('done change phassphrase', event.data.keys)
         this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
       } else if (event.data.encrypted) {
         this.store.dispatch(

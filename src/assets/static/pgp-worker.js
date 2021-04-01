@@ -154,6 +154,7 @@ onmessage = async function (event) {
       });
     }
   } else if (event.data.revertPassphrase) {
+    console.log('reverting the password', event.data.passphrase)
     changePassphrase(event.data.passphrase).then(data => {});
   } else if (event.data.encryptJson) {
     encryptContent(event.data.content, event.data.publicKeys).then(content => {
@@ -275,15 +276,15 @@ async function changePassphrase(passphrase) {
     for (let i = 0; i < keysByMailbox.length; i++) {
       let tmpKey = keysByMailbox[i];
       await tmpKey.private_key.encrypt(passphrase);
-      console.log('pgp worker', tmpKey)
       keys.push({
-        private_key: tmpKey.armor(),
+        private_key: tmpKey.private_key.armor(),
         is_primary: tmpKey.is_primary,
         mailbox_key_id: tmpKey.mailbox_key_id
       });
     }
     keysMap[mailboxId] = keys;
   }
+  console.log('pgpworker, changepassphrase keysMap',keysMap)
   return { keys: keysMap, changePassphrase: true };
 }
 
