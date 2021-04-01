@@ -15,13 +15,13 @@
 </ng-template>
 
 <i *ngIf="composePopover" class="tag-chip-info icon icon-login align-middle ml-1 mr-1 mt-0 d-inline-block" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()"></i>
-<span *ngIf="composePopover" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }">
-  {{ email | emailFormat: name }}
+<span *ngIf="composePopover" class="text-truncate receiver-email" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }">
+  {{ email | emailFormat: name:false:true }}
 </span>
 
-<span *ngIf="!composePopover" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="500" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()">
+<span *ngIf="!composePopover" class="text-truncate receiver-email" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="500" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()">
   <a class="text-gray-dark text-muted">
-    {{ email | emailFormat: name }}
+    {{ email | emailFormat: name:false:true }}
   </a>
 </span>
 
@@ -31,17 +31,17 @@
     <div *ngIf="isValidEmail" class="receiver-email-chip-popover-receiver-name">
       <i class="fas fa-user-circle mr-1"></i>
       <ng-container *ngIf="isMyMailbox; else contactInfo">
-        {{ myDisplayName }}
+        {{ myDisplayName | emailFormat: '':false:true }}
       </ng-container>
       <ng-template #contactInfo>
-        {{ selectedContact ? selectedContact.name : email }}
+        {{ (selectedContact ? selectedContact.name : email)  | emailFormat: '':false:true }}
       </ng-template>
     </div>
     <div class="error-message" *ngIf="!isValidEmail">
       {{ 'settings.compose.invalid_email_format' | translate }}
     </div>
     <div class="receiver-email-chip-popover-receiver-email">
-      {{ email }}
+      {{ email | emailFormat: '':false:true }}
     </div>
   </div>
   <div class="receiver-email-chip-popover-receiver-action" *ngIf="!isMyMailbox">
