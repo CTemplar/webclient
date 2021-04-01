@@ -34,7 +34,7 @@
         {{ myDisplayName | emailFormat: '':false:true }}
       </ng-container>
       <ng-template #contactInfo>
-        {{ (selectedContact ? selectedContact.name : email)  | emailFormat: '':false:true }}
+        {{ (selectedContact ? selectedContact.name : email) | emailFormat: '':false:true }}
       </ng-template>
     </div>
     <div class="error-message" *ngIf="!isValidEmail">
