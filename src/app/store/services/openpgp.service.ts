@@ -391,7 +391,18 @@ export class OpenPgpService {
   }
 
   changePassphrase(passphrase: string, deleteData: boolean, username: string) {
-    this.pgpWorker.postMessage({ passphrase, deleteData, username, mailboxes: this.mailboxes, changePassphrase: true });
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({
+      passphrase,
+      deleteData,
+      username,
+      mailboxes: this.mailboxes,
+      changePassphrase: true,
+      subjectId,
+    });
+    return subject.asObservable();
   }
 
   revertChangedPassphrase(passphrase: string, deleteData: boolean) {
@@ -510,6 +521,18 @@ export class OpenPgpService {
     }
   }
 
+  handleObservable(subjectId: number, data: any) {
+    if (this.subjects[subjectId]) {
+      if (data.error) {
+        this.subjects[subjectId].error(data);
+      } else {
+        this.subjects[subjectId].next(data);
+        this.subjects[subjectId].complete();
+      }
+      delete this.subjects[subjectId];
+    }
+  }
+
   listenWorkerPostMessages() {
     this.pgpWorker.onmessage = (event: MessageEvent) => {
       // Generate Keys
@@ -586,6 +609,7 @@ export class OpenPgpService {
             }
           });
         });
+        this.handleObservable(event.data.subjectId, event.data);
         this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
       } else if (event.data.encrypted) {
         this.store.dispatch(

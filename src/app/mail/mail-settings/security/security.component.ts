@@ -70,7 +70,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
 
   private updatedPrivateKeys: any;
 
-  private canDispatchChangePassphrase: boolean;
+  passwordChangeInProgress = false;
 
   constructor(
     private store: Store<AppState>,
@@ -103,32 +103,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.auth2FA = authState.auth2FA;
-        if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
-          this.canDispatchChangePassphrase = false;
-          this.updatedPrivateKeys = { ...authState.updatedPrivateKeys };
-          this.changePasswordConfirmed();
-          this.store.dispatch(new ChangePassphraseSuccess(null));
-        }
-        if (this.inProgress && !authState.passwordChangeInProgress) {
+        if (this.passwordChangeInProgress && !authState.passwordChangeInProgress) {
           this.changePasswordModalRef.dismiss();
           if (authState.isChangePasswordError) {
-            this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
+            this.openPgpService.decryptAllPrivateKeys(undefined, this.changePasswordForm.value.password);
           } else {
-            const privateKeysMap: any = {};
-            Object.keys(this.updatedPrivateKeys).forEach((mailboxId: string) => {
-              privateKeysMap[mailboxId] = this.updatedPrivateKeys[mailboxId].map((key: any) => {
-                return {
-                  is_primary: key.is_primary,
-                  mailbox_key_id: key.mailbox_key_id,
-                  private_key: key.private_key,
-                };
-              });
-            });
-            this.openPgpService.clearData(this.updatedPrivateKeys);
-            this.openPgpService.decryptAllPrivateKeys(privateKeysMap, this.changePasswordForm.value.password);
+            this.openPgpService.clearData();
           }
-          this.inProgress = false;
         }
+        this.passwordChangeInProgress = authState.passwordChangeInProgress;
       });
 
     this.store
@@ -200,19 +183,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
     this.sharedService.copyToClipboard(value);
   }
 
-  // == Open change password NgbModal
-  openChangePasswordModal() {
-    this.deleteData = false;
-    this.inProgress = false;
-    this.showChangePasswordFormErrors = false;
-    this.changePasswordForm.reset();
-    this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'modal-md change-password-modal',
-    });
-  }
-
   // == Open decrypt contacts confirmation NgbModal
   openDecryptContactsModal() {
     if (!this.settings.is_contacts_encrypted) {
@@ -282,25 +252,53 @@ export class SecurityComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Change Password Section
+   */
+  /**
+   * Open Change Password Modal
+   */
+  openChangePasswordModal() {
+    this.deleteData = false;
+    this.inProgress = false;
+    this.showChangePasswordFormErrors = false;
+    this.changePasswordForm.reset();
+    this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal',
+    });
+  }
+
+  /**
+   * Change Password Process
+   * Call OpenPGPService for change passphrase
+   */
   changePassword() {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
-      this.inProgress = true;
-      this.canDispatchChangePassphrase = true;
-      this.openPgpService.changePassphrase(
-        this.changePasswordForm.value.password,
-        this.deleteData,
-        this.userState.username,
-      );
+      this.passwordChangeInProgress = true;
+      this.openPgpService
+        .changePassphrase(this.changePasswordForm.value.password, this.deleteData, this.userState.username)
+        .subscribe(
+          response => {
+            this.changePasswordConfirmed(response.keys || {});
+          },
+          error => {
+            this.passwordChangeInProgress = false;
+            this.store.dispatch(new SnackErrorPush({ message: `Failed to change password` }));
+          },
+        );
     }
   }
 
-  changePasswordConfirmed() {
+  changePasswordConfirmed(updatedKeys: any) {
+    this.updatedPrivateKeys = updatedKeys;
     const data = this.changePasswordForm.value;
     const new_keys: any[] = [];
     const extra_keys: any[] = [];
-    Object.keys(this.updatedPrivateKeys).forEach((mailboxId: string) => {
-      this.updatedPrivateKeys[mailboxId].forEach((key: any) => {
+    Object.keys(updatedKeys).forEach((mailboxId: string) => {
+      updatedKeys[mailboxId].forEach((key: any) => {
         if (key.is_primary) {
           new_keys.push({
             mailbox_id: mailboxId,
@@ -327,7 +325,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
       extra_keys,
     };
     this.store.dispatch(new ChangePassword(requestData));
-    this.inProgress = true;
   }
 
   // == Toggle password visibility
