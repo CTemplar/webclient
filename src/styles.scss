@@ -626,16 +626,16 @@ a.text-dark:hover {
 }
 
 .receiver-email-chip-popover {
-  background: var(--bg-faded);
+  background: var(--receiver-chip-popover-background);
   z-index: 9999;
-  border: 1px solid #aaa;
-  border-radius: 5px;
+  border: 1px solid var(--receiver-chip-popover-border);
+  border-radius: 2px;
   margin-top: 10px;
-  box-shadow: 1px 10px;
-  -moz-box-shadow: 3px 3px 5px #aaa;
-  -webkit-box-shadow: 3px 3px 5px #aaa;
-  color: var(--text-color);
-  box-shadow: 3px 3px 5px #aaa;
+  -moz-box-shadow: 3px 3px 5px var(--receiver-chip-popover-shadow);
+  -webkit-box-shadow: 3px 3px 5px var(--receiver-chip-popover-shadow);
+  color: var(--text-color-inverse);
+  box-shadow: 3px 3px 5px var(--receiver-chip-popover-shadow);
+  min-width: 200px;
   .receiver-email-chip-popover-receiver-info {
     padding: 7px 15px;
     .receiver-email-chip-popover-receiver-name {
@@ -647,6 +647,22 @@ a.text-dark:hover {
           font-size: 15px;
         }
       }
+    }
+  }
+  .receiver-email-chip-popover-receiver-action {
+    border-top: 1px solid var(--receiver-chip-popover-divider-color);
+    padding: 7px 15px;
+    display: flex;
+    justify-content: space-between;
+    a {
+      color: var(--tex-color);
+      cursor: pointer;
+    }
+    a.hover-text-decoration-underline {
+      font-size: 14px;
+    }
+    a.hover-text-decoration-underline:hover {
+      text-decoration: underline;
     }
   }
 }

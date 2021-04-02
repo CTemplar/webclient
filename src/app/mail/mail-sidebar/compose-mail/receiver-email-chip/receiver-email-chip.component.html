@@ -15,7 +15,7 @@
 </ng-template>
 
 <i *ngIf="composePopover" class="tag-chip-info icon icon-login align-middle ml-1 mr-1 mt-0 d-inline-block" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()"></i>
-<span *ngIf="composePopover">
+<span *ngIf="composePopover" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }">
   {{ email | emailFormat: name }}
 </span>
 
@@ -29,12 +29,7 @@
   <!-- Popover Header -->
   <div class="receiver-email-chip-popover-receiver-info">
     <div *ngIf="isValidEmail" class="receiver-email-chip-popover-receiver-name">
-      <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
-        <i *ngIf="!!selectedContact" class="fas fa-edit"></i>
-      </a>
-      <a class="mr-1" *ngIf="!isContactEncrypted && !isMyMailbox" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
-        <i *ngIf="!selectedContact" class="fas fa-plus-circle"></i>
-      </a>
+      <i class="fas fa-user-circle mr-1"></i>
       <ng-container *ngIf="isMyMailbox; else contactInfo">
         {{ myDisplayName }}
       </ng-container>
@@ -48,5 +43,32 @@
     <div class="receiver-email-chip-popover-receiver-email">
       {{ email }}
     </div>
+  </div>
+  <div class="receiver-email-chip-popover-receiver-action" *ngIf="!isMyMailbox">
+    <a class="mr-2" *ngIf="!isContactEncrypted && !!selectedContact" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
+      <i class="fas fa-edit"></i>
+    </a>
+    <a class="mr-2" *ngIf="!isContactEncrypted && !selectedContact" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
+      <i class="fas fa-plus-circle"></i>
+    </a>
+    <ng-container *ngIf="isBlacklisted; then moveWhitelist"></ng-container>
+    <ng-container *ngIf="isWhitelisted; then moveBlacklist"></ng-container>
+    <ng-container *ngIf="!isBlacklisted && !isWhitelisted; then addBlacklist"></ng-container>
+
+    <ng-template #moveWhitelist>
+      <a class="mr-1 text-right font-italic hover-text-decoration-underline" (click)="onMoveWhitelist()">
+        <span>Move to Whitelist</span>
+      </a>
+    </ng-template>
+    <ng-template #moveBlacklist>
+      <a class="mr-1 text-right font-italic hover-text-decoration-underline" (click)="onMoveBlacklist()">
+        <span>Move to Blacklist</span>
+      </a>
+    </ng-template>
+    <ng-template #addBlacklist>
+      <a class="mr-1 text-right font-italic hover-text-decoration-underline" (click)="onAddBlacklist()">
+        <span>Add to Blacklist</span>
+      </a>
+    </ng-template>
   </div>
 </ng-template>

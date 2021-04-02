@@ -429,14 +429,14 @@
                         <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultSizeDropdownMenuButton">
                           <span *ngIf="settings.default_size && settings.default_size !== defaultFontSize; else displayDefault"> {{ settings.default_size }}px </span>
                           <ng-template #displayDefault>
-                            <span> {{ defaultFontSize }}px(default) </span>
+                            <span> {{ defaultFontSize }}px (default) </span>
                           </ng-template>
                         </button>
                         <div ngbDropdownMenu aria-labelledby="defaultSizeDropdownMenuButton">
                           <a class="dropdown-item text-capitalize" *ngFor="let size of sizes" (click)="updateSettings('default_size', size)">
                             <span *ngIf="size !== defaultFontSize; else setDefault"> {{ size }}px </span>
                             <ng-template #setDefault>
-                              <span> {{ size }}px(default) </span>
+                              <span> {{ size }}px (default) </span>
                             </ng-template>
                           </a>
                         </div>

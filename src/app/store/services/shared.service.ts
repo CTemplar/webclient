@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import Quill from 'quill';
+import * as parseEmail from 'email-addresses';
 
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
@@ -155,6 +156,10 @@ export class SharedService {
     a.click();
     window.URL.revokeObjectURL(url);
     a.remove();
+  }
+
+  isRFCStandardValidEmail(address: string): boolean {
+    return !!parseEmail.parseOneAddress({ input: address, rejectTLD: true });
   }
 }
 
