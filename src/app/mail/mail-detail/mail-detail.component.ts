@@ -24,7 +24,7 @@ import {
 } from '../../store/actions';
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import {
-  AppState,
+  AppState, DecryptStatusCollection,
   MailAction,
   MailBoxesState,
   MailState,
@@ -133,6 +133,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   errorMessageForDecryptingWithPassword: NumberStringMappedType = {};
 
+  decryptStatus: DecryptStatusCollection = {};
+
   private currentMailbox: Mailbox;
 
   private forwardAttachmentsModalRef: NgbModalRef;
@@ -236,6 +238,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
+          this.decryptStatus = mailState.decryptStatus;
+          const parentDecryptStatus = this.decryptStatus[this.mail.id] || {};
           // Setting the password encryption mail or not
           this.isPasswordEncrypted[this.mail.id] = !!this.mail.encryption;
           if (!this.isPasswordEncrypted[this.mail.id] && this.mail.is_subject_encrypted) {
@@ -243,49 +247,58 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
 
           this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
-          const decryptedContent = mailState.decryptedContents[this.mail.id];
+          const decryptedData = mailState.decryptedContents[this.mail.id];
           if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
             this.decryptedContents[this.mail.id] = this.mail.content;
           } else {
             // Do decrypt, if not has children && needed
             if (
               !this.isPasswordEncrypted[this.mail.id] &&
-              !this.mail.has_children &&
-              this.mail.content !== undefined &&
+              // !this.mail.has_children &&
               !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content === undefined))
+              this.mail.content &&
+              !parentDecryptStatus.isDecrypting &&
+              !parentDecryptStatus.isFinishedDecrypt
+              // (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content))
             ) {
               this.isDecrypting[this.mail.id] = true;
               // TODO - This If statement should be removed after integrated all of decryption logic to 'MesssageDecryptService
               if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
                 this.messageDecryptService.decryptMessage(this.mail).subscribe(
-                  () => {},
+                  () => {
+                    this.isDecrypting[this.mail.id] = false;
+                  },
                   error => {
-                    this.decryptedContents[this.mail.id] = this.mail.content;
                     this.isDecrypting[this.mail.id] = false;
                   },
                 );
               } else {
                 this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail)).subscribe(
-                  () => {},
+                  () => {
+                    this.isDecrypting[this.mail.id] = false;
+                  },
                   error => {
-                    this.decryptedContents[this.mail.id] = this.mail.content;
                     this.isDecrypting[this.mail.id] = false;
                   },
                 );
               }
             }
             // If done to decrypt, or already existed decrypted content
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
+            if (
+              parentDecryptStatus.isFinishedDecrypt &&
+              !parentDecryptStatus.isDecrypting &&
+              decryptedData
+              // !decryptedContent.inProgress && decryptedContent.content !== undefined
+            ) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
-                ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
-                : decryptedContent.content || decryptedContent.content_plain;
+                ? decryptedData.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
+                : decryptedData.content || decryptedData.content_plain;
               if (this.mail.is_subject_encrypted) {
-                this.mail.subject = decryptedContent.subject;
+                this.mail.subject = decryptedData.subject;
               }
-              this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
-              this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
-              this.isDecryptingError[this.mail.id] = decryptedContent.decryptError;
+              this.decryptedContentsPlain[this.mail.id] = decryptedData.content_plain;
+              this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedData.incomingHeaders);
+              this.isDecryptingError[this.mail.id] = decryptedData.decryptError;
               this.handleEmailLinks();
 
               // Automatically scrolls to last element in the list
@@ -338,42 +351,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mail.children.forEach(child => {
               this.backupChildDecryptedContent(child, mailState);
             });
-            setTimeout(() => {
-              if (this.mail) {
-                if (
-                  !this.isPasswordEncrypted[this.mail.id] &&
-                  !this.isDecrypting[this.mail.id] &&
-                  this.mail.content &&
-                  (!decryptedContent ||
-                    (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
-                ) {
-                  this.isDecrypting[this.mail.id] = true;
-                  if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
-                    this.messageDecryptService
-                      .decryptMessage(this.mail, false)
-                      .pipe(take(1))
-                      .subscribe(
-                        () => {},
-                        error => {
-                          this.decryptedContents[this.mail.id] = this.mail.content;
-                          this.isDecrypting[this.mail.id] = false;
-                        },
-                      );
-                  } else {
-                    this.pgpService
-                      .decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
-                      .pipe(take(1))
-                      .subscribe(
-                        () => {},
-                        error => {
-                          this.decryptedContents[this.mail.id] = this.mail.content;
-                          this.isDecrypting[this.mail.id] = false;
-                        },
-                      );
-                  }
-                }
-              }
-            }, 1000);
           } else if (!this.mail.has_children) {
             if (this.mailExpandedStatus[this.mail.id] === undefined) this.mailExpandedStatus[this.mail.id] = true;
           }
@@ -605,10 +582,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.decryptedContents[child.id] = child.content;
     } else {
       const childDecryptedContent = this.decryptedContents[child.id];
+      const childDecryptStatus = this.decryptStatus[child.id] || {};
       if (
-        !this.isDecrypting[child.id] &&
-        (!childDecryptedContent ||
-          (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))
+        !childDecryptStatus.isDecrypting &&
+        !childDecryptStatus.isFinishedDecrypt &&
+        !this.isDecrypting[child.id]
+        // (!childDecryptedContent ||
+        //   (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))
       ) {
         this.isDecrypting[child.id] = true;
         if (child.encryption_type === PGPEncryptionType.PGP_MIME) {
@@ -616,9 +596,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             .decryptMessage(child, false)
             .pipe(take(1))
             .subscribe(
-              () => {},
+              () => {
+                this.isDecrypting[child.id] = false;
+              },
               error => {
-                this.decryptedContents[child.id] = child.content;
+                // this.decryptedContents[child.id] = child.content;
                 this.isDecrypting[child.id] = false;
               },
             );
@@ -627,7 +609,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             .decrypt(child.mailbox, child.id, new SecureContent(child))
             .pipe(take(1))
             .subscribe(
-              () => {},
+              () => {
+                this.isDecrypting[child.id] = false;
+              },
               error => {
                 this.isDecrypting[child.id] = false;
               },
@@ -642,7 +626,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.decryptedContents[child.id] = child.content;
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
-      if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
+      const childDecryptStatus = this.decryptStatus[child.id] || {};
+      if (
+        !childDecryptStatus.isDecrypting &&
+        childDecryptStatus.isFinishedDecrypt &&
+        childDecryptedContent
+        // !childDecryptedContent.inProgress &&
+        // childDecryptedContent.content
+      ) {
         const decryptedContents = child.is_html
           ? childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
           : childDecryptedContent.content;

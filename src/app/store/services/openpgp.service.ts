@@ -226,6 +226,12 @@ export class OpenPgpService {
           id: mailId,
           isPGPInProgress: true,
           decryptedContent: {},
+          decryptStatus: {
+            isDecrypting: true,
+            isFinishedDecrypt: false,
+            isDecryptError: false,
+            isDecryptSubjectError: false,
+          },
         }),
       );
       this.pgpWorker.postMessage({
@@ -443,6 +449,12 @@ export class OpenPgpService {
         id: mailId,
         isPGPInProgress: true,
         decryptedContent: {},
+        decryptStatus: {
+          isDecrypting: true,
+          isFinishedDecrypt: false,
+          isDecryptError: false,
+          isDecryptSubjectError: false,
+        },
       }),
     );
     this.pgpWorker.postMessage({
@@ -573,6 +585,12 @@ export class OpenPgpService {
               isDecryptingAllSubjects: event.data.isDecryptingAllSubjects,
               decryptError: event.data.error,
               isSubjectDecryptedError: event.data.isSubjectDecryptedError,
+              decryptStatus: {
+                isDecryptError: event.data.error,
+                isDecryptSubjectError: event.data.isSubjectDecryptedError,
+                isDecrypting: false,
+                isFinishedDecrypt: true,
+              },
             }),
           );
           if (this.subjects[event.data.subjectId]) {

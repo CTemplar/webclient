@@ -60,6 +60,12 @@ export class MessageDecryptService {
                   decryptedContent: {},
                   isDecryptingAllSubjects: false,
                   decryptError: true,
+                  decryptStatus: {
+                    isDecryptError: true,
+                    isDecryptSubjectError: false,
+                    isDecrypting: false,
+                    isFinishedDecrypt: true,
+                  },
                 }),
               );
               subject.error(1);
@@ -74,6 +80,12 @@ export class MessageDecryptService {
               decryptedContent: '',
               isDecryptingAllSubjects: false,
               decryptError: true,
+              decryptStatus: {
+                isDecryptError: true,
+                isDecryptSubjectError: false,
+                isDecrypting: false,
+                isFinishedDecrypt: true,
+              },
             }),
           );
           subject.error(1);
@@ -117,6 +129,12 @@ export class MessageDecryptService {
                   decryptedContent,
                   isDecryptingAllSubjects: decryptedData.isDecryptingAllSubjects,
                   decryptError: false,
+                  decryptStatus: {
+                    isDecryptError: false,
+                    isDecryptSubjectError: messageObject.isSubjectDecryptedError,
+                    isDecrypting: false,
+                    isFinishedDecrypt: true,
+                  },
                 }),
               );
               if (messageObject.attachments?.length > 0) {
@@ -154,6 +172,12 @@ export class MessageDecryptService {
                   decryptedContent: error.decryptedContent,
                   isDecryptingAllSubjects: error.isDecryptingAllSubjects,
                   decryptError: true,
+                  decryptStatus: {
+                    isDecryptError: true,
+                    isDecryptSubjectError: error.isSubjectDecryptedError,
+                    isDecrypting: false,
+                    isFinishedDecrypt: true,
+                  },
                 }),
               );
               subject.error(error);
@@ -167,6 +191,12 @@ export class MessageDecryptService {
               decryptedContent: error.decryptedContent,
               isDecryptingAllSubjects: error.isDecryptingAllSubjects,
               decryptError: true,
+              decryptStatus: {
+                isDecryptError: false,
+                isDecryptSubjectError: error.isSubjectDecryptedError,
+                isDecrypting: false,
+                isFinishedDecrypt: true,
+              },
             }),
           );
           subject.error(error);

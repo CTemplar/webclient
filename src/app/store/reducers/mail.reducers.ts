@@ -218,6 +218,7 @@ export function reducer(
     folderMap: new Map(),
     pageLimit: 20,
     decryptedAttachmentsMap: new Map(),
+    decryptStatus: {},
   },
   action: MailActions,
 ): MailState {
@@ -922,7 +923,9 @@ export function reducer(
         decryptError: action.payload.decryptError,
       };
       decryptedContents[action.payload.id] = decryptedContent;
-      return { ...state, decryptedContents, noUnreadCountChange: true };
+      const { decryptStatus } = state;
+      decryptStatus[action.payload.id] = action.payload.decryptStatus;
+      return { ...state, decryptedContents, decryptStatus, noUnreadCountChange: true };
     }
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {

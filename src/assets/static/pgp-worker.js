@@ -321,8 +321,6 @@ async function decryptContent(data, privateKeyObj) {
       return payload.data;
     });
   } catch (e) {
-    // TODO - should be removed
-    console.error(e)
     return Promise.reject(data);
   }
 }
@@ -495,7 +493,7 @@ function decryptContentProcess(data) {
     })
     // Content decryption error catch
     .catch((error) => {
-      console.error(error)
+      console.error('decrypt content error')
       isDecryptedError = true;
       decryptedContent = { ...decryptedContent, content: data.mailData.content };
       decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
@@ -521,7 +519,7 @@ function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError)
     })
     // IncomingHeaders decryption error catch
     .catch((error) => {
-      console.error(error)
+      console.error('decrypt header error')
       isDecryptedError = true;
       decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
       decryptSubjectProcess(data, decryptedContent, isDecryptedError);
@@ -548,7 +546,7 @@ function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
   })
     // Subject decryption error catch
     .catch((error) => {
-      console.error(error)
+      console.error('decrypt subject error')
       isDecryptedError = true;
       decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
       decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
@@ -595,7 +593,7 @@ function decryptContentPlainProcess(data, decryptedContent, isDecryptedError, is
       })
       // Content plain decryption error catch
       .catch((error) => {
-        console.error(error)
+        console.error('decrypt plain error')
         isDecryptedError = true;
         decryptedContent = { ...decryptedContent, content_plain: data.mailData.content_plain };
         postMessage({

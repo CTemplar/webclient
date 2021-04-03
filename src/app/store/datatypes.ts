@@ -370,6 +370,10 @@ export interface MailState {
    * currently it stores only PGP/MIME message's attachment
    */
   decryptedAttachmentsMap?: Map<number, Attachment[]>;
+  /**
+   * It represents mail decrypting status
+   */
+  decryptStatus?: DecryptStatusCollection;
 }
 
 export interface FolderState {
@@ -378,6 +382,17 @@ export interface FolderState {
   is_not_first_page: boolean;
   offset: number;
   is_dirty: boolean;
+}
+
+export interface DecryptStatus {
+  isDecrypting?: boolean;
+  isFinishedDecrypt?: boolean;
+  isDecryptError?: boolean;
+  isDecryptSubjectError?: boolean;
+}
+
+export interface DecryptStatusCollection {
+  [key: number]: DecryptStatus;
 }
 
 export class SecureContent {
