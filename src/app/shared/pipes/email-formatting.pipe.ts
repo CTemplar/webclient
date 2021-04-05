@@ -13,18 +13,40 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'emailFormat',
 })
 export class EmailFormatPipe implements PipeTransform {
-  static transformToFormattedEmail(email: string, displayName: string = '', isHtmlFormat: boolean = false) {
+  static transformToFormattedEmail(
+    email: string,
+    displayName: string = '',
+    isHtmlFormat: boolean = false,
+    isTruncate: boolean = false,
+  ) {
     if (!email) return '';
+
     let formattedEmail = email.toLowerCase().trim();
     if (!displayName || displayName === formattedEmail.split('@')[0]) {
-      return formattedEmail;
+      return isTruncate ? EmailFormatPipe.getTrucatedString(formattedEmail) : formattedEmail;
     } else if (isHtmlFormat) {
-      return `${displayName.trim()}&nbsp;&lt;${formattedEmail}&gt;`;
+      return isTruncate
+        ? EmailFormatPipe.getTrucatedString(`${displayName.trim()}&nbsp;&lt;${formattedEmail}&gt;`)
+        : `${displayName.trim()}&nbsp;&lt;${formattedEmail}&gt;`;
     } else {
-      return `${displayName.trim()} <${formattedEmail}>`;
+      return isTruncate
+        ? EmailFormatPipe.getTrucatedString(`${displayName.trim()} <${formattedEmail}>`)
+        : `${displayName.trim()} <${formattedEmail}>`;
     }
   }
-  transform(email: string, displayName: string = '', isHtmlFormat: boolean = false): string {
-    return EmailFormatPipe.transformToFormattedEmail(email, displayName, isHtmlFormat);
+  transform(
+    email: string,
+    displayName: string = '',
+    isHtmlFormat: boolean = false,
+    isTruncate: boolean = false,
+  ): string {
+    return EmailFormatPipe.transformToFormattedEmail(email, displayName, isHtmlFormat, isTruncate);
+  }
+  static getTrucatedString(content: string): string {
+    const MAX_LENGTH_EMAIL = 40;
+    if (content.length > MAX_LENGTH_EMAIL) {
+      return content.slice(0, MAX_LENGTH_EMAIL) + '...';
+    }
+    return content;
   }
 }

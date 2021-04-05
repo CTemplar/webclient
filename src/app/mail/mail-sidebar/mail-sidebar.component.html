@@ -140,7 +140,7 @@
               <span class="mailbox-sidebar-nav-label">
                 {{ folder.name }}
               </span>
-              <span class="badge badge-square badge-position" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0">{{ mailState?.unreadMailsCount[folder.name] }}</span>
+              <span class="badge badge-square badge-position badge-hover-action" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0">{{ mailState?.unreadMailsCount[folder.name] }}</span>
               <div class="action">
                 <a role="button" [ngbTooltip]="'settings.edit_folder' | translate" container="body" (click)="editFolder(folder); $event.stopPropagation(); $event.preventDefault()">
                   <i class="icon icon-edit"></i>

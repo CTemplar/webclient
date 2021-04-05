@@ -12,6 +12,10 @@
   color: $menu-link;
   font-size: 0.875rem;
 
+  .app-credit {
+    color: #f8f9fa;
+  }
+
   @include media('>sm') {
     padding: 3.125rem calc(2rem - 0.938rem) 2.188rem;
   }
@@ -144,11 +148,5 @@
     &:hover {
       color: $brand-white;
     }
-  }
-}
-
-.site-footer {
-  .app-credit {
-    color: #f8f9fa;
   }
 }

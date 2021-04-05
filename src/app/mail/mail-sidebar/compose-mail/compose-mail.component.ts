@@ -22,7 +22,7 @@ import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
-import { COLORS, FONTS, SummarySeparator } from '../../../shared/config';
+import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
   CloseMailbox,
   DeleteAttachment,
@@ -54,6 +54,8 @@ import {
   SecureContent,
   Settings,
   UserState,
+  BlackList,
+  WhiteList,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { MailService, SharedService, getCryptoRandom } from '../../../store/services';
@@ -83,7 +85,10 @@ FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
-SizeAttributor.whitelist = ['10px', '18px', '32px'];
+const updatedSizes = SIZES.map((size, index) => {
+  return size + 'px';
+});
+SizeAttributor.whitelist = updatedSizes;
 Quill.register(SizeAttributor, true);
 Quill.register(Quill.import('attributors/style/align'), true);
 Quill.register(Quill.import('attributors/style/background'), true);
@@ -263,6 +268,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
 
   fonts = FONTS;
 
+  sizes = updatedSizes;
+
   mailData: any = {};
 
   inputTextValue = '';
@@ -300,6 +307,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   isProcessingAttachments: boolean;
 
   isLoaded: boolean;
+
+  delayDeliverTimeString: string;
+
+  selfDestructTimeString: string;
 
   showEncryptFormErrors: boolean;
 
@@ -370,6 +381,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
   private oldMailbox: Mailbox;
 
   isPreparingToSendEmail = false;
+
+  blacklist: BlackList[] = [];
+
+  whitelist: WhiteList[] = [];
 
   /**
    * This variable will be used for pass to suggest to add to the contact or update
@@ -466,6 +481,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.userState = user;
         this.settings = user.settings;
         this.night_mode = this.settings.is_night_mode;
+        this.blacklist = this.userState.blackList;
+        this.whitelist = this.userState.whiteList;
         // Set html/plain version from user's settings.
         if (
           (this.action === 'FORWARD' && this.is_html === undefined) ||
@@ -1519,6 +1536,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.selfDestruct.date,
         this.selfDestruct.time,
       );
+      this.selfDestructTimeString = dateTimeString;
       if (this.dateTimeUtilService.isDateTimeInPast(dateTimeString)) {
         this.selfDestruct.error = 'Selected datetime is in past.';
       } else {
@@ -1528,6 +1546,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.clearDeadManTimerValue();
         this.valueChanged$.next(this.selfDestruct.value);
       }
+    }
+  }
+
+  changeSelfDestruct() {
+    if (this.selfDestruct.date && this.selfDestruct.time) {
+      const dateTimeString = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(
+        this.selfDestruct.date,
+        this.selfDestruct.time,
+      );
+      this.selfDestructTimeString = dateTimeString;
     }
   }
 
@@ -1543,6 +1571,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.delayedDelivery.date,
         this.delayedDelivery.time,
       );
+      this.delayDeliverTimeString = dateTimeString;
       if (this.dateTimeUtilService.isDateTimeInPast(dateTimeString)) {
         this.delayedDelivery.error = 'Selected datetime is in past.';
       } else {
@@ -1552,6 +1581,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         this.clearDeadManTimerValue();
         this.valueChanged$.next(this.delayedDelivery.value);
       }
+    }
+  }
+
+  changeDelayDeliver() {
+    if (this.delayedDelivery.date && this.delayedDelivery.time) {
+      const dateTimeString = this.dateTimeUtilService.createDateTimeStrFromNgbDateTimeStruct(
+        this.delayedDelivery.date,
+        this.delayedDelivery.time,
+      );
+      this.delayDeliverTimeString = dateTimeString;
     }
   }
 

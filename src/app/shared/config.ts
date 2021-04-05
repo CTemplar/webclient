@@ -131,7 +131,7 @@ export const VALID_EMAIL_REGEX: any = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@
 
 export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
 export const COMPOSE_COLORS = ['none', 'red', 'blue', 'green', 'white', 'black', 'pink', 'grey'];
-export const SIZES = [10, 14, 18, 32];
+export const SIZES = [10, 12, 14, 16, 18, 20, 24, 32];
 export const BACKGROUNDS = ['none', 'red', 'blue', 'green', 'white', 'black', 'pink', 'grey'];
 export const AUTOSAVE_DURATION = ['none', '5000', '10000', '20000', '30000'];
 export const DEFAULT_FONT_SIZE = 14;

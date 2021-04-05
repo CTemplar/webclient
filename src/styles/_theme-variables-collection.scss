@@ -12,6 +12,7 @@ $variables: (
   --text-color-black-white: (#000, #fff),
   --brand-secondary: ($brand-secondary, $brand-secondary-dark),
   --text-color: ($text-color, $text-color-dark),
+  --text-color-inverse: ($text-color-dark, $text-color),
   --body-color: ($body-color, $body-color-dark),
   --control-label-text-color: ($control-text-color-light, $text-color-dark),
   --divider-color: ($divider-color, $divider-color-dark),
@@ -112,5 +113,13 @@ $variables: (
   --composer-tag-box-shadow: ($composer-tag-box-shadow-light, $composer-tag-box-shadow-dark),
   --composer-tag-background: ($composer-tag-background-light, $composer-tag-background-dark),
   // Border
-  --border-class-color: ($border-class-color-light, $border-class-color-dark)
+  --border-class-color: ($border-class-color-light, $border-class-color-dark),
+  // PopOver
+  --receiver-chip-popover-background: ($receiver-chip-popover-background-light, $receiver-chip-popover-background-dark),
+  --receiver-chip-popover-border: ($receiver-chip-popover-border-light, $receiver-chip-popover-border-dark),
+  --receiver-chip-popover-shadow: ($receiver-chip-popover-background-light, transparent),
+  --receiver-chip-popover-divider-color: (
+    $receiver-chip-popover-divider-color-light,
+    $receiver-chip-popover-divider-color-dark
+  )
 );
