@@ -546,10 +546,7 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.updateFilterOrder(payload).pipe(
         switchMap(res =>
-          of(
-            new UpdateFilterOrderSuccess(res),
-            new SnackErrorPush({ message: `The filter order has been updated.` }),
-          ),
+          of(new UpdateFilterOrderSuccess(res), new SnackErrorPush({ message: `The filter order has been updated.` })),
         ),
         catchError(errorResponse =>
           of(
