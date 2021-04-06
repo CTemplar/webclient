@@ -242,7 +242,7 @@
           <div class="col-12">
             <div class="d-flex justify-content-between">
               <strong class="text-dark">Public Keys</strong>
-              <input type="file" #importKeyFileTag accept=".txt" (change)="onSelectNewKeyFile($event.target.files)" style="display: none" />
+              <input type="file" #importKeyFileTag accept=".txt,.asc" (change)="onSelectNewKeyFile($event.target.files)" style="display: none" />
               <div>
                 <a (click)="importKeyFileTag.click()">
                   <i class="fas fa-plus-circle"></i>

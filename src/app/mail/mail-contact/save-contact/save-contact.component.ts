@@ -212,15 +212,23 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
               this.isImportingKey = false;
               const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
               if (newKeyInfo) {
-                if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
-                  this.selectedContactPulbicKeys.forEach(key => {
-                    if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
-                      newKeyInfo.id = key.id;
-                      newKeyInfo.is_primary = key.is_primary;
-                    }
-                  });
+                if (newKeyInfo.key_type === 'RSA4096') {
+                  if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
+                    this.selectedContactPulbicKeys.forEach(key => {
+                      if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
+                        newKeyInfo.id = key.id;
+                        newKeyInfo.is_primary = key.is_primary;
+                      }
+                    });
+                  }
+                  this.makeCallForAddKeys(newKeyInfo);
+                } else {
+                  this.store.dispatch(
+                    new SnackErrorPush({
+                      message: `Key Type ${newKeyInfo.key_type} is not allowed to import`,
+                    }),
+                  );
                 }
-                this.makeCallForAddKeys(newKeyInfo);
               } else {
                 this.store.dispatch(
                   new SnackErrorPush({
