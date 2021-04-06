@@ -45,10 +45,10 @@
     </div>
   </div>
   <div class="receiver-email-chip-popover-receiver-action" *ngIf="!isMyMailbox">
-    <a class="mr-2" *ngIf="!isContactEncrypted && !!selectedContact" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
+    <a class="mr-2" *ngIf="!!selectedContact" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
       <i class="fas fa-edit"></i>
     </a>
-    <a class="mr-2" *ngIf="!isContactEncrypted  && !selectedContact" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
+    <a class="mr-2" *ngIf="!selectedContact" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
       <i class="fas fa-plus-circle"></i>
     </a>
     <ng-container *ngIf="isBlacklisted; then moveWhitelist"></ng-container>
