@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { CreateFilter, DeleteFilter, UpdateFilter } from '../../../store/actions';
+import { CreateFilter, DeleteFilter, UpdateFilter, UpdateFilterOrder } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
 import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
@@ -214,14 +214,11 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
   savePriority() {
     this.inProgress = true;
     const payload: any = {
-      filters: this.filters,
-      data: {
-        filter_list: this.filters.map(item => {
-          return { folder_id: item.id, priority_order: item.priority_order };
-        }),
-      },
+      filter_list: this.filters.map(item => {
+        return { filter_id: item.id, priority_order: item.priority_order };
+      }),
     };
-    // TODO - add API call for update priority
+    this.store.dispatch(new UpdateFilterOrder(payload));
   }
 
   cancelSetPriority() {
@@ -229,10 +226,10 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     this.filters = this.unmodifiedFilters;
   }
 
-  onFilterDrop(event: CdkDragDrop<Folder[]>) {
+  onFilterDrop(event: CdkDragDrop<Filter[]>) {
     moveItemInArray(this.filters, event.previousIndex, event.currentIndex);
-    this.filters.forEach((folder: Folder, index: number) => {
-      folder.sort_order = index + 1;
+    this.filters.forEach((filter: Filter, index: number) => {
+      filter.priority_order = index + 1;
     });
   }
 }

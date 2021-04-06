@@ -74,6 +74,9 @@ import {
   UpdateFilter,
   UpdateFilterFailure,
   UpdateFilterSuccess,
+  UpdateFilterOrder,
+  UpdateFilterOrderFailure,
+  UpdateFilterOrderSuccess,
   UpdateFolderOrder,
   UpdateFolderOrderSuccess,
   UsersActionTypes,
@@ -527,6 +530,30 @@ export class UsersEffects {
         catchError(errorResponse =>
           of(
             new UpdateFilterFailure(errorResponse.error),
+            new SnackErrorPush({
+              message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.',
+            }),
+          ),
+        ),
+      );
+    }),
+  );
+
+  @Effect()
+  updateFilterOrderEffect: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.UPDATE_FILTER_ORDER),
+    map((action: UpdateFilterOrder) => action.payload),
+    switchMap(payload => {
+      return this.userService.updateFilterOrder(payload).pipe(
+        switchMap(res =>
+          of(
+            new UpdateFilterOrderSuccess(res),
+            new SnackErrorPush({ message: `The filter order has been updated.` }),
+          ),
+        ),
+        catchError(errorResponse =>
+          of(
+            new UpdateFilterOrderFailure(errorResponse.error),
             new SnackErrorPush({
               message: errorResponse.error ? errorResponse.error : 'An error occurred, please try again.',
             }),

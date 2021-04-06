@@ -43,7 +43,7 @@
           </div>
         </li>
       </ul>
-      <div class="info-card">
+      <div class="info-card" *ngIf="!inSetPriority">
         <p [translate]="'settings.filters.add_filter'">Add a filter to perform actions such as automatically labeling or archiving.</p>
         <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="openCustomFilterModal()">
           <strong>
