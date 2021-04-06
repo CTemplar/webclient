@@ -278,13 +278,13 @@
       <div class="mailbox-list-container">
         <div class="row mailbox-list-header">
           <div class="col-5 mailbox-list-header-item">
-            <label class="form-label"> Email </label>
+            <label class="form-label" [translate]="'settings.keys.email'"> Email </label>
           </div>
           <div class="col-5 mailbox-list-header-item">
-            <label class="form-label"> Fingerprint </label>
+            <label class="form-label" [translate]="'settings.keys.fingerprint'"> Fingerprint </label>
           </div>
           <div class="col-2 mailbox-list-header-item">
-            <label class="form-label"> Key Type </label>
+            <label class="form-label" [translate]="'settings.keys.key_type'"> Key Type </label>
           </div>
         </div>
         <div class="row mailbox-list-row" *ngFor="let mailbox of mailboxes; let i = index">
@@ -299,9 +299,9 @@
           <div class="col-2 mailbox-list-row-item">RSA 4096 BIT</div>
           <div class="col-12 key-list-container" #collapse="ngbCollapse" [(ngbCollapse)]="!aliasKeyExpandedStatus[i]" *ngIf="mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0">
             <div class="row key-list-header">
-              <div class="col-6 key-list-header-item">Fingerprint</div>
-              <div class="col-2 key-list-header-item">Key Type</div>
-              <div class="col-2 key-list-header-item text-center">Status</div>
+              <div class="col-6 key-list-header-item" [translate]="'settings.keys.fingerprint'">Fingerprint</div>
+              <div class="col-2 key-list-header-item" [translate]="'settings.keys.key_type'">Key Type</div>
+              <div class="col-2 key-list-header-item text-center" [translate]="'settings.keys.status'">Status</div>
               <div class="col-2 key-list-header-item"></div>
             </div>
             <div class="row key-list-row" *ngFor="let key of mailboxKeysMap.get(mailbox.id)">
@@ -313,11 +313,11 @@
               </div>
               <div class="col-2 key-list-row-item text-center">
                 <span *ngIf="key.is_primary" class="badge badge-default" [translate]="'settings.primary'"> Primary </span>
-                <a *ngIf="!key.is_primary" ngbTooltip="Set as primary" (click)="onSetPrimary(key)"><i class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
+                <a *ngIf="!key.is_primary" [ngbTooltip]="'settings.keys.set_as_primary' | translate" (click)="onSetPrimary(key)"><i class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
               </div>
               <div class="col-2 key-list-row-item text-left">
                 <a (click)="onDownloadKey(key, mailbox)" ngbTooltip="Download Key"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
-                <a *ngIf="!key.is_primary" ngbTooltip="Remove Key" (click)="onRemoveKey(key)"><i class="far fa-trash-alt cursor-pointer" aria-hidden="true"></i></a>
+                <a *ngIf="!key.is_primary" [ngbTooltip]="'settings.keys.remove_key' | translate" (click)="onRemoveKey(key)"><i class="far fa-trash-alt cursor-pointer" aria-hidden="true"></i></a>
               </div>
             </div>
           </div>
@@ -331,7 +331,7 @@
 <ng-template #downloadKeyModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-      <strong>Download Key</strong>
+      <strong [translate]="'settings.keys.download_key'">Download Key</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -339,16 +339,16 @@
   </div>
   <div class="modal-body bg-faded">
     <div>
-      <p class="text-holder text-dark text-medium">Do you want to download the public key or the private key?</p>
+      <p class="text-holder text-dark text-medium">{{ 'settings.keys.download_key_description' | translate }}</p>
     </div>
   </div>
   <div class="modal-footer">
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <a #downloadPrivateKeyRef [href]="selectedMailboxPrivateKey | safe: 'url'" class="d-none" [download]="'privatekey.' + this.pickedMailboxForUpdate.email + '.asc'"></a>
-        <button type="button" class="btn btn-sm mr-2" (click)="downloadPrivateKeyRef.click()">Private Key</button>
+        <button type="button" class="btn btn-sm mr-2" (click)="downloadPrivateKeyRef.click()" [translate]="'settings.keys.private_key' | translate">Private Key</button>
         <a #downloadPublicKeyRef [href]="selectedMailboxPublicKey | safe: 'url'" class="d-none" [download]="'publickey.' + this.pickedMailboxForUpdate.email + '.asc'"></a>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="downloadPublicKeyRef.click()">Public Key</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="downloadPublicKeyRef.click()" [translate]="'settings.keys.public_key' | translate">Public Key</button>
       </div>
     </div>
   </div>
@@ -358,7 +358,7 @@
 <ng-template #addNewKeyModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-      <strong>Add New Key</strong>
+      <strong [translate]="'settings.keys.add_new_key'">Add New Key</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -367,7 +367,7 @@
   <div class="modal-body bg-faded">
     <div class="mt-3 px-3">
       <div>
-        <p class="text-holder text-dark text-medium">Please select a mailbox that you want to add new key</p>
+        <p class="text-holder text-dark text-medium" [translate]="'settings.keys.add_new_key_mailbox_desc'">Please select a mailbox that you want to add new key</p>
       </div>
       <div class="form-content-row mt-1">
         <div class="btn-dropdown btn-dropdown-select">
@@ -385,7 +385,7 @@
       </div>
       <div class="form-content-row">
         <div>
-          <p class="text-holder text-dark text-medium">Please select a key type</p>
+          <p class="text-holder text-dark text-medium" [translate]="'settings.keys.add_new_key_keytype_desc'">Please select a key type</p>
         </div>
         <div class="flex-auto-col">
           <div class="fancy-field-group">
@@ -418,7 +418,7 @@
 <ng-template #deleteKeyConfirmModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-      <strong>Are you sure to delete this key?</strong>
+      <strong [translate]='"settings.keys.delete_key_title"'>Are you sure to delete this key?</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -426,14 +426,14 @@
   </div>
   <div class="modal-body bg-faded">
     <div>
-      <p class="text-holder text-medium text-danger">After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.</p>
+      <p class="text-holder text-medium text-danger" [translate]='"settings.keys.delete_key_desc"'>After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.</p>
     </div>
   </div>
   <div class="modal-footer">
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmDeleteKey()" [disabled]="mailboxKeyInProgress">Yes, I am sure</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmDeleteKey()" [disabled]="mailboxKeyInProgress" [translate]='"settings.keys.delete_key_confirm"'>Yes, I am sure</button>
       </div>
     </div>
   </div>
@@ -443,7 +443,7 @@
 <ng-template #setPrimaryKeyConfirmModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-      <strong>Update Primary Key</strong>
+      <strong [translate]='"settings.keys.update_primary_key"'>Update Primary Key</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -458,7 +458,7 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetPrimaryKey()" [disabled]="mailboxKeyInProgress">Make as Primary</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetPrimaryKey()" [disabled]="mailboxKeyInProgress" [translate]='"settings.keys.make_as_primary"'>Make as Primary</button>
       </div>
     </div>
   </div>
@@ -468,7 +468,7 @@
 <ng-template #setAutocryptConfirmModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="setAutocryptConfirmModalLabel">
-      <strong>Manage Autocrypt</strong>
+      <strong>{{ 'settings.manage_autocrypt' | translate }}</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -477,8 +477,8 @@
   <div class="modal-body bg-faded">
     <div>
       <p class="text-holder text-dark text-medium">
-        After set this alias as Autocrypt, the autocrypt header would be added for all outgoing messages with this alias.
-        <a href="#">Learn more</a>
+        {{ 'settings.manage_autocrypt_description' | translate }}
+        <a href="{{ primaryWebsite }}/help/autocrypt/" target="_blank" rel="noopener noreferrer">{{ 'mail_header.learn_more' | translate }}</a>
       </p>
     </div>
     <div class="mt-3">
@@ -486,7 +486,7 @@
       <div class="form-content-row mb-3">
         <div class="row align-items-center">
           <div class="col-sm-4">
-            <label class="form-label mb-0"> Set Autocrypt </label>
+            <label class="form-label mb-0" [translate]="'settings.set_autocrypt'"> Set Autocrypt </label>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
@@ -510,9 +510,9 @@
       <div class="form-content-row mt-3 mb-2">
         <div class="row">
           <div class="col-sm-4">
-            <label class="form-label mb-sm-0"> Prefer Encrypt </label>
-            <a href="#">
-              <i class="fas fa-info-circle ml-1" ngbTooltip="If it is selected as mutual, then outgoing messages would be encrypted based on the recipient's Prefer Encrypt status"></i>
+            <label class="form-label mb-sm-0" [translate]="'settings.prefer_encrypt'"> Prefer Encrypt </label>
+            <a href="{{ primaryWebsite }}/help/autocrypt/prefer-encrypt" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-info-circle ml-1" [ngbTooltip]="'settings.prefer_encrypt_description' | translate"></i>
             </a>
           </div>
           <div class="col-sm-8">
@@ -540,7 +540,7 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetAutocrypt()" [disabled]="inProgress">Save</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetAutocrypt()" [disabled]="inProgress">{{ 'common.save' | translate }}</button>
       </div>
     </div>
   </div>

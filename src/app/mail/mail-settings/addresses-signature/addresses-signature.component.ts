@@ -15,7 +15,7 @@ import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { Mailbox } from '../../../store/models';
-import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
+import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
@@ -107,6 +107,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   selectedMailboxForAutocrypt: Mailbox;
 
   inProgress = false;
+
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(
     private formBuilder: FormBuilder,

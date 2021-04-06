@@ -38,7 +38,7 @@ import {
 } from '../../../store';
 import { OpenPgpService } from '../../../store/services';
 
-import { getEmailDomain } from '../../../shared/config';
+import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -87,6 +87,8 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   selectedContactPulbicKeys: Array<ContactKey> = [];
 
   isAutocryptEnabled: boolean;
+
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(
     private store: Store<AppState>,

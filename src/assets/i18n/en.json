@@ -43,7 +43,26 @@
     "import_f_drive": "Import from Drive",
     "contact_name": "Contact Name",
     "type_email": "Type E-mail",
-    "a_note": "A note"
+    "a_note": "A note",
+    "advanced_settings": "Advanced Settings",
+    "advanced": {
+      "pgp_encryption_settings": "PGP Encryption Settings",
+      "description": "This change is available for only non-CTemplar recipients.",
+      "encrypt": "Encrypt",
+      "encrypt_desc": "Please upload valid PGP public key to use this feature",
+      "encrypt_scheme": "Encryption Scheme",
+      "encrypt_scheme_desc1": "PGP Encryption Scheme to be used when encrypting.",
+      "encrypt_scheme_desc2": "Note that PGP/Inline is only available for Plain Text Messages",
+      "autocrypt_settings": "Autocrypt Settings",
+      "autocrypt_desc1": "If \"mutual\" is selected and Prefer Encrypt of your mailbox is also \"mutual\",",
+      "autocrypt_desc2": "all of outgoing messages to this contact would be encrypted",
+      "add_key": "Add Key",
+      "action": "Action",
+      "primary_public_key_desc": "This public key will be used to encrypt outgoing messages",
+      "key_assign_warn1": "This key is NOT assigned to ",
+      "key_assign_warn2": "Assigned User: ",
+      "remove_public_key":"Remove Public Key"
+    }
   },
   "common": {
     "name": "Name",
@@ -147,7 +166,25 @@
       "name": "Keys",
       "info": "Download your PGP Keys for use with other PGP compatible services. Only incoming messages in inline OpenPGP format are currently supported.",
       "email_address": "E-mail address",
-      "fingerprint": "Fingerprint"
+      "fingerprint": "Fingerprint",
+      "email": "Email",
+      "key_type": "Key Type",
+      "status": "Status",
+      "set_as_primary": "Set as primary",
+      "remove_key": "Remove Key",
+      "download_key": "Download Key",
+      "download_key_description": "Do you want to download the public key or the private key?",
+      "private_key": "Private Key",
+      "public_key": "Public Key",
+      "add_new_key": "Add New Key",
+      "add_new_key_mailbox_desc": "Please select a mailbox that you want to add new key",
+      "add_new_key_keytype_desc": "Please select a key type",
+      "delete_key_title": "Are you sure to delete this key?",
+      "delete_key_desc": "After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.",
+      "delete_key_confirm": "Yes, I am sure",
+      "update_primary_key": "Update Primary Key",
+      "update_primary_key_desc": "After changed the primary key, all of messages with this alias will be encrypted with this key. Primary key will always be placed in the top of the key list. Are you sure you want to continue?",
+      "make_as_primary": "Make as Primary"
     },
     "download_public_key": "Download public key",
     "download_private_key": "Download private key",
@@ -327,6 +364,12 @@
       "read_more": "Read more"
     },
     "signs_and_aliases": "Signatures & Aliases",
+    "autocrypt": "Autocrypt",
+    "manage_autocrypt": "Manage Autocrypt",
+    "manage_autocrypt_description": "After set this alias as Autocrypt, the autocrypt header would be added for all outgoing messages with this alias.",
+    "set_autocrypt": "Set Autocrypt",
+    "prefer_encrypt": "Prefer Encrypt",
+    "prefer_encrypt_description": "If it is selected as mutual, then outgoing messages would be encrypted based on the recipient's Prefer Encrypt status",
     "forwarding_and_autores": "Forwarding & Autoresponder",
     "domains_and_users": {
       "title": "Domains & Users",
@@ -761,5 +804,16 @@
     "payment_failed": "Payment Failed",
     "payment_message": "Your payment could not be processed. Please pay your invoice to continue to use CTemplar's prime service.",
     "update_payment": "Update Payment"
+  },
+  "encryption": {
+    "composer_encryption_type": {
+      "pgp_encrypted_message": "PGP Encrypted Message",
+      "end_end_message": "End to End Encrypted Message",
+      "autocyprt_nopreference": "Autocrypt Enabled, Prefer Encrypt is 'nopreference'",
+      "autocrypt_mutual": "Autocrypt Enabled, Prefer Encrypt is 'mutual'",
+      "autocrypt_encrypt": "Autocrypt Encrypted Message",
+      "autocrypt_discourage": "Autocrypt Encrypted Message, please be ensure recipient is available to decrypt your message",
+      "autocrypt_non_encrypt": "Autocrypt Enabled, message would not be encrypted"
+    }
   }
 }
