@@ -10,7 +10,7 @@ onmessage = async function (event) {
   if (event.data.clear) {
     decryptedAllPrivKeys = {};
   } else if (event.data.encrypt) {
-    if (event.data.encryptionTypeForExternal === null) {
+    if (event.data.pgpEncryptionTypeForExternal === null) {
       encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
         encryptContent(event.data.mailData.subject, event.data.publicKeys).then(subject => {
           postMessage({ encryptedContent: { content, subject }, encrypted: true, callerId: event.data.callerId });
@@ -486,20 +486,20 @@ function decryptContentProcess(data) {
     isDecryptedError = true;
     decryptedContent = { ...decryptedContent, content: data.mailData.content };
     decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
+  } else if (data.mailData.content) {
+    decryptContent(data.mailData.content, decryptedAllPrivKeys[data.mailboxId])
+      .then(content => {
+        decryptedContent = { ...decryptedContent, content };
+        decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
+      })
+      // Content decryption error catch
+      .catch((error) => {
+        console.error(error)
+        isDecryptedError = true;
+        decryptedContent = { ...decryptedContent, content: data.mailData.content };
+        decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
+      });
   }
-  if (data.mailData.content)
-  decryptContent(data.mailData.content, decryptedAllPrivKeys[data.mailboxId])
-    .then(content => {
-      decryptedContent = { ...decryptedContent, content };
-      decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
-    })
-    // Content decryption error catch
-    .catch((error) => {
-      console.error(error)
-      isDecryptedError = true;
-      decryptedContent = { ...decryptedContent, content: data.mailData.content };
-      decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
-    });
 }
 
 /**
@@ -513,19 +513,20 @@ function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError)
     isDecryptedError = true;
     decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
     decryptSubjectProcess(data, decryptedContent, isDecryptedError);
+  } else {
+    decryptContent(data.mailData.incomingHeaders, decryptedAllPrivKeys[data.mailboxId])
+      .then(incomingHeaders => {
+        decryptedContent = { ...decryptedContent, incomingHeaders };
+        decryptSubjectProcess(data, decryptedContent, isDecryptedError);
+      })
+      // IncomingHeaders decryption error catch
+      .catch((error) => {
+        console.error(error)
+        isDecryptedError = true;
+        decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
+        decryptSubjectProcess(data, decryptedContent, isDecryptedError);
+      });
   }
-  decryptContent(data.mailData.incomingHeaders, decryptedAllPrivKeys[data.mailboxId])
-    .then(incomingHeaders => {
-      decryptedContent = { ...decryptedContent, incomingHeaders };
-      decryptSubjectProcess(data, decryptedContent, isDecryptedError);
-    })
-    // IncomingHeaders decryption error catch
-    .catch((error) => {
-      console.error(error)
-      isDecryptedError = true;
-      decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
-      decryptSubjectProcess(data, decryptedContent, isDecryptedError);
-    });
 }
 
 /**
@@ -540,19 +541,20 @@ function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
     isDecryptedError = true;
     decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
     decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
+  } else {
+    decryptContent(data.mailData.subject, decryptedAllPrivKeys[data.mailboxId])
+      .then(subject => {
+        decryptedContent = { ...decryptedContent, subject };
+        decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
+      })
+      // Subject decryption error catch
+      .catch((error) => {
+        console.error(error)
+        isDecryptedError = true;
+        decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
+        decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
+      });
   }
-  decryptContent(data.mailData.subject, decryptedAllPrivKeys[data.mailboxId])
-    .then(subject => {
-      decryptedContent = { ...decryptedContent, subject };
-      decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
-  })
-    // Subject decryption error catch
-    .catch((error) => {
-      console.error(error)
-      isDecryptedError = true;
-      decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
-      decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
-    });
 }
 
 /**
@@ -578,37 +580,38 @@ function decryptContentPlainProcess(data, decryptedContent, isDecryptedError, is
         error: isDecryptedError,
         isSubjectDecryptedError,
       });
+    } else {
+      decryptContent(data.mailData.content_plain, decryptedAllPrivKeys[data.mailboxId])
+        .then(content_plain => {
+          decryptedContent = { ...decryptedContent, content_plain };
+          postMessage({
+            decryptedContent,
+            decrypted: true,
+            callerId: data.callerId,
+            subjectId: data.subjectId,
+            decryptedPGPMime: false,
+            isDecryptingAllSubjects: data.isDecryptingAllSubjects,
+            error: isDecryptedError,
+            isSubjectDecryptedError,
+          });
+        })
+        // Content plain decryption error catch
+        .catch((error) => {
+          console.error(error)
+          isDecryptedError = true;
+          decryptedContent = { ...decryptedContent, content_plain: data.mailData.content_plain };
+          postMessage({
+            decryptedContent,
+            decrypted: true,
+            callerId: data.callerId,
+            subjectId: data.subjectId,
+            decryptedPGPMime: data.isPGPMime,
+            isDecryptingAllSubjects: data.isDecryptingAllSubjects,
+            error: isDecryptedError,
+            isSubjectDecryptedError,
+          });
+        });
     }
-    decryptContent(data.mailData.content_plain, decryptedAllPrivKeys[data.mailboxId])
-      .then(content_plain => {
-        decryptedContent = { ...decryptedContent, content_plain };
-        postMessage({
-          decryptedContent,
-          decrypted: true,
-          callerId: data.callerId,
-          subjectId: data.subjectId,
-          decryptedPGPMime: false,
-          isDecryptingAllSubjects: data.isDecryptingAllSubjects,
-          error: isDecryptedError,
-          isSubjectDecryptedError,
-        });
-      })
-      // Content plain decryption error catch
-      .catch((error) => {
-        console.error(error)
-        isDecryptedError = true;
-        decryptedContent = { ...decryptedContent, content_plain: data.mailData.content_plain };
-        postMessage({
-          decryptedContent,
-          decrypted: true,
-          callerId: data.callerId,
-          subjectId: data.subjectId,
-          decryptedPGPMime: data.isPGPMime,
-          isDecryptingAllSubjects: data.isDecryptingAllSubjects,
-          error: isDecryptedError,
-          isSubjectDecryptedError,
-        });
-      });
   } else {
     decryptedContent = { ...decryptedContent, content_plain: '' };
     postMessage({

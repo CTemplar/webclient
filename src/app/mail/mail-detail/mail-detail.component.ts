@@ -354,10 +354,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                       .pipe(take(1))
                       .subscribe(
                         () => {},
-                        error => {
-                          this.decryptedContents[this.mail.id] = this.mail.content;
-                          this.isDecrypting[this.mail.id] = false;
-                        },
+                        error => {},
                       );
                   } else {
                     this.pgpService
@@ -365,10 +362,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                       .pipe(take(1))
                       .subscribe(
                         () => {},
-                        error => {
-                          this.decryptedContents[this.mail.id] = this.mail.content;
-                          this.isDecrypting[this.mail.id] = false;
-                        },
+                        error => {},
                       );
                   }
                 }
@@ -617,10 +611,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             .pipe(take(1))
             .subscribe(
               () => {},
-              error => {
-                this.decryptedContents[child.id] = child.content;
-                this.isDecrypting[child.id] = false;
-              },
+              error => {},
             );
         } else {
           this.pgpService
@@ -628,9 +619,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             .pipe(take(1))
             .subscribe(
               () => {},
-              error => {
-                this.isDecrypting[child.id] = false;
-              },
+              error => {},
             );
         }
       }
