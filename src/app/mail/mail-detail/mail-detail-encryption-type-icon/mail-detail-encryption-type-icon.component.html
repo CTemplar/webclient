@@ -1,5 +1,5 @@
 <ng-container [ngSwitch]="encryptionType">
-  <i *ngSwitchCase="'PGP_MIME_INLINE'" class="fas fa-lock encryption-type-icon" ngbTooltip="PGP Encrypted Message" [ngClass]="{'has-last-action': !!lastAction}"></i>
-  <i *ngSwitchCase="'PGP_PASSWORD'" class="fa fa-key encryption-type-icon" ngbTooltip="PGP Password Encrypted Message" [ngClass]="{'has-last-action': !!lastAction}"></i>
+  <i *ngSwitchCase="'PGP_MIME_INLINE'" class="fas fa-lock encryption-type-icon" ngbTooltip="PGP Encrypted Message" [ngClass]="{'has-last-action': lastAction}"></i>
+  <i *ngSwitchCase="'PGP_PASSWORD'" class="fa fa-key encryption-type-icon" ngbTooltip="PGP Password Encrypted Message" [ngClass]="{'has-last-action': lastAction}"></i>
 <!--  <i *ngSwitchCase="'PGP_END_TO_END'" class="fas fa-lock encryption-type-icon" ngbTooltip="End to End Encrypted Message" [ngClass]="{'has-last-action': !!lastAction}"></i>-->
 </ng-container>
