@@ -18,6 +18,8 @@ import { Folder } from '../../../store/models';
 export class CreateFolderComponent implements OnInit, OnDestroy {
   @Input() folder: Folder = { id: null, name: '', color: '' };
 
+  @Input() edit = false;
+
   customFolderForm: FormGroup;
 
   folderColors: string[] = FOLDER_COLORS; // Users can select one of these colors for new folder

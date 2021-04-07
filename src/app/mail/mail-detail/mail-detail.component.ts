@@ -31,8 +31,10 @@ import {
   NumberBooleanMappedType,
   NumberStringMappedType,
   PGPEncryptionType,
-  SecureContent, StringBooleanMappedType,
+  SecureContent,
+  StringBooleanMappedType,
   UserState,
+  ContactsState,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, MessageDecryptService, OpenPgpService, SharedService } from '../../store/services';
@@ -50,6 +52,8 @@ declare let Scrambler: (argument0: { target: string; random: number[]; speed: nu
 // eslint-disable-next-line import/prefer-default-export
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
+
+  @ViewChild('externalLinkConfirmModal') externalLinkConfirmModal: any;
 
   @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
 
@@ -90,6 +94,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   folderColors: any = {};
 
   markedAsRead: boolean;
+
+  externalLinkChecked: boolean = true;
 
   currentMailIndex: number;
 
@@ -137,6 +143,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private forwardAttachmentsModalRef: NgbModalRef;
 
+  externalLinkConfirmModalRef: NgbModalRef;
+
   private includeAttachmentsModalRef: NgbModalRef;
 
   private userState: UserState;
@@ -180,6 +188,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private isContainTrashRelatedChildren = false;
 
   private properFolderLastChildIndex = 0;
+
+  contacts: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -280,6 +290,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
                 : decryptedContent.content || decryptedContent.content_plain;
+              if (this.externalLinkChecked) {
+                this.confirmExternalLinks();
+              }
               if (this.mail.is_subject_encrypted) {
                 this.mail.subject = decryptedContent.subject;
               }
@@ -456,6 +469,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe((parameters: Params) => {
       this.forceLightMode = parameters.lightMode;
     });
+
+    /**
+     * Get user's contacts from store.
+     */
+    this.store
+      .select((state: AppState) => state.contacts)
+      .pipe(untilDestroyed(this))
+      .subscribe((contactsState: ContactsState) => {
+        this.contacts =
+          contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
+      });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -484,6 +508,37 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.isDecrypting[mail.id] = false;
         },
       );
+  }
+
+  confirmExternalLinks() {
+    this.externalLinkChecked = false;
+    setTimeout(() => {
+      let exLinks = document.querySelectorAll('.msg-reply-content a');
+      if (exLinks?.length > 0) {
+        for (const i in exLinks) {
+          if (exLinks[i]?.innerHTML && exLinks[i].getAttribute('href')) {
+            exLinks[i].addEventListener('click', event => {
+              event.preventDefault();
+              this.externalLinkConfirmModalRef = this.modalService.open(this.externalLinkConfirmModal, {
+                centered: true,
+                windowClass: 'modal-sm users-action-modal',
+              });
+              this.externalLinkConfirmModalRef.result.then(result => {
+                if (result) {
+                  const link = document.createElement('a');
+                  link.href = exLinks[i].getAttribute('href');
+                  link.target = '_blank';
+                  link.rel = 'noopener noreferrer';
+                  link.click();
+                }
+                this.externalLinkConfirmModalRef = null;
+              });
+            });
+          }
+        }
+      }
+    }, 1000);
+    return;
   }
 
   scrambleText(elementId: string) {
@@ -675,6 +730,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   getMailDetail(messageId: number) {
     this.store.dispatch(new GetMailDetail({ messageId, folder: this.mailFolder }));
+  }
+
+  downloadAllAttachments(mail: Mail) {
+    if (mail?.attachments) {
+      for (let i = 0; i < mail.attachments.length; i++) {
+        this.decryptAttachment(mail.attachments[i], mail);
+      }
+    }
   }
 
   // TODO: Merge with display-secure-message and compose-mail components

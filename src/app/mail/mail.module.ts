@@ -43,6 +43,7 @@ import { MailRoutingModule } from './mail-routing.module';
 import { MailDetailDecryptionErrorComponent } from './mail-detail/mail-detail-decryption-error/mail-detail-decryption-error.component';
 import { MailDetailEncryptionTypeIconComponent } from './mail-detail/mail-detail-encryption-type-icon/mail-detail-encryption-type-icon.component';
 import { ComposerEncryptionTypeIconComponent } from './mail-sidebar/compose-mail/composer-encryption-type-icon/composer-encryption-type-icon.component';
+import { ReceiverEmailChipComponent } from './mail-sidebar/compose-mail/receiver-email-chip/receiver-email-chip.component';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -72,6 +73,7 @@ import { ComposerEncryptionTypeIconComponent } from './mail-sidebar/compose-mail
     MailDetailDecryptionErrorComponent,
     MailDetailEncryptionTypeIconComponent,
     ComposerEncryptionTypeIconComponent,
+    ReceiverEmailChipComponent,
   ],
   imports: [
     CommonModule,

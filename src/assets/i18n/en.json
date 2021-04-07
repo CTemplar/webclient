@@ -85,13 +85,17 @@
     "yes": "Yes",
     "no": "No",
     "logout": "Log out",
-    "account_password": "Your account password"
+    "account_password": "Your account password",
+    "continue_to_link": "Continue to link"
   },
   "settings": {
     "dashboard": "Dashboard",
     "dashboard_plans": "Dashboard & Plans",
     "general": "General",
     "compose_font": "Default composing font",
+    "compose_color": "Default composing color",
+    "compose_background": "Default composing background",
+    "compose_size": "Default composing size",
     "compose_autosave_duration": "Composing autosave interval",
     "overview": "Overview",
     "username": "Username",
@@ -506,7 +510,8 @@
       "insert_link": "Insert Link",
       "text_to_display": "Text to display",
       "link_to": "Link to",
-      "expiry_time_message": "Expiry time should be minimum 1 hour and maximum 5 days."
+      "expiry_time_message": "Expiry time should be minimum 1 hour and maximum 5 days.",
+      "invalid_email_format": "Invalid email format"
     },
     "of": "of",
     "not_with_free_acc": "Feature not available with Free Account",
@@ -726,7 +731,8 @@
     "invalid_captcha": "Invalid captcha, please try again.",
     "with_email_address": "This is the display name that will be shown next to your email address.",
     "display_name_req": "Enter a valid display name with maximum 32 characters.",
-    "can_change_settings": "You can change this in the settings page later."
+    "can_change_settings": "You can change this in the settings page later.",
+    "insert_valid_inviteCode": "Please enter a valid invite code format."
   },
   "billing_info": {
     "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",
@@ -798,7 +804,9 @@
     "show_plain_text": "Show Plain Text",
     "show_rich_text": "Show Rich Text",
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
-    "password_hint": "Password Hint: "
+    "password_hint": "Password Hint: ",
+    "download_attachments": "Download All Attachments",
+    "confirm_external_link": "Do you trust the person who sent this link? This link takes you outside of CTemplar’s platform and we are not responsible for any third-party content."
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

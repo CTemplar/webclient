@@ -8,6 +8,7 @@ import {
   PGPEncryptionType,
 } from '../datatypes';
 import { Attachment, MailFolderType } from '../models';
+import { getCryptoRandom } from '../services';
 
 /**
  * 1. Force Making Draft Mail that contains general text content and  `encrypted.asc` as an attachment
@@ -66,7 +67,7 @@ export function reducer(
             attachment.name = FilenamePipe.tranformToFilename(attachment.document);
           }
           attachment.draftId = oldDraft.id;
-          attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
+          attachment.attachmentId = performance.now() + Math.floor(getCryptoRandom() * 1000);
           return attachment;
         });
       }

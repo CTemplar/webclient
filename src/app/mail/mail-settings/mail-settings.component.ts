@@ -12,7 +12,17 @@ import * as Sentry from '@sentry/browser';
 import { MoveToBlacklist, MoveToWhitelist } from '../../store/actions';
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 import { SENTRY_DSN } from '../../shared/config';
-import { FONTS, Language, LANGUAGES, VALID_EMAIL_REGEX, AUTOSAVE_DURATION } from '../../shared/config';
+import {
+  FONTS,
+  Language,
+  LANGUAGES,
+  VALID_EMAIL_REGEX,
+  AUTOSAVE_DURATION,
+  COMPOSE_COLORS,
+  SIZES,
+  BACKGROUNDS,
+  DEFAULT_FONT_SIZE,
+} from '../../shared/config';
 import {
   BlackListDelete,
   DeleteAccount,
@@ -52,6 +62,14 @@ import { PushNotificationOptions, PushNotificationService } from '../../shared/s
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly fonts = FONTS;
+
+  readonly colors = COMPOSE_COLORS;
+
+  readonly sizes = SIZES;
+
+  readonly defaultFontSize = DEFAULT_FONT_SIZE;
+
+  readonly backgrounds = BACKGROUNDS;
 
   readonly autosaveDurations = AUTOSAVE_DURATION;
 

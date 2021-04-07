@@ -241,6 +241,12 @@ export class Settings {
 
   default_font?: string;
 
+  default_color?: string;
+
+  default_background?: string;
+
+  default_size?: number;
+
   autosave_duration?: string;
 
   enable_forwarding?: boolean;
@@ -539,7 +545,7 @@ export interface BlackList {
 
 export interface Contact {
   id?: number;
-  address: string;
+  address?: string;
   email?: string;
   enabled_encryption?: boolean;
   encrypted_data?: string;
@@ -821,4 +827,10 @@ export enum ComposerEncryptionType {
   COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT',
   COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT_DISCOURAGE = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT_DISCOURAGE',
   COMPOSER_ENCRYPTION_TYPE_NONE = 'COMPOSER_ENCRYPTION_TYPE_NONE',
+}
+
+export interface ImportContactResponse {
+  detail?: string;
+  success_count?: number;
+  fail_count?: number;
 }

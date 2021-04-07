@@ -1,7 +1,7 @@
 <form class="mail-actions-form" (submit)="createNewContact()" #newContactForm="ngForm">
   <!-- Contact Name-->
   <div class="form-group">
-    <div class="md-errors-spacer" *ngIf="contactName.errors || !contactName.untouched">
+    <div class="md-errors-spacer" *ngIf="contactName.errors && contactName.dirty">
       <div *ngIf="contactName.errors && contactName.errors.required">
         <span class="d-block text-right error-msg is-sm">{{ 'contacts.save.name_required' | translate }}</span>
       </div>
@@ -20,7 +20,7 @@
   </div>
   <!-- Contact Email-->
   <div class="form-group is-repeatable add-button">
-    <div class="md-errors-spacer" *ngIf="contactEmail.errors">
+    <div class="md-errors-spacer" *ngIf="contactEmail.errors && contactEmail.dirty">
       <div *ngIf="contactEmail.errors.required">
         <span class="d-block text-right error-msg is-sm">{{ 'contacts.save.email_req' | translate }}</span>
       </div>

@@ -15,7 +15,7 @@ import {
   ClearContactsToDecrypt,
 } from '../../../store/actions';
 import { SnackErrorPush } from '../../../store';
-import { OpenPgpService, SharedService } from '../../../store/services';
+import { OpenPgpService, SharedService, getCryptoRandom } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/config';
 
@@ -145,7 +145,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   updateAntiPhishing(status: boolean) {
     if (this.settings.is_anti_phishing_enabled !== status) {
       this.settings.anti_phishing_phrase =
-        Math.random().toString(36).slice(2, 5) + Math.random().toString(36).slice(2, 5);
+        getCryptoRandom().toString(36).slice(2, 5) + getCryptoRandom().toString(36).slice(2, 5);
       this.settingsService.updateSettings(this.settings, 'is_anti_phishing_enabled', status);
     }
   }

@@ -2,14 +2,13 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import Quill from 'quill';
+import * as parseEmail from 'email-addresses';
 
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { Folder } from '../models';
 import { GlobalPublicKey, PlanType, PricingPlan } from '../datatypes';
-
 import { NotificationService } from './notification.service';
-import * as parseEmail from 'email-addresses';
 
 // image format for retrieving custom attributes
 
@@ -203,6 +202,10 @@ export class SharedService {
       keys,
     };
   }
+
+  isRFCStandardValidEmail(address: string): boolean {
+    return !!parseEmail.parseOneAddress({ input: address, rejectTLD: true });
+  }
 }
 
 export function sortByString(data: any[], field: string) {
@@ -224,6 +227,13 @@ export function isComposeEditorOpen(): boolean {
     document.querySelectorAll('app-compose-mail').length > 0 ||
     document.querySelectorAll('ngb-modal-window').length > 0
   );
+}
+
+export function getCryptoRandom(): number {
+  let array = new Uint32Array(1),
+    max = Math.pow(2, 32),
+    randomValue = window.crypto.getRandomValues(array)[0] / max;
+  return randomValue;
 }
 
 export const LOADING_IMAGE =
