@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -11,7 +11,6 @@ import { Folder, MailFolderType } from '../../store/models';
   selector: 'app-mail-list',
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailListComponent implements OnInit {
   mailFolder: string = MailFolderType.INBOX;
