@@ -31,7 +31,7 @@ export class FoldersComponent implements OnInit {
 
   reorder: boolean;
 
-  sortedWithAlphabetic: boolean = false;
+  sortedWithAlphabetic = false;
 
   reorderInProgress = false;
 

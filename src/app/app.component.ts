@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
   isAuthenticated: boolean;
 
-  cookieEnabled: boolean = true;
+  cookieEnabled = true;
 
   constructor(
     public router: Router,

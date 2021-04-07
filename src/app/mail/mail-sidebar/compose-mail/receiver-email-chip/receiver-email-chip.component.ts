@@ -19,11 +19,11 @@ import { BlackListAdd, WhiteListAdd, MoveToBlacklist, MoveToWhitelist } from '..
 export class ReceiverEmailChipComponent {
   @ViewChild('addUserContent') addUserContent: any;
 
-  @Input() composePopover: boolean = true;
+  @Input() composePopover = true;
 
   @Input() email: string;
 
-  @Input() name: string = '';
+  @Input() name = '';
 
   @Input() contacts: Contact[];
 

@@ -15,9 +15,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class EmailFormatPipe implements PipeTransform {
   static transformToFormattedEmail(
     email: string,
-    displayName: string = '',
-    isHtmlFormat: boolean = false,
-    isTruncate: boolean = false,
+    displayName = '',
+    isHtmlFormat = false,
+    isTruncate = false,
   ) {
     if (!email) return '';
 
@@ -34,11 +34,12 @@ export class EmailFormatPipe implements PipeTransform {
         : `${displayName.trim()} <${formattedEmail}>`;
     }
   }
+
   transform(
     email: string,
-    displayName: string = '',
-    isHtmlFormat: boolean = false,
-    isTruncate: boolean = false,
+    displayName = '',
+    isHtmlFormat = false,
+    isTruncate = false,
   ): string {
     return EmailFormatPipe.transformToFormattedEmail(email, displayName, isHtmlFormat, isTruncate);
   }

@@ -871,7 +871,7 @@ function filterAndMergeMailIDs(
   newMails: Array<Mail>,
   originalMailIDs: Array<number>,
   limit: number,
-  checkUnread: boolean = false,
+  checkUnread = false,
 ): Array<number> {
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
   let newMailsMap: any = {};
@@ -901,8 +901,8 @@ function getUpdatesFolderMap(
   newMails: Array<Mail>,
   originalFolderState: FolderState,
   limit: number,
-  checkUnread: boolean = false,
-  isConversationViewMode: boolean = true,
+  checkUnread = false,
+  isConversationViewMode = true,
 ): any {
   let originalMailIDs = originalFolderState.mails;
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
