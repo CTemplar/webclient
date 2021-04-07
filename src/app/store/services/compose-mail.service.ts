@@ -235,7 +235,7 @@ export class ComposeMailService {
       const isPGPInline = receivers.every(rec => {
         if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
           const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
-          if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_INLINE) {
+          if (contactInfo && contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_INLINE) {
             return true;
           }
         }
@@ -247,7 +247,7 @@ export class ComposeMailService {
       const isPGPMime = receivers.every(rec => {
         if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
           const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
-          if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_MIME) {
+          if (contactInfo && contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_MIME) {
             return true;
           }
         }

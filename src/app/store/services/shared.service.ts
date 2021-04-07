@@ -172,7 +172,15 @@ export class SharedService {
    * @param email
    */
   parseUserKey(usersKeys: Map<string, GlobalPublicKey>, email: string): any {
-    const parsedEmail = (parseEmail.parseOneAddress(email) as parseEmail.ParsedMailbox).address;
+    const parsedData = parseEmail.parseOneAddress(email) as parseEmail.ParsedMailbox;
+    if (!parsedData) {
+      return {
+        isCTemplarKey: false,
+        isExistKey: false,
+        keys: [],
+      };
+    }
+    const parsedEmail = parsedData.address;
     let isCTemplarKey = false;
     let isExistKey = false;
     let keys = [];
