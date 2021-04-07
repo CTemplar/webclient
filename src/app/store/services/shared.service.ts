@@ -185,12 +185,12 @@ export class SharedService {
     ) {
       const keyObject: any = usersKeys.get(parsedEmail).key[0];
       // Check if it has keys, but STILL not sure if it is CTemplar user or NOT
-      if (keyObject.exists !== false) {
+      if (keyObject.exists) {
         isExistKey = true;
       }
       // Check if it is CTemplar user - checking with `is_enabled` flag,
       // TODO - Should be improved to check with `is_enabled` flag
-      if (keyObject.exists !== false && keyObject.is_enabled === true) {
+      if (keyObject.internal || keyObject.local) {
         isCTemplarKey = true;
       }
       if (isExistKey) {

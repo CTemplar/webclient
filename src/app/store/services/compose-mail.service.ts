@@ -145,6 +145,8 @@ export class ComposeMailService {
                   if (determinedAutocryptStatus.encryptTotally) {
                     this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
                   } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
+                    draftMail.draft.is_encrypted = false;
+                    draftMail.draft.is_subject_encrypted = false;
                     this.sendEmailWithDecryptedData(false, draftMail, publicKeys, encryptionTypeForExternal);
                   } else if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
                     this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
