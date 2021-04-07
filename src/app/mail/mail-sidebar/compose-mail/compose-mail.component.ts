@@ -985,6 +985,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         'i',
         'blockquote',
       ];
+      // @ts-ignore
       let xssValue = xss(this.content, {
         onTag: (tag: string, html: string, options: any) => {
           if (!options.isClosing && allowedTags.includes(tag.toLowerCase())) {

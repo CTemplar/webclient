@@ -37,6 +37,7 @@ export class SafePipe implements PipeTransform {
             return '';
           },
         });
+        // @ts-ignore
         let xssValue = xss(value, {
           stripIgnoreTag: true,
           stripIgnoreTagBody: ['script', 'style'],
@@ -220,6 +221,7 @@ export class SafePipe implements PipeTransform {
       ul: ['dir', 'style'],
       i: ['style'],
     };
+    // @ts-ignore
     value = xss(value, {
       whiteList: allowedTags,
       stripIgnoreTag: true,
