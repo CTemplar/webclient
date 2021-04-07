@@ -108,7 +108,7 @@ export class MailService {
   createMail(data: any): Observable<any[]> {
     let url = `${apiUrl}emails/messages/`;
     if (data.id) {
-      url = `${url + data.id}/`;
+      url = `${url}${data.id}/`;
       return this.http.patch<any>(url, data);
     }
     return this.http.post<any>(url, data);
