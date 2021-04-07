@@ -272,6 +272,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
           this.isScriptsLoaded = true;
           this.isScriptsLoading = false;
+        }).catch(() => {
+          this.isScriptsLoading = false;
         });
       })
       .catch(error =>

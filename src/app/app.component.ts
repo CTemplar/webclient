@@ -8,7 +8,7 @@ import { SharedService } from './store/services';
 import { getCryptoRandom } from './store/services';
 // import { UsersService } from './users/shared/users.service';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
-import { quotes } from './store/quotes';
+import { quotes, QuoteType } from './store/quotes';
 import { FinalLoading } from './store/actions';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
 
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
   public isMail = false;
 
-  quote: object;
+  quote: QuoteType;
 
   isAuthenticated: boolean;
 
