@@ -32,7 +32,13 @@ export class MessageBuilderService {
         body: [],
       });
       // Content Body
-      const content = isHtml ? (isBase64EncodeForBody ? btoa(unescape(encodeURIComponent(mailData.content))) : mailData.content) : (isBase64EncodeForBody ? btoa(unescape(encodeURIComponent(mailData.content_plain))) : mailData.content_plain) || '';
+      const content = isHtml
+        ? isBase64EncodeForBody
+          ? btoa(unescape(encodeURIComponent(mailData.content)))
+          : mailData.content
+        : (isBase64EncodeForBody
+            ? btoa(unescape(encodeURIComponent(mailData.content_plain)))
+            : mailData.content_plain) || '';
       const contentEntity = mimemessage.factory({
         contentType: isHtml ? EmailContentType.TEXT_HTML_CHARSET_UTF8 : EmailContentType.PLAIN_TEXT_CHARSET_UTF8,
         body: content,

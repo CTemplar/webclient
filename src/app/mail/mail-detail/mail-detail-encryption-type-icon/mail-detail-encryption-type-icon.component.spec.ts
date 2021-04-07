@@ -8,9 +8,8 @@ describe('MailDetailEncryptionTypeIconComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MailDetailEncryptionTypeIconComponent ]
-    })
-    .compileComponents();
+      declarations: [MailDetailEncryptionTypeIconComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

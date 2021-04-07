@@ -298,7 +298,11 @@ export function reducer(
       state.drafts[data.draftId] = { ...state.drafts[data.draftId], isProcessingAttachments };
       if (isPGPMimeMessage && data.name === PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME) {
         // PGP/MIME message process
-        state.drafts[data.draftId] = updateDraftMailForPGPMimeMessage(state.drafts[data.draftId], data, action.payload.response);
+        state.drafts[data.draftId] = updateDraftMailForPGPMimeMessage(
+          state.drafts[data.draftId],
+          data,
+          action.payload.response,
+        );
       }
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -398,7 +402,10 @@ export function reducer(
         // setting encryption type
         const email = action.payload.email;
         if (usersKeys.has(email) && usersKeys.get(email).key && usersKeys.get(email).key.length > 0) {
-          usersKeys.set(email, { ...usersKeys.get(email), pgpEncryptionType: action.payload.enabled_encryption ? action.payload.encryption_type : null });
+          usersKeys.set(email, {
+            ...usersKeys.get(email),
+            pgpEncryptionType: action.payload.enabled_encryption ? action.payload.encryption_type : null,
+          });
         }
       }
       return { ...state, usersKeys };

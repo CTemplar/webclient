@@ -1099,7 +1099,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
         });
     }
-    this.firstSaveSubscription = this.valueChanged$.pipe(first(() => !this.draft.draft.id && this.hasData())).subscribe(data => {
+    this.firstSaveSubscription = this.valueChanged$
+      .pipe(first(() => !this.draft.draft.id && this.hasData()))
+      .subscribe(data => {
         this.updateEmail();
       });
   }
@@ -2075,7 +2077,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
           }
           return false;
         });
-        this.pgpEncryptionType = isPGPInline ? PGPEncryptionType.PGP_INLINE : (isPGPMime ?  PGPEncryptionType.PGP_MIME : null);
+        this.pgpEncryptionType = isPGPInline
+          ? PGPEncryptionType.PGP_INLINE
+          : isPGPMime
+          ? PGPEncryptionType.PGP_MIME
+          : null;
         if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail.is_html) {
           this.setHtmlEditor(false);
         } else if (this.pgpEncryptionType === PGPEncryptionType.PGP_MIME && !this.draftMail.is_html) {

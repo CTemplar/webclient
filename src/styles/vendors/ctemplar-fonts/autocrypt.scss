@@ -1,16 +1,17 @@
 @font-face {
   font-family: 'autocrypt';
-  src:  url('#{$fonts}ctemplar-fonts/autocrypt.eot?6n2wa6');
-  src:  url('#{$fonts}ctemplar-fonts/autocrypt.eot?6n2wa6#iefix') format('embedded-opentype'),
-  url('#{$fonts}ctemplar-fonts/autocrypt.ttf?6n2wa6') format('truetype'),
-  url('#{$fonts}ctemplar-fonts/autocrypt.woff?6n2wa6') format('woff'),
-  url('#{$fonts}ctemplar-fonts/autocrypt.svg?6n2wa6#autocrypt') format('svg');
+  src: url('#{$fonts}ctemplar-fonts/autocrypt.eot?6n2wa6');
+  src: url('#{$fonts}ctemplar-fonts/autocrypt.eot?6n2wa6#iefix') format('embedded-opentype'),
+    url('#{$fonts}ctemplar-fonts/autocrypt.ttf?6n2wa6') format('truetype'),
+    url('#{$fonts}ctemplar-fonts/autocrypt.woff?6n2wa6') format('woff'),
+    url('#{$fonts}ctemplar-fonts/autocrypt.svg?6n2wa6#autocrypt') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^="ctemplar-icon-"], [class*=" ctemplar-icon-"] {
+[class^='ctemplar-icon-'],
+[class*=' ctemplar-icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'autocrypt' !important;
   speak: never;
@@ -26,25 +27,25 @@
 }
 
 .ctemplar-icon-autocrypt .path1:before {
-  content: "\e903";
+  content: '\e903';
 }
 .ctemplar-icon-autocrypt .path2:before {
-  content: "\e904";
+  content: '\e904';
   margin-left: -1em;
 }
 .ctemplar-icon-autocrypt .path3:before {
-  content: "\e905";
+  content: '\e905';
   margin-left: -1em;
 }
 .ctemplar-icon-autocrypt .path4:before {
-  content: "\e906";
+  content: '\e906';
   margin-left: -1em;
 }
 .ctemplar-icon-autocrypt .path5:before {
-  content: "\e907";
+  content: '\e907';
   margin-left: -1em;
 }
 .ctemplar-icon-autocrypt .path6:before {
-  content: "\e908";
+  content: '\e908';
   margin-left: -1em;
 }
