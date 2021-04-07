@@ -241,7 +241,7 @@ onmessage = async function (event) {
 };
 
 function isPGPEncrypted(content) {
-  return !content || content.indexOf('-----BEGIN PGP MESSAGE-----') === 0 ? true : false;
+  return content && content.indexOf('-----BEGIN PGP MESSAGE-----') === 0 ? true : false;
 }
 
 function generateKeys(options) {
@@ -483,6 +483,12 @@ function decryptContentProcess(data) {
   let isDecryptedError = false;
   let decryptedContent = {};
   if (!isPGPEncrypted(data.mailData.content)) {
+    console.error('error decrypt content', data.mailData.content)
+    if (!data.mailData.content) {
+      decryptedContent = { ...decryptedContent, content: '(Empty Content)' };
+      decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
+      return;
+    }
     isDecryptedError = true;
     decryptedContent = { ...decryptedContent, content: data.mailData.content };
     decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
@@ -510,6 +516,11 @@ function decryptContentProcess(data) {
  */
 function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError) {
   if (!isPGPEncrypted(data.mailData.incomingHeaders)) {
+    if (!data.mailData.incomingHeaders) {
+      decryptedContent = { ...decryptedContent, incomingHeaders: "" };
+      decryptSubjectProcess(data, decryptedContent, isDecryptedError);
+      return;
+    }
     isDecryptedError = true;
     decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
     decryptSubjectProcess(data, decryptedContent, isDecryptedError);
@@ -538,6 +549,11 @@ function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError)
  */
 function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
   if (!isPGPEncrypted(data.mailData.subject)) {
+    if (!data.mailData.subject) {
+      decryptedContent = { ...decryptedContent, subject: '(No Subject)' };
+      decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
+      return;
+    }
     isDecryptedError = true;
     decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
     decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
