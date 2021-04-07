@@ -5,6 +5,7 @@ import {
   ComposerEncryptionType,
   UIRecommendationValue,
 } from '../../../../store/datatypes';
+import { SharedService } from '../../../../store/services';
 
 @Component({
   selector: 'app-composer-encryption-type-icon',
@@ -23,6 +24,8 @@ export class ComposerEncryptionTypeIconComponent {
   @Input() selectedEmail: string;
 
   encryptionType: ComposerEncryptionType;
+
+  constructor(private sharedService: SharedService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.isAutocrypt) {
@@ -73,32 +76,41 @@ export class ComposerEncryptionTypeIconComponent {
         this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
       }
     } else if (this.selectedEmail && this.encryptionTypeMap && this.encryptionTypeMap[this.selectedEmail]) {
-      /**
-       * Recipient Icon
-       */
-      if (this.autocryptInfo && this.autocryptInfo.senderAutocryptEnabled) {
-        /**
-         * Autocryp Enabled
-         * At this case, Autocrypt icon would be showed
-         */
-        if (
-          this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL &&
-          this.autocryptInfo.encryptTotally &&
-          (this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE ||
-            this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT)
-        ) {
-          /**
-           * Fully Autocrypt Enabled and Encrypted
-           */
-          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
-        } else {
-          /**
-           * Autocrypt Enabled, but would be attached JUST Autocrypt Header
-           */
-          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
-        }
+      if (!this.sharedService.isRFCStandardValidEmail(this.selectedEmail)) {
+        this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;
       } else {
-        this.encryptionType = this.encryptionTypeMap[this.selectedEmail];
+        /**
+         * Recipient Icon
+         */
+        if (this.encryptionTypeMap[this.selectedEmail] === ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_END_TO_END) {
+          /**
+           * If it is CTemplar user, don't check below and set as End to End
+           */
+          this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_END_TO_END;
+        } else if (this.autocryptInfo && this.autocryptInfo.senderAutocryptEnabled) {
+          /**
+           * Autocryp Enabled
+           * At this case, Autocrypt icon would be showed
+           */
+          if (
+            this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL &&
+            this.autocryptInfo.encryptTotally &&
+            (this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE ||
+              this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT)
+          ) {
+            /**
+             * Fully Autocrypt Enabled and Encrypted
+             */
+            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
+          } else {
+            /**
+             * Autocrypt Enabled, but would be attached JUST Autocrypt Header
+             */
+            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
+          }
+        } else {
+          this.encryptionType = this.encryptionTypeMap[this.selectedEmail];
+        }
       }
     } else {
       this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE;

@@ -777,6 +777,7 @@ export enum AutocryptPreferEncryptType {
 }
 
 export enum UIRecommendationValue {
+  CTEMPLAR = 'CTEMPLAR',
   DISABLE = 'DISABLE',
   DISCOURAGE = 'DISCOURAGE',
   AVAILABLE = 'AVAILABLE',
