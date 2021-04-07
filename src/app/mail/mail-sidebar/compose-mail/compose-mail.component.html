@@ -48,8 +48,15 @@
         >
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <app-composer-encryption-type-icon [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap" [selectedEmail]="item.email" ></app-composer-encryption-type-icon>
-            <app-receiver-email-chip [contacts]="clonedContacts" [email]="item.email" [isContactEncrypted]="userState.settings.is_contacts_encrypted" [blacklist]="blacklist" [whitelist]="whitelist"></app-receiver-email-chip>
+            <app-receiver-email-chip
+              [contacts]="clonedContacts"
+              [email]="item.email"
+              [isContactEncrypted]="userState.settings.is_contacts_encrypted"
+              [blacklist]="blacklist"
+              [whitelist]="whitelist"
+              [autocryptInfo]="autocryptInfo"
+              [encryptionTypeMap]="receiverEncryptTypeMap"
+            ></app-receiver-email-chip>
             <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
           </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
@@ -95,8 +102,15 @@
         >
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <app-composer-encryption-type-icon [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap" [selectedEmail]="item.email" ></app-composer-encryption-type-icon>
-            <app-receiver-email-chip [contacts]="clonedContacts" [email]="item.email" [isContactEncrypted]="userState.settings.is_contacts_encrypted" [blacklist]="blacklist" [whitelist]="whitelist"></app-receiver-email-chip>
+            <app-receiver-email-chip
+              [contacts]="clonedContacts"
+              [email]="item.email"
+              [isContactEncrypted]="userState.settings.is_contacts_encrypted"
+              [blacklist]="blacklist"
+              [whitelist]="whitelist"
+              [autocryptInfo]="autocryptInfo"
+              [encryptionTypeMap]="receiverEncryptTypeMap"
+            ></app-receiver-email-chip>
             <delete-icon (click)="ccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
@@ -138,8 +152,15 @@
         >
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <app-composer-encryption-type-icon [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap" [selectedEmail]="item.email" ></app-composer-encryption-type-icon>
-            <app-receiver-email-chip [contacts]="clonedContacts" [email]="item.email" [isContactEncrypted]="userState.settings.is_contacts_encrypted" [blacklist]="blacklist" [whitelist]="whitelist"></app-receiver-email-chip>
+            <app-receiver-email-chip
+              [contacts]="clonedContacts"
+              [email]="item.email"
+              [isContactEncrypted]="userState.settings.is_contacts_encrypted"
+              [blacklist]="blacklist"
+              [whitelist]="whitelist"
+              [autocryptInfo]="autocryptInfo"
+              [encryptionTypeMap]="receiverEncryptTypeMap"
+            ></app-receiver-email-chip>
             <delete-icon (click)="bccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
