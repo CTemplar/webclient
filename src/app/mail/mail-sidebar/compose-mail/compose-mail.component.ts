@@ -87,7 +87,7 @@ Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
 const updatedSizes = SIZES.map((size, index) => {
-  return size + 'px';
+  return `${size}px`;
 });
 SizeAttributor.whitelist = updatedSizes;
 Quill.register(SizeAttributor, true);
