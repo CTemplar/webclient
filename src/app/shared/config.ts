@@ -175,9 +175,9 @@ function getBaseUrl() {
   if (AppConfig.local) {
     return 'http://localhost:8000/';
   }
-  // if (config.host === 'test.ctemplar.net') {
-  //   return 'https://testapi.ctemplar.net/';
-  // }
+  if (config.host === 'test.ctemplar.net') {
+    return 'https://testapi.ctemplar.net/';
+  }
   return 'https://devapi.ctemplar.net/';
 }
 
