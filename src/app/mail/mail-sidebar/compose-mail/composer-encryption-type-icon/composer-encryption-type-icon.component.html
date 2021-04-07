@@ -1,0 +1,9 @@
+<ng-container [ngSwitch]="encryptionType">
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE'" class="fas fa-lock mr-1 pgp-mime-inline-icon" [ngbTooltip]="'encryption.composer_encryption_type.pgp_encrypted_message' | translate" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_END_TO_END'" class="fas fa-lock mr-1" [ngbTooltip]="'encryption.composer_encryption_type.end_end_message' | translate" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NOPREERENCE'" class="fas fa-random mr-1 autocrypt-enabled-icon" [ngbTooltip]="'encryption.composer_encryption_type.autocyprt_nopreference' | translate" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_MUTUAL'" class="fas fa-random mr-1 autocrypt-enabled-mutual-icon" [ngbTooltip]="'encryption.composer_encryption_type.autocrypt_mutual' | translate" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT'" class="fas fa-lock mr-1 autocrypt-encrypt-icon" [ngbTooltip]="'encryption.composer_encryption_type.autocrypt_encrypt' | translate" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT_DISCOURAGE'" class="fas fa-lock mr-1 autocrypt-encrypt-discourage-icon" [ngbTooltip]="'encryption.composer_encryption_type.autocrypt_discourage' | translate" container="body"></i>
+  <i *ngSwitchCase="'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT'" class="fa fa-unlock mr-1 autocrypt-encrypt-discourage-icon" [ngbTooltip]="'encryption.composer_encryption_type.autocrypt_non_encrypt' | translate" container="body"></i>
+</ng-container>

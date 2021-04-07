@@ -11,5 +11,6 @@
         "printWidth": 999
       }
     }
-  ]
+  ],
+  "endOfLine": "auto"
 }

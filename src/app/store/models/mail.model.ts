@@ -1,6 +1,6 @@
 import { Subscription } from 'rxjs';
 
-import { MailAction } from '../datatypes';
+import { MailAction, PGPEncryptionType } from '../datatypes';
 
 export interface Mail {
   id?: number;
@@ -51,6 +51,8 @@ export interface Mail {
   thread_count?: number;
   children_folder_info?: any;
   has_starred_children?: boolean;
+  is_autocrypt_encrypted?: boolean;
+  encryption_type?: PGPEncryptionType;
 }
 
 export class EncryptionNonCTemplar {
@@ -83,6 +85,9 @@ export interface Mailbox {
   signature?: string;
   sort_order: number;
   key_type: string;
+  // Autocrypt settings
+  is_autocrypt_enabled?: boolean;
+  prefer_encrypt?: string;
 }
 
 export interface Folder {
@@ -124,9 +129,17 @@ export interface Attachment {
   request?: Subscription;
   size: string;
   actual_size?: number;
+  is_pgp_mime?: boolean;
 }
 
 export interface EmailDisplay {
   email: string;
   name?: string;
+}
+
+export interface PGPMimeMessageProgressModel {
+  content?: string;
+  attachments?: Attachment[];
+  encrypted_content?: string;
+  encrypted_attachments?: Map<number, string>; // Map<attachmentId, encrypted_content>
 }

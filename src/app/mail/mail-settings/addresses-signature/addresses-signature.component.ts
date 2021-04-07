@@ -10,12 +10,18 @@ import Quill from 'quill';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { AddMailboxKeys, AddMailboxKeysSuccess, DeleteMailboxKeys, MailboxSettingsUpdate, SetMailboxKeyPrimary } from '../../../store/actions/mail.actions';
+import {
+  AddMailboxKeys,
+  AddMailboxKeysSuccess,
+  DeleteMailboxKeys,
+  MailboxSettingsUpdate,
+  SetMailboxKeyPrimary,
+} from '../../../store/actions/mail.actions';
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { Mailbox } from '../../../store/models';
-import { PRIMARY_DOMAIN, QUILL_FORMATTING_MODULES } from '../../../shared/config';
+import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
@@ -28,8 +34,9 @@ Quill.register(ImageFormat, true);
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss'],
 })
 export class AddressesSignatureComponent implements OnInit, OnDestroy {
-
   @ViewChild('downloadKeyModal') downloadKeyModal: any;
+
+  @ViewChild('setAutocryptConfirmModal') setAutocryptConfirmModal: any;
 
   @ViewChild('addNewKeyModal') addNewKeyModal: any;
 
@@ -42,6 +49,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef: any;
 
   private downloadKeyModalRef: NgbModalRef;
+
+  private setAutocryptConfirmModalRef: NgbModalRef;
 
   private addNewKeyModalRef: NgbModalRef;
 
@@ -91,15 +100,21 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   selectedKeyTypeForAddNewKey: PGPKeyType;
 
-  isGeneratingKeys: boolean = false;
+  isGeneratingKeys = false;
 
-  mailboxKeyInProgress: boolean = false;
+  mailboxKeyInProgress = false;
 
   mailboxKeysMap: Map<number, Array<MailboxKey>> = new Map();
 
   pickedMailboxKeyForUpdate: MailboxKey; // Download or Remove
 
   pickedMailboxForUpdate: MailboxKey; // Download or Remove - multiple keys
+
+  selectedMailboxForAutocrypt: Mailbox;
+
+  inProgress = false;
+
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -157,6 +172,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         }
         this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
         this.mailboxKeysMap = mailboxesState.mailboxKeysMap;
+        if (this.inProgress && !mailboxesState.inProgress && this.setAutocryptConfirmModalRef) {
+          this.setAutocryptConfirmModalRef.dismiss();
+        }
+        this.inProgress = mailboxesState.inProgress;
       });
 
     /**
@@ -397,12 +416,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onDownloadKey(key: MailboxKey, mailbox: Mailbox) {
     this.pickedMailboxKeyForUpdate = key;
     this.pickedMailboxForUpdate = mailbox;
-    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
-      key.public_key,
-    )}`;
-    this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
-      key.private_key,
-    )}`;
+    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(key.public_key)}`;
+    this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(key.private_key)}`;
     this.downloadKeyModalRef = this.modalService.open(this.downloadKeyModal, {
       centered: true,
       backdrop: 'static',
@@ -452,6 +467,25 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSetAutocrypt(mailbox: Mailbox) {
+    this.selectedMailboxForAutocrypt = mailbox;
+    this.setAutocryptConfirmModalRef = this.modalService.open(this.setAutocryptConfirmModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-sm',
+    });
+  }
+
+  onConfirmSetAutocrypt() {
+    if (this.selectedMailboxForAutocrypt) {
+      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForAutocrypt));
+    }
+  }
+
+  onClickAutocrypt(isAutocrypt: boolean) {
+    this.selectedMailboxForAutocrypt.is_autocrypt_enabled = isAutocrypt;
+  }
+
   onSelectMailboxForAddNewKey(mailbox: Mailbox) {
     this.selectedMailboxForAddNewKey = mailbox;
   }
@@ -461,13 +495,18 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       return;
     }
     this.isGeneratingKeys = true;
-    this.openPgpService.generateUserKeysWithEmail(this.selectedMailboxForAddNewKey.email, atob(this.usersService.getUserKey())).pipe(take(1))
+    this.openPgpService
+      .generateUserKeysWithEmail(this.selectedMailboxForAddNewKey.email, atob(this.usersService.getUserKey()))
+      .pipe(take(1))
       .subscribe(
-        (keys) => {
+        keys => {
           this.isGeneratingKeys = false;
           keys['key_type'] = this.selectedKeyTypeForAddNewKey === PGPKeyType.RSA_4096 ? 'RSA4096' : 'ECC';
           keys['mailbox'] = this.selectedMailboxForAddNewKey.id;
-          if (!this.mailboxKeysMap.has(this.selectedMailboxForAddNewKey.id) || this.mailboxKeysMap.get(this.selectedMailboxForAddNewKey.id).length === 0) {
+          if (
+            !this.mailboxKeysMap.has(this.selectedMailboxForAddNewKey.id) ||
+            this.mailboxKeysMap.get(this.selectedMailboxForAddNewKey.id).length === 0
+          ) {
             keys['is_primary'] = true;
           }
           this.store.dispatch(new AddMailboxKeys(keys));

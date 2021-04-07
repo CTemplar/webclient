@@ -1,7 +1,43 @@
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { ComposeMailActions, ComposeMailActionTypes } from '../actions';
-import { ComposeMailState } from '../datatypes';
-import { MailFolderType } from '../models';
+import {
+  ComposeMailState,
+  Draft,
+  PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
+  PGP_MIME_DEFAULT_CONTENT,
+  PGPEncryptionType,
+} from '../datatypes';
+import { Attachment, MailFolderType } from '../models';
+import { getCryptoRandom } from '../services';
+
+/**
+ * 1. Force Making Draft Mail that contains general text content and  `encrypted.asc` as an attachment
+ * 2. Remove the other attachment because `encrypted.asc` already contains all of attachment and content
+ * 3. Set all of flags, so that it would be really composed after passed
+ * @param draftMail
+ * @param pgpMimeAttachment
+ * @private
+ */
+function updateDraftMailForPGPMimeMessage(
+  draftMail: Draft,
+  oldAttachment: Attachment,
+  newAttachment: Attachment,
+): Draft {
+  const newDraftMail = { ...draftMail };
+  newDraftMail.draft.content = PGP_MIME_DEFAULT_CONTENT;
+  newDraftMail.draft.content_plain = PGP_MIME_DEFAULT_CONTENT;
+  newDraftMail.draft.is_encrypted = false;
+  newDraftMail.draft.is_subject_encrypted = false;
+  newDraftMail.draft.is_autocrypt_encrypted = false;
+  newDraftMail.draft.encryption_type = PGPEncryptionType.PGP_MIME;
+  newDraftMail.draft.attachments = [{ ...newAttachment, is_inline: true }];
+  newDraftMail.attachments = [{ ...newAttachment, is_inline: true }];
+  newDraftMail.isProcessingAttachments = false;
+  newDraftMail.encryptedContent = undefined;
+  newDraftMail.pgpMimeContent = undefined;
+  newDraftMail.isPGPMimeMessage = true;
+  return newDraftMail;
+}
 
 export function reducer(
   state: ComposeMailState = { drafts: {}, usersKeys: new Map() },
@@ -31,7 +67,7 @@ export function reducer(
             attachment.name = FilenamePipe.tranformToFilename(attachment.document);
           }
           attachment.draftId = oldDraft.id;
-          attachment.attachmentId = performance.now() + Math.floor(Math.random() * 1000);
+          attachment.attachmentId = performance.now() + Math.floor(getCryptoRandom() * 1000);
           return attachment;
         });
       }
@@ -93,7 +129,7 @@ export function reducer(
       }
       // Saving on global user keys
       let usersKeys = state.usersKeys;
-      if (!action.payload.isBlind && action.payload.data.keys) {
+      if (!action.payload.isBlind && action.payload.data && action.payload.data.keys) {
         action.payload.data.keys.forEach((key: any) => {
           usersKeys.set(key.email, {
             key:
@@ -117,6 +153,20 @@ export function reducer(
           ...state.drafts[action.payload.draftId],
           isPGPInProgress: action.payload.isPGPInProgress,
           encryptedContent: action.payload.encryptedContent,
+        };
+      }
+      return {
+        ...state,
+        drafts: { ...state.drafts },
+      };
+    }
+
+    case ComposeMailActionTypes.UPDATE_PGP_MIME_ENCRYPTED: {
+      if (action.payload.draftId) {
+        state.drafts[action.payload.draftId] = {
+          ...state.drafts[action.payload.draftId],
+          isPGPMimeInProgress: action.payload.isPGPMimeInProgress,
+          pgpMimeContent: action.payload.encryptedContent,
         };
       }
       return {
@@ -229,7 +279,7 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      const { data } = action.payload;
+      const { data, isPGPMimeMessage } = action.payload;
       state.drafts[data.draftId].attachments.forEach((attachment, index) => {
         if (attachment.attachmentId === data.attachmentId) {
           state.drafts[data.draftId].attachments[index] = {
@@ -246,6 +296,14 @@ export function reducer(
         attachment => attachment.inProgress,
       );
       state.drafts[data.draftId] = { ...state.drafts[data.draftId], isProcessingAttachments };
+      if (isPGPMimeMessage && data.name === PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME) {
+        // PGP/MIME message process
+        state.drafts[data.draftId] = updateDraftMailForPGPMimeMessage(
+          state.drafts[data.draftId],
+          data,
+          action.payload.response,
+        );
+      }
       return { ...state, drafts: { ...state.drafts } };
     }
 
@@ -325,6 +383,32 @@ export function reducer(
         }
       });
       return { ...state, drafts: { ...state.drafts } };
+    }
+
+    case ComposeMailActionTypes.MATCH_CONTACT_USER_KEYS: {
+      const usersKeys = state.usersKeys;
+      if (action.payload.contactKeyAdd) {
+        const key = action.payload;
+        usersKeys.set(key.email, {
+          key:
+            usersKeys.has(key.email) && usersKeys.get(key.email).key && usersKeys.get(key.email).key.length > 0
+              ? [...usersKeys.get(key.email).key, { email: key.email, public_key: key.public_key }]
+              : [{ email: key.email, public_key: key.public_key }],
+          isFetching: false,
+        });
+      } else if (action.payload.contactKeyUpdate) {
+      } else if (action.payload.contactKeyRemove) {
+      } else if (action.payload.contactAdd) {
+        // setting encryption type
+        const email = action.payload.email;
+        if (usersKeys.has(email) && usersKeys.get(email).key && usersKeys.get(email).key.length > 0) {
+          usersKeys.set(email, {
+            ...usersKeys.get(email),
+            pgpEncryptionType: action.payload.enabled_encryption ? action.payload.encryption_type : null,
+          });
+        }
+      }
+      return { ...state, usersKeys };
     }
 
     default: {

@@ -71,7 +71,13 @@ export class ComposeMailEffects {
                 const progress = Math.round((100 * event.loaded) / event.total);
                 observer.next(new UploadAttachmentProgress({ ...payload, progress }));
               } else if (event instanceof HttpResponse) {
-                observer.next(new UploadAttachmentSuccess({ data: payload, response: event.body }));
+                observer.next(
+                  new UploadAttachmentSuccess({
+                    data: payload,
+                    response: event.body,
+                    isPGPMimeMessage: !!payload.isPGPMimeMessage,
+                  }),
+                );
               }
             },
             error => {

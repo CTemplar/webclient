@@ -8,6 +8,8 @@
           <div class="btn-dropdown btn-dropdown-select btn-dropdown-lg">
             <div ngbDropdown class="dropdown-sm">
               <button ngbDropdownToggle class="dropdown-toggle border-0 from-text" id="fromEmailDropdownMenuButton" role="button" [disabled]="attachments?.length > 0">
+                <app-composer-encryption-type-icon [isAutocrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>
+                <!--                <app-composer-encryption-type-icon [isAutocrypt]="true" [isAutocryptEncrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>-->
                 {{ selectedMailbox?.email | emailFormat: selectedMailbox?.display_name }}
               </button>
               <div *ngIf="!attachments || attachments.length === 0" ngbDropdownMenu class="from-dropdown" aria-labelledby="fromEmailDropdownMenuButton">
@@ -26,9 +28,7 @@
         <tag-input [(ngModel)]="mailData.receiver" *ngIf="isLoaded" name="to" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.recipient_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="inputTextValue" (onAdd)="onAddingReceiver($event, mailData.receiver)" (onRemove)="onRemoveReceive()" (onTextChange)="updateInputTextValue($event)" (paste)="onPaste()" (onTagEdited)="onTagEdited($event)" (click)="onClick()" #input>
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <span>
-              {{ item.email }}
-            </span>
+            <app-receiver-email-chip [contacts]="clonedContacts" [email]="item.email" [isContactEncrypted]="userState.settings.is_contacts_encrypted" [blacklist]="blacklist" [whitelist]="whitelist" [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap"></app-receiver-email-chip>
             <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
           </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
@@ -55,9 +55,7 @@
         <tag-input [(ngModel)]="mailData.cc" name="cc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.cc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="ccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.cc)" (onRemove)="onRemoveCc()" (onTextChange)="ccUpdateInputTextValue($event)" (paste)="ccOnPaste()" (onTagEdited)="ccOnTagEdited($event)" (click)="onCcClick()" #ccInput>
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <span>
-              {{ item.email }}
-            </span>
+            <app-receiver-email-chip [contacts]="clonedContacts" [email]="item.email" [isContactEncrypted]="userState.settings.is_contacts_encrypted" [blacklist]="blacklist" [whitelist]="whitelist" [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap"></app-receiver-email-chip>
             <delete-icon (click)="ccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
@@ -80,9 +78,7 @@
         <tag-input [(ngModel)]="mailData.bcc" name="bcc" [placeholder]="' '" [secondaryPlaceholder]="'settings.compose.bcc_email' | translate" [onTextChangeDebounce]="100" [onlyFromAutocomplete]="false" [addOnBlur]="true" [editable]="true" [separatorKeys]="[',']" [separatorKeyCodes]="[13]" [(inputText)]="bccInputTextValue" (onAdd)="onAddingReceiver($event, mailData.bcc)" (onRemove)="onRemoveBcc()" (onTextChange)="bccUpdateInputTextValue($event)" (paste)="bccOnPaste()" (onTagEdited)="bccOnTagEdited($event)" (click)="onBccClick()" #bccInput>
           <ng-template let-item="item" let-index="index">
             <app-circle-bar-spinner [showSpinner]="getUserKeyFetchingStatus(item.email)" [color]="night_mode ? '#fff' : '#333333'"></app-circle-bar-spinner>
-            <span>
-              {{ item.email }}
-            </span>
+            <app-receiver-email-chip [contacts]="clonedContacts" [email]="item.email" [isContactEncrypted]="userState.settings.is_contacts_encrypted" [blacklist]="blacklist" [whitelist]="whitelist" [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="receiverEncryptTypeMap"></app-receiver-email-chip>
             <delete-icon (click)="bccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
           <tag-input-dropdown [showDropdownIfEmpty]="false" [appendToBody]="false" [displayBy]="'display'" [identifyBy]="'email'" [autocompleteItems]="contacts">
@@ -190,24 +186,9 @@
                             <div ngbDropdownMenu class="typo-size-dropdown-menu" aria-labelledby="typoSizeDropdownMenu">
                               <div class="typo-holder">
                                 <ul class="typo-list list-styled">
-                                  <li>
-                                    <button value="10px" class="ql-size typo-select-link is-small">
-                                      {{ 'settings.compose.small' | translate }}
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button value="" class="ql-size typo-select-link is-normal">
-                                      {{ 'settings.compose.normal' | translate }}
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button value="18px" class="ql-size typo-select-link is-large">
-                                      {{ 'settings.compose.large' | translate }}
-                                    </button>
-                                  </li>
-                                  <li>
-                                    <button value="32px" class="ql-size typo-select-link is-huge">
-                                      {{ 'settings.compose.huge' | translate }}
+                                  <li *ngFor="let size of sizes">
+                                    <button [value]="size" class="ql-size typo-select-link">
+                                      {{ size }}
                                     </button>
                                   </li>
                                 </ul>
@@ -411,7 +392,7 @@
                   <i class="fa fa-ellipsis-v"></i>
                 </button>
                 <div ngbDropdownMenu class="dropdown-menu-right text-center dropdown-size" aria-labelledby="helpDropdownMenuButton">
-                  <button class="dropdown-item row" style="margin: 0px" (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html">
+                  <button class="dropdown-item row" style="margin: 0px" (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html || pgpEncryptionType === 'PGP_INLINE'">
                     <div class="row item">
                       <div class="col-2">
                         <i *ngIf="draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
@@ -506,11 +487,11 @@
     </div>
     <div class="modal-body bg-faded">
       <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-        <div class="form-group">{{ 'settings.compose.email_deleted' | translate }}</div>
+        <div class="form-group">{{ 'settings.compose.email_deleted' | translate }} ({{ settings.timezone }})</div>
         <div class="row">
           <div class="col-7 form-group">
             <label class="form-inline">{{ 'settings.compose.select_date' | translate }}</label>
-            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="selfDestruct.date" [minDate]="datePickerMinDate"> </ngb-datepicker>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="selfDestruct.date" [minDate]="datePickerMinDate" (ngModelChange)="changeSelfDestruct()"> </ngb-datepicker>
           </div>
           <div class="col-5 form-group">
             <label class="form-inline">{{ 'settings.compose.select_time' | translate }}</label>
@@ -531,7 +512,8 @@
                 </div>
               </div>
             </div>
-            <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian"></ngb-timepicker>
+            <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian" (ngModelChange)="changeSelfDestruct()"></ngb-timepicker>
+            <label>{{ 'mail_detail.delete_in' | translate }} {{ selfDestructTimeString | remainingTime }}</label>
           </div>
         </div>
         <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">{{ selfDestruct.error }}</div>
@@ -567,11 +549,11 @@
     </div>
     <div class="modal-body bg-faded">
       <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-        <div class="form-group">{{ 'settings.compose.email_on_datetime' | translate }}</div>
+        <div class="form-group">{{ 'settings.compose.email_on_datetime' | translate }} ({{ settings.timezone }})</div>
         <div class="row">
           <div class="col-7 form-group">
             <label class="form-inline">{{ 'settings.compose.select_date' | translate }}</label>
-            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="delayedDelivery.date" [minDate]="datePickerMinDate"></ngb-datepicker>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="delayedDelivery.date" [minDate]="datePickerMinDate" (ngModelChange)="changeDelayDeliver()"></ngb-datepicker>
           </div>
           <div class="col-5 form-group">
             <label class="form-inline">{{ 'settings.compose.select_time' | translate }}</label>
@@ -592,7 +574,8 @@
                 </div>
               </div>
             </div>
-            <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian"></ngb-timepicker>
+            <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian" (ngModelChange)="changeDelayDeliver()"></ngb-timepicker>
+            <label>{{ 'mail_detail.delay_delivery' | translate }} {{ delayDeliverTimeString | remainingTime }}</label>
           </div>
         </div>
         <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">{{ delayedDelivery.error }}</div>

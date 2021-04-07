@@ -9,17 +9,24 @@ import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail
 import {
   AppState,
   ComposeMailState,
+  Contact,
+  ContactsState,
   Draft,
   DraftState,
   GlobalPublicKey,
+  PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
+  PGPEncryptionType,
   PublicKey,
   SecureContent,
   UserState,
 } from '../datatypes';
-import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
+import { ClearDraft, CreateMail, SendMail, SnackPush, UploadAttachment } from '../actions';
+import { Attachment } from '../models';
 
 import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
+import { MessageBuilderService } from './message.builder.service';
+import { AutocryptProcessService } from './autocrypt.process.service';
 
 @Injectable()
 export class ComposeMailService {
@@ -43,18 +50,22 @@ export class ComposeMailService {
 
   countCommonCompose: number;
 
+  contacts: Contact[] = [];
+
   constructor(
     private store: Store<AppState>,
     private openPgpService: OpenPgpService,
     private mailService: MailService,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private messageBuilderService: MessageBuilderService,
+    private autocryptProcessService: AutocryptProcessService,
   ) {
     this.store
       .select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
         Object.keys(response.drafts).forEach((key: any) => {
           const draftMail: Draft = response.drafts[key];
-          const usersKeys = response.usersKeys;
+          const { usersKeys } = response;
           if (draftMail.draft) {
             if (
               draftMail.shouldSave &&
@@ -73,7 +84,10 @@ export class ComposeMailService {
                   !draftMail.isProcessingAttachments &&
                   !draftMail.isPGPInProgress)
               ) {
-                this.setEncryptedContent(draftMail);
+                // PGP Encryption has been finished, don't need to set encryption data, if it is PGP/MIME message
+                if (!draftMail.isPGPMimeMessage) {
+                  this.setEncryptedContent(draftMail);
+                }
                 if (!draftMail.isSaving) {
                   if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                     draftMail.draft.encryption.password = '';
@@ -86,11 +100,31 @@ export class ComposeMailService {
                     }),
                   );
                 }
+              } else if (this.drafts[key].isPGPMimeInProgress && !draftMail.isPGPMimeInProgress) {
+                // Finished to encrypt PGP/MIME message context
+                if (draftMail.pgpMimeContent) {
+                  this.processPGPMimeMessage(draftMail);
+                } else {
+                  this.store.dispatch(
+                    new SnackPush({
+                      message: 'Failed to send email, please try again. Email has been saved in draft.',
+                    }),
+                  );
+                }
               } else if (this.drafts[key].getUserKeyInProgress && !draftMail.getUserKeyInProgress) {
+                // Finished to get the user keys
                 let publicKeys: any[] = [];
                 if (this.getShouldBeEncrypted(draftMail, usersKeys)) {
                   draftMail.draft.is_encrypted = true;
                   publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
+                }
+                const encryptionTypeForExternal = this.getEncryptionTypeForExternal(draftMail, usersKeys);
+                if (encryptionTypeForExternal !== null && publicKeys.length > 0) {
+                  draftMail.draft.is_encrypted = false;
+                  draftMail.draft.is_subject_encrypted = false;
+                  if (encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE) {
+                    draftMail.draft.encryption_type = PGPEncryptionType.PGP_INLINE;
+                  }
                 }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                   draftMail.attachments.forEach(attachment => {
@@ -104,69 +138,33 @@ export class ComposeMailService {
                     new SecureContent(draftMail.draft),
                     draftMail.draft.encryption.password,
                   );
-                } else if (publicKeys.length > 0 && this.userState.settings.is_attachments_encrypted) {
-                  draftMail.attachments.forEach(attachment => {
-                    this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
-                  });
-                  this.openPgpService.encrypt(
-                    draftMail.draft.mailbox,
-                    draftMail.id,
-                    new SecureContent(draftMail.draft),
-                    publicKeys,
+                } else if (publicKeys.length > 0) {
+                  const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(
+                    draftMail,
+                    usersKeys,
                   );
-                } else if (!draftMail.isSaving) {
-                  const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
-                  if (encryptedAttachments.length > 0) {
-                    forkJoin(
-                      ...encryptedAttachments.map(attachment => {
-                        attachment.is_encrypted = false;
-                        attachment.document = attachment.decryptedDocument;
-                        return Observable.create((observer: any) => {
-                          this.mailService
-                            .uploadFile(attachment)
-                            .pipe(finalize(() => observer.complete()))
-                            .subscribe(
-                              event => {
-                                if (event instanceof HttpResponse) {
-                                  observer.next(event.body);
-                                }
-                              },
-                              error => observer.error(error),
-                            );
-                        });
-                      }),
-                    )
-                      .pipe(take(1))
-                      .subscribe(
-                        responses => {
-                          if (publicKeys.length === 0) {
-                            this.store.dispatch(new SendMail({ ...draftMail }));
-                          } else {
-                            this.openPgpService.encrypt(
-                              draftMail.draft.mailbox,
-                              draftMail.id,
-                              new SecureContent(draftMail.draft),
-                              publicKeys,
-                            );
-                          }
-                        },
-                        error =>
-                          this.store.dispatch(
-                            new SnackPush({
-                              message: 'Failed to send email, please try again. Email has been saved in draft.',
-                            }),
-                          ),
-                      );
-                  } else if (publicKeys.length === 0) {
-                    this.store.dispatch(new SendMail({ ...draftMail }));
+                  if (determinedAutocryptStatus.encryptTotally) {
+                    this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
+                  } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
+                    draftMail.draft.is_encrypted = false;
+                    draftMail.draft.is_subject_encrypted = false;
+                    this.sendEmailWithDecryptedData(false, draftMail, publicKeys, encryptionTypeForExternal);
+                  } else if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
+                    this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
                   } else {
+                    draftMail.attachments.forEach(attachment => {
+                      this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
+                    });
                     this.openPgpService.encrypt(
                       draftMail.draft.mailbox,
                       draftMail.id,
                       new SecureContent(draftMail.draft),
                       publicKeys,
+                      encryptionTypeForExternal,
                     );
                   }
+                } else if (!draftMail.isSaving) {
+                  this.sendEmailWithDecryptedData(true, draftMail, publicKeys, encryptionTypeForExternal);
                 } else {
                   this.store.dispatch(
                     new SnackPush({
@@ -191,6 +189,12 @@ export class ComposeMailService {
       .subscribe((user: UserState) => {
         this.userState = user;
       });
+
+    this.store
+      .select((state: AppState) => state.contacts)
+      .subscribe((contactsState: ContactsState) => {
+        this.contacts = contactsState.contacts;
+      });
   }
 
   private getShouldBeEncrypted(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): boolean {
@@ -211,11 +215,51 @@ export class ComposeMailService {
       let keys: any[] = [];
       receivers.forEach(receiver => {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
-        keys = [...keys, ...usersKeys.get(parsedEmail.address).key];
+        if (usersKeys.has(parsedEmail.address)) {
+          keys = [...keys, ...usersKeys.get(parsedEmail.address).key];
+        }
       });
       return keys;
     }
     return [];
+  }
+
+  private getEncryptionTypeForExternal(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): PGPEncryptionType {
+    if (draftMail.draft) {
+      const receivers: string[] = [
+        ...draftMail.draft.receiver.map(
+          receiver => (parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox).address,
+        ),
+        ...draftMail.draft.cc.map(cc => (parseEmail.parseOneAddress(cc) as parseEmail.ParsedMailbox).address),
+        ...draftMail.draft.bcc.map(bcc => (parseEmail.parseOneAddress(bcc) as parseEmail.ParsedMailbox).address),
+      ];
+      const isPGPInline = receivers.every(rec => {
+        if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
+          const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
+          if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_INLINE) {
+            return true;
+          }
+        }
+        return false;
+      });
+      if (isPGPInline) {
+        return PGPEncryptionType.PGP_INLINE;
+      }
+      const isPGPMime = receivers.every(rec => {
+        if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
+          const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
+          if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_MIME) {
+            return true;
+          }
+        }
+        return false;
+      });
+      if (isPGPMime) {
+        return PGPEncryptionType.PGP_MIME;
+      }
+      return null;
+    }
+    return null;
   }
 
   private setEncryptedContent(draftMail: Draft) {
@@ -226,6 +270,135 @@ export class ComposeMailService {
     if (draftMail.draft.encryption && draftMail.draft.encryption.password) {
       draftMail.draft.is_subject_encrypted = true;
       draftMail.draft.is_encrypted = true;
+    }
+  }
+
+  /**
+   * Check if there is encrypted attachment,
+   * If existed, decrypt and upload again attachment and
+   * Encrypted or decrypted message is sent by `isEncryptMessageContent` flag
+   * @param isEncryptMessageContent - Decide to encrypt the message content after proceed attachment
+   * @param draftMail
+   * @param publicKeys
+   * @param encryptionTypeForExternal
+   * @private
+   */
+  private sendEmailWithDecryptedData(
+    isEncryptMessageContent: boolean,
+    draftMail: Draft,
+    publicKeys: any[] = [],
+    encryptionTypeForExternal: PGPEncryptionType,
+  ) {
+    const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
+    if (encryptedAttachments.length > 0) {
+      forkJoin(
+        ...encryptedAttachments.map(attachment => {
+          attachment.is_encrypted = false;
+          attachment.document = attachment.decryptedDocument;
+          return Observable.create((observer: any) => {
+            this.mailService
+              .uploadFile(attachment)
+              .pipe(finalize(() => observer.complete()))
+              .subscribe(
+                event => {
+                  if (event instanceof HttpResponse) {
+                    observer.next(event.body);
+                  }
+                },
+                error => observer.error(error),
+              );
+          });
+        }),
+      )
+        .pipe(take(1))
+        .subscribe(
+          responses => {
+            if (!isEncryptMessageContent || publicKeys.length === 0) {
+              this.store.dispatch(new SendMail({ ...draftMail }));
+            } else {
+              this.openPgpService.encrypt(
+                draftMail.draft.mailbox,
+                draftMail.id,
+                new SecureContent(draftMail.draft),
+                publicKeys,
+              );
+            }
+          },
+          error =>
+            this.store.dispatch(
+              new SnackPush({
+                message: 'Failed to send email, please try again. Email has been saved in draft.',
+              }),
+            ),
+        );
+    } else if (!isEncryptMessageContent || publicKeys.length === 0) {
+      this.store.dispatch(new SendMail({ ...draftMail }));
+    } else {
+      this.openPgpService.encrypt(
+        draftMail.draft.mailbox,
+        draftMail.id,
+        new SecureContent(draftMail.draft),
+        publicKeys,
+      );
+    }
+  }
+
+  /**
+   * Force Making `encrypted.asc` file with `draftMail.encryptedContent`
+   * @param draftMail
+   * @private
+   */
+  private processPGPMimeMessage(draftMail: Draft) {
+    const { pgpMimeContent } = draftMail;
+    const newDocument = new File([pgpMimeContent], PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME, {
+      type: '',
+    });
+    const attachmentToUpload: Attachment = {
+      document: newDocument,
+      draftId: draftMail.id,
+      inProgress: false,
+      is_inline: false,
+      is_encrypted: false,
+      message: draftMail.draft.id,
+      name: PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
+      size: newDocument.size.toString(),
+      actual_size: newDocument.size,
+      is_pgp_mime: true,
+    };
+    this.store.dispatch(new UploadAttachment({ ...attachmentToUpload, isPGPMimeMessage: true }));
+  }
+
+  /**
+   * Build PGP/MIME message with the standard format
+   * @param draftMailId
+   * @param publicKeys
+   */
+  buildPGPMimeMessageAndEncrypt(draftMailId: number, publicKeys: Array<any>) {
+    const draftMail: Draft = this.drafts[draftMailId];
+    if (draftMail?.draft?.id) {
+      this.messageBuilderService
+        .getMimeData(
+          new SecureContent(draftMail.draft),
+          draftMail.attachments,
+          true,
+          true,
+          true,
+          PGPEncryptionType.PGP_MIME,
+        )
+        .then(mimeData => {
+          this.openPgpService.encryptForPGPMime(mimeData, draftMail.draft.mailbox, draftMail.id, publicKeys);
+        })
+        .catch(error => {
+          this.store.dispatch(
+            new SnackPush({
+              message: 'Failed to send email, please try again. Email has been saved in draft.',
+            }),
+          );
+        });
+    } else {
+      setTimeout(() => {
+        this.buildPGPMimeMessageAndEncrypt(draftMailId, publicKeys);
+      }, 500);
     }
   }
 

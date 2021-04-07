@@ -2,12 +2,12 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import Quill from 'quill';
+import * as parseEmail from 'email-addresses';
 
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { Folder } from '../models';
-import { PlanType, PricingPlan } from '../datatypes';
-
+import { GlobalPublicKey, PlanType, PricingPlan } from '../datatypes';
 import { NotificationService } from './notification.service';
 
 // image format for retrieving custom attributes
@@ -154,6 +154,58 @@ export class SharedService {
     window.URL.revokeObjectURL(url);
     a.remove();
   }
+
+  arrayBufferToBase64(buffer: ArrayBuffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const length = bytes.byteLength;
+    for (let i = 0; i < length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+
+  /**
+   * Parsing UsersKeys is very annoying now due to unstructured BACKEND response for several user types
+   * Parsing UsersKeys with given email and RETURN
+   * @param usersKeys
+   * @param email
+   */
+  parseUserKey(usersKeys: Map<string, GlobalPublicKey>, email: string): any {
+    const parsedEmail = (parseEmail.parseOneAddress(email) as parseEmail.ParsedMailbox).address;
+    let isCTemplarKey = false;
+    let isExistKey = false;
+    let keys = [];
+    if (
+      usersKeys.has(parsedEmail) &&
+      !usersKeys.get(parsedEmail).isFetching &&
+      usersKeys.get(parsedEmail).key &&
+      usersKeys.get(parsedEmail).key.length > 0
+    ) {
+      const keyObject: any = usersKeys.get(parsedEmail).key[0];
+      // Check if it has keys, but STILL not sure if it is CTemplar user or NOT
+      if (keyObject.exists) {
+        isExistKey = true;
+      }
+      // Check if it is CTemplar user - checking with `is_enabled` flag,
+      // TODO - Should be improved to check with `is_enabled` flag
+      if (keyObject.internal || keyObject.local) {
+        isCTemplarKey = true;
+      }
+      if (isExistKey) {
+        keys = keyObject.key;
+      }
+    }
+    return {
+      isCTemplarKey,
+      isExistKey,
+      keys,
+    };
+  }
+
+  isRFCStandardValidEmail(address: string): boolean {
+    return !!parseEmail.parseOneAddress({ input: address, rejectTLD: true });
+  }
 }
 
 export function sortByString(data: any[], field: string) {
@@ -175,6 +227,13 @@ export function isComposeEditorOpen(): boolean {
     document.querySelectorAll('app-compose-mail').length > 0 ||
     document.querySelectorAll('ngb-modal-window').length > 0
   );
+}
+
+export function getCryptoRandom(): number {
+  let array = new Uint32Array(1),
+    max = Math.pow(2, 32),
+    randomValue = window.crypto.getRandomValues(array)[0] / max;
+  return randomValue;
 }
 
 export const LOADING_IMAGE =

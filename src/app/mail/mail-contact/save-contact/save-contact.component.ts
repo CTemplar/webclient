@@ -19,29 +19,26 @@ import { take } from 'rxjs/operators';
 
 import {
   AppState,
+  AutocryptPreferEncryptType,
   Contact,
+  ContactKey,
   ContactsState,
-  UserState,
-  MailboxKey,
   PGPEncryptionType,
   StringBooleanMappedType,
   StringStringMappedType,
-  ContactKey,
+  UserState,
 } from '../../../store/datatypes';
 import {
   ContactAdd,
   ContactAddKeys,
-  ContactFetchKeys,
-  MailboxEffects,
-  MoveToWhitelist,
-  SnackErrorPush,
-  ContactRemoveKeys,
   ContactBulkUpdateKeys,
+  ContactFetchKeys,
+  ContactRemoveKeys,
+  SnackErrorPush,
 } from '../../../store';
 import { OpenPgpService } from '../../../store/services';
-import { config } from 'rxjs';
 
-import { getEmailDomain } from '../../../shared/config';
+import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -88,6 +85,10 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   downloadUrls: StringStringMappedType = {};
 
   selectedContactPulbicKeys: Array<ContactKey> = [];
+
+  isAutocryptEnabled: boolean;
+
+  primaryWebsite = PRIMARY_WEBSITE;
 
   constructor(
     private store: Store<AppState>,
@@ -211,15 +212,23 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
               this.isImportingKey = false;
               const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
               if (newKeyInfo) {
-                if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
-                  this.selectedContactPulbicKeys.forEach(key => {
-                    if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
-                      newKeyInfo.id = key.id;
-                      newKeyInfo.is_primary = key.is_primary;
-                    }
-                  });
+                if (newKeyInfo.key_type === 'RSA4096') {
+                  if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
+                    this.selectedContactPulbicKeys.forEach(key => {
+                      if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
+                        newKeyInfo.id = key.id;
+                        newKeyInfo.is_primary = key.is_primary;
+                      }
+                    });
+                  }
+                  this.makeCallForAddKeys(newKeyInfo);
+                } else {
+                  this.store.dispatch(
+                    new SnackErrorPush({
+                      message: `Key Type ${newKeyInfo.key_type} is not allowed to import`,
+                    }),
+                  );
                 }
-                this.makeCallForAddKeys(newKeyInfo);
               } else {
                 this.store.dispatch(
                   new SnackErrorPush({
@@ -244,7 +253,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
 
   makeCallForAddKeys(key: ContactKey) {
     key.contact = this.selectedContact.id;
-    this.store.dispatch(new ContactAddKeys(key));
+    this.store.dispatch(new ContactAddKeys({ key, email: this.selectedContact.email }));
   }
 
   getMailboxKeyModelFromParsedInfo(keyInfo: any): ContactKey {
@@ -276,12 +285,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     if (remainedKeys.length === 0) {
       this.newContactModel.encryption_type = null;
       this.newContactModel.enabled_encryption = false;
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.NOPREFERENCE;
       this.createNewContact(false);
     } else if (key.is_primary) {
       remainedKeys[0].is_primary = true;
       this.store.dispatch(new ContactBulkUpdateKeys([remainedKeys[0]]));
     }
-    this.store.dispatch(new ContactRemoveKeys(key));
+    this.store.dispatch(new ContactRemoveKeys({ key, email: this.selectedContact.email }));
   }
 
   onSetPrimary(key: ContactKey) {
@@ -297,5 +307,13 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   onSaveAdvancedSettings() {
     this.store.dispatch(new ContactBulkUpdateKeys(this.selectedContactPulbicKeys));
     this.createNewContact(false);
+  }
+
+  onSelectPreferEncrypt(type: string) {
+    if (type === AutocryptPreferEncryptType.NOPREFERENCE) {
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.NOPREFERENCE;
+    } else {
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.MUTUAL;
+    }
   }
 }

@@ -56,6 +56,7 @@ import { PlanType, SignupState } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
 import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
+import { MailboxEffects } from './mailbox.effects';
 
 @Injectable()
 export class AuthEffects {
@@ -229,7 +230,11 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.changePassword(payload).pipe(
         switchMap(user =>
-          of(new ChangePasswordSuccess(payload), new SnackPush({ message: 'Password changed successfully.' })),
+          of(
+            new ChangePasswordSuccess(payload),
+            new GetMailboxes(),
+            new SnackPush({ message: 'Password changed successfully.' }),
+          ),
         ),
         catchError((response: any) =>
           of(

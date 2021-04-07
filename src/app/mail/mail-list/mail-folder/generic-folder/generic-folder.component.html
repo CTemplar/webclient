@@ -292,9 +292,12 @@
             </td>
             <!-- Icon Secured -->
             <td class="mail-security-status fire-wall-protection">
-              <img *ngIf="(mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
-              <ng-template #fireWallIcon>
-                <i class="fas fa-chess-rook svg-inline--fa" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
+              <i *ngIf="mail.encryption_type === 'PGP_INLINE' || mail.encryption_type === 'PGP_MIME'; else fullWallProtection" class="fas fa-lock pgp-encrypted-icon" ngbTooltip="PGP Encrypted Message"></i>
+              <ng-template #fullWallProtection>
+                <img *ngIf="(mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
+                <ng-template #fireWallIcon>
+                  <i class="fas fa-chess-rook svg-inline--fa" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
+                </ng-template>
               </ng-template>
             </td>
             <!-- Icon Secured -->
@@ -380,9 +383,12 @@
 
             <!-- Icon Secured -->
             <td class="mail-security-status fire-wall-protection">
-              <img *ngIf="(mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
-              <ng-template #fireWallIcon>
-                <i class="fas fa-chess-rook svg-inline--fa" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
+              <i *ngIf="mail.encryption_type === 'PGP_INLINE' || mail.encryption_type === 'PGP_MIME'; else fullWallProtection" class="fas fa-lock pgp-encrypted-icon" ngbTooltip="PGP Encrypted Message"></i>
+              <ng-template #fullWallProtection>
+                <img *ngIf="(mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode; else fireWallIcon" src="assets/images/features-icon/tower.svg" width="14px" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left" />
+                <ng-template #fireWallIcon>
+                  <i class="fas fa-chess-rook svg-inline--fa" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
+                </ng-template>
               </ng-template>
             </td>
             <!-- Icon Secured -->

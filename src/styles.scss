@@ -19,6 +19,7 @@
 @import 'styles/vendors/bootstrap/ctemplar-bootstrap'; // Bootstrap SASS modules
 @import 'styles/vendors/ceaser/ceaser-easing'; // Ceaser easing SASS module for smooth transition effects
 @import 'styles/vendors/icomoon/icomoon'; // Icomoon SASS module which includes custom font library
+@import 'styles/vendors/ctemplar-fonts/fonts'; // CTemplar fonts
 
 /**
 * IMPORTING PARTIALS FROM MIXINS DIRECTORY
@@ -149,15 +150,15 @@
 }
 
 .ql-font-roboto {
-  font-family: Roboto, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .ql-font-arial {
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .ql-font-times-new-roman {
-  font-family: Times New Roman, serif;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .generic-dropdown-list {
@@ -184,10 +185,11 @@ tag-input {
 
   tag {
     height: 20px !important;
-    border-radius: 20px !important;
+    border-radius: 3px !important;
     border: 1px solid lightgrey !important;
     color: var(--text-color) !important;
     background-color: var(--composer-tag-background) !important;
+    line-height: 35px !important;
     delete-icon {
       svg {
         path {
@@ -622,4 +624,75 @@ a.text-dark:hover {
   a {
     color: #f8f9fa !important;
   }
+}
+
+.receiver-email-chip-popover {
+  background: var(--receiver-chip-popover-background);
+  z-index: 9999;
+  border: 1px solid var(--receiver-chip-popover-border);
+  border-radius: 2px;
+  margin-top: 10px;
+  -moz-box-shadow: 3px 3px 5px var(--receiver-chip-popover-shadow);
+  -webkit-box-shadow: 3px 3px 5px var(--receiver-chip-popover-shadow);
+  color: var(--text-color-inverse);
+  box-shadow: 3px 3px 5px var(--receiver-chip-popover-shadow);
+  min-width: 200px;
+  .receiver-email-chip-popover-receiver-info {
+    padding: 7px 15px;
+    .receiver-email-chip-popover-receiver-name {
+      font-size: 20px;
+      a {
+        color: var(--tex-color);
+        cursor: pointer;
+        i {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+  .receiver-email-chip-popover-receiver-action {
+    border-top: 1px solid var(--receiver-chip-popover-divider-color);
+    padding: 7px 15px;
+    display: flex;
+    justify-content: space-between;
+    a {
+      color: var(--tex-color);
+      cursor: pointer;
+    }
+    a.hover-text-decoration-underline {
+      font-size: 14px;
+    }
+    a.hover-text-decoration-underline:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.font-size-1 {
+  font-size: 1em !important;
+}
+
+.drag-drop-handle {
+  width: 22px;
+  height: 22px;
+  margin-right: 5px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: move;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging :not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

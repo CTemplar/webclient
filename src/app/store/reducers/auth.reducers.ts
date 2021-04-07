@@ -18,6 +18,7 @@ export const initialState: AuthState = {
   captcha: {},
   auth2FA: {},
   saveDraftOnLogout: false,
+  passwordChangeInProgress: false,
 };
 
 export function logoutReducer(reducerAction: any) {
@@ -243,6 +244,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         inProgress: true,
+        passwordChangeInProgress: true,
         isChangePasswordError: false,
       };
     }
@@ -253,6 +255,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         inProgress: false,
+        passwordChangeInProgress: false,
         isChangePasswordError: false,
       };
     }
@@ -260,6 +263,7 @@ export function reducer(state = initialState, action: AuthActionAll): AuthState 
       return {
         ...state,
         inProgress: false,
+        passwordChangeInProgress: false,
         isChangePasswordError: true,
       };
     }

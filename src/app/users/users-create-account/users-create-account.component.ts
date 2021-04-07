@@ -174,7 +174,11 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
-      this.signupFormCompleted();
+      if (!!this.inviteCode?.match(/^[0-9]{4}-[0-9]{5,6}$/)) {
+        this.signupFormCompleted();
+      } else {
+        this.errorMessage = this.translate.instant('create_account.insert_valid_inviteCode');
+      }
     }
   }
 

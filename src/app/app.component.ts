@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { SharedService } from './store/services';
+import { getCryptoRandom } from './store/services';
 // import { UsersService } from './users/shared/users.service';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes } from './store/quotes';
@@ -75,29 +76,13 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.quote = quotes[Math.floor(Math.random() * quotes.length)];
+    this.quote = quotes[Math.floor(getCryptoRandom() * quotes.length)];
     this.store
       .select((state: AppState) => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.isAuthenticated = authState.isAuthenticated;
       });
-  }
-
-  ngAfterViewChecked() {
-    // For big window height, fix bottom white space issue
-    const allContent = document.getElementById('app-outer-id');
-    const header = document.getElementById('mastHead');
-    const footer = document.getElementById('colphon');
-    const mainContent = document.getElementById('login-main');
-    if (allContent && mainContent && window.innerHeight > allContent.getBoundingClientRect().height) {
-      mainContent.style.height =
-        (
-          window.innerHeight -
-          header.getBoundingClientRect().height -
-          footer.getBoundingClientRect().height
-        ).toString() + 'px';
-    }
   }
 
   private updateLoadingStatus(): void {

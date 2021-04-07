@@ -164,14 +164,18 @@
                   <input class="form-control" id="personName" [placeholder]="'settings.donate.name_on_card' | translate" type="text" />
                 </div>
                 <div class="form-group">
-                  <span class="d-block text-right error-msg"><span [translate]="'settings.required_field'">Required field</span> <sup class="font-weight-bold error-msg">*</sup></span>
                   <label for="cardName" class="d-block text-left hidden-sm-up label-error" [translate]="'settings.donate.card_number'">Card Number </label>
-                  <input class="form-control error stripe-error number" id="cardName" name="cardName" [placeholder]="'settings.donate.card_number' | translate" type="text" formControlName="cardNumber" [(ngModel)]="cardNumber" (change)="checkStripeValidation()" />
+                  <span class="d-block text-right font-weight-bold">*</span>
+                  <input id="cardNumber" name="cardNumber" class="form-control number" [ngClass]="{ error: cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched), 'stripe-error': cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched) }" [placeholder]="'settings.donate.card_number' | translate" type="text" formControlName="cardNumber" required (change)="checkStripeValidation()" />
+                  <ng-container *ngIf="cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched)">
+                    <span *ngIf="cardNumberFormControl.errors.required" class="d-block text-right error-msg" [translate]="'settings.required_field'">Required field</span>
+                    <span *ngIf="cardNumberFormControl.errors.pattern" class="d-block text-right error-msg">Number Only</span>
+                  </ng-container>
                 </div>
                 <div class="form-group form-group-3-col">
                   <div class="form-group-row">
                     <div class="form-group-col">
-                      <span class="d-block text-right error-msg font-weight-bold">*</span>
+                      <span class="d-block text-right font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up" [translate]="'billing_info.month'">Month</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="date-select-dropdown">
@@ -190,7 +194,7 @@
                       </div>
                     </div>
                     <div class="form-group-col">
-                      <span class="d-block text-right error-msg font-weight-bold">*</span>
+                      <span class="d-block text-right font-weight-bold">*</span>
                       <label class="d-block text-muted text-left hidden-sm-up" [translate]="'billing_info.year'">Year</label>
                       <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
                         <div ngbDropdown class="year-select-dropdown">
