@@ -485,11 +485,11 @@
     </div>
     <div class="modal-body bg-faded">
       <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-        <div class="form-group">{{ 'settings.compose.email_deleted' | translate }}</div>
+        <div class="form-group">{{ 'settings.compose.email_deleted' | translate }} ({{ settings.timezone }})</div>
         <div class="row">
           <div class="col-7 form-group">
             <label class="form-inline">{{ 'settings.compose.select_date' | translate }}</label>
-            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="selfDestruct.date" [minDate]="datePickerMinDate"> </ngb-datepicker>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="selfDestruct.date" [minDate]="datePickerMinDate" (ngModelChange)="changeSelfDestruct()"> </ngb-datepicker>
           </div>
           <div class="col-5 form-group">
             <label class="form-inline">{{ 'settings.compose.select_time' | translate }}</label>
@@ -510,7 +510,8 @@
                 </div>
               </div>
             </div>
-            <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian"></ngb-timepicker>
+            <ngb-timepicker [(ngModel)]="selfDestruct.time" [meridian]="selfDestruct.meridian" (ngModelChange)="changeSelfDestruct()"></ngb-timepicker>
+            <label>{{ 'mail_detail.delete_in' | translate }} {{ selfDestructTimeString | remainingTime }}</label>
           </div>
         </div>
         <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">{{ selfDestruct.error }}</div>
@@ -546,11 +547,11 @@
     </div>
     <div class="modal-body bg-faded">
       <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-        <div class="form-group">{{ 'settings.compose.email_on_datetime' | translate }}</div>
+        <div class="form-group">{{ 'settings.compose.email_on_datetime' | translate }} ({{ settings.timezone }})</div>
         <div class="row">
           <div class="col-7 form-group">
             <label class="form-inline">{{ 'settings.compose.select_date' | translate }}</label>
-            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="delayedDelivery.date" [minDate]="datePickerMinDate"></ngb-datepicker>
+            <ngb-datepicker class="bg-white ng-datepicker ng-datepicker-265" ngbAutofocus [(ngModel)]="delayedDelivery.date" [minDate]="datePickerMinDate" (ngModelChange)="changeDelayDeliver()"></ngb-datepicker>
           </div>
           <div class="col-5 form-group">
             <label class="form-inline">{{ 'settings.compose.select_time' | translate }}</label>
@@ -571,7 +572,8 @@
                 </div>
               </div>
             </div>
-            <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian"></ngb-timepicker>
+            <ngb-timepicker [(ngModel)]="delayedDelivery.time" [meridian]="delayedDelivery.meridian" (ngModelChange)="changeDelayDeliver()"></ngb-timepicker>
+            <label>{{ 'mail_detail.delay_delivery' | translate }} {{ delayDeliverTimeString | remainingTime }}</label>
           </div>
         </div>
         <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">{{ delayedDelivery.error }}</div>
