@@ -27,12 +27,11 @@ export class ImageFormat extends BaseImageFormat {
   }
 
   format(name: string, value: any) {
-    const self: any = this;
     if (ImageFormatAttributesList.includes(name)) {
       if (value) {
-        self.domNode.setAttribute(name, value);
+        this.domNode.setAttribute(name, value);
       } else {
-        self.domNode.removeAttribute(name);
+        this.domNode.removeAttribute(name);
       }
     } else {
       super.format(name, value);
