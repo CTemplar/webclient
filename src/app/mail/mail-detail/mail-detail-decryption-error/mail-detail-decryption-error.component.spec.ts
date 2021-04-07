@@ -8,9 +8,8 @@ describe('MailDetailDecryptionErrorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MailDetailDecryptionErrorComponent ]
-    })
-    .compileComponents();
+      declarations: [MailDetailDecryptionErrorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

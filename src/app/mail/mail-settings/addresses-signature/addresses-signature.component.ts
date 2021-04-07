@@ -10,7 +10,13 @@ import Quill from 'quill';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
-import { AddMailboxKeys, AddMailboxKeysSuccess, DeleteMailboxKeys, MailboxSettingsUpdate, SetMailboxKeyPrimary } from '../../../store/actions/mail.actions';
+import {
+  AddMailboxKeys,
+  AddMailboxKeysSuccess,
+  DeleteMailboxKeys,
+  MailboxSettingsUpdate,
+  SetMailboxKeyPrimary,
+} from '../../../store/actions/mail.actions';
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
@@ -410,12 +416,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onDownloadKey(key: MailboxKey, mailbox: Mailbox) {
     this.pickedMailboxKeyForUpdate = key;
     this.pickedMailboxForUpdate = mailbox;
-    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
-      key.public_key,
-    )}`;
-    this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(
-      key.private_key,
-    )}`;
+    this.selectedMailboxPublicKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(key.public_key)}`;
+    this.selectedMailboxPrivateKey = `data:application/octet-stream;charset=utf-8;base64,${btoa(key.private_key)}`;
     this.downloadKeyModalRef = this.modalService.open(this.downloadKeyModal, {
       centered: true,
       backdrop: 'static',
@@ -493,13 +495,18 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       return;
     }
     this.isGeneratingKeys = true;
-    this.openPgpService.generateUserKeysWithEmail(this.selectedMailboxForAddNewKey.email, atob(this.usersService.getUserKey())).pipe(take(1))
+    this.openPgpService
+      .generateUserKeysWithEmail(this.selectedMailboxForAddNewKey.email, atob(this.usersService.getUserKey()))
+      .pipe(take(1))
       .subscribe(
-        (keys) => {
+        keys => {
           this.isGeneratingKeys = false;
           keys['key_type'] = this.selectedKeyTypeForAddNewKey === PGPKeyType.RSA_4096 ? 'RSA4096' : 'ECC';
           keys['mailbox'] = this.selectedMailboxForAddNewKey.id;
-          if (!this.mailboxKeysMap.has(this.selectedMailboxForAddNewKey.id) || this.mailboxKeysMap.get(this.selectedMailboxForAddNewKey.id).length === 0) {
+          if (
+            !this.mailboxKeysMap.has(this.selectedMailboxForAddNewKey.id) ||
+            this.mailboxKeysMap.get(this.selectedMailboxForAddNewKey.id).length === 0
+          ) {
             keys['is_primary'] = true;
           }
           this.store.dispatch(new AddMailboxKeys(keys));

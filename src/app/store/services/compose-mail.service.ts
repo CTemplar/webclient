@@ -9,7 +9,8 @@ import { ComposeMailDialogComponent } from '../../mail/mail-sidebar/compose-mail
 import {
   AppState,
   ComposeMailState,
-  Contact, ContactsState,
+  Contact,
+  ContactsState,
   Draft,
   DraftState,
   GlobalPublicKey,

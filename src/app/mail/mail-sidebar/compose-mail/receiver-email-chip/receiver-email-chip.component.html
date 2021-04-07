@@ -15,7 +15,7 @@
 </ng-template>
 
 <!-- Encryption Type Icon -->
-<app-composer-encryption-type-icon *ngIf="composePopover" class="align-middle" [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="encryptionTypeMap" [selectedEmail]="email" ></app-composer-encryption-type-icon>
+<app-composer-encryption-type-icon *ngIf="composePopover" class="align-middle" [autocryptInfo]="autocryptInfo" [encryptionTypeMap]="encryptionTypeMap" [selectedEmail]="email"></app-composer-encryption-type-icon>
 
 <!-- Popver Handler -->
 <i *ngIf="composePopover" class="tag-chip-info icon icon-login align-middle ml-1 mt-0 d-inline-block" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()"></i>

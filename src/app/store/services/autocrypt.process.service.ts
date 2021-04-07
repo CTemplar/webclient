@@ -9,7 +9,8 @@ import {
   AutocryptEncryptDetermineForSingle,
   AutocryptPreferEncryptType,
   Contact,
-  ContactsState, Draft,
+  ContactsState,
+  Draft,
   GlobalPublicKey,
   MailBoxesState,
   UIRecommendationValue,
@@ -128,7 +129,10 @@ export class AutocryptProcessService {
     return {
       encryptTotally,
       recommendationValue,
-      senderPreferEncrypt: senderMailbox.prefer_encrypt === 'mutual' ? AutocryptPreferEncryptType.MUTUAL : AutocryptPreferEncryptType.NOPREFERENCE,
+      senderPreferEncrypt:
+        senderMailbox.prefer_encrypt === 'mutual'
+          ? AutocryptPreferEncryptType.MUTUAL
+          : AutocryptPreferEncryptType.NOPREFERENCE,
       senderAutocryptEnabled: true,
       receiversStatus,
     };

@@ -41,7 +41,7 @@ import {
   ContactBulkUpdateKeysSuccess,
   ContactBulkUpdateKeysFailure,
   MatchContactUserKeys,
-  GetUsersKeys
+  GetUsersKeys,
 } from '../actions';
 import { Contact, ImportContactResponse } from '../datatypes';
 
@@ -241,7 +241,7 @@ export class ContactsEffects {
               new SnackPush({ message: `Public Key with fingerprint ${payload.fingerprint} has been updated` }),
             );
           } else {
-            return of( 
+            return of(
               new ContactAddKeysSuccess(res),
               // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyAdd: true })
               new GetUsersKeys({
@@ -261,18 +261,20 @@ export class ContactsEffects {
   );
 
   @Effect()
-  contactRemoveKeys: Observable<any> = this.actions.pipe( 
+  contactRemoveKeys: Observable<any> = this.actions.pipe(
     ofType(ContactsActionTypes.CONTACT_REMOVE_KEYS),
     map((action: ContactRemoveKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactRemoveKeys(payload.key).pipe(
-        switchMap(res => of(
-          new ContactRemoveKeysSuccess(payload.key),
-          // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyRemove: true })
-          new GetUsersKeys({
-            emails: [payload.email],
-          }),
-        )),
+        switchMap(res =>
+          of(
+            new ContactRemoveKeysSuccess(payload.key),
+            // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyRemove: true })
+            new GetUsersKeys({
+              emails: [payload.email],
+            }),
+          ),
+        ),
         catchError(error => {
           return of(
             new ContactRemoveKeysFailure(error.error),
