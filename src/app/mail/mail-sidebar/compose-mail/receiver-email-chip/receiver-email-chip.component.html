@@ -15,11 +15,11 @@
 </ng-template>
 
 <i *ngIf="composePopover" class="tag-chip-info icon icon-login align-middle ml-1 mr-1 mt-0 d-inline-block" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="300" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()"></i>
-<span *ngIf="composePopover" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }">
-  {{ email | emailFormat: name }}
+<span *ngIf="composePopover" class="text-truncate receiver-email" [ngClass]="{ 'error-message': !isValidEmail, 'font-size-1': !isValidEmail }">
+  {{ email | emailFormat: name:false:true }}
 </span>
 
-<span *ngIf="!composePopover" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="500" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()">
+<span *ngIf="!composePopover" class="text-truncate receiver-email" [ngbPopover]="popContent" #popOver="ngbPopover" container="body" popoverClass="receiver-email-chip-popover" placement="bottom-left" [openDelay]="500" triggers="manual" (click)="onClickBody(popOver); $event.stopPropagation(); $event.preventDefault()">
   <a class="text-gray-dark text-muted">
     {{ email | emailFormat: name }}
   </a>
@@ -31,24 +31,24 @@
     <div *ngIf="isValidEmail" class="receiver-email-chip-popover-receiver-name">
       <i class="fas fa-user-circle mr-1"></i>
       <ng-container *ngIf="isMyMailbox; else contactInfo">
-        {{ myDisplayName }}
+        {{ myDisplayName | emailFormat: '':false:true }}
       </ng-container>
       <ng-template #contactInfo>
-        {{ selectedContact ? selectedContact.name : email }}
+        {{ (selectedContact ? selectedContact.name : email) | emailFormat: '':false:true }}
       </ng-template>
     </div>
     <div class="error-message" *ngIf="!isValidEmail">
       {{ 'settings.compose.invalid_email_format' | translate }}
     </div>
     <div class="receiver-email-chip-popover-receiver-email">
-      {{ email }}
+      {{ email | emailFormat: '':false:true }}
     </div>
   </div>
   <div class="receiver-email-chip-popover-receiver-action" *ngIf="!isMyMailbox">
-    <a class="mr-2" *ngIf="!isContactEncrypted && !!selectedContact" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
+    <a class="mr-2" *ngIf="!!selectedContact" (click)="onEditContact(popOver, addUserContent)" ngbTooltip="Edit Contact">
       <i class="fas fa-edit"></i>
     </a>
-    <a class="mr-2" *ngIf="!isContactEncrypted && !selectedContact" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
+    <a class="mr-2" *ngIf="!selectedContact" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
       <i class="fas fa-plus-circle"></i>
     </a>
     <ng-container *ngIf="isBlacklisted; then moveWhitelist"></ng-container>

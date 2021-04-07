@@ -93,9 +93,7 @@ export class ComposeMailService {
 
                 if (this.getShouldBeEncrypted(draftMail, usersKeys) /* || hasSshEncryption*/) {
                   draftMail.draft.is_encrypted = true;
-                  publicKeys = this.getPublicKeys(draftMail, usersKeys)
-                    .filter(item => item.is_enabled)
-                    .map(item => item.public_key);
+                  publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
                 }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                   draftMail.attachments.forEach(attachment => {

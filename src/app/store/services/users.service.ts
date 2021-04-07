@@ -406,6 +406,10 @@ export class UsersService {
     return this.http.delete<any>(`${apiUrl}users/filters/${filterId}/`);
   }
 
+  updateFilterOrder(data: any) {
+    return this.http.post<any>(`${apiUrl}emails/filter-order/`, data);
+  }
+
   deleteAccount(data: any) {
     const requestData = { ...data };
     requestData.password = this.hashData(requestData);

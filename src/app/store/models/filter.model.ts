@@ -8,6 +8,7 @@ export interface Filter {
   move_to?: boolean;
   name: string;
   parameter?: FilterParameter;
+  priority_order?: number;
 }
 
 export enum FilterParameter {
