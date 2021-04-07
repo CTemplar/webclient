@@ -281,7 +281,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CREATE_FILTER:
     case UsersActionTypes.UPDATE_FILTER:
-    case UsersActionTypes.DELETE_FILTER: {
+    case UsersActionTypes.DELETE_FILTER:
+    case UsersActionTypes.UPDATE_FILTER_ORDER: {
       return { ...state, inProgress: true, filtersError: null };
     }
 
@@ -300,6 +301,16 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: false, filtersError: null };
     }
 
+    case UsersActionTypes.UPDATE_FILTER_ORDER_SUCCESS: {
+      state.filters = state.filters.map(filter => {
+        if (filter.id === action.payload.id) {
+          return { ...action.payload };
+        }
+        return filter;
+      });
+      return { ...state, inProgress: false, filtersError: null };
+    }
+
     case UsersActionTypes.DELETE_FILTER_SUCCESS: {
       state.filters = state.filters.filter(filter => filter.id !== action.payload.id);
       return { ...state, inProgress: false, filtersError: null };
@@ -307,7 +318,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CREATE_FILTER_FAILURE:
     case UsersActionTypes.UPDATE_FILTER_FAILURE:
-    case UsersActionTypes.DELETE_FILTER_FAILURE: {
+    case UsersActionTypes.DELETE_FILTER_FAILURE:
+    case UsersActionTypes.UPDATE_FILTER_ORDER_FAILURE: {
       const error = Object.keys(action.payload)
         .map(key => `${key}: ${action.payload[key]}`)
         .join(', ');

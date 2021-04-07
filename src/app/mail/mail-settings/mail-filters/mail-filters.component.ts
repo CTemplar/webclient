@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { CreateFilter, DeleteFilter, UpdateFilter } from '../../../store/actions';
+import { CreateFilter, DeleteFilter, UpdateFilter, UpdateFilterOrder } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
 import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
@@ -53,6 +54,12 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
 
   private deleteFilterModalRef: NgbModalRef;
 
+  inSetPriority = false;
+
+  private unmodifiedFilters: Array<Filter>;
+
+  inProgress = false;
+
   constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
 
   ngOnInit() {
@@ -73,6 +80,7 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         }
         this.errorMessage = userState.filtersError;
         this.userState = userState;
+        this.inProgress = this.userState.inProgress;
       });
 
     this.createFilterForm = this.formBuilder.group({
@@ -178,5 +186,50 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
     }
     this.hasDuplicateFilterName = false;
     return false;
+  }
+
+  priorityDown(index: number) {
+    const priorityOrder = this.filters[index].priority_order;
+    this.filters[index].priority_order = this.filters[index + 1].priority_order;
+    this.filters[index + 1].priority_order = priorityOrder;
+    this.filters.sort((a, b) => {
+      return a.priority_order - b.priority_order;
+    });
+  }
+
+  priorityUp(index: number) {
+    const sortOrder = this.filters[index].priority_order;
+    this.filters[index].priority_order = this.filters[index - 1].priority_order;
+    this.filters[index - 1].priority_order = sortOrder;
+    this.filters.sort((a, b) => {
+      return a.priority_order - b.priority_order;
+    });
+  }
+
+  startSetPriority() {
+    this.inSetPriority = true;
+    this.unmodifiedFilters = this.filters.map(x => ({ ...x }));
+  }
+
+  savePriority() {
+    this.inProgress = true;
+    const payload: any = {
+      filter_list: this.filters.map(item => {
+        return { filter_id: item.id, priority_order: item.priority_order };
+      }),
+    };
+    this.store.dispatch(new UpdateFilterOrder(payload));
+  }
+
+  cancelSetPriority() {
+    this.inSetPriority = false;
+    this.filters = this.unmodifiedFilters;
+  }
+
+  onFilterDrop(event: CdkDragDrop<Filter[]>) {
+    moveItemInArray(this.filters, event.previousIndex, event.currentIndex);
+    this.filters.forEach((filter: Filter, index: number) => {
+      filter.priority_order = index + 1;
+    });
   }
 }

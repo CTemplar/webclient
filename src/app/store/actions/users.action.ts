@@ -53,6 +53,9 @@ export enum UsersActionTypes {
   UPDATE_FILTER = '[USER] UPDATE FILTER',
   UPDATE_FILTER_SUCCESS = '[USER] UPDATE FILTER SUCCESS',
   UPDATE_FILTER_FAILURE = '[USER] UPDATE FILTER FAILURE',
+  UPDATE_FILTER_ORDER = '[USER] UPDATE ORDER FILTER',
+  UPDATE_FILTER_ORDER_SUCCESS = '[USER] UPDATE FILTER ORDER SUCCESS',
+  UPDATE_FILTER_ORDER_FAILURE = '[USER] UPDATE FILTER ORDER FAILURE',
   DELETE_FILTER = '[USER] DELETE FILTER',
   DELETE_FILTER_SUCCESS = '[USER] DELETE FILTER SUCCESS',
   DELETE_FILTER_FAILURE = '[USER] DELETE FILTER FAILURE',
@@ -413,6 +416,24 @@ export class UpdateFilterFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class UpdateFilterOrder implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_ORDER;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateFilterOrderSuccess implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_ORDER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateFilterOrderFailure implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_ORDER_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
 export class DeleteFilter implements Action {
   readonly type = UsersActionTypes.DELETE_FILTER;
 
@@ -728,6 +749,9 @@ export type UsersActionAll =
   | UpdateFilter
   | UpdateFilterSuccess
   | UpdateFilterFailure
+  | UpdateFilterOrder
+  | UpdateFilterOrderSuccess
+  | UpdateFilterOrderFailure
   | DeleteFilter
   | DeleteFilterSuccess
   | DeleteFilterFailure
