@@ -14,8 +14,9 @@ import { AddMailboxKeys, AddMailboxKeysSuccess, DeleteMailboxKeys, MailboxSettin
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
-import { Mailbox } from '../../../store/models';
+import { Folder, Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
+import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
 
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
@@ -509,6 +510,17 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
           this.store.dispatch(new SnackErrorPush({ message: error }));
         },
       );
+  }
+
+  // == Open NgbModal
+  onImportKey() {
+    const options: any = {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-sm import-private-key-modal',
+    };
+    const component = this.modalService.open(ImportPrivateKeyComponent, options).componentInstance;
+    component.mailboxes = this.mailboxes;
   }
 
   ngOnDestroy(): void {

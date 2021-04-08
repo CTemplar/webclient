@@ -1,0 +1,91 @@
+<div class="modal-header">
+  <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
+    <strong>Import Private Key</strong>
+  </h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onHide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body bg-faded">
+  <div class="mt-1 px-3">
+    <div *ngIf="currentStep === ImportPrivateKeyStep.SELECT_MAILBOX" class="mb-1">
+      <div>
+        <p class="text-holder text-dark text-medium">Please select a mailbox that you want to import key</p>
+      </div>
+      <div class="form-content-row mt-1">
+        <div class="btn-dropdown btn-dropdown-select">
+          <div ngbDropdown class="dropdown-sm">
+            <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button">
+              <span> {{ selectedMailbox?.email }} </span>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
+              <a *ngFor="let mailbox of mailboxes" class="dropdown-item text-medium" (click)="onSelectMailbox(mailbox)">
+                <span>{{ mailbox.email }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY">
+      <div class="mb-1">
+        <p class="text-holder text-medium text-danger">Are you sure to import the private key? Please be ensure the private key is secure.</p>
+      </div>
+      <div>
+        <p class="text-holder text-dark text-medium">Please select a private key to import</p>
+      </div>
+      <div class="form-content-row mt-1">
+        <input type="file" #importKeyFileTag accept=".txt,.asc" (change)="onSelectNewKeyFile($event.target.files)" style="display: none" />
+        <div class="pl-2 pt-2">
+          <a (click)="importKeyFileTag.click()">
+            <i class="fas fa-plus-circle"></i>
+            {{ currentFile ? 'Change Key' : 'contacts.advanced.add_key' | translate }}
+          </a>
+        </div>
+        <div class="pl-2 pt-2" *ngIf="currentFile">
+          <i class="fas fa-file-alt font-italic ml-2 mr-2"></i>
+          <small class="font-italic">{{ currentFile.name }}</small>
+        </div>
+      </div>
+    </div>
+<!--    <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD">-->
+    <div class="mb-1">
+      <div class="mb-1">
+        <p class="text-holder text-medium text-danger">Please input the password of private key that you selected.</p>
+      </div>
+      <div class="form-content-row mt-1">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <label for="passphrase" class="modal-form-label mb-2 mb-sm-0">
+              <span>Passphrase: </span>
+            </label>
+          </div>
+          <div class="col-sm-9">
+            <input class="form-control form-control-sm" id="passphrase" type="text" formControlName="passphrase" />
+          </div>
+          <div class="col-sm-3"></div>
+<!--          <div class="col-sm-9 errors-field">-->
+<!--            <ng-container *ngTemplateOutlet="passphraseErrorMessage"></ng-container>-->
+<!--          </div>-->
+        </div>
+      </div>
+    </div>
+    <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.INPUT_USER_PASSWORD">
+      <div>
+        <p class="text-holder text-dark text-medium">Please select a private key to import</p>
+      </div>
+      <div class="form-content-row mt-1">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="text-holder text-dark text-medium">
+    <div class="mx-auto mt-2 pt-sm-2">
+      <app-loading-spinner [showSpinner]="false"></app-loading-spinner>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="onNext()" [disabled]="currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY && !currentFile">
+        Next
+      </button>
+    </div>
+  </div>
+</div>

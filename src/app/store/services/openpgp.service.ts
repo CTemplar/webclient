@@ -484,6 +484,14 @@ export class OpenPgpService {
     return subject.asObservable();
   }
 
+  decryptPrivateKey(privateKey: string) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ privateKey, decryptPrivateKey: true, subjectId });
+    return subject.asObservable();
+  }
+
   getKeyInfoFromPublicKey(publicKey: string) {
     const subject = new Subject<any>();
     const subjectId = performance.now();
@@ -701,6 +709,8 @@ export class OpenPgpService {
             draftId: event.data.draftId,
           }),
         );
+      } else if (event.data.decryptedPrivateKey) {
+        this.handleObservable(event.data.subjectId, event.data);
       }
     };
   }

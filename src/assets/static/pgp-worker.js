@@ -237,8 +237,50 @@ onmessage = async function (event) {
         draftId: event.data.draftId,
        });
     });
+  } else if (event.data.decryptPrivateKey) {
+    parsePrivateKey(event.data).then(data => {
+      if (data) {
+        postMessage({
+          data,
+          decryptedPrivateKey: true,
+          subjectId: event.data.subjectId,
+        });
+      } else {
+        postMessage({
+          decryptedPrivateKey: true,
+          error: true,
+          errorMessage: 'Failed to import private key',
+          subjectId: event.data.subjectId,
+        });
+      }
+    }).catch(errorMessage => {
+      postMessage({
+        decryptedPrivateKey: true,
+        error: true,
+        errorMessage,
+        subjectId: event.data.subjectId,
+      });
+    });
   }
 };
+
+async function parsePrivateKey(data) {
+  const passphrase = data.passphrase;
+  if (data.privateKey && data.privateKey.indexOf('-----BEGIN PGP PRIVATE KEY BLOCK-----') === 0) {
+    try {
+      let armoredPrivateKey = (await openpgp.key.readArmored(data.privateKey)).keys[0];
+      if (!armoredPrivateKey) {
+        return Promise.reject('Invalid Private Key');
+      }
+      armoredPrivateKey.decrypt(passphrase);
+      return Promise.resolve(armoredPrivateKey);
+    } catch (e) {
+      return Promise.reject('Failed to import private key');
+    };
+  } else {
+    return Promise.reject('Invalid Private Key');
+  }
+}
 
 function isPGPEncrypted(content) {
   return content && content.indexOf('-----BEGIN PGP MESSAGE-----') === 0 ? true : false;
