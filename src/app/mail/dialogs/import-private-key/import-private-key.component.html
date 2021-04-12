@@ -44,16 +44,19 @@
         </div>
         <div class="pl-2 pt-2" *ngIf="currentFile">
           <i class="fas fa-file-alt font-italic ml-2 mr-2"></i>
-          <small class="font-italic">{{ currentFile.name }}</small>
+          <small class="font-italic">{{ currentFile ? currentFile.name : '' }}</small>
         </div>
       </div>
     </div>
-<!--    <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD">-->
-    <div class="mb-1">
-      <div class="mb-1">
-        <p class="text-holder text-medium text-danger">Please input the password of private key that you selected.</p>
+    <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD">
+      <div class="mb-2">
+        <p class="text-holder text-medium">Please input the password of private key that you selected.</p>
       </div>
-      <div class="form-content-row mt-1">
+      <div class="pl-2 pt-2 mb-3" *ngIf="currentFile">
+        <i class="fas fa-file-alt font-italic ml-2 mr-2"></i>
+        <small class="font-italic">{{ currentFile ? currentFile.name : '' }}</small>
+      </div>
+      <div class="form-content-row mt-2">
         <div class="row align-items-center">
           <div class="col-sm-3">
             <label for="passphrase" class="modal-form-label mb-2 mb-sm-0">
@@ -61,12 +64,18 @@
             </label>
           </div>
           <div class="col-sm-9">
-            <input class="form-control form-control-sm" id="passphrase" type="text" formControlName="passphrase" />
+            <div class="input-group decrypt-password-element mr-2">
+              <input class="form-control form-control-sm border-right-0" id="passphrase" type="password" id="passwordVC" placeholder="Passphrase" [(ngModel)]="passphrase" />
+              <span class="input-group-addon password-toggle bg-white text-muted" id="passphraseToggle" (click)="togglePassword('passwordVC')">
+                <i class="fa fa-eye"></i>
+                <i class="fa fa-eye-slash"></i>
+              </span>
+            </div>
           </div>
           <div class="col-sm-3"></div>
-<!--          <div class="col-sm-9 errors-field">-->
-<!--            <ng-container *ngTemplateOutlet="passphraseErrorMessage"></ng-container>-->
-<!--          </div>-->
+          <div class="col-sm-9 errors-field" *ngIf="decryptError">
+            <span class="validate-message mt-3">Incorrect Passphrase</span>
+          </div>
         </div>
       </div>
     </div>
@@ -82,8 +91,13 @@
 <div class="modal-footer">
   <div class="text-holder text-dark text-medium">
     <div class="mx-auto mt-2 pt-sm-2">
-      <app-loading-spinner [showSpinner]="false"></app-loading-spinner>
-      <button type="button" class="btn btn-secondary btn-sm" (click)="onNext()" [disabled]="currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY && !currentFile">
+      <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+      <button
+        type="button"
+        class="btn btn-secondary btn-sm"
+        (click)="onNext()"
+        [disabled]="(currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY && !currentFile) || (currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD && !passphrase)"
+      >
         Next
       </button>
     </div>

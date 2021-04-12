@@ -261,6 +261,29 @@ onmessage = async function (event) {
         subjectId: event.data.subjectId,
       });
     });
+  } else if (event.data.validatePrivateKey) {
+    validatePrivateKey(event.data).then(data => {
+      if (data) {
+        postMessage({
+          validatedPrivateKey: true,
+          subjectId: event.data.subjectId,
+        });
+      } else {
+        postMessage({
+          validatedPrivateKey: true,
+          error: true,
+          errorMessage: 'Invalid Private Key ',
+          subjectId: event.data.subjectId,
+        });
+      }
+    }).catch(errorMessage => {
+      postMessage({
+        validatedPrivateKey: true,
+        error: true,
+        errorMessage: 'Invalid Private Key',
+        subjectId: event.data.subjectId,
+      });
+    });
   }
 };
 
@@ -273,6 +296,26 @@ async function parsePrivateKey(data) {
         return Promise.reject('Invalid Private Key');
       }
       armoredPrivateKey.decrypt(passphrase);
+      if (armoredPrivateKey.keyPacket.isEncrypted) {
+        return Promise.reject('Failed to import private key');
+      } else {
+        return Promise.resolve({decryptSuccess: true, armoredPrivateKey});
+      }
+    } catch (e) {
+      return Promise.reject('Failed to import private key');
+    };
+  } else {
+    return Promise.reject('Invalid Private Key');
+  }
+}
+
+async function validatePrivateKey(data) {
+  if (data.privateKey && data.privateKey.indexOf('-----BEGIN PGP PRIVATE KEY BLOCK-----') === 0) {
+    try {
+      let armoredPrivateKey = (await openpgp.key.readArmored(data.privateKey)).keys[0];
+      if (!armoredPrivateKey) {
+        return Promise.reject('Invalid Private Key');
+      }
       return Promise.resolve(armoredPrivateKey);
     } catch (e) {
       return Promise.reject('Failed to import private key');
