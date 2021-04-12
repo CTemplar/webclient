@@ -17,7 +17,7 @@ import {
   JWT_AUTH_COOKIE,
   REMEMBER_ME,
 } from '../../shared/config';
-import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
+import { AppState, AutoResponder, Contact, Settings, AuthState, Domain } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
 @Injectable({
@@ -330,7 +330,7 @@ export class UsersService {
     return this.http.post<any>(url, payload);
   }
 
-  deleteContact(ids: any) {
+  deleteContact(ids: string) {
     if (ids === 'all') {
       return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
     }
@@ -428,7 +428,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}emails/domains/`, body);
   }
 
-  updateDomain(domain: any) {
+  updateDomain(domain: Domain) {
     return this.http.patch<any>(`${apiUrl}emails/domains/${domain.id}/`, domain);
   }
 

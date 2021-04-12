@@ -448,7 +448,7 @@ export class UsersEffects {
     ofType(UsersActionTypes.DELETE_FOLDER),
     map((action: DeleteFolder) => action.payload),
     switchMap(folder => {
-      return this.mailService.deleteFolder(folder.id).pipe(
+      return this.mailService.deleteFolder(`${folder.id}`).pipe(
         switchMap(res => {
           return of(
             new DeleteFolderSuccess(folder),

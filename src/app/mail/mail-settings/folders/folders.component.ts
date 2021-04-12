@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -16,7 +16,6 @@ import { NotificationService } from '../../../store/services/notification.servic
   selector: 'app-folders',
   templateUrl: './folders.component.html',
   styleUrls: ['../mail-settings.component.scss', './folders.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FoldersComponent implements OnInit {
   folders: Array<Folder> = [];

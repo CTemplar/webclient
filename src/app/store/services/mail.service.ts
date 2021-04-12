@@ -18,7 +18,7 @@ export class MailService {
     limit: number;
     offset: number;
     folder: MailFolderType;
-    read: null;
+    read?: boolean;
     seconds?: number;
     searchText?: string;
   }): Observable<any> {
@@ -44,7 +44,14 @@ export class MailService {
     return this.http.get<Mail[]>(url);
   }
 
-  searchMessages(payload: any): Observable<any> {
+  searchMessages(payload: {
+    limit: number;
+    offset: number;
+    folder: MailFolderType;
+    read?: boolean;
+    seconds?: number;
+    searchText?: string;
+  }): Observable<any> {
     const url = `${apiUrl}search/messages/?q=${payload.searchText}&limit=${payload.limit}&offset=${payload.offset}`;
     return this.http.get<Mail[]>(url);
   }

@@ -703,3 +703,15 @@ export interface ImportContactResponse {
   success_count?: number;
   fail_count?: number;
 }
+
+export interface MoveMailActionPayloadType {
+  ids: number,
+  folder: MailFolderType,
+  sourceFolder: MailFolderType | string,
+  mail: Mail,
+  allowUndo: boolean,
+  fromTrash?: boolean,
+  withChildren?: boolean,
+  shouldDeleteFolder?: boolean,
+  folderToDelete?: Folder,
+}
