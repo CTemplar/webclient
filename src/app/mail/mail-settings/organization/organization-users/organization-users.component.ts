@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
@@ -23,7 +23,6 @@ import { MoveTab } from '../../../../store/actions';
   selector: 'app-organization-users',
   templateUrl: './organization-users.component.html',
   styleUrls: ['./organization-users.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrganizationUsersComponent implements OnInit {
   @ViewChild('addUserModal') addUserModal: any;

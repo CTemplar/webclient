@@ -21,11 +21,11 @@ export class PagesDonateComponent implements OnInit {
     this.dynamicScriptLoader
       .load('stripe')
       .then(data => {
-        this.dynamicScriptLoader.load('stripe-key').then(stripeKeyLoaded => {
+        this.dynamicScriptLoader.load('stripe-key').then(() => {
           // Stripe Loaded Successfully
         }).catch(() => {});
       })
-      .catch(error =>
+      .catch(() =>
         this.store.dispatch(new SnackErrorPush({ message: 'Failed to load the payment processing gateway.' })),
       );
   }

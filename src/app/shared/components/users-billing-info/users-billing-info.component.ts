@@ -276,7 +276,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.isScriptsLoading = false;
         });
       })
-      .catch(error =>
+      .catch(() =>
         this.store.dispatch(new SnackErrorPush({ message: 'Failed to load the payment processing gateway.' })),
       );
   }

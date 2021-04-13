@@ -104,13 +104,13 @@ export class MailboxEffects {
     map((action: UpdateMailboxOrder) => action.payload),
     switchMap((payload: any) => {
       return this.mailService.updateMailboxOrder(payload.data).pipe(
-        switchMap(res =>
+        switchMap(() =>
           of(
             new SnackErrorPush({ message: 'Sort order saved successfully.' }),
             new UpdateMailboxOrderSuccess({ mailboxes: payload.mailboxes }),
           ),
         ),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to update emails sort order.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to update emails sort order.' }))),
       );
     }),
   );
@@ -121,7 +121,7 @@ export class MailboxEffects {
     map((action: DeleteMailbox) => action.payload),
     switchMap((payload: Mailbox) => {
       return this.mailService.deleteMailbox(payload.id).pipe(
-        switchMap(res =>
+        switchMap(() =>
           of(
             new SnackErrorPush({ message: `Alias '${payload.email}' deleted successfully.` }),
             new DeleteMailboxSuccess(payload),

@@ -47,7 +47,7 @@ export class UsersService {
       const body = {};
       const url = `${apiUrl}auth/refresh/`;
       return this.http.post<any>(url, body).pipe(
-        tap(data => {
+        tap(() => {
           this.setTokenExpiration();
         }),
       );
@@ -139,7 +139,7 @@ export class UsersService {
     }
     requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, this.updateSignupDataWithPromo(requestData)).pipe(
-      tap(data => {
+      tap(() => {
         this.setLoginData(user);
       }),
     );
@@ -153,7 +153,7 @@ export class UsersService {
     const requestData = { ...data };
     requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
-      tap(res => {
+      tap(() => {
         this.setLoginData(data);
       }),
     );
@@ -166,7 +166,7 @@ export class UsersService {
     requestData.confirm_password = this.hashData(requestData, 'confirm_password');
     delete requestData.username;
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
-      tap(response => {
+      tap(() => {
         this.setLoginData(data);
       }),
     );

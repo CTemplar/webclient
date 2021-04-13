@@ -127,7 +127,7 @@ export class UsersEffects {
   Accounts: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.ACCOUNTS),
     map((action: Accounts) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getAccounts('34324').pipe(
         map(user => {
           return new AccountsReadSuccess(user);
@@ -140,12 +140,12 @@ export class UsersEffects {
   AccountDetails: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.ACCOUNT_DETAILS_GET),
     map((action: Accounts) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getAccountDetails().pipe(
         map(user => {
           return new AccountDetailsGetSuccess(user[0]);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get account details.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get account details.' }))),
       );
     }),
   );
@@ -154,12 +154,12 @@ export class UsersEffects {
   WhiteLists: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.WHITELIST_GET),
     map((action: WhiteListGet) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getWhiteList().pipe(
         map(whiteList => {
           return new WhiteListsReadSuccess(whiteList.results);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get whitelist addresses.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get whitelist addresses.' }))),
       );
     }),
   );
@@ -190,13 +190,13 @@ export class UsersEffects {
     map((action: WhiteListDelete) => action.payload),
     switchMap(payload => {
       return this.userService.deleteWhiteList(payload).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(
             new WhiteListDeleteSuccess(payload),
             new SnackPush({ message: 'Whitelist contact deleted successfully.' }),
           );
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete whitelist contact.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to delete whitelist contact.' }))),
       );
     }),
   );
@@ -207,13 +207,13 @@ export class UsersEffects {
     map((action: MoveToBlacklist) => action.payload),
     switchMap(payload => {
       return this.userService.deleteWhiteList(payload.id).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(
             new WhiteListDeleteSuccess(payload.id),
             new BlackListAdd({ email: payload.email, name: payload.name }),
           );
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed moving to the blacklist.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed moving to the blacklist.' }))),
       );
     }),
   );
@@ -224,13 +224,13 @@ export class UsersEffects {
     map((action: MoveToWhitelist) => action.payload),
     switchMap(payload => {
       return this.userService.deleteBlackList(payload.id).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(
             new BlackListDeleteSuccess(payload.id),
             new WhiteListAdd({ email: payload.email, name: payload.name }),
           );
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed moving to the whitelist.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed moving to the whitelist.' }))),
       );
     }),
   );
@@ -239,12 +239,12 @@ export class UsersEffects {
   CardLists: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.CARD_GET),
     map((action: CardGet) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getPaymentMethods().pipe(
         map(cardList => {
           return new CardReadSuccess(cardList);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get payment methods.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get payment methods.' }))),
       );
     }),
   );
@@ -271,7 +271,7 @@ export class UsersEffects {
     map((action: CardDelete) => action.payload),
     switchMap(payload => {
       return this.userService.deletePaymentMethod(payload).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(new CardDeleteSuccess(payload), new SnackPush({ message: 'Payment method deleted successfully.' }));
         }),
         catchError(error => {
@@ -287,7 +287,7 @@ export class UsersEffects {
     map((action: CardMakePrimary) => action.payload),
     switchMap(payload => {
       return this.userService.makePaymentPrimary(payload).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(
             new CardMakePrimarySuccess(payload),
             new SnackPush({ message: 'Primary card has been changed successfully.' }),
@@ -304,12 +304,12 @@ export class UsersEffects {
   BlackLists: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.BLACKLIST_GET),
     map((action: BlackListGet) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getBlackList().pipe(
         map(blackList => {
           return new BlackListsReadSuccess(blackList.results);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get blacklist.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get blacklist.' }))),
       );
     }),
   );
@@ -340,13 +340,13 @@ export class UsersEffects {
     map((action: BlackListDelete) => action.payload),
     switchMap(payload => {
       return this.userService.deleteBlackList(payload).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(
             new BlackListDeleteSuccess(payload),
             new SnackPush({ message: 'Blacklist contact deleted successfully.' }),
           );
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete blacklist contact.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to delete blacklist contact.' }))),
       );
     }),
   );
@@ -357,7 +357,7 @@ export class UsersEffects {
     map((action: SettingsUpdate) => action.payload),
     switchMap((payload: Settings) => {
       return this.userService.updateSettings(payload).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(new SettingsUpdateSuccess(payload), new SnackPush({ message: 'Settings updated successfully.' }));
         }),
         catchError(error => of(new SnackErrorPush({ message: `Failed to save changes: ${error.error}` }))),
@@ -449,7 +449,7 @@ export class UsersEffects {
     map((action: DeleteFolder) => action.payload),
     switchMap(folder => {
       return this.mailService.deleteFolder(`${folder.id}`).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(
             new DeleteFolderSuccess(folder),
             new SnackErrorPush({ message: `'${folder.name}' folder deleted successfully.` }),
@@ -468,7 +468,7 @@ export class UsersEffects {
     map((action: UpdateFolderOrder) => action.payload),
     switchMap(payload => {
       return this.mailService.updateFoldersOrder(payload.data).pipe(
-        switchMap(res => {
+        switchMap(() => {
           return of(
             new UpdateFolderOrderSuccess({ folders: payload.folders }),
             new SnackErrorPush({ message: 'Sort order saved successfully.' }),
@@ -488,7 +488,7 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getFilters(payload).pipe(
         switchMap(res => of(new GetFiltersSuccess(res.results))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get filters.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get filters.' }))),
       );
     }),
   );
@@ -568,7 +568,7 @@ export class UsersEffects {
     map((action: DeleteFilter) => action.payload),
     switchMap(filter => {
       return this.userService.deleteFilter(filter.id).pipe(
-        switchMap(res =>
+        switchMap(() =>
           of(
             new DeleteFilterSuccess(filter),
             new SnackErrorPush({ message: `The filter “${filter.name}” has been deleted.` }),
@@ -588,12 +588,12 @@ export class UsersEffects {
   Domains: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.GET_DOMAINS),
     map((action: GetDomains) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getDomains().pipe(
         map(emailDomains => {
           return new GetDomainsSuccess(emailDomains.results.sort((a: any, b: any) => a.id - b.id));
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get domains.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get domains.' }))),
       );
     }),
   );
@@ -647,7 +647,7 @@ export class UsersEffects {
     map((action: DeleteDomain) => action.payload),
     switchMap(payload => {
       return this.userService.deleteDomain(payload).pipe(
-        switchMap(res => of(new DeleteDomainSuccess(payload), new GetOrganizationUsers())),
+        switchMap(() => of(new DeleteDomainSuccess(payload), new GetOrganizationUsers())),
         catchError(errorResponse => of(new DeleteDomainFailure(errorResponse.error))),
       );
     }),
@@ -680,7 +680,7 @@ export class UsersEffects {
   paymentFailureEffect: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.PAYMENT_FAILURE),
     map((action: PaymentFailure) => action.payload),
-    tap(payload => {
+    tap(() => {
       this.sharedService.showPaymentFailureDialog();
     }),
   );
@@ -734,10 +734,10 @@ export class UsersEffects {
   getInvoicesEffect: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.GET_INVOICES),
     map((action: GetInvoices) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getInvoices().pipe(
         switchMap(res => of(new GetInvoicesSuccess(res.results))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get invoices.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get invoices.' }))),
       );
     }),
   );
@@ -749,7 +749,7 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.getUpgradeAmount(payload).pipe(
         switchMap(res => of(new GetUpgradeAmountSuccess(res))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get upgrade amount.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get upgrade amount.' }))),
       );
     }),
   );
@@ -761,7 +761,7 @@ export class UsersEffects {
     switchMap(payload => {
       return this.userService.validatePromoCode(payload).pipe(
         switchMap(res => of(new ValidatePromoCodeSuccess(res))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to validate promo code.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to validate promo code.' }))),
       );
     }),
   );
@@ -770,10 +770,10 @@ export class UsersEffects {
   getInviteCodes: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.INVITE_CODE_GET),
     map((action: GetInviteCodes) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getInviteCodes().pipe(
         switchMap(res => of(new GetInviteCodesSuccess(res))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get invite codes.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get invite codes.' }))),
       );
     }),
   );
@@ -782,7 +782,7 @@ export class UsersEffects {
   generateInviteCode: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.INVITE_CODE_GENERATE),
     map((action: GenerateInviteCode) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.generateInviteCodes().pipe(
         switchMap(res => of(new GenerateInviteCodeSuccess(res))),
         catchError(errorResponse =>
@@ -801,10 +801,10 @@ export class UsersEffects {
   GetNotificationsEffect: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.GET_NOTIFICATION),
     map((action: GetNotification) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getUserNotifications().pipe(
         switchMap(resp => of(new GetNotificationSuccess(resp))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get user notifications.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get user notifications.' }))),
       );
     }),
   );

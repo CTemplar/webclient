@@ -27,7 +27,7 @@ export class BitcoinEffects {
     switchMap(payload => {
       return this.bitcoinService.createNewWallet(payload).pipe(
         switchMap(res => of(new CreateNewWalletSuccess(res))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to create a new Bitcoin wallet.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to create a new Bitcoin wallet.' }))),
       );
     }),
   );
@@ -39,7 +39,7 @@ export class BitcoinEffects {
     switchMap(payload => {
       return this.bitcoinService.checkTransaction(payload).pipe(
         map(response => new CheckTransactionSuccess(response)),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to check the Bitcoin transaction.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to check the Bitcoin transaction.' }))),
       );
     }),
   );

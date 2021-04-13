@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -15,7 +15,6 @@ import { Filter, FilterCondition, FilterParameter } from '../../../store/models/
   selector: 'app-mail-filters',
   templateUrl: './mail-filters.component.html',
   styleUrls: ['../mail-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailFiltersComponent implements OnInit {
   readonly folderIcons: any = {

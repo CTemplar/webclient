@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
-  ChangeDetectionStrategy,
   OnInit,
   ViewChild,
   HostListener,
@@ -34,7 +33,6 @@ export enum ContactsProviderType {
   selector: 'app-mail-contact',
   templateUrl: './mail-contact.component.html',
   styleUrls: ['./mail-contact.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailContactComponent implements OnInit, AfterViewInit {
   @ViewChild('importContactsModal') importContactsModal: any;

@@ -6,7 +6,7 @@ import { EMPTY } from 'rxjs/internal/observable/empty';
 import { of } from 'rxjs/internal/observable/of';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import { OpenPgpService, UsersService, MailService } from '../services';
+import { OpenPgpService, UsersService } from '../services';
 import {
   Accounts,
   ContactAddError,
@@ -39,7 +39,6 @@ export class ContactsEffects {
     private actions: Actions,
     private openPgpService: OpenPgpService,
     private userService: UsersService,
-    private mailService: MailService,
   ) {}
 
   @Effect()
@@ -67,7 +66,7 @@ export class ContactsEffects {
 
           return new ContactGetSuccess(response);
         }),
-        catchError(error => of(new ContactGetFailure())),
+        catchError(() => of(new ContactGetFailure())),
       );
     }),
   );
@@ -89,7 +88,7 @@ export class ContactsEffects {
             new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` }),
           );
         }),
-        catchError(error =>
+        catchError(() =>
           of(
             new ContactAddError(),
             new SnackErrorPush({ message: `Failed to ${action.payload.id ? 'update' : 'save'} contact.` }),
@@ -105,10 +104,10 @@ export class ContactsEffects {
     map((action: Accounts) => action.payload),
     switchMap(payload => {
       return this.userService.deleteContact(payload).pipe(
-        switchMap(contact => {
+        switchMap(() => {
           return of(new ContactDeleteSuccess(payload), new SnackPush({ message: 'Contacts deleted successfully.' }));
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to delete contacts.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to delete contacts.' }))),
       );
     }),
   );
@@ -174,10 +173,10 @@ export class ContactsEffects {
   getEmailsContactsEffect: Observable<any> = this.actions.pipe(
     ofType(ContactsActionTypes.GET_EMAIL_CONTACTS),
     map((action: GetEmailContacts) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.userService.getEmailContacts().pipe(
         switchMap(res => of(new GetEmailContactsSuccess(res.results))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get email contacts.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get email contacts.' }))),
       );
     }),
   );
@@ -188,8 +187,8 @@ export class ContactsEffects {
     map((action: UpdateBatchContacts) => action.payload),
     switchMap(payload => {
       return this.userService.updateBatchContacts(payload).pipe(
-        switchMap(res => of(new UpdateBatchContactsSuccess(payload))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to update batch contacts.' }))),
+        switchMap(() => of(new UpdateBatchContactsSuccess(payload))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to update batch contacts.' }))),
       );
     }),
   );

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,6 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
   selector: 'app-custom-domains',
   templateUrl: './custom-domains.component.html',
   styleUrls: ['./custom-domains.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomDomainsComponent implements OnInit {
   @Output() onGotoTab = new EventEmitter<string>();

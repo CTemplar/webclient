@@ -8,7 +8,7 @@ import { Mailbox } from '../../../../store/models';
 
 import { SharedService } from '../../../../store/services';
 
-import { BlackListAdd, WhiteListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions';
+import { BlackListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions';
 
 @Component({
   selector: 'app-receiver-email-chip',
@@ -54,7 +54,7 @@ export class ReceiverEmailChipComponent {
 
   constructor(private modalService: NgbModal, private sharedService: SharedService, private store: Store<AppState>) {}
 
-  ngOnChanges(simpleChange: SimpleChanges): void {
+  ngOnChanges(): void {
     this.selectedContact = this.contacts.find(contact => this.email === contact.email);
     if (!this.composePopover && this.mailboxes.length > 0) {
       this.mailboxes.forEach(mailbox => {

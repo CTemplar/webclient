@@ -275,7 +275,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
    */
   initAutoSaving() {
     const autosave_durations: string[] = [];
-    this.autosaveDurations.forEach((duration, index) => {
+    this.autosaveDurations.forEach(duration => {
       if (duration !== 'none' && duration) {
         const perduration = Number(duration);
         const newDuration = perduration >= 60000 ? `${perduration / 60000}m` : `${perduration / 1000}s`;

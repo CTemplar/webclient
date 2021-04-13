@@ -17,12 +17,12 @@ export class TimezoneEffects {
   getTimezones: Observable<any> = this.actions.pipe(
     ofType(TimezoneActionTypes.TIMEZONE_GET),
     map((action: TimezoneGet) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.timezoneService.getTimezones().pipe(
         map(timezones => {
           return new TimezoneGetSuccess(timezones);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get timezones.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get timezones.' }))),
       );
     }),
   );

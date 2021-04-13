@@ -53,7 +53,6 @@ import {
   RefreshToken,
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
-import { NotificationService } from '../services/notification.service';
 import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
 import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
 
@@ -64,7 +63,6 @@ export class AuthEffects {
   constructor(
     private actions: Actions,
     private authService: UsersService,
-    private notificationService: NotificationService,
     private router: Router,
     private modalService: NgbModal,
   ) {}
@@ -150,10 +148,10 @@ export class AuthEffects {
   expireSession: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.EXPIRE_SESSION),
     map((action: ExpireSession) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.authService.expireSession().pipe(
-        switchMap(res => EMPTY),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to expire user session.' }))),
+        switchMap(() => EMPTY),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to expire user session.' }))),
       );
     }),
   );
@@ -230,7 +228,7 @@ export class AuthEffects {
     map((action: ChangePassword) => action.payload),
     switchMap(payload => {
       return this.authService.changePassword(payload).pipe(
-        switchMap(user =>
+        switchMap(() =>
           of(new ChangePasswordSuccess(payload), new SnackPush({ message: 'Password changed successfully.' })),
         ),
         catchError((response: any) =>
@@ -249,7 +247,7 @@ export class AuthEffects {
     map((action: DeleteAccount) => action.payload),
     switchMap(payload => {
       return this.authService.deleteAccount(payload).pipe(
-        switchMap(user =>
+        switchMap(() =>
           of(new DeleteAccountSuccess(), new SnackPush({ message: 'Account deleted successfully.' }), new Logout()),
         ),
         catchError(errorResponse =>
@@ -271,7 +269,7 @@ export class AuthEffects {
   getCaptcha: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.GET_CAPTCHA),
     map((action: GetCaptcha) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.authService.getCaptcha().pipe(
         switchMap((response: any) => of(new GetCaptchaSuccess(response))),
         catchError(errorResponse =>
@@ -319,7 +317,7 @@ export class AuthEffects {
   get2FASecret: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.GET_2FA_SECRET),
     map((action: Get2FASecret) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.authService.get2FASecret().pipe(
         switchMap((response: any) => of(new Get2FASecretSuccess(response))),
         catchError(errorResponse =>

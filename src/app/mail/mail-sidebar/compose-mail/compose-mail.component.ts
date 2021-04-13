@@ -9,7 +9,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -86,7 +85,7 @@ FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
-const updatedSizes = SIZES.map((size, index) => {
+const updatedSizes = SIZES.map(size => {
   return `${size}px`;
 });
 SizeAttributor.whitelist = updatedSizes;
@@ -191,7 +190,7 @@ export class PasswordValidation {
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
 
   @Input() cc: Array<string>;
@@ -732,8 +731,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
   ngAfterViewInit() {
     this.initializeComposeMail();
     if (this.forwardAttachmentsMessageId) {
@@ -1067,7 +1064,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         .pipe(
           debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
         )
-        .subscribe(data => {
+        .subscribe(() => {
           if (!this.draft.isSaving && this.hasData()) {
             this.updateEmail();
           }

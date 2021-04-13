@@ -52,7 +52,7 @@ export class ComposeMailEffects {
             new GetUnreadMailsCount(),
           ),
         ),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to save mail.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to save mail.' }))),
       );
     }),
   );
@@ -93,8 +93,8 @@ export class ComposeMailEffects {
     mergeMap(payload => {
       if (payload.id) {
         return this.mailService.deleteAttachment(payload).pipe(
-          switchMap(res => of(new DeleteAttachmentSuccess(payload))),
-          catchError(error =>
+          switchMap(() => of(new DeleteAttachmentSuccess(payload))),
+          catchError(() =>
             of(new SnackErrorPush({ message: 'Failed to delete attachment.' }), new DeleteAttachmentFailure(payload)),
           ),
         );
@@ -168,7 +168,7 @@ export class ComposeMailEffects {
           switchMap(keys =>
             of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, data: keys, isBlind: false })),
           ),
-          catchError(error => of(new SnackErrorPush({ message: 'Failed to get public keys.' }))),
+          catchError(() => of(new SnackErrorPush({ message: 'Failed to get public keys.' }))),
         );
       } else {
         return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));

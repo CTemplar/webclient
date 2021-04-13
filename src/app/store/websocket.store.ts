@@ -46,7 +46,7 @@ export class WebSocketEffects {
   webSocketClose: Observable<any> = this.actions.pipe(
     ofType(WebSocketActionTypes.WEB_SOCKET_CLOSE),
     map((action: WebSocketClose) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return of(EMPTY);
     }),
   );

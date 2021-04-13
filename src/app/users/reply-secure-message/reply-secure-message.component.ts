@@ -16,7 +16,7 @@ FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
-const updatedSizes = SIZES.map((size, index) => {
+const updatedSizes = SIZES.map(size => {
   return `${size}px`;
 });
 SizeAttributor.whitelist = updatedSizes;

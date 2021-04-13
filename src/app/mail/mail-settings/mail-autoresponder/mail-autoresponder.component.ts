@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbDatepicker, NgbDateStruct, NgbModal, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -15,7 +15,6 @@ import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
   selector: 'app-mail-autoresponder',
   templateUrl: './mail-autoresponder.component.html',
   styleUrls: ['./mail-autoresponder.component.scss', '../mail-settings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MailAutoresponderComponent implements OnInit, OnDestroy {
   @ViewChild('startDatePicker') startDatePicker: NgbDatepicker;
