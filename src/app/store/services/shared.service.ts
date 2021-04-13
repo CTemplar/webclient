@@ -7,8 +7,11 @@ import * as parseEmail from 'email-addresses';
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { Folder } from '../models';
-import { GlobalPublicKey, PlanType, PricingPlan } from '../datatypes';
+import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
 import { NotificationService } from './notification.service';
+import bcrypt from 'bcryptjs';
+import { untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
 
 // image format for retrieving custom attributes
 
@@ -63,15 +66,42 @@ export class SharedService {
 
   private paymentFailureModalRef: NgbModalRef;
 
+  username: string;
+
   //
   constructor(
     private http: HttpClient,
     private modalService: NgbModal,
     private notificationService: NotificationService,
-  ) {}
+    private store: Store<AppState>,
+  ) {
+    /**
+     * Get user's settings
+     */
+    this.store
+      .select(state => state.user)
+      .subscribe((user: UserState) => {
+        this.username = user.username;
+      });
+  }
 
   sortByDate(data: any[], sortField: string): any[] {
     return data.sort((a: any, b: any) => new Date(b[sortField]).getTime() - new Date(a[sortField]).getTime());
+  }
+
+  getHashPurePasswordWithUserName(password: string): string {
+    const username = this.username.toLowerCase();
+    const salt = this.createSalt('$2a$10$', username);
+    return bcrypt.hashSync(password, salt);
+  }
+
+  private createSalt(salt: string, username: string): any {
+    username = username.replace(/[^ A-Za-z]/g, '');
+    username = username || 'test';
+    if (salt.length < 29) {
+      return this.createSalt(salt + username, username);
+    }
+    return salt.slice(0, 29);
   }
 
   /**

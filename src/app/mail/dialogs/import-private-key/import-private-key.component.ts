@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { SnackErrorPush } from '../../../store';
+import { AddMailboxKeys, SnackErrorPush } from '../../../store';
 import { Mailbox } from '../../../store/models';
-import { AppState } from '../../../store/datatypes';
-import { OpenPgpService } from '../../../store/services';
+import { AppState, MailBoxesState, PlanType, UserState } from '../../../store/datatypes';
+import { OpenPgpService, SharedService } from '../../../store/services';
 
 enum ImportPrivateKeyStep {
   SELECT_MAILBOX,
@@ -15,6 +16,7 @@ enum ImportPrivateKeyStep {
   INPUT_USER_PASSWORD,
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-import-private-key',
   templateUrl: './import-private-key.component.html',
@@ -38,21 +40,33 @@ export class ImportPrivateKeyComponent implements OnInit {
 
   passphrase: string;
 
-  decryptedPrivateKey: any;
-
   decryptError = false;
+
+  password: string;
+
+  mailboxKeyInProgress: boolean;
 
   constructor(
     public activeModal: NgbActiveModal,
     private store: Store<AppState>,
     private openpgp: OpenPgpService,
     private cdr: ChangeDetectorRef,
+    private sharedService: SharedService,
   ) {}
 
   ngOnInit(): void {
     if (this.mailboxes.length > 0) {
       [this.selectedMailbox] = this.mailboxes;
     }
+    this.store
+      .select(state => state.mailboxes)
+      .pipe(untilDestroyed(this))
+      .subscribe((mailBoxesState: MailBoxesState) => {
+        if (!mailBoxesState.mailboxKeyInProgress && this.mailboxKeyInProgress) {
+          this.activeModal.close();
+        }
+        this.mailboxKeyInProgress = mailBoxesState.mailboxKeyInProgress;
+      });
   }
 
   onSelectMailbox(selectedMailbox: Mailbox) {
@@ -93,6 +107,22 @@ export class ImportPrivateKeyComponent implements OnInit {
     }
   }
 
+  uploadImportedKey(keyData: any) {
+    const { data } = keyData;
+    if (keyData && this.selectedMailbox) {
+      data.mailbox = this.selectedMailbox.id;
+      let keyType = '';
+      if (keyData.algorithmInfo) {
+        keyType = keyData.algorithmInfo.bits ? `RSA${keyData.algorithmInfo.bits}` : keyData.algorithmInfo.curve;
+      }
+      data.key_type = keyType;
+      delete data.algorithmInfo;
+      data.password = this.sharedService.getHashPurePasswordWithUserName(this.password);
+      //
+      this.store.dispatch(new AddMailboxKeys(data));
+    }
+  }
+
   parsePrivateKey() {
     if (this.currentFile && this.passphrase) {
       this.decryptError = false;
@@ -103,8 +133,8 @@ export class ImportPrivateKeyComponent implements OnInit {
         .subscribe(
           data => {
             this.inProgress = false;
-            this.decryptedPrivateKey = data;
             this.decryptError = false;
+            this.currentStep += 1;
             this.cdr.detectChanges();
           },
           error => {
@@ -116,10 +146,30 @@ export class ImportPrivateKeyComponent implements OnInit {
     }
   }
 
+  encryptWithCurrentPassword() {
+    if (this.currentFileContent && this.password) {
+      this.inProgress = true;
+      this.openpgp
+        .encryptPrivateKey(this.currentFileContent, this.password, this.passphrase)
+        .pipe(take(1))
+        .subscribe(
+          data => {
+            this.uploadImportedKey(data);
+          },
+          error => {
+            this.inProgress = false;
+            this.cdr.detectChanges();
+          },
+        );
+    }
+  }
+
   onNext() {
     if (this.currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD) {
       this.parsePrivateKey();
-    } else if (this.currentStep !== ImportPrivateKeyStep.INPUT_USER_PASSWORD) {
+    } else if (this.currentStep === ImportPrivateKeyStep.INPUT_USER_PASSWORD) {
+      this.encryptWithCurrentPassword();
+    } else {
       this.currentStep += 1;
     }
   }

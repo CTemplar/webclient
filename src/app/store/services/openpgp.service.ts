@@ -500,6 +500,14 @@ export class OpenPgpService {
     return subject.asObservable();
   }
 
+  encryptPrivateKey(privateKey: string, password: string, passphrase: string) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ privateKey, encryptPrivateKey: true, subjectId, password, passphrase });
+    return subject.asObservable();
+  }
+
   getKeyInfoFromPublicKey(publicKey: string) {
     const subject = new Subject<any>();
     const subjectId = performance.now();
@@ -720,6 +728,8 @@ export class OpenPgpService {
       } else if (event.data.decryptedPrivateKey) {
         this.handleObservable(event.data.subjectId, event.data);
       } else if (event.data.validatedPrivateKey) {
+        this.handleObservable(event.data.subjectId, event.data);
+      } else if (event.data.encryptedPrivateKey) {
         this.handleObservable(event.data.subjectId, event.data);
       }
     };
