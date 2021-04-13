@@ -4,10 +4,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { AddMailboxKeys, SnackErrorPush } from '../../../store';
+import { AddMailboxKeys, ResetMailboxKeyOperationState, SnackErrorPush } from '../../../store';
 import { Mailbox } from '../../../store/models';
-import { AppState, MailBoxesState, PlanType, UserState } from '../../../store/datatypes';
+import { AppState, MailBoxesState, MailboxKey, PlanType, UserState } from '../../../store/datatypes';
 import { OpenPgpService, SharedService } from '../../../store/services';
+import { BehaviorSubject } from 'rxjs';
 
 enum ImportPrivateKeyStep {
   SELECT_MAILBOX,
@@ -44,7 +45,11 @@ export class ImportPrivateKeyComponent implements OnInit {
 
   password: string;
 
-  mailboxKeyInProgress: boolean;
+  mailboxKeyInProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  mailboxKeyFailure$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  mailboxKeysMap: Map<number, Array<MailboxKey>>;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -55,6 +60,7 @@ export class ImportPrivateKeyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new ResetMailboxKeyOperationState());
     if (this.mailboxes.length > 0) {
       [this.selectedMailbox] = this.mailboxes;
     }
@@ -62,10 +68,17 @@ export class ImportPrivateKeyComponent implements OnInit {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
-        if (!mailBoxesState.mailboxKeyInProgress && this.mailboxKeyInProgress) {
+        if (
+          !mailBoxesState.mailboxKeyInProgress &&
+          this.mailboxKeyInProgress$.value &&
+          !mailBoxesState.mailboxKeyFailure
+        ) {
           this.activeModal.close();
         }
-        this.mailboxKeyInProgress = mailBoxesState.mailboxKeyInProgress;
+
+        this.mailboxKeyInProgress$.next(mailBoxesState.mailboxKeyInProgress);
+        this.mailboxKeyFailure$.next(mailBoxesState.mailboxKeyFailure);
+        this.mailboxKeysMap = mailBoxesState.mailboxKeysMap;
       });
   }
 
@@ -87,6 +100,26 @@ export class ImportPrivateKeyComponent implements OnInit {
           .pipe(take(1))
           .subscribe(
             data => {
+              if (data.data?.fingerprint && this.mailboxKeysMap.has(this.selectedMailbox.id)) {
+                const keys = this.mailboxKeysMap.get(this.selectedMailbox.id);
+                if (keys.find(key => data.data.fingerprint === key.fingerprint)) {
+                  this.store.dispatch(
+                    new SnackErrorPush({
+                      message: `${file.name} is already in active use`,
+                    }),
+                  );
+                  this.currentFile = undefined;
+                  this.currentFileContent = '';
+                }
+              } else {
+                this.store.dispatch(
+                  new SnackErrorPush({
+                    message: `${file.name} is not a valid PGP Private Key`,
+                  }),
+                );
+                this.currentFile = undefined;
+                this.currentFileContent = '';
+              }
               this.inProgress = false;
               this.cdr.detectChanges();
             },
@@ -154,7 +187,9 @@ export class ImportPrivateKeyComponent implements OnInit {
         .pipe(take(1))
         .subscribe(
           data => {
+            this.inProgress = false;
             this.uploadImportedKey(data);
+            this.cdr.detectChanges();
           },
           error => {
             this.inProgress = false;

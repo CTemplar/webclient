@@ -489,6 +489,7 @@ export interface MailBoxesState {
   isUpdatingOrder?: boolean;
   mailboxKeysMap?: Map<number, Array<MailboxKey>>; // Date Type => <Mailbox ID, Array of Keys>
   mailboxKeyInProgress?: boolean;
+  mailboxKeyFailure?: boolean;
 }
 
 export interface SecureMessageState {
@@ -688,6 +689,8 @@ export interface MailboxKey {
   fingerprint?: string;
   key_type?: string;
   is_primary?: boolean;
+  // Handling key update would need to represent password
+  password?: string;
 }
 
 // Key model for contact public key

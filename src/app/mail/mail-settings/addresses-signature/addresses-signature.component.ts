@@ -14,7 +14,7 @@ import {
   AddMailboxKeys,
   AddMailboxKeysSuccess,
   DeleteMailboxKeys,
-  MailboxSettingsUpdate,
+  MailboxSettingsUpdate, ResetMailboxKeyOperationState,
   SetMailboxKeyPrimary,
 } from '../../../store/actions/mail.actions';
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
@@ -27,6 +27,11 @@ import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/impo
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
 Quill.register(ImageFormat, true);
+
+enum AddKeyStep {
+  SELECT_MAILBOX,
+  USER_PASSWORD,
+}
 
 @UntilDestroy()
 @Component({
@@ -117,6 +122,14 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   primaryWebsite = PRIMARY_WEBSITE;
 
+  userPassword: string;
+
+  AddKeyStep = AddKeyStep;
+
+  currentAddKeyStep: AddKeyStep = AddKeyStep.SELECT_MAILBOX;
+
+  deleteKeyConfirmString: string;
+
   constructor(
     private formBuilder: FormBuilder,
     private openPgpService: OpenPgpService,
@@ -124,6 +137,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     private settingsService: MailSettingsService,
     private modalService: NgbModal,
     private store: Store<AppState>,
+    private sharedService: SharedService,
   ) {}
 
   ngOnInit() {
@@ -166,8 +180,14 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
             this.onSelectedMailboxForKeyChanged(mailboxesState.currentMailbox);
           }
           if (this.mailboxKeyInProgress && !mailboxesState.mailboxKeyInProgress) {
-            if (this.addNewKeyModalRef) this.addNewKeyModalRef.dismiss();
-            if (this.deleteKeyConfirmModalRef) this.deleteKeyConfirmModalRef.dismiss();
+            if (this.addNewKeyModalRef && !this.mailBoxesState.mailboxKeyFailure) {
+              this.userPassword = '';
+              this.addNewKeyModalRef.dismiss();
+            }
+            if (this.deleteKeyConfirmModalRef && !this.mailBoxesState.mailboxKeyFailure) {
+              this.userPassword = '';
+              this.deleteKeyConfirmModalRef.dismiss();
+            }
             if (this.setPrimaryKeyConfirmModalRef) this.setPrimaryKeyConfirmModalRef.dismiss();
           }
         }
@@ -426,7 +446,13 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Start Delete Key Section
+   */
+
   onRemoveKey(key: MailboxKey) {
+    this.deleteKeyConfirmString = '';
+    this.store.dispatch(new ResetMailboxKeyOperationState());
     this.pickedMailboxKeyForUpdate = key;
     this.deleteKeyConfirmModalRef = this.modalService.open(this.deleteKeyConfirmModal, {
       centered: true,
@@ -436,23 +462,20 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   }
 
   onConfirmDeleteKey() {
-    if (this.pickedMailboxKeyForUpdate) {
-      this.store.dispatch(new DeleteMailboxKeys(this.pickedMailboxKeyForUpdate));
+    if (this.pickedMailboxKeyForUpdate && this.userPassword) {
+      const password = this.sharedService.getHashPurePasswordWithUserName(this.userPassword);
+      this.store.dispatch(
+        new DeleteMailboxKeys({ ...this.pickedMailboxKeyForUpdate, password }),
+      );
     }
   }
+  /**
+   * End Delete Key Section
+   */
 
-  onAddNewKey() {
-    if (this.mailboxes && this.mailboxes.length > 0) {
-      this.selectedMailboxForAddNewKey = this.mailboxes[0];
-    }
-    this.selectedKeyTypeForAddNewKey = PGPKeyType.RSA_4096;
-    this.addNewKeyModalRef = this.modalService.open(this.addNewKeyModal, {
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'modal-sm',
-    });
-  }
-
+  /**
+   * Start Set Primary Key Section
+   */
   onSetPrimary(key: MailboxKey) {
     this.pickedMailboxKeyForUpdate = key;
     this.setPrimaryKeyConfirmModalRef = this.modalService.open(this.setPrimaryKeyConfirmModal, {
@@ -467,7 +490,13 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       this.store.dispatch(new SetMailboxKeyPrimary(this.pickedMailboxKeyForUpdate));
     }
   }
+  /**
+   * End Set Primary Key Section
+   */
 
+  /**
+   * Start Autocrypt Section
+   */
   onSetAutocrypt(mailbox: Mailbox) {
     this.selectedMailboxForAutocrypt = mailbox;
     this.setAutocryptConfirmModalRef = this.modalService.open(this.setAutocryptConfirmModal, {
@@ -486,9 +515,37 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onClickAutocrypt(isAutocrypt: boolean) {
     this.selectedMailboxForAutocrypt.is_autocrypt_enabled = isAutocrypt;
   }
+  /**
+   * End Autocrypt Section
+   */
+
+  /**
+   * Start Add Mailbox Key Section
+   */
+  onAddNewKey() {
+    this.userPassword = '';
+    this.store.dispatch(new ResetMailboxKeyOperationState());
+    if (this.mailboxes && this.mailboxes.length > 0) {
+      [this.selectedMailboxForAddNewKey] = this.mailboxes;
+    }
+    this.selectedKeyTypeForAddNewKey = PGPKeyType.RSA_4096;
+    this.addNewKeyModalRef = this.modalService.open(this.addNewKeyModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-sm',
+    });
+  }
 
   onSelectMailboxForAddNewKey(mailbox: Mailbox) {
     this.selectedMailboxForAddNewKey = mailbox;
+  }
+
+  onNextAddKey() {
+    if (this.currentAddKeyStep === AddKeyStep.SELECT_MAILBOX) {
+      this.currentAddKeyStep += 1;
+    } else if (this.userPassword) {
+      this.onGenerateKeys();
+    }
   }
 
   onGenerateKeys() {
@@ -501,16 +558,18 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         keys => {
+          const keyDataKeydata = { ...keys };
           this.isGeneratingKeys = false;
-          keys.key_type = this.selectedKeyTypeForAddNewKey === PGPKeyType.RSA_4096 ? 'RSA4096' : 'ECC';
-          keys.mailbox = this.selectedMailboxForAddNewKey.id;
+          keyDataKeydata.key_type = this.selectedKeyTypeForAddNewKey === PGPKeyType.RSA_4096 ? 'RSA4096' : 'ECC';
+          keyDataKeydata.mailbox = this.selectedMailboxForAddNewKey.id;
           if (
             !this.mailboxKeysMap.has(this.selectedMailboxForAddNewKey.id) ||
             this.mailboxKeysMap.get(this.selectedMailboxForAddNewKey.id).length === 0
           ) {
-            keys.is_primary = true;
+            keyDataKeydata.is_primary = true;
           }
-          this.store.dispatch(new AddMailboxKeys(keys));
+          keyDataKeydata.password = this.sharedService.getHashPurePasswordWithUserName(this.userPassword);
+          this.store.dispatch(new AddMailboxKeys(keyDataKeydata));
         },
         error => {
           this.isGeneratingKeys = false;
@@ -518,6 +577,9 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         },
       );
   }
+  /**
+   * End Add Mailbox Key Section
+   */
 
   // == Open NgbModal
   onImportKey() {
@@ -528,6 +590,15 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     };
     const component = this.modalService.open(ImportPrivateKeyComponent, options).componentInstance;
     component.mailboxes = this.mailboxes;
+  }
+
+  // == Toggle password visibility
+  togglePassword(inputID: string): any {
+    const input = <HTMLInputElement>document.getElementById(inputID);
+    if (!input.value) {
+      return;
+    }
+    input.type = input.type === 'password' ? 'text' : 'password';
   }
 
   ngOnDestroy(): void {

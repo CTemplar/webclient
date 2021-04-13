@@ -267,6 +267,7 @@ onmessage = async function (event) {
     validatePrivateKey(event.data).then(data => {
       if (data) {
         postMessage({
+          data,
           validatedPrivateKey: true,
           subjectId: event.data.subjectId,
         });
@@ -363,7 +364,7 @@ async function validatePrivateKey(data) {
       if (!armoredPrivateKey) {
         return Promise.reject('Invalid Private Key');
       }
-      return Promise.resolve(armoredPrivateKey);
+      return Promise.resolve({ fingerprint: armoredPrivateKey.getFingerprint() });
     } catch (e) {
       return Promise.reject('Failed to import private key');
     };

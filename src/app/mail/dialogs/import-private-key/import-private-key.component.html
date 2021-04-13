@@ -56,14 +56,9 @@
         <i class="fas fa-file-alt font-italic ml-2 mr-2"></i>
         <small class="font-italic">{{ currentFile ? currentFile.name : '' }}</small>
       </div>
-      <div class="form-content-row mt-2">
+      <div class="form-content-row mt-2 p-2">
         <div class="row align-items-center">
-          <div class="col-sm-3">
-            <label for="passwordVC" class="modal-form-label mb-2 mb-sm-0">
-              <span class="field-title">Passphrase: </span>
-            </label>
-          </div>
-          <div class="col-sm-9">
+          <div class="col-sm-12">
             <div class="input-group decrypt-password-element mr-2">
               <input class="form-control form-control-sm border-right-0" type="password" id="passwordVC" placeholder="Passphrase" [(ngModel)]="passphrase" />
               <span class="input-group-addon password-toggle bg-white text-muted" id="passphraseToggle" (click)="togglePassword('passwordVC')">
@@ -72,8 +67,7 @@
               </span>
             </div>
           </div>
-          <div class="col-sm-3"></div>
-          <div class="col-sm-9 errors-field" *ngIf="decryptError">
+          <div class="col-sm-12 errors-field" *ngIf="decryptError">
             <span class="validate-message mt-3">Incorrect Passphrase</span>
           </div>
         </div>
@@ -81,16 +75,11 @@
     </div>
     <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.INPUT_USER_PASSWORD">
       <div class="mb-3">
-        <p class="text-holder text-dark text-medium">Please sign in again to continue</p>
+        <p class="text-holder text-dark text-medium">Please enter your account password to continue</p>
       </div>
       <div class="form-content-row mt-2">
         <div class="row align-items-center">
-          <div class="col-sm-3">
-            <label for="userPasswordVC" class="modal-form-label mb-2 mb-sm-0">
-              <span class="field-title">User Password: </span>
-            </label>
-          </div>
-          <div class="col-sm-9">
+          <div class="col-sm-12">
             <div class="input-group decrypt-password-element mr-2">
               <input class="form-control form-control-sm border-right-0" type="password" id="userPasswordVC" placeholder="Password" [(ngModel)]="password" />
               <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('userPasswordVC')">
@@ -99,8 +88,7 @@
               </span>
             </div>
           </div>
-          <div class="col-sm-3"></div>
-          <div class="col-sm-9 errors-field" *ngIf="decryptError">
+          <div class="col-sm-12 errors-field" *ngIf="mailboxKeyFailure$ | async">
             <span class="validate-message mt-3">Incorrect Password</span>
           </div>
         </div>
@@ -111,7 +99,7 @@
 <div class="modal-footer">
   <div class="text-holder text-dark text-medium">
     <div class="mx-auto mt-2 pt-sm-2">
-      <app-loading-spinner [showSpinner]="inProgress || mailboxKeyInProgress"></app-loading-spinner>
+      <app-loading-spinner [showSpinner]="inProgress || (mailboxKeyInProgress$ | async)"></app-loading-spinner>
       <button
         type="button"
         class="btn btn-secondary btn-sm"

@@ -69,6 +69,7 @@ export enum MailActionTypes {
   SET_PRIMARY_MAILBOX_KEYS_SUCCESS = '[MAILBOX] SET_PRIMARY MAILBOX KEYS SUCCESS',
   SET_PRIMARY_MAILBOX_KEYS_FAILURE = '[MAILBOX] SET_PRIMARY MAILBOX KEYS FAILURE',
   SET_ATTACHMENTS_FOR_PGP_MIME = '[Mail] SET ATTACHMENTS FOR PGP MIME',
+  RESET_MAILBOX_KEY_OPERATION_STATE = '[MAILBOX] RESET MAILBOX KEY OPERATION STATE',
 }
 
 export class GetMails implements Action {
@@ -472,6 +473,10 @@ export class SetAttachmentsForPGPMime implements Action {
   constructor(public payload: any = {}) {}
 }
 
+export class ResetMailboxKeyOperationState implements Action {
+  readonly type = MailActionTypes.RESET_MAILBOX_KEY_OPERATION_STATE;
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -539,4 +544,5 @@ export type MailActions =
   | SetMailboxKeyPrimary
   | SetMailboxKeyPrimarySuccess
   | SetMailboxKeyPrimaryFailure
-  | SetAttachmentsForPGPMime;
+  | SetAttachmentsForPGPMime
+  | ResetMailboxKeyOperationState;
