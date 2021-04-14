@@ -363,7 +363,7 @@
     <h3 class="modal-title w-100 text-dark" id="addKeyModalLabel">
       <strong [translate]="'settings.keys.add_new_key'">Add New Key</strong>
     </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="userPassword=''; d()">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="userPassword = ''; d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -431,7 +431,7 @@
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="isGeneratingKeys || mailboxKeyInProgress"></app-loading-spinner>
         <button type="button" class="btn btn-secondary btn-sm" (click)="onNextAddKey()" [disabled]="mailboxKeyInProgress || isGeneratingKeys">
-          {{ currentAddKeyStep === AddKeyStep.SELECT_MAILBOX ? 'Next' : ((isGeneratingKeys || mailboxKeyInProgress) ? 'Generating Keys...' : 'Generate Keys') }}
+          {{ currentAddKeyStep === AddKeyStep.SELECT_MAILBOX ? 'Next' : isGeneratingKeys || mailboxKeyInProgress ? 'Generating Keys...' : 'Generate Keys' }}
         </button>
       </div>
     </div>
@@ -442,15 +442,15 @@
 <ng-template #deleteKeyConfirmModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="deleteKeyModalModalLabel">
-      <strong [translate]='"settings.keys.delete_key_title"'>Are you sure to delete this key?</strong>
+      <strong [translate]="'settings.keys.delete_key_title'">Are you sure to delete this key?</strong>
     </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="userPassword=''; d()">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="userPassword = ''; d()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body bg-faded">
     <div>
-      <p class="text-holder text-medium text-danger" [translate]='"settings.keys.delete_key_desc"'>After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.</p>
+      <p class="text-holder text-medium text-danger" [translate]="'settings.keys.delete_key_desc'">After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.</p>
     </div>
     <div class="form-content-row mt-3 p-2">
       <div class="row align-items-center">
@@ -484,7 +484,7 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmDeleteKey()" [disabled]="mailboxKeyInProgress || deleteKeyConfirmString!=='CTEMPLAR'" [translate]='"settings.keys.delete_key_confirm"'>Yes, I am sure</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmDeleteKey()" [disabled]="mailboxKeyInProgress || deleteKeyConfirmString !== 'CTEMPLAR'" [translate]="'settings.keys.delete_key_confirm'">Yes, I am sure</button>
       </div>
     </div>
   </div>
@@ -494,7 +494,7 @@
 <ng-template #setPrimaryKeyConfirmModal let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h3 class="modal-title w-100 text-dark" id="primaryKeyModalLabel">
-      <strong [translate]='"settings.keys.update_primary_key"'>Update Primary Key</strong>
+      <strong [translate]="'settings.keys.update_primary_key'">Update Primary Key</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -509,7 +509,7 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="mailboxKeyInProgress"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetPrimaryKey()" [disabled]="mailboxKeyInProgress" [translate]='"settings.keys.make_as_primary"'>Make as Primary</button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onConfirmSetPrimaryKey()" [disabled]="mailboxKeyInProgress" [translate]="'settings.keys.make_as_primary'">Make as Primary</button>
       </div>
     </div>
   </div>

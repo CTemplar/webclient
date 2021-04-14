@@ -725,7 +725,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       return headersArray;
     } catch {
       return [];
-    };
+    }
   }
 
   getMailDetail(messageId: number) {

@@ -230,7 +230,11 @@ export class AuthEffects {
     switchMap(payload => {
       return this.authService.changePassword(payload).pipe(
         switchMap(user =>
-          of(new ChangePasswordSuccess(payload), new GetMailboxes(), new SnackPush({ message: 'Password changed successfully.' })),
+          of(
+            new ChangePasswordSuccess(payload),
+            new GetMailboxes(),
+            new SnackPush({ message: 'Password changed successfully.' }),
+          ),
         ),
         catchError((response: any) =>
           of(

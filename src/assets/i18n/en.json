@@ -61,7 +61,7 @@
       "primary_public_key_desc": "This public key will be used to encrypt outgoing messages",
       "key_assign_warn1": "This key is NOT assigned to ",
       "key_assign_warn2": "Assigned User: ",
-      "remove_public_key":"Remove Public Key"
+      "remove_public_key": "Remove Public Key"
     }
   },
   "common": {

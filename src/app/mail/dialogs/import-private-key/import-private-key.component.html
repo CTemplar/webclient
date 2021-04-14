@@ -39,7 +39,7 @@
         <div class="pl-2 pt-2">
           <a (click)="importKeyFileTag.click()">
             <i class="fas fa-plus-circle"></i>
-            {{ currentFile ? 'Change Key' : 'contacts.advanced.add_key' | translate }}
+            {{ currentFile ? 'Change Key' : ('contacts.advanced.add_key' | translate) }}
           </a>
         </div>
         <div class="pl-2 pt-2" *ngIf="currentFile">
