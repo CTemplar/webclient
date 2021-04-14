@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -241,7 +241,13 @@ export class MailService {
   }
 
   deleteMailboxKeys(data: MailboxKey) {
-    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`);
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: { password: data.password },
+    };
+    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`, options);
   }
 
   setPrimaryMailboxKeys(data: MailboxKey) {

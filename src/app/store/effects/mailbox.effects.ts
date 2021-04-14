@@ -89,7 +89,7 @@ export class MailboxEffects {
     map((action: CreateMailbox) => action.payload),
     switchMap((payload: any) => {
       return this.mailService.createMailbox(payload).pipe(
-        switchMap(res => of(new CreateMailboxSuccess(res), new GetDomains())),
+        switchMap(response => of(new CreateMailboxSuccess(response), new GetDomains(), new FetchMailboxKeys())),
         catchError(error =>
           of(
             new CreateMailboxFailure(error.error),
@@ -171,7 +171,12 @@ export class MailboxEffects {
           ),
         ),
         catchError(error =>
-          of(new AddMailboxKeysFailure(), new SnackErrorPush({ message: 'Failed to add mailbox key' })),
+          of(
+            new AddMailboxKeysFailure(),
+            new SnackErrorPush({
+              message: typeof error.error === 'string' ? error.error : 'Failed to add mailbox key',
+            }),
+          ),
         ),
       );
     }),
@@ -189,9 +194,14 @@ export class MailboxEffects {
             new SnackPush({ message: 'Mailbox Key has been deleted successfully' }),
           ),
         ),
-        catchError(error =>
-          of(new DeleteMailboxKeysFailure(), new SnackErrorPush({ message: 'Failed to delete mailbox key' })),
-        ),
+        catchError(error => {
+          return of(
+            new DeleteMailboxKeysFailure(),
+            new SnackErrorPush({
+              message: typeof error.error === 'string' ? error.error : 'Failed to delete mailbox key',
+            }),
+          );
+        }),
       );
     }),
   );

@@ -484,6 +484,30 @@ export class OpenPgpService {
     return subject.asObservable();
   }
 
+  validatePrivateKey(privateKey: string) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ privateKey, validatePrivateKey: true, subjectId });
+    return subject.asObservable();
+  }
+
+  decryptPrivateKey(privateKey: string, passphrase: string) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ privateKey, decryptPrivateKey: true, subjectId, passphrase });
+    return subject.asObservable();
+  }
+
+  encryptPrivateKey(privateKey: string, password: string, passphrase: string) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+    this.pgpWorker.postMessage({ privateKey, encryptPrivateKey: true, subjectId, password, passphrase });
+    return subject.asObservable();
+  }
+
   getKeyInfoFromPublicKey(publicKey: string) {
     const subject = new Subject<any>();
     const subjectId = performance.now();
@@ -701,6 +725,12 @@ export class OpenPgpService {
             draftId: event.data.draftId,
           }),
         );
+      } else if (event.data.decryptedPrivateKey) {
+        this.handleObservable(event.data.subjectId, event.data);
+      } else if (event.data.validatedPrivateKey) {
+        this.handleObservable(event.data.subjectId, event.data);
+      } else if (event.data.encryptedPrivateKey) {
+        this.handleObservable(event.data.subjectId, event.data);
       }
     };
   }

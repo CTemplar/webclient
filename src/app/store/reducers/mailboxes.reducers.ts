@@ -2,7 +2,6 @@ import { MailActions, MailActionTypes } from '../actions';
 import { MailBoxesState, MailboxKey } from '../datatypes';
 import { Mailbox } from '../models/mail.model';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
-import { debounce } from 'rxjs/operators';
 
 export function reducer(
   state: MailBoxesState = {
@@ -210,8 +209,12 @@ export function reducer(
       if (mailboxKeys && mailboxKeys.length > 0) {
         mailboxes.forEach((mailbox: Mailbox) => {
           const specificKeys = mailboxKeys.filter((key: MailboxKey) => key.mailbox === mailbox.id);
-          const originKeys = mailboxKeysMap.get(mailbox.id);
-          mailboxKeysMap.set(mailbox.id, [...originKeys, ...specificKeys]);
+          if (mailboxKeysMap.has(mailbox.id)) {
+            const originKeys = mailboxKeysMap.get(mailbox.id);
+            mailboxKeysMap.set(mailbox.id, [...originKeys, ...specificKeys]);
+          } else {
+            mailboxKeysMap.set(mailbox.id, specificKeys);
+          }
         });
       }
       return {
@@ -232,6 +235,7 @@ export function reducer(
       return {
         ...state,
         mailboxKeyInProgress: true,
+        mailboxKeyFailure: false,
       };
     }
 
@@ -248,6 +252,7 @@ export function reducer(
         ...state,
         mailboxKeysMap,
         mailboxKeyInProgress: false,
+        mailboxKeyFailure: false,
       };
     }
 
@@ -255,6 +260,7 @@ export function reducer(
       return {
         ...state,
         mailboxKeyInProgress: false,
+        mailboxKeyFailure: true,
       };
     }
 
@@ -262,6 +268,7 @@ export function reducer(
       return {
         ...state,
         mailboxKeyInProgress: true,
+        mailboxKeyFailure: false,
       };
     }
 
@@ -279,12 +286,14 @@ export function reducer(
         ...state,
         mailboxKeysMap,
         mailboxKeyInProgress: false,
+        mailboxKeyFailure: false,
       };
     }
 
     case MailActionTypes.DELETE_MAILBOX_KEYS_FAILURE: {
       return {
         ...state,
+        mailboxKeyFailure: true,
         mailboxKeyInProgress: false,
       };
     }
@@ -341,6 +350,14 @@ export function reducer(
       return {
         ...state,
         mailboxKeyInProgress: false,
+      };
+    }
+
+    case MailActionTypes.RESET_MAILBOX_KEY_OPERATION_STATE: {
+      return {
+        ...state,
+        mailboxKeyInProgress: false,
+        mailboxKeyFailure: false,
       };
     }
 
