@@ -219,7 +219,7 @@
                   <i *ngIf="mail.last_action" class="fas fa-{{ mail.last_action | lastAction }} last-action"></i>
                 </span>
               </li>
-              <li id="{{ mail.id }}-mail-to" *ngIf="mail.receiver && mail.receiver.length > 0">
+              <li id="{{ mail.id }}-mail-to" *ngIf="mail.receiver?.length > 0">
                 {{ 'settings.compose.to' | translate }}
                 <ng-container *ngFor="let receiver of mail.receiver_display; let i = index">
                   <span class="text-secondary"> </span>
