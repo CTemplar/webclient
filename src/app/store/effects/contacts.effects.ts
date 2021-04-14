@@ -35,11 +35,7 @@ import { Contact, ImportContactResponse } from '../datatypes';
   providedIn: 'root',
 })
 export class ContactsEffects {
-  constructor(
-    private actions: Actions,
-    private openPgpService: OpenPgpService,
-    private userService: UsersService,
-  ) {}
+  constructor(private actions: Actions, private openPgpService: OpenPgpService, private userService: UsersService) {}
 
   @Effect()
   Contact: Observable<any> = this.actions.pipe(

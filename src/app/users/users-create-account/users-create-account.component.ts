@@ -34,7 +34,6 @@ export class PasswordValidation {
   styleUrls: ['./users-create-account.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isTextToggled = false;
 

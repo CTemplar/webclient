@@ -16,7 +16,6 @@ import { Folder } from '../../../store/models';
   styleUrls: ['./create-folder.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class CreateFolderComponent implements OnInit {
   @Input() folder: Folder = { id: null, name: '', color: '' };
 

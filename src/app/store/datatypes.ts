@@ -705,13 +705,13 @@ export interface ImportContactResponse {
 }
 
 export interface MoveMailActionPayloadType {
-  ids: number,
-  folder: MailFolderType,
-  sourceFolder: MailFolderType | string,
-  mail: Mail,
-  allowUndo: boolean,
-  fromTrash?: boolean,
-  withChildren?: boolean,
-  shouldDeleteFolder?: boolean,
-  folderToDelete?: Folder,
+  ids: number;
+  folder: MailFolderType;
+  sourceFolder: MailFolderType | string;
+  mail: Mail;
+  allowUndo: boolean;
+  fromTrash?: boolean;
+  withChildren?: boolean;
+  shouldDeleteFolder?: boolean;
+  folderToDelete?: Folder;
 }
