@@ -39,7 +39,7 @@
         <div class="pl-2 pt-2">
           <a (click)="importKeyFileTag.click()">
             <i class="fas fa-plus-circle"></i>
-            {{ currentFile ? 'Change Key' : 'contacts.advanced.add_key' | translate }}
+            {{ currentFile ? 'Change Key' : ('contacts.advanced.add_key' | translate) }}
           </a>
         </div>
         <div class="pl-2 pt-2" *ngIf="currentFile">
@@ -100,14 +100,7 @@
   <div class="text-holder text-dark text-medium">
     <div class="mx-auto mt-2 pt-sm-2">
       <app-loading-spinner [showSpinner]="inProgress || (mailboxKeyInProgress$ | async)"></app-loading-spinner>
-      <button
-        type="button"
-        class="btn btn-secondary btn-sm"
-        (click)="onNext()"
-        [disabled]="(currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY && !currentFile) || (currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD && !passphrase)"
-      >
-        Next
-      </button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="onNext()" [disabled]="(currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY && !currentFile) || (currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD && !passphrase)">Next</button>
     </div>
   </div>
 </div>

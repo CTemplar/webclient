@@ -14,7 +14,8 @@ import {
   AddMailboxKeys,
   AddMailboxKeysSuccess,
   DeleteMailboxKeys,
-  MailboxSettingsUpdate, ResetMailboxKeyOperationState,
+  MailboxSettingsUpdate,
+  ResetMailboxKeyOperationState,
   SetMailboxKeyPrimary,
 } from '../../../store/actions/mail.actions';
 import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
@@ -464,9 +465,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   onConfirmDeleteKey() {
     if (this.pickedMailboxKeyForUpdate && this.userPassword) {
       const password = this.sharedService.getHashPurePasswordWithUserName(this.userPassword);
-      this.store.dispatch(
-        new DeleteMailboxKeys({ ...this.pickedMailboxKeyForUpdate, password }),
-      );
+      this.store.dispatch(new DeleteMailboxKeys({ ...this.pickedMailboxKeyForUpdate, password }));
     }
   }
   /**
