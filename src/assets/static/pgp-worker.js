@@ -147,7 +147,7 @@ onmessage = async function (event) {
     }
   } else if (event.data.changePassphrase) {
     if (event.data.deleteData) {
-      generateNewKeys(event.data.mailboxes, event.data.passphrase, event.data.username).then(data => {
+      generateNewKeys(event.data.mailboxes, event.data.passphrase, event.data.username, 'ECC').then(data => {
         postMessage(data);
       });
     } else {
@@ -387,14 +387,29 @@ function generateKeys(options) {
   });
 }
 
-async function generateNewKeys(mailboxes, password, username) {
+async function generateNewKeys(mailboxes, password, username, key_type) {
   const newKeys = [];
   for (let i = 0; i < mailboxes.length; i++) {
-    const options = {
-      userIds: [{ name: username, email: mailboxes[i].email }],
-      numBits: 4096,
-      passphrase: password,
-    };
+    let options = {};
+    if (key_type === 'ECC') {
+      options = {
+        userIds: [{ name: username, email: mailboxes[i].email }],
+        curve: "ed25519",
+        passphrase: password,
+      };
+    } else if (key_type === 'RSA 4096') {
+      options = {
+        userIds: [{ name: username, email: mailboxes[i].email }],
+        numBits: 4096,
+        passphrase: password,
+      };
+    } else {
+      options = {
+        userIds: [{ name: username, email: mailboxes[i].email }],
+        numBits: 2048,
+        passphrase: password,
+      };
+    }
     const keys = await generateKeys(options);
     newKeys.push({ ...keys, mailbox_id: mailboxes[i].id });
   }

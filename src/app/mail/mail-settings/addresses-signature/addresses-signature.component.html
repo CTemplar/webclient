@@ -299,7 +299,7 @@
           <div class="col-5 mailbox-list-row-item show-ellipses">
             {{ mailbox.fingerprint }}
           </div>
-          <div class="col-2 mailbox-list-row-item">RSA 4096 BIT</div>
+          <div class="col-2 mailbox-list-row-item">{{ mailbox.key_type === 'RSA4096' || !mailbox.key_type ? 'RSA 4096 BIT' : 'ECC' }}</div>
           <div class="col-12 key-list-container" #collapse="ngbCollapse" [(ngbCollapse)]="!aliasKeyExpandedStatus[i]" *ngIf="mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0">
             <div class="row key-list-header">
               <div class="col-6 key-list-header-item" [translate]="'settings.keys.fingerprint'">Fingerprint</div>
@@ -392,14 +392,14 @@
         </div>
         <div class="flex-auto-col">
           <div class="fancy-field-group">
-            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType1" name="[1]" type="radio" [checked]="true" (click)="selectedKeyTypeForAddNewKey = 'RSA 4096'" />
-            <label for="keyType1">RSA 4096</label>
+            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType2" name="[1]" type="radio" [checked]="selectedKeyTypeForAddNewKey === 'ECC'" (click)="selectedKeyTypeForAddNewKey = 'ECC'" />
+            <label for="keyType2">ECC (Default)</label>
           </div>
         </div>
         <div class="flex-auto-col">
           <div class="fancy-field-group">
-            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType2" name="[1]" type="radio" [checked]="false" (click)="selectedKeyTypeForAddNewKey = 'ECC'" />
-            <label for="keyType2">ECC</label>
+            <input class="d-none fancy-field-control fancy-field-control-sm" id="keyType1" name="[1]" type="radio" [checked]="selectedKeyTypeForAddNewKey === 'RSA 4096'" (click)="selectedKeyTypeForAddNewKey = 'RSA 4096'" />
+            <label for="keyType1">RSA 4096</label>
           </div>
         </div>
       </div>
@@ -412,7 +412,7 @@
         <div class="row align-items-center">
           <div class="col-sm-12">
             <div class="input-group decrypt-password-element mr-2">
-              <input class="form-control form-control-sm border-right-0" type="password" id="addKeyPasswordVC" placeholder="Password" [(ngModel)]="userPassword" />
+              <input class="form-control form-control-sm border-right-0" type="password" id="addKeyPasswordVC" placeholder="Password" [(ngModel)]="userPassword" [disabled]="isGeneratingKeys || mailboxKeyInProgress"/>
               <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('addKeyPasswordVC')">
                 <i class="fa fa-eye"></i>
                 <i class="fa fa-eye-slash"></i>

@@ -799,6 +799,7 @@
     "view_mail_raw_content": "View email raw content without xss protection. Warning: Be aware of malwares.",
     "show_raw_email": "Show raw email",
     "decryp_4096_bit": "Decrypting 4096 Bit Encrypted Email",
+    "decrypt_encrypted_email": "Decrypting Encrypted Email",
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Confirm Include Attachments",
     "show_plain_text": "Show Plain Text",

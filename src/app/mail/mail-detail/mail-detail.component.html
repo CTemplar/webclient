@@ -386,7 +386,7 @@
     <div align="center" class="decryption-spinner" *ngIf="mailExpandedStatus[mail.id] && !decryptedContents[mail.id] && (isDecrypting[mail.id] || (!isDecrypting[mail.id] && !isPasswordEncrypted[mail.id]))">
       <img class="mt-3" [src]="loadingImage | safe: 'url'" />
       <div class="mt-3">
-        {{ 'mail_detail.decryp_4096_bit' | translate }}
+        {{ 'mail_detail.decrypt_encrypted_email' | translate }}
       </div>
     </div>
 
@@ -642,7 +642,7 @@
             <div align="center" class="decryption-spinner" *ngIf="mailExpandedStatus[childMail.id] && !decryptedContents[childMail.id] && (isDecrypting[childMail.id] || !isPasswordEncrypted[childMail.id])">
               <img class="mt-3" [src]="loadingImage | safe: 'url'" />
               <div class="mt-3">
-                {{ 'mail_detail.decryp_4096_bit' | translate }}
+                {{ 'mail_detail.decrypt_encrypted_email' | translate }}
               </div>
             </div>
             <div class="ui-body" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible && !isPopupOpen">

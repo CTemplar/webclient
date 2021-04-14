@@ -81,7 +81,7 @@
         <div class="row align-items-center">
           <div class="col-sm-12">
             <div class="input-group decrypt-password-element mr-2">
-              <input class="form-control form-control-sm border-right-0" type="password" id="userPasswordVC" placeholder="Password" [(ngModel)]="password" />
+              <input class="form-control form-control-sm border-right-0" type="password" id="userPasswordVC" placeholder="Password" [(ngModel)]="password" [disabled]="inProgress || (mailboxKeyInProgress$ | async)"/>
               <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('userPasswordVC')">
                 <i class="fa fa-eye"></i>
                 <i class="fa fa-eye-slash"></i>
@@ -100,7 +100,14 @@
   <div class="text-holder text-dark text-medium">
     <div class="mx-auto mt-2 pt-sm-2">
       <app-loading-spinner [showSpinner]="inProgress || (mailboxKeyInProgress$ | async)"></app-loading-spinner>
-      <button type="button" class="btn btn-secondary btn-sm" (click)="onNext()" [disabled]="(currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY && !currentFile) || (currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD && !passphrase)">Next</button>
+      <button
+        type="button"
+        class="btn btn-secondary btn-sm"
+        (click)="onNext()"
+        [disabled]="((currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY && !currentFile) || (currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD && !passphrase) || (inProgress || (mailboxKeyInProgress$ | async)))"
+      >
+        Next
+      </button>
     </div>
   </div>
 </div>
