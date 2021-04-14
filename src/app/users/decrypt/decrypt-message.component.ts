@@ -15,7 +15,6 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
   selector: 'app-decrypt-message',
   templateUrl: './decrypt-message.component.html',
   styleUrls: ['./decrypt-message.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DecryptMessageComponent implements OnInit, OnDestroy {
   decryptForm: FormGroup;

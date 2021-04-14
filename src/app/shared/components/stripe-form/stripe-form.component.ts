@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -11,7 +11,6 @@ import { MakeStripDonation } from '../../../store/actions/donate.actions';
   selector: 'app-stripe-form',
   templateUrl: './stripe-form.component.html',
   styleUrls: ['./stripe-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StripeFormComponent implements OnInit {
   /**

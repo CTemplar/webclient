@@ -13,7 +13,6 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
   selector: 'app-pricing-plans',
   templateUrl: './pricing-plans.component.html',
   styleUrls: ['./pricing-plans.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PricingPlansComponent implements OnInit, OnDestroy {
   readonly planType = PlanType;
