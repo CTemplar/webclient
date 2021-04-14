@@ -524,11 +524,12 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
    */
   onAddNewKey() {
     this.userPassword = '';
+    this.currentAddKeyStep = AddKeyStep.SELECT_MAILBOX;
     this.store.dispatch(new ResetMailboxKeyOperationState());
     if (this.mailboxes && this.mailboxes.length > 0) {
       [this.selectedMailboxForAddNewKey] = this.mailboxes;
     }
-    this.selectedKeyTypeForAddNewKey = PGPKeyType.RSA_4096;
+    this.selectedKeyTypeForAddNewKey = PGPKeyType.ECC;
     this.addNewKeyModalRef = this.modalService.open(this.addNewKeyModal, {
       centered: true,
       backdrop: 'static',
@@ -554,7 +555,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     }
     this.isGeneratingKeys = true;
     this.openPgpService
-      .generateUserKeysWithEmail(this.selectedMailboxForAddNewKey.email, atob(this.usersService.getUserKey()))
+      .generateUserKeysWithEmail(
+        this.selectedMailboxForAddNewKey.email,
+        atob(this.usersService.getUserKey()),
+        this.selectedKeyTypeForAddNewKey,
+      )
       .pipe(take(1))
       .subscribe(
         keys => {

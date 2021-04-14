@@ -10,7 +10,6 @@ import {
   ContactDecryptSuccess,
   ContactsGet,
   FetchMailboxKeysSuccess,
-  GetMailboxesSuccess,
   Logout,
   SetDecryptedKey,
   SetDecryptInProgress,
@@ -32,6 +31,7 @@ import {
   ContactsState,
   MailBoxesState,
   PGPEncryptionType,
+  PGPKeyType,
   SecureContent,
   Settings,
   UserState,
@@ -352,17 +352,37 @@ export class OpenPgpService {
     }
   }
 
-  generateUserKeys(username: string, password: string, domain: string = PRIMARY_DOMAIN) {
+  generateUserKeys(
+    username: string,
+    password: string,
+    domain: string = PRIMARY_DOMAIN,
+    key_type: PGPKeyType = PGPKeyType.ECC,
+  ) {
     if (username.split('@').length > 1) {
       domain = username.split('@')[1];
       username = username.split('@')[0];
     }
     this.userKeys = null;
-    const options = {
-      userIds: [{ email: `${username}@${domain}` }],
-      numBits: 4096,
-      passphrase: password,
-    };
+    let options = {};
+    if (key_type === PGPKeyType.ECC) {
+      options = {
+        userIds: [{ email: `${username}@${domain}` }],
+        curve: "ed25519",
+        passphrase: password,
+      };
+    } else if (key_type === PGPKeyType.RSA_4096) {
+      options = {
+        userIds: [{ email: `${username}@${domain}` }],
+        numBits: 4096,
+        passphrase: password,
+      };
+    } else {
+      options = {
+        userIds: [{ email: `${username}@${domain}` }],
+        numBits: 2048,
+        passphrase: password,
+      };
+    }
     this.pgpWorker.postMessage({ options, generateKeys: true });
   }
 
@@ -517,15 +537,31 @@ export class OpenPgpService {
   }
 
   // Multiple mailbox keys
-  generateUserKeysWithEmail(email: string, password: string) {
+  generateUserKeysWithEmail(email: string, password: string, key_type: PGPKeyType) {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    const options = {
-      userIds: [{ email }],
-      numBits: 4096,
-      passphrase: password,
-    };
+    let options = {};
+    if (key_type === PGPKeyType.ECC) {
+      options = {
+        userIds: [{ email }],
+        curve: "ed25519",
+        passphrase: password,
+      };
+    } else if (key_type === PGPKeyType.RSA_4096) {
+      options = {
+        userIds: [{ email }],
+        numBits: 4096,
+        passphrase: password,
+      };
+    } else {
+      options = {
+        userIds: [{ email }],
+        numBits: 2048,
+        passphrase: password,
+      };
+    }
+
     this.pgpWorker.postMessage({ options, generateKeysForEmail: true, subjectId });
     return subject.asObservable();
   }
