@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as QuillNamespace from 'quill';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -16,9 +25,7 @@ FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
-const updatedSizes = SIZES.map((size, index) => {
-  return `${size}px`;
-});
+const updatedSizes = SIZES.map(size => `${size}px`);
 SizeAttributor.whitelist = updatedSizes;
 Quill.register(SizeAttributor, true);
 Quill.register(Quill.import('attributors/style/align'), true);
@@ -55,8 +62,9 @@ Quill.register(ImageBlot);
   selector: 'app-reply-secure-message',
   templateUrl: './reply-secure-message.component.html',
   styleUrls: ['./reply-secure-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
   @Input() sourceMessage: Mail;
 
   @Input() hash: string;
@@ -123,8 +131,6 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit, OnDes
   ngAfterViewInit() {
     this.initializeQuillEditor();
   }
-
-  ngOnDestroy(): void {}
 
   initializeQuillEditor() {
     this.quill = new Quill(this.editor.nativeElement, {

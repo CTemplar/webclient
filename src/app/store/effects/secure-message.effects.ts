@@ -18,7 +18,9 @@ import {
 } from '../actions';
 import { MailService } from '../services';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SecureMessageEffects {
   constructor(private actions: Actions, private mailService: MailService) {}
 
@@ -48,7 +50,7 @@ export class SecureMessageEffects {
             }),
           );
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to send reply.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to send reply.' }))),
       );
     }),
   );
@@ -60,7 +62,7 @@ export class SecureMessageEffects {
     mergeMap((payload: any) => {
       return this.mailService.getSecureMessageKeys(payload.hash, payload.secret).pipe(
         switchMap(keys => of(new GetSecureMessageUserKeysSuccess(keys))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get secure message user keys.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get secure message user keys.' }))),
       );
     }),
   );

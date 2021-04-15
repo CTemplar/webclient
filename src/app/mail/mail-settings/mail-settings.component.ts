@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -60,7 +60,7 @@ import { PushNotificationOptions, PushNotificationService } from '../../shared/s
   templateUrl: './mail-settings.component.html',
   styleUrls: ['./mail-settings.component.scss'],
 })
-export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MailSettingsComponent implements OnInit, AfterViewInit {
   readonly fonts = FONTS;
 
   readonly colors = COMPOSE_COLORS;
@@ -275,7 +275,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   initAutoSaving() {
     const autosave_durations: string[] = [];
-    this.autosaveDurations.forEach((duration, index) => {
+    this.autosaveDurations.forEach(duration => {
       if (duration !== 'none' && duration) {
         const perduration = Number(duration);
         const newDuration = perduration >= 60000 ? `${perduration / 60000}m` : `${perduration / 1000}s`;
@@ -420,8 +420,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit, OnDestroy {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
-
-  ngOnDestroy(): void {}
 
   onUpdateSettingsBtnClick() {}
 

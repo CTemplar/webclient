@@ -220,7 +220,7 @@
                 </span>
                 <app-mail-detail-encryption-type-icon [mail]="mail"></app-mail-detail-encryption-type-icon>
               </li>
-              <li id="{{ mail.id }}-mail-to">
+              <li id="{{ mail.id }}-mail-to" *ngIf="mail.receiver?.length > 0">
                 {{ 'settings.compose.to' | translate }}
                 <ng-container *ngFor="let receiver of mail.receiver_display; let i = index">
                   <span class="text-secondary"> </span>

@@ -16,7 +16,9 @@ export const defaultBreakpoints: BreakpointConfig = {
   lg: { min: 1200 },
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BreakpointsService {
   private breakpoints: BreakpointConfig = defaultBreakpoints;
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -15,7 +15,7 @@ import { PRIMARY_WEBSITE } from '../../../shared/config';
   templateUrl: './custom-domains.component.html',
   styleUrls: ['./custom-domains.component.scss'],
 })
-export class CustomDomainsComponent implements OnInit, OnDestroy {
+export class CustomDomainsComponent implements OnInit {
   @Output() onGotoTab = new EventEmitter<string>();
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
@@ -110,8 +110,6 @@ export class CustomDomainsComponent implements OnInit, OnDestroy {
     this.dkimForm = this.formBuilder.group({});
     this.dmarcForm = this.formBuilder.group({});
   }
-
-  ngOnDestroy(): void {}
 
   prepareMapForDomainAlias(domains: Domain[], aliases: Array<any>) {
     if (domains && aliases) {

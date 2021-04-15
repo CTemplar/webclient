@@ -1,3 +1,8 @@
+export interface QuoteType {
+  content: string;
+  author: string;
+}
+
 export const quotes = [
   {
     content: 'Veritas vos liberabit – The truth shall set you free.',

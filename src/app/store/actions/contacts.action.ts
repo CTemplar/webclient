@@ -76,7 +76,7 @@ export class ContactAddError implements Action {
 export class ContactDelete implements Action {
   readonly type = ContactsActionTypes.CONTACT_DELETE;
 
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class ContactDeleteSuccess implements Action {

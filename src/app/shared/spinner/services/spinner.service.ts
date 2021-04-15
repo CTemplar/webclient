@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { SpinnerComponent } from '../components/spinner.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SpinnerService {
   private spinnerCache = new Set<SpinnerComponent>();
 

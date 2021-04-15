@@ -4,7 +4,9 @@ import { Injectable } from '@angular/core';
 
 import { RouterStateUrl } from '../datatypes';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CustomSerializer implements fromRouter.RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     const { url } = routerState;

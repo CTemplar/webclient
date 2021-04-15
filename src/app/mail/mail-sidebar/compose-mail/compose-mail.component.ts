@@ -9,8 +9,8 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -89,8 +89,8 @@ FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
-const updatedSizes = SIZES.map((size, index) => {
-  return size + 'px';
+const updatedSizes = SIZES.map(size => {
+  return `${size}px`;
 });
 SizeAttributor.whitelist = updatedSizes;
 Quill.register(SizeAttributor, true);
@@ -192,8 +192,9 @@ export class PasswordValidation {
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
 
   @Input() cc: Array<string>;
@@ -1093,7 +1094,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         .pipe(
           debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
         )
-        .subscribe(data => {
+        .subscribe(() => {
           if (!this.draft.isSaving && this.hasData()) {
             this.updateEmail();
           }
@@ -2062,7 +2063,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         const isPGPInline = localReceivers.every(rec => {
           if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
             const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_INLINE) {
+            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_INLINE) {
               return true;
             }
           }
@@ -2071,7 +2072,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         const isPGPMime = localReceivers.every(rec => {
           if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
             const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_MIME) {
+            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_MIME) {
               return true;
             }
           }

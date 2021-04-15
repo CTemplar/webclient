@@ -40,7 +40,9 @@ import { Attachment, Mailbox, PGPMimeMessageProgressModel } from '../models';
 
 import { UsersService } from './users.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OpenPgpService {
   encrypted: any;
 
@@ -666,6 +668,10 @@ export class OpenPgpService {
               );
               // eslint-disable-next-line no-param-reassign
               key.public_key = properPublicKey ? properPublicKey.public_key : '';
+            }
+            if (event.data.deleteData) {
+              // eslint-disable-next-line no-param-reassign
+              key.is_primary = true;
             }
           });
         });

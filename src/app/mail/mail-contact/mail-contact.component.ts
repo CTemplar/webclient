@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  HostListener,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +26,7 @@ export enum ContactsProviderType {
   templateUrl: './mail-contact.component.html',
   styleUrls: ['./mail-contact.component.scss'],
 })
-export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MailContactComponent implements OnInit, AfterViewInit {
   @ViewChild('importContactsModal') importContactsModal: any;
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
@@ -131,8 +122,6 @@ export class MailContactComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-
-  ngOnDestroy(): void {}
 
   private updateUsersStatus(): void {
     /**
