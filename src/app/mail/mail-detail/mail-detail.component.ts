@@ -90,7 +90,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   markedAsRead: boolean;
 
-  externalLinkChecked: boolean = true;
+  externalLinkChecked = true;
 
   currentMailIndex: number;
 
@@ -158,16 +158,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   // If you are in non-trash folder, this means to show trash children or not
   // If you are in trash folder, means to show non-trash children or not
-  private isShowTrashRelatedChildren: boolean = false;
+  private isShowTrashRelatedChildren = false;
 
   // Indicate whether the parent is secure message or not
   // If it's secure message, it would be encrypted based password, should be decrypted with password
-  private isSecureMessage: boolean = false;
+  private isSecureMessage = false;
 
   // indicate to contain trash / non-trash children on the conversation
-  private isContainTrashRelatedChildren: boolean = false;
+  private isContainTrashRelatedChildren = false;
 
-  private properFolderLastChildIndex: number = 0;
+  private properFolderLastChildIndex = 0;
 
   contacts: any[] = [];
 
@@ -531,14 +531,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
    */
   handleEmailLinks() {
     setTimeout(() => {
-      const self = this;
       const anchorElements = document.querySelectorAll('a');
       for (const i in anchorElements) {
         if (anchorElements.hasOwnProperty(i) && anchorElements[i].href.indexOf('mailto:') === 0) {
           const receivers = [anchorElements[i].href.split('mailto:')[1]];
           anchorElements[i].addEventListener('click', event => {
             event.preventDefault();
-            self.composeMailService.openComposeMailDialog({
+            this.composeMailService.openComposeMailDialog({
               receivers,
               isFullScreen: this.userState.settings.is_composer_full_screen,
             });
@@ -642,7 +641,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     headers = JSON.parse(headers);
     const headersArray: { key: string; value: any }[] = [];
     headers.forEach((header: any) => {
-      Object.keys(header).map(key => {
+      Object.keys(header).forEach(key => {
         if (header.hasOwnProperty(key)) {
           headersArray.push({ key, value: header[key] });
         }
@@ -704,7 +703,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.shareService.downloadFile(attachment.decryptedDocument);
   }
 
-  markAsStarred(starred = true, withChildren: boolean = true) {
+  markAsStarred(starred = true, withChildren = true) {
     this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred, withChildren }));
   }
 
@@ -962,7 +961,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(event: any, mail: Mail, withChildren: boolean = true) {
+  ontoggleStarred(event: any, mail: Mail, withChildren = true) {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(

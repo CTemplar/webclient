@@ -17,10 +17,12 @@ import {
   JWT_AUTH_COOKIE,
   REMEMBER_ME,
 } from '../../shared/config';
-import { AppState, AutoResponder, Contact, Settings, AuthState } from '../datatypes';
+import { AppState, AutoResponder, Contact, Settings, AuthState, Domain } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UsersService {
   private userKey: string;
 
@@ -45,7 +47,7 @@ export class UsersService {
       const body = {};
       const url = `${apiUrl}auth/refresh/`;
       return this.http.post<any>(url, body).pipe(
-        tap(data => {
+        tap(() => {
           this.setTokenExpiration();
         }),
       );
@@ -137,7 +139,7 @@ export class UsersService {
     }
     requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/sign-up/`, this.updateSignupDataWithPromo(requestData)).pipe(
-      tap(data => {
+      tap(() => {
         this.setLoginData(user);
       }),
     );
@@ -151,7 +153,7 @@ export class UsersService {
     const requestData = { ...data };
     requestData.password = this.hashData(requestData);
     return this.http.post<any>(`${apiUrl}auth/reset/`, requestData).pipe(
-      tap(res => {
+      tap(() => {
         this.setLoginData(data);
       }),
     );
@@ -164,7 +166,7 @@ export class UsersService {
     requestData.confirm_password = this.hashData(requestData, 'confirm_password');
     delete requestData.username;
     return this.http.post<any>(`${apiUrl}auth/change-password/`, requestData).pipe(
-      tap(response => {
+      tap(() => {
         this.setLoginData(data);
       }),
     );
@@ -328,7 +330,7 @@ export class UsersService {
     return this.http.post<any>(url, payload);
   }
 
-  deleteContact(ids: any) {
+  deleteContact(ids: string) {
     if (ids === 'all') {
       return this.http.delete<any>(`${apiUrl}users/contacts/?selectAll=true`);
     }
@@ -426,7 +428,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}emails/domains/`, body);
   }
 
-  updateDomain(domain: any) {
+  updateDomain(domain: Domain) {
     return this.http.patch<any>(`${apiUrl}emails/domains/${domain.id}/`, domain);
   }
 

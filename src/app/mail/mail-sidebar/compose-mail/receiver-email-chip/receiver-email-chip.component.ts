@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, SimpleChanges, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -8,21 +8,22 @@ import { Mailbox } from '../../../../store/models';
 
 import { SharedService } from '../../../../store/services';
 
-import { BlackListAdd, WhiteListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions';
+import { BlackListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions';
 
 @Component({
   selector: 'app-receiver-email-chip',
   templateUrl: './receiver-email-chip.component.html',
   styleUrls: ['./receiver-email-chip.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReceiverEmailChipComponent implements OnInit {
+export class ReceiverEmailChipComponent {
   @ViewChild('addUserContent') addUserContent: any;
 
-  @Input() composePopover: boolean = true;
+  @Input() composePopover = true;
 
   @Input() email: string;
 
-  @Input() name: string = '';
+  @Input() name = '';
 
   @Input() contacts: Contact[];
 
@@ -53,9 +54,7 @@ export class ReceiverEmailChipComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private sharedService: SharedService, private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
-
-  ngOnChanges(simpleChange: SimpleChanges): void {
+  ngOnChanges(): void {
     this.selectedContact = this.contacts.find(contact => this.email === contact.email);
     if (!this.composePopover && this.mailboxes.length > 0) {
       this.mailboxes.forEach(mailbox => {

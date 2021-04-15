@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { MoveMailActionPayloadType } from '../datatypes';
 
 export enum MailActionTypes {
   GET_MAILS = '[Mail] GET_MAILS',

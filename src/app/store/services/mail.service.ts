@@ -8,7 +8,9 @@ import { apiUrl } from '../../shared/config';
 import { Attachment, Folder, Mail, Mailbox } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MailService {
   constructor(private http: HttpClient) {}
 
@@ -16,7 +18,7 @@ export class MailService {
     limit: number;
     offset: number;
     folder: MailFolderType;
-    read: null;
+    read?: boolean;
     seconds?: number;
     searchText?: string;
   }): Observable<any> {
@@ -42,7 +44,14 @@ export class MailService {
     return this.http.get<Mail[]>(url);
   }
 
-  searchMessages(payload: any): Observable<any> {
+  searchMessages(payload: {
+    limit: number;
+    offset: number;
+    folder: MailFolderType;
+    read?: boolean;
+    seconds?: number;
+    searchText?: string;
+  }): Observable<any> {
     const url = `${apiUrl}search/messages/?q=${payload.searchText}&limit=${payload.limit}&offset=${payload.offset}`;
     return this.http.get<Mail[]>(url);
   }
@@ -106,7 +115,7 @@ export class MailService {
   createMail(data: any): Observable<any[]> {
     let url = `${apiUrl}emails/messages/`;
     if (data.id) {
-      url = `${url + data.id}/`;
+      url = `${url}${data.id}/`;
       return this.http.patch<any>(url, data);
     }
     return this.http.post<any>(url, data);
