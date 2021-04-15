@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal, NgbActiveModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ import { UseCacheDialogComponent } from '../use-cache-dialog/use-cache-dialog.co
   selector: 'app-display-name-dialog',
   templateUrl: './display-name-dialog.component.html',
   styleUrls: ['./display-name-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   changeDisplayNameForm: FormGroup;

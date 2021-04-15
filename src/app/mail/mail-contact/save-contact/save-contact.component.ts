@@ -5,10 +5,9 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnDestroy,
+  ChangeDetectionStrategy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -45,8 +44,9 @@ import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
   styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+export class SaveContactComponent implements OnInit, AfterViewInit {
   @Input() selectedContact: Contact;
 
   @Output() userSaved = new EventEmitter<boolean>();
@@ -101,7 +101,7 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
     this.handleUserState();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     // Get contactEmail, Domain and check if this is internalUser with domain
     this.newContactModel = { ...this.selectedContact };
     const contactEmail = this.newContactModel.email;
@@ -115,8 +115,6 @@ export class SaveContactComponent implements OnInit, OnDestroy, AfterViewInit, O
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
-
-  ngOnDestroy(): void {}
 
   private handleUserState(): void {
     this.store

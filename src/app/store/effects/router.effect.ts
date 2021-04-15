@@ -6,7 +6,9 @@ import { tap, map } from 'rxjs/operators';
 
 import * as RouterActions from '../actions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RouterEffects {
   constructor(private actions$: Actions, private router: Router, private location: Location) {}
 

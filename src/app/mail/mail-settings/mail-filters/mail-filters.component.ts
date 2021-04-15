@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,7 @@ import { Filter, FilterCondition, FilterParameter } from '../../../store/models/
   templateUrl: './mail-filters.component.html',
   styleUrls: ['../mail-settings.component.scss'],
 })
-export class MailFiltersComponent implements OnInit, OnDestroy {
+export class MailFiltersComponent implements OnInit {
   readonly folderIcons: any = {
     [MailFolderType.INBOX]: 'icon-inbox',
     [MailFolderType.ARCHIVE]: 'icon-archive',
@@ -107,8 +107,6 @@ export class MailFiltersComponent implements OnInit, OnDestroy {
         }
       });
   }
-
-  ngOnDestroy(): void {}
 
   openCustomFilterModal(selectedFilter?: Filter) {
     this.errorMessage = null;

@@ -95,7 +95,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   markedAsRead: boolean;
 
-  externalLinkChecked: boolean = true;
+  externalLinkChecked = true;
 
   currentMailIndex: number;
 
@@ -210,7 +210,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     /**
      * Check getting mail is succeeded
      */
-    this.store
+    this.storemai
       .select(state => state.webSocket)
       .pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
@@ -587,14 +587,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
    */
   handleEmailLinks() {
     setTimeout(() => {
-      const self = this;
       const anchorElements = document.querySelectorAll('a');
       for (const i in anchorElements) {
         if (anchorElements.hasOwnProperty(i) && anchorElements[i].href.indexOf('mailto:') === 0) {
           const receivers = [anchorElements[i].href.split('mailto:')[1]];
           anchorElements[i].addEventListener('click', event => {
             event.preventDefault();
-            self.composeMailService.openComposeMailDialog({
+            this.composeMailService.openComposeMailDialog({
               receivers,
               isFullScreen: this.userState.settings.is_composer_full_screen,
             });

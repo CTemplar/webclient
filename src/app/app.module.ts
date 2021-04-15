@@ -42,7 +42,9 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SentryErrorHandler implements ErrorHandler {
   constructor() {}
 

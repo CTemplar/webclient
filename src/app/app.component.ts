@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { SharedService } from './store/services';
 import { getCryptoRandom } from './store/services';
 // import { UsersService } from './users/shared/users.service';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
-import { quotes } from './store/quotes';
+import { quotes, QuoteType } from './store/quotes';
 import { FinalLoading } from './store/actions';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
 
@@ -18,7 +18,7 @@ import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/con
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   @ViewChild('cookieLaw') cookieLawEl: any;
 
   public hideFooter = false;
@@ -31,11 +31,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public isMail = false;
 
-  quote: object;
+  quote: QuoteType;
 
   isAuthenticated: boolean;
 
-  cookieEnabled: boolean = true;
+  cookieEnabled = true;
 
   constructor(
     public router: Router,
@@ -107,6 +107,4 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     this.cookieEnabled = cookieEnabled;
   }
-
-  ngOnDestroy(): void {}
 }

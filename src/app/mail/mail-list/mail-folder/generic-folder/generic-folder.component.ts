@@ -658,7 +658,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    * @params Mail, isToolTip
    * @returns {String} The list of email or name for sender, receiver
    */
-  getMailSenderReceiverInfo(mail: Mail, isTooltip: boolean = false) {
+  getMailSenderReceiverInfo(mail: Mail, isTooltip = false) {
     let info = '';
     if (this.mailFolder === this.mailFolderTypes.DRAFT) {
       info = 'Draft';

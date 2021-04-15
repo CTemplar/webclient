@@ -27,7 +27,9 @@ import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
 import { AutocryptProcessService } from './autocrypt.process.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ComposeMailService {
   private drafts: DraftState;
 

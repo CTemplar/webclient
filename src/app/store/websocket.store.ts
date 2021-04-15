@@ -27,7 +27,9 @@ export class WebSocketClose implements Action {
 
 export type WebSocketActionAll = WebSocketNewMessage | WebSocketClose;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class WebSocketEffects {
   constructor(private actions: Actions) {}
 
@@ -44,7 +46,7 @@ export class WebSocketEffects {
   webSocketClose: Observable<any> = this.actions.pipe(
     ofType(WebSocketActionTypes.WEB_SOCKET_CLOSE),
     map((action: WebSocketClose) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return of(EMPTY);
     }),
   );

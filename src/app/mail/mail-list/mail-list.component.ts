@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -12,7 +12,7 @@ import { Folder, MailFolderType } from '../../store/models';
   templateUrl: './mail-list.component.html',
   styleUrls: ['./mail-list.component.scss'],
 })
-export class MailListComponent implements OnInit, OnDestroy {
+export class MailListComponent implements OnInit {
   mailFolder: string = MailFolderType.INBOX;
 
   mailFolderTypes = MailFolderType;
@@ -40,6 +40,4 @@ export class MailListComponent implements OnInit, OnDestroy {
         this.customFolders = user.customFolders;
       });
   }
-
-  ngOnDestroy(): void {}
 }

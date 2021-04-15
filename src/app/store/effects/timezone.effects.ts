@@ -7,7 +7,9 @@ import { of } from 'rxjs/internal/observable/of';
 import { TimezoneActionTypes, TimezoneGet, TimezoneGetSuccess } from '../actions/timezone.action';
 import { TimezoneService } from '../services/timezone.service';
 import { SnackErrorPush } from '../actions';
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TimezoneEffects {
   constructor(private actions: Actions, private timezoneService: TimezoneService) {}
 
@@ -15,12 +17,12 @@ export class TimezoneEffects {
   getTimezones: Observable<any> = this.actions.pipe(
     ofType(TimezoneActionTypes.TIMEZONE_GET),
     map((action: TimezoneGet) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return this.timezoneService.getTimezones().pipe(
         map(timezones => {
           return new TimezoneGetSuccess(timezones);
         }),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get timezones.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get timezones.' }))),
       );
     }),
   );

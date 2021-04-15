@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { ContactFetchKeys } from './contacts.action';
 
 export enum MailActionTypes {
   GET_MAILS = '[Mail] GET_MAILS',
@@ -193,8 +192,6 @@ export class MoveMailSuccess implements Action {
 
 export class RevertMailsMoved implements Action {
   readonly type = MailActionTypes.REVERT_MAILS_MOVED;
-
-  constructor() {}
 }
 
 export class DeleteMail implements Action {

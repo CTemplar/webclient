@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -43,7 +43,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   secureMessageState: SecureMessageState;
 
-  password: string = '';
+  password = '';
 
   constructor(
     private route: ActivatedRoute,
