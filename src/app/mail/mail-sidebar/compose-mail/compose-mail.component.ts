@@ -2060,7 +2060,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         const isPGPInline = localReceivers.every(rec => {
           if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
             const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_INLINE) {
+            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_INLINE) {
               return true;
             }
           }
@@ -2069,7 +2069,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         const isPGPMime = localReceivers.every(rec => {
           if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
             const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo.enabled_encryption && contactInfo.encryption_type === PGPEncryptionType.PGP_MIME) {
+            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_MIME) {
               return true;
             }
           }
