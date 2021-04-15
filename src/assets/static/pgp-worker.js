@@ -147,8 +147,11 @@ onmessage = async function (event) {
     }
   } else if (event.data.changePassphrase) {
     if (event.data.deleteData) {
+      debugger
       generateNewKeys(event.data.mailboxes, event.data.passphrase, event.data.username, 'ECC').then(data => {
-        postMessage(data);
+        postMessage({ ...data, subjectId: event.data.subjectId, deleteData: true });
+      }).catch(() => {
+        postMessage({ subjectId: event.data.subjectId, error: true, deleteData: true });
       });
     } else {
       changePassphrase(event.data.passphrase).then(data => {
@@ -387,33 +390,45 @@ function generateKeys(options) {
   });
 }
 
+/**
+ * This is using for only change password and delete key flag CASE
+ * @param mailboxes
+ * @param password
+ * @param username
+ * @param key_type
+ * @return {Promise<{changePassphrase: boolean, keys: []}>}
+ */
 async function generateNewKeys(mailboxes, password, username, key_type) {
-  const newKeys = [];
-  for (let i = 0; i < mailboxes.length; i++) {
-    let options = {};
-    if (key_type === 'ECC') {
-      options = {
-        userIds: [{ name: username, email: mailboxes[i].email }],
-        curve: "ed25519",
-        passphrase: password,
-      };
-    } else if (key_type === 'RSA 4096') {
-      options = {
-        userIds: [{ name: username, email: mailboxes[i].email }],
-        numBits: 4096,
-        passphrase: password,
-      };
-    } else {
-      options = {
-        userIds: [{ name: username, email: mailboxes[i].email }],
-        numBits: 2048,
-        passphrase: password,
-      };
+  const newKeys = {};
+  try {
+    for (let i = 0; i < mailboxes.length; i++) {
+      let options = {};
+      if (key_type === 'ECC') {
+        options = {
+          userIds: [{ name: username, email: mailboxes[i].email }],
+          curve: "ed25519",
+          passphrase: password,
+        };
+      } else if (key_type === 'RSA 4096') {
+        options = {
+          userIds: [{ name: username, email: mailboxes[i].email }],
+          numBits: 4096,
+          passphrase: password,
+        };
+      } else {
+        options = {
+          userIds: [{ name: username, email: mailboxes[i].email }],
+          numBits: 2048,
+          passphrase: password,
+        };
+      }
+      const keys = await generateKeys(options);
+      newKeys[mailboxes[i].id] = [keys];
     }
-    const keys = await generateKeys(options);
-    newKeys.push({ ...keys, mailbox_id: mailboxes[i].id });
+    return Promise.resolve({ keys: newKeys, changePassphrase: true });
+  } catch(error) {
+    return Promise.reject({ changePassphrase: true, error: true });
   }
-  return { keys: newKeys, changePassphrase: true };
 }
 
 // TODO - Should be updated with decryptedAllKey
