@@ -5,7 +5,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -618,8 +617,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSelfDestructionEnable(); // check self destruction is possible or not
     this.initializeAutoSave(); // start auto save function
   }
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   onPaste() {
     this.isPasted = true;
