@@ -943,6 +943,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         matchVisual: false,
       },
     });
+    this.quill.scrollingContainer = document.getElementById('editor-cover-scroller');
 
     this.quill.on('text-change', () => {
       this.valueChanged$.next();

@@ -103,7 +103,7 @@
   </form>
   <!-- Main Content field -->
   <div class="mail-compose-editable-body">
-    <div class="mail-compose-box has-custom-scroll">
+    <div class="mail-compose-box has-custom-scroll" id="editor-cover-scroller">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
           <div #editor *ngIf="draftMail?.is_html"></div>
