@@ -210,8 +210,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     /**
      * Check getting mail is succeeded
      */
-    this.storemai
-      .select(state => state.webSocket)
+    this.store
+      .select((state: any) => state.webSocket)
       .pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
