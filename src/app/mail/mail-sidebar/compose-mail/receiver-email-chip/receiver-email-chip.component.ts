@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,6 @@ import { BlackListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../stor
   selector: 'app-receiver-email-chip',
   templateUrl: './receiver-email-chip.component.html',
   styleUrls: ['./receiver-email-chip.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReceiverEmailChipComponent {
   @ViewChild('addUserContent') addUserContent: any;
