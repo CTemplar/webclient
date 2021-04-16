@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { SpinnerService } from '../services/spinner.service';
 
@@ -6,7 +6,6 @@ import { SpinnerService } from '../services/spinner.service';
   selector: 'app-spinner',
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpinnerComponent implements OnInit, OnDestroy {
   private isShowing = false;
