@@ -335,7 +335,7 @@ export function reducer(
       if (action.payload.sourceFolder === state.currentFolder) {
         mails = prepareMails(action.payload.sourceFolder, folderMap, state.mailMap);
         const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       const listOfIDs = action.payload.ids.toString().split(',');
       if (
@@ -404,7 +404,7 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, read: action.payload.read };
@@ -499,7 +499,7 @@ export function reducer(
 
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       return {
         ...state,
@@ -534,7 +534,7 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       if (
         state.mailDetail &&
@@ -753,7 +753,7 @@ export function reducer(
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       if (state.currentFolder) {
         const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       return {
         ...state,
