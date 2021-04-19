@@ -623,7 +623,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    */
   private getMailIDs() {
     const allString = 'all';
-    let markedMails = this.getMarkedMails();
+    const markedMails = this.getMarkedMails();
     if (markedMails.length === this.LIMIT && this.checkAll) {
       return allString;
     } else {

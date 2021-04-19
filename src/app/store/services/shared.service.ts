@@ -184,9 +184,9 @@ export function isComposeEditorOpen(): boolean {
 }
 
 export function getCryptoRandom(): number {
-  let array = new Uint32Array(1),
-    max = Math.pow(2, 32),
-    randomValue = window.crypto.getRandomValues(array)[0] / max;
+  const array = new Uint32Array(1);
+  const max = Math.pow(2, 32);
+  const randomValue = window.crypto.getRandomValues(array)[0] / max;
   return randomValue;
 }
 

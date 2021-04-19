@@ -143,7 +143,7 @@ export class ContactsEffects {
         mergeMap(event => {
           if (event instanceof HttpResponse) {
             const result: ImportContactResponse = event.body;
-            let message =
+            const message =
               result.detail === 'success'
                 ? `${result.success_count} contacts imported, ${result.fail_count} contacts failed`
                 : 'Failed to import contacts.';

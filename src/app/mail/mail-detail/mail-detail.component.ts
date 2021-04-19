@@ -457,7 +457,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   confirmExternalLinks() {
     this.externalLinkChecked = false;
     setTimeout(() => {
-      let exLinks = document.querySelectorAll('.msg-reply-content a');
+      const exLinks = document.querySelectorAll('.msg-reply-content a');
       if (exLinks?.length > 0) {
         for (const i in exLinks) {
           if (exLinks[i]?.innerHTML && exLinks[i].getAttribute('href')) {

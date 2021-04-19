@@ -46,11 +46,9 @@ export class SafePipe implements PipeTransform {
               let htmlAttributes = '';
 
               // "<a href='' target=''>" => "href='' target=''"
-              const reg = /\s/;
-              const match = reg.exec(html);
-              const i = match ? match.index : -1;
-              if (i !== -1) {
-                htmlAttributes = html.slice(i + 1, -1).trim();
+              const spaceIndex = html.indexOf(" ");
+              if (spaceIndex > 0) {
+                htmlAttributes = html.slice(spaceIndex + 1, -1).trim();
               }
 
               let containsTargetAttribute = false;

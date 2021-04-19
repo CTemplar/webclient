@@ -980,17 +980,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         'blockquote',
       ];
       // @ts-ignore
-      let xssValue = xss(this.content, {
+      const xssValue = xss(this.content, {
         onTag: (tag: string, html: string, options: any) => {
           if (!options.isClosing && allowedTags.includes(tag.toLowerCase())) {
             let htmlAttributes = '';
-            const reg = /\s/;
-            const match = reg.exec(html);
-            const i = match ? match.index : -1;
-            if (i !== -1) {
-              htmlAttributes = html.slice(i + 1, -1).trim();
+            const spaceIndex = html.indexOf(" ");
+            if (spaceIndex > 0) {
+              htmlAttributes = html.slice(spaceIndex + 1, -1).trim();
             }
-            let attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
+            
+            const attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
               if (attributeName === 'class') {
                 attributeValue = attributeValue.replace('gmail_quote', '');
               }
@@ -1021,7 +1020,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.quill.format('font', this.settings.default_font);
 
       const qlEditor = document.querySelectorAll('.ql-editor p');
-      for (var i = 0; i < qlEditor.length; i++) {
+      for (let i = 0; i < qlEditor.length; i++) {
         qlEditor[i].setAttribute('style', '');
       }
     }
@@ -1281,19 +1280,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addHyperLink() {
-    var regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.com|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    const regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.com|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
     this.quill.focus();
-    var contents = this.quill.getText();
-    var filtered = contents.trim().split(/\s+/);
+    const contents = this.quill.getText();
+    const filtered = contents.trim().split(/\s+/);
     for (let i = 0; i < filtered.length; i++) {
-      var match = filtered[i].match(regex);
+      const match = filtered[i].match(regex);
       if (match !== null) {
-        var url = match[0];
-        var hyperLink = url;
+        const url = match[0];
+        let hyperLink = url;
         if (!/^https?:\/\//i.test(url)) {
           hyperLink = `http://${url}`;
         }
-        var position = contents.indexOf(url);
+        const position = contents.indexOf(url);
         this.quill.updateContents(
           new Delta().retain(position).delete(url.length).insert(url, { link: hyperLink, target: '_blank' }),
         );

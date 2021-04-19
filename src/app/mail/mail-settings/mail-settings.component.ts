@@ -417,7 +417,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   validateEmail(email: string) {
-    var re = /\S+@\S+\.\S+/;
+    const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
 
