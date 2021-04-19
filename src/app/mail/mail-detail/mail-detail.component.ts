@@ -779,7 +779,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY;
     this.setActionParent(mail, isChildMail, mainReply);
-    if (mail.attachments.length > 0) {
+    if (mail.attachments?.length > 0) {
       this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
@@ -812,7 +812,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.selectedMailToInclude = mail;
     this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
     this.setActionParent(mail, isChildMail, mainReply);
-    if (mail.attachments.length > 0) {
+    if (mail.attachments?.length > 0) {
       this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
@@ -843,7 +843,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     };
     this.selectedMailToForward = mail;
     this.setActionParent(mail, isChildMail, mainReply);
-    if (mail.attachments.length > 0) {
+    if (mail.attachments?.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
