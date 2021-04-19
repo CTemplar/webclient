@@ -85,22 +85,7 @@ onmessage = async function (event) {
     });
   } else if (event.data.decryptAllPrivateKeys) {
     if (event.data.privateKeys) {
-      let keyMap = event.data.privateKeys;
-      Object.keys(keyMap).forEach(mailboxId => {
-        if (keyMap[mailboxId] && keyMap[mailboxId].length > 0) {
-          let decryptedPrivateKeyAry = [];
-          keyMap[mailboxId].forEach(async key => {
-            let tmpKey = (await openpgp.key.readArmored(key.private_key)).keys[0];
-            tmpKey.decrypt(event.data.user_key);
-            decryptedPrivateKeyAry.push({
-              private_key: tmpKey,
-              is_primary: key.is_primary,
-              mailbox_key_id: key.mailbox_key_id,
-            });
-          });
-          decryptedAllPrivKeys[mailboxId] = decryptedPrivateKeyAry;
-        }
-      });
+      await decryptAllPrivateKeys(event.data);
     }
     postMessage({ keys: decryptedAllPrivKeys, decryptAllPrivateKeys: true });
   } else if (event.data.decrypt) {
@@ -147,7 +132,6 @@ onmessage = async function (event) {
     }
   } else if (event.data.changePassphrase) {
     if (event.data.deleteData) {
-      debugger
       generateNewKeys(event.data.mailboxes, event.data.passphrase, event.data.username, 'ECC').then(data => {
         postMessage({ ...data, subjectId: event.data.subjectId, deleteData: true });
       }).catch(() => {
@@ -633,6 +617,28 @@ async function getKeyInfoFromPublicKey(publicKey) {
   } catch (e) {
     console.error(e);
     return Promise.reject(publicKey);
+  }
+}
+
+async function decryptAllPrivateKeys(data) {
+  let keyMap = data.privateKeys;
+  let mailboxIds = Object.keys(keyMap);
+  for (let i = 0; i < mailboxIds.length; i++) {
+    let decryptedPrivateKeyAry = [];
+    let keys = keyMap[mailboxIds[i]];
+    for (let index = 0; index < keys.length; index++) {
+      try {
+        const key = keys[index];
+        let tmpKey = (await openpgp.key.readArmored(key.private_key)).keys[0];
+        await tmpKey.decrypt(data.user_key);
+        decryptedPrivateKeyAry.push({
+          private_key: tmpKey,
+          is_primary: key.is_primary,
+          mailbox_key_id: key.mailbox_key_id,
+        });
+      } catch (e) {}
+    }
+    decryptedAllPrivKeys[mailboxIds[i]] = decryptedPrivateKeyAry;
   }
 }
 
