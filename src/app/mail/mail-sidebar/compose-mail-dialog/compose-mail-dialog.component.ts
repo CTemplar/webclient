@@ -8,7 +8,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -24,7 +23,6 @@ import { SetIsComposerPopUp } from '../../../store/actions';
   selector: 'app-compose-mail-dialog',
   templateUrl: './compose-mail-dialog.component.html',
   styleUrls: ['./compose-mail-dialog.component.scss', './../mail-sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
   @Input() public isComposeVisible: boolean;

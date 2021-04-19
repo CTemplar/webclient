@@ -9,7 +9,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -191,7 +190,6 @@ export class PasswordValidation {
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
@@ -970,6 +968,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         matchVisual: false,
       },
     });
+    this.quill.scrollingContainer = document.getElementById('editor-cover-scroller');
 
     this.quill.on('text-change', () => {
       this.valueChanged$.next();
