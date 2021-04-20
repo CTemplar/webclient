@@ -5,7 +5,9 @@ import { map } from 'rxjs/operators';
 import { apiUrl } from '../../shared/config';
 import { Timezone } from '../datatypes';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TimezoneService {
   constructor(private http: HttpClient) {}
 

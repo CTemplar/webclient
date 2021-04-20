@@ -5,7 +5,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../datatypes';
 import { UndoDeleteMail } from '../actions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NotificationService {
   constructor(private snackBar: MatSnackBar, private store: Store<AppState>) {}
 

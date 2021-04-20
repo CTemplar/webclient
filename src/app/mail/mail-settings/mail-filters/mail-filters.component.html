@@ -7,14 +7,27 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <ul class="ui-list ui-list-styled list-styled">
-        <li *ngFor="let filter of filters" class="ui-list-item ui-list-item-xs-full">
-          <div class="row row-xs align-items-center">
+      <button class="btn btn-sm btn-secondary mb-2" (click)="startSetPriority()" *ngIf="!inSetPriority && filters?.length > 1" [ngbTooltip]="'settings.reorder_addresses' | translate">
+        <span>Set Priority</span>
+      </button>
+      <ng-container *ngTemplateOutlet="setPriorityButtons"></ng-container>
+      <ul cdkDropList class="ui-list ui-list-styled list-styled" (cdkDropListDropped)="onFilterDrop($event)">
+        <li *ngFor="let filter of filters; let i = index" class="ui-list-item ui-list-item-xs-full" cdkDrag>
+          <div class="row row-xs align-items-center filter-item">
             <div class="col-10 col-sm-8 show-ellipses">
-              {{ filter.name }}
+              <div class="drag-drop-handle" cdkDragHandle *ngIf="inSetPriority">
+                <i class="fas fa-arrows-alt-v"></i>
+              </div>
+              <span>
+                {{ filter.name }}
+              </span>
             </div>
             <div class="col-2 col-sm-4">
-              <ul class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
+              <div align="right" *ngIf="inSetPriority">
+                <i class="fas fa-chevron-up cursor-pointer mr-2" [class.hidden]="i === 0" [ngbTooltip]="'settings.move_up' | translate" (click)="priorityUp(i)"> </i>
+                <i class="fas fa-chevron-down cursor-pointer" [class.hidden]="i === filters.length - 1" [ngbTooltip]="'settings.move_down' | translate" (click)="priorityDown(i)"> </i>
+              </div>
+              <ul *ngIf="!inSetPriority" class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li>
                   <a (click)="openCustomFilterModal(filter)" role="button">
                     <i class="icon icon-edit"></i>
@@ -30,7 +43,7 @@
           </div>
         </li>
       </ul>
-      <div class="info-card">
+      <div class="info-card" *ngIf="!inSetPriority">
         <p [translate]="'settings.filters.add_filter'">Add a filter to perform actions such as automatically labeling or archiving.</p>
         <a href="javascript:void(0);" class="text-uppercase btn-link" role="button" (click)="openCustomFilterModal()">
           <strong>
@@ -41,6 +54,19 @@
     </div>
   </div>
 </section>
+
+<!-- Set Priority Filter -->
+<ng-template #setPriorityButtons>
+  <div *ngIf="inSetPriority" class="mb-2">
+    <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
+    <button class="btn btn-sm btn-secondary mr-1" [disabled]="userState?.inProgress" (click)="savePriority()">
+      <span>Save Priority</span>
+    </button>
+    <button class="btn btn-sm btn-primary" [disabled]="userState?.inProgress" (click)="cancelSetPriority()">
+      <span [translate]="'common.cancel'">Cancel</span>
+    </button>
+  </div>
+</ng-template>
 
 <!-- Add custom filter Modal -->
 <ng-template #customFilterModal let-c="close" let-d="dismiss">

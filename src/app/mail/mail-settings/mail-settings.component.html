@@ -1032,6 +1032,6 @@
     </button>
   </div>
   <div class="modal-body user-billing-upgrade-modal bg-faded px-3 py-0 bg-white">
-    <app-users-billing-info [isUpgradeAccount]="true" [isRenew]="true" [isAddNewCard]="isAddNewCard" [planType]="userPlanType" [paymentType]="payment.payment_type" [currency]="payment.currency" [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE : payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN : payment.payment_method" (close)="d()"> </app-users-billing-info>
+    <app-users-billing-info [isUpgradeAccount]="true" [isRenew]="true" [isAddNewCard]="isAddNewCard" [planType]="userPlanType" [paymentType]="payment.payment_type" [currency]="payment.currency" [paymentMethod]="payment.payment_method === 'stripe' ? paymentMethod.STRIPE : payment.payment_method === 'bitcoin' ? paymentMethod.BITCOIN : payment.payment_method" (closeBillingInfo)="d()"> </app-users-billing-info>
   </div> </ng-template
 ><!-- /.billing info modal ends -->

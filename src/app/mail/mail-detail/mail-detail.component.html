@@ -117,7 +117,7 @@
           </div>
         </li>
         <li class="px-0" *ngIf="isDarkMode && !forceLightMode">
-          <a class="border-right-0 border-radius-right-0 cursor-pointer" placement="top" (click)="viewEmailInLightMode()" ngbTooltip="View email in light mode in a new window if you are having issues to view email in dark mode">
+          <a class="cursor-pointer" placement="top" (click)="viewEmailInLightMode()" ngbTooltip="View email in light mode in a new window if you are having issues to view email in dark mode">
             <i class="fas fa-sun"></i>
           </a>
         </li>
@@ -219,7 +219,7 @@
                   <i *ngIf="mail.last_action" class="fas fa-{{ mail.last_action | lastAction }} last-action"></i>
                 </span>
               </li>
-              <li id="{{ mail.id }}-mail-to">
+              <li id="{{ mail.id }}-mail-to" *ngIf="mail.receiver?.length > 0">
                 {{ 'settings.compose.to' | translate }}
                 <ng-container *ngFor="let receiver of mail.receiver_display; let i = index">
                   <span class="text-secondary"> </span>

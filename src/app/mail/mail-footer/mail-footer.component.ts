@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -11,7 +11,7 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
   templateUrl: './mail-footer.component.html',
   styleUrls: ['./mail-footer.component.scss'],
 })
-export class MailFooterComponent implements OnInit, OnDestroy {
+export class MailFooterComponent implements OnInit {
   public userState: UserState;
 
   primaryWebsite = PRIMARY_WEBSITE;
@@ -26,6 +26,4 @@ export class MailFooterComponent implements OnInit, OnDestroy {
         this.userState = user;
       });
   }
-
-  ngOnDestroy(): void {}
 }

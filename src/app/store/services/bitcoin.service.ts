@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { apiUrl } from '../../shared/config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BitcoinService {
   constructor(private http: HttpClient) {}
 

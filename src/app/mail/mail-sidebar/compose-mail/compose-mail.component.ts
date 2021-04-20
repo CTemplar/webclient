@@ -5,11 +5,9 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -85,8 +83,8 @@ FontAttributor.whitelist = [...FONTS];
 Quill.register(FontAttributor, true);
 
 const SizeAttributor = Quill.import('attributors/style/size');
-const updatedSizes = SIZES.map((size, index) => {
-  return size + 'px';
+const updatedSizes = SIZES.map(size => {
+  return `${size}px`;
 });
 SizeAttributor.whitelist = updatedSizes;
 Quill.register(SizeAttributor, true);
@@ -189,7 +187,7 @@ export class PasswordValidation {
   templateUrl: './compose-mail.component.html',
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss'],
 })
-export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() receivers: Array<string>;
 
   @Input() cc: Array<string>;
@@ -730,8 +728,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
     this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {}
-
   ngAfterViewInit() {
     this.initializeComposeMail();
     if (this.forwardAttachmentsMessageId) {
@@ -944,6 +940,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         matchVisual: false,
       },
     });
+    this.quill.scrollingContainer = document.getElementById('editor-cover-scroller');
 
     this.quill.on('text-change', () => {
       this.valueChanged$.next();
@@ -1065,7 +1062,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnChanges, O
         .pipe(
           debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
         )
-        .subscribe(data => {
+        .subscribe(() => {
           if (!this.draft.isSaving && this.hasData()) {
             this.updateEmail();
           }

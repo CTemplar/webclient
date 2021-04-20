@@ -13,12 +13,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'emailFormat',
 })
 export class EmailFormatPipe implements PipeTransform {
-  static transformToFormattedEmail(
-    email: string,
-    displayName: string = '',
-    isHtmlFormat: boolean = false,
-    isTruncate: boolean = false,
-  ) {
+  static transformToFormattedEmail(email: string, displayName = '', isHtmlFormat = false, isTruncate = false) {
     if (!email) return '';
 
     let formattedEmail = email.toLowerCase().trim();
@@ -34,12 +29,8 @@ export class EmailFormatPipe implements PipeTransform {
         : `${displayName.trim()} <${formattedEmail}>`;
     }
   }
-  transform(
-    email: string,
-    displayName: string = '',
-    isHtmlFormat: boolean = false,
-    isTruncate: boolean = false,
-  ): string {
+
+  transform(email: string, displayName = '', isHtmlFormat = false, isTruncate = false): string {
     return EmailFormatPipe.transformToFormattedEmail(email, displayName, isHtmlFormat, isTruncate);
   }
   static getTrucatedString(content: string): string {

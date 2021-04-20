@@ -131,6 +131,6 @@
     </button>
   </div>
   <div class="modal-body user-billing-upgrade-modal bg-faded px-3 py-0 bg-white">
-    <app-users-billing-info [isUpgradeAccount]="true" [planType]="selectedPlan" [paymentType]="selectedPaymentType" [paymentMethod]="paymentMethod" [currency]="selectedCurrency" (close)="d()"></app-users-billing-info>
+    <app-users-billing-info [isUpgradeAccount]="true" [planType]="selectedPlan" [paymentType]="selectedPaymentType" [paymentMethod]="paymentMethod" [currency]="selectedCurrency" (closeBillingInfo)="d()"></app-users-billing-info>
   </div> </ng-template
 ><!-- /.billing info modal ends -->

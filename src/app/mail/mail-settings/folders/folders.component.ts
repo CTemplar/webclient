@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -17,7 +17,7 @@ import { NotificationService } from '../../../store/services/notification.servic
   templateUrl: './folders.component.html',
   styleUrls: ['../mail-settings.component.scss', './folders.component.scss'],
 })
-export class FoldersComponent implements OnInit, OnDestroy {
+export class FoldersComponent implements OnInit {
   folders: Array<Folder> = [];
 
   userState: UserState;
@@ -30,7 +30,7 @@ export class FoldersComponent implements OnInit, OnDestroy {
 
   reorder: boolean;
 
-  sortedWithAlphabetic: boolean = false;
+  sortedWithAlphabetic = false;
 
   reorderInProgress = false;
 
@@ -180,6 +180,4 @@ export class FoldersComponent implements OnInit, OnDestroy {
       folder.sort_order = index + 1;
     });
   }
-
-  ngOnDestroy(): void {}
 }

@@ -335,7 +335,7 @@ export function reducer(
       if (action.payload.sourceFolder === state.currentFolder) {
         mails = prepareMails(action.payload.sourceFolder, folderMap, state.mailMap);
         const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       const listOfIDs = action.payload.ids.toString().split(',');
       if (
@@ -404,7 +404,7 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, read: action.payload.read };
@@ -499,7 +499,7 @@ export function reducer(
 
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       return {
         ...state,
@@ -534,7 +534,7 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       if (
         state.mailDetail &&
@@ -753,7 +753,7 @@ export function reducer(
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       if (state.currentFolder) {
         const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       return {
         ...state,
@@ -831,7 +831,7 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
 function getTotalUnreadCount(data: any): number {
   if (data) {
     let total_count = 0;
-    Object.keys(data).map(key => {
+    Object.keys(data).forEach(key => {
       if (
         key !== MailFolderType.SENT &&
         key !== MailFolderType.TRASH &&
@@ -871,7 +871,7 @@ function filterAndMergeMailIDs(
   newMails: Array<Mail>,
   originalMailIDs: Array<number>,
   limit: number,
-  checkUnread: boolean = false,
+  checkUnread = false,
 ): Array<number> {
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
   let newMailsMap: any = {};
@@ -901,8 +901,8 @@ function getUpdatesFolderMap(
   newMails: Array<Mail>,
   originalFolderState: FolderState,
   limit: number,
-  checkUnread: boolean = false,
-  isConversationViewMode: boolean = true,
+  checkUnread = false,
+  isConversationViewMode = true,
 ): any {
   let originalMailIDs = originalFolderState.mails;
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);

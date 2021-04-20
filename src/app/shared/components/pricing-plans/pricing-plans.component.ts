@@ -14,7 +14,7 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
   templateUrl: './pricing-plans.component.html',
   styleUrls: ['./pricing-plans.component.scss'],
 })
-export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
+export class PricingPlansComponent implements OnInit, OnDestroy {
   readonly planType = PlanType;
 
   @Input() hideHeader: boolean;
@@ -81,8 +81,6 @@ export class PricingPlansComponent implements OnInit, OnChanges, OnDestroy {
     this.sharedService.loadPricingPlans();
     this.setPricingPlans();
   }
-
-  ngOnChanges(changes: any) {}
 
   setPricingPlans() {
     if (SharedService.PRICING_PLANS_ARRAY.length > 0) {

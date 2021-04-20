@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { NOT_FIRST_LOGIN, SYNC_DATA_WITH_STORE } from '../../../shared/config';
@@ -8,10 +8,8 @@ import { NOT_FIRST_LOGIN, SYNC_DATA_WITH_STORE } from '../../../shared/config';
   templateUrl: './use-cache-dialog.component.html',
   styleUrls: ['./use-cache-dialog.component.scss'],
 })
-export class UseCacheDialogComponent implements OnInit {
+export class UseCacheDialogComponent {
   constructor(public activeModal: NgbActiveModal) {}
-
-  ngOnInit(): void {}
 
   onFlagSaveDecryptedSubject() {
     localStorage.setItem(SYNC_DATA_WITH_STORE, 'true');

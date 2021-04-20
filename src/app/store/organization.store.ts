@@ -110,7 +110,9 @@ export type OrganizationActionAll =
   | UpdateOrganizationUserSuccess
   | UpdateOrganizationUserFailure;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrganizationEffects {
   constructor(private actions: Actions, private userService: UsersService) {}
 
@@ -175,7 +177,7 @@ export class OrganizationEffects {
     map((action: UpdateOrganizationUser) => action.payload),
     switchMap(payload => {
       return this.userService.updateOrganizationUser(payload).pipe(
-        switchMap((response: any) => {
+        switchMap(() => {
           return of(
             new UpdateOrganizationUserSuccess(payload),
             new SnackErrorPush({ message: `Recovery email for user: '${payload.username}', updated successfully.` }),

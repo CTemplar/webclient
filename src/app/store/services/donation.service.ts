@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 
 import { apiUrl } from '../../shared/config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DonationService {
   constructor(private http: HttpClient) {}
 

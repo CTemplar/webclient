@@ -652,3 +652,13 @@ $error-red: #e94e4c;
     margin-left: 20px;
   }
 }
+
+.filter-item {
+  .show-ellipses {
+    display: flex;
+    align-items: center;
+    span {
+      margin-right: 2px;
+    }
+  }
+}

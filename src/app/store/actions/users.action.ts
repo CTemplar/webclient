@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
 import { Settings } from '../datatypes';
+import { Folder } from '../models';
+import { Filter } from '../models/filter.model';
 
 export enum UsersActionTypes {
   ACCOUNTS = '[Users] Accounts',
@@ -53,6 +55,9 @@ export enum UsersActionTypes {
   UPDATE_FILTER = '[USER] UPDATE FILTER',
   UPDATE_FILTER_SUCCESS = '[USER] UPDATE FILTER SUCCESS',
   UPDATE_FILTER_FAILURE = '[USER] UPDATE FILTER FAILURE',
+  UPDATE_FILTER_ORDER = '[USER] UPDATE ORDER FILTER',
+  UPDATE_FILTER_ORDER_SUCCESS = '[USER] UPDATE FILTER ORDER SUCCESS',
+  UPDATE_FILTER_ORDER_FAILURE = '[USER] UPDATE FILTER ORDER FAILURE',
   DELETE_FILTER = '[USER] DELETE FILTER',
   DELETE_FILTER_SUCCESS = '[USER] DELETE FILTER SUCCESS',
   DELETE_FILTER_FAILURE = '[USER] DELETE FILTER FAILURE',
@@ -338,7 +343,7 @@ export class SettingsUpdateUsedStorage implements Action {
 export class CreateFolder implements Action {
   readonly type = UsersActionTypes.CREATE_FOLDER;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Folder) {}
 }
 
 export class CreateFolderSuccess implements Action {
@@ -356,7 +361,7 @@ export class CreateFolderFailure implements Action {
 export class DeleteFolder implements Action {
   readonly type = UsersActionTypes.DELETE_FOLDER;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Folder) {}
 }
 
 export class DeleteFolderSuccess implements Action {
@@ -380,7 +385,7 @@ export class GetFiltersSuccess implements Action {
 export class CreateFilter implements Action {
   readonly type = UsersActionTypes.CREATE_FILTER;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Filter) {}
 }
 
 export class CreateFilterSuccess implements Action {
@@ -398,7 +403,7 @@ export class CreateFilterFailure implements Action {
 export class UpdateFilter implements Action {
   readonly type = UsersActionTypes.UPDATE_FILTER;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Filter) {}
 }
 
 export class UpdateFilterSuccess implements Action {
@@ -413,10 +418,28 @@ export class UpdateFilterFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class UpdateFilterOrder implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_ORDER;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateFilterOrderSuccess implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_ORDER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateFilterOrderFailure implements Action {
+  readonly type = UsersActionTypes.UPDATE_FILTER_ORDER_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
 export class DeleteFilter implements Action {
   readonly type = UsersActionTypes.DELETE_FILTER;
 
-  constructor(public payload: any) {}
+  constructor(public payload: Filter) {}
 }
 
 export class DeleteFilterSuccess implements Action {
@@ -728,6 +751,9 @@ export type UsersActionAll =
   | UpdateFilter
   | UpdateFilterSuccess
   | UpdateFilterFailure
+  | UpdateFilterOrder
+  | UpdateFilterOrderSuccess
+  | UpdateFilterOrderFailure
   | DeleteFilter
   | DeleteFilterSuccess
   | DeleteFilterFailure

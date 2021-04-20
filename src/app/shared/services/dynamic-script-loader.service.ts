@@ -11,7 +11,9 @@ export const ScriptStore: Scripts[] = [{ name: 'stripe', src: 'https://js.stripe
 
 declare let document: any;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DynamicScriptLoaderService {
   private scripts: any = {};
 

@@ -37,7 +37,9 @@ import { Attachment, Mailbox } from '../models';
 
 import { UsersService } from './users.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OpenPgpService {
   encrypted: any;
 

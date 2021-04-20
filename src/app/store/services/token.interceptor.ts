@@ -24,7 +24,9 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 
 import { UsersService } from './users.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TokenInterceptor implements HttpInterceptor {
   private authService: UsersService;
 

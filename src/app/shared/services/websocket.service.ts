@@ -11,8 +11,10 @@ import { apiUrl } from '../config';
 import { LoggerService } from './logger.service';
 
 @UntilDestroy()
-@Injectable()
-export class WebsocketService implements OnDestroy {
+@Injectable({
+  providedIn: 'root',
+})
+export class WebsocketService {
   private webSocket: WebSocket;
 
   private retryCount = 1;
@@ -76,8 +78,6 @@ export class WebsocketService implements OnDestroy {
       this.webSocket = null;
     }
   }
-
-  ngOnDestroy(): void {}
 }
 
 export interface Message extends Object {

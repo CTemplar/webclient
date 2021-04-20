@@ -44,6 +44,7 @@ import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import { SharedService } from '../../store/services';
 import { PRIMARY_WEBSITE } from '../../shared/config';
+import { QuoteType } from '../../store/quotes';
 
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 
@@ -72,7 +73,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isloading = true;
 
-  quote: object;
+  quote: QuoteType;
 
   isMenuOpened: boolean;
 

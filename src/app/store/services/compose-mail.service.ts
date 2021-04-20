@@ -21,7 +21,9 @@ import { ClearDraft, CreateMail, SendMail, SnackPush } from '../actions';
 import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ComposeMailService {
   private drafts: DraftState;
 

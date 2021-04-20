@@ -5,7 +5,9 @@ import * as moment from 'moment-timezone';
 
 import { AppState, UserState } from '../datatypes';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DateTimeUtilService {
   readonly ISO8601_DATETIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSSZ';
 

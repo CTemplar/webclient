@@ -24,11 +24,12 @@ export class PushNotificationService {
   }
 
   requestPermission(): void {
-    const self = this;
     if ('Notification' in window) {
-      Notification.requestPermission(function (status) {
-        return (self.permission = status);
-      });
+      Notification.requestPermission()
+        .then(permission => {
+          this.permission = permission;
+        })
+        .catch(() => {});
     }
   }
 
@@ -64,13 +65,12 @@ export class PushNotificationService {
   }
 
   generateNotification(source: Array<any>): void {
-    const self = this;
     source.forEach(item => {
       const options = {
         body: item.alertContent,
         icon: '../resource/images/bell-icon.png',
       };
-      const notify = self.create(item.title, options).subscribe();
+      const notify = this.create(item.title, options).subscribe();
     });
   }
 }
