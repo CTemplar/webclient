@@ -207,7 +207,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
               this.isImportingKey = false;
               const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
               if (newKeyInfo) {
-                if (newKeyInfo.key_type === 'RSA4096') {
+                if (newKeyInfo.key_type === 'RSA4096' || newKeyInfo.key_type === 'ECC') {
                   if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
                     this.selectedContactPulbicKeys.forEach(key => {
                       if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
@@ -256,7 +256,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
       const mailboxKey: ContactKey = {};
       let keyType = '';
       if (keyInfo.algorithmInfo) {
-        keyType = keyInfo.algorithmInfo.bits ? `RSA${keyInfo.algorithmInfo.bits}` : keyInfo.algorithmInfo.curve;
+        keyType = keyInfo.algorithmInfo.bits ? `RSA${keyInfo.algorithmInfo.bits}` : 'ECC';
       }
       mailboxKey.public_key = keyInfo.public_key;
       mailboxKey.key_type = keyType;
