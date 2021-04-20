@@ -179,8 +179,6 @@ export class MoveMailSuccess implements Action {
 
 export class RevertMailsMoved implements Action {
   readonly type = MailActionTypes.REVERT_MAILS_MOVED;
-
-  constructor() {}
 }
 
 export class DeleteMail implements Action {

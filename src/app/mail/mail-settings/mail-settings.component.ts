@@ -421,7 +421,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     return re.test(email);
   }
 
-  onUpdateSettingsBtnClick() {}
+  onUpdateSettingsBtnClick() {
+    console.log('onUpdateSettingsButton is Clicked')
+  }
 
   onDeleteAccount() {
     this.deleteAccountOptions = {};

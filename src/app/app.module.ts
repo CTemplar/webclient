@@ -43,8 +43,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   providedIn: 'root',
 })
 export class SentryErrorHandler implements ErrorHandler {
-  constructor() {}
-
   handleError(error: any) {
     Sentry.captureException(error.originalError || error);
     // Sentry.showReportDialog({ eventId });

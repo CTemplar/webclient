@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-payment-options',
@@ -6,8 +6,5 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./payment-options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentOptionsComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit() {}
+export class PaymentOptionsComponent {
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ import { DateTimeUtilService } from '../../store/services/datetime-util.service'
   templateUrl: './display-secure-message.component.html',
   styleUrls: ['./display-secure-message.component.scss'],
 })
-export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
+export class DisplaySecureMessageComponent implements OnInit {
   @Input() message: Mail;
 
   @Input() decryptedContent: string;
@@ -51,8 +51,6 @@ export class DisplaySecureMessageComponent implements OnInit, OnDestroy {
       'seconds',
     );
   }
-
-  ngOnDestroy() {}
 
   onExpired() {
     this.expired.emit(true);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/datatypes';
-import { SnackPush } from '../../store/actions';
+import { SnackErrorPush, SnackPush } from '../../store/actions';
 @Injectable({
   providedIn: 'root',
 })
@@ -29,7 +29,9 @@ export class PushNotificationService {
         .then(permission => {
           this.permission = permission;
         })
-        .catch(() => {});
+        .catch(() =>
+          this.store.dispatch(new SnackErrorPush({ message: 'Failed to request permission for notification.' })),
+        );
     }
   }
 

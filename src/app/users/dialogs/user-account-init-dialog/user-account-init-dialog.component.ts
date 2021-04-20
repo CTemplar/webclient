@@ -1,5 +1,5 @@
 import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -49,7 +49,7 @@ import { DisplayNameDialogComponent } from '../display-name-dialog/display-name-
     ]),
   ],
 })
-export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
+export class UserAccountInitDialogComponent implements OnInit {
   @Input() isPgpGenerationComplete: boolean;
 
   mailboxes: Mailbox[];
@@ -100,9 +100,9 @@ export class UserAccountInitDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {}
-
-  onAnimationStart() {}
+  onAnimationStart() {
+    console.log('user-account-init-dialog is onAnimationStart')
+  }
 
   onAnimationDone() {
     if (this.step === 2 && !this.isPgpGenerationComplete) {
