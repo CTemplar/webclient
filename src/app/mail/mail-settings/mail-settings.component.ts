@@ -381,7 +381,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   updateTimeZone(event: any) {
-    this.updateSettings('timezone', event.option.value);
+    this.updateSettings('timezone', event.value);
   }
 
   updateConversationMode(is_conversation_mode: boolean) {

@@ -289,15 +289,11 @@
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
-                      <div class="dropdown-sm timezone-block">
-                        <mat-form-field class="timezone-filter" floatLabel="never">
-                          <input type="text" placeholder="" aria-label="Number" [formControl]="timeZoneFilter" [matAutocomplete]="auto" [value]="settings.timezone" matInput />
-                          <mat-autocomplete #auto="matAutocomplete" class="timezone-option" (optionSelected)="updateTimeZone($event)">
-                            <mat-option class="timezone-option" *ngFor="let timezone of timeZoneFilteredOptions | async" [value]="timezone.value">
-                              {{ timezone.value }}
-                            </mat-option>
-                          </mat-autocomplete>
-                        </mat-form-field>
+                      <div ngbDropdown class="dropdown-sm">
+                        <button ngbDropdownToggle role="button" id="timezoneDropdownMenuButton">{{ settings.timezone }}</button>
+                        <div ngbDropdownMenu aria-labelledby="timezoneDropdownMenuButton" class="timezone-block">
+                          <a class="dropdown-item" *ngFor="let timezone of timezones" (click)="updateTimeZone(timezone)"> {{ timezone.value }} </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -379,14 +375,21 @@
                     <div class="btn-dropdown btn-dropdown-select">
                       <div ngbDropdown class="dropdown-sm">
                         <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultColorDropdownMenuButton">
-                          <span *ngIf="settings.default_color; else notDefaultColor"> {{ settings.default_color }} </span>
+                          <span *ngIf="settings.default_color; else notDefaultColor">
+                            <i class="color-box" [style.background]="settings.default_color"></i>
+                            {{ settings.default_color }}
+                          </span>
                           <ng-template #notDefaultColor>
-                            <span> None </span>
+                            <i class="color-box" [style.background]="colors[0]"></i>
+                            <span> {{ colors[0] }} </span>
                           </ng-template>
                         </button>
                         <div ngbDropdownMenu aria-labelledby="defaultColorDropdownMenuButton">
                           <a class="dropdown-item text-capitalize" *ngFor="let color of colors" (click)="updateSettings('default_color', color)">
-                            {{ color }}
+                            <i class="color-box" [style.background]="color"></i>
+                            <span class="text-capitalize">
+                              {{ color }}
+                            </span>
                           </a>
                         </div>
                       </div>
@@ -403,14 +406,21 @@
                     <div class="btn-dropdown btn-dropdown-select">
                       <div ngbDropdown class="dropdown-sm">
                         <button ngbDropdownToggle class="text-capitalize" role="button" id="defaultBackgroundDropdownMenuButton">
-                          <span *ngIf="settings.default_background; else notDefaultBackground"> {{ settings.default_background }} </span>
+                          <span *ngIf="settings.default_background; else notDefaultBackground"> 
+                            <i class="color-box" [style.background]="settings.default_background"></i>
+                            {{ settings.default_background }}
+                          </span>
                           <ng-template #notDefaultBackground>
-                            <span> None </span>
+                            <i class="color-box" [style.background]="backgrounds[0]"></i>
+                            <span> {{ backgrounds[0] }} </span>
                           </ng-template>
                         </button>
                         <div ngbDropdownMenu aria-labelledby="defaultBackgroundDropdownMenuButton">
                           <a class="dropdown-item text-capitalize" *ngFor="let background of backgrounds" (click)="updateSettings('default_background', background)">
-                            {{ background }}
+                            <i class="color-box" [style.background]="background"></i>
+                            <span class="text-capitalize">
+                              {{ background }}
+                            </span>
                           </a>
                         </div>
                       </div>
