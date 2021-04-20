@@ -8,9 +8,8 @@ describe('ImportPrivateKeyComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImportPrivateKeyComponent ]
-    })
-    .compileComponents();
+      declarations: [ImportPrivateKeyComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

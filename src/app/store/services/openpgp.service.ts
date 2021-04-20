@@ -369,7 +369,7 @@ export class OpenPgpService {
     if (key_type === PGPKeyType.ECC) {
       options = {
         userIds: [{ email: `${username}@${domain}` }],
-        curve: "ed25519",
+        curve: 'ed25519',
         passphrase: password,
       };
     } else if (key_type === PGPKeyType.RSA_4096) {
@@ -547,7 +547,7 @@ export class OpenPgpService {
     if (key_type === PGPKeyType.ECC) {
       options = {
         userIds: [{ email }],
-        curve: "ed25519",
+        curve: 'ed25519',
         passphrase: password,
       };
     } else if (key_type === PGPKeyType.RSA_4096) {

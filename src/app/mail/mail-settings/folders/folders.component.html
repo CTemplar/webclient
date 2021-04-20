@@ -7,44 +7,21 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
-      <button
-        class="btn btn-secondary text-small mb-2"
-        (click)="addFolder()"
-        [ngbTooltip]="'mail_sidebar.add_folder' | translate"
-      >
+      <button class="btn btn-secondary text-small mb-2" (click)="addFolder()" [ngbTooltip]="'mail_sidebar.add_folder' | translate">
         <span [translate]="'mail_sidebar.add_folder'">Add Folder</span>
       </button>
-      <button
-        class="btn btn-sm btn-secondary float-right"
-        (click)="startReorder()"
-        *ngIf="!reorder && folders?.length > 1"
-        [ngbTooltip]="'settings.reorder_addresses' | translate"
-      >
+      <button class="btn btn-sm btn-secondary float-right" (click)="startReorder()" *ngIf="!reorder && folders?.length > 1" [ngbTooltip]="'settings.reorder_addresses' | translate">
         <span [translate]="'settings.reorder'">Reorder</span>
       </button>
-      <button
-        class="sort-alphabetic-btn btn btn-sm float-right"
-        (click)="sortWithAlphabetic()"
-        *ngIf="!sortedWithAlphabetic && folders?.length > 1"
-        [ngbTooltip]="'settings.sort_with_alphabetic' | translate"
-      >
+      <button class="sort-alphabetic-btn btn btn-sm float-right" (click)="sortWithAlphabetic()" *ngIf="!sortedWithAlphabetic && folders?.length > 1" [ngbTooltip]="'settings.sort_with_alphabetic' | translate">
         <em class="fas fa-long-arrow-alt-down cursor-pointer"></em>
       </button>
-      <button
-        class="sort-alphabetic-btn btn btn-sm float-right"
-        (click)="sortWithAlphabetic()"
-        *ngIf="sortedWithAlphabetic && folders?.length > 1"
-        [ngbTooltip]="'settings.sort_with_analphabetic' | translate"
-      >
+      <button class="sort-alphabetic-btn btn btn-sm float-right" (click)="sortWithAlphabetic()" *ngIf="sortedWithAlphabetic && folders?.length > 1" [ngbTooltip]="'settings.sort_with_analphabetic' | translate">
         <em class="fas fa-long-arrow-alt-up cursor-pointer"></em>
       </button>
       <app-loading-spinner class="float-right" [showSpinner]="reorderInProgress && !reorder"></app-loading-spinner>
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
-      <ul
-        cdkDropList
-        class="ui-list ui-list-styled list-styled folders-list"
-        (cdkDropListDropped)="onFolderDrop($event)"
-      >
+      <ul cdkDropList class="ui-list ui-list-styled list-styled folders-list" (cdkDropListDropped)="onFolderDrop($event)">
         <li *ngFor="let folder of folders; let i = index" class="ui-list-item ui-list-item-xs-full" cdkDrag>
           <div class="row row-xs align-items-center folder-item">
             <div class="col-10 col-sm-8 show-ellipses">
@@ -56,45 +33,24 @@
               </span>
               <span class="folder-name">{{ folder.name }}</span>
               <span class="folder-messages-counts">( {{ folder.counts }}</span>
-              <span [translate]="'settings.conversations'" *ngIf="folder.counts > 1; else elseConversation"
-                >conversations )</span
-              >
+              <span [translate]="'settings.conversations'" *ngIf="folder.counts > 1; else elseConversation">conversations )</span>
               <ng-template #elseConversation>
                 <span [translate]="'settings.conversation'">conversation )</span>
               </ng-template>
             </div>
             <div class="col-2 col-sm-4">
               <div align="right" *ngIf="reorder">
-                <i
-                  class="fas fa-chevron-up cursor-pointer mr-2"
-                  [class.hidden]="i === 0"
-                  [ngbTooltip]="'settings.move_up' | translate"
-                  (click)="sortUp(i)"
-                >
-                </i>
-                <i
-                  class="fas fa-chevron-down cursor-pointer"
-                  [class.hidden]="i === folders.length - 1"
-                  [ngbTooltip]="'settings.move_down' | translate"
-                  (click)="sortDown(i)"
-                >
-                </i>
+                <i class="fas fa-chevron-up cursor-pointer mr-2" [class.hidden]="i === 0" [ngbTooltip]="'settings.move_up' | translate" (click)="sortUp(i)"> </i>
+                <i class="fas fa-chevron-down cursor-pointer" [class.hidden]="i === folders.length - 1" [ngbTooltip]="'settings.move_down' | translate" (click)="sortDown(i)"> </i>
               </div>
-              <ul
-                *ngIf="!reorder"
-                class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
-              >
+              <ul *ngIf="!reorder" class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right">
                 <li>
                   <a role="button" (click)="addFolder(folder, true)" [ngbTooltip]="'settings.edit_folder' | translate">
                     <i class="icon icon-edit"></i>
                   </a>
                 </li>
                 <li>
-                  <a
-                    role="button"
-                    (click)="showConfirmationModal(folder)"
-                    [ngbTooltip]="'settings.delete_folder' | translate"
-                  >
+                  <a role="button" (click)="showConfirmationModal(folder)" [ngbTooltip]="'settings.delete_folder' | translate">
                     <i class="icon icon-garbage"></i>
                   </a>
                 </li>

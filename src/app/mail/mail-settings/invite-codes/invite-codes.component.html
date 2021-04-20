@@ -10,22 +10,14 @@
         <div>
           <div class="row">
             <div class="col mb-2" align="left">
-              <button
-                type="button"
-                ngbTooltip="Generate an invitation code"
-                [disabled]="inProgress || !isPrime"
-                (click)="generateCode()"
-                class="btn btn-sm btn-secondary"
-              >
+              <button type="button" ngbTooltip="Generate an invitation code" [disabled]="inProgress || !isPrime" (click)="generateCode()" class="btn btn-sm btn-secondary">
                 <span>Generate a code</span>
               </button>
             </div>
             <app-loading-spinner class="loading-spinner" [showSpinner]="inProgress"></app-loading-spinner>
           </div>
           <div>
-            <div *ngIf="!isPrime" class="l-alert text-dark">
-              Note: Only paid customers can generate invitation codes.
-            </div>
+            <div *ngIf="!isPrime" class="l-alert text-dark">Note: Only paid customers can generate invitation codes.</div>
             <div *ngIf="inviteCodes?.length > 0">
               <ul class="ui-list ui-list-styled list-styled users-list">
                 <li class="ui-list-item ui-list-item-xs-full">
