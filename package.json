@@ -16,6 +16,7 @@
     "build": "ng build --prod --subresource-integrity",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",
+    "format": "prettier --write --ignore-unknown src",
     "pack:electron": "electron-builder build",
     "postinstall": "ngcc && node patch-webpack.js",
     "start:electron": "electron .",
