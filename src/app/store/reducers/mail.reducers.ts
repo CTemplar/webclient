@@ -531,8 +531,8 @@ export function reducer(
       // Update current folder map
       if (action.payload.sourceFolder === state.currentFolder) {
         mails = prepareMails(action.payload.sourceFolder, folderMap, state.mailMap);
-        const currentMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = currentMailFolder.total_mail_count;
+        const curMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       const listOfIDs = action.payload.ids.toString().split(',');
       if (
@@ -599,8 +599,8 @@ export function reducer(
         folderMap.set(MailFolderType.UNREAD, currentFolderInfo);
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const currentMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = currentMailFolder.total_mail_count;
+      const curMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, read: action.payload.read };
@@ -693,8 +693,8 @@ export function reducer(
       }
 
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const currentMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = currentMailFolder.total_mail_count;
+      const curMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       return {
         ...state,
@@ -728,10 +728,8 @@ export function reducer(
         };
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      if (state.currentFolder && folderMap.has(state.currentFolder)) {
-        const currentMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = currentMailFolder.total_mail_count;
-      }
+      const curMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       if (
         state.mailDetail &&
         state.mailDetail.children &&
@@ -959,8 +957,8 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       if (state.currentFolder) {
-        const currentMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = currentMailFolder.total_mail_count;
+        const curMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       return {
         ...state,
