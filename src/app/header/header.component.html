@@ -1,5 +1,15 @@
 <!-- REUSABLE COMPONENT :: HEADER -->
-<header id="mastHead" class="topnavbar fixed-top" [class.header-is-stuck]="navIsFixed" [ngClass]="{ 'has-menu-shown': menuIsOpened, 'topnavbar-primary': this.router.url === '/', 'topnavbar-secondary': this.router.url !== '/' }" role="banner">
+<header
+  id="mastHead"
+  class="topnavbar fixed-top"
+  [class.header-is-stuck]="navIsFixed"
+  [ngClass]="{
+    'has-menu-shown': menuIsOpened,
+    'topnavbar-primary': this.router.url === '/',
+    'topnavbar-secondary': this.router.url !== '/'
+  }"
+  role="banner"
+>
   <div class="topnavbar__row">
     <nav class="navbar navbar-expand-lg" role="navigation">
       <div class="row align-items-center">
@@ -12,7 +22,21 @@
           </figure>
         </div>
         <div class="col navbar-col navbar-menu-col">
-          <button class="navbar-toggler" (click)="toggleState()" [ngClass]="{ opened: menuIsOpened, 'hidden-md-up': !externalPageCallToAction, 'd-none': externalPageCallToAction }" role="button" data-target="navbar-collapsable-content" aria-controls="ctemplarMenuContent" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span></button>
+          <button
+            class="navbar-toggler"
+            (click)="toggleState()"
+            [ngClass]="{
+              opened: menuIsOpened,
+              'hidden-md-up': !externalPageCallToAction,
+              'd-none': externalPageCallToAction
+            }"
+            role="button"
+            data-target="navbar-collapsable-content"
+            aria-controls="ctemplarMenuContent"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span> <span class="navbar-toggler-icon"></span>
+          </button>
           <div class="navbar-collapsable-content" [ngClass]="{ shown: menuIsOpened }" [hidden]="externalPageCallToAction">
             <ul class="navbar-nav my-0 px-0 list-style-none">
               <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">

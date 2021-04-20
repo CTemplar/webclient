@@ -50,7 +50,13 @@
         <label class="form-label mb-sm-0" for="enableEncryption">{{ 'contacts.encryption' | translate }}</label>
       </div>
       <div class="col-sm-10" id="contactEncryptionCheckbox">
-        <mat-checkbox type="checkbox" [checked]="newContactModel.enabled_encryption" [(ngModel)]="newContactModel.enabled_encryption" [name]="newContactModel.id"> </mat-checkbox>
+        <mat-checkbox
+          type="checkbox"
+          [checked]="newContactModel.enabled_encryption"
+          [(ngModel)]="newContactModel.enabled_encryption"
+          [name]="newContactModel.id"
+        >
+        </mat-checkbox>
       </div>
     </div>
   </div> -->
@@ -61,7 +67,14 @@
         <label class="form-label mb-sm-0" for="contactPublicKey">{{ 'contacts.publickey' | translate }}</label>
       </div>
       <div class="col-sm-10">
-        <textarea class="form-control form-control-sm resize-off" id="contactPublicKey" [placeholder]="'contacts.publickey' | translate" name="public_key" [(ngModel)]="newContactModel.public_key" rows="3"></textarea>
+        <textarea
+          class="form-control form-control-sm resize-off"
+          id="contactPublicKey"
+          [placeholder]="'contacts.publickey' | translate"
+          name="public_key"
+          [(ngModel)]="newContactModel.public_key"
+          rows="3"
+        ></textarea>
       </div>
       <button class="add-button-link contact-publickey-clear" (click)="clearPublicKey()">
         <em class="fas fa-times"></em>

@@ -167,7 +167,14 @@
           <i class="fas fa-chess-rook svg-inline--fa" *ngIf="mail.is_protected || mail.sender === 'support@ctemplar.com'" [ngbTooltip]="'mail_list.4_Wall_Protection' | translate" placement="left"></i>
         </ng-template>
         <i class="icon icon-secured" [ngbTooltip]="'mail_detail.encrypted' | translate" placement="left"></i>
-        <i class="icon icon-md icon-star-filled cursor-pointer" (click)="ontoggleStarred($event, mail, true)" [ngClass]="{ 'icon-star': isConversationView ? !mail.has_starred_children : !mail.starred, 'text-info': isConversationView ? mail.has_starred_children : mail.starred }"></i>
+        <i
+          class="icon icon-md icon-star-filled cursor-pointer"
+          (click)="ontoggleStarred($event, mail, true)"
+          [ngClass]="{
+            'icon-star': isConversationView ? !mail.has_starred_children : !mail.starred,
+            'text-info': isConversationView ? mail.has_starred_children : mail.starred
+          }"
+        ></i>
       </div>
     </div>
     <div class="spam_reason row" *ngIf="xssPipe.hasExternalImages && disableExternalImages">
@@ -395,7 +402,6 @@
       <ng-container *ngFor="let attachment of mail.attachments">
         <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
           <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-
           <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment" [download]="attachment.name" [href]="attachment.document | safe: 'url'" placement="top" [ngbTooltip]="attachment.name" target="_blank" rel="noopener noreferrer">
             <div class="attachment-icon">
               <i class="icon icon-attachment"></i>
@@ -615,7 +621,6 @@
                 <ng-container *ngFor="let attachment of childMail.attachments">
                   <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
                     <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-
                     <a *ngIf="!attachment.is_encrypted; else encryptedAttachment" class="download-attachment" [download]="attachment.name" [href]="attachment.document | safe: 'url'" placement="top" [ngbTooltip]="attachment.name" target="_blank" rel="noopener noreferrer">
                       <div class="attachment-icon">
                         <i class="icon icon-attachment"></i>

@@ -412,7 +412,7 @@
         <div class="row align-items-center">
           <div class="col-sm-12">
             <div class="input-group decrypt-password-element mr-2">
-              <input class="form-control form-control-sm border-right-0" type="password" id="addKeyPasswordVC" placeholder="Password" [(ngModel)]="userPassword" [disabled]="isGeneratingKeys || mailboxKeyInProgress"/>
+              <input class="form-control form-control-sm border-right-0" type="password" id="addKeyPasswordVC" placeholder="Password" [(ngModel)]="userPassword" [disabled]="isGeneratingKeys || mailboxKeyInProgress" />
               <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle" (click)="togglePassword('addKeyPasswordVC')">
                 <i class="fa fa-eye"></i>
                 <i class="fa fa-eye-slash"></i>
