@@ -38,7 +38,7 @@
       <div class="col-sm-10">
         <div class="position-relative">
           <input class="form-control form-control-sm" id="contactEmail" name="email" required [(ngModel)]="newContactModel.email" #contactEmail="ngModel" [placeholder]="'contacts.type_email' | translate" type="text" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" />
-          <i class="fas fa-cogs advanced-settings-icon cursor-pointer" ngbTooltip="Advanced Settings" *ngIf="!internalUser && !contactEmail.errors" (click)="onShowAdvancedSettings()" [disabled]="inProgress"></i>
+          <i class="fas fa-cogs advanced-settings-icon cursor-pointer" ngbTooltip="Advanced Settings" *ngIf="!internalUser && !contactEmail.errors && newContactModel.id" (click)="onShowAdvancedSettings()" [disabled]="inProgress"></i>
         </div>
       </div>
     </div>
