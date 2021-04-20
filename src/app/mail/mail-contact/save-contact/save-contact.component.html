@@ -14,7 +14,16 @@
         >
       </div>
       <div class="col-sm-10">
-        <input class="form-control form-control-sm" id="contactName" name="name" required #contactName="ngModel" [(ngModel)]="newContactModel.name" [placeholder]="'contacts.contact_name' | translate" type="text" />
+        <input
+          class="form-control form-control-sm"
+          id="contactName"
+          name="name"
+          required
+          #contactName="ngModel"
+          [(ngModel)]="newContactModel.name"
+          [placeholder]="'contacts.contact_name' | translate"
+          type="text"
+        />
       </div>
     </div>
   </div>
@@ -37,8 +46,24 @@
       </div>
       <div class="col-sm-10">
         <div class="position-relative">
-          <input class="form-control form-control-sm" id="contactEmail" name="email" required [(ngModel)]="newContactModel.email" #contactEmail="ngModel" [placeholder]="'contacts.type_email' | translate" type="text" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" />
-          <i class="fas fa-cogs advanced-settings-icon cursor-pointer" ngbTooltip="Advanced Settings" *ngIf="!internalUser && !contactEmail.errors && newContactModel.id" (click)="onShowAdvancedSettings()" [disabled]="inProgress"></i>
+          <input
+            class="form-control form-control-sm"
+            id="contactEmail"
+            name="email"
+            required
+            [(ngModel)]="newContactModel.email"
+            #contactEmail="ngModel"
+            [placeholder]="'contacts.type_email' | translate"
+            type="text"
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+          />
+          <i
+            class="fas fa-cogs advanced-settings-icon cursor-pointer"
+            ngbTooltip="Advanced Settings"
+            *ngIf="!internalUser && !contactEmail.errors && newContactModel.id"
+            (click)="onShowAdvancedSettings()"
+            [disabled]="inProgress"
+          ></i>
         </div>
       </div>
     </div>
@@ -89,7 +114,14 @@
         <label class="form-label mb-sm-0" for="contactPhone1">{{ 'common.phone' | translate }}</label>
       </div>
       <div class="col-sm-10">
-        <input class="form-control form-control-sm" id="contactPhone1" name="phone" [(ngModel)]="newContactModel.phone" [placeholder]="'common.phone' | translate" type="text" />
+        <input
+          class="form-control form-control-sm"
+          id="contactPhone1"
+          name="phone"
+          [(ngModel)]="newContactModel.phone"
+          [placeholder]="'common.phone' | translate"
+          type="text"
+        />
       </div>
     </div>
   </div>
@@ -100,7 +132,14 @@
         <label class="form-label mb-sm-0" for="contactPhone2">{{ 'contacts.phone2' | translate }}</label>
       </div>
       <div class="col-sm-10">
-        <input class="form-control form-control-sm" id="contactPhone2" [placeholder]="'common.phone' | translate" name="phone2" [(ngModel)]="newContactModel.phone2" type="text" />
+        <input
+          class="form-control form-control-sm"
+          id="contactPhone2"
+          [placeholder]="'common.phone' | translate"
+          name="phone2"
+          [(ngModel)]="newContactModel.phone2"
+          type="text"
+        />
       </div>
     </div>
   </div>
@@ -111,7 +150,14 @@
         <label class="form-label pt-sm-2 mb-sm-0" for="contactAddress">{{ 'contacts.address' | translate }}</label>
       </div>
       <div class="col-sm-10">
-        <textarea class="form-control form-control-sm resize-off" id="contactAddress" [placeholder]="'contacts.address' | translate" name="address" [(ngModel)]="newContactModel.address" rows="3"></textarea>
+        <textarea
+          class="form-control form-control-sm resize-off"
+          id="contactAddress"
+          [placeholder]="'contacts.address' | translate"
+          name="address"
+          [(ngModel)]="newContactModel.address"
+          rows="3"
+        ></textarea>
       </div>
     </div>
   </div>
@@ -123,7 +169,14 @@
         <label class="form-label pt-sm-2 mb-sm-0" for="contactNote">{{ 'contacts.note' | translate }}</label>
       </div>
       <div class="col-sm-10">
-        <textarea class="form-control form-control-sm resize-off" id="contactNote" [placeholder]="'contacts.a_note' | translate" name="note" [(ngModel)]="newContactModel.note" rows="3"></textarea>
+        <textarea
+          class="form-control form-control-sm resize-off"
+          id="contactNote"
+          [placeholder]="'contacts.a_note' | translate"
+          name="note"
+          [(ngModel)]="newContactModel.note"
+          rows="3"
+        ></textarea>
       </div>
     </div>
   </div>
@@ -153,7 +206,9 @@
   <div class="modal-body bg-faded">
     <p class="text-holder text-dark text-medium">
       {{ 'contacts.advanced.description' | translate }}
-      <a href="{{ primaryWebsite }}/contacts/advanced-settings/" target="_blank" rel="noopener noreferrer">{{ 'mail_header.learn_more' | translate }}</a>
+      <a href="{{ primaryWebsite }}/contacts/advanced-settings/" target="_blank" rel="noopener noreferrer">{{
+        'mail_header.learn_more' | translate
+      }}</a>
     </p>
     <div>
       <div class="section-title text-dark">
@@ -166,19 +221,42 @@
         <div class="row align-items-center">
           <div class="col-sm-4">
             <label class="form-label mb-0" [translate]="'contacts.advanced.encrypt'"> Encrypt </label>
-            <i class="fas fa-exclamation-triangle ml-1" *ngIf="!newContactModel.enabled_encryption && (!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0)" [ngbTooltip]="'contacts.advanced.encrypt_desc' | translate"></i>
+            <i
+              class="fas fa-exclamation-triangle ml-1"
+              *ngIf="
+                !newContactModel.enabled_encryption &&
+                (!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0)
+              "
+              [ngbTooltip]="'contacts.advanced.encrypt_desc' | translate"
+            ></i>
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt1" name="[1]" type="radio" [checked]="newContactModel.enabled_encryption" (click)="onClickIsEncrypt(true)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0" />
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="isEncrypt1"
+                    name="[1]"
+                    type="radio"
+                    [checked]="newContactModel.enabled_encryption"
+                    (click)="onClickIsEncrypt(true)"
+                    [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0"
+                  />
                   <label for="isEncrypt1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="isEncrypt2" name="[1]" type="radio" [checked]="!newContactModel.enabled_encryption" (click)="onClickIsEncrypt(false)" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0" />
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="isEncrypt2"
+                    name="[1]"
+                    type="radio"
+                    [checked]="!newContactModel.enabled_encryption"
+                    (click)="onClickIsEncrypt(false)"
+                    [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0"
+                  />
                   <label for="isEncrypt2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
@@ -190,17 +268,29 @@
       <div class="form-content-row mb-2">
         <div class="row">
           <div class="col-sm-4">
-            <label class="form-label mb-sm-0" [translate]="'contacts.advanced.encrypt_scheme'"> Encryption Scheme </label>
+            <label class="form-label mb-sm-0" [translate]="'contacts.advanced.encrypt_scheme'">
+              Encryption Scheme
+            </label>
             <ng-template #encryptionSchemeTooltip>
-              <div class="text-left" [translate]="'contacts.advanced.encrypt_scheme_desc1'">PGP Encryption Scheme to be used when encrypting.</div>
-              <div class="text-left" [translate]="'contacts.advanced.encrypt_scheme_desc2'">Note that PGP/Inline is only available for Plain Text Messages</div>
+              <div class="text-left" [translate]="'contacts.advanced.encrypt_scheme_desc1'">
+                PGP Encryption Scheme to be used when encrypting.
+              </div>
+              <div class="text-left" [translate]="'contacts.advanced.encrypt_scheme_desc2'">
+                Note that PGP/Inline is only available for Plain Text Messages
+              </div>
             </ng-template>
             <i class="fas fa-info-circle ml-1" [ngbTooltip]="encryptionSchemeTooltip"></i>
           </div>
           <div class="col-sm-8">
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
-                <button type="button" ngbDropdownToggle id="filterParameterDropdownMenuBtn" role="button" [disabled]="!newContactModel.enabled_encryption">
+                <button
+                  type="button"
+                  ngbDropdownToggle
+                  id="filterParameterDropdownMenuBtn"
+                  role="button"
+                  [disabled]="!newContactModel.enabled_encryption"
+                >
                   <span> {{ newContactModel.encryption_type ? newContactModel.encryption_type : 'PGP/MIME' }} </span>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
@@ -225,15 +315,25 @@
           <div class="col-sm-5">
             <label class="form-label mb-sm-0" [translate]="'settings.prefer_encrypt'"> Prefer Encrypt </label>
             <ng-template #preferEncryptTooltip>
-              <div class="text-left" [translate]="'contacts.advanced.autocrypt_desc1'">If "mutual" is selected and Prefer Encrypt of your mailbox is also "mutual",</div>
-              <div class="text-left" [translate]="'contacts.advanced.autocrypt_desc2'">all of outgoing messages to this contact would be encrypted</div>
+              <div class="text-left" [translate]="'contacts.advanced.autocrypt_desc1'">
+                If "mutual" is selected and Prefer Encrypt of your mailbox is also "mutual",
+              </div>
+              <div class="text-left" [translate]="'contacts.advanced.autocrypt_desc2'">
+                all of outgoing messages to this contact would be encrypted
+              </div>
             </ng-template>
             <i class="fas fa-info-circle ml-1" [ngbTooltip]="preferEncryptTooltip"></i>
           </div>
           <div class="col-sm-7">
             <div class="btn-dropdown btn-dropdown-select">
               <div ngbDropdown class="dropdown-sm">
-                <button type="button" ngbDropdownToggle id="preferEncryptDropdownMenuBtn" role="button" [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0">
+                <button
+                  type="button"
+                  ngbDropdownToggle
+                  id="preferEncryptDropdownMenuBtn"
+                  role="button"
+                  [disabled]="!selectedContactPulbicKeys || selectedContactPulbicKeys.length === 0"
+                >
                   <span> {{ newContactModel.prefer_encrypt ? newContactModel.prefer_encrypt : 'nopreference' }} </span>
                 </button>
                 <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn">
@@ -255,7 +355,13 @@
           <div class="col-12">
             <div class="d-flex justify-content-between">
               <strong class="text-dark">Public Keys</strong>
-              <input type="file" #importKeyFileTag accept=".txt,.asc" (change)="onSelectNewKeyFile($event.target.files)" style="display: none" />
+              <input
+                type="file"
+                #importKeyFileTag
+                accept=".txt,.asc"
+                (change)="onSelectNewKeyFile($event.target.files)"
+                style="display: none"
+              />
               <div>
                 <a (click)="importKeyFileTag.click()">
                   <i class="fas fa-plus-circle"></i>
@@ -281,12 +387,27 @@
             </div>
             <div class="row key-list-row" *ngFor="let key of selectedContactPulbicKeys">
               <div class="col-2 key-list-row-item text-right">
-                <i *ngIf="key.is_primary" class="fa fa-check" aria-hidden="true" [ngbTooltip]="'contacts.advanced.primary_public_key_desc' | translate"></i>
+                <i
+                  *ngIf="key.is_primary"
+                  class="fa fa-check"
+                  aria-hidden="true"
+                  [ngbTooltip]="'contacts.advanced.primary_public_key_desc' | translate"
+                ></i>
                 <ng-template #userIdMismatchTooltip>
-                  <div class="text-left">{{ 'contacts.advanced.key_assign_warn1' | translate }}{{ selectedContact.email }}</div>
-                  <div class="text-left">{{ 'contacts.advanced.key_assign_warn2' | translate }} {{ key.parsed_emails && key.parsed_emails.length > 0 ? key.parsed_emails[0] : 'N/A' }}</div>
+                  <div class="text-left">
+                    {{ 'contacts.advanced.key_assign_warn1' | translate }}{{ selectedContact.email }}
+                  </div>
+                  <div class="text-left">
+                    {{ 'contacts.advanced.key_assign_warn2' | translate }}
+                    {{ key.parsed_emails && key.parsed_emails.length > 0 ? key.parsed_emails[0] : 'N/A' }}
+                  </div>
                 </ng-template>
-                <i *ngIf="!keyMatchStatusForEmail[key.fingerprint]" class="fas fa-exclamation-triangle ml-2" aria-hidden="true" [ngbTooltip]="userIdMismatchTooltip"></i>
+                <i
+                  *ngIf="!keyMatchStatusForEmail[key.fingerprint]"
+                  class="fas fa-exclamation-triangle ml-2"
+                  aria-hidden="true"
+                  [ngbTooltip]="userIdMismatchTooltip"
+                ></i>
               </div>
               <div class="col-5 key-list-row-item show-ellipses">
                 {{ key.fingerprint }}
@@ -295,9 +416,21 @@
                 {{ key.key_type }}
               </div>
               <div class="col-2 key-list-row-item text-left">
-                <a [href]="downloadUrls[key.fingerprint] | safe: 'url'" [ngbTooltip]="'settings.download_public_key' | translate" [download]="'publickey.' + this.selectedContact.email + '.asc'"><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i></a>
-                <a [ngbTooltip]="'contacts.advanced.remove_public_key' | translate" (click)="onRemovePublicKey(key)"><i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true"></i></a>
-                <a [ngbTooltip]="'settings.keys.set_as_primary' | translate" *ngIf="newContactModel.enabled_encryption" (click)="onSetPrimary(key)"><i *ngIf="!key.is_primary" class="far fa-check-circle cursor-pointer" aria-hidden="true"></i></a>
+                <a
+                  [href]="downloadUrls[key.fingerprint] | safe: 'url'"
+                  [ngbTooltip]="'settings.download_public_key' | translate"
+                  [download]="'publickey.' + this.selectedContact.email + '.asc'"
+                  ><i class="fa fa-download cursor-pointer mr-2" aria-hidden="true"></i
+                ></a>
+                <a [ngbTooltip]="'contacts.advanced.remove_public_key' | translate" (click)="onRemovePublicKey(key)"
+                  ><i class="far fa-trash-alt cursor-pointer mr-2" aria-hidden="true"></i
+                ></a>
+                <a
+                  [ngbTooltip]="'settings.keys.set_as_primary' | translate"
+                  *ngIf="newContactModel.enabled_encryption"
+                  (click)="onSetPrimary(key)"
+                  ><i *ngIf="!key.is_primary" class="far fa-check-circle cursor-pointer" aria-hidden="true"></i
+                ></a>
               </div>
             </div>
           </div>
@@ -309,7 +442,14 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="advancedSettingInProgress || isImportingKey"></app-loading-spinner>
-        <button type="button" class="btn btn-secondary btn-sm" (click)="onSaveAdvancedSettings()" [translate]="'common.save'">Save</button>
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          (click)="onSaveAdvancedSettings()"
+          [translate]="'common.save'"
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>
