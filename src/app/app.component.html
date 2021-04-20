@@ -1,5 +1,11 @@
 <app-loading [isLoading]="isLoading" [quote]="quote"></app-loading>
-<div class="app-outer" id="app-outer-id" [class.resize-active]="windowIsResized" *ngIf="!isLoading" [class.app-outer-secondary]="!isMail">
+<div
+  class="app-outer"
+  id="app-outer-id"
+  [class.resize-active]="windowIsResized"
+  *ngIf="!isLoading"
+  [class.app-outer-secondary]="!isMail"
+>
   <app-header [hidden]="hideHeader"></app-header>
   <main id="main" role="main">
     <div class="content">
@@ -8,4 +14,7 @@
   </main>
   <app-footer [hidden]="hideHeader"></app-footer>
 </div>
-<cookie-law #cookieLaw *ngIf="!cookieEnabled"> Cookies are required to use CTemplar. Please enable them in your browser. <a href="https://ctemplar.com/help/answer/ctemplar-cookie/" target="_blank" rel="noopener noreferrer">Learn more.</a> </cookie-law>
+<cookie-law #cookieLaw *ngIf="!cookieEnabled">
+  Cookies are required to use CTemplar. Please enable them in your browser.
+  <a href="https://ctemplar.com/help/answer/ctemplar-cookie/" target="_blank" rel="noopener noreferrer">Learn more.</a>
+</cookie-law>
