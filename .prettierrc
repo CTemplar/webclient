@@ -4,13 +4,5 @@
   "semi": true,
   "singleQuote": true,
   "trailingComma": "all",
-  "overrides": [
-    {
-      "files": ["*.html"],
-      "options": {
-        "printWidth": 999
-      }
-    }
-  ],
   "endOfLine": "auto"
 }
