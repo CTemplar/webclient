@@ -1,13 +1,5 @@
 <app-loading [isLoading]="isloading" [quote]="quote"></app-loading>
-<aside
-  id="mailbox-sidebar"
-  (clickOutside)="toggleMenu($event)"
-  class="mailbox-sidebar is-sidebar-expandedx"
-  role="complementary"
-  [ngClass]="{ 'is-sidebar-expanded': isSidebarOpened }"
-  (mouseover)="changeAsideExpand($event)"
-  (mouseout)="changeAsideExpand($event)"
->
+<aside id="mailbox-sidebar" (clickOutside)="toggleMenu($event)" class="mailbox-sidebar is-sidebar-expandedx" role="complementary" [ngClass]="{ 'is-sidebar-expanded': isSidebarOpened }" (mouseover)="changeAsideExpand($event)" (mouseout)="changeAsideExpand($event)">
   <div class="mailbox-sidebar-inner" [class.sidebar-opened]="isSidebarOpened">
     <!-- CTemplar Logo Section -->
     <div class="mailbox-brand">
@@ -31,11 +23,7 @@
     </div>
     <!-- Compose button -->
     <div class="mail-compose-section display-unset hidden-xs-down">
-      <button
-        class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon"
-        role="button"
-        (click)="openComposeMailDialog()"
-      >
+      <button class="btn btn-lg btn-primary mailbox-btn mailbox-compose-btn btn-xs-squared has-icon" role="button" (click)="openComposeMailDialog()">
         <i class="icon icon-plus text-white hidden-md-up"></i>
         <span class="mailbox-btn-text hidden-sm-down">{{ 'common.compose' | translate }}</span>
       </button>
@@ -76,10 +64,7 @@
             <img alt="outbox" class="icon mail-outbox" src="assets/images/outbox.svg" />
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.outbox' | translate }}</span>
             <span class="badge outbox">
-              <span
-                class="badge-counter badge-success"
-                *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter > 0"
-              >
+              <span class="badge-counter badge-success" *ngIf="mailState?.unreadMailsCount?.outbox_delayed_delivery_counter > 0">
                 {{ mailState?.unreadMailsCount?.outbox_delayed_delivery_counter }}
               </span>
               <span class="badge-counter badge-danger" *ngIf="mailState?.unreadMailsCount?.outbox_dead_man_counter > 0">
@@ -148,38 +133,19 @@
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.add_folder' | translate }}</span>
           </a>
         </li>
-        <li
-          class="mailbox-sidebar-nav-item custom-folder"
-          [class.active]="currentFolder === folder.name"
-          *ngFor="let folder of customFolders | slice: 0:LIMIT; let i = index"
-        >
+        <li class="mailbox-sidebar-nav-item custom-folder" [class.active]="currentFolder === folder.name" *ngFor="let folder of customFolders | slice: 0:LIMIT; let i = index">
           <div>
             <a routerLink="/mail/{{ folder.name }}/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
               <i class="folder-color-box icon" [style.background]="folder.color"></i>
               <span class="mailbox-sidebar-nav-label">
                 {{ folder.name }}
               </span>
-              <span
-                class="badge badge-square badge-position badge-hover-action"
-                *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0"
-                >{{ mailState?.unreadMailsCount[folder.name] }}</span
-              >
+              <span class="badge badge-square badge-position badge-hover-action" *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount[folder.name] > 0">{{ mailState?.unreadMailsCount[folder.name] }}</span>
               <div class="action">
-                <a
-                  role="button"
-                  [ngbTooltip]="'settings.edit_folder' | translate"
-                  container="body"
-                  (click)="editFolder(folder); $event.stopPropagation(); $event.preventDefault()"
-                >
+                <a role="button" [ngbTooltip]="'settings.edit_folder' | translate" container="body" (click)="editFolder(folder); $event.stopPropagation(); $event.preventDefault()">
                   <i class="icon icon-edit"></i>
                 </a>
-                <a
-                  class="ml-2"
-                  role="button"
-                  [ngbTooltip]="'settings.delete_folder' | translate"
-                  container="body"
-                  (click)="showConfirmationModal(folder); $event.stopPropagation(); $event.preventDefault()"
-                >
+                <a class="ml-2" role="button" [ngbTooltip]="'settings.delete_folder' | translate" container="body" (click)="showConfirmationModal(folder); $event.stopPropagation(); $event.preventDefault()">
                   <i class="icon icon-garbage"></i>
                 </a>
               </div>
@@ -190,9 +156,7 @@
           <a (click)="toggleDisplayLimit(customFolders.length)" class="mailbox-sidebar-nav-link">
             <i class="icon icon-more ml-1"></i>
             <span class="mailbox-sidebar-nav-label text-capitalize">
-              {{
-                LIMIT === customFolders.length ? ('create_account.less' | translate) : ('mail_list.more' | translate)
-              }}
+              {{ LIMIT === customFolders.length ? ('create_account.less' | translate) : ('mail_list.more' | translate) }}
             </span>
           </a>
         </li>
@@ -210,11 +174,7 @@
         {{ userState.settings?.used_storage | filesize }} <span>{{ 'settings.of' | translate }}</span>
         {{ userState.settings.allocated_storage | filesize }}
       </div>
-      <a
-        routerLink="/mail/settings/dashboard-and-plans"
-        class="btn-link text-white hidden-in-sm"
-        *ngIf="!userState.isPrime"
-      >
+      <a routerLink="/mail/settings/dashboard-and-plans" class="btn-link text-white hidden-in-sm" *ngIf="!userState.isPrime">
         <small>
           <u>{{ 'common.upgrade_account' | translate }}</u>
         </small>
@@ -228,13 +188,7 @@
 
 <!-- Compose button to be used in small screens -->
 <div class="btn-xs-holder is-sticky hidden-sm-up">
-  <button
-    class="btn btn-primary mailbox-btn mailbox-compose-btn btn-xs-rounded has-icon"
-    role="button"
-    placement="top"
-    [ngbTooltip]="'common.compose' | translate"
-    (click)="openComposeMailDialog()"
-  >
+  <button class="btn btn-primary mailbox-btn mailbox-compose-btn btn-xs-rounded has-icon" role="button" placement="top" [ngbTooltip]="'common.compose' | translate" (click)="openComposeMailDialog()">
     <i class="icon icon-plus text-white"></i>
   </button>
 </div>

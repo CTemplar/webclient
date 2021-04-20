@@ -1,38 +1,15 @@
 <div [ngSwitch]="mailFolder">
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.INBOX" [fetchMails]="true" [mailFolder]="mailFolderTypes.INBOX">
-  </app-generic-folder>
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.DRAFT" [fetchMails]="true" [mailFolder]="mailFolderTypes.DRAFT">
-  </app-generic-folder>
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.TRASH" [fetchMails]="true" [mailFolder]="mailFolderTypes.TRASH">
-  </app-generic-folder>
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.SENT" [fetchMails]="true" [mailFolder]="mailFolderTypes.SENT">
-  </app-generic-folder>
-  <app-generic-folder
-    *ngSwitchCase="mailFolderTypes.STARRED"
-    [fetchMails]="true"
-    [mailFolder]="mailFolderTypes.STARRED"
-  >
-  </app-generic-folder>
-  <app-generic-folder
-    *ngSwitchCase="mailFolderTypes.ARCHIVE"
-    [fetchMails]="true"
-    [mailFolder]="mailFolderTypes.ARCHIVE"
-  >
-  </app-generic-folder>
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.SPAM" [fetchMails]="true" [mailFolder]="mailFolderTypes.SPAM">
-  </app-generic-folder>
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.OUTBOX" [fetchMails]="true" [mailFolder]="mailFolderTypes.OUTBOX">
-  </app-generic-folder>
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.UNREAD" [fetchMails]="true" [mailFolder]="mailFolderTypes.UNREAD">
-  </app-generic-folder>
-  <app-generic-folder
-    *ngSwitchCase="mailFolderTypes.ALL_EMAILS"
-    [fetchMails]="true"
-    [mailFolder]="mailFolderTypes.ALL_EMAILS"
-  >
-  </app-generic-folder>
-  <app-generic-folder *ngSwitchCase="mailFolderTypes.SEARCH" [fetchMails]="true" [mailFolder]="mailFolderTypes.SEARCH">
-  </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.INBOX" [fetchMails]="true" [mailFolder]="mailFolderTypes.INBOX"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.DRAFT" [fetchMails]="true" [mailFolder]="mailFolderTypes.DRAFT"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.TRASH" [fetchMails]="true" [mailFolder]="mailFolderTypes.TRASH"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.SENT" [fetchMails]="true" [mailFolder]="mailFolderTypes.SENT"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.STARRED" [fetchMails]="true" [mailFolder]="mailFolderTypes.STARRED"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.ARCHIVE" [fetchMails]="true" [mailFolder]="mailFolderTypes.ARCHIVE"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.SPAM" [fetchMails]="true" [mailFolder]="mailFolderTypes.SPAM"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.OUTBOX" [fetchMails]="true" [mailFolder]="mailFolderTypes.OUTBOX"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.UNREAD" [fetchMails]="true" [mailFolder]="mailFolderTypes.UNREAD"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.ALL_EMAILS" [fetchMails]="true" [mailFolder]="mailFolderTypes.ALL_EMAILS"> </app-generic-folder>
+  <app-generic-folder *ngSwitchCase="mailFolderTypes.SEARCH" [fetchMails]="true" [mailFolder]="mailFolderTypes.SEARCH"> </app-generic-folder>
   <ng-container *ngFor="let folder of customFolders">
     <app-generic-folder *ngSwitchCase="folder.name" [fetchMails]="true" [mailFolder]="folder.name"></app-generic-folder>
   </ng-container>

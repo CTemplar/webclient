@@ -8,9 +8,8 @@ describe('ComposerEncryptionTypeIconComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComposerEncryptionTypeIconComponent ]
-    })
-    .compileComponents();
+      declarations: [ComposerEncryptionTypeIconComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
