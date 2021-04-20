@@ -213,7 +213,7 @@
           <ng-container *ngIf="!mail.is_subject_encrypted">{{ mail.subject }}</ng-container>
           <ng-container *ngIf="mail.is_subject_encrypted">
             <ng-container *ngIf="decryptedContents[mail.id] != null; else subjectLoader">{{
-              mail.subject
+              isDecryptingError[mail.id] ? '' : mail.subject
             }}</ng-container>
             <ng-template #subjectLoader>
               <span id="subject-scramble"></span>
@@ -331,6 +331,7 @@
                 <span class="position-relative">
                   <i *ngIf="mail.last_action" class="fas fa-{{ mail.last_action | lastAction }} last-action"></i>
                 </span>
+                <app-mail-detail-encryption-type-icon [mail]="mail"></app-mail-detail-encryption-type-icon>
               </li>
               <li id="{{ mail.id }}-mail-to" *ngIf="mail.receiver?.length > 0">
                 {{ 'settings.compose.to' | translate }}
@@ -444,6 +445,7 @@
           </div>
         </div>
       </div>
+      <app-mail-detail-decryption-error *ngIf="isDecryptingError[mail.id]"></app-mail-detail-decryption-error>
     </div>
   </section>
   <!-- Password Decryption Form -->
@@ -576,6 +578,7 @@
         <ng-template #htmlBlock>
           <div
             class="msg-reply-content text-dark"
+            [style.white-space]="isDecryptingError[mail.id] ? 'break-spaces' : ''"
             id="{{ mail.id }}-raw-mail-content"
             [innerHTML]="
               mail.is_html
@@ -604,7 +607,7 @@
     >
       <img class="mt-3" [src]="loadingImage | safe: 'url'" />
       <div class="mt-3">
-        {{ 'mail_detail.decryp_4096_bit' | translate }}
+        {{ 'mail_detail.decrypt_encrypted_email' | translate }}
       </div>
     </div>
 
@@ -613,11 +616,11 @@
       <ng-container *ngFor="let attachment of mail.attachments">
         <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
           <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-
           <a
             *ngIf="!attachment.is_encrypted; else encryptedAttachment"
             class="download-attachment"
-            [href]="attachment.document"
+            [download]="attachment.name"
+            [href]="attachment.document | safe: 'url'"
             placement="top"
             [ngbTooltip]="attachment.name"
             target="_blank"
@@ -708,6 +711,9 @@
                               class="fas fa-{{ childMail.last_action | lastAction }} last-action"
                             ></i>
                           </span>
+                          <app-mail-detail-encryption-type-icon
+                            [mail]="childMail"
+                          ></app-mail-detail-encryption-type-icon>
                         </li>
                         <li id="{{ childMail.id }}-mail-to">
                           <span>{{ 'settings.compose.to' | translate }}</span>
@@ -822,6 +828,9 @@
                     </div>
                   </div>
                 </div>
+                <app-mail-detail-decryption-error
+                  *ngIf="isDecryptingError[childMail.id]"
+                ></app-mail-detail-decryption-error>
                 <app-progress-bar
                   [active]="decryptedContents[childMail.id] == null"
                   *ngIf="
@@ -1012,11 +1021,11 @@
                 <ng-container *ngFor="let attachment of childMail.attachments">
                   <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
                     <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
-
                     <a
                       *ngIf="!attachment.is_encrypted; else encryptedAttachment"
                       class="download-attachment"
-                      [href]="attachment.document"
+                      [download]="attachment.name"
+                      [href]="attachment.document | safe: 'url'"
                       placement="top"
                       [ngbTooltip]="attachment.name"
                       target="_blank"
@@ -1061,7 +1070,7 @@
             >
               <img class="mt-3" [src]="loadingImage | safe: 'url'" />
               <div class="mt-3">
-                {{ 'mail_detail.decryp_4096_bit' | translate }}
+                {{ 'mail_detail.decrypt_encrypted_email' | translate }}
               </div>
             </div>
             <div class="ui-body" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible && !isPopupOpen">

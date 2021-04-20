@@ -14,6 +14,11 @@
                 role="button"
                 [disabled]="attachments?.length > 0"
               >
+                <app-composer-encryption-type-icon
+                  [isAutocrypt]="true"
+                  [autocryptInfo]="autocryptInfo"
+                ></app-composer-encryption-type-icon>
+                <!--                <app-composer-encryption-type-icon [isAutocrypt]="true" [isAutocryptEncrypt]="true" [autocryptInfo]="autocryptInfo"></app-composer-encryption-type-icon>-->
                 {{ selectedMailbox?.email | emailFormat: selectedMailbox?.display_name }}
               </button>
               <div
@@ -71,6 +76,8 @@
               [isContactEncrypted]="userState.settings.is_contacts_encrypted"
               [blacklist]="blacklist"
               [whitelist]="whitelist"
+              [autocryptInfo]="autocryptInfo"
+              [encryptionTypeMap]="receiverEncryptTypeMap"
             ></app-receiver-email-chip>
             <delete-icon (click)="input.removeItem(item, index)"></delete-icon>
           </ng-template>
@@ -134,6 +141,8 @@
               [isContactEncrypted]="userState.settings.is_contacts_encrypted"
               [blacklist]="blacklist"
               [whitelist]="whitelist"
+              [autocryptInfo]="autocryptInfo"
+              [encryptionTypeMap]="receiverEncryptTypeMap"
             ></app-receiver-email-chip>
             <delete-icon (click)="ccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
@@ -191,6 +200,8 @@
               [isContactEncrypted]="userState.settings.is_contacts_encrypted"
               [blacklist]="blacklist"
               [whitelist]="whitelist"
+              [autocryptInfo]="autocryptInfo"
+              [encryptionTypeMap]="receiverEncryptTypeMap"
             ></app-receiver-email-chip>
             <delete-icon (click)="bccInput.removeItem(item, index)"></delete-icon>
           </ng-template>
@@ -766,7 +777,7 @@
                     class="dropdown-item row"
                     style="margin: 0px"
                     (click)="setHtmlEditor(true)"
-                    [disabled]="draftMail.is_html"
+                    [disabled]="draftMail.is_html || pgpEncryptionType === 'PGP_INLINE'"
                   >
                     <div class="row item">
                       <div class="col-2">
