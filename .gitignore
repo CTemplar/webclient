@@ -10,4 +10,3 @@ electron-main.js*
 node_modules
 src/assets/fonts/icomoon/libs/icomoon.zip
 Thumbs.db
-.idea/workspace.xml
