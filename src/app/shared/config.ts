@@ -109,14 +109,15 @@ export const FOLDER_COLORS: string[] = [
 
 export const LANGUAGES: Language[] = [
   { name: 'English', locale: 'en' },
-  { name: 'Spanish', locale: 'es' },
-  { name: 'Russian', locale: 'ru' },
+  { name: 'Arabic', locale: 'ar' },
   { name: 'Chinese', locale: 'zh' },
   { name: 'French', locale: 'fr' },
-  { name: 'Ukrainian', locale: 'uk' },
-  { name: 'Portuguese', locale: 'pt' },
-  { name: 'Arabic', locale: 'ar' },
   { name: 'German', locale: 'de' },
+  { name: 'Italian', locale: 'it' },
+  { name: 'Portuguese', locale: 'pt' },
+  { name: 'Russian', locale: 'ru' },
+  { name: 'Spanish', locale: 'es' },
+  { name: 'Ukrainian', locale: 'uk' },
 ];
 
 export interface Language {
