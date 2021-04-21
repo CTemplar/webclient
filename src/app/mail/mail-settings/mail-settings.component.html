@@ -833,7 +833,7 @@
                   </div>
                   <div class="info-card mt-2 mx-3 full-width">
                     <p [translate]="'settings.disabling_editor_message'">
-                      Disabling HTML editor will allow you to use plain text editor for composing email.
+                      Disable the HTML editor if you want to send emails in plain text.
                     </p>
                   </div>
                 </div>
@@ -1057,22 +1057,29 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label for="customCss" class="form-label mb-sm-0"> Custom css </label>
+                    <label for="customCss" class="form-label mb-sm-0"> Customize CSS </label>
                   </div>
                   <form class="col-sm-7 col-md-5" autocomplete="off">
                     <textarea
-                      class="form-control form-control-sm resize-off"
+                      class="form-control"
                       id="customCss"
                       name="customCss"
                       [(ngModel)]="settings.custom_css"
                       [ngModelOptions]="{ updateOn: 'blur' }"
                       (change)="updateSettings('custom_css', $event.target.value)"
-                      rows="3"
+                      rows="6"
                     >
                     </textarea>
                   </form>
                   <div class="info-card mx-3 mt-2 full-width">
-                    <p>You can write the custom css here in order to customize the display of your mailbox.</p>
+                    <p>
+                      You can write your own CSS here in order to customize the display of your mailbox.
+                      <br />
+                      There are official themes under development.
+                      <a href="https://github.com/CTemplar/webclient-themes" target="_blank" rel="noopener noreferrer"
+                        >Check them here!</a
+                      >
+                    </p>
                   </div>
                 </div>
               </div>
@@ -1149,7 +1156,7 @@
                           Desktop notifications are enabled.
                         </span>
                         <a (click)="testNotification()">
-                          <span [translate]="'settings.click_to_test'"> Click here to Test </span>
+                          <span [translate]="'settings.click_to_test'">Click here to test</span>
                         </a>
                       </p>
                     </div>
