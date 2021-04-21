@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "format": "prettier --write --ignore-unknown src",
     "pack:electron": "electron-builder build",
-    "postinstall": "ngcc && node patch-webpack.js",
+    "postinstall": "node patch-webpack.js",
     "start:electron": "electron .",
     "start:local:ssl": "ng serve -c local --ssl",
     "start:local": "ng serve -c local",
