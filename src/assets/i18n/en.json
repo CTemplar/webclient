@@ -405,6 +405,7 @@
       "end_time": "End Time",
       "start_date": "Start Date",
       "end_date": "End Date",
+      "insert_message_here": "Insert message here ...",
       "auto_message": "Email autoresponse message",
       "message": "Message",
       "vac_autoresponder": "Vacation Autoresponder",
