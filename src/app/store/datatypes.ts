@@ -22,6 +22,7 @@ export interface AuthState {
   // error message
   errorMessage: string | null;
   inProgress: boolean;
+  passwordChangeInProgress: boolean;
   signupState: SignupState;
   isRecoveryCodeSent: boolean;
   resetPasswordErrorMessage: string | null;
@@ -193,11 +194,13 @@ export interface ContactsState {
   contacts: Contact[];
   totalContacts: number;
   inProgress?: boolean;
+  advancedSettingInProgress?: boolean;
   isError?: boolean;
   emailContacts?: EmailContact[];
   noOfDecryptedContacts: number;
   contactsToDecrypt: Contact[];
   loaded: boolean;
+  selectedContactKeys: ContactKey[];
 }
 
 export interface EmailContact {
@@ -368,6 +371,11 @@ export interface MailState {
   mailMap: any;
   folderMap: Map<string, FolderState>;
   pageLimit?: number;
+  /**
+   * TODO - should be updated so as to contain all of decrypted attachments
+   * currently it stores only PGP/MIME message's attachment
+   */
+  decryptedAttachmentsMap?: Map<number, Attachment[]>;
 }
 
 export interface FolderState {
@@ -381,7 +389,7 @@ export interface FolderState {
 export class SecureContent {
   id?: number;
 
-  content: string;
+  content?: string;
 
   content_plain?: string;
 
@@ -394,6 +402,8 @@ export class SecureContent {
   isSubjectEncrypted?: boolean;
 
   parent?: number;
+
+  decryptError?: boolean;
 
   constructor(data?: Mail) {
     if (data) {
@@ -418,6 +428,7 @@ export interface Draft {
   encryptedContent?: SecureContent;
   decryptedContent?: string;
   isPGPInProgress?: boolean;
+  isPGPMimeInProgress?: boolean;
   // isSshInProgress?: boolean;
   attachments: Attachment[];
   shouldSend?: boolean;
@@ -438,6 +449,17 @@ export interface Draft {
    * @description It represents if the compose mail editor has been closed or not.
    */
   isClosed?: boolean;
+  /**
+   * @var pgpMimeContent
+   * @description will be used to store encrypted data, which would be used to make `encrypted.asc`
+   */
+  pgpMimeContent?: string;
+  /**
+   * @var isPGPMimeMessage
+   * @description Represents if draft is PGPMime message or not -
+   * when would be decided after done to upload attachment (encrypted.asc): real composing process
+   */
+  isPGPMimeMessage?: boolean;
 }
 
 export interface DraftState {
@@ -452,7 +474,9 @@ export interface ComposeMailState {
 
 export interface GlobalPublicKey {
   isFetching: boolean;
-  key: PublicKey;
+  key: Array<PublicKey>;
+  pgpEncryptionType?: PGPEncryptionType;
+  autocryptPreferEncrypt?: AutocryptPreferEncryptType;
 }
 
 export interface MailBoxesState {
@@ -463,6 +487,9 @@ export interface MailBoxesState {
   encryptionInProgress: boolean;
   inProgress?: boolean;
   isUpdatingOrder?: boolean;
+  mailboxKeysMap?: Map<number, Array<MailboxKey>>; // Date Type => <Mailbox ID, Array of Keys>
+  mailboxKeyInProgress?: boolean;
+  mailboxKeyFailure?: boolean;
 }
 
 export interface SecureMessageState {
@@ -485,8 +512,9 @@ export interface UserKey {
 }
 
 export interface PublicKey {
+  exists?: boolean;
   email: string;
-  is_enabled: boolean;
+  is_enabled?: boolean;
   public_key: string;
 }
 
@@ -533,7 +561,11 @@ export interface Contact {
   phone?: string;
   phone2?: string;
   provider?: string;
-  public_key?: string;
+  encryption_type?: PGPEncryptionType;
+  // Autocrypt
+  prefer_encrypt?: AutocryptPreferEncryptType;
+  autocrypt_timestamp?: string;
+  last_seen?: string;
 }
 
 export interface AppState {
@@ -648,6 +680,31 @@ export interface PricingPlan {
   remote_encrypted_link: boolean;
 }
 
+// Key model for mailbox key
+export interface MailboxKey {
+  id?: number;
+  mailbox?: number;
+  public_key?: string;
+  private_key?: string;
+  fingerprint?: string;
+  key_type?: string;
+  is_primary?: boolean;
+  // Handling key update would need to represent password
+  password?: string;
+}
+
+// Key model for contact public key
+export interface ContactKey {
+  id?: number;
+  public_key?: string;
+  fingerprint?: string;
+  key_type?: string;
+  is_primary?: boolean;
+  // created_at?: Date;
+  parsed_emails?: Array<string>;
+  contact?: number;
+}
+
 export enum TransactionStatus {
   PENDING = 'Pending',
   RECEIVED = 'Received',
@@ -697,6 +754,84 @@ export type NumberBooleanMappedType = {
 export type NumberStringMappedType = {
   [key: number]: string;
 };
+
+export type StringBooleanMappedType = {
+  [key: string]: boolean;
+};
+
+export type StringStringMappedType = {
+  [key: string]: string;
+};
+
+export enum PGPEncryptionType {
+  PGP_MIME = 'PGP_MIME',
+  PGP_INLINE = 'PGP_INLINE',
+}
+
+export enum EncryptionType {
+  PGP_MIME_INLINE = 'PGP_MIME_INLINE',
+  PGP_PASSWORD = 'PGP_PASSWORD',
+  PGP_END_TO_END = 'PGP_END_TO_END',
+}
+
+export enum AutocryptPreferEncryptType {
+  NOPREFERENCE = 'nopreference',
+  MUTUAL = 'mutual',
+}
+
+export enum UIRecommendationValue {
+  CTEMPLAR = 'CTEMPLAR',
+  DISABLE = 'DISABLE',
+  DISCOURAGE = 'DISCOURAGE',
+  AVAILABLE = 'AVAILABLE',
+  ENCRYPT = 'ENCRYPT',
+}
+
+export interface AutocryptEncryptDetermineForSingle {
+  recommendationValue: UIRecommendationValue;
+  encrypt: boolean;
+}
+
+export interface AutocryptEncryptDetermine {
+  encryptTotally: boolean; // Store determined value whehter encrypt or decrypt
+  senderAutocryptEnabled: boolean;
+  senderPreferEncrypt: AutocryptPreferEncryptType;
+  recommendationValue: UIRecommendationValue; // Store UIRecommendationValue totally
+  receiversStatus?: Map<string, AutocryptEncryptDetermineForSingle>;
+}
+
+export enum PGPKeyType {
+  RSA_4096 = 'RSA 4096',
+  ECC = 'ECC',
+}
+
+// Email Builder - Content Type
+export enum EmailContentType {
+  TEXT_HTML = 'text/html',
+  TEXT_HTML_CHARSET_UTF8 = 'text/html; charset=UTF-8',
+  PLAIN_TEXT = 'text/plain',
+  PLAIN_TEXT_CHARSET_UTF8 = 'text/plain; charset=UTF-8',
+  MULTIPART_MIXED = 'multipart/mixed',
+  MULTIPART_ALTERNATE = 'multipart/alternate',
+  APPLICATION_OCTET_STREAM = 'application/octet-stream',
+  APPLICATION_PGP_ENCRYPTED = 'application/pgp-encrypted',
+  APPLICATION_PGP_SIGNATURE = 'application/pgp-signature',
+}
+
+export const PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME = 'encrypted.asc';
+export const PGP_MIME_DEFAULT_CONTENT = 'Version 1';
+
+// eslint-disable-next-line no-shadow
+export enum ComposerEncryptionType {
+  COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE = 'COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE',
+  COMPOSER_ENCRYPTION_TYPE_END_TO_END = 'COMPOSER_ENCRYPTION_TYPE_END_TO_END',
+  COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NOPREERENCE = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NOPREERENCE',
+  COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_MUTUAL = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_MUTUAL',
+  COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT',
+  COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT',
+  COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT_DISCOURAGE = 'COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT_DISCOURAGE',
+  COMPOSER_ENCRYPTION_TYPE_NONE = 'COMPOSER_ENCRYPTION_TYPE_NONE',
+}
 
 export interface ImportContactResponse {
   detail?: string;
