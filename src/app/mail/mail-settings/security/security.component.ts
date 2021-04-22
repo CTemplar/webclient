@@ -18,6 +18,7 @@ import { SnackErrorPush } from '../../../store';
 import { OpenPgpService, SharedService, getCryptoRandom } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/config';
+import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -39,7 +40,7 @@ export class SecurityComponent implements OnInit {
 
   private decryptContactsModalRef: NgbModalRef;
 
-  settings: Settings;
+  settings$: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({})
 
   changePasswordForm: FormGroup;
 
@@ -62,10 +63,6 @@ export class SecurityComponent implements OnInit {
   contactsState: ContactsState;
 
   isContactsEncrypted: boolean;
-
-  planTypeEnum = PlanType;
-
-  planType: PlanType;
 
   isUsingLocalStorage: boolean;
 
@@ -91,9 +88,8 @@ export class SecurityComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.settings = user.settings;
-        this.planType = user.settings.plan_type || PlanType.FREE;
-        this.isContactsEncrypted = this.settings.is_contacts_encrypted;
+        this.isContactsEncrypted = user.settings.is_contacts_encrypted;
+        this.settings$.next(user.settings);
       });
 
     /**
@@ -150,17 +146,17 @@ export class SecurityComponent implements OnInit {
   }
 
   updateSettings(key?: string, value?: any) {
-    this.settingsService.updateSettings(this.settings, key, value);
+    this.settingsService.updateSettings(this.settings$.value, key, value);
   }
 
   /**
    * Update anti phishing status
    */
   updateAntiPhishing(status: boolean) {
-    if (this.settings.is_anti_phishing_enabled !== status) {
-      this.settings.anti_phishing_phrase =
+    if (this.settings$.value.is_anti_phishing_enabled !== status) {
+      this.settings$.value.anti_phishing_phrase =
         getCryptoRandom().toString(36).slice(2, 5) + getCryptoRandom().toString(36).slice(2, 5);
-      this.settingsService.updateSettings(this.settings, 'is_anti_phishing_enabled', status);
+      this.settingsService.updateSettings(this.settings$.value, 'is_anti_phishing_enabled', status);
     }
   }
 
@@ -180,7 +176,7 @@ export class SecurityComponent implements OnInit {
     this.store.dispatch(
       new Update2FA({
         data: { ...this.auth2FAForm, enable_2fa, username: this.userState.username },
-        settings: { ...this.settings, enable_2fa },
+        settings: { ...this.settings$.value, enable_2fa },
       }),
     );
   }
@@ -212,7 +208,7 @@ export class SecurityComponent implements OnInit {
 
   // == Open decrypt contacts confirmation NgbModal
   openDecryptContactsModal() {
-    if (!this.settings.is_contacts_encrypted) {
+    if (!this.settings$.value.is_contacts_encrypted) {
       return;
     }
     this.isContactsEncrypted = false;
@@ -232,7 +228,7 @@ export class SecurityComponent implements OnInit {
 
   // == Open encrypt contacts confirmation NgbModal
   openConfirmEncryptContactsModal() {
-    if (this.settings.is_contacts_encrypted) {
+    if (this.settings$.value.is_contacts_encrypted) {
       return;
     }
     this.isContactsEncrypted = true;
