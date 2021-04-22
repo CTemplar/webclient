@@ -65,11 +65,11 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
 
   public inProgress: boolean;
 
-  public advancedSettingInProgress: boolean = false;
+  public advancedSettingInProgress = false;
 
-  public isUpdatedPrimaryKey: boolean = false;
+  public isUpdatedPrimaryKey = false;
 
-  public isImportingKey: boolean = false;
+  public isImportingKey = false;
 
   public internalUser: boolean;
 
@@ -145,7 +145,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
       });
   }
 
-  createNewContact(isCheckForm: boolean = true) {
+  createNewContact(isCheckForm = true) {
     if (isCheckForm && this.newContactForm.invalid) {
       return false;
     }
