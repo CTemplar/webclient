@@ -1023,7 +1023,9 @@
             ></ngb-timepicker>
           </div>
         </div>
-        <label class="form-group">{{ 'mail_detail.delay_delivery' | translate }} {{ delayDeliverTimeString | remainingTime }}</label>
+        <label class="form-group"
+          >{{ 'mail_detail.delay_delivery' | translate }} {{ delayDeliverTimeString | remainingTime }}</label
+        >
         <div *ngIf="delayedDelivery.error" class="l-alert l-alert-danger mb-3">{{ delayedDelivery.error }}</div>
         <div class="form-group text-center btns-xs-3 mb-0">
           <button type="button" (click)="setDelayedDeliveryValue()" class="btn btn-success btn-sm mr-1" role="button">
