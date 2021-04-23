@@ -49,7 +49,7 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   availableCustomDomain: number[] = [];
 
-  pricingPlans$: BehaviorSubject<Array<PricingPlan>> = new BehaviorSubject<Array<PricingPlan>>([])
+  pricingPlans$: BehaviorSubject<Array<PricingPlan>> = new BehaviorSubject<Array<PricingPlan>>([]);
 
   loadingImage = LOADING_IMAGE;
 

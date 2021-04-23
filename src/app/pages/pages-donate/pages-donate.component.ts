@@ -25,8 +25,8 @@ export class PagesDonateComponent implements OnInit {
           .then(() => {
             // Stripe Loaded Successfully
           })
-          .catch(() => 
-            this.store.dispatch(new SnackErrorPush({ message: 'Failed to load the Stripe payment gateway.' })),    
+          .catch(() =>
+            this.store.dispatch(new SnackErrorPush({ message: 'Failed to load the Stripe payment gateway.' })),
           );
       })
       .catch(() =>

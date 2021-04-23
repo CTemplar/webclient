@@ -40,7 +40,7 @@ export class SecurityComponent implements OnInit {
 
   private decryptContactsModalRef: NgbModalRef;
 
-  settings$: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({})
+  settings$: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({});
 
   changePasswordForm: FormGroup;
 

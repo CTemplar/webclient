@@ -984,11 +984,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         onTag: (tag: string, html: string, options: any) => {
           if (!options.isClosing && allowedTags.includes(tag.toLowerCase())) {
             let htmlAttributes = '';
-            const spaceIndex = html.indexOf(" ");
+            const spaceIndex = html.indexOf(' ');
             if (spaceIndex > 0) {
               htmlAttributes = html.slice(spaceIndex + 1, -1).trim();
             }
-            
+
             const attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
               if (attributeName === 'class') {
                 attributeValue = attributeValue.replace('gmail_quote', '');

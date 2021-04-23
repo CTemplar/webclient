@@ -101,7 +101,7 @@ export class UserAccountInitDialogComponent implements OnInit {
   }
 
   onAnimationStart() {
-    console.log('user-account-init-dialog is onAnimationStart')
+    console.log('user-account-init-dialog is onAnimationStart');
   }
 
   onAnimationDone() {

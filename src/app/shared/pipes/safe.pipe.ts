@@ -46,7 +46,7 @@ export class SafePipe implements PipeTransform {
               let htmlAttributes = '';
 
               // "<a href='' target=''>" => "href='' target=''"
-              const spaceIndex = html.indexOf(" ");
+              const spaceIndex = html.indexOf(' ');
               if (spaceIndex > 0) {
                 htmlAttributes = html.slice(spaceIndex + 1, -1).trim();
               }

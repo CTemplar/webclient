@@ -54,7 +54,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   signupInProgress = false;
 
-  signupState$: BehaviorSubject<SignupState> = new BehaviorSubject<SignupState>({recaptcha: ''})
+  signupState$: BehaviorSubject<SignupState> = new BehaviorSubject<SignupState>({ recaptcha: '' });
 
   submitted = false;
 

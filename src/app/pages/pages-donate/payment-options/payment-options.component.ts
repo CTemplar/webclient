@@ -6,5 +6,4 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./payment-options.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentOptionsComponent {
-}
+export class PaymentOptionsComponent {}
