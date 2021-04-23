@@ -146,6 +146,9 @@ export class SecurityComponent implements OnInit {
   }
 
   updateSettings(key?: string, value?: any) {
+    if (key === 'is_contacts_encrypted' && value === true) {
+      this.isContactsEncrypted = true;
+    }
     this.settingsService.updateSettings(this.settings$.value, key, value);
   }
 
