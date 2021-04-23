@@ -25,6 +25,7 @@ import {
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import {
   AppState,
+  ContactsState,
   MailAction,
   MailBoxesState,
   MailState,
@@ -34,7 +35,6 @@ import {
   SecureContent,
   StringBooleanMappedType,
   UserState,
-  ContactsState,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
 import { LOADING_IMAGE, MailService, MessageDecryptService, OpenPgpService, SharedService } from '../../store/services';
@@ -816,20 +816,21 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onReply(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
+    const newMail: Mail = {
+      content: '',
+    };
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = new Set([...mail.receiver, mail.sender, mail.cc, mail.bcc]);
     let parentId = this.mail.id;
     if (!this.isConversationView && this.mail.parent) {
       parentId = this.mail.parent;
     }
-    this.composeMailData[mail.id] = {
-      subject: `Re: ${mail.subject}`,
-      parentId,
-      content: this.getMessageHistory(previousMails),
-      selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
-    };
+    newMail.subject = `Re: ${mail.subject}`;
+    newMail.parent = parentId;
+    newMail.content = this.getMessageHistory(previousMails);
+    newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)).id;
     if (mail.reply_to && mail.reply_to.length > 0) {
-      this.composeMailData[mail.id].receivers = mail.reply_to;
+      newMail.receiver = mail.reply_to;
     } else {
       let lastSender = '';
       let lastReceiver = '';
@@ -842,29 +843,31 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
         }
         if (lastSender && lastReceiver) {
-          this.composeMailData[mail.id].receivers =
-            lastSender !== this.currentMailbox.email ? [lastSender] : [lastReceiver];
+          newMail.receiver = lastSender !== this.currentMailbox.email ? [lastSender] : [lastReceiver];
         } else {
-          this.composeMailData[mail.id].receivers =
-            mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
+          newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
         }
       } else {
-        this.composeMailData[mail.id].receivers =
-          mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
+        newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
       }
     }
     this.selectedMailToInclude = mail;
-    this.composeMailData[mail.id].action = MailAction.REPLY;
-    this.setActionParent(mail, isChildMail, mainReply);
-    if (mail.attachments?.length > 0) {
-      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal',
-      });
+    newMail.last_action = MailAction.REPLY;
+    newMail.is_html = mail.is_html;
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+      } else {
+        newMail.last_action_parent_id = this.mail.id;
+      }
     } else {
-      this.confirmIncludeAttachments();
+      newMail.last_action_parent_id = mail.id;
     }
-    // this.mailOptions[mail.id].isComposeMailVisible = true;
+    this.composeMailService.openComposeMailDialog({
+      draft: { ...newMail },
+      action: MailAction.REPLY,
+      isFullScreen: this.userState.settings.is_composer_full_screen,
+    });
   }
 
   onReplyAll(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {

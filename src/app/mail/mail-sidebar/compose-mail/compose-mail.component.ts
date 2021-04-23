@@ -870,7 +870,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
     } else {
-      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
+      if (!this.decryptedContent) {
+        this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
+      }
       this.isSignatureAdded = true;
       if (this.draftMail.attachments) {
         this.inlineAttachmentContentIds = this.draftMail.attachments
@@ -1790,6 +1792,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.checkInlineAttachments();
     if (!shouldSend) {
+      this.draftMail.folder = this.draftMail.folder ? this.draftMail.folder : MailFolderType.DRAFT;
       this.store.dispatch(
         new UpdateLocalDraft({
           ...this.draft,
@@ -1800,9 +1803,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
       );
     } else {
-      if (this.draftMail.subject !== this.subject) {
-        this.draftMail.parent = null;
-      }
       this.store.dispatch(
         new UpdatePGPDecryptedContent({
           id: this.draftMail.id,
