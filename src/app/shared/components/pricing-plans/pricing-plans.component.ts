@@ -1,7 +1,8 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 
 import { ClearAuthErrorMessage, ClearSignUpState, FinalLoading } from '../../../store/actions';
 import { UpdateSignupData } from '../../../store/actions/auth.action';
@@ -13,6 +14,7 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
   selector: 'app-pricing-plans',
   templateUrl: './pricing-plans.component.html',
   styleUrls: ['./pricing-plans.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PricingPlansComponent implements OnInit, OnDestroy {
   readonly planType = PlanType;
@@ -47,7 +49,7 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   availableCustomDomain: number[] = [];
 
-  pricingPlans: Array<PricingPlan> = [];
+  pricingPlans$: BehaviorSubject<Array<PricingPlan>> = new BehaviorSubject<Array<PricingPlan>>([])
 
   loadingImage = LOADING_IMAGE;
 
@@ -84,7 +86,7 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
 
   setPricingPlans() {
     if (SharedService.PRICING_PLANS_ARRAY.length > 0) {
-      this.pricingPlans = SharedService.PRICING_PLANS_ARRAY;
+      this.pricingPlans$.next(SharedService.PRICING_PLANS_ARRAY);
       return;
     }
     setTimeout(() => {
