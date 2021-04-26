@@ -728,9 +728,9 @@ function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
       decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
       return;
     }
-    isDecryptedError = true;
+    isDecryptedError = false;
     decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
-    decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
+    decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
   } else {
     decryptContent(data.mailData.subject, decryptedAllPrivKeys[data.mailboxId])
       .then(subject => {

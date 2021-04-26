@@ -848,7 +848,7 @@ export function reducer(
     case MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN: {
       const { mailDetail } = state;
       if (mailDetail) {
-        if (action.payload.last_action_data.last_action) {
+        if (action.payload.last_action_data?.last_action) {
           if (mailDetail.id === action.payload.last_action_data.last_action_parent_id) {
             mailDetail.last_action = action.payload.last_action_data.last_action;
           } else {

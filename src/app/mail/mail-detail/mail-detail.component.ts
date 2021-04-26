@@ -5,7 +5,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import * as xss from 'xss';
-import { BehaviorSubject } from 'rxjs';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -41,7 +40,6 @@ import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/m
 import { LOADING_IMAGE, MailService, MessageDecryptService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
@@ -83,6 +81,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
+  
+  currentForwardingNewEmail: Mail;
 
   selectedMailToInclude: Mail;
 
@@ -337,12 +337,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mail.children.forEach(child => {
               this.isPasswordEncrypted[child.id] = !!child.encryption;
             });
-            // find the latest child with trash/non-trash folder
+            // find the latest child with trash/non-trash folder and excluding Draft folder messages
             let filteredChildren = [];
             if (this.mailFolder === MailFolderType.TRASH) {
               filteredChildren = this.mail.children.filter(child => child.folder === MailFolderType.TRASH);
             } else {
-              filteredChildren = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
+              filteredChildren = this.mail.children.filter(
+                child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT,
+              );
             }
             if (filteredChildren.length > 0) {
               const lastFilteredChild = filteredChildren[filteredChildren.length - 1];
@@ -877,6 +879,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onReplyAll(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
+    const newMail: Mail = {
+      content: '',
+    };
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
@@ -884,28 +889,48 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
+    let parentId = this.mail.id;
+    if (!this.isConversationView && this.mail.parent) {
+      parentId = this.mail.parent;
+    }
+    newMail.subject = `Re: ${mail.subject}`;
+    newMail.parent = parentId;
+    newMail.content = this.getMessageHistory(previousMails);
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)).id;
     if (mail.sender !== this.currentMailbox.email) {
-      const receivers = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
-      this.composeMailData[mail.id].receivers = receivers;
+      newMail.receiver = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
     } else {
-      this.composeMailData[mail.id].receivers = Array.isArray(mail.receiver)
+      newMail.receiver = Array.isArray(mail.receiver)
         ? [...mail.receiver, ...mail.cc, ...mail.bcc]
         : [mail.receiver, ...mail.cc, ...mail.bcc];
     }
-    this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers.filter(
-      (email: string) => email !== this.currentMailbox.email,
-    );
+    newMail.receiver = newMail.receiver.filter((email: string) => email !== this.currentMailbox.email);
     this.selectedMailToInclude = mail;
-    this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
-    this.setActionParent(mail, isChildMail, mainReply);
-    if (mail.attachments?.length > 0) {
-      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal',
-      });
+    newMail.last_action = MailAction.REPLY_ALL;
+    newMail.is_html = mail.is_html;
+    // this.setActionParent(mail, isChildMail, mainReply);
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+      } else {
+        newMail.last_action_parent_id = this.mail.id;
+      }
     } else {
-      this.confirmIncludeAttachments();
+      newMail.last_action_parent_id = mail.id;
     }
+    // if (mail.attachments?.length > 0) {
+    //   this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
+    //     centered: true,
+    //     windowClass: 'modal-sm users-action-modal',
+    //   });
+    // } else {
+    //   this.confirmIncludeAttachments();
+    // }
+    this.composeMailService.openComposeMailDialog({
+      draft: { ...newMail },
+      action: MailAction.REPLY_ALL,
+      isFullScreen: this.userState.settings.is_composer_full_screen,
+    });
   }
 
   confirmIncludeAttachments(shouldInclude?: boolean) {
@@ -920,15 +945,26 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
-    this.composeMailData[mail.id] = {
-      content: this.getForwardMessageSummary(mail),
-      subject: `Fwd: ${this.mail.subject}`,
-      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
-      action: MailAction.FORWARD,
-      is_html: mail.is_html,
+    const newMail: Mail = {
+      content: '',
     };
+    newMail.content = this.getForwardMessageSummary(mail);
+    newMail.subject = `Fwd: ${this.mail.subject}`;
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)).id;
+    newMail.last_action = MailAction.FORWARD;
+    newMail.is_html = mail.is_html;
     this.selectedMailToForward = mail;
-    this.setActionParent(mail, isChildMail, mainReply);
+    // this.setActionParent(mail, isChildMail, mainReply);
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+      } else {
+        newMail.last_action_parent_id = this.mail.id;
+      }
+    } else {
+      newMail.last_action_parent_id = mail.id;
+    }
+    this.currentForwardingNewEmail = newMail;
     if (mail.attachments?.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
         centered: true,
@@ -941,13 +977,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   confirmForwardAttachments(shouldForward?: boolean) {
     if (shouldForward) {
-      this.composeMailData[this.selectedMailToForward.id].forwardAttachmentsMessageId = this.selectedMailToForward.id;
+      this.currentForwardingNewEmail.forward_attachments_of_message = this.selectedMailToForward.id;
     }
-    this.mailOptions[this.selectedMailToForward.id].isComposeMailVisible = true;
     this.selectedMailToForward = null;
+
     if (this.forwardAttachmentsModalRef) {
       this.forwardAttachmentsModalRef.dismiss();
     }
+    this.composeMailService.openComposeMailDialog({
+      draft: { ...this.currentForwardingNewEmail },
+      action: MailAction.REPLY_ALL,
+      isFullScreen: this.userState.settings.is_composer_full_screen,
+    });
   }
 
   onComposeMailHide(mail: Mail) {
@@ -1313,6 +1354,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         );
       }
     } else if (!this.isPasswordEncrypted[mail.id]) {
+      this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
       this.decryptChildEmails(mail);
     }
   }

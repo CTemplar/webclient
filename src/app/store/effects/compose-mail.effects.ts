@@ -48,6 +48,7 @@ export class ComposeMailEffects {
         switchMap(res =>
           of(
             new CreateMailSuccess({ draft: payload, response: res }),
+            new UpdateMailDetailChildren(res),
             new UpdateCurrentFolder(res),
             new GetUnreadMailsCount(),
           ),
