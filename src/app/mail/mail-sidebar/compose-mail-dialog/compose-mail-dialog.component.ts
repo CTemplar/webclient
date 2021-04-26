@@ -72,7 +72,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
           this.action === MailAction.REPLY &&
           this.composeMail !== undefined
         ) {
-          this.onHide();
+          // this.onHide();
         }
       });
   }

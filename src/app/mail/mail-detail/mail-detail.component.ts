@@ -5,6 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import * as xss from 'xss';
+import { BehaviorSubject } from 'rxjs';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -40,6 +41,8 @@ import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/m
 import { LOADING_IMAGE, MailService, MessageDecryptService, OpenPgpService, SharedService } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
@@ -135,6 +138,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   isPasswordEncrypted: NumberBooleanMappedType = {};
 
+  /**
+   * Represents if mail is expanded or not
+   * If mail's folder is Draft, then would represent Composer is opened or not
+   */
   mailExpandedStatus: NumberBooleanMappedType = {};
 
   errorMessageForDecryptingWithPassword: NumberStringMappedType = {};
@@ -513,7 +520,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   confirmExternalLinks() {
     this.externalLinkChecked = false;
     setTimeout(() => {
-      let exLinks = document.querySelectorAll('.msg-reply-content a');
+      const exLinks = document.querySelectorAll('.msg-reply-content a');
       if (exLinks?.length > 0) {
         for (const i in exLinks) {
           if (exLinks[i]?.innerHTML && exLinks[i].getAttribute('href')) {
@@ -538,7 +545,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       }
     }, 1000);
-    return;
   }
 
   scrambleText(elementId: string) {
@@ -1289,8 +1295,24 @@ export class MailDetailComponent implements OnInit, OnDestroy {
    * @returns None
    */
   onClickChildHeader(mail: Mail) {
-    this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
-    if (!this.isPasswordEncrypted[mail.id]) {
+    if (mail.folder === MailFolderType.DRAFT) {
+      if (!this.mailExpandedStatus[mail.id]) {
+        this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
+        const onHide$ = new Subject<boolean>();
+        onHide$.subscribe(isHide => {
+          if (isHide) {
+            this.mailExpandedStatus[mail.id] = false;
+          }
+        });
+        this.composeMailService.openComposeMailDialog(
+          {
+            draft: { ...mail },
+            isFullScreen: this.userState.settings.is_composer_full_screen,
+          },
+          onHide$,
+        );
+      }
+    } else if (!this.isPasswordEncrypted[mail.id]) {
       this.decryptChildEmails(mail);
     }
   }

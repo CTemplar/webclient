@@ -723,6 +723,11 @@ function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
       decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
       return;
     }
+    if (data.isSkipDecryptSubject) {
+      decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
+      decryptContentPlainProcess(data, decryptedContent, isDecryptedError, false);
+      return;
+    }
     isDecryptedError = true;
     decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
     decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);

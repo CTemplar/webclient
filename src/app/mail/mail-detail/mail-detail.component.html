@@ -673,10 +673,10 @@
         (mailFolder !== mailFolderTypes.TRASH && childMail.folder !== mailFolderTypes.TRASH)
       "
     >
-      <ng-container [ngSwitch]="childMail.folder">
-        <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">
-          <div class="ui-body">
-            <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="!isPopupOpen && isPopupOpen !== null">
+<!--      <ng-container [ngSwitch]="childMail.folder">-->
+<!--        <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">-->
+<!--          <div class="ui-body">-->
+<!--            <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="!isPopupOpen && isPopupOpen !== null">-->
 <!--              <app-compose-mail-->
 <!--                [draftMail]="childMail"-->
 <!--                [showSaveButton]="false"-->
@@ -685,10 +685,11 @@
 <!--                (popUpChange)="onChangePopup($event)"-->
 <!--              >-->
 <!--              </app-compose-mail>-->
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
+<!--            </div>-->
+<!--          </div>-->
+<!--        </ng-container>-->
+      <ng-container [ngSwitch]="childMail.folder">
+        <ng-container>
           <div [ngClass]="{ 'last-child': childIndex === mail.children.length - 1 }">
             <section class="mailbox-section" id="{{ childMail.id }}-print-section">
               <div
@@ -830,6 +831,7 @@
                         <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{
                           childMail.folder
                         }}</label>
+                        {{mailExpandedStatus[childMail.id]}}
                         <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus[childMail.id]"></i>
                         <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus[childMail.id]"></i>
                       </div>
@@ -907,6 +909,7 @@
               class="mailbox-section"
               id="{{ childMail.id + '-ngb-collapse' }}"
               [ngbCollapse]="!mailExpandedStatus[childMail.id]"
+              *ngIf="childMail.folder !== 'draft'"
             >
               <div class="ui-body mail-content" *ngIf="decryptedContents[childMail.id]">
                 <div ngbDropdown placement="bottom-right" class="mailbox-dropdown msg-reply-dropdown dropdown-xs">
@@ -1107,18 +1110,18 @@
   </ng-container>
 
   <!--Reply to mail.-->
-  <div class="ui-body ui-footer-sec" *ngIf="isPopupOpen && isPopupOpen !== null">
-    <p>
-      You are currently editing your reply in a separate window.
-      <a (click)="openReply(mail)"> Show your draft here.</a>
-    </p>
-  </div>
-  <div class="ui-body ui-footer-sec" #replyActions *ngIf="!isPopupOpen && isPopupOpen !== null">
-    <div class="row" *ngIf="mailFolder !== mailFolderTypes.OUTBOX && !hasDraft">
+<!--  <div class="ui-body ui-footer-sec" *ngIf="isPopupOpen && isPopupOpen !== null">-->
+<!--    <p>-->
+<!--      You are currently editing your reply in a separate window.-->
+<!--      <a (click)="openReply(mail)"> Show your draft here.</a>-->
+<!--    </p>-->
+<!--  </div>-->
+  <div class="ui-body ui-footer-sec" #replyActions>
+    <div class="row" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
       <div class="col-12">
         <button
           class="btn btn-user-action"
-          (click)="onReply(mail, 0, false, true); scrollTo(replyActions)"
+          (click)="onReply(mail, 0, false, true);"
           [disabled]="!decryptedContents[mail.id]"
         >
           <i class="icon icon-reply position-left"></i>
@@ -1127,7 +1130,7 @@
         </button>
         <button
           class="btn btn-user-action"
-          (click)="onReplyAll(mail, 0, false, true); scrollTo(replyActions)"
+          (click)="onReplyAll(mail, 0, false, true);"
           *ngIf="mail.cc.length || mail.bcc.length || mail.receiver.length > 1"
           [disabled]="!decryptedContents[mail.id]"
         >
@@ -1137,7 +1140,7 @@
         </button>
         <button
           class="btn btn-user-action"
-          (click)="onForward(mail, 0, false, true); scrollTo(replyActions)"
+          (click)="onForward(mail, 0, false, true);"
           [disabled]="!decryptedContents[mail.id]"
         >
           <i class="icon icon-mail icon-lg position-left"></i>

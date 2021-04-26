@@ -728,9 +728,10 @@ export function reducer(
         };
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
       if (
+        !action.payload.isDraft &&
         state.mailDetail &&
         state.mailDetail.children &&
         state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))
@@ -845,12 +846,13 @@ export function reducer(
     }
 
     case MailActionTypes.UPDATE_MAIL_DETAIL_CHILDREN: {
-      if (state.mailDetail) {
+      const { mailDetail } = state;
+      if (mailDetail) {
         if (action.payload.last_action_data.last_action) {
-          if (state.mailDetail.id === action.payload.last_action_data.last_action_parent_id) {
-            state.mailDetail.last_action = action.payload.last_action_data.last_action;
+          if (mailDetail.id === action.payload.last_action_data.last_action_parent_id) {
+            mailDetail.last_action = action.payload.last_action_data.last_action;
           } else {
-            state.mailDetail.children = state.mailDetail.children.map(mail => {
+            mailDetail.children = state.mailDetail.children.map(mail => {
               if (mail.id === action.payload.last_action_data.last_action_parent_id) {
                 mail.last_action = action.payload.last_action_data.last_action;
               }
@@ -859,13 +861,13 @@ export function reducer(
           }
         }
         if (action.payload.parent === state.mailDetail.id) {
-          state.mailDetail.children = state.mailDetail.children || [];
-          state.mailDetail.children = state.mailDetail.children.filter(child => !(child.id === action.payload.id));
-          state.mailDetail.children = [...state.mailDetail.children, action.payload];
-          state.mailDetail.children_count = state.mailDetail.children.length;
+          mailDetail.children = state.mailDetail.children || [];
+          mailDetail.children = state.mailDetail.children.filter(child => !(child.id === action.payload.id));
+          mailDetail.children = [...state.mailDetail.children, action.payload];
+          mailDetail.children_count = state.mailDetail.children.length;
         }
       }
-      return { ...state, noUnreadCountChange: true };
+      return { ...state, mailDetail, noUnreadCountChange: true };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
