@@ -27,7 +27,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   senderId: string;
 
-  message$: BehaviorSubject<Mail> = new BehaviorSubject<Mail>({content: ''});
+  message$: BehaviorSubject<Mail> = new BehaviorSubject<Mail>({ content: '' });
 
   decryptedContent: string;
 
@@ -83,8 +83,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
             this.isMessageExpired = true;
           }
         }
-        
-        this.message$.next(state.message)
+
+        this.message$.next(state.message);
         if (state.decryptedContent) {
           if (state.decryptedContent.content) {
             this.decryptedContent = state.decryptedContent.content || '';
