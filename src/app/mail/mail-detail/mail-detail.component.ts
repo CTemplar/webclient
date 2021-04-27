@@ -198,8 +198,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   contacts: any[] = [];
 
-  unsubscribeLink: string = null;
-  unsubscribeMailTo: string = null;
+  unsubscribeLink: string = '';
+  unsubscribeMailTo: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -736,12 +736,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             const value = header[key];
             const valueArray = value.split(',');
             if (valueArray.length > 1) {
-              this.unsubscribeMailTo = valueArray[0]
-                .replace('<', '')
-                .replace('>', '')
-                .replace('\n', '')
-                .replace('mailto:', '');
-              this.unsubscribeLink = valueArray[1].replace('<', '').replace('>', '').replace('\n', '');
+              this.unsubscribeMailTo = valueArray[0].replace(/(<mailto:|>)+/g, '');
+              this.unsubscribeLink = valueArray[1].replace(/(\n <|>)+/g, '');
             }
           }
           if (header.hasOwnProperty(key)) {
