@@ -31,6 +31,20 @@ function getBaseUrl() {
   return 'https://devapi.ctemplar.net/';
 }
 
+export function getEmailDomain(): string {
+  const config = getWindowConfig();
+  if (AppConfig.production) {
+    return 'ctemplar.com';
+  }
+  if (AppConfig.local) {
+    return 'dev.ctemplar.com';
+  }
+  if (config.host === 'test.ctemplar.net') {
+    return 'test.ctemplar.com';
+  }
+  return 'dev.ctemplar.com';
+}
+
 export const apiUrl = getBaseUrl();
 export const PRIMARY_DOMAIN = AppConfig.production ? 'ctemplar.com' : 'dev.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
