@@ -19,6 +19,7 @@
 @import 'styles/vendors/bootstrap/ctemplar-bootstrap'; // Bootstrap SASS modules
 @import 'styles/vendors/ceaser/ceaser-easing'; // Ceaser easing SASS module for smooth transition effects
 @import 'styles/vendors/icomoon/icomoon'; // Icomoon SASS module which includes custom font library
+@import 'styles/vendors/ctemplar-fonts/fonts'; // CTemplar fonts
 
 /**
 * IMPORTING PARTIALS FROM MIXINS DIRECTORY
@@ -694,4 +695,8 @@ a.text-dark:hover {
 
 .cdk-drop-list-dragging :not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.ql-clipboard {
+  position: fixed !important;
 }

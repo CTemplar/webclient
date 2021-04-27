@@ -391,7 +391,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       }
       return isExistMatchMail;
     });
-
     for (let i = 0; i < this.mails.length; i++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
         const mail = this.mails[i];

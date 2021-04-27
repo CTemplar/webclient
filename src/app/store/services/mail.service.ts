@@ -1,10 +1,11 @@
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as Sentry from '@sentry/browser';
 
 import { apiUrl } from '../../shared/config';
+import { MailboxKey } from '../datatypes';
 import { Attachment, Folder, Mail, Mailbox } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
@@ -191,6 +192,9 @@ export class MailService {
     formData.append('file_type', attachment.document.type.toString());
     formData.append('name', attachment.name.toString());
     formData.append('actual_size', attachment.actual_size.toString());
+    if (attachment.is_pgp_mime) {
+      formData.append('is_pgp_mime', attachment.is_pgp_mime.toString());
+    }
     let request;
     if (attachment.id) {
       request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${attachment.id}/`, formData, {
@@ -235,6 +239,31 @@ export class MailService {
 
   emptyFolder(data: any) {
     return this.http.post<any>(`${apiUrl}emails/empty-folder/`, data);
+  }
+
+  fetchMailboxKeys() {
+    return this.http.get(`${apiUrl}emails/mailbox-keys/`);
+  }
+
+  addMailboxKeys(data: MailboxKey) {
+    return this.http.post(`${apiUrl}emails/mailbox-keys/`, data);
+  }
+
+  deleteMailboxKeys(data: MailboxKey) {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: { password: data.password },
+    };
+    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`, options);
+  }
+
+  setPrimaryMailboxKeys(data: MailboxKey) {
+    return this.http.post<any>(`${apiUrl}emails/mailboxes-change-primary/`, {
+      mailbox_id: data.mailbox,
+      mailboxkey_id: data.id,
+    });
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

@@ -1,8 +1,11 @@
 import { MailActions, MailActionTypes } from '../actions';
-import { MailState, FolderState } from '../datatypes';
+import { FolderState, MailState, PGPEncryptionType, SecureContent } from '../datatypes';
 import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
+/**
+ ---Start Reducer Utilities---
+ * */
 function transformFilename(attachments: Attachment[]) {
   if (attachments && attachments.length > 0) {
     attachments = attachments.map(attachment => {
@@ -65,11 +68,11 @@ function getTotalUnreadCount(data: any): number {
 
 function updateMailMap(currentMap: any, mails: Mail[]): any {
   if (mails && mails.length > 0) {
-    let tmpMailMap = {};
+    let temporaryMailMap = {};
     mails.forEach(mail => {
-      tmpMailMap = { ...tmpMailMap, [mail.id]: mail };
+      temporaryMailMap = { ...temporaryMailMap, [mail.id]: mail };
     });
-    return { ...currentMap, ...tmpMailMap };
+    return { ...currentMap, ...temporaryMailMap };
   }
   return currentMap;
 }
@@ -86,7 +89,7 @@ function filterAndMergeMailIDs(
     newMailsMap[mail.id] = mail;
   });
   if (originalMailIDs && originalMailIDs.length > 0) {
-    originalMailIDs = originalMailIDs.filter(id => mailIDs.indexOf(id) < 0);
+    originalMailIDs = originalMailIDs.filter(id => !mailIDs.includes(id));
     mailIDs = mailIDs.map(mailID => {
       const newMail = newMailsMap[mailID];
       if (newMail.parent && originalMailIDs.includes(newMail.parent)) {
@@ -121,12 +124,11 @@ function getUpdatesFolderMap(
     // Remove duplicated mails
     let duplicatedMailIDS: any = [];
     originalMailIDs = originalMailIDs.filter(id => {
-      if (mailIDs.indexOf(id) < 0) {
+      if (!mailIDs.includes(id)) {
         return true;
-      } else {
-        duplicatedMailIDS = [...duplicatedMailIDS, id];
-        return false;
       }
+      duplicatedMailIDS = [...duplicatedMailIDS, id];
+      return false;
     });
     // Check children mails
     // If new's parent is same with any original mail
@@ -190,16 +192,19 @@ function prepareMails(folderName: MailFolderType, folders: Map<string, FolderSta
       })
       .filter(mail => mail !== null);
     return mails;
-  } else {
-    return [];
   }
+  return [];
 }
+
+/**
+ ---End Reducer Utilities---
+ * */
 
 export function reducer(
   state: MailState = {
     mails: [],
     total_mail_count: 0,
-    mailDetail: null,
+    mailDetail: undefined,
     starredFolderCount: 0,
     loaded: false,
     decryptedContents: {},
@@ -213,6 +218,7 @@ export function reducer(
     mailMap: {},
     folderMap: new Map(),
     pageLimit: 20,
+    decryptedAttachmentsMap: new Map(),
   },
   action: MailActions,
 ): MailState {
@@ -220,7 +226,7 @@ export function reducer(
     case MailActionTypes.GET_MAILS: {
       let mails = prepareMails(action.payload.folder, state.folderMap, state.mailMap);
       if (mails && mails.length === 0) {
-        mails = null;
+        mails = undefined;
       }
       return {
         ...state,
@@ -290,8 +296,8 @@ export function reducer(
       }
       // Update Current Viewing Folder
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curFolderMap = folderMap.get(state.currentFolder);
-      state.total_mail_count = curFolderMap.total_mail_count;
+      const currentFolderMap = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentFolderMap.total_mail_count;
       mails.forEach((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
@@ -364,8 +370,8 @@ export function reducer(
 
     case MailActionTypes.MOVE_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.toString().split(',');
-      const folderMap = state.folderMap;
-      const mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
 
       // Update source folder's mails
       const sourceFolderName = action.payload.sourceFolder;
@@ -450,8 +456,8 @@ export function reducer(
         }
       });
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
       if (
         state.mailDetail &&
         state.mailDetail.children &&
@@ -492,9 +498,9 @@ export function reducer(
 
     case MailActionTypes.UNDO_DELETE_MAIL_SUCCESS: {
       let { mails } = state;
-      const mailMap = state.mailMap;
+      const { mailMap } = state;
       const undo_mails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
-      const folderMap = state.folderMap;
+      const { folderMap } = state;
       // Destination folder map
       if (state.folderMap.has(action.payload.sourceFolder)) {
         const oldFolderMap = folderMap.get(action.payload.sourceFolder);
@@ -527,7 +533,7 @@ export function reducer(
       if (action.payload.sourceFolder === state.currentFolder) {
         mails = prepareMails(action.payload.sourceFolder, folderMap, state.mailMap);
         const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       const listOfIDs = action.payload.ids.toString().split(',');
       if (
@@ -557,8 +563,8 @@ export function reducer(
 
     case MailActionTypes.READ_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
-      const folderMap = state.folderMap;
-      const mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
       const allIDS = Object.keys(mailMap);
       allIDS.forEach(mailID => {
         if (listOfIDs.includes(mailID.toString())) {
@@ -581,9 +587,8 @@ export function reducer(
           if (listOfIDs.includes(mailID.toString()) && action.payload.read) {
             updatedMailCount++;
             return false;
-          } else {
-            return true;
           }
+          return true;
         });
         currentFolderInfo.mails = updatedCurrentFolderMails;
         if (action.payload.read) {
@@ -596,7 +601,7 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, read: action.payload.read };
@@ -614,12 +619,12 @@ export function reducer(
 
     case MailActionTypes.STAR_MAIL_SUCCESS: {
       const listOfIDs = action.payload.ids.split(',');
-      const folderMap = state.folderMap;
-      const mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
       const allIDS = Object.keys(mailMap);
       allIDS.forEach(mailID => {
         if (listOfIDs.includes(mailID.toString())) {
-          const has_starred_children = !action.payload.starred && action.payload.withChildren ? false : true;
+          const has_starred_children = !(!action.payload.starred && action.payload.withChildren);
           mailMap[mailID] = { ...mailMap[mailID], starred: action.payload.starred, has_starred_children };
         }
       });
@@ -639,8 +644,9 @@ export function reducer(
           if (listOfIDs.includes(mailID.toString()) && !action.payload.starred) {
             updatedMailCount++;
             return false;
-          } else if (state.mailDetail && mailID === state.mailDetail.id) {
-            const children = state.mailDetail.children;
+          }
+          if (state.mailDetail && mailID === state.mailDetail.id) {
+            const { children } = state.mailDetail;
             if (children && children.length > 0) {
               children.forEach((child, index) => {
                 if (listOfIDs.includes(child.id.toString())) {
@@ -663,7 +669,7 @@ export function reducer(
       }
 
       if (state.mailDetail) {
-        const children = state.mailDetail.children;
+        const { children } = state.mailDetail;
         if (listOfIDs.includes(state.mailDetail.id.toString())) {
           if (action.payload.withChildren && children && children.length > 0) {
             children.forEach((child, index) => (children[index].starred = action.payload.starred));
@@ -673,25 +679,23 @@ export function reducer(
               ? children.some(child => child.starred) || action.payload.starred
               : action.payload.starred;
           state.mailDetail = { ...state.mailDetail, starred: action.payload.starred, children, has_starred_children };
-        } else {
-          if (children && children.length > 0) {
-            children.forEach((child, index) => {
-              if (listOfIDs.includes(child.id.toString())) {
-                children[index] = { ...child, starred: action.payload.starred };
-              }
-            });
-            const has_starred_children = children.some(child => child.starred) || state.mailDetail.starred;
-            state.mailDetail = { ...state.mailDetail, children, has_starred_children };
-            if (state.mailDetail.id in mailMap) {
-              mailMap[state.mailDetail.id] = { ...mailMap[state.mailDetail.id], has_starred_children };
+        } else if (children && children.length > 0) {
+          children.forEach((child, index) => {
+            if (listOfIDs.includes(child.id.toString())) {
+              children[index] = { ...child, starred: action.payload.starred };
             }
+          });
+          const has_starred_children = children.some(child => child.starred) || state.mailDetail.starred;
+          state.mailDetail = { ...state.mailDetail, children, has_starred_children };
+          if (state.mailDetail.id in mailMap) {
+            mailMap[state.mailDetail.id] = { ...mailMap[state.mailDetail.id], has_starred_children };
           }
         }
       }
 
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
 
       return {
         ...state,
@@ -726,8 +730,7 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder.total_mail_count;
-
+      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       if (
         state.mailDetail &&
         state.mailDetail.children &&
@@ -748,16 +751,33 @@ export function reducer(
     }
 
     case MailActionTypes.GET_MAIL_DETAIL_SUCCESS: {
+      const { decryptedAttachmentsMap } = state;
       const mail: Mail = action.payload;
       if (mail) {
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
           mail.is_subject_encrypted = false;
           mail.subject = state.decryptedSubjects[mail.id];
         }
-        mail.attachments = transformFilename(mail.attachments);
+        if (
+          mail.encryption_type === PGPEncryptionType.PGP_MIME &&
+          decryptedAttachmentsMap.has(mail.id) &&
+          decryptedAttachmentsMap.get(mail.id).length > 0
+        ) {
+          mail.attachments = decryptedAttachmentsMap.get(mail.id);
+        } else {
+          mail.attachments = transformFilename(mail.attachments);
+        }
         if (mail.children && mail.children.length > 0) {
           mail.children.forEach(item => {
-            item.attachments = transformFilename(item.attachments);
+            if (
+              item.encryption_type === PGPEncryptionType.PGP_MIME &&
+              decryptedAttachmentsMap.has(item.id) &&
+              decryptedAttachmentsMap.get(item.id).length > 0
+            ) {
+              item.attachments = decryptedAttachmentsMap.get(item.id);
+            } else {
+              item.attachments = transformFilename(item.attachments);
+            }
           });
         }
       }
@@ -850,8 +870,8 @@ export function reducer(
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
-      const folderMap = state.folderMap;
-      const mailMap = state.mailMap;
+      const { folderMap } = state;
+      const { mailMap } = state;
       const mails = prepareMails(action.payload, folderMap, state.mailMap);
       const total_mail_count = folderMap.has(action.payload) ? folderMap.get(action.payload).total_mail_count : 0;
       Object.keys(mailMap).forEach(key => {
@@ -888,26 +908,20 @@ export function reducer(
         }
         return { ...state };
       }
-      if (!state.decryptedContents[action.payload.id]) {
-        state.decryptedContents[action.payload.id] = {
-          id: action.payload.id,
-          content: action.payload.decryptedContent.content,
-          content_plain: action.payload.decryptedContent.content_plain,
-          subject: action.payload.decryptedContent.subject,
-          incomingHeaders: action.payload.decryptedContent.incomingHeaders,
-          inProgress: action.payload.isPGPInProgress,
-        };
-      } else {
-        state.decryptedContents[action.payload.id] = {
-          ...state.decryptedContents[action.payload.id],
-          content: action.payload.decryptedContent.content,
-          content_plain: action.payload.decryptedContent.content_plain,
-          subject: action.payload.decryptedContent.subject,
-          inProgress: action.payload.isPGPInProgress,
-          incomingHeaders: action.payload.decryptedContent.incomingHeaders,
-        };
-      }
-      return { ...state, decryptedContents: { ...state.decryptedContents }, noUnreadCountChange: true };
+      const { decryptedContents } = state;
+      let decryptedContent: SecureContent = decryptedContents[action.payload.id] || {};
+      decryptedContent = {
+        ...decryptedContent,
+        id: action.payload.id,
+        content: action.payload.decryptedContent.content,
+        content_plain: action.payload.decryptedContent.content_plain,
+        subject: action.payload.decryptedContent.subject,
+        inProgress: action.payload.isPGPInProgress,
+        incomingHeaders: action.payload.decryptedContent.incomingHeaders,
+        decryptError: action.payload.decryptError,
+      };
+      decryptedContents[action.payload.id] = decryptedContent;
+      return { ...state, decryptedContents, noUnreadCountChange: true };
     }
 
     case MailActionTypes.UPDATE_CURRENT_FOLDER: {
@@ -945,7 +959,7 @@ export function reducer(
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       if (state.currentFolder) {
         const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder.total_mail_count;
+        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
       }
       return {
         ...state,
@@ -980,6 +994,29 @@ export function reducer(
         state.folderMap.delete(action.payload.folder);
       }
       return { ...state, inProgress: false };
+    }
+
+    case MailActionTypes.SET_ATTACHMENTS_FOR_PGP_MIME: {
+      const { mailDetail, mailMap, decryptedAttachmentsMap } = state;
+      const { attachments, messageID } = action.payload;
+      if (mailDetail) {
+        if (messageID === mailDetail.id) {
+          mailDetail.attachments = attachments;
+        } else if (mailDetail.children?.length > 0) {
+          mailDetail.children.forEach(child => {
+            if (child.id === messageID) {
+              child.attachments = attachments;
+            }
+          });
+        }
+      }
+      Object.keys(mailMap).forEach(mailID => {
+        if (mailID === messageID.toString()) {
+          mailMap[mailID].attachments = attachments;
+        }
+      });
+      decryptedAttachmentsMap.set(messageID, attachments);
+      return { ...state, mailDetail, mailMap, decryptedAttachmentsMap };
     }
 
     default: {
