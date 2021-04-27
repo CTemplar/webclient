@@ -1,5 +1,9 @@
 <!-- PAGE SECTION -->
-<section *ngIf="(pricingPlans$ | async)?.length > 0" class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
+<section
+  *ngIf="(pricingPlans$ | async)?.length > 0"
+  class="l-block l-block-text bg-white"
+  [class.gap-p-eq]="!blockGapsZero"
+>
   <div class="container">
     <header class="l-block-header position-relative text-center mb-4 mb-sm-5 mb-md-8" [hidden]="hideHeader">
       <div class="row justify-content-center">

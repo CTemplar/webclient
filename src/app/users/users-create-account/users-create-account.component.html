@@ -65,13 +65,34 @@
                       formControlName="username"
                     />
                     <span class="domain-separator text-center text-dark">@</span>
-                    <input class="form-control text-dark is-readonly border-0 px-0 email-input" value="ctemplar.com" type="text" readonly tabindex="-1" />
+                    <input
+                      class="form-control text-dark is-readonly border-0 px-0 email-input"
+                      value="ctemplar.com"
+                      type="text"
+                      readonly
+                      tabindex="-1"
+                    />
                     <ng-container *ngIf="(signupState$ | async)?.inProgress; else showIcons">
-                      <app-loading-spinner class="username-availability-spinner" [showSpinner]="true"></app-loading-spinner>
+                      <app-loading-spinner
+                        class="username-availability-spinner"
+                        [showSpinner]="true"
+                      ></app-loading-spinner>
                     </ng-container>
                     <ng-template #showIcons>
-                      <i class="fas fa-check green" *ngIf="(signupState$ | async).usernameExists === false && !signupForm.controls['username'].errors"></i>
-                      <i class="fas fa-times text-danger" *ngIf="(signupState$ | async).usernameExists === true || (signupForm.controls['username'].errors && (signupForm.controls['username'].touched || submitted))"></i>
+                      <i
+                        class="fas fa-check green"
+                        *ngIf="
+                          (signupState$ | async).usernameExists === false && !signupForm.controls['username'].errors
+                        "
+                      ></i>
+                      <i
+                        class="fas fa-times text-danger"
+                        *ngIf="
+                          (signupState$ | async).usernameExists === true ||
+                          (signupForm.controls['username'].errors &&
+                            (signupForm.controls['username'].touched || submitted))
+                        "
+                      ></i>
                     </ng-template>
                   </div>
                   <ng-container
@@ -105,7 +126,9 @@
                     </ng-template>
                   </ng-container>
                   <ng-template #usernameExistsBlock>
-                    <span *ngIf="(signupState$ | async).usernameExists === true" class="validate-message">Username already exists. </span>
+                    <span *ngIf="(signupState$ | async).usernameExists === true" class="validate-message"
+                      >Username already exists.
+                    </span>
                   </ng-template>
                 </div>
               </div>

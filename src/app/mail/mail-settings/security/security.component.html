@@ -47,12 +47,24 @@
           </div>
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
-              <a *ngIf="!(settings$ | async).enable_2fa" (click)="get2FASecret(); auth2FAForm = { auth2FAStep: 1, enable_2fa: true }" href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button">
+              <a
+                *ngIf="!(settings$ | async).enable_2fa"
+                (click)="get2FASecret(); auth2FAForm = { auth2FAStep: 1, enable_2fa: true }"
+                href="javascript:void(0);"
+                class="col-12 text-uppercase btn-link"
+                role="button"
+              >
                 <strong>
                   <u [translate]="'settings.security.set_up_2FA'">Set up 2 Factor authentication</u>
                 </strong>
               </a>
-              <a *ngIf="(settings$ | async).enable_2fa" (click)="disable2FA()" href="javascript:void(0);" class="col-12 text-uppercase btn-link" role="button">
+              <a
+                *ngIf="(settings$ | async).enable_2fa"
+                (click)="disable2FA()"
+                href="javascript:void(0);"
+                class="col-12 text-uppercase btn-link"
+                role="button"
+              >
                 <strong>
                   <u [translate]="'settings.security.disable_2FA'">Disable 2 Factor authentication</u>
                 </strong>
@@ -70,7 +82,17 @@
             </label>
           </div>
           <form class="col-sm-7 col-md-5" autocomplete="off">
-            <input class="form-control form-control-sm" id="recoveryMail" type="email" name="email" autocomplete="off" [(ngModel)]="settings$.value.recovery_email" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('recovery_email', $event.target.value)" placeholder="example@mail.com" />
+            <input
+              class="form-control form-control-sm"
+              id="recoveryMail"
+              type="email"
+              name="email"
+              autocomplete="off"
+              [(ngModel)]="settings$.value.recovery_email"
+              [ngModelOptions]="{ updateOn: 'blur' }"
+              (change)="updateSettings('recovery_email', $event.target.value)"
+              placeholder="example@mail.com"
+            />
           </form>
         </div>
       </div>
@@ -96,13 +118,27 @@
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSubjectDecryption1" name="autoSubjectDecryption" type="radio" (click)="updateSettings('is_subject_auto_decrypt', true)" [checked]="(settings$ | async)?.is_subject_auto_decrypt" />
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="autoSubjectDecryption1"
+                    name="autoSubjectDecryption"
+                    type="radio"
+                    (click)="updateSettings('is_subject_auto_decrypt', true)"
+                    [checked]="(settings$ | async)?.is_subject_auto_decrypt"
+                  />
                   <label for="autoSubjectDecryption1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="autoSubjectDecryption2" name="autoSubjectDecryption" type="radio" (click)="updateSettings('is_subject_auto_decrypt', false)" [checked]="!(settings$ | async)?.is_subject_auto_decrypt" />
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="autoSubjectDecryption2"
+                    name="autoSubjectDecryption"
+                    type="radio"
+                    (click)="updateSettings('is_subject_auto_decrypt', false)"
+                    [checked]="!(settings$ | async)?.is_subject_auto_decrypt"
+                  />
                   <label for="autoSubjectDecryption2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
@@ -210,13 +246,27 @@
             <div class="row row-sm">
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="phishingProtection1" name="[phishingProtection]" type="radio" (click)="updateAntiPhishing(true)" [checked]="(settings$ | async).is_anti_phishing_enabled" />
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="phishingProtection1"
+                    name="[phishingProtection]"
+                    type="radio"
+                    (click)="updateAntiPhishing(true)"
+                    [checked]="(settings$ | async).is_anti_phishing_enabled"
+                  />
                   <label for="phishingProtection1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
                 <div class="fancy-field-group">
-                  <input class="d-none fancy-field-control fancy-field-control-sm" id="phishingProtection2" name="[phishingProtection]" type="radio" (click)="updateAntiPhishing(false)" [checked]="!(settings$ | async).is_anti_phishing_enabled" />
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="phishingProtection2"
+                    name="[phishingProtection]"
+                    type="radio"
+                    (click)="updateAntiPhishing(false)"
+                    [checked]="!(settings$ | async).is_anti_phishing_enabled"
+                  />
                   <label for="phishingProtection2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
@@ -230,7 +280,16 @@
             </label>
           </div>
           <div class="col-sm-7 col-md-5">
-            <input class="form-control form-control-sm" id="antiPhishingPhrase" type="text" name="antiPhishingPhrase" autocomplete="off" [(ngModel)]="settings$.value.anti_phishing_phrase" [ngModelOptions]="{ updateOn: 'blur' }" (change)="updateSettings('anti_phishing_phrase', $event.target.value)" />
+            <input
+              class="form-control form-control-sm"
+              id="antiPhishingPhrase"
+              type="text"
+              name="antiPhishingPhrase"
+              autocomplete="off"
+              [(ngModel)]="settings$.value.anti_phishing_phrase"
+              [ngModelOptions]="{ updateOn: 'blur' }"
+              (change)="updateSettings('anti_phishing_phrase', $event.target.value)"
+            />
           </div>
         </div>
         <div class="info-card mt-2 full-width">
