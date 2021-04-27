@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { finalize, take } from 'rxjs/operators';
-import { forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, Observer } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 
@@ -27,6 +27,7 @@ import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
 import { AutocryptProcessService } from './autocrypt.process.service';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Injectable({
   providedIn: 'root',
@@ -458,7 +459,7 @@ export class ComposeMailService {
     this.composesWidth = temporaryWidth;
   }
 
-  openComposeMailDialog(inputData: any = {}) {
+  openComposeMailDialog(inputData: any = {}, onHide: Subject<boolean> = undefined) {
     if (this.userState && this.componentRefList.length < this.maxComposeCount) {
       this.componentRefList.forEach(componentReference => {
         componentReference.instance.isMinimized = true;
@@ -490,6 +491,9 @@ export class ComposeMailService {
       newComponentReference.instance.hide.subscribe(() => {
         const index = this.componentRefList.indexOf(newComponentReference);
         this.destroyComponent(newComponentReference, index);
+        if (onHide) {
+          onHide.next(true);
+        }
       });
       newComponentReference.instance.minimize.subscribe((isMinimized: boolean) => {
         if (!isMinimized) {

@@ -217,6 +217,7 @@ export class OpenPgpService {
     isDecryptingAllSubjects = false,
     subjectId: number,
     isPGPMime = false,
+    isSkipDecryptSubject = false,
   ) {
     if (this.decryptedAllPrivKeys) {
       if (!mailData.isSubjectEncrypted) {
@@ -238,6 +239,7 @@ export class OpenPgpService {
         callerId: mailId,
         subjectId,
         isPGPMime,
+        isSkipDecryptSubject,
       });
     } else {
       setTimeout(() => {
@@ -252,11 +254,20 @@ export class OpenPgpService {
     mailData: SecureContent,
     isDecryptingAllSubjects = false,
     isPGPMime = false,
+    isSkipDecryptSubject = false,
   ) {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId, isPGPMime);
+    this.decryptProcess(
+      mailboxId,
+      mailId,
+      mailData,
+      isDecryptingAllSubjects,
+      subjectId,
+      isPGPMime,
+      isSkipDecryptSubject,
+    );
     return subject.asObservable();
   }
 
