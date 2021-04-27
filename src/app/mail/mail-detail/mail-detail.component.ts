@@ -918,14 +918,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       newMail.last_action_parent_id = mail.id;
     }
-    // if (mail.attachments?.length > 0) {
-    //   this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
-    //     centered: true,
-    //     windowClass: 'modal-sm users-action-modal',
-    //   });
-    // } else {
-    //   this.confirmIncludeAttachments();
-    // }
     this.composeMailService.openComposeMailDialog({
       draft: { ...newMail },
       action: MailAction.REPLY_ALL,
@@ -1248,7 +1240,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getPreviousMail(index: number, isChildMail: boolean, mainReply = false, isForwarding = false) {
     let children: Mail[] = this.mail.children || [];
     if (this.mailFolder !== MailFolderType.TRASH && this.mail.children) {
-      children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
+      children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT);
     }
     const previousMail = [];
     if (isChildMail) {

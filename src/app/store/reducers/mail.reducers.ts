@@ -934,7 +934,7 @@ export function reducer(
       if (newMail.parent) {
         const mailIDs = Object.keys(mailMap);
         mailIDs.forEach(mailID => {
-          if (mailMap[mailID].id === newMail.parent) {
+          if (mailMap[mailID].id === newMail.parent && !newMail.isUpdate) {
             mailMap[mailID].has_children = true;
             mailMap[mailID].children_count = mailMap[mailID].children_count + 1;
             if (mailMap[mailID].children_folder_info) {
@@ -952,7 +952,7 @@ export function reducer(
         });
       }
       // update target folder map
-      if (folderMap.has(newMail.folder)) {
+      if (folderMap.has(newMail.folder) && folderMap.get(newMail.folder).mails?.length > 0) {
         const targetFolderMap = folderMap.get(newMail.folder);
         const basicFolderState = getUpdatesFolderMap([newMail], targetFolderMap, state.pageLimit);
         folderMap.set(newMail.folder, basicFolderState);

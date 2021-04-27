@@ -673,21 +673,6 @@
         (mailFolder !== mailFolderTypes.TRASH && childMail.folder !== mailFolderTypes.TRASH)
       "
     >
-<!--      <ng-container [ngSwitch]="childMail.folder">-->
-<!--        <ng-container *ngSwitchCase="mailFolderTypes.DRAFT">-->
-<!--          <div class="ui-body">-->
-<!--            <div class="mail-composer is-borderd border-bottom-0 mt-2" *ngIf="!isPopupOpen && isPopupOpen !== null">-->
-<!--              <app-compose-mail-->
-<!--                [draftMail]="childMail"-->
-<!--                [showSaveButton]="false"-->
-<!--                [isMailDetailPage]="true"-->
-<!--                (hide)="onComposeMailHide(childMail)"-->
-<!--                (popUpChange)="onChangePopup($event)"-->
-<!--              >-->
-<!--              </app-compose-mail>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </ng-container>-->
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container>
           <div [ngClass]="{ 'last-child': childIndex === mail.children.length - 1 }">
@@ -831,7 +816,6 @@
                         <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{
                           childMail.folder
                         }}</label>
-                        {{mailExpandedStatus[childMail.id]}}
                         <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus[childMail.id]"></i>
                         <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus[childMail.id]"></i>
                       </div>
@@ -1084,38 +1068,11 @@
                 {{ 'mail_detail.decrypt_encrypted_email' | translate }}
               </div>
             </div>
-<!--            <div class="ui-body" *ngIf="mailOptions[childMail.id]?.isComposeMailVisible && !isPopupOpen">-->
-<!--              <div class="mail-composer is-borderd border-bottom-0 mt-2">-->
-<!--                <app-compose-mail-->
-<!--                  [receivers]="composeMailData[childMail.id]?.receivers"-->
-<!--                  [cc]="composeMailData[childMail.id]?.cc"-->
-<!--                  [content]="composeMailData[childMail.id]?.content"-->
-<!--                  [action]="composeMailData[childMail.id]?.action"-->
-<!--                  [action_parent]="composeMailData[childMail.id].action_parent_id"-->
-<!--                  [subject]="composeMailData[childMail.id]?.subject"-->
-<!--                  [selectedMailbox]="composeMailData[childMail.id]?.selectedMailbox"-->
-<!--                  [parentId]="composeMailData[childMail.id]?.parentId"-->
-<!--                  [forwardAttachmentsMessageId]="composeMailData[childMail.id]?.forwardAttachmentsMessageId"-->
-<!--                  [showSaveButton]="false"-->
-<!--                  [isMailDetailPage]="true"-->
-<!--                  (hide)="onComposeMailHide(childMail)"-->
-<!--                >-->
-<!--                </app-compose-mail>-->
-<!--              </div>-->
-<!--            </div>-->
           </div>
         </ng-container>
       </ng-container>
     </ng-container>
   </ng-container>
-
-  <!--Reply to mail.-->
-<!--  <div class="ui-body ui-footer-sec" *ngIf="isPopupOpen && isPopupOpen !== null">-->
-<!--    <p>-->
-<!--      You are currently editing your reply in a separate window.-->
-<!--      <a (click)="openReply(mail)"> Show your draft here.</a>-->
-<!--    </p>-->
-<!--  </div>-->
   <div class="ui-body ui-footer-sec" #replyActions>
     <div class="row" *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
       <div class="col-12">
@@ -1149,45 +1106,6 @@
         </button>
       </div>
     </div>
-<!--    <div-->
-<!--      class="mail-composer is-borderd border-bottom-0 mt-2"-->
-<!--      *ngIf="mailOptions[mail.id]?.isComposeMailVisible && !draftNew?.id"-->
-<!--    >-->
-<!--      <app-compose-mail-->
-<!--        [receivers]="composeMailData[mail.id]?.receivers"-->
-<!--        [cc]="composeMailData[mail.id]?.cc"-->
-<!--        [content]="composeMailData[mail.id]?.content"-->
-<!--        [action]="composeMailData[mail.id]?.action"-->
-<!--        [action_parent]="composeMailData[mail.id].action_parent_id"-->
-<!--        [subject]="composeMailData[mail.id]?.subject"-->
-<!--        [selectedMailbox]="composeMailData[mail.id]?.selectedMailbox"-->
-<!--        [parentId]="composeMailData[mail.id]?.parentId"-->
-<!--        [forwardAttachmentsMessageId]="composeMailData[mail.id]?.forwardAttachmentsMessageId"-->
-<!--        [showSaveButton]="false"-->
-<!--        [isMailDetailPage]="true"-->
-<!--        [is_html]="composeMailData[mail.id]?.is_html"-->
-<!--        (hide)="onComposeMailHide(mail)"-->
-<!--        (popUpChange)="onChangePopup($event)"-->
-<!--      >-->
-<!--      </app-compose-mail>-->
-<!--    </div>-->
-<!--    <div-->
-<!--      *ngIf="-->
-<!--        isReplyContext &&-->
-<!--        draftNew?.id &&-->
-<!--        draftNew.folder !== mailFolderTypes.TRASH &&-->
-<!--        mail.folder !== mailFolderTypes.TRASH-->
-<!--      "-->
-<!--      class="mail-composer is-borderd border-bottom-0 mt-2"-->
-<!--    >-->
-<!--      <app-compose-mail-->
-<!--        [draftMail]="draftNew"-->
-<!--        [isMailDetailPage]="true"-->
-<!--        [showSaveButton]="false"-->
-<!--        (popUpChange)="onChangePopup($event)"-->
-<!--        (hide)="onComposeMailHide(draftNew)"-->
-<!--      ></app-compose-mail>-->
-<!--    </div>-->
   </div>
   <!--Pagination on mobile version-->
   <div class="col-sm-3 mailbox-actionbar-col hidden-xs-up">
