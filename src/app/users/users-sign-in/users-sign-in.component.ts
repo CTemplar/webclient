@@ -13,6 +13,11 @@ import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../.
 import { ESCAPE_KEYCODE } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 
+enum InputFields {
+  USERNAME = 'username',
+  PASSWORD = 'password',
+}
+
 @UntilDestroy()
 @Component({
   selector: 'app-users-sign-in',
@@ -329,9 +334,4 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       this.isKeyboardOpened = false;
     }
   }
-}
-
-enum InputFields {
-  USERNAME = 'username',
-  PASSWORD = 'password',
 }

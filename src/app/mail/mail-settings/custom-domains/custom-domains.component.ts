@@ -114,7 +114,7 @@ export class CustomDomainsComponent implements OnInit {
   prepareMapForDomainAlias(domains: Domain[], aliases: Array<any>) {
     if (domains && aliases) {
       domains.forEach((domain, indexDomain) => {
-        let aliasesForDomain: any[] = [];
+        const aliasesForDomain: any[] = [];
         aliases.forEach(alias => {
           const domainForAlias = alias.email.split('@')[1];
           if (domain.domain === domainForAlias && alias.is_enabled) {
