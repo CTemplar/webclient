@@ -50,8 +50,7 @@
       color: white !important;
       box-shadow: 5px 10px 10px var(--settings-dashboard-plan-btn-box-shadow);
       max-width: 90%;
-      width: 100px;
-      min-width: unset;
+      min-width: 100px;
       margin-top: 1.5rem;
 
       &:hover {
@@ -64,6 +63,7 @@
       color: #757575;
       margin-bottom: 0;
       font-weight: bold;
+      font-size: 14px;
     }
 
     .current-plan {

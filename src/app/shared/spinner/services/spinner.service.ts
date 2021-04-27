@@ -8,8 +8,6 @@ import { SpinnerComponent } from '../components/spinner.component';
 export class SpinnerService {
   private spinnerCache = new Set<SpinnerComponent>();
 
-  constructor() {}
-
   register(spinner: SpinnerComponent): void {
     this.spinnerCache.add(spinner);
   }

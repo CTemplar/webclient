@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,12 +9,14 @@ import { AppState, SecureContent, SecureMessageState } from '../../store/datatyp
 import { Mail } from '../../store/models';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
   selector: 'app-decrypt-message',
   templateUrl: './decrypt-message.component.html',
   styleUrls: ['./decrypt-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DecryptMessageComponent implements OnInit, OnDestroy {
   decryptForm: FormGroup;
@@ -25,7 +27,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   senderId: string;
 
-  message: Mail;
+  message$: BehaviorSubject<Mail> = new BehaviorSubject<Mail>({ content: '' });
 
   decryptedContent: string;
 
@@ -33,7 +35,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   errorMessage: string;
 
-  isLoading: boolean;
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   isMessageExpired: boolean;
 
@@ -73,22 +75,23 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       .select(state => state.secureMessage)
       .pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
-        this.isLoading = state.inProgress || state.isContentDecryptionInProgress;
+        this.isLoading$.next(state.inProgress || state.isContentDecryptionInProgress);
         this.errorMessage = state.errorMessage;
-        if (!this.message && state.message) {
+        if (!this.message$.value && state.message) {
           // message is loaded so check if it has expired
           if (this.dateTimeUtilService.isDateTimeInPast(state.message.encryption.expires)) {
             this.isMessageExpired = true;
           }
         }
-        this.message = state.message;
+
+        this.message$.next(state.message);
         if (state.decryptedContent) {
           if (state.decryptedContent.content) {
             this.decryptedContent = state.decryptedContent.content || '';
           }
-          if (this.message && this.message.is_subject_encrypted && state.decryptedContent.subject) {
+          if (state.message && state.message.is_subject_encrypted && state.decryptedContent.subject) {
             this.decryptedSubject = state.decryptedContent.subject || '';
-            this.message.subject = state.decryptedContent.subject || '';
+            this.message$.value.subject = state.decryptedContent.subject || '';
           }
         }
       });
@@ -102,9 +105,9 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   onSubmit(data: any) {
     this.showFormErrors = true;
     this.password = data.password;
-    if (this.decryptForm.valid && this.message) {
-      this.isLoading = true;
-      this.openPgpService.decryptWithOnlyPassword(new SecureContent(this.message), data.password);
+    if (this.decryptForm.valid && this.message$.value) {
+      this.isLoading$.next(true);
+      this.openPgpService.decryptWithOnlyPassword(new SecureContent(this.message$.value), data.password);
     }
   }
 

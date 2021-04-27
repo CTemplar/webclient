@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -6,7 +6,7 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
   styleUrls: ['./loading-spinner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoadingSpinnerComponent implements OnInit {
+export class LoadingSpinnerComponent {
   @Input() showSpinner: boolean;
 
   @Input() optionalClasses = '';
@@ -15,8 +15,4 @@ export class LoadingSpinnerComponent implements OnInit {
   @Input() width = 40;
   @Input() height = 40;
   @Input() color = '#3a4e63';
-
-  constructor() {}
-
-  ngOnInit() {}
 }

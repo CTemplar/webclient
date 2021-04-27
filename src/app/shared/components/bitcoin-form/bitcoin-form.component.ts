@@ -7,10 +7,6 @@ import { apiUrl } from '../../config';
   templateUrl: './bitcoin-form.component.html',
   styleUrls: ['./bitcoin-form.component.scss'],
 })
-export class BitcoinFormComponent implements OnInit {
+export class BitcoinFormComponent {
   public apiUrl: string = apiUrl;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

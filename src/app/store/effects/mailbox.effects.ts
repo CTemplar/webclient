@@ -91,7 +91,7 @@ export class MailboxEffects {
     map((action: CreateMailbox) => action.payload),
     switchMap((payload: any) => {
       return this.mailService.createMailbox(payload).pipe(
-        switchMap(response => of(new CreateMailboxSuccess(response), new GetDomains(), new FetchMailboxKeys())),
+        switchMap(response => of(new CreateMailboxSuccess(response), new GetDomains(), new GetMailboxes())),
         catchError(error =>
           of(
             new CreateMailboxFailure(error.error),

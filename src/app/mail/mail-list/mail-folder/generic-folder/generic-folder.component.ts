@@ -5,7 +5,6 @@ import {
   ElementRef,
   HostListener,
   Input,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -40,7 +39,7 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss'],
 })
-export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GenericFolderComponent implements OnInit, AfterViewInit {
   @Input() mails: Mail[] = [];
 
   @Input() mailFolder: MailFolderType;
@@ -622,7 +621,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    */
   private getMailIDs() {
     const allString = 'all';
-    let markedMails = this.getMarkedMails();
+    const markedMails = this.getMarkedMails();
     if (markedMails.length === this.LIMIT && this.checkAll) {
       return allString;
     } else {
@@ -711,6 +710,4 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
     return info;
   }
-
-  ngOnDestroy() {}
 }
