@@ -1078,7 +1078,7 @@
       <div class="col-12">
         <button
           class="btn btn-user-action"
-          (click)="onReply(mail, 0, false, true);"
+          (click)="onReply(mail, 0, false, true)"
           [disabled]="!decryptedContents[mail.id]"
         >
           <i class="icon icon-reply position-left"></i>
@@ -1087,7 +1087,7 @@
         </button>
         <button
           class="btn btn-user-action"
-          (click)="onReplyAll(mail, 0, false, true);"
+          (click)="onReplyAll(mail, 0, false, true)"
           *ngIf="mail.cc.length || mail.bcc.length || mail.receiver.length > 1"
           [disabled]="!decryptedContents[mail.id]"
         >
@@ -1097,7 +1097,7 @@
         </button>
         <button
           class="btn btn-user-action"
-          (click)="onForward(mail, 0, false, true);"
+          (click)="onForward(mail, 0, false, true)"
           [disabled]="!decryptedContents[mail.id]"
         >
           <i class="icon icon-mail icon-lg position-left"></i>

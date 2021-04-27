@@ -81,7 +81,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
-  
+
   currentForwardingNewEmail: Mail;
 
   selectedMailToInclude: Mail;
@@ -1240,7 +1240,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getPreviousMail(index: number, isChildMail: boolean, mainReply = false, isForwarding = false) {
     let children: Mail[] = this.mail.children || [];
     if (this.mailFolder !== MailFolderType.TRASH && this.mail.children) {
-      children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT);
+      children = this.mail.children.filter(
+        child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT,
+      );
     }
     const previousMail = [];
     if (isChildMail) {
