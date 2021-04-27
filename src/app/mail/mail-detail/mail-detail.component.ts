@@ -198,6 +198,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   contacts: any[] = [];
 
+  unsubscribeLink: string = null;
+  unsubscribeMailTo: string = null;
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -712,6 +715,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  openUnsubscribeLink() {
+    if (this.unsubscribeLink) {
+      window.open(this.unsubscribeLink, "_blank");
+    }
+  }
   /**
    * Parse headers with new json format from origin headers
    */
@@ -724,11 +732,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const headersArray: { key: string; value: any }[] = [];
       headers.forEach((header: any) => {
         Object.keys(header).forEach(key => {
+          if(key === 'List-Unsubscribe') {
+            const value = header[key]
+            const valueArray = value.split(',')
+            if(valueArray.length > 1) {
+              this.unsubscribeMailTo = valueArray[0].replace('<', '').replace('>', '').replace('\n', '').replace('mailto:', '')
+              this.unsubscribeLink = valueArray[1].replace('<', '').replace('>', '').replace('\n', '')
+            }
+          }
           if (header.hasOwnProperty(key)) {
             headersArray.push({ key, value: header[key] });
           }
         });
       });
+      
       return headersArray;
     } catch {
       return [];
