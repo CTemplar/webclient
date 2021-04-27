@@ -836,7 +836,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
-    newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)).id;
+    newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email))?.id;
     if (mail.reply_to && mail.reply_to.length > 0) {
       newMail.receiver = mail.reply_to;
     } else {
@@ -896,7 +896,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
-    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)).id;
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     if (mail.sender !== this.currentMailbox.email) {
       newMail.receiver = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
     } else {
@@ -942,7 +942,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     };
     newMail.content = this.getForwardMessageSummary(mail);
     newMail.subject = `Fwd: ${this.mail.subject}`;
-    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)).id;
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     newMail.last_action = MailAction.FORWARD;
     newMail.is_html = mail.is_html;
     this.selectedMailToForward = mail;
