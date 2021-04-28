@@ -81,7 +81,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
-  
+
   currentForwardingNewEmail: Mail;
 
   selectedMailToInclude: Mail;
@@ -1083,6 +1083,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   ontoggleStarred(event: any, mail: Mail, withChildren = true) {
     event.stopPropagation();
     event.preventDefault();
+    this.store.dispatch(
+      new StarMail({
+        ids: mail.id.toString(),
+        starred: withChildren ? !mail.has_starred_children : !mail.starred,
+        withChildren,
+      }),
+    );
+  }
+
+  onToggleStarred(mail: Mail, withChildren = true) {
     this.store.dispatch(
       new StarMail({
         ids: mail.id.toString(),

@@ -300,154 +300,18 @@
         <button class="mark_not_spam btn btn-outline-warning" (click)="onShowTrashRelatedChildren()">Load</button>
       </div>
     </div>
-
-    <div
-      class="ui-body is-xs bg-faded cursor-pointer mail-header"
-      *ngIf="
-        isShowTrashRelatedChildren ||
-        (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) ||
-        (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)
-      "
-      (click)="onClickParentHeader()"
-    >
-      <div class="row">
-        <div class="col-8">
-          <div class="mailbox-sender-content">
-            <ul class="sender-content-list list-styled">
-              <li id="{{ mail.id }}-mail-from" class="font-weight-bold">
-                {{ 'settings.compose.from' | translate }}
-                <span class="text-secondary"> </span>
-                <app-receiver-email-chip
-                  [contacts]="contacts"
-                  [email]="mail.sender_display.email"
-                  [name]="mail.sender_display.name"
-                  [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                  [composePopover]="false"
-                  [mailboxes]="mailboxes"
-                  [blacklist]="userState.blackList"
-                  [whitelist]="userState.whiteList"
-                >
-                </app-receiver-email-chip>
-                <span class="position-relative">
-                  <i *ngIf="mail.last_action" class="fas fa-{{ mail.last_action | lastAction }} last-action"></i>
-                </span>
-                <app-mail-detail-encryption-type-icon [mail]="mail"></app-mail-detail-encryption-type-icon>
-              </li>
-              <li id="{{ mail.id }}-mail-to" *ngIf="mail.receiver?.length > 0">
-                {{ 'settings.compose.to' | translate }}
-                <ng-container *ngFor="let receiver of mail.receiver_display; let i = index">
-                  <span class="text-secondary"> </span>
-                  <app-receiver-email-chip
-                    [contacts]="contacts"
-                    [email]="receiver.email"
-                    [name]="receiver.name"
-                    [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                    [composePopover]="false"
-                    [mailboxes]="mailboxes"
-                    [blacklist]="userState.blackList"
-                    [whitelist]="userState.whiteList"
-                  >
-                  </app-receiver-email-chip>
-                  <!--Comma as a separator-->
-                  <span *ngIf="i < mail.receiver?.length - 1">, </span>
-                </ng-container>
-              </li>
-              <li *ngIf="mail.cc?.length > 0" id="{{ mail.id }}-mail-cc">
-                Cc:
-                <ng-container *ngFor="let cc of mail.cc; let i = index">
-                  <span class="text-secondary"> </span>
-                  <app-receiver-email-chip
-                    [contacts]="contacts"
-                    [email]="cc"
-                    [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                    [composePopover]="false"
-                    [mailboxes]="mailboxes"
-                    [blacklist]="userState.blackList"
-                    [whitelist]="userState.whiteList"
-                  >
-                  </app-receiver-email-chip>
-                  <!--Comma as a separator-->
-                  <span *ngIf="i < mail.cc?.length - 1">, </span>
-                </ng-container>
-              </li>
-              <li *ngIf="mail.bcc_display?.length > 0" id="{{ mail.id }}-mail-bcc">
-                Bcc:
-                <ng-container *ngFor="let bcc of mail.bcc_display; let i = index">
-                  <span class="text-secondary"> </span>
-                  <app-receiver-email-chip
-                    [contacts]="contacts"
-                    [email]="bcc.email"
-                    [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                    [composePopover]="false"
-                    [mailboxes]="mailboxes"
-                    [blacklist]="userState.blackList"
-                    [whitelist]="userState.whiteList"
-                  >
-                  </app-receiver-email-chip>
-                  <!--Comma as a separator-->
-                  <span *ngIf="i < mail.bcc_display?.length - 1">, </span>
-                </ng-container>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="msg-reply-type-holder">
-            <div class="d-flex align-items-center justify-content-end">
-              <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
-                <span class="badge badge-warning mr-2 p-1" *ngIf="mail.destruct_date">
-                  <span>{{ 'mail_detail.delete_in' | translate }}</span> {{ mail.destruct_date | remainingTime }}
-                </span>
-                <span class="badge badge-success mr-2 p-1" *ngIf="mail.delayed_delivery">
-                  <span>{{ 'mail_detail.delay_delivery' | translate }}</span>
-                  {{ mail.delayed_delivery | remainingTime }}
-                </span>
-                <span class="badge badge-danger mr-2 p-1" *ngIf="mail.dead_man_duration">
-                  <span>{{ 'settings.compose.dead_man_timer' | translate }}</span>
-                  {{ mail.dead_man_duration | remainingTime: true }}
-                </span>
-              </ng-container>
-              <span *ngIf="mail.attachments?.length > 0" class="mr-3">
-                <i class="icon icon-attachment"></i>
-              </span>
-              <label class="msg-received-time mb-0" id="{{ mail.id }}-mail-date">
-                <ng-container *ngIf="mail.folder === mailFolderTypes.SENT && mail.sent_at; else createdAt">
-                  {{ mail.sent_at | momentDate: 'medium' }}
-                </ng-container>
-                <ng-template #createdAt>
-                  {{ mail.created_at | momentDate: 'medium' }}
-                </ng-template>
-                <ng-template #createdAt>
-                  <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">
-                    {{ mail.created_at | momentDate: 'medium' }}
-                  </ng-container>
-                </ng-template>
-                <ng-template #outboxTime>
-                  <ng-container *ngIf="mail.delayed_delivery">
-                    {{ mail.delayed_delivery | momentDate: 'medium' }}
-                  </ng-container>
-                  <ng-container *ngIf="mail.dead_man_duration">
-                    <i class="fas fa-minus"></i>
-                  </ng-container>
-                </ng-template>
-              </label>
-              <i
-                class="icon icon-sm icon-star-filled cursor-pointer"
-                (click)="ontoggleStarred($event, mail, false)"
-                [ngClass]="{ 'icon-star': !mail.starred, 'text-info': mail.starred }"
-              ></i>
-            </div>
-            <div>
-              <label class="folder-batch" [style.background]="folderColors[mail.folder]">{{ mail.folder }}</label>
-              <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus[mail.id]"></i>
-              <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus[mail.id]"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-      <app-mail-detail-decryption-error *ngIf="isDecryptingError[mail.id]"></app-mail-detail-decryption-error>
-    </div>
   </section>
+  <app-mail-detail-header
+    [mail]="mail"
+    [isParentHeader]="true"
+    [mailFolder]="mailFolder"
+    [decryptedContents]="decryptedContents"
+    [isDecryptingError]="isDecryptingError"
+    [mailExpandedStatus]="mailExpandedStatus"
+    [isShowTrashRelatedChildren]="isShowTrashRelatedChildren"
+    (onClick)="onClickParentHeader()"
+    (onToggleStarred)="onToggleStarred($event, false)"
+  ></app-mail-detail-header>
   <!-- Password Decryption Form -->
   <div
     class="ui-body is-xs bg-faded mail-header decrypt-password-form-container"
@@ -676,167 +540,17 @@
       <ng-container [ngSwitch]="childMail.folder">
         <ng-container>
           <div [ngClass]="{ 'last-child': childIndex === mail.children.length - 1 }">
-            <section class="mailbox-section" id="{{ childMail.id }}-print-section">
-              <div
-                class="ui-body is-bordered-bottom bg-faded cursor-pointer mail-header"
-                (click)="onClickChildHeader(childMail)"
-              >
-                <div class="row">
-                  <div class="col-8">
-                    <div class="mailbox-sender-content">
-                      <ul class="sender-content-list list-styled">
-                        <li id="{{ childMail.id }}-mail-from" class="font-weight-bold">
-                          <span>{{ 'settings.compose.from' | translate }}</span>
-                          <span class="text-secondary"> </span>
-                          <app-receiver-email-chip
-                            [contacts]="contacts"
-                            [email]="childMail.sender_display.email"
-                            [name]="childMail.sender_display.name"
-                            [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                            [composePopover]="false"
-                            [mailboxes]="mailboxes"
-                            [blacklist]="userState.blackList"
-                            [whitelist]="userState.whiteList"
-                          >
-                          </app-receiver-email-chip>
-                          <span class="position-relative">
-                            <i
-                              *ngIf="childMail.last_action"
-                              class="fas fa-{{ childMail.last_action | lastAction }} last-action"
-                            ></i>
-                          </span>
-                          <app-mail-detail-encryption-type-icon
-                            [mail]="childMail"
-                          ></app-mail-detail-encryption-type-icon>
-                        </li>
-                        <li id="{{ childMail.id }}-mail-to">
-                          <span>{{ 'settings.compose.to' | translate }}</span>
-                          <ng-container *ngFor="let receiver of childMail.receiver_display; let i = index">
-                            <span class="text-secondary"> </span>
-                            <app-receiver-email-chip
-                              [contacts]="contacts"
-                              [email]="receiver.email"
-                              [name]="receiver.name"
-                              [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                              [composePopover]="false"
-                              [mailboxes]="mailboxes"
-                              [blacklist]="userState.blackList"
-                              [whitelist]="userState.whiteList"
-                            >
-                            </app-receiver-email-chip>
-                            <!--Comma as a separator-->
-                            <span *ngIf="i < childMail.receiver?.length - 1">, </span>
-                          </ng-container>
-                        </li>
-                        <li *ngIf="childMail.cc?.length > 0" id="{{ childMail.id }}-mail-cc">
-                          Cc:
-                          <ng-container *ngFor="let cc of childMail.cc; let i = index">
-                            <span class="text-secondary"> </span>
-                            <app-receiver-email-chip
-                              [contacts]="contacts"
-                              [email]="cc"
-                              [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                              [composePopover]="false"
-                              [mailboxes]="mailboxes"
-                              [blacklist]="userState.blackList"
-                              [whitelist]="userState.whiteList"
-                            >
-                            </app-receiver-email-chip>
-                            <!--Comma as a separator-->
-                            <span *ngIf="i < childMail.cc?.length - 1">, </span>
-                          </ng-container>
-                        </li>
-                        <li *ngIf="childMail.bcc_display?.length > 0" id="{{ childMail.id }}-mail-bcc">
-                          Bcc:
-                          <ng-container *ngFor="let bcc of childMail.bcc_display; let i = index">
-                            <span class="text-secondary"> </span>
-                            <app-receiver-email-chip
-                              [contacts]="contacts"
-                              [email]="bcc.email"
-                              [isContactEncrypted]="userState.settings.is_contacts_encrypted"
-                              [composePopover]="false"
-                              [mailboxes]="mailboxes"
-                              [blacklist]="userState.blackList"
-                              [whitelist]="userState.whiteList"
-                            >
-                            </app-receiver-email-chip>
-                            <span *ngIf="i < childMail.bcc_display?.length - 1">, </span>
-                          </ng-container>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="msg-reply-type-holder">
-                      <div class="d-flex align-items-center justify-content-end">
-                        <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
-                          <span class="badge badge-warning mr-2 p-1" *ngIf="childMail.destruct_date">
-                            <span>{{ 'mail_detail.delete_in' | translate }}</span>
-                            {{ childMail.destruct_date | remainingTime }}
-                          </span>
-                          <span class="badge badge-success mr-2 p-1" *ngIf="childMail.delayed_delivery">
-                            <span>{{ 'mail_detail.delay_delivery' | translate }}</span>
-                            {{ childMail.delayed_delivery | remainingTime }}
-                          </span>
-                          <span class="badge badge-danger mr-2 p-1" *ngIf="childMail.dead_man_duration">
-                            <span>{{ 'settings.compose.dead_man_timer' | translate }}</span>
-                            {{ childMail.dead_man_duration | remainingTime: true }}
-                          </span>
-                        </ng-container>
-                        <span *ngIf="childMail.attachments?.length > 0" class="mr-3">
-                          <i class="icon icon-attachment"></i>
-                        </span>
-                        <label class="msg-received-time mb-0" id="{{ childMail.id }}-mail-date">
-                          <ng-container
-                            *ngIf="childMail.folder === mailFolderTypes.SENT && childMail.sent_at; else createdAt"
-                          >
-                            {{ childMail.sent_at | momentDate: 'medium' }}
-                          </ng-container>
-                          <ng-template #createdAt>
-                            <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX; else outboxTime">
-                              {{ childMail.created_at | momentDate: 'medium' }}
-                            </ng-container>
-                          </ng-template>
-                          <ng-template #outboxTime>
-                            <ng-container *ngIf="childMail.delayed_delivery">
-                              {{ childMail.delayed_delivery | momentDate: 'medium' }}
-                            </ng-container>
-                            <ng-container *ngIf="childMail.dead_man_duration">
-                              <i class="fas fa-minus"></i>
-                            </ng-container>
-                          </ng-template>
-                        </label>
-                        <i
-                          class="icon icon-sm icon-star-filled cursor-pointer"
-                          (click)="ontoggleStarred($event, childMail, false)"
-                          [ngClass]="{ 'icon-star': !childMail.starred, 'text-info': childMail.starred }"
-                        ></i>
-                      </div>
-                      <div>
-                        <label class="folder-batch" [style.background]="folderColors[childMail.folder]">{{
-                          childMail.folder
-                        }}</label>
-                        <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus[childMail.id]"></i>
-                        <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus[childMail.id]"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <app-mail-detail-decryption-error
-                  *ngIf="isDecryptingError[childMail.id]"
-                ></app-mail-detail-decryption-error>
-                <app-progress-bar
-                  [active]="decryptedContents[childMail.id] == null"
-                  *ngIf="
-                    mailExpandedStatus[childMail.id] &&
-                    !decryptedContents[childMail.id] &&
-                    (isDecrypting[childMail.id] || !isPasswordEncrypted[childMail.id])
-                  "
-                >
-                </app-progress-bar>
-              </div>
-            </section>
-
+            <app-mail-detail-header
+              [mail]="childMail"
+              [isParentHeader]="false"
+              [mailFolder]="mailFolder"
+              [decryptedContents]="decryptedContents"
+              [isDecryptingError]="isDecryptingError"
+              [mailExpandedStatus]="mailExpandedStatus"
+              [isShowTrashRelatedChildren]="isShowTrashRelatedChildren"
+              (onClick)="onClickChildHeader($event)"
+              (onToggleStarred)="onToggleStarred($event, false)"
+            ></app-mail-detail-header>
             <!-- Password Decryption Form -->
             <div
               class="ui-body is-xs bg-faded mail-header decrypt-password-form-container"
