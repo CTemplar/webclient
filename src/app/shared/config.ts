@@ -4,6 +4,47 @@ import ImageResize from 'quill-image-resize-module';
 import { AppConfig } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
+
+export function getWindowConfig(): { host: string; protocol: string } {
+  let { protocol } = window.location;
+  let { host } = location;
+  if (IS_ELECTRON || location.hostname === 'localhost') {
+    protocol = 'https:';
+    host = AppConfig.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
+  }
+  return { host, protocol };
+}
+
+function getBaseUrl() {
+  const config = getWindowConfig();
+  if (AppConfig.production) {
+    return config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion'
+      ? 'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/'
+      : 'https://api.ctemplar.com/';
+  }
+  if (AppConfig.local) {
+    return 'http://localhost:8000/';
+  }
+  if (config.host === 'test.ctemplar.net') {
+    return 'https://testapi.ctemplar.net/';
+  }
+  return 'https://devapi.ctemplar.net/';
+}
+
+export function getEmailDomain(): string {
+  const config = getWindowConfig();
+  if (AppConfig.production) {
+    return 'ctemplar.com';
+  }
+  if (AppConfig.local) {
+    return 'dev.ctemplar.com';
+  }
+  if (config.host === 'test.ctemplar.net') {
+    return 'test.ctemplar.com';
+  }
+  return 'dev.ctemplar.com';
+}
+
 export const apiUrl = getBaseUrl();
 export const PRIMARY_DOMAIN = AppConfig.production ? 'ctemplar.com' : 'dev.ctemplar.net';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
@@ -165,43 +206,3 @@ export const QUILL_FORMATTING_MODULES = {
   ],
   imageResize: true,
 };
-
-function getBaseUrl() {
-  const config = getWindowConfig();
-  if (AppConfig.production) {
-    return config.host === 'mail.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion'
-      ? 'http://api.ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/'
-      : 'https://api.ctemplar.com/';
-  }
-  if (AppConfig.local) {
-    return 'http://localhost:8000/';
-  }
-  if (config.host === 'test.ctemplar.net') {
-    return 'https://testapi.ctemplar.net/';
-  }
-  return 'https://devapi.ctemplar.net/';
-}
-
-export function getWindowConfig(): { host: string; protocol: string } {
-  let { protocol } = window.location;
-  let { host } = location;
-  if (IS_ELECTRON || location.hostname === 'localhost') {
-    protocol = 'https:';
-    host = AppConfig.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
-  }
-  return { host, protocol };
-}
-
-export function getEmailDomain(): string {
-  const config = getWindowConfig();
-  if (AppConfig.production) {
-    return 'ctemplar.com';
-  }
-  if (AppConfig.local) {
-    return 'dev.ctemplar.com';
-  }
-  if (config.host === 'test.ctemplar.net') {
-    return 'test.ctemplar.com';
-  }
-  return 'dev.ctemplar.com';
-}

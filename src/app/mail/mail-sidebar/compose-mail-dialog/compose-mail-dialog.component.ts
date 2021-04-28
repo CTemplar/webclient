@@ -72,16 +72,16 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
           this.action === MailAction.REPLY &&
           this.composeMail !== undefined
         ) {
-          this.onHide();
+          // this.onHide();
         }
       });
   }
 
   ngAfterViewInit(): void {
     if (this.mailSubject && this.action) {
-      if (this.action === MailAction.REPLY) {
-        this.mailSubject = `Reply: ${this.mailSubject}`;
-      }
+      // if (this.action === MailAction.REPLY) {
+      //   this.mailSubject = `Reply: ${this.mailSubject}`;
+      // }
     }
     this.cdr.detectChanges();
   }

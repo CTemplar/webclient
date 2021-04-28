@@ -9,5 +9,4 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 export class CircleBarSpinnerComponent {
   @Input() showSpinner: boolean;
   @Input() color = '#333333';
-  constructor() {}
 }

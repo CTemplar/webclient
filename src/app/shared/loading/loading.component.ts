@@ -14,6 +14,4 @@ export class LoadingComponent {
   @Input() quote?: any;
 
   loadingImage = LOADING_IMAGE;
-
-  constructor() {}
 }

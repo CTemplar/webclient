@@ -111,7 +111,7 @@ export function reducer(
           getUserKeyInProgress: true,
         };
       }
-      let usersKeys = state.usersKeys;
+      const usersKeys = state.usersKeys;
       action.payload.emails.forEach((email: string) => {
         usersKeys.set(email, { key: null, isFetching: true });
       });
@@ -128,7 +128,7 @@ export function reducer(
         };
       }
       // Saving on global user keys
-      let usersKeys = state.usersKeys;
+      const usersKeys = state.usersKeys;
       if (!action.payload.isBlind && action.payload.data && action.payload.data.keys) {
         action.payload.data.keys.forEach((key: any) => {
           usersKeys.set(key.email, {

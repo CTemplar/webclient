@@ -7,8 +7,6 @@ import { Injectable } from '@angular/core';
 export class HttpCancelService {
   private cancelPendingRequests$ = new Subject<void>();
 
-  constructor() {}
-
   /** Cancels all pending Http requests. */
   public cancelPendingRequests() {
     this.cancelPendingRequests$.next();

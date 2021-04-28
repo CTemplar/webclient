@@ -48,7 +48,7 @@
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <a
-                *ngIf="!settings.enable_2fa"
+                *ngIf="!(settings$ | async).enable_2fa"
                 (click)="get2FASecret(); auth2FAForm = { auth2FAStep: 1, enable_2fa: true }"
                 href="javascript:void(0);"
                 class="col-12 text-uppercase btn-link"
@@ -59,7 +59,7 @@
                 </strong>
               </a>
               <a
-                *ngIf="settings.enable_2fa"
+                *ngIf="(settings$ | async).enable_2fa"
                 (click)="disable2FA()"
                 href="javascript:void(0);"
                 class="col-12 text-uppercase btn-link"
@@ -88,7 +88,7 @@
               type="email"
               name="email"
               autocomplete="off"
-              [(ngModel)]="settings.recovery_email"
+              [(ngModel)]="settings$.value.recovery_email"
               [ngModelOptions]="{ updateOn: 'blur' }"
               (change)="updateSettings('recovery_email', $event.target.value)"
               placeholder="example@mail.com"
@@ -124,7 +124,7 @@
                     name="autoSubjectDecryption"
                     type="radio"
                     (click)="updateSettings('is_subject_auto_decrypt', true)"
-                    [checked]="settings?.is_subject_auto_decrypt"
+                    [checked]="(settings$ | async)?.is_subject_auto_decrypt"
                   />
                   <label for="autoSubjectDecryption1" [translate]="'common.enabled'">Enabled</label>
                 </div>
@@ -137,7 +137,7 @@
                     name="autoSubjectDecryption"
                     type="radio"
                     (click)="updateSettings('is_subject_auto_decrypt', false)"
-                    [checked]="!settings?.is_subject_auto_decrypt"
+                    [checked]="!(settings$ | async)?.is_subject_auto_decrypt"
                   />
                   <label for="autoSubjectDecryption2" [translate]="'common.disabled'">Disabled</label>
                 </div>
@@ -252,7 +252,7 @@
                     name="[phishingProtection]"
                     type="radio"
                     (click)="updateAntiPhishing(true)"
-                    [checked]="settings.is_anti_phishing_enabled"
+                    [checked]="(settings$ | async).is_anti_phishing_enabled"
                   />
                   <label for="phishingProtection1" [translate]="'common.enabled'">Enabled</label>
                 </div>
@@ -265,7 +265,7 @@
                     name="[phishingProtection]"
                     type="radio"
                     (click)="updateAntiPhishing(false)"
-                    [checked]="!settings.is_anti_phishing_enabled"
+                    [checked]="!(settings$ | async).is_anti_phishing_enabled"
                   />
                   <label for="phishingProtection2" [translate]="'common.disabled'">Disabled</label>
                 </div>
@@ -273,7 +273,7 @@
             </div>
           </div>
         </div>
-        <div class="row align-items-center my-3" *ngIf="settings.is_anti_phishing_enabled">
+        <div class="row align-items-center my-3" *ngIf="(settings$ | async).is_anti_phishing_enabled">
           <div class="col-sm-3">
             <label class="form-label mb-sm-0" [translate]="'settings.security.phishing_phrase_title'">
               Anti Phishing Phrase
@@ -286,7 +286,7 @@
               type="text"
               name="antiPhishingPhrase"
               autocomplete="off"
-              [(ngModel)]="settings.anti_phishing_phrase"
+              [(ngModel)]="settings$.value.anti_phishing_phrase"
               [ngModelOptions]="{ updateOn: 'blur' }"
               (change)="updateSettings('anti_phishing_phrase', $event.target.value)"
             />

@@ -20,7 +20,7 @@
     </header>
 
     <ng-template #messageNotExpired>
-      <ng-container *ngIf="!message || !decryptedContent; else displayMessage">
+      <ng-container *ngIf="!(message$ | async) || !decryptedContent; else displayMessage">
         <header class="l-block-header text-center position-relative mb-md-2">
           <div class="row justify-content-center">
             <div class="col-sm-12 col-md-10 px-sm-5 px-md-0">
@@ -73,7 +73,7 @@
                     class="btn btn-gradient-primary btn-lg login-btn"
                     role="button"
                     type="submit"
-                    [disabled]="isLoading"
+                    [disabled]="isLoading$ | async"
                   >
                     Decrypt
                   </button>
@@ -87,7 +87,7 @@
       <ng-template #displayMessage>
         <app-display-secure-message
           *ngIf="!isReplying; else replyMessage"
-          [message]="message"
+          [message]="message$ | async"
           [decryptedContent]="decryptedContent"
           [decryptedSubject]="decryptedSubject"
           [hash]="hash"
@@ -99,8 +99,8 @@
 
         <ng-template #replyMessage>
           <app-reply-secure-message
-            [sourceMessage]="message"
-            *ngIf="message?.is_subject_encrypted === false || decryptedSubject"
+            [sourceMessage]="message$ | async"
+            *ngIf="(message$ | async)?.is_subject_encrypted === false || decryptedSubject"
             [hash]="hash"
             [secret]="secret"
             [senderId]="senderId"
@@ -113,4 +113,4 @@
   </div>
 </section>
 
-<img *ngIf="isLoading" class="loading-icon" src="assets/icons/spinner.svg" />
+<img *ngIf="isLoading$ | async" class="loading-icon" src="assets/icons/spinner.svg" />
