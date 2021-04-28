@@ -136,12 +136,12 @@
           <button
             class="btn btn-lg btn-secondary billing-submit-btn"
             role="button"
-            [disabled]="inProgress"
+            [disabled]="(inProgress$ | async)"
             (click)="submitStripeForm()"
           >
             Donate
           </button>
-          <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+          <app-loading-spinner [showSpinner]="(inProgress$ | async)"></app-loading-spinner>
         </div>
       </div>
     </form>

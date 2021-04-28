@@ -1,16 +1,17 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../store/datatypes';
 import { SnackErrorPush } from '../../../store';
-import { DonationService } from '../../../store/services/donation.service';
 import { MakeStripDonation } from '../../../store/actions/donate.actions';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-stripe-form',
   templateUrl: './stripe-form.component.html',
   styleUrls: ['./stripe-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StripeFormComponent implements OnInit {
   /**
@@ -49,13 +50,12 @@ export class StripeFormComponent implements OnInit {
   /**
    * Display loader on form submission
    */
-  inProgress = false;
+  inProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private formBuilder: FormBuilder,
     private _zone: NgZone,
     private store: Store<AppState>,
-    private donationService: DonationService,
   ) {}
 
   /**
@@ -114,7 +114,7 @@ export class StripeFormComponent implements OnInit {
    * token is passed to a method that makes payment using CTemplar API
    */
   submitStripeForm() {
-    this.inProgress = true;
+    this.inProgress$.next(true);
     (<any>window).Stripe.card.createToken(
       {
         number: this.cardNumber,
@@ -125,7 +125,7 @@ export class StripeFormComponent implements OnInit {
       (status: number, response: any) => {
         // Wrapping inside the Angular zone
         this._zone.run(() => {
-          this.inProgress = false;
+          this.inProgress$.next(false);
           if (status === 200) {
             this.performStripeDonationTransaction(response.id);
           } else {
