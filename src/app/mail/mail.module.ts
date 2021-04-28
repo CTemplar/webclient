@@ -47,6 +47,7 @@ import { ReceiverEmailChipComponent } from './mail-sidebar/compose-mail/receiver
 import { ImportPrivateKeyComponent } from './dialogs/import-private-key/import-private-key.component';
 import { MailDetailHeaderComponent } from './mail-detail/mail-detail-header/mail-detail-header.component';
 import { MailDetailBodyComponent } from './mail-detail/mail-detail-body/mail-detail-body.component';
+import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-detail-password-decryption-panel/mail-detail-password-decryption-panel.component';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -80,6 +81,7 @@ import { MailDetailBodyComponent } from './mail-detail/mail-detail-body/mail-det
     ImportPrivateKeyComponent,
     MailDetailHeaderComponent,
     MailDetailBodyComponent,
+    MailDetailPasswordDecryptionPanelComponent,
   ],
   imports: [
     CommonModule,

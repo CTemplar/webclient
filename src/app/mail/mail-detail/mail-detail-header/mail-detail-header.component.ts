@@ -25,23 +25,23 @@ export class MailDetailHeaderComponent implements OnInit {
 
   @Input() isParentHeader: boolean;
 
-  @Input() decryptedContents: any = {};
+  @Input() decryptedContents: string;
 
   @Input() isShowTrashRelatedChildren: boolean;
 
   @Input() mailFolder: MailFolderType;
 
-  @Input() isDecryptingError: StringBooleanMappedType = {};
+  @Input() isDecryptingError: boolean;
 
   /**
    * Represents if mail is expanded or not
    * If mail's folder is Draft, then would represent Composer is opened or not
    */
-  @Input() mailExpandedStatus: NumberBooleanMappedType = {};
+  @Input() mailExpandedStatus: boolean;
 
-  @Output() onToggleStarred = new EventEmitter<Mail>();
+  @Output() onToggleStarred = new EventEmitter();
 
-  @Output() onClick = new EventEmitter<Mail>();
+  @Output() onClick = new EventEmitter();
 
   settings: Settings;
 
@@ -98,16 +98,12 @@ export class MailDetailHeaderComponent implements OnInit {
   }
 
   onClickHeader() {
-    if (this.isParentHeader) {
-      this.onClick.emit();
-    } else {
-      this.onClick.emit(this.mail);
-    }
+    this.onClick.emit();
   }
 
   onToggleStar($event: any) {
     $event.stopPropagation();
     $event.preventDefault();
-    this.onToggleStarred.emit(this.mail);
+    this.onToggleStarred.emit();
   }
 }

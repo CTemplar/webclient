@@ -496,16 +496,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  decryptWithPassword(inputID: string, mail: Mail) {
-    const input = <HTMLInputElement>document.getElementById(inputID);
-    if (!mail) return;
-    if (!input.value) {
-      return;
-    }
+  decryptWithPassword(password: string, mail: Mail) {
+    if (!password) return;
     this.isDecrypting[mail.id] = true;
     this.mailExpandedStatus[mail.id] = true;
     this.pgpService
-      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), input.value)
+      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), password)
       .pipe(take(1))
       .subscribe(
         () => {
@@ -942,14 +938,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     };
     newMail.content = this.getForwardMessageSummary(mail);
     newMail.subject = `Fwd: ${this.mail.subject}`;
-    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)).id;
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     newMail.last_action = MailAction.FORWARD;
     newMail.is_html = mail.is_html;
     this.selectedMailToForward = mail;
     // this.setActionParent(mail, isChildMail, mainReply);
     if (!isChildMail && mainReply) {
       if (this.mail.children && this.mail.children.length > 0) {
-        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1]?.id;
       } else {
         newMail.last_action_parent_id = this.mail.id;
       }
@@ -1363,14 +1359,5 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private onShowTrashRelatedChildren() {
     this.isShowTrashRelatedChildren = !this.isShowTrashRelatedChildren;
-  }
-
-  // == Toggle password visibility
-  togglePassword(inputID: string): any {
-    const input = <HTMLInputElement>document.getElementById(inputID);
-    if (!input.value) {
-      return;
-    }
-    input.type = input.type === 'password' ? 'text' : 'password';
   }
 }

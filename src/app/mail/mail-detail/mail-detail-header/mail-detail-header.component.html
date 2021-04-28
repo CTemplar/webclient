@@ -6,7 +6,7 @@
         (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) ||
         (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)
       "
-    (click)="onClickHeader()"
+    (click)="onClick.emit()"
   >
     <div class="row">
       <div class="col-8">
@@ -137,12 +137,12 @@
           </div>
           <div>
             <label class="folder-batch" [style.background]="folderColors[mail?.folder]">{{ mail?.folder }}</label>
-            <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus[mail?.id]"></i>
-            <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus[mail?.id]"></i>
+            <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus"></i>
+            <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus"></i>
           </div>
         </div>
       </div>
     </div>
-    <app-mail-detail-decryption-error *ngIf="isDecryptingError[mail?.id]"></app-mail-detail-decryption-error>
+    <app-mail-detail-decryption-error *ngIf="isDecryptingError"></app-mail-detail-decryption-error>
   </div>
 </section>
