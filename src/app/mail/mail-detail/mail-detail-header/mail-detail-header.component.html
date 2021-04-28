@@ -30,6 +30,9 @@
                 <i *ngIf="mail?.last_action" class="fas fa-{{ mail?.last_action | lastAction }} last-action"></i>
               </span>
               <app-mail-detail-encryption-type-icon [mail]="mail"></app-mail-detail-encryption-type-icon>
+              <a *ngIf="unsubscribeLink" class="unsubscribe text-grey-dark" (click)="openUnsubscribeLink()" rel="noopener noreferrer">
+                <u>{{ 'mail_detail.unsubscribe' | translate }}</u>
+              </a>
             </li>
             <li id="{{ mail?.id }}-mail-to" *ngIf="mail?.receiver?.length > 0">
               {{ 'settings.compose.to' | translate }}

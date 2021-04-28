@@ -33,6 +33,8 @@ export class MailDetailHeaderComponent implements OnInit {
 
   @Input() isDecryptingError: boolean;
 
+  @Input() unsubscribeLink: string;
+
   /**
    * Represents if mail is expanded or not
    * If mail's folder is Draft, then would represent Composer is opened or not
@@ -105,5 +107,11 @@ export class MailDetailHeaderComponent implements OnInit {
     $event.stopPropagation();
     $event.preventDefault();
     this.onToggleStarred.emit();
+  }
+
+  openUnsubscribeLink() {
+    if (this.unsubscribeLink) {
+      window.open(this.unsubscribeLink, '_blank');
+    }
   }
 }

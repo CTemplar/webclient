@@ -259,7 +259,15 @@ export class OpenPgpService {
     const subject = new Subject<any>();
     const subjectId = performance.now();
     this.subjects[subjectId] = subject;
-    this.decryptProcess(mailboxId, mailId, mailData, isDecryptingAllSubjects, subjectId, isPGPMime, isSkipDecryptSubject);
+    this.decryptProcess(
+      mailboxId,
+      mailId,
+      mailData,
+      isDecryptingAllSubjects,
+      subjectId,
+      isPGPMime,
+      isSkipDecryptSubject,
+    );
     return subject.asObservable();
   }
 

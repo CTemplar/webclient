@@ -72,7 +72,7 @@
                       readonly
                       tabindex="-1"
                     />
-                    <ng-container *ngIf="signupState?.inProgress; else showIcons">
+                    <ng-container *ngIf="(signupState$ | async)?.inProgress; else showIcons">
                       <app-loading-spinner
                         class="username-availability-spinner"
                         [showSpinner]="true"
@@ -81,12 +81,14 @@
                     <ng-template #showIcons>
                       <i
                         class="fas fa-check green"
-                        *ngIf="signupState.usernameExists === false && !signupForm.controls['username'].errors"
+                        *ngIf="
+                          (signupState$ | async).usernameExists === false && !signupForm.controls['username'].errors
+                        "
                       ></i>
                       <i
                         class="fas fa-times text-danger"
                         *ngIf="
-                          signupState.usernameExists === true ||
+                          (signupState$ | async).usernameExists === true ||
                           (signupForm.controls['username'].errors &&
                             (signupForm.controls['username'].touched || submitted))
                         "
@@ -124,7 +126,7 @@
                     </ng-template>
                   </ng-container>
                   <ng-template #usernameExistsBlock>
-                    <span *ngIf="signupState.usernameExists === true" class="validate-message"
+                    <span *ngIf="(signupState$ | async).usernameExists === true" class="validate-message"
                       >Username already exists.
                     </span>
                   </ng-template>

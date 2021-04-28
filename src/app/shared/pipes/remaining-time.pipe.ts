@@ -41,7 +41,9 @@ export class RemainingTimePipe implements PipeTransform {
     seconds -= hrs * 3600;
     const mnts = Math.floor(seconds / 60);
     seconds -= hrs * 3600;
-    return `${days}d ${this.padLeft(hrs)}:${this.padLeft(mnts)}`;
+    return days > 0
+      ? `${days}${days > 1 ? 'days' : 'day'} ${this.padLeft(hrs)}:${this.padLeft(mnts)}`
+      : `${this.padLeft(hrs)}:${this.padLeft(mnts)}`;
   }
 
   private padLeft(number: number, size = 2) {

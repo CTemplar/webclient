@@ -198,6 +198,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   contacts: any[] = [];
 
+  unsubscribeLink = '';
+  unsubscribeMailTo = '';
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -720,11 +723,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const headersArray: { key: string; value: any }[] = [];
       headers.forEach((header: any) => {
         Object.keys(header).forEach(key => {
+          if (key === 'List-Unsubscribe') {
+            const value = header[key];
+            const valueArray = value.split(',');
+            if (valueArray.length > 1) {
+              this.unsubscribeMailTo = valueArray[0].replace(/(<mailto:|>)+/g, '');
+              this.unsubscribeLink = valueArray[1].replace(/(\n <|>)+/g, '');
+            }
+          }
           if (header.hasOwnProperty(key)) {
             headersArray.push({ key, value: header[key] });
           }
         });
       });
+
       return headersArray;
     } catch {
       return [];
@@ -832,7 +844,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
-    newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)).id;
+    newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email))?.id;
     if (mail.reply_to && mail.reply_to.length > 0) {
       newMail.receiver = mail.reply_to;
     } else {
@@ -892,7 +904,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
-    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)).id;
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     if (mail.sender !== this.currentMailbox.email) {
       newMail.receiver = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
     } else {
@@ -1246,7 +1258,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getPreviousMail(index: number, isChildMail: boolean, mainReply = false, isForwarding = false) {
     let children: Mail[] = this.mail.children || [];
     if (this.mailFolder !== MailFolderType.TRASH && this.mail.children) {
-      children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT);
+      children = this.mail.children.filter(
+        child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT,
+      );
     }
     const previousMail = [];
     if (isChildMail) {

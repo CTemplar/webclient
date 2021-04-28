@@ -11,7 +11,7 @@ function checkSupportCryptoBrowser() {
  * detect IEEdge
  */
 function checkSupportBrowser() {
-  var ua = window.navigator.userAgent;
+  const ua = window.navigator.userAgent;
   // MicroSoft browser
   if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0 || ua.indexOf('Edge/') > 0) {
     return false;
@@ -21,7 +21,7 @@ function checkSupportBrowser() {
 }
 
 function openEdge() {
-  var openInEdge = document.querySelector('#openInEdge');
+  const openInEdge = document.querySelector('#openInEdge');
   openInEdge.href = 'microsoft-edge:https://ctemplar.com';
 }
 

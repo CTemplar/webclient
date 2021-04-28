@@ -23,8 +23,9 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
     .map(mailID => {
       if (mailMap.hasOwnProperty(mailID)) {
         return mailMap[mailID];
+      } else {
+        return null;
       }
-      return null;
     })
     .filter(mail => !!mail);
   const sorted = mails

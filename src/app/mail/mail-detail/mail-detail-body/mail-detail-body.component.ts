@@ -46,6 +46,8 @@ export class MailDetailBodyComponent implements OnInit {
 
   @Input() isLastChild?: boolean;
 
+  @Input() unsubscribeLink: string;
+
 
   /**
    * Output Section

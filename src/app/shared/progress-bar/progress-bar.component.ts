@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-progress-bar',
@@ -6,10 +6,6 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
   styleUrls: ['./progress-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProgressBarComponent implements OnInit {
+export class ProgressBarComponent {
   @Input() active: boolean;
-
-  constructor() {}
-
-  ngOnInit() {}
 }
