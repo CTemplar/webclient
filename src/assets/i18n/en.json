@@ -808,7 +808,8 @@
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",
-    "confirm_external_link": "Do you trust the person who sent this link? This link takes you outside of CTemplar’s platform and we are not responsible for any third-party content."
+    "confirm_external_link": "Do you trust the person who sent this link? This link takes you outside of CTemplar’s platform and we are not responsible for any third-party content.",
+    "unsubscribe": "Unsubscribe"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",
