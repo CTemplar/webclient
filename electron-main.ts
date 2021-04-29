@@ -2,6 +2,7 @@ import { app, BrowserWindow, screen, session, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as path from 'path';
 import * as url from 'url';
+import * as windowStateKeeper from 'electron-window-state';
 
 let mainWindow: BrowserWindow;
 
@@ -9,13 +10,27 @@ function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
+  // Load the previous state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: size.width,
+    defaultHeight: size.height,
+  });
+
+  // Create the window using the state information
   mainWindow = new BrowserWindow({
-    width: size.width,
-    height: size.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     webPreferences: {
       allowRunningInsecureContent: true,
     },
   });
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(mainWindow);
 
   mainWindow.loadURL(
     url.format({
@@ -72,6 +87,7 @@ try {
         callback({ requestHeaders: details.requestHeaders });
       }
     );
+
     setTimeout(createWindow, 400);
     autoUpdater.checkForUpdatesAndNotify();
   });

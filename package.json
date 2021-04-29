@@ -51,6 +51,7 @@
     "bootstrap": "^4.5.2",
     "core-js": "^3.6.4",
     "electron-updater": "^4.3.4",
+    "electron-window-state": "^5.0.3",
     "email-addresses": "^3.1.0",
     "juice": "^7.0.0",
     "map.prototype.tojson": "^0.1.3",
