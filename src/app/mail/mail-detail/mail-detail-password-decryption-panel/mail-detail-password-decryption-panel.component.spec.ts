@@ -8,9 +8,8 @@ describe('MailDetailPasswordDecryptionPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MailDetailPasswordDecryptionPanelComponent ]
-    })
-    .compileComponents();
+      declarations: [MailDetailPasswordDecryptionPanelComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -2,10 +2,10 @@
 <ng-container
   class="mailbox-section"
   *ngIf="
-      isShowTrashRelatedChildren ||
-      (mailFolder !== mailFolderTypes.TRASH && mail?.folder !== mailFolderTypes.TRASH) ||
-      (mailFolder === mailFolderTypes.TRASH && mail?.folder === mailFolderTypes.TRASH)
-    "
+    isShowTrashRelatedChildren ||
+    (mailFolder !== mailFolderTypes.TRASH && mail?.folder !== mailFolderTypes.TRASH) ||
+    (mailFolder === mailFolderTypes.TRASH && mail?.folder === mailFolderTypes.TRASH)
+  "
 >
   <div [ngClass]="{ 'last-child': isLastChild }">
     <app-mail-detail-header
@@ -41,16 +41,16 @@
           ></button>
           <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
             <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
-              <a class="dropdown-item" (click)="onForward.emit(); scrollToReplyAction.emit();">
+              <a class="dropdown-item" (click)="onForward.emit(); scrollToReplyAction.emit()">
                 {{ 'mail_detail.forward' | translate }}
               </a>
-              <a class="dropdown-item" (click)="onReply.emit(); scrollToReplyAction.emit();">
+              <a class="dropdown-item" (click)="onReply.emit(); scrollToReplyAction.emit()">
                 {{ 'mail_detail.reply' | translate }}
               </a>
               <a
                 class="dropdown-item"
                 *ngIf="mail?.cc?.length || mail?.bcc?.length || mail?.receiver?.length > 1"
-                (click)="onReplyAll.emit(); scrollToReplyAction.emit();"
+                (click)="onReplyAll.emit(); scrollToReplyAction.emit()"
               >
                 {{ 'mail_detail.reply_all' | translate }}
               </a>
@@ -63,10 +63,10 @@
               class="dropdown-item"
               (click)="onDelete.emit()"
               [translate]="
-              mailFolder === mailFolderTypes.TRASH && mail?.folder === mailFolderTypes.TRASH
-                ? ('mail_detail.delete_message' | translate)
-                : ('mail_detail.delete_this_message' | translate)
-            "
+                mailFolder === mailFolderTypes.TRASH && mail?.folder === mailFolderTypes.TRASH
+                  ? ('mail_detail.delete_message' | translate)
+                  : ('mail_detail.delete_this_message' | translate)
+              "
             >
             </a>
             <a
@@ -93,9 +93,9 @@
             </a>
             <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode.emit()" *ngIf="decryptedContentsPlain">
               {{
-              plainTextViewState
-                ? ('mail_detail.show_rich_text' | translate)
-                : ('mail_detail.show_plain_text' | translate)
+                plainTextViewState
+                  ? ('mail_detail.show_rich_text' | translate)
+                  : ('mail_detail.show_plain_text' | translate)
               }}
             </a>
           </div>
@@ -111,10 +111,10 @@
               [style.white-space]="isDecryptingError ? 'break-spaces' : ''"
               id="{{ mail?.id }}-raw-mail-content"
               [innerHTML]="
-              mail?.is_html
-                ? (decryptedContents | safe: 'sanitize':disableExternalImages)
-                : (decryptedContents | linebreaktobrtag | safe: 'sanitize':disableExternalImages)
-            "
+                mail?.is_html
+                  ? (decryptedContents | safe: 'sanitize':disableExternalImages)
+                  : (decryptedContents | linebreaktobrtag | safe: 'sanitize':disableExternalImages)
+              "
             ></div>
           </ng-template>
           <ng-template #plainBlock>
@@ -132,11 +132,7 @@
       <div
         align="center"
         class="decryption-spinner"
-        *ngIf="
-        mailExpandedStatus &&
-        !decryptedContents &&
-        (isDecrypting || (!isDecrypting && !isPasswordEncrypted))
-      "
+        *ngIf="mailExpandedStatus && !decryptedContents && (isDecrypting || (!isDecrypting && !isPasswordEncrypted))"
       >
         <img class="mt-3" [src]="loadingImage | safe: 'url'" />
         <div class="mt-3">

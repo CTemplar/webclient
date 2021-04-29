@@ -9,10 +9,9 @@ import { LOADING_IMAGE } from '../../../store/services';
 @Component({
   selector: 'app-mail-detail-body',
   templateUrl: './mail-detail-body.component.html',
-  styleUrls: ['./mail-detail-body.component.scss']
+  styleUrls: ['./mail-detail-body.component.scss'],
 })
 export class MailDetailBodyComponent implements OnInit {
-
   /**
    * Input Section
    */
@@ -48,7 +47,6 @@ export class MailDetailBodyComponent implements OnInit {
 
   @Input() unsubscribeLink: string;
 
-
   /**
    * Output Section
    */
@@ -83,7 +81,6 @@ export class MailDetailBodyComponent implements OnInit {
   @Output() onClickHeader = new EventEmitter();
 
   @Output() onToggleStarred = new EventEmitter();
-
 
   /**
    * Local Variables Section

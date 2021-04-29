@@ -2,10 +2,10 @@
   <div
     class="ui-body is-xs bg-faded cursor-pointer mail-header"
     *ngIf="
-        isShowTrashRelatedChildren ||
-        (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) ||
-        (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)
-      "
+      isShowTrashRelatedChildren ||
+      (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) ||
+      (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)
+    "
     (click)="onClick.emit()"
   >
     <div class="row">
@@ -30,7 +30,12 @@
                 <i *ngIf="mail?.last_action" class="fas fa-{{ mail?.last_action | lastAction }} last-action"></i>
               </span>
               <app-mail-detail-encryption-type-icon [mail]="mail"></app-mail-detail-encryption-type-icon>
-              <a *ngIf="unsubscribeLink" class="unsubscribe text-grey-dark" (click)="openUnsubscribeLink()" rel="noopener noreferrer">
+              <a
+                *ngIf="unsubscribeLink"
+                class="unsubscribe text-grey-dark"
+                (click)="openUnsubscribeLink()"
+                rel="noopener noreferrer"
+              >
                 <u>{{ 'mail_detail.unsubscribe' | translate }}</u>
               </a>
             </li>
@@ -96,21 +101,21 @@
         <div class="msg-reply-type-holder">
           <div class="d-flex align-items-center justify-content-end">
             <ng-container *ngIf="mailFolder === mailFolderTypes.OUTBOX">
-                <span class="badge badge-warning mr-2 p-1" *ngIf="mail?.destruct_date">
-                  <span>{{ 'mail_detail.delete_in' | translate }}</span> {{ mail?.destruct_date | remainingTime }}
-                </span>
+              <span class="badge badge-warning mr-2 p-1" *ngIf="mail?.destruct_date">
+                <span>{{ 'mail_detail.delete_in' | translate }}</span> {{ mail?.destruct_date | remainingTime }}
+              </span>
               <span class="badge badge-success mr-2 p-1" *ngIf="mail?.delayed_delivery">
-                  <span>{{ 'mail_detail.delay_delivery' | translate }}</span>
+                <span>{{ 'mail_detail.delay_delivery' | translate }}</span>
                 {{ mail?.delayed_delivery | remainingTime }}
-                </span>
+              </span>
               <span class="badge badge-danger mr-2 p-1" *ngIf="mail?.dead_man_duration">
-                  <span>{{ 'settings.compose.dead_man_timer' | translate }}</span>
+                <span>{{ 'settings.compose.dead_man_timer' | translate }}</span>
                 {{ mail?.dead_man_duration | remainingTime: true }}
-                </span>
+              </span>
             </ng-container>
             <span *ngIf="mail?.attachments?.length > 0" class="mr-3">
-                <i class="icon icon-attachment"></i>
-              </span>
+              <i class="icon icon-attachment"></i>
+            </span>
             <label class="msg-received-time mb-0" id="{{ mail?.id }}-mail-date">
               <ng-container *ngIf="mail?.folder === mailFolderTypes.SENT && mail?.sent_at; else createdAt">
                 {{ mail?.sent_at | momentDate: 'medium' }}
