@@ -198,8 +198,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   contacts: any[] = [];
 
-  unsubscribeLink: string = '';
-  unsubscribeMailTo: string = '';
+  unsubscribeLink = '';
+  unsubscribeMailTo = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -499,16 +499,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  decryptWithPassword(inputID: string, mail: Mail) {
-    const input = <HTMLInputElement>document.getElementById(inputID);
-    if (!mail) return;
-    if (!input.value) {
-      return;
-    }
+  decryptWithPassword(password: string, mail: Mail) {
+    if (!password) return;
     this.isDecrypting[mail.id] = true;
     this.mailExpandedStatus[mail.id] = true;
     this.pgpService
-      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), input.value)
+      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), password)
       .pipe(take(1))
       .subscribe(
         () => {
@@ -715,11 +711,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  openUnsubscribeLink() {
-    if (this.unsubscribeLink) {
-      window.open(this.unsubscribeLink, '_blank');
-    }
-  }
   /**
    * Parse headers with new json format from origin headers
    */
@@ -966,7 +957,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     // this.setActionParent(mail, isChildMail, mainReply);
     if (!isChildMail && mainReply) {
       if (this.mail.children && this.mail.children.length > 0) {
-        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1]?.id;
       } else {
         newMail.last_action_parent_id = this.mail.id;
       }
@@ -1100,6 +1091,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   ontoggleStarred(event: any, mail: Mail, withChildren = true) {
     event.stopPropagation();
     event.preventDefault();
+    this.store.dispatch(
+      new StarMail({
+        ids: mail.id.toString(),
+        starred: withChildren ? !mail.has_starred_children : !mail.starred,
+        withChildren,
+      }),
+    );
+  }
+
+  onToggleStarred(mail: Mail, withChildren = true) {
     this.store.dispatch(
       new StarMail({
         ids: mail.id.toString(),
@@ -1372,14 +1373,5 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private onShowTrashRelatedChildren() {
     this.isShowTrashRelatedChildren = !this.isShowTrashRelatedChildren;
-  }
-
-  // == Toggle password visibility
-  togglePassword(inputID: string): any {
-    const input = <HTMLInputElement>document.getElementById(inputID);
-    if (!input.value) {
-      return;
-    }
-    input.type = input.type === 'password' ? 'text' : 'password';
   }
 }
