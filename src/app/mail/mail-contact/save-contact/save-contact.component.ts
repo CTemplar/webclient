@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -42,6 +43,7 @@ import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
   styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SaveContactComponent implements OnInit, AfterViewInit {
   @Input() selectedContact: Contact;

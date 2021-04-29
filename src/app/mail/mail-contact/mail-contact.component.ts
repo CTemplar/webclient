@@ -184,6 +184,10 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     this.selectedContact = null;
   }
 
+  onSave(): any {
+    console.log('Contact saved.');
+  }
+
   addUserContactModalOpen(addUserContent: any) {
     this.isNewContact = true;
     this.modalService.open(addUserContent, {

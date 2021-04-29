@@ -319,7 +319,7 @@
           <app-save-contact
             *ngIf="isNewContact"
             [selectedContact]="selectedContact"
-            (userSaved)="destroySplitContactLayout()"
+            (userSaved)="onSave()"
           ></app-save-contact>
         </div>
       </div>
