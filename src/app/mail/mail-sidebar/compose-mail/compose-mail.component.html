@@ -940,7 +940,9 @@
             ></ngb-timepicker>
           </div>
         </div>
-        <label class="form-group">{{ 'mail_detail.delete_in' | translate }} {{ selfDestructTimeString | remainingTime }}</label>
+        <label class="form-group"
+          >{{ 'mail_detail.delete_in' | translate }} {{ selfDestructTimeString | remainingTime }}</label
+        >
         <div *ngIf="selfDestruct.error" class="l-alert l-alert-danger mb-3">{{ selfDestruct.error }}</div>
         <div class="form-group text-center btns-xs-3 mb-0">
           <button type="button" (click)="setSelfDestructValue()" class="btn btn-success btn-sm mr-1" role="button">
