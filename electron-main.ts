@@ -1,7 +1,8 @@
-import { app, BrowserWindow, screen, shell } from 'electron';
+import { app, BrowserWindow, screen, session, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as path from 'path';
 import * as url from 'url';
+import * as windowStateKeeper from 'electron-window-state';
 
 let mainWindow: BrowserWindow;
 
@@ -9,13 +10,27 @@ function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
+  // Load the previous state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: size.width,
+    defaultHeight: size.height,
+  });
+
+  // Create the window using the state information
   mainWindow = new BrowserWindow({
-    width: size.width,
-    height: size.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     webPreferences: {
       allowRunningInsecureContent: true,
     },
   });
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(mainWindow);
 
   mainWindow.loadURL(
     url.format({
@@ -59,7 +74,15 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
+
   app.on('ready', () => {
+    const filter = {
+      urls: ['wss://api.ctemplar.com/*'],
+    };
+    session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
+      details.requestHeaders['Origin'] = 'https://mail.ctemplar.com';
+      callback({ requestHeaders: details.requestHeaders });
+    });
     setTimeout(createWindow, 400);
     autoUpdater.checkForUpdatesAndNotify();
   });
