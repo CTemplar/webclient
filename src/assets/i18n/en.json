@@ -86,7 +86,8 @@
     "no": "No",
     "logout": "Log out",
     "account_password": "Your account password",
-    "continue_to_link": "Continue to link"
+    "continue_to_link": "Continue to link",
+    "dont_ask_use_local_cache": "Don't ask any more"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -97,6 +98,7 @@
     "compose_background": "Default composing background",
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Composing autosave interval",
+    "ask_local_cache": "Ask to use local cache",
     "overview": "Overview",
     "username": "Username",
     "domains": "Domains",

@@ -917,6 +917,48 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.ask_local_cache'">Ask to use local cache</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="askLocalCacheEnable"
+                            name="[askLocalCache]"
+                            type="radio"
+                            (click)="updateSettings('use_local_cache', 'ASK')"
+                            [checked]="askLocalCache"
+                          />
+                          <label for="askLocalCacheEnable" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col" *ngIf="userPlanType !== planType.FREE">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="askLocalCacheDisable"
+                            name="[askLocalCache]"
+                            type="radio"
+                            (click)="updateSettings('use_local_cache', 'DISALLOWED')"
+                            [checked]="!askLocalCache"
+                          />
+                          <label for="askLocalCacheDisable" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="info-card mt-2 mx-3 full-width" *ngIf="userPlanType === planType.FREE">
+                    <p [translate]="'settings.upgrade_to_change_spam_filter'">
+                      Upgrade to Prime to change the spam filter setting!
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
