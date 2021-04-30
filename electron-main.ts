@@ -55,16 +55,16 @@ function createWindow() {
     // REDIRECT TO FIRST WEBPAGE AGAIN
   });
 
-  // open external links with web browser
-  mainWindow.webContents.on('will-navigate', (e, reqUrl) => {
-    const getHost = host => require('url').parse(host).host;
-    const reqHost = getHost(reqUrl);
-    const isExternal = reqHost && reqHost !== getHost(mainWindow.webContents.getURL());
-    if (isExternal) {
+  let handleRedirect = (e: Event, url: string) => {
+    if(url != mainWindow.webContents.getURL()) {
       e.preventDefault();
-      shell.openExternal(this.href);
+      shell.openExternal(url);
     }
-  });
+  }
+
+  // open external links with web browser
+  mainWindow.webContents.on('will-navigate', handleRedirect);
+  mainWindow.webContents.on('new-window', handleRedirect);
 }
 
 try {
