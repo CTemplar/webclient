@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { AppState, Settings, UserState } from '../../../store/datatypes';
-import { NOT_FIRST_LOGIN, SYNC_DATA_WITH_STORE } from '../../../shared/config';
+import { SYNC_DATA_WITH_STORE } from '../../../shared/config';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 
@@ -27,20 +27,18 @@ export class UseCacheDialogComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
+        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache !== 'ASK';
         this.settings = user.settings;
       });
   }
   onFlagSaveDecryptedSubject() {
     this.saveAskLocalCach();
     localStorage.setItem(SYNC_DATA_WITH_STORE, 'true');
-    localStorage.setItem(NOT_FIRST_LOGIN, 'true');
     this.activeModal.dismiss();
   }
 
   onDismissSaveDecryptedSubject() {
     this.saveAskLocalCach();
-    localStorage.setItem(NOT_FIRST_LOGIN, 'true');
     localStorage.setItem(SYNC_DATA_WITH_STORE, 'false');
     this.activeModal.dismiss();
   }

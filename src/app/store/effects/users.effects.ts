@@ -110,6 +110,10 @@ import {
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
 import { GetOrganizationUsers } from '../organization.store';
+import { NOT_FIRST_LOGIN } from '../../shared/config';
+import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Injectable({
   providedIn: 'root',
@@ -121,6 +125,7 @@ export class UsersEffects {
     private notificationService: NotificationService,
     private mailService: MailService,
     private sharedService: SharedService,
+    private modalService: NgbModal,
   ) {}
 
   @Effect()
@@ -143,6 +148,12 @@ export class UsersEffects {
     switchMap(() => {
       return this.userService.getAccountDetails().pipe(
         map(user => {
+          if (localStorage.getItem(NOT_FIRST_LOGIN) !== 'true') {
+            localStorage.setItem(NOT_FIRST_LOGIN, 'true');
+            if (user[0].settings.use_local_cache === 'ASK') {
+              this.openUseCacheConfirmDialog();
+            }
+          }
           return new AccountDetailsGetSuccess(user[0]);
         }),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get account details.' }))),
@@ -808,4 +819,14 @@ export class UsersEffects {
       );
     }),
   );
+
+  openUseCacheConfirmDialog() {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    };
+    this.modalService.open(UseCacheDialogComponent, ngbModalOptions);
+  }
 }
