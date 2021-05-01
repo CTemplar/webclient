@@ -114,7 +114,6 @@ import { NOT_FIRST_LOGIN } from '../../shared/config';
 import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
-
 @Injectable({
   providedIn: 'root',
 })

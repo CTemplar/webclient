@@ -58,11 +58,7 @@ import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared
   providedIn: 'root',
 })
 export class AuthEffects {
-  constructor(
-    private actions: Actions,
-    private authService: UsersService,
-    private router: Router,
-  ) {}
+  constructor(private actions: Actions, private authService: UsersService, private router: Router) {}
 
   @Effect()
   LogIn: Observable<any> = this.actions.pipe(

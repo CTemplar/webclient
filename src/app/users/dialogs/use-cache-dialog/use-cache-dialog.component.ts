@@ -15,7 +15,7 @@ import { MailSettingsService } from '../../../store/services/mail-settings.servi
 export class UseCacheDialogComponent implements OnInit {
   askLocalCache: boolean = false;
   settings: Settings = new Settings();
-  
+
   constructor(
     public activeModal: NgbActiveModal,
     private store: Store<AppState>,
@@ -45,7 +45,7 @@ export class UseCacheDialogComponent implements OnInit {
 
   saveAskLocalCach() {
     let value = 'ASK';
-    if(this.askLocalCache) {
+    if (this.askLocalCache) {
       value = 'DISALLOWED';
     }
     this.settingsService.updateSettings(this.settings, 'use_local_cache', value);
