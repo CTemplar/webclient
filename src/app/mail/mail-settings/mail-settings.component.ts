@@ -155,6 +155,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
+  askLocalCache: boolean;
+
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
@@ -198,6 +200,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
         this.WhitelistItems = user.whiteList;
         this.BlacklistItems = user.blackList;
         this.settings = user.settings;
+        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
         this.notificationEmail = user.settings.notification_email;
         this.timeZoneFilter.setValue(user.settings.timezone);
         this.cdr.detectChanges();
