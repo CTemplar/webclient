@@ -100,9 +100,7 @@ export class UserAccountInitDialogComponent implements OnInit {
     }
   }
 
-  onAnimationStart() {
-    console.log('user-account-init-dialog is onAnimationStart');
-  }
+  onAnimationStart() {}
 
   onAnimationDone() {
     if (this.step === 2 && !this.isPgpGenerationComplete) {

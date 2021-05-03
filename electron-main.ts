@@ -1,10 +1,15 @@
-import { app, BrowserWindow, screen, session, shell } from 'electron';
+import { app, BrowserWindow, screen, session, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as path from 'path';
 import * as url from 'url';
 import * as windowStateKeeper from 'electron-window-state';
 
+// Initialize remote module
+require('@electron/remote/main').initialize();
+
 let mainWindow: BrowserWindow;
+const args = process.argv.slice(1),
+  serve = args.some(val => val === '--serve');
 
 function createWindow() {
   const electronScreen = screen;
@@ -23,22 +28,34 @@ function createWindow() {
     width: mainWindowState.width,
     height: mainWindowState.height,
     webPreferences: {
-      allowRunningInsecureContent: true,
+      nodeIntegration: true,
+      allowRunningInsecureContent: (serve) ? true : false,
+      contextIsolation: false,  // false if you want to run 2e2 test with Spectron
+      enableRemoteModule : true // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
     },
   });
 
-  // Let us register listeners on the window, so we can update the state
-  // automatically (the listeners will be removed when the window is closed)
-  // and restore the maximized or full screen state
-  mainWindowState.manage(mainWindow);
+  if (serve) {
+    mainWindow.webContents.openDevTools();
+    require('electron-reload')(__dirname, {
+      electron: require(`${__dirname}/node_modules/electron`)
+    });
+    mainWindow.loadURL('http://localhost:4200');
 
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, `dist/index.html`),
-      protocol: 'file:',
-      slashes: true,
-    }),
-  );
+  } else {
+    // Let us register listeners on the window, so we can update the state
+    // automatically (the listeners will be removed when the window is closed)
+    // and restore the maximized or full screen state
+    mainWindowState.manage(mainWindow);
+
+    mainWindow.loadURL(
+      url.format({
+        pathname: path.join(__dirname, `dist/index.html`),
+        protocol: 'file:',
+        slashes: true,
+      }),
+    );
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -55,7 +72,7 @@ function createWindow() {
     // REDIRECT TO FIRST WEBPAGE AGAIN
   });
 
-  let handleRedirect = (e: Event, url: string) => {
+  const handleRedirect = (e: Event, url: string) => {
     if(url != mainWindow.webContents.getURL()) {
       e.preventDefault();
       shell.openExternal(url);
@@ -66,6 +83,20 @@ function createWindow() {
   mainWindow.webContents.on('will-navigate', handleRedirect);
   mainWindow.webContents.on('new-window', handleRedirect);
 }
+
+const printRawHtml = (printHtml: string) => {
+  const win = new BrowserWindow({ show: false });
+  win.loadURL(`data:text/html;charset=UTF-8,${encodeURIComponent(printHtml)}`);
+
+  win.webContents.on('did-finish-load', () => {
+    win.show();
+    win.webContents.print({}, (success, failureReason) => {});
+  });
+};
+
+ipcMain.on('print-email', (event, printHtml) => {
+  printRawHtml(printHtml);
+});
 
 try {
   app.allowRendererProcessReuse = true;
