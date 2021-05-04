@@ -118,9 +118,12 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     case ContactsActionTypes.CONTACT_DECRYPT_SUCCESS: {
       const contacts = state.contacts.map(contact => {
         if (contact.id === action.payload.id) {
-          contact = action.payload;
-          contact.isDecryptedFrontend = true;
-          contact.is_decryptionInProgress = false;
+          contact = {
+            ...contact,
+            ...action.payload,
+            isDecryptedFrontend: true,
+            is_decryptionInProgress: false,
+          }
         }
         return contact;
       });

@@ -186,6 +186,7 @@
           <thead class="mail-contact-header border-bottom-0 hidden-xs-down">
             <tr>
               <th></th>
+              <th></th>
               <th>
                 <strong>{{ 'common.name' | translate }}</strong>
               </th>
@@ -213,6 +214,16 @@
                     </mat-checkbox>
                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                   </div>
+                </td>
+                <td>
+                  <a
+                    [ngbTooltip]="contact.starred ? ('mail_list.remove_star' | translate) : ('mail_list.start_message' | translate)"
+                    placement="right"
+                    (click)="((contact.is_encrypted && contact.isDecryptedFrontend) || !contact.is_encrypted) && toggleStarred(contact)"
+                    [ngClass]="{ 'is-fav': contact.starred }"
+                  >
+                    <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': !contact.starred }"></i>
+                  </a>
                 </td>
                 <td (click)="editContact(contact, addUserContent)">
                   <div class="mail-list-col-item mail-from-name cursor-pointer">
@@ -302,6 +313,14 @@
                       </p>
                     </div>
                   </div>
+                </td>
+                <td>
+                  <a 
+                    (click)="contact.isDecryptedFrontend && toggleStarred(contact)" 
+                    [ngClass]="{ 'is-fav': contact.starred }" 
+                  >
+                    <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': !contact.starred }"></i>
+                  </a>
                 </td>
               </tr>
             </ng-container>

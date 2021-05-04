@@ -4,13 +4,13 @@ import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 import { AppState, Contact, ContactsState, PlanType, UserState, MailBoxesState } from '../../store/datatypes';
-import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush, ContactNotify } from '../../store';
+import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush, ContactNotify, ContactAdd } from '../../store';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Mailbox } from '../../store/models';
+import { OpenPgpService } from '../../store/services';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -94,7 +94,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     private breakpointsService: BreakpointsService,
     private composeMailService: ComposeMailService,
     private activatedRoute: ActivatedRoute,
-    private translateService: TranslateService,
+    private openpgp: OpenPgpService,
     config: NgbDropdownConfig,
     @Inject(DOCUMENT) private document: Document,
     private cdr: ChangeDetectorRef,
@@ -182,6 +182,15 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     this.isLayoutSplitted = false;
     this.isNewContact = false;
     this.selectedContact = null;
+  }
+
+  toggleStarred(contact: Contact) {
+    contact.starred = !contact.starred;
+    if (contact.is_encrypted) {
+      this.openpgp.encryptContact(contact);
+    } else {
+      this.store.dispatch(new ContactAdd(contact));
+    }
   }
 
   onSave(): any {

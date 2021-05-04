@@ -568,6 +568,7 @@ export interface Contact {
   prefer_encrypt?: AutocryptPreferEncryptType;
   autocrypt_timestamp?: string;
   last_seen?: string;
+  starred?: boolean;
 }
 
 export interface AppState {

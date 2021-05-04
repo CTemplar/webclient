@@ -288,6 +288,7 @@ export class OpenPgpService {
       publicKeys: allPublicKeysArray,
       encryptJson: true,
       id: contact.id,
+      starred: contact.starred,
     });
   }
 
@@ -729,6 +730,7 @@ export class OpenPgpService {
               id: event.data.id,
               encrypted_data: event.data.encryptedContent,
               is_encrypted: true,
+              starred: event.data.starred,
             }),
           );
         }
