@@ -17,7 +17,7 @@ import {
 import { SnackErrorPush } from '../../../store';
 import { OpenPgpService, SharedService, getCryptoRandom } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
-import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/config';
+import { apiUrl, SYNC_DATA_WITH_STORE } from '../../../shared/config';
 import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
@@ -337,7 +337,6 @@ export class SecurityComponent implements OnInit {
 
   updateUsingLocalStorage(isUsing: boolean) {
     localStorage.setItem(SYNC_DATA_WITH_STORE, isUsing ? 'true' : 'false');
-    localStorage.setItem(NOT_FIRST_LOGIN, 'true');
     this.store.dispatch(
       new SnackErrorPush({
         message: 'Settings updated successfully.',

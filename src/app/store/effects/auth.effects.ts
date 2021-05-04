@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { EMPTY } from 'rxjs/internal/observable/empty';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { UsersService } from '../services';
 import {
@@ -54,19 +53,12 @@ import {
 } from '../actions';
 import { PlanType, SignupState } from '../datatypes';
 import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
-import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
-import { MailboxEffects } from './mailbox.effects';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthEffects {
-  constructor(
-    private actions: Actions,
-    private authService: UsersService,
-    private router: Router,
-    private modalService: NgbModal,
-  ) {}
+  constructor(private actions: Actions, private authService: UsersService, private router: Router) {}
 
   @Effect()
   LogIn: Observable<any> = this.actions.pipe(
@@ -90,12 +82,6 @@ export class AuthEffects {
         }
         if (response.payload.is_2fa_enabled || !response.payload.anti_phishing_phrase) {
           this.router.navigateByUrl('/mail');
-        }
-        /**
-         * Check if first login or fresh login
-         */
-        if (localStorage.getItem(NOT_FIRST_LOGIN) !== 'true' && response.payload.fromLoginRequest) {
-          this.openUseCacheConfirmDialog();
         }
       }
     }),
@@ -121,7 +107,7 @@ export class AuthEffects {
       delete payload.monthlyPrice;
       delete payload.annualPricePerMonth;
       delete payload.annualPriceTotal;
-      localStorage.removeItem(NOT_FIRST_LOGIN);
+      localStorage.setItem(NOT_FIRST_LOGIN, 'true');
       localStorage.removeItem(SYNC_DATA_WITH_STORE);
       sessionStorage.removeItem(NOT_FIRST_LOGIN);
       sessionStorage.removeItem(SYNC_DATA_WITH_STORE);
@@ -363,14 +349,4 @@ export class AuthEffects {
       );
     }),
   );
-
-  openUseCacheConfirmDialog() {
-    const ngbModalOptions: NgbModalOptions = {
-      backdrop: 'static',
-      keyboard: false,
-      centered: true,
-      windowClass: 'modal-sm users-action-modal',
-    };
-    /*this.useCacheDialogRef =  */ this.modalService.open(UseCacheDialogComponent, ngbModalOptions);
-  }
 }

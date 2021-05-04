@@ -16,6 +16,7 @@ import {
   REFFERAL_ID_KEY,
   JWT_AUTH_COOKIE,
   REMEMBER_ME,
+  NOT_FIRST_LOGIN,
 } from '../../shared/config';
 import { AppState, AutoResponder, Contact, Settings, AuthState, Domain } from '../datatypes';
 import { Filter } from '../models/filter.model';
@@ -112,6 +113,7 @@ export class UsersService {
     sessionStorage.removeItem('ctemplar_mail');
     localStorage.removeItem(PROMO_CODE_KEY);
     localStorage.removeItem(REMEMBER_ME);
+    localStorage.removeItem(NOT_FIRST_LOGIN);
   }
 
   expireSession() {

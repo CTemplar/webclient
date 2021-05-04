@@ -292,6 +292,8 @@ export class Settings {
   is_disable_loading_images?: boolean;
 
   is_subject_auto_decrypt?: boolean;
+
+  use_local_cache?: string;
 }
 
 export interface Invoice {

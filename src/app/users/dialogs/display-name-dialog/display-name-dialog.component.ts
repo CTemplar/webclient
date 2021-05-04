@@ -9,7 +9,6 @@ import { Mailbox } from '../../../store/models';
 import { MailboxSettingsUpdate } from '../../../store/actions';
 import { SharedService } from '../../../store/services';
 import { NoWhiteSpaceValidator } from '../../../shared/validators/no-whitespace.validator';
-import { NOT_FIRST_LOGIN } from '../../../shared/config';
 import { UseCacheDialogComponent } from '../use-cache-dialog/use-cache-dialog.component';
 
 @UntilDestroy()
@@ -96,11 +95,6 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    /**
-     * Check if first login or fresh login
-     */
-    if (localStorage.getItem(NOT_FIRST_LOGIN) !== 'true') {
-      this.openUseCacheConfirmDialog();
-    }
+    this.openUseCacheConfirmDialog();
   }
 }
