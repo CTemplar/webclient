@@ -44,4 +44,10 @@ export class ElectronService {
       this.ipcRenderer.send('print-email', html);
     }
   }
+
+  public showNotification(message: string, responseUrl: string) {
+    if (this.isElectron && this.ipcRenderer) {
+      this.ipcRenderer.send('native-notification', { message, responseUrl });
+    }
+  }
 }

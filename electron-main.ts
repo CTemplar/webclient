@@ -3,6 +3,7 @@ import { autoUpdater } from 'electron-updater';
 import * as path from 'path';
 import * as url from 'url';
 import * as windowStateKeeper from 'electron-window-state';
+import * as notifier from 'node-notifier';
 
 // Initialize remote module
 require('@electron/remote/main').initialize();
@@ -84,20 +85,6 @@ function createWindow() {
   mainWindow.webContents.on('new-window', handleRedirect);
 }
 
-const printRawHtml = (printHtml: string) => {
-  const win = new BrowserWindow({ show: false });
-  win.loadURL(`data:text/html;charset=UTF-8,${encodeURIComponent(printHtml)}`);
-
-  win.webContents.on('did-finish-load', () => {
-    win.show();
-    win.webContents.print({}, (success, failureReason) => {});
-  });
-};
-
-ipcMain.on('print-email', (event, printHtml) => {
-  printRawHtml(printHtml);
-});
-
 try {
   app.allowRendererProcessReuse = true;
 
@@ -134,6 +121,50 @@ try {
       createWindow();
     }
   });
+} catch (e) {
+  // Catch Error
+  // throw e;
+}
+
+/**
+ * Communicating with Render Process
+ */
+try {
+  // Print EMAIL
+  ipcMain.on('print-email', (event, printHtml) => {
+    printRawHtml(printHtml);
+  });
+
+  const printRawHtml = (printHtml: string) => {
+    const win = new BrowserWindow({ show: false });
+    win.loadURL(`data:text/html;charset=UTF-8,${encodeURIComponent(printHtml)}`);
+
+    win.webContents.on('did-finish-load', () => {
+      win.show();
+      win.webContents.print({}, (success, failureReason) => {});
+    });
+  };
+
+  // Notification
+  ipcMain.on('native-notification', (event, data: any) => {
+    makeNotification(data);
+  });
+
+  const makeNotification = (data: any) => {
+    notifier.notify(
+      {
+        title: 'CTemplar',
+        message: data.message,
+        icon: 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png', // Absolute path (doesn't work on balloons)
+        open: data.responseUrl,
+        sound: true, // Only Notification Center or Windows Toasters
+        wait: true // Wait with callback, until user action is taken against notification, does not apply to Windows Toasters as they always wait or notify-send as it does not support the wait option
+      },(error: any, response: any, metadata: any) => {
+        if (metadata?.activationType === 'clicked') {
+          shell.openExternal(data.responseUrl);
+        }
+      });
+  }
 } catch (e) {
   // Catch Error
   // throw e;
