@@ -292,8 +292,12 @@ export class UsersService {
     return this.http.delete<any>(url, body);
   }
 
-  getContact(limit = 0, offset = 0, query = '') {
-    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${limit}&offset=${offset}&q=${query}`);
+  getContact(limit = 0, offset = 0, query = '', starred = false) {
+    let url = `${apiUrl}users/contacts/?limit=${limit}&offset=${offset}&q=${query}`;
+    if (starred) {
+      url = `${url}&starred`;
+    }
+    return this.http.get<any>(url);
   }
 
   getEmailContacts() {

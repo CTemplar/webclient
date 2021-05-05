@@ -38,7 +38,11 @@
       width: 2.5rem;
     }
     th:nth-child(2) {
+      width: 1.5rem;
+    }
+    th:nth-child(3) {
       width: 12.5rem;
+      padding-left: 0;
 
       @include media('<laptop', '>=ipad') {
         .is-splitted & {
@@ -69,7 +73,19 @@
       }
 
       @include media('<=sm') {
-        width: 3.5rem;
+        width: 2.5rem;
+      }
+    }
+    td:nth-child(2) {
+      @include media('>sm') {
+        padding: 0;
+        width: 1.5rem;
+      }
+    }
+    td:nth-child(3) {
+      padding: 0;
+      @include media('<=sm') {
+        width: 1.5rem;
       }
     }
   }
@@ -392,4 +408,14 @@
 }
 .mailbox-actionbar-menu .fa-upload {
   font-size: 16px;
+}
+
+.icon-star {
+  color: var(--dropdown-border-color);
+}
+.icon {
+  font-size: 0.938rem;
+}
+.is-fav .icon-star-filled {
+  color: $brand-warning;
 }
