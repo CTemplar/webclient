@@ -143,3 +143,8 @@ export interface PGPMimeMessageProgressModel {
   encrypted_content?: string;
   encrypted_attachments?: Map<number, string>; // Map<attachmentId, encrypted_content>
 }
+
+export enum ContactFolderType {
+  ALL_CONTACTS = 'allContacts',
+  STARRED = 'starred',
+}

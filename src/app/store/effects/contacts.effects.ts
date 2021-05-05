@@ -56,7 +56,7 @@ export class ContactsEffects {
     ofType(ContactsActionTypes.CONTACT_GET),
     map((action: ContactsGet) => action.payload),
     switchMap(payload => {
-      return this.userService.getContact(payload.limit, payload.offset, payload.q).pipe(
+      return this.userService.getContact(payload.limit, payload.offset, payload.q, payload.starred).pipe(
         map(response => {
           if (payload.isDecrypting) {
             response.isDecrypting = true;
