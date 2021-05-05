@@ -294,7 +294,7 @@ export class UsersService {
 
   getContact(limit = 0, offset = 0, query = '', starred = false) {
     let url = `${apiUrl}users/contacts/?limit=${limit}&offset=${offset}&q=${query}`;
-    if(starred) {
+    if (starred) {
       url = `${url}&starred`;
     }
     return this.http.get<any>(url);

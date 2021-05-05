@@ -221,9 +221,14 @@
                 </td>
                 <td>
                   <a
-                    [ngbTooltip]="contact.starred ? ('mail_list.remove_star' | translate) : ('mail_list.start_message' | translate)"
+                    [ngbTooltip]="
+                      contact.starred ? ('mail_list.remove_star' | translate) : ('mail_list.start_message' | translate)
+                    "
                     placement="right"
-                    (click)="((contact.is_encrypted && contact.isDecryptedFrontend) || !contact.is_encrypted) && toggleStarred(contact)"
+                    (click)="
+                      ((contact.is_encrypted && contact.isDecryptedFrontend) || !contact.is_encrypted) &&
+                        toggleStarred(contact)
+                    "
                     [ngClass]="{ 'is-fav': contact.starred }"
                   >
                     <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': !contact.starred }"></i>
@@ -319,9 +324,9 @@
                   </div>
                 </td>
                 <td>
-                  <a 
-                    (click)="contact.isDecryptedFrontend && toggleStarred(contact)" 
-                    [ngClass]="{ 'is-fav': contact.starred }" 
+                  <a
+                    (click)="contact.isDecryptedFrontend && toggleStarred(contact)"
+                    [ngClass]="{ 'is-fav': contact.starred }"
                   >
                     <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': !contact.starred }"></i>
                   </a>

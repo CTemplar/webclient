@@ -123,7 +123,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
             ...action.payload,
             isDecryptedFrontend: true,
             is_decryptionInProgress: false,
-          }
+          };
         }
         return contact;
       });

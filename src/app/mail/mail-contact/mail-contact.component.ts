@@ -89,7 +89,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
   private searchText: string;
 
   contactFolderType = ContactFolderType;
-  
+
   currentFolder: ContactFolderType = ContactFolderType.ALL_CONTACTS;
 
   constructor(
@@ -118,10 +118,17 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  onClickFolder (type: ContactFolderType) {
+  onClickFolder(type: ContactFolderType) {
     this.destroySplitContactLayout();
     this.currentFolder = type;
-    this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText, starred: this.currentFolder === ContactFolderType.STARRED }));
+    this.store.dispatch(
+      new ContactsGet({
+        limit: 20,
+        offset: 0,
+        q: this.searchText,
+        starred: this.currentFolder === ContactFolderType.STARRED,
+      }),
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -361,7 +368,14 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     if (this.PAGE > 0) {
       this.PAGE--;
       this.OFFSET = this.PAGE * this.LIMIT;
-      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET, q: this.searchText, starred: this.currentFolder === ContactFolderType.STARRED }));
+      this.store.dispatch(
+        new ContactsGet({
+          limit: this.LIMIT,
+          offset: this.OFFSET,
+          q: this.searchText,
+          starred: this.currentFolder === ContactFolderType.STARRED,
+        }),
+      );
     }
   }
 
@@ -369,7 +383,14 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     if ((this.PAGE + 1) * this.LIMIT < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
       this.PAGE++;
-      this.store.dispatch(new ContactsGet({ limit: this.LIMIT, offset: this.OFFSET, q: this.searchText, starred: this.currentFolder === ContactFolderType.STARRED }));
+      this.store.dispatch(
+        new ContactsGet({
+          limit: this.LIMIT,
+          offset: this.OFFSET,
+          q: this.searchText,
+          starred: this.currentFolder === ContactFolderType.STARRED,
+        }),
+      );
     }
   }
 }
