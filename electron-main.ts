@@ -30,19 +30,18 @@ function createWindow() {
     height: mainWindowState.height,
     webPreferences: {
       nodeIntegration: true,
-      allowRunningInsecureContent: (serve) ? true : false,
-      contextIsolation: false,  // false if you want to run 2e2 test with Spectron
-      enableRemoteModule : true // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
+      allowRunningInsecureContent: serve ? true : false,
+      contextIsolation: false, // false if you want to run 2e2 test with Spectron
+      enableRemoteModule: true, // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
     },
   });
 
   if (serve) {
     mainWindow.webContents.openDevTools();
     require('electron-reload')(__dirname, {
-      electron: require(`${__dirname}/node_modules/electron`)
+      electron: require(`${__dirname}/node_modules/electron`),
     });
     mainWindow.loadURL('http://localhost:4200');
-
   } else {
     // Let us register listeners on the window, so we can update the state
     // automatically (the listeners will be removed when the window is closed)
@@ -74,11 +73,11 @@ function createWindow() {
   });
 
   const handleRedirect = (e: Event, url: string) => {
-    if(url != mainWindow.webContents.getURL()) {
+    if (url != mainWindow.webContents.getURL()) {
       e.preventDefault();
       shell.openExternal(url);
     }
-  }
+  };
 
   // open external links with web browser
   mainWindow.webContents.on('will-navigate', handleRedirect);
@@ -158,13 +157,15 @@ try {
         icon: 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png', // Absolute path (doesn't work on balloons)
         open: data.responseUrl,
         sound: true, // Only Notification Center or Windows Toasters
-        wait: true // Wait with callback, until user action is taken against notification, does not apply to Windows Toasters as they always wait or notify-send as it does not support the wait option
-      },(error: any, response: any, metadata: any) => {
+        wait: true, // Wait with callback, until user action is taken against notification, does not apply to Windows Toasters as they always wait or notify-send as it does not support the wait option
+      },
+      (error: any, response: any, metadata: any) => {
         if (metadata?.activationType === 'clicked') {
           shell.openExternal(data.responseUrl);
         }
-      });
-  }
+      },
+    );
+  };
 } catch (e) {
   // Catch Error
   // throw e;

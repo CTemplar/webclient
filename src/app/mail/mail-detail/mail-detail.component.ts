@@ -38,7 +38,14 @@ import {
   UserState,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { LOADING_IMAGE, MailService, MessageDecryptService, OpenPgpService, SharedService, ElectronService } from '../../store/services';
+import {
+  LOADING_IMAGE,
+  MailService,
+  MessageDecryptService,
+  OpenPgpService,
+  SharedService,
+  ElectronService,
+} from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
