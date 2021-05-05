@@ -106,9 +106,6 @@ export class ReceiverEmailChipComponent {
       },
     });
   }
-  onSaveContact() {
-    console.log('Contact saved');
-  }
 
   onAddBlacklist() {
     this.store.dispatch(
