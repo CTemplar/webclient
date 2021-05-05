@@ -5,6 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import * as xss from 'xss';
+import { Subject } from 'rxjs/internal/Subject';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -37,10 +38,16 @@ import {
   UserState,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { LOADING_IMAGE, MailService, MessageDecryptService, OpenPgpService, SharedService } from '../../store/services';
+import {
+  LOADING_IMAGE,
+  MailService,
+  MessageDecryptService,
+  OpenPgpService,
+  SharedService,
+  ElectronService,
+} from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { Subject } from 'rxjs/internal/Subject';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
@@ -199,6 +206,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   contacts: any[] = [];
 
   unsubscribeLink = '';
+
   unsubscribeMailTo = '';
 
   constructor(
@@ -213,6 +221,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private mailService: MailService,
     private messageDecryptService: MessageDecryptService,
+    private electronService: ElectronService,
   ) {}
 
   ngOnInit() {
@@ -1163,9 +1172,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         cc = `<span class="text-muted">${hasCC.innerHTML}</span>`;
       }
 
-      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-      popupWin.document.open();
-      popupWin.document.write(`
+      const printHtml = `
           <html>
             <head>
               <title>Print tab</title>
@@ -1212,7 +1219,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 }
               </style>
             </head>
-            <body onload="window.print();window.close()">
+            <body ${this.electronService.isElectron ? '' : 'onload="window.print();window.close()"'}>
             <div class="container">
                 <div class="row">
                     <!-- Mail Subject -->
@@ -1238,8 +1245,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 </div>
             </div>
             </body>
-          </html>`);
-      popupWin.document.close();
+          </html>`;
+
+      if (this.electronService.isElectron) {
+        this.electronService.printHtml(printHtml);
+      } else {
+        popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+        popupWin.document.open();
+        popupWin.document.write(printHtml);
+        popupWin.document.close();
+      }
     }
   }
 
