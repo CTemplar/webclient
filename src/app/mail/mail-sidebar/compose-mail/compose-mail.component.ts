@@ -743,7 +743,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.editor) {
         this.content = this.editor.nativeElement.firstChild.innerHTML;
       }
-      this.content = this.content && this.content === '' ? content : this.content;
+      this.content = this.content || content;
 
       if (this.content) {
         content = this.getPlainText(this.content);
@@ -1446,7 +1446,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addDecryptedContent() {
     if (!this.draftMail.is_html) {
-      this.mailData.content = this.decryptedContent;
+      this.mailData.content = this.getPlainText(this.decryptedContent);
       return;
     }
     if (this.quill) {
