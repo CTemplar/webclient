@@ -340,10 +340,10 @@
     },
     "account_init": {
       "creation_init": "Crearea contului inițiată",
-      "encrypted_conn_being": "Conexiunea criptată între utilizatorul și serviciul în proces de verificare",
+      "encrypted_conn_being": "Conexiunea criptată între utilizator și serviciu în proces de verificare",
       "account_creation": "Crearea contului în browser-ul utilizatorului inițializată",
       "mailbox_creation": "Crearea cutii poștale în browser-ul utilizatorului inițializată",
-      "encrypted_conn": "Conexiunea criptată între utilizatorul și serviciul verificată",
+      "encrypted_conn": "Conexiunea criptată între utilizator și serviciu verificată",
       "acc_creation_complete": "Crearea contului în browser-ul utilizatorului sfârșită",
       "mail_creation_comp": "Crearea cutii poștale în browser-ul utilizatorului sfârșită",
       "crypto_protect": "Protecția criptografică inițializată",
