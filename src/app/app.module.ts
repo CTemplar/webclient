@@ -27,6 +27,10 @@ import {
   SharedService,
   TokenInterceptor,
   CancelPendingRequestInterceptor,
+  MessageBuilderService,
+  MessageDecryptService,
+  AutocryptProcessService,
+  ElectronService,
 } from './store/services';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
@@ -43,8 +47,6 @@ export function HttpLoaderFactory(http: HttpClient) {
   providedIn: 'root',
 })
 export class SentryErrorHandler implements ErrorHandler {
-  constructor() {}
-
   handleError(error: any) {
     Sentry.captureException(error.originalError || error);
     // Sentry.showReportDialog({ eventId });
@@ -88,6 +90,10 @@ export class SentryErrorHandler implements ErrorHandler {
     OpenPgpService,
     SharedService,
     TimezoneService,
+    MessageBuilderService,
+    MessageDecryptService,
+    AutocryptProcessService,
+    ElectronService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CancelPendingRequestInterceptor, multi: true },
     { provide: ErrorHandler, useClass: SentryErrorHandler },

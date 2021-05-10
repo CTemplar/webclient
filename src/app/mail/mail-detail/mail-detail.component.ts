@@ -5,6 +5,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import * as xss from 'xss';
+import * as parseEmail from 'email-addresses';
+import { Subject } from 'rxjs/internal/Subject';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -25,21 +27,30 @@ import {
 import { ClearMailDetail, GetMailDetail, ReadMail } from '../../store/actions/mail.actions';
 import {
   AppState,
+  ContactsState,
   MailAction,
   MailBoxesState,
   MailState,
-  SecureContent,
-  UserState,
   NumberBooleanMappedType,
   NumberStringMappedType,
-  ContactsState,
+  PGPEncryptionType,
+  SecureContent,
+  StringBooleanMappedType,
+  UserState,
 } from '../../store/datatypes';
 import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models/mail.model';
-import { LOADING_IMAGE, MailService, OpenPgpService, SharedService } from '../../store/services';
+import {
+  LOADING_IMAGE,
+  MailService,
+  MessageDecryptService,
+  OpenPgpService,
+  SharedService,
+  ElectronService,
+} from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
 
-declare let Scrambler: (arg0: { target: string; random: number[]; speed: number; text: string }) => void;
+declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
 @UntilDestroy()
 @Component({
@@ -47,6 +58,7 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
   templateUrl: './mail-detail.component.html',
   styleUrls: ['./mail-detail.component.scss'],
 })
+// eslint-disable-next-line import/prefer-default-export
 export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('forwardAttachmentsModal') forwardAttachmentsModal: any;
 
@@ -70,11 +82,15 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   decryptedHeaders: any = {};
 
+  isDecryptingError: StringBooleanMappedType = {};
+
   selectedHeaders: string;
 
   mailOptions: any = {};
 
   selectedMailToForward: Mail;
+
+  currentForwardingNewEmail: Mail;
 
   selectedMailToInclude: Mail;
 
@@ -130,6 +146,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   isPasswordEncrypted: NumberBooleanMappedType = {};
 
+  /**
+   * Represents if mail is expanded or not
+   * If mail's folder is Draft, then would represent Composer is opened or not
+   */
   mailExpandedStatus: NumberBooleanMappedType = {};
 
   errorMessageForDecryptingWithPassword: NumberStringMappedType = {};
@@ -156,20 +176,39 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private shouldChangeMail = 0;
 
-  // If you are in non-trash folder, this means to show trash children or not
-  // If you are in trash folder, means to show non-trash children or not
+  /**
+   * @private
+   * @var isShowTrashRelatedChildren
+   * @description
+   * If you are in trash folder, means to show non-trash children or not
+   * If you are in non-trash folder, this means to show trash children or not
+   */
   private isShowTrashRelatedChildren = false;
 
-  // Indicate whether the parent is secure message or not
-  // If it's secure message, it would be encrypted based password, should be decrypted with password
+  /**
+   * @private
+   * @var isShowTrashRelatedChildren
+   * @description
+   * Indicate whether the parent is secure message or not
+   * If it's secure message, it would be encrypted based password, should be decrypted with password
+   */
   private isSecureMessage = false;
 
-  // indicate to contain trash / non-trash children on the conversation
+  /**
+   * @private
+   * @var isShowTrashRelatedChildren
+   * @description
+   * Indicate to contain trash / non-trash children on the conversation
+   */
   private isContainTrashRelatedChildren = false;
 
   private properFolderLastChildIndex = 0;
 
   contacts: any[] = [];
+
+  unsubscribeLink = '';
+
+  unsubscribeMailTo = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -182,6 +221,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private dateTimeUtilService: DateTimeUtilService,
     private modalService: NgbModal,
     private mailService: MailService,
+    private messageDecryptService: MessageDecryptService,
+    private electronService: ElectronService,
   ) {}
 
   ngOnInit() {
@@ -190,7 +231,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
      * Check getting mail is succeeded
      */
     this.store
-      .select(state => state.webSocket)
+      .select((state: any) => state.webSocket)
       .pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (webSocketState.message && !webSocketState.isClosed) {
@@ -226,7 +267,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         if (mailState.mailDetail && mailState.noUnreadCountChange) {
           this.mail = mailState.mailDetail;
           // Setting the password encryption mail or not
-          this.isPasswordEncrypted[this.mail.id] = this.mail.encryption ? true : false;
+          this.isPasswordEncrypted[this.mail.id] = !!this.mail.encryption;
           if (!this.isPasswordEncrypted[this.mail.id] && this.mail.is_subject_encrypted) {
             this.scrambleText('subject-scramble');
           }
@@ -240,21 +281,35 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             if (
               !this.isPasswordEncrypted[this.mail.id] &&
               !this.mail.has_children &&
-              this.mail.content != undefined &&
+              this.mail.content !== undefined &&
               !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent ||
-                (!decryptedContent.inProgress &&
-                  decryptedContent.content == undefined &&
-                  this.mail.content != undefined))
+              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content === undefined))
             ) {
               this.isDecrypting[this.mail.id] = true;
-              this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
+              // TODO - This If statement should be removed after integrated all of decryption logic to 'MesssageDecryptService
+              if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
+                this.messageDecryptService.decryptMessage(this.mail).subscribe(
+                  () => {},
+                  error => {
+                    this.decryptedContents[this.mail.id] = this.mail.content;
+                    this.isDecrypting[this.mail.id] = false;
+                  },
+                );
+              } else {
+                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail)).subscribe(
+                  () => {},
+                  error => {
+                    this.decryptedContents[this.mail.id] = this.mail.content;
+                    this.isDecrypting[this.mail.id] = false;
+                  },
+                );
+              }
             }
-            // If done to decrypt,
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content != undefined) {
+            // If done to decrypt, or already existed decrypted content
+            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
               this.decryptedContents[this.mail.id] = this.mail.is_html
                 ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
-                : decryptedContent.content;
+                : decryptedContent.content || decryptedContent.content_plain;
               if (this.externalLinkChecked) {
                 this.confirmExternalLinks();
               }
@@ -263,6 +318,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
               this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
+              this.isDecryptingError[this.mail.id] = decryptedContent.decryptError;
               this.handleEmailLinks();
 
               // Automatically scrolls to last element in the list
@@ -284,18 +340,24 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             this.mailOptions[this.mail.id] = {};
           }
 
-          // Process for children
+          /**
+           * Process for Childrens
+           */
           if (this.mail.children && this.mail.children.length > 0) {
-            if (this.mailExpandedStatus[this.mail.id] === undefined) this.mailExpandedStatus[this.mail.id] = false;
+            if (this.mailExpandedStatus[this.mail.id] === undefined) {
+              this.mailExpandedStatus[this.mail.id] = false;
+            }
             this.mail.children.forEach(child => {
-              this.isPasswordEncrypted[child.id] = child.encryption ? true : false;
+              this.isPasswordEncrypted[child.id] = !!child.encryption;
             });
-            // find the latest child with trash/non-trash folder
+            // find the latest child with trash/non-trash folder and excluding Draft folder messages
             let filteredChildren = [];
             if (this.mailFolder === MailFolderType.TRASH) {
               filteredChildren = this.mail.children.filter(child => child.folder === MailFolderType.TRASH);
             } else {
-              filteredChildren = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
+              filteredChildren = this.mail.children.filter(
+                child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT,
+              );
             }
             if (filteredChildren.length > 0) {
               const lastFilteredChild = filteredChildren[filteredChildren.length - 1];
@@ -321,7 +383,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                     (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
                 ) {
                   this.isDecrypting[this.mail.id] = true;
-                  this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail));
+                  if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
+                    this.messageDecryptService
+                      .decryptMessage(this.mail, false)
+                      .pipe(take(1))
+                      .subscribe(
+                        () => {},
+                        error => {},
+                      );
+                  } else {
+                    this.pgpService
+                      .decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
+                      .pipe(take(1))
+                      .subscribe(
+                        () => {},
+                        error => {},
+                      );
+                  }
                 }
               }
             }, 1000);
@@ -356,7 +434,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
         if (this.mail && this.mail.children) {
           const draft_children = this.mail.children.filter(child => child.folder === 'draft');
-          draft_children.length > 0 ? (this.hasDraft = true) : (this.hasDraft = false);
+          this.hasDraft = !!(draft_children.length > 0);
           // Get whether this contains trash/non-trash children
           if (
             (this.mailFolder !== MailFolderType.TRASH &&
@@ -431,16 +509,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.isMobile = window.innerWidth <= 768;
   }
 
-  decryptWithPassword(inputID: string, mail: Mail) {
-    const input = <HTMLInputElement>document.getElementById(inputID);
-    if (!mail) return;
-    if (!input.value) {
-      return;
-    }
+  decryptWithPassword(password: string, mail: Mail) {
+    if (!password) return;
     this.isDecrypting[mail.id] = true;
     this.mailExpandedStatus[mail.id] = true;
     this.pgpService
-      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), input.value)
+      .decryptPasswordEncryptedContent(mail.mailbox, mail.id, new SecureContent(mail), password)
       .pipe(take(1))
       .subscribe(
         () => {
@@ -457,7 +531,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   confirmExternalLinks() {
     this.externalLinkChecked = false;
     setTimeout(() => {
-      let exLinks = document.querySelectorAll('.msg-reply-content a');
+      const exLinks = document.querySelectorAll('.msg-reply-content a');
       if (exLinks?.length > 0) {
         for (const i in exLinks) {
           if (exLinks[i]?.innerHTML && exLinks[i].getAttribute('href')) {
@@ -482,7 +556,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         }
       }
     }, 1000);
-    return;
   }
 
   scrambleText(elementId: string) {
@@ -603,7 +676,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))
       ) {
         this.isDecrypting[child.id] = true;
-        this.pgpService.decrypt(child.mailbox, child.id, new SecureContent(child));
+        if (child.encryption_type === PGPEncryptionType.PGP_MIME) {
+          this.messageDecryptService
+            .decryptMessage(child, false)
+            .pipe(take(1))
+            .subscribe(
+              () => {},
+              error => {},
+            );
+        } else {
+          this.pgpService
+            .decrypt(child.mailbox, child.id, new SecureContent(child))
+            .pipe(take(1))
+            .subscribe(
+              () => {},
+              error => {},
+            );
+        }
       }
     }
   }
@@ -623,6 +712,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           child.subject = childDecryptedContent.subject;
         }
         this.decryptedHeaders[child.id] = this.parseHeaders(childDecryptedContent.incomingHeaders);
+        this.isDecryptingError[child.id] = childDecryptedContent.decryptError;
         this.handleEmailLinks();
       }
     }
@@ -638,16 +728,29 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (!headers) {
       return [];
     }
-    headers = JSON.parse(headers);
-    const headersArray: { key: string; value: any }[] = [];
-    headers.forEach((header: any) => {
-      Object.keys(header).forEach(key => {
-        if (header.hasOwnProperty(key)) {
-          headersArray.push({ key, value: header[key] });
-        }
+    try {
+      headers = JSON.parse(headers);
+      const headersArray: { key: string; value: any }[] = [];
+      headers.forEach((header: any) => {
+        Object.keys(header).forEach(key => {
+          if (key === 'List-Unsubscribe') {
+            const value = header[key];
+            const valueArray = value.split(',');
+            if (valueArray.length > 1) {
+              this.unsubscribeMailTo = valueArray[0].replace(/(<mailto:|>)+/g, '');
+              this.unsubscribeLink = valueArray[1].replace(/(\n <|>)+/g, '');
+            }
+          }
+          if (header.hasOwnProperty(key)) {
+            headersArray.push({ key, value: header[key] });
+          }
+        });
       });
-    });
-    return headersArray;
+
+      return headersArray;
+    } catch {
+      return [];
+    }
   }
 
   getMailDetail(messageId: number) {
@@ -739,24 +842,26 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onReply(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
+    const newMail: Mail = {
+      content: '',
+    };
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     const allRecipients = new Set([...mail.receiver, mail.sender, mail.cc, mail.bcc]);
     let parentId = this.mail.id;
     if (!this.isConversationView && this.mail.parent) {
       parentId = this.mail.parent;
     }
-    this.composeMailData[mail.id] = {
-      subject: `Re: ${mail.subject}`,
-      parentId: parentId,
-      content: this.getMessageHistory(previousMails),
-      selectedMailbox: this.mailboxes.find(mailbox => allRecipients.has(mailbox.email)),
-    };
+    newMail.subject = `Re: ${mail.subject}`;
+    newMail.parent = parentId;
+    newMail.content = this.getMessageHistory(previousMails);
+    newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email))?.id;
+    newMail.is_html = mail.is_html;
     if (mail.reply_to && mail.reply_to.length > 0) {
-      this.composeMailData[mail.id].receivers = mail.reply_to;
+      newMail.receiver = mail.reply_to;
     } else {
       let lastSender = '';
       let lastReceiver = '';
-      if (mail.children && mail.children.length) {
+      if (mail.children && mail.children.length > 0) {
         for (let i = mail.children.length; i > 0; i--) {
           if (mail.children[i - 1].folder !== 'trash') {
             lastSender = mail.children[i - 1].sender;
@@ -765,32 +870,37 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
         }
         if (lastSender && lastReceiver) {
-          this.composeMailData[mail.id].receivers =
-            lastSender !== this.currentMailbox.email ? [lastSender] : [lastReceiver];
+          newMail.receiver = lastSender !== this.currentMailbox.email ? [lastSender] : [lastReceiver];
         } else {
-          this.composeMailData[mail.id].receivers =
-            mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
+          newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
         }
       } else {
-        this.composeMailData[mail.id].receivers =
-          mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
+        newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
       }
     }
     this.selectedMailToInclude = mail;
-    this.composeMailData[mail.id].action = MailAction.REPLY;
-    this.setActionParent(mail, isChildMail, mainReply);
-    if (mail.attachments?.length > 0) {
-      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal',
-      });
+    newMail.last_action = MailAction.REPLY;
+    newMail.is_html = mail.is_html;
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+      } else {
+        newMail.last_action_parent_id = this.mail.id;
+      }
     } else {
-      this.confirmIncludeAttachments();
+      newMail.last_action_parent_id = mail.id;
     }
-    // this.mailOptions[mail.id].isComposeMailVisible = true;
+    this.composeMailService.openComposeMailDialog({
+      draft: { ...newMail },
+      action: MailAction.REPLY,
+      isFullScreen: this.userState.settings.is_composer_full_screen,
+    });
   }
 
   onReplyAll(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
+    const newMail: Mail = {
+      content: '',
+    };
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
@@ -798,28 +908,41 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
+    let parentId = this.mail.id;
+    if (!this.isConversationView && this.mail.parent) {
+      parentId = this.mail.parent;
+    }
+    newMail.subject = `Re: ${mail.subject}`;
+    newMail.parent = parentId;
+    newMail.content = this.getMessageHistory(previousMails);
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
+    newMail.is_html = mail.is_html;
     if (mail.sender !== this.currentMailbox.email) {
-      const receivers = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
-      this.composeMailData[mail.id].receivers = receivers;
+      newMail.receiver = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
     } else {
-      this.composeMailData[mail.id].receivers = Array.isArray(mail.receiver)
+      newMail.receiver = Array.isArray(mail.receiver)
         ? [...mail.receiver, ...mail.cc, ...mail.bcc]
         : [mail.receiver, ...mail.cc, ...mail.bcc];
     }
-    this.composeMailData[mail.id].receivers = this.composeMailData[mail.id].receivers.filter(
-      (email: string) => email !== this.currentMailbox.email,
-    );
+    newMail.receiver = newMail.receiver.filter((email: string) => email !== this.currentMailbox.email);
     this.selectedMailToInclude = mail;
-    this.composeMailData[mail.id].action = MailAction.REPLY_ALL;
-    this.setActionParent(mail, isChildMail, mainReply);
-    if (mail.attachments?.length > 0) {
-      this.includeAttachmentsModalRef = this.modalService.open(this.includeAttachmentsModal, {
-        centered: true,
-        windowClass: 'modal-sm users-action-modal',
-      });
+    newMail.last_action = MailAction.REPLY_ALL;
+    newMail.is_html = mail.is_html;
+    // this.setActionParent(mail, isChildMail, mainReply);
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1].id;
+      } else {
+        newMail.last_action_parent_id = this.mail.id;
+      }
     } else {
-      this.confirmIncludeAttachments();
+      newMail.last_action_parent_id = mail.id;
     }
+    this.composeMailService.openComposeMailDialog({
+      draft: { ...newMail },
+      action: MailAction.REPLY_ALL,
+      isFullScreen: this.userState.settings.is_composer_full_screen,
+    });
   }
 
   confirmIncludeAttachments(shouldInclude?: boolean) {
@@ -834,15 +957,26 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onForward(mail: Mail, index = 0, isChildMail?: boolean, mainReply = false) {
-    this.composeMailData[mail.id] = {
-      content: this.getForwardMessageSummary(mail),
-      subject: `Fwd: ${this.mail.subject}`,
-      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
-      action: MailAction.FORWARD,
-      is_html: mail.is_html,
+    const newMail: Mail = {
+      content: '',
     };
+    newMail.content = this.getForwardMessageSummary(mail);
+    newMail.subject = `Fwd: ${this.mail.subject}`;
+    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
+    newMail.last_action = MailAction.FORWARD;
+    newMail.is_html = mail.is_html;
     this.selectedMailToForward = mail;
-    this.setActionParent(mail, isChildMail, mainReply);
+    // this.setActionParent(mail, isChildMail, mainReply);
+    if (!isChildMail && mainReply) {
+      if (this.mail.children && this.mail.children.length > 0) {
+        newMail.last_action_parent_id = this.mail.children[this.mail.children.length - 1]?.id;
+      } else {
+        newMail.last_action_parent_id = this.mail.id;
+      }
+    } else {
+      newMail.last_action_parent_id = mail.id;
+    }
+    this.currentForwardingNewEmail = newMail;
     if (mail.attachments?.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
         centered: true,
@@ -855,13 +989,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   confirmForwardAttachments(shouldForward?: boolean) {
     if (shouldForward) {
-      this.composeMailData[this.selectedMailToForward.id].forwardAttachmentsMessageId = this.selectedMailToForward.id;
+      this.currentForwardingNewEmail.forward_attachments_of_message = this.selectedMailToForward.id;
     }
-    this.mailOptions[this.selectedMailToForward.id].isComposeMailVisible = true;
     this.selectedMailToForward = null;
+
     if (this.forwardAttachmentsModalRef) {
       this.forwardAttachmentsModalRef.dismiss();
     }
+    this.composeMailService.openComposeMailDialog({
+      draft: { ...this.currentForwardingNewEmail },
+      action: MailAction.REPLY_ALL,
+      isFullScreen: this.userState.settings.is_composer_full_screen,
+    });
   }
 
   onComposeMailHide(mail: Mail) {
@@ -973,6 +1112,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     );
   }
 
+  onToggleStarred(mail: Mail, withChildren = true) {
+    this.store.dispatch(
+      new StarMail({
+        ids: mail.id.toString(),
+        starred: withChildren ? !mail.has_starred_children : !mail.starred,
+        withChildren,
+      }),
+    );
+  }
+
   moveToFolder(folder: MailFolderType | string) {
     // Dispatch move to selected folder event
     this.store.dispatch(
@@ -1026,9 +1175,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         cc = `<span class="text-muted">${hasCC.innerHTML}</span>`;
       }
 
-      popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
-      popupWin.document.open();
-      popupWin.document.write(`
+      const printHtml = `
           <html>
             <head>
               <title>Print tab</title>
@@ -1075,7 +1222,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 }
               </style>
             </head>
-            <body onload="window.print();window.close()">
+            <body ${this.electronService.isElectron ? '' : 'onload="window.print();window.close()"'}>
             <div class="container">
                 <div class="row">
                     <!-- Mail Subject -->
@@ -1101,8 +1248,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 </div>
             </div>
             </body>
-          </html>`);
-      popupWin.document.close();
+          </html>`;
+
+      if (this.electronService.isElectron) {
+        this.electronService.printHtml(printHtml);
+      } else {
+        popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+        popupWin.document.open();
+        popupWin.document.write(printHtml);
+        popupWin.document.close();
+      }
     }
   }
 
@@ -1121,7 +1276,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getPreviousMail(index: number, isChildMail: boolean, mainReply = false, isForwarding = false) {
     let children: Mail[] = this.mail.children || [];
     if (this.mailFolder !== MailFolderType.TRASH && this.mail.children) {
-      children = this.mail.children.filter(child => child.folder !== MailFolderType.TRASH);
+      children = this.mail.children.filter(
+        child => child.folder !== MailFolderType.TRASH && child.folder !== MailFolderType.DRAFT,
+      );
     }
     const previousMail = [];
     if (isChildMail) {
@@ -1154,9 +1311,21 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
-        mail.sender
-      } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      // content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
+      //   mail.sender
+      // } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      const parsedEmailData = parseEmail.parseOneAddress(mail.sender) as parseEmail.ParsedMailbox;
+      const senderName =
+        !mail.sender_display?.name || (mail.sender_display?.name && mail.sender_display?.name === parsedEmailData.local)
+          ? ''
+          : mail.sender_display?.name;
+      const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
+      content += `
+        </br>---------- Original Message ----------</br>
+        On ${formattedDateTime} ${senderEmail} wrote:
+        </br>
+          <div class="originalblock">${this.decryptedContents[mail.id]}</div>
+        </br>`;
     }
     return content;
   }
@@ -1192,7 +1361,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onClickParentHeader() {
     this.mailExpandedStatus[this.mail.id] = !this.mailExpandedStatus[this.mail.id];
     if (
-      this.mail.content != undefined &&
+      this.mail.content !== undefined &&
       !this.decryptedContents[this.mail.id] &&
       !this.isDecrypting[this.mail.id] &&
       !this.isPasswordEncrypted[this.mail.id]
@@ -1209,22 +1378,30 @@ export class MailDetailComponent implements OnInit, OnDestroy {
    * @returns None
    */
   onClickChildHeader(mail: Mail) {
-    this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
-    if (!this.isPasswordEncrypted[mail.id]) {
+    if (mail.folder === MailFolderType.DRAFT) {
+      if (!this.mailExpandedStatus[mail.id]) {
+        this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
+        const onHide$ = new Subject<boolean>();
+        onHide$.subscribe(isHide => {
+          if (isHide) {
+            this.mailExpandedStatus[mail.id] = false;
+          }
+        });
+        this.composeMailService.openComposeMailDialog(
+          {
+            draft: { ...mail },
+            isFullScreen: this.userState.settings.is_composer_full_screen,
+          },
+          onHide$,
+        );
+      }
+    } else if (!this.isPasswordEncrypted[mail.id]) {
+      this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
       this.decryptChildEmails(mail);
     }
   }
 
   private onShowTrashRelatedChildren() {
     this.isShowTrashRelatedChildren = !this.isShowTrashRelatedChildren;
-  }
-
-  // == Toggle password visibility
-  togglePassword(inputID: string): any {
-    const input = <HTMLInputElement>document.getElementById(inputID);
-    if (!input.value) {
-      return;
-    }
-    input.type = input.type === 'password' ? 'text' : 'password';
   }
 }

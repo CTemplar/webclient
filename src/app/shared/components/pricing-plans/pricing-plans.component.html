@@ -1,5 +1,9 @@
 <!-- PAGE SECTION -->
-<section *ngIf="pricingPlans?.length > 0" class="l-block l-block-text bg-white" [class.gap-p-eq]="!blockGapsZero">
+<section
+  *ngIf="(pricingPlans$ | async)?.length > 0"
+  class="l-block l-block-text bg-white"
+  [class.gap-p-eq]="!blockGapsZero"
+>
   <div class="container">
     <header class="l-block-header position-relative text-center mb-4 mb-sm-5 mb-md-8" [hidden]="hideHeader">
       <div class="row justify-content-center">
@@ -9,7 +13,10 @@
             <span [translate]="'settings.plans'">Plans</span>
           </h1>
           <h4 class="l-block-subtitle mb-0 text-dark fw-light">
-            <p [translate]="'page_pricing.world_most_secure'">CTemplar is the world's most secure & private email service based on an analysis of technical specifications.</p>
+            <p [translate]="'page_pricing.world_most_secure'">
+              CTemplar is the world's most secure & private email service based on an analysis of technical
+              specifications.
+            </p>
             <p [translate]="'page_pricing.sending_spam'">**CTemplar can not be used for sending spam or bulk emails</p>
           </h4>
         </div>
@@ -22,40 +29,180 @@
             <label class="pt-3" [translate]="'page_pricing.plan_price'">Plan & Price</label>
           </div>
           <h3 class="heading mt-4" [translate]="'page_pricing.packages'">Packages</h3>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.emails_allowed_to_send' | translate" [translate]="'page_pricing.messages_per_day'">Sending limits</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.upload_limit_MB' | translate" [translate]="'page_pricing.attachment_limit'">Attachments limit</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.storage_in_GB' | translate" [translate]="'page_pricing.storage'">Storage</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.mail_aliases' | translate" [translate]="'page_pricing.aliases'">Aliases</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.custom_domains' | translate" [translate]="'page_pricing.custom_domains'">Custom domains</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.folders' | translate" [translate]="'page_pricing.folders'">Folders</div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.emails_allowed_to_send' | translate"
+            [translate]="'page_pricing.messages_per_day'"
+          >
+            Sending limits
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.upload_limit_MB' | translate"
+            [translate]="'page_pricing.attachment_limit'"
+          >
+            Attachments limit
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.storage_in_GB' | translate"
+            [translate]="'page_pricing.storage'"
+          >
+            Storage
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.mail_aliases' | translate"
+            [translate]="'page_pricing.aliases'"
+          >
+            Aliases
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.custom_domains' | translate"
+            [translate]="'page_pricing.custom_domains'"
+          >
+            Custom domains
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.folders' | translate"
+            [translate]="'page_pricing.folders'"
+          >
+            Folders
+          </div>
           <h3 class="heading mt-4" [translate]="'page_pricing.features'">Features</h3>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encryption_in_transit' | translate" [translate]="'page_pricing.encryption_in_transit'">Encryption in transit</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encryption_at_rest' | translate" [translate]="'page_pricing.encryption_at_rest'">Encryption at rest</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encrypted_attachments' | translate" [translate]="'page_pricing.encrypted_attachments' | translate">Encrypted attachments</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encrypted_subjects' | translate" [translate]="'page_pricing.encrypted_subjects'">Encrypted subject</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.encrypted_body' | translate" [translate]="'page_pricing.encrypted_body'">Encrypted body</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.virus_protection' | translate" [translate]="'page_pricing.virus_protection'">Virus protection</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.2fa_security' | translate" [translate]="'page_pricing.2fa_security'">2FA security</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.anti_phishing' | translate" [translate]="'page_pricing.anti_phishing'">Anti-phishing phrase</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.brute_force' | translate" [translate]="'page_pricing.brute_force'">Brute-force proof</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.zero_knowledge' | translate" [translate]="'page_pricing.zero_knowledge'">Zero-knowledge privacy</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.anonymized_ip' | translate" [translate]="'page_pricing.anonymized_ip'">Anonymized IP</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.self_destructing' | translate" [translate]="'page_pricing.self_destructing'">Self-destructing emails</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.dead_man_timer' | translate" [translate]="'page_pricing.dead_man_timer'">Dead-man timer</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.delayed_delivery' | translate" [translate]="'page_pricing.delayed_delivery'">Delayed delivery</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.mails_of_custom_dom' | translate" [translate]="'page_pricing.catch_all_emails'">Catch-all domains</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.remote_encrypted_link' | translate" [translate]="'page_pricing.remote_encrypted_link'">Remote encrypted link</div>
-          <div class="bold px-2 py-3 plan-sub-item" [ngbTooltip]="'page_pricing.exclusive_access' | translate" [translate]="'page_pricing.exclusive_access'">Exclusive beta access</div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.encryption_in_transit' | translate"
+            [translate]="'page_pricing.encryption_in_transit'"
+          >
+            Encryption in transit
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.encryption_at_rest' | translate"
+            [translate]="'page_pricing.encryption_at_rest'"
+          >
+            Encryption at rest
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.encrypted_attachments' | translate"
+            [translate]="'page_pricing.encrypted_attachments' | translate"
+          >
+            Encrypted attachments
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.encrypted_subjects' | translate"
+            [translate]="'page_pricing.encrypted_subjects'"
+          >
+            Encrypted subject
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.encrypted_body' | translate"
+            [translate]="'page_pricing.encrypted_body'"
+          >
+            Encrypted body
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.virus_protection' | translate"
+            [translate]="'page_pricing.virus_protection'"
+          >
+            Virus protection
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.2fa_security' | translate"
+            [translate]="'page_pricing.2fa_security'"
+          >
+            2FA security
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.anti_phishing' | translate"
+            [translate]="'page_pricing.anti_phishing'"
+          >
+            Anti-phishing phrase
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.brute_force' | translate"
+            [translate]="'page_pricing.brute_force'"
+          >
+            Brute-force proof
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.zero_knowledge' | translate"
+            [translate]="'page_pricing.zero_knowledge'"
+          >
+            Zero-knowledge privacy
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.anonymized_ip' | translate"
+            [translate]="'page_pricing.anonymized_ip'"
+          >
+            Anonymized IP
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.self_destructing' | translate"
+            [translate]="'page_pricing.self_destructing'"
+          >
+            Self-destructing emails
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.dead_man_timer' | translate"
+            [translate]="'page_pricing.dead_man_timer'"
+          >
+            Dead-man timer
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.delayed_delivery' | translate"
+            [translate]="'page_pricing.delayed_delivery'"
+          >
+            Delayed delivery
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.mails_of_custom_dom' | translate"
+            [translate]="'page_pricing.catch_all_emails'"
+          >
+            Catch-all domains
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.remote_encrypted_link' | translate"
+            [translate]="'page_pricing.remote_encrypted_link'"
+          >
+            Remote encrypted link
+          </div>
+          <div
+            class="bold px-2 py-3 plan-sub-item"
+            [ngbTooltip]="'page_pricing.exclusive_access' | translate"
+            [translate]="'page_pricing.exclusive_access'"
+          >
+            Exclusive beta access
+          </div>
         </div>
         <div class="col-9">
           <div class="row pricing-plans-list">
-            <div *ngFor="let plan of pricingPlans" class="col-2 p-0">
+            <div *ngFor="let plan of pricingPlans$.value" class="col-2 p-0">
               <div class="plan-item">
                 <div class="text-center">
                   <div class="bold mt-3">{{ plan.name }}</div>
                   <div class="plan-title-info" *ngIf="plan.name !== planType.FREE; else freePlan">
                     <div class="monthly-price">
-                      $<b>{{ selectedPaymentType === paymentTypeEnum.MONTHLY ? plan.monthly_price : plan.annually_price / 12 }}</b
+                      $<b>{{
+                        selectedPaymentType === paymentTypeEnum.MONTHLY ? plan.monthly_price : plan.annually_price / 12
+                      }}</b
                       >/m
                     </div>
                     <!--<div>${{plan.annually_price/12}}/m billed as <br>${{plan.annually_price}}/y</div>-->
@@ -65,43 +212,81 @@
                     </div>
                   </div>
                   <ng-template #freePlan>
-                    <div class="plan-title-info" [innerHTML]="'page_pricing.upgrade_anytime' | translate">Upgrade<br />anytime</div>
+                    <div class="plan-title-info" [innerHTML]="'page_pricing.upgrade_anytime' | translate">
+                      Upgrade<br />anytime
+                    </div>
                   </ng-template>
-                  <a class="btn cursor-pointer select-btn" [style.background]="plan.background" *ngIf="userPlanType !== plan.name; else currentPlan" (click)="selectPlan(plan.name)" [translate]="'page_pricing.select'">Select</a>
+                  <a
+                    class="btn cursor-pointer select-btn"
+                    [style.background]="plan.background"
+                    *ngIf="userPlanType !== plan.name; else currentPlan"
+                    (click)="selectPlan(plan.name)"
+                    [translate]="'page_pricing.select'"
+                    >Select</a
+                  >
                   <ng-template #currentPlan>
-                    <label class="current-plan-upgrade" *ngIf="paymentType === paymentTypeEnum.MONTHLY && plan.name !== planType.FREE">
-                      <a (click)="selectPlan(plan.name, paymentTypeEnum.ANNUALLY)" [translate]="'page_pricing.upgrade_yearly'">Upgrade yearly</a>
+                    <label
+                      class="current-plan-upgrade"
+                      *ngIf="paymentType === paymentTypeEnum.MONTHLY && plan.name !== planType.FREE"
+                    >
+                      <a
+                        (click)="selectPlan(plan.name, paymentTypeEnum.ANNUALLY)"
+                        [translate]="'page_pricing.upgrade_yearly'"
+                        >Upgrade yearly</a
+                      >
                     </label>
-                    <label [ngClass]="paymentType === paymentTypeEnum.MONTHLY ? 'current-plan' : 'current-plan-upgrade'" [translate]="'page_pricing.current_plan'">Current plan</label>
+                    <label
+                      [ngClass]="paymentType === paymentTypeEnum.MONTHLY ? 'current-plan' : 'current-plan-upgrade'"
+                      [translate]="'page_pricing.current_plan'"
+                      >Current plan</label
+                    >
                   </ng-template>
                 </div>
               </div>
               <h3 class="heading mt-4 position-relative">
-                <a *ngIf="plan.name === planType.PRIME" class="switch-payment-type" (click)="togglePaymentType()"> Click here to switch to {{ selectedPaymentType === paymentTypeEnum.ANNUALLY ? 'monthly' : 'yearly' }} </a>
+                <a *ngIf="plan.name === planType.PRIME" class="switch-payment-type" (click)="togglePaymentType()">
+                  Click here to switch to {{ selectedPaymentType === paymentTypeEnum.ANNUALLY ? 'monthly' : 'yearly' }}
+                </a>
               </h3>
-              <div class="px-2 py-3 plan-sub-item">{{ plan.messages_per_day }}<label *ngIf="plan.name !== planType.CHAMPION">/day</label></div>
+              <div class="px-2 py-3 plan-sub-item">
+                {{ plan.messages_per_day }}<label *ngIf="plan.name !== planType.CHAMPION">/day</label>
+              </div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.attachment_upload_limit }}MB</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.gb }}GB</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.aliases }}</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.custom_domains }}</div>
               <div class="px-2 py-3 plan-sub-item">Unlimited</div>
               <h3 class="heading mt-4"></h3>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encryption_in_transit }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="featureIcon; context: { value: plan.encryption_in_transit }"
+              ></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encryption_at_rest }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_attachments }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_attachments }"
+              ></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_subjects }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.encrypted_body }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.virus_detection_tool }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="featureIcon; context: { value: plan.virus_detection_tool }"
+              ></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.two_fa }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.anti_phishing }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.brute_force_protection }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.zero_knowledge_password }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="featureIcon; context: { value: plan.brute_force_protection }"
+              ></ng-container>
+              <ng-container
+                *ngTemplateOutlet="featureIcon; context: { value: plan.zero_knowledge_password }"
+              ></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.anonymized_ip }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.self_destructing_emails }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="featureIcon; context: { value: plan.self_destructing_emails }"
+              ></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.dead_man_timer }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.delayed_delivery }"></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.catch_all_email }"></ng-container>
-              <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.remote_encrypted_link }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="featureIcon; context: { value: plan.remote_encrypted_link }"
+              ></ng-container>
               <ng-container *ngTemplateOutlet="featureIcon; context: { value: plan.exclusive_access }"></ng-container>
             </div>
           </div>
@@ -112,7 +297,7 @@
   <!-- /.Site container ends -->
 </section>
 <!-- /.PAGE SECTION ENDS -->
-<div align="center" *ngIf="pricingPlans?.length === 0">
+<div align="center" *ngIf="(pricingPlans$ | async)?.length === 0">
   <img class="logo" style="width: 200px; height: 300px" [src]="loadingImage | safe: 'url'" />
 </div>
 
@@ -131,6 +316,13 @@
     </button>
   </div>
   <div class="modal-body user-billing-upgrade-modal bg-faded px-3 py-0 bg-white">
-    <app-users-billing-info [isUpgradeAccount]="true" [planType]="selectedPlan" [paymentType]="selectedPaymentType" [paymentMethod]="paymentMethod" [currency]="selectedCurrency" (closeBillingInfo)="d()"></app-users-billing-info>
+    <app-users-billing-info
+      [isUpgradeAccount]="true"
+      [planType]="selectedPlan"
+      [paymentType]="selectedPaymentType"
+      [paymentMethod]="paymentMethod"
+      [currency]="selectedCurrency"
+      (closeBillingInfo)="d()"
+    ></app-users-billing-info>
   </div> </ng-template
 ><!-- /.billing info modal ends -->

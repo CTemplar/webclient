@@ -1,18 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-spinner-image',
   templateUrl: './spinner-image.component.html',
   styleUrls: ['./spinner-image.component.scss'],
 })
-export class SpinnerImageComponent implements OnInit {
+export class SpinnerImageComponent {
   isLoaded = false;
 
   @Input() src: string;
 
   @Input() class: string;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

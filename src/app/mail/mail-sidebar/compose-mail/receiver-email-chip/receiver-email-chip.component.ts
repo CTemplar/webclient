@@ -3,7 +3,7 @@ import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angula
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
-import { AppState, BlackList, Contact, WhiteList } from '../../../../store/datatypes';
+import { AppState, AutocryptEncryptDetermine, BlackList, Contact, WhiteList } from '../../../../store/datatypes';
 import { Mailbox } from '../../../../store/models';
 
 import { SharedService } from '../../../../store/services';
@@ -33,6 +33,14 @@ export class ReceiverEmailChipComponent {
   @Input() blacklist: BlackList[] = [];
 
   @Input() whitelist: WhiteList[] = [];
+
+  @Input() autocryptInfo: AutocryptEncryptDetermine;
+
+  @Input() isAutocrypt?: boolean;
+
+  @Input() isAutocryptEncrypt?: boolean;
+
+  @Input() encryptionTypeMap: any;
 
   selectedContact: Contact;
 

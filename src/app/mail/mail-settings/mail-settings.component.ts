@@ -155,6 +155,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
+  askLocalCache: boolean;
+
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
@@ -198,6 +200,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
         this.WhitelistItems = user.whiteList;
         this.BlacklistItems = user.blackList;
         this.settings = user.settings;
+        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
         this.notificationEmail = user.settings.notification_email;
         this.timeZoneFilter.setValue(user.settings.timezone);
         this.cdr.detectChanges();
@@ -381,7 +384,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   updateTimeZone(event: any) {
-    this.updateSettings('timezone', event.option.value);
+    this.updateSettings('timezone', event.value);
   }
 
   updateConversationMode(is_conversation_mode: boolean) {
@@ -417,7 +420,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   validateEmail(email: string) {
-    var re = /\S+@\S+\.\S+/;
+    const re = /\S+@\S+\.\S+/;
     return re.test(email);
   }
 

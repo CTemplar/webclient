@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,7 @@ import { OpenPgpService, SharedService, UsersService } from '../../store/service
 import { NotificationService } from '../../store/services/notification.service';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
+import { BehaviorSubject } from 'rxjs';
 
 export class PasswordValidation {
   static MatchPassword(AC: AbstractControl): any {
@@ -32,6 +33,7 @@ export class PasswordValidation {
   selector: 'app-users-create-account',
   templateUrl: './users-create-account.component.html',
   styleUrls: ['./users-create-account.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   isTextToggled = false;
@@ -52,7 +54,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   signupInProgress = false;
 
-  signupState: SignupState;
+  signupState$: BehaviorSubject<SignupState> = new BehaviorSubject<SignupState>({ recaptcha: '' });
 
   submitted = false;
 
@@ -162,7 +164,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     }
 
     if (
-      this.signupState.usernameExists !== false ||
+      this.signupState$.value.usernameExists !== false ||
       this.signupForm.invalid ||
       !this.isConfirmedPrivacy ||
       (!this.isRecoveryEmail &&
@@ -174,7 +176,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
-      if (!!this.inviteCode?.match(/^[0-9]{4}-[0-9]{5,6}$/)) {
+      const reg = /^[0-9]{4}-[0-9]{5,6}$/;
+      if (this.inviteCode && reg.test(this.inviteCode)) {
         this.signupFormCompleted();
       } else {
         this.errorMessage = this.translate.instant('create_account.insert_valid_inviteCode');
@@ -260,7 +263,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
           }
           this.signupInProgress = false;
         }
-        this.signupState = authState.signupState;
+        this.signupState$.next(authState.signupState);
       });
   }
 

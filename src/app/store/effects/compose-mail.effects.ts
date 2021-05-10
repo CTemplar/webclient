@@ -48,7 +48,8 @@ export class ComposeMailEffects {
         switchMap(res =>
           of(
             new CreateMailSuccess({ draft: payload, response: res }),
-            new UpdateCurrentFolder(res),
+            new UpdateMailDetailChildren(res),
+            new UpdateCurrentFolder({ ...res, isUpdate: !!payload.draft.id }),
             new GetUnreadMailsCount(),
           ),
         ),
@@ -73,7 +74,13 @@ export class ComposeMailEffects {
                 const progress = Math.round((100 * event.loaded) / event.total);
                 observer.next(new UploadAttachmentProgress({ ...payload, progress }));
               } else if (event instanceof HttpResponse) {
-                observer.next(new UploadAttachmentSuccess({ data: payload, response: event.body }));
+                observer.next(
+                  new UploadAttachmentSuccess({
+                    data: payload,
+                    response: event.body,
+                    isPGPMimeMessage: !!payload.isPGPMimeMessage,
+                  }),
+                );
               }
             },
             error => {
@@ -135,7 +142,7 @@ export class ComposeMailEffects {
           res.folder = MailFolderType.SENT;
           const events: any[] = [
             new SendMailSuccess(payload),
-            new UpdateCurrentFolder(res),
+            new UpdateCurrentFolder({ ...res, isUpdate: !!payload.draft.id }),
             new UpdateMailDetailChildren(res),
             new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true, isMailDetailPage: payload.isMailDetailPage }),
             new SnackPush({

@@ -15,12 +15,6 @@
   }
 }
 
-.mail-header {
-  border: solid 1px #e5e5e5;
-  margin: 5px;
-  padding: 5px 1rem;
-}
-
 .icon-holder {
   display: flex;
   align-items: center;
@@ -116,30 +110,6 @@
   }
 }
 
-.folder-batch {
-  background: #4d5f71;
-  color: white;
-  padding: 0 6px;
-  border-radius: 2px;
-  height: 20px;
-  line-height: 18px;
-  min-width: 55px;
-  text-align: center;
-  overflow: hidden;
-  max-width: 10rem;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  white-space: nowrap;
-  position: absolute;
-  right: 40px;
-  top: 23px;
-}
-
-.expand-collapse {
-  position: absolute;
-  right: 12px;
-}
-
 .mail-subject {
   width: 100%;
   padding-right: 80px;
@@ -148,20 +118,5 @@
 @include media('<=sm') {
   h5 {
     line-height: 1.5;
-  }
-}
-
-.decrypt-password-form-container {
-  margin-bottom: 20px;
-  .decrypt-password-form {
-    display: flex;
-    width: 55%;
-    .decrypt-password-element {
-      height: 40px;
-      padding: 3px 0;
-      button {
-        color: var(--text-muted);
-      }
-    }
   }
 }

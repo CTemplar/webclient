@@ -7,20 +7,43 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { take } from 'rxjs/operators';
 
-import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
-import { ContactAdd } from '../../../store';
+import {
+  AppState,
+  AutocryptPreferEncryptType,
+  Contact,
+  ContactKey,
+  ContactsState,
+  PGPEncryptionType,
+  StringBooleanMappedType,
+  StringStringMappedType,
+  UserState,
+} from '../../../store/datatypes';
+import {
+  ContactAdd,
+  ContactAddKeys,
+  ContactBulkUpdateKeys,
+  ContactFetchKeys,
+  ContactRemoveKeys,
+  SnackErrorPush,
+} from '../../../store';
 import { OpenPgpService } from '../../../store/services';
+
+import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
 
 @UntilDestroy()
 @Component({
   selector: 'app-save-contact',
   templateUrl: './save-contact.component.html',
   styleUrls: ['./save-contact.component.scss', './../mail-contact.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SaveContactComponent implements OnInit, AfterViewInit {
   @Input() selectedContact: Contact;
@@ -29,6 +52,10 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
 
   @ViewChild('newContactForm') newContactForm: NgForm;
 
+  @ViewChild('advancedSettingsModal') advancedSettingsModal: any;
+
+  private advancedSettingsModalRef: NgbModalRef;
+
   newContactModel: Contact = {
     name: '',
     email: '',
@@ -36,16 +63,38 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     note: '',
     phone: '',
     enabled_encryption: false,
-    public_key: '',
   };
 
   public inProgress: boolean;
+
+  public advancedSettingInProgress = false;
+
+  public isUpdatedPrimaryKey = false;
+
+  public isImportingKey = false;
 
   public internalUser: boolean;
 
   private isContactsEncrypted: boolean;
 
-  constructor(private store: Store<AppState>, private openpgp: OpenPgpService, private cdr: ChangeDetectorRef) {}
+  PGPEncryptionType: PGPEncryptionType;
+
+  keyMatchStatusForEmail: StringBooleanMappedType = {};
+
+  downloadUrls: StringStringMappedType = {};
+
+  selectedContactPulbicKeys: Array<ContactKey> = [];
+
+  isAutocryptEnabled: boolean;
+
+  primaryWebsite = PRIMARY_WEBSITE;
+
+  constructor(
+    private store: Store<AppState>,
+    private openpgp: OpenPgpService,
+    private cdr: ChangeDetectorRef,
+    private modalService: NgbModal,
+  ) {}
 
   ngOnInit() {
     this.handleUserState();
@@ -55,8 +104,11 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     // Get contactEmail, Domain and check if this is internalUser with domain
     this.newContactModel = { ...this.selectedContact };
     const contactEmail = this.newContactModel.email;
-    const getDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
-    this.internalUser = getDomain === 'ctemplar.com';
+    const emailDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
+    this.internalUser = emailDomain === getEmailDomain();
+    if (!this.internalUser) {
+      this.store.dispatch(new ContactFetchKeys(this.selectedContact));
+    }
   }
 
   ngAfterViewInit(): void {
@@ -77,15 +129,26 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
       .subscribe((contactsState: ContactsState) => {
         if (this.inProgress && !contactsState.inProgress) {
           this.inProgress = false;
-          if (!contactsState.isError) {
+          if (!contactsState.isError && !this.advancedSettingsModalRef) {
             this.userSaved.emit(true);
           }
         }
+        this.advancedSettingInProgress = contactsState.advancedSettingInProgress;
+        this.selectedContactPulbicKeys = contactsState.selectedContactKeys;
+
+        this.selectedContactPulbicKeys.forEach(key => {
+          this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails
+            ? key.parsed_emails.includes(this.selectedContact.email)
+            : false;
+          this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(
+            key.public_key,
+          )}`;
+        });
       });
   }
 
-  createNewContact() {
-    if (this.newContactForm.invalid) {
+  createNewContact(isCheckForm = true) {
+    if (isCheckForm && this.newContactForm.invalid) {
       return false;
     }
     this.newContactModel.email = this.newContactModel.email.toLocaleLowerCase();
@@ -98,7 +161,156 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
   }
 
   clearPublicKey() {
-    this.newContactModel.public_key = '';
-    return false;
+    // this.newContactModel.public_key = '';
+    // return false;
+  }
+
+  onShowAdvancedSettings() {
+    this.advancedSettingsModalRef = this.modalService.open(this.advancedSettingsModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-lg',
+    });
+  }
+
+  onClickIsEncrypt(isEncrypt: boolean) {
+    if (!this.selectedContactPulbicKeys || this.selectedContactPulbicKeys.length === 0) {
+      return;
+    }
+    this.newContactModel.enabled_encryption = isEncrypt;
+    if (!this.newContactModel.encryption_type) {
+      this.newContactModel.encryption_type = PGPEncryptionType.PGP_MIME;
+    }
+  }
+
+  onSelectEncryptionScheme(scheme: string) {
+    if (scheme === 'MIME') {
+      this.newContactModel.encryption_type = PGPEncryptionType.PGP_MIME;
+    } else if (scheme === 'INLINE') {
+      this.newContactModel.encryption_type = PGPEncryptionType.PGP_INLINE;
+    }
+  }
+
+  onSelectNewKeyFile(files: Array<File>) {
+    if (files.length > 1) return;
+    if (this.isImportingKey) return;
+
+    if (files && files.length) {
+      this.isImportingKey = true;
+      const file = files[0];
+      let reader = new FileReader();
+      reader.addEventListener('load', (event: any) => {
+        const result = event.target.result;
+        this.openpgp
+          .getKeyInfoFromPublicKey(result)
+          .pipe(take(1))
+          .subscribe(
+            keyInfo => {
+              this.isImportingKey = false;
+              const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
+              if (newKeyInfo) {
+                if (newKeyInfo.key_type === 'RSA4096' || newKeyInfo.key_type === 'ECC') {
+                  if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
+                    this.selectedContactPulbicKeys.forEach(key => {
+                      if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
+                        newKeyInfo.id = key.id;
+                        newKeyInfo.is_primary = key.is_primary;
+                      }
+                    });
+                  }
+                  this.makeCallForAddKeys(newKeyInfo);
+                } else {
+                  this.store.dispatch(
+                    new SnackErrorPush({
+                      message: `Key Type ${newKeyInfo.key_type} is not allowed to import`,
+                    }),
+                  );
+                }
+              } else {
+                this.store.dispatch(
+                  new SnackErrorPush({
+                    message: 'Failed to import the public key',
+                  }),
+                );
+              }
+            },
+            error => {
+              this.isImportingKey = false;
+              this.store.dispatch(
+                new SnackErrorPush({
+                  message: `${file.name} is not a valid PGP public key`,
+                }),
+              );
+            },
+          );
+      });
+      reader.readAsText(file);
+    }
+  }
+
+  makeCallForAddKeys(key: ContactKey) {
+    key.contact = this.selectedContact.id;
+    this.store.dispatch(new ContactAddKeys({ key, email: this.selectedContact.email }));
+  }
+
+  getMailboxKeyModelFromParsedInfo(keyInfo: any): ContactKey {
+    if (keyInfo) {
+      const mailboxKey: ContactKey = {};
+      let keyType = '';
+      if (keyInfo.algorithmInfo) {
+        keyType = keyInfo.algorithmInfo.bits ? `RSA${keyInfo.algorithmInfo.bits}` : 'ECC';
+      }
+      mailboxKey.public_key = keyInfo.public_key;
+      mailboxKey.key_type = keyType;
+      // mailboxKey.created_at = keyInfo.creationTime;
+      mailboxKey.fingerprint = keyInfo.fingerprint;
+      mailboxKey.parsed_emails = keyInfo.emails;
+
+      // If there is no already associated key, new key would be Primary key
+      if (!this.selectedContactPulbicKeys || this.selectedContactPulbicKeys.length === 0) {
+        mailboxKey.is_primary = true;
+      } else {
+        mailboxKey.is_primary = false;
+      }
+      return mailboxKey;
+    }
+    return null;
+  }
+
+  onRemovePublicKey(key: ContactKey) {
+    const remainedKeys = this.selectedContactPulbicKeys.filter(originKey => originKey.id !== key.id);
+    if (remainedKeys.length === 0) {
+      this.newContactModel.encryption_type = null;
+      this.newContactModel.enabled_encryption = false;
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.NOPREFERENCE;
+      this.createNewContact(false);
+    } else if (key.is_primary) {
+      remainedKeys[0].is_primary = true;
+      this.store.dispatch(new ContactBulkUpdateKeys([remainedKeys[0]]));
+    }
+    this.store.dispatch(new ContactRemoveKeys({ key, email: this.selectedContact.email }));
+  }
+
+  onSetPrimary(key: ContactKey) {
+    this.selectedContactPulbicKeys.forEach(originKey => {
+      originKey.is_primary = false;
+      if (originKey.fingerprint === key.fingerprint) {
+        originKey.is_primary = true;
+        this.isUpdatedPrimaryKey = true;
+      }
+    });
+  }
+
+  onSaveAdvancedSettings() {
+    this.store.dispatch(new ContactBulkUpdateKeys(this.selectedContactPulbicKeys));
+    this.createNewContact(false);
+  }
+
+  onSelectPreferEncrypt(type: string) {
+    if (type === AutocryptPreferEncryptType.NOPREFERENCE) {
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.NOPREFERENCE;
+    } else {
+      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.MUTUAL;
+    }
   }
 }

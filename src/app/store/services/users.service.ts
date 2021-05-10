@@ -16,6 +16,7 @@ import {
   REFFERAL_ID_KEY,
   JWT_AUTH_COOKIE,
   REMEMBER_ME,
+  NOT_FIRST_LOGIN,
 } from '../../shared/config';
 import { AppState, AutoResponder, Contact, Settings, AuthState, Domain } from '../datatypes';
 import { Filter } from '../models/filter.model';
@@ -112,6 +113,7 @@ export class UsersService {
     sessionStorage.removeItem('ctemplar_mail');
     localStorage.removeItem(PROMO_CODE_KEY);
     localStorage.removeItem(REMEMBER_ME);
+    localStorage.removeItem(NOT_FIRST_LOGIN);
   }
 
   expireSession() {
@@ -290,8 +292,12 @@ export class UsersService {
     return this.http.delete<any>(url, body);
   }
 
-  getContact(limit = 0, offset = 0, query = '') {
-    return this.http.get<any>(`${apiUrl}users/contacts/?limit=${limit}&offset=${offset}&q=${query}`);
+  getContact(limit = 0, offset = 0, query = '', starred = false) {
+    let url = `${apiUrl}users/contacts/?limit=${limit}&offset=${offset}&q=${query}`;
+    if (starred) {
+      url = `${url}&starred`;
+    }
+    return this.http.get<any>(url);
   }
 
   getEmailContacts() {
@@ -500,6 +506,25 @@ export class UsersService {
 
   makePaymentPrimary(data: any) {
     return this.http.post<any>(`${apiUrl}users/payment-method/make-primary/`, { card_id: data });
+  }
+
+  contactFetchKeys(data: any) {
+    return this.http.get<any>(`${apiUrl}users/contact-keys/?contact_id=${data.id}`);
+  }
+
+  contactAddKeys(data: any) {
+    if (data.id) {
+      return this.http.patch<any>(`${apiUrl}users/contact-keys/${data.id}/`, data);
+    }
+    return this.http.post<any>(`${apiUrl}users/contact-keys/`, data);
+  }
+
+  contactRemoveKeys(data: any) {
+    return this.http.delete<any>(`${apiUrl}users/contact-keys/${data.id}/`);
+  }
+
+  contactBulkUpdateKeys(data: any) {
+    return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

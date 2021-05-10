@@ -42,7 +42,7 @@ import { WebsocketService } from '../../shared/services/websocket.service';
 import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
 import { WebSocketState } from '../../store';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
-import { SharedService } from '../../store/services';
+import { ElectronService, SharedService } from '../../store/services';
 import { PRIMARY_WEBSITE } from '../../shared/config';
 import { QuoteType } from '../../store/quotes';
 
@@ -118,6 +118,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private themeToggleService: ThemeToggleService,
     private modalService: NgbModal,
+    private electronService: ElectronService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = 'outside';
@@ -350,18 +351,24 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
     const options = new PushNotificationOptions();
     options.body = 'You have received a new email';
     options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
-
-    this.pushNotificationService.create(title, options).subscribe(
-      (notif: any) => {
-        if (notif.event.type === 'click') {
-          notif.notification.close();
-          window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
-        }
-      },
-      (error: any) => {
-        this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
-      },
-    );
+    if (this.electronService.isElectron) {
+      this.electronService.showNotification(
+        options.body,
+        `https://mail.ctemplar.com/mail/${folder}/page/1/message/${mail.id}`,
+      );
+    } else {
+      this.pushNotificationService.create(title, options).subscribe(
+        (notif: any) => {
+          if (notif.event.type === 'click') {
+            notif.notification.close();
+            window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
+          }
+        },
+        (error: any) => {
+          this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
+        },
+      );
+    }
   }
 
   /**

@@ -5,7 +5,6 @@ import {
   ElementRef,
   HostListener,
   Input,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -28,7 +27,7 @@ import {
 } from '../../../../store/actions';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
-import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
+import { ElectronService, OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
 
@@ -40,7 +39,7 @@ declare let Scrambler: (arg0: { target: string; random: number[]; speed: number;
   templateUrl: './generic-folder.component.html',
   styleUrls: ['./generic-folder.component.scss'],
 })
-export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GenericFolderComponent implements OnInit, AfterViewInit {
   @Input() mails: Mail[] = [];
 
   @Input() mailFolder: MailFolderType;
@@ -113,6 +112,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     private pgpService: OpenPgpService,
     private authService: UsersService,
     private modalService: NgbModal,
+    private electronService: ElectronService,
   ) {}
 
   ngOnInit() {
@@ -392,7 +392,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
       }
       return isExistMatchMail;
     });
-
     for (let i = 0; i < this.mails.length; i++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
         const mail = this.mails[i];
@@ -623,7 +622,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
    */
   private getMailIDs() {
     const allString = 'all';
-    let markedMails = this.getMarkedMails();
+    const markedMails = this.getMarkedMails();
     if (markedMails.length === this.LIMIT && this.checkAll) {
       return allString;
     } else {
@@ -712,6 +711,4 @@ export class GenericFolderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
     return info;
   }
-
-  ngOnDestroy() {}
 }

@@ -7,12 +7,44 @@
 <div class="modal-body bg-faded">
   <div class="mail-actions-form-holder modal-mail-actions-form-holder">
     <div class="form-group">
-      We provide a feature to temporarily store some decrypted data on your local storage for improved speed. If you trust your device, you can safely enable this feature.
-      <a href="https://ctemplar.com/help/answer/temporary-store-decrypted-data/" rel="noopener noreferrer" target="_blank">Learn more</a>.
+      We provide a feature to temporarily store some decrypted data on your local storage for improved speed. If you
+      trust your device, you can safely enable this feature.
+      <a
+        href="https://ctemplar.com/help/answer/temporary-store-decrypted-data/"
+        rel="noopener noreferrer"
+        target="_blank"
+        >Learn more</a
+      >.
     </div>
-    <div class="form-group text-right mb-0">
-      <button (click)="onDismissSaveDecryptedSubject()" class="btn btn-secondary btn-sm mr-2" role="button" [translate]="'common.no'">No</button>
-      <button (click)="onFlagSaveDecryptedSubject()" class="btn btn-danger btn-sm" role="button" [translate]="'common.yes'">Yes</button>
+    <div class="row bottom-view">
+      <div class="fancy-field-group ask-more">
+        <input
+          type="checkbox"
+          id="timeRestricted"
+          name="timeRestricted"
+          [(ngModel)]="askLocalCache"
+          class="d-none fancy-field-control fancy-field-control-sm"
+        />
+        <label for="timeRestricted" [translate]="'common.dont_ask_use_local_cache'">Don't ask any more</label>
+      </div>
+      <div class="form-group text-right mb-0">
+        <button
+          (click)="onDismissSaveDecryptedSubject()"
+          class="btn btn-secondary btn-sm mr-2"
+          role="button"
+          [translate]="'common.no'"
+        >
+          No
+        </button>
+        <button
+          (click)="onFlagSaveDecryptedSubject()"
+          class="btn btn-danger btn-sm"
+          role="button"
+          [translate]="'common.yes'"
+        >
+          Yes
+        </button>
+      </div>
     </div>
   </div>
 </div>

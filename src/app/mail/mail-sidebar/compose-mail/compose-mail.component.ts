@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, finalize } from 'rxjs/operators';
+import { debounceTime, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -24,6 +24,7 @@ import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
   CloseMailbox,
   DeleteAttachment,
+  DeleteMail,
   GetEmailContacts,
   GetUsersKeys,
   MoveMail,
@@ -42,13 +43,17 @@ import { EmailFormatPipe } from '../../../shared/pipes/email-formatting.pipe';
 import {
   AppState,
   AuthState,
+  AutocryptEncryptDetermine,
   ComposeMailState,
+  ComposerEncryptionType,
+  Contact,
   ContactsState,
   Draft,
   GlobalPublicKey,
   MailAction,
   MailBoxesState,
   MailState,
+  PGPEncryptionType,
   SecureContent,
   Settings,
   UserState,
@@ -56,7 +61,7 @@ import {
   WhiteList,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import { MailService, SharedService, getCryptoRandom } from '../../../store/services';
+import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
@@ -66,6 +71,7 @@ class keepHTML extends BlockEmbed {
   static create(node: any) {
     return node;
   }
+
   static value(node: any) {
     return node;
   }
@@ -104,7 +110,7 @@ class ImageBlot extends QuillBlockEmbed {
   static create(value: any) {
     const node: any = super.create(value);
     if (value) {
-      node.setAttribute('data-content-id', value.content_id);
+      node.dataset.contentId = value.content_id;
       node.setAttribute('src', value.url ? value.url : value);
     }
     return node;
@@ -132,7 +138,7 @@ class SignatureBlot extends QuillBlockEmbed {
   static create(value: string) {
     const node: any = super.create(value);
     value = value.replace(/<br>/g, '\n');
-    node.innerText = value;
+    node.textContent = value;
     return node;
   }
 
@@ -340,6 +346,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private autoSaveSubscription: Subscription;
 
+  private firstSaveSubscription: Subscription;
+
   private attachImagesModalRef: NgbModalRef;
 
   private selfDestructModalRef: NgbModalRef;
@@ -380,6 +388,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isPreparingToSendEmail = false;
 
+  /**
+   * Decide to set html or plaintext mode with this variable
+   */
+  pgpEncryptionType: PGPEncryptionType = null;
+
+  autocryptInfo: AutocryptEncryptDetermine;
+
+  receiverEncryptTypeMap: any = {};
+
   blacklist: BlackList[] = [];
 
   whitelist: WhiteList[] = [];
@@ -400,6 +417,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     private filesizePipe: FilesizePipe,
     private filenamePipe: FilenamePipe,
     private cdr: ChangeDetectorRef,
+    private autocryptService: AutocryptProcessService,
   ) {}
 
   ngOnInit() {
@@ -415,7 +433,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         validator: PasswordValidation.MatchPassword,
       },
     );
-
     this.resetMailData();
     this.initializeDraft();
     /**
@@ -450,15 +467,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.draft = draft;
         this.usersKeys = response.usersKeys;
+        this.analyzeUsersKeysWithContact();
         const receivers = this.draftMail.receiver;
         if (receivers && receivers.length > 0) {
           const receiversToFetchKey = receivers
+            .map(rec => (parseEmail.parseOneAddress(rec.toLowerCase()) as parseEmail.ParsedMailbox).address)
             .filter(
-              rec =>
-                !this.usersKeys.has(rec.toLowerCase()) ||
-                (!this.usersKeys.get(rec.toLowerCase()).key && !this.usersKeys.get(rec.toLowerCase()).isFetching),
-            )
-            .map(receiver => receiver.toLowerCase());
+              rec => !this.usersKeys.has(rec) || (!this.usersKeys.get(rec).key && !this.usersKeys.get(rec).isFetching),
+            );
           if (receiversToFetchKey.length > 0) {
             this.store.dispatch(
               new GetUsersKeys({
@@ -521,6 +537,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.clonedContacts =
           contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
         this.contactsState = contactsState;
+        this.analyzeUsersKeysWithContact();
         this.loadEmailContacts();
       });
 
@@ -562,6 +579,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.selectedMailbox = mailBoxesState.currentMailbox;
         }
         this.mailBoxesState = mailBoxesState;
+        this.analyzeUsersKeysWithContact();
       });
 
     /**
@@ -600,134 +618,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initializeAutoSave(); // start auto save function
   }
 
-  onPaste() {
-    this.isPasted = true;
-  }
-
-  ccOnPaste() {
-    this.ccIsPasted = true;
-  }
-
-  bccOnPaste() {
-    this.bccIsPasted = true;
-  }
-
-  onRemoveReceive() {
-    this.valueChanged$.next(this.mailData.receiver);
-    this.isSelfDestructionEnable();
-  }
-
-  onRemoveCc() {
-    this.valueChanged$.next(this.mailData.cc);
-    this.isSelfDestructionEnable();
-  }
-
-  onRemoveBcc() {
-    this.valueChanged$.next(this.mailData.bcc);
-    this.isSelfDestructionEnable();
-  }
-
-  updateInputTextValue(value: string) {
-    // add tag if pasted item is valid email
-    if (this.isPasted && this.validateEmail(value)) {
-      this.mailData.receiver.push({
-        display: value,
-        value,
-        email: value,
-      });
-      this.inputTextValue = '';
-      this.isPasted = false;
-      if (
-        !this.usersKeys.has(value.toLowerCase()) ||
-        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
-      ) {
-        this.store.dispatch(
-          new GetUsersKeys({
-            emails: [value.toLowerCase()],
-          }),
-        );
-      }
-    }
-  }
-
-  ccUpdateInputTextValue(value: string) {
-    // add tag if pasted item is valid email
-    if (this.ccIsPasted && this.validateEmail(value)) {
-      this.mailData.cc.push({
-        display: value,
-        value,
-        email: value,
-      });
-      this.ccInputTextValue = '';
-      this.ccIsPasted = false;
-      if (
-        !this.usersKeys.has(value.toLowerCase()) ||
-        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
-      ) {
-        this.store.dispatch(
-          new GetUsersKeys({
-            emails: [value.toLowerCase()],
-          }),
-        );
-      }
-    }
-  }
-
-  bccUpdateInputTextValue(value: string) {
-    // add tag if pasted item is valid email
-    if (this.bccIsPasted && this.validateEmail(value)) {
-      this.mailData.bcc.push({
-        display: value,
-        value,
-        email: value,
-      });
-      this.bccInputTextValue = '';
-      this.bccIsPasted = false;
-      if (
-        !this.usersKeys.has(value.toLowerCase()) ||
-        (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
-      ) {
-        this.store.dispatch(
-          new GetUsersKeys({
-            emails: [value.toLowerCase()],
-          }),
-        );
-      }
-    }
-  }
-
-  validateEmail(email: string) {
-    const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  onTagEdited($event: any) {
-    this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
-    this.isSelfDestructionEnable();
-  }
-
-  ccOnTagEdited($event: any) {
-    this.mailData.cc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
-    this.isSelfDestructionEnable();
-  }
-
-  bccOnTagEdited($event: any) {
-    this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
-    this.isSelfDestructionEnable();
-  }
-
-  onClick() {
-    this.receiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
-  }
-
-  onCcClick() {
-    this.ccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
-  }
-
-  onBccClick() {
-    this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
-  }
-
   ngAfterViewInit() {
     this.initializeComposeMail();
     if (this.forwardAttachmentsMessageId) {
@@ -742,6 +632,107 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.cdr.detectChanges();
   }
 
+  handleRemoveRecipient(recipientType: string) {
+    switch (recipientType) {
+      case 'receiver':
+        this.valueChanged$.next(this.mailData.receiver);
+        break;
+      case 'ccReceiver':
+        this.valueChanged$.next(this.mailData.cc);
+        break;
+      case 'bccReceiver':
+        this.valueChanged$.next(this.mailData.bcc);
+        break;
+      default:
+        break;
+    }
+    this.isSelfDestructionEnable();
+    this.analyzeUsersKeysWithContact();
+  }
+
+  handlePasteRecipient(value: string, recipientType: string) {
+    if (this.validateEmail(value)) {
+      let isNeedProcess = false;
+      if (recipientType === 'receiver' && this.isPasted) {
+        this.mailData.receiver.push({
+          display: value,
+          value,
+          email: value,
+        });
+        this.inputTextValue = '';
+        this.isPasted = false;
+        isNeedProcess = true;
+      } else if (recipientType === 'ccReceiver' && this.ccIsPasted) {
+        this.mailData.cc.push({
+          display: value,
+          value,
+          email: value,
+        });
+        this.ccInputTextValue = '';
+        this.ccIsPasted = false;
+        isNeedProcess = true;
+      } else if (recipientType === 'bccReceiver' && this.bccIsPasted) {
+        this.mailData.bcc.push({
+          display: value,
+          value,
+          email: value,
+        });
+        this.bccInputTextValue = '';
+        this.bccIsPasted = false;
+        isNeedProcess = true;
+      }
+      if (isNeedProcess) {
+        if (
+          !this.usersKeys.has(value.toLowerCase()) ||
+          (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
+        ) {
+          this.store.dispatch(
+            new GetUsersKeys({
+              emails: [value.toLowerCase()],
+            }),
+          );
+        } else {
+          this.analyzeUsersKeysWithContact();
+        }
+      }
+    }
+  }
+
+  validateEmail(email: string) {
+    const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  onTagEdited($event: any) {
+    this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
+    this.analyzeUsersKeysWithContact();
+  }
+
+  ccOnTagEdited($event: any) {
+    this.mailData.cc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
+    this.analyzeUsersKeysWithContact();
+  }
+
+  bccOnTagEdited($event: any) {
+    this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
+    this.isSelfDestructionEnable();
+    this.analyzeUsersKeysWithContact();
+  }
+
+  onClick() {
+    this.receiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
+  }
+
+  onCcClick() {
+    this.ccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
+  }
+
+  onBccClick() {
+    this.bccReceiverInputRange.nativeElement.querySelector('input[type="text"]').focus();
+  }
+
   initializeComposeMail() {
     if (this.draftMail.is_html === null || this.draftMail.is_html) {
       if (this.editor) {
@@ -753,7 +744,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.editor) {
         this.content = this.editor.nativeElement.firstChild.innerHTML;
       }
-      this.content = this.content && this.content === '' ? content : this.content;
+      this.content = this.content || content;
 
       if (this.content) {
         content = this.getPlainText(this.content);
@@ -789,17 +780,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       action: this.action,
       parentId: this.parentId,
     });
-  }
-
-  ngOnDestroy(): void {
-    // save to draft when close compose
-    if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft && !this.saveDraftOnLogout) {
-      this.saveInDrafts();
-      this.isSavedInDraft = true;
-    }
-    if (this.isAuthenticated) {
-      this.store.dispatch(new CloseMailbox(this.draft));
-    }
   }
 
   onSubjectChange(subject: string) {
@@ -842,7 +822,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
     } else {
-      this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
+      if (!this.action) {
+        this.openPgpService.decrypt(this.draftMail.mailbox, this.draftMail.id, new SecureContent(this.draftMail));
+      }
       this.isSignatureAdded = true;
       if (this.draftMail.attachments) {
         this.inlineAttachmentContentIds = this.draftMail.attachments
@@ -940,7 +922,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         matchVisual: false,
       },
     });
-    this.quill.scrollingContainer = document.getElementById('editor-cover-scroller');
+    this.quill.scrollingContainer = document.querySelector('#editor-cover-scroller');
 
     this.quill.on('text-change', () => {
       this.valueChanged$.next();
@@ -951,7 +933,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.quill.clipboard.dangerouslyPasteHTML(0, this.content);
     } else if (this.content) {
       this.content = this.formatContent(this.content);
-      const allowedTags = [
+      const allowedTags = new Set([
         'a',
         'b',
         'br',
@@ -979,19 +961,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         'ul',
         'i',
         'blockquote',
-      ];
+      ]);
       // @ts-ignore
-      let xssValue = xss(this.content, {
+      const xssValue = xss(this.content, {
         onTag: (tag: string, html: string, options: any) => {
-          if (!options.isClosing && allowedTags.includes(tag.toLowerCase())) {
+          if (!options.isClosing && allowedTags.has(tag.toLowerCase())) {
             let htmlAttributes = '';
-            const reg = /\s/;
-            const match = reg.exec(html);
-            const i = match ? match.index : -1;
-            if (i !== -1) {
-              htmlAttributes = html.slice(i + 1, -1).trim();
+            const spaceIndex = html.indexOf(' ');
+            if (spaceIndex > 0) {
+              htmlAttributes = html.slice(spaceIndex + 1, -1).trim();
             }
-            let attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
+            const attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
               if (attributeName === 'class') {
                 attributeValue = attributeValue.replace('gmail_quote', '');
               }
@@ -1003,9 +983,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             outputHtml += '>';
             return outputHtml;
-          } else {
-            return html;
           }
+          return html;
         },
       });
       this.quill.clipboard.dangerouslyPasteHTML(
@@ -1022,7 +1001,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.quill.format('font', this.settings.default_font);
 
       const qlEditor = document.querySelectorAll('.ql-editor p');
-      for (var i = 0; i < qlEditor.length; i++) {
+      for (let i = 0; i < qlEditor.length; i++) {
         qlEditor[i].setAttribute('style', '');
       }
     }
@@ -1068,6 +1047,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
     }
+    this.firstSaveSubscription = this.valueChanged$
+      .pipe(first(() => !this.draft.draft.id && this.hasData()))
+      .subscribe(data => {
+        this.updateEmail();
+      });
   }
 
   quillImageHandler() {
@@ -1086,6 +1070,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.oldMailbox = oldMailbox;
     this.updateSignature();
     this.valueChanged$.next(this.selectedMailbox);
+    this.analyzeUsersKeysWithContact();
   }
 
   onImagesSelected(files: FileList) {
@@ -1229,10 +1214,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.closeConfirmModalRef.dismiss();
     }
     if (this.isProcessingAttachments) {
-      const attachments = this.attachments;
-      for (let i = 0; i < attachments.length; i++) {
-        if (attachments[i].inProgress) {
-          this.removeAttachment(attachments[i]);
+      const { attachments } = this;
+      for (const attachment of attachments) {
+        if (attachment.inProgress) {
+          this.removeAttachment(attachment);
         }
       }
     }
@@ -1249,15 +1234,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isSavedInDraft = true;
     if (this.draftMail && this.draftMail.id) {
-      this.store.dispatch(
-        new MoveMail({
-          ids: this.draftMail.id,
-          folder: MailFolderType.TRASH,
-          sourceFolder: MailFolderType.DRAFT,
-          mail: this.draftMail,
-          allowUndo: true,
-        }),
-      );
+      this.store.dispatch(new DeleteMail({ ids: [this.draftMail.id].join(','), folder: this.draftMail.folder }));
     }
     this.hide.emit();
     this.resetValues();
@@ -1282,19 +1259,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addHyperLink() {
-    var regex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.com|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    const regex = /(https?:\/\/(?:www\.|(?!www))[\da-z][\da-z-]+[\da-z]\.\S{2,}|www\.[\da-z][\da-z-]+[\da-z]\.\S{2,}|https?:\/\/(?:www\.|(?!www))[\da-z]+\.\S{2,}|[\da-z][\da-z-]+[\da-z]\.com|www\.[\da-z]+\.\S{2,})/gi;
     this.quill.focus();
-    var contents = this.quill.getText();
-    var filtered = contents.trim().split(/\s+/);
-    for (let i = 0; i < filtered.length; i++) {
-      var match = filtered[i].match(regex);
+    const contents = this.quill.getText();
+    const filtered = contents.trim().split(/\s+/);
+    for (const element of filtered) {
+      const match = element.match(regex);
       if (match !== null) {
-        var url = match[0];
-        var hyperLink = url;
+        const url = match[0];
+        let hyperLink = url;
         if (!/^https?:\/\//i.test(url)) {
           hyperLink = `http://${url}`;
         }
-        var position = contents.indexOf(url);
+        const position = contents.indexOf(url);
         this.quill.updateContents(
           new Delta().retain(position).delete(url.length).insert(url, { link: hyperLink, target: '_blank' }),
         );
@@ -1328,7 +1305,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.isPreparingToSendEmail = true;
-    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+    if (this.inProgress || (this.draft && this.draft.isSaving) || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.isPreparingToSendEmail = false;
@@ -1452,7 +1429,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (this.selectedMailbox && this.selectedMailbox.signature) {
           // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-          content = `<br><br>${newSig}` + content;
+          content = `<br><br>${newSig}${content}`;
           this.isSignatureAdded = true;
           this.quill.clipboard.dangerouslyPasteHTML(content);
         }
@@ -1462,7 +1439,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   addDecryptedContent() {
     if (!this.draftMail.is_html) {
-      this.mailData.content = this.decryptedContent;
+      this.mailData.content = this.getPlainText(this.decryptedContent);
       return;
     }
     if (this.quill) {
@@ -1648,9 +1625,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     return (
       (!this.draftMail.is_html
         ? this.mailData.content.length > 1 &&
-          this.mailData.content.replace(/(^[ \t]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
+          this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
         : this.quill.getLength() > 1 &&
-          this.quill.getText().replace(/(^[ \t]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
+          this.quill.getText().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
       this.mailData.receiver.length > 0 ||
       this.mailData.cc.length > 0 ||
       this.mailData.bcc.length > 0 ||
@@ -1687,9 +1664,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
     }
-
     this.draft.isSaving = shouldSave;
-
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map((receiver: any) =>
@@ -1758,6 +1733,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.checkInlineAttachments();
     if (!shouldSend) {
+      this.draftMail.folder = this.draftMail.folder ? this.draftMail.folder : MailFolderType.DRAFT;
       this.store.dispatch(
         new UpdateLocalDraft({
           ...this.draft,
@@ -1768,9 +1744,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }),
       );
     } else {
-      if (this.draftMail.subject !== this.subject) {
-        this.draftMail.parent = null;
-      }
       this.store.dispatch(
         new UpdatePGPDecryptedContent({
           id: this.draftMail.id,
@@ -1807,6 +1780,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetValues() {
     this.unSubscribeAutoSave();
+    this.firstSaveSubscription.unsubscribe();
     this.options = {};
     this.attachments = [];
     if (this.quill) {
@@ -1871,6 +1845,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           : '',
       content: '',
     };
+    // action is existed MEANS this compose is either REPLY or REPLY_ALL or FORWARD
+    // this.draftMail.content would not be encrypted, but PURE
+    if (this.action) {
+      this.mailData.content = this.content ? this.content : this.draftMail.content;
+    }
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
     }
@@ -1884,31 +1863,31 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private resetSelfDestructValues() {
-    this.selfDestruct.value = null;
-    this.selfDestruct.date = null;
+    this.selfDestruct.value = undefined;
+    this.selfDestruct.date = undefined;
     this.selfDestruct.time = {
       hour: 0,
       minute: 0,
       second: 0,
     };
     this.selfDestruct.meridian = true;
-    this.selfDestruct.error = null;
+    this.selfDestruct.error = undefined;
   }
 
   private resetDelayedDeliveryValues() {
-    this.delayedDelivery.value = null;
-    this.delayedDelivery.date = null;
+    this.delayedDelivery.value = undefined;
+    this.delayedDelivery.date = undefined;
     this.delayedDelivery.time = {
       hour: 0,
       minute: 0,
       second: 0,
     };
     this.delayedDelivery.meridian = true;
-    this.delayedDelivery.error = null;
+    this.delayedDelivery.error = undefined;
   }
 
   private resetDeadManTimerValues() {
-    this.deadManTimer.value = null;
+    this.deadManTimer.value = undefined;
     this.deadManTimer.days = 0;
     this.deadManTimer.hours = 0;
   }
@@ -1973,13 +1952,104 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     }
     this.valueChanged$.next(data);
+    this.analyzeUsersKeysWithContact();
     this.isSelfDestructionEnable();
   }
 
+  // Analyze user key based on contact keys
+  analyzeUsersKeysWithContact(): void {
+    if (!this.selectedMailbox) return;
+    // Set Encryption Type with contacts
+    const localReceivers: string[] = [
+      ...this.mailData.receiver.map((receiver: any) => receiver.email),
+      ...this.mailData.cc.map((cc: any) => cc.email),
+      ...this.mailData.bcc.map((bcc: any) => bcc.email),
+    ];
+    // Check Autocrypt status
+    this.autocryptInfo = this.autocryptService.decideAutocryptDefaultEncryption(
+      this.selectedMailbox,
+      localReceivers,
+      this.usersKeys,
+    );
+    if (localReceivers.length > 0) {
+      localReceivers.forEach(rec => {
+        const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
+        if (keyInfo.isExistKey) {
+          if (keyInfo.isCTemplarKey) {
+            this.receiverEncryptTypeMap = {
+              ...this.receiverEncryptTypeMap,
+              [rec]: ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_END_TO_END,
+            };
+          } else if (this.contactsState && this.contactsState.contacts.length > 0) {
+            // Checking with contacts
+            this.contactsState.contacts.forEach((contact: Contact) => {
+              if (contact.email === rec && contact.enabled_encryption) {
+                this.receiverEncryptTypeMap = {
+                  ...this.receiverEncryptTypeMap,
+                  [rec]: ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE,
+                };
+              }
+            });
+          }
+        } else {
+          this.receiverEncryptTypeMap = {
+            ...this.receiverEncryptTypeMap,
+            [rec]: ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE,
+          };
+        }
+      });
+      if (!this.autocryptInfo.senderAutocryptEnabled) {
+        // Set Editor style with encryption type
+        // If all receiver is based on PGP Inline, Plain Text Editor
+        // If PGP Mime or null, Do Nothing
+        const isPGPInline = localReceivers.every(rec => {
+          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
+            const contactInfo: Contact = this.contactsState?.contacts.find((contact: Contact) => contact.email === rec);
+            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_INLINE) {
+              return true;
+            }
+          }
+          return false;
+        });
+        const isPGPMime = localReceivers.every(rec => {
+          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
+            const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
+            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_MIME) {
+              return true;
+            }
+          }
+          return false;
+        });
+        this.pgpEncryptionType = isPGPInline
+          ? PGPEncryptionType.PGP_INLINE
+          : isPGPMime
+          ? PGPEncryptionType.PGP_MIME
+          : null;
+        if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail.is_html) {
+          this.setHtmlEditor(false);
+        } else if (this.pgpEncryptionType === PGPEncryptionType.PGP_MIME && !this.draftMail.is_html) {
+          this.setHtmlEditor(true);
+        }
+      }
+    }
+  }
+
+  // TODO should be moved to template
   getUserKeyFetchingStatus(email: string): boolean {
     return (
       !this.usersKeys.has(email.toLowerCase()) ||
       (this.usersKeys.has(email.toLowerCase()) && this.usersKeys.get(email.toLowerCase()).isFetching)
     );
+  }
+
+  ngOnDestroy(): void {
+    // save to draft when close compose
+    if (this.selectedMailbox.email && !this.isMailSent && !this.isSavedInDraft && !this.saveDraftOnLogout) {
+      this.saveInDrafts();
+      this.isSavedInDraft = true;
+    }
+    if (this.isAuthenticated) {
+      this.store.dispatch(new CloseMailbox(this.draft));
+    }
   }
 }

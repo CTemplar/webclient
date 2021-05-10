@@ -17,7 +17,8 @@ import {
 import { SnackErrorPush } from '../../../store';
 import { OpenPgpService, SharedService, getCryptoRandom } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
-import { apiUrl, SYNC_DATA_WITH_STORE, NOT_FIRST_LOGIN } from '../../../shared/config';
+import { apiUrl, SYNC_DATA_WITH_STORE } from '../../../shared/config';
+import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -39,7 +40,7 @@ export class SecurityComponent implements OnInit {
 
   private decryptContactsModalRef: NgbModalRef;
 
-  settings: Settings;
+  settings$: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({});
 
   changePasswordForm: FormGroup;
 
@@ -63,15 +64,11 @@ export class SecurityComponent implements OnInit {
 
   isContactsEncrypted: boolean;
 
-  planTypeEnum = PlanType;
-
-  planType: PlanType;
-
   isUsingLocalStorage: boolean;
 
-  private updatedPrivateKeys: Array<any>;
+  private updatedPrivateKeys: any;
 
-  private canDispatchChangePassphrase: boolean;
+  passwordChangeInProgress = false;
 
   constructor(
     private store: Store<AppState>,
@@ -91,9 +88,8 @@ export class SecurityComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.settings = user.settings;
-        this.planType = user.settings.plan_type || PlanType.FREE;
-        this.isContactsEncrypted = this.settings.is_contacts_encrypted;
+        this.isContactsEncrypted = user.settings.is_contacts_encrypted;
+        this.settings$.next(user.settings);
       });
 
     /**
@@ -104,28 +100,15 @@ export class SecurityComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
         this.auth2FA = authState.auth2FA;
-        if (authState.updatedPrivateKeys && this.canDispatchChangePassphrase) {
-          this.canDispatchChangePassphrase = false;
-          this.updatedPrivateKeys = [...authState.updatedPrivateKeys];
-          this.changePasswordConfirmed();
-          this.store.dispatch(new ChangePassphraseSuccess(null));
-        }
-        if (this.inProgress && !authState.inProgress) {
+        if (this.passwordChangeInProgress && !authState.passwordChangeInProgress) {
           this.changePasswordModalRef.dismiss();
           if (authState.isChangePasswordError) {
-            this.openPgpService.revertChangedPassphrase(this.changePasswordForm.value.oldPassword, this.deleteData);
+            this.openPgpService.decryptAllPrivateKeys(undefined, this.changePasswordForm.value.password);
           } else {
-            const privKeys: any = {};
-            const pubKeys: any = {};
-            this.updatedPrivateKeys.forEach(item => {
-              privKeys[item.mailbox_id] = item.private_key;
-              pubKeys[item.mailbox_id] = item.public_key;
-            });
-            this.openPgpService.clearData(pubKeys);
-            this.openPgpService.decryptPrivateKeys(privKeys, this.changePasswordForm.value.password);
+            this.openPgpService.clearData();
           }
-          this.inProgress = false;
         }
+        this.passwordChangeInProgress = authState.passwordChangeInProgress;
       });
 
     this.store
@@ -146,21 +129,24 @@ export class SecurityComponent implements OnInit {
       },
     );
 
-    this.isUsingLocalStorage = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true' ? true : false;
+    this.isUsingLocalStorage = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true';
   }
 
   updateSettings(key?: string, value?: any) {
-    this.settingsService.updateSettings(this.settings, key, value);
+    if (key === 'is_contacts_encrypted' && value === true) {
+      this.isContactsEncrypted = true;
+    }
+    this.settingsService.updateSettings(this.settings$.value, key, value);
   }
 
   /**
    * Update anti phishing status
    */
   updateAntiPhishing(status: boolean) {
-    if (this.settings.is_anti_phishing_enabled !== status) {
-      this.settings.anti_phishing_phrase =
+    if (this.settings$.value.is_anti_phishing_enabled !== status) {
+      this.settings$.value.anti_phishing_phrase =
         getCryptoRandom().toString(36).slice(2, 5) + getCryptoRandom().toString(36).slice(2, 5);
-      this.settingsService.updateSettings(this.settings, 'is_anti_phishing_enabled', status);
+      this.settingsService.updateSettings(this.settings$.value, 'is_anti_phishing_enabled', status);
     }
   }
 
@@ -180,7 +166,7 @@ export class SecurityComponent implements OnInit {
     this.store.dispatch(
       new Update2FA({
         data: { ...this.auth2FAForm, enable_2fa, username: this.userState.username },
-        settings: { ...this.settings, enable_2fa },
+        settings: { ...this.settings$.value, enable_2fa },
       }),
     );
   }
@@ -197,22 +183,9 @@ export class SecurityComponent implements OnInit {
     this.sharedService.copyToClipboard(value);
   }
 
-  // == Open change password NgbModal
-  openChangePasswordModal() {
-    this.deleteData = false;
-    this.inProgress = false;
-    this.showChangePasswordFormErrors = false;
-    this.changePasswordForm.reset();
-    this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
-      centered: true,
-      backdrop: 'static',
-      windowClass: 'modal-md change-password-modal',
-    });
-  }
-
   // == Open decrypt contacts confirmation NgbModal
   openDecryptContactsModal() {
-    if (!this.settings.is_contacts_encrypted) {
+    if (!this.settings$.value.is_contacts_encrypted) {
       return;
     }
     this.isContactsEncrypted = false;
@@ -232,7 +205,7 @@ export class SecurityComponent implements OnInit {
 
   // == Open encrypt contacts confirmation NgbModal
   openConfirmEncryptContactsModal() {
-    if (this.settings.is_contacts_encrypted) {
+    if (this.settings$.value.is_contacts_encrypted) {
       return;
     }
     this.isContactsEncrypted = true;
@@ -279,31 +252,79 @@ export class SecurityComponent implements OnInit {
     }
   }
 
+  /**
+   * Change Password Section
+   */
+  /**
+   * Open Change Password Modal
+   */
+  openChangePasswordModal() {
+    this.deleteData = false;
+    this.inProgress = false;
+    this.showChangePasswordFormErrors = false;
+    this.changePasswordForm.reset();
+    this.changePasswordModalRef = this.modalService.open(this.changePasswordModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal',
+    });
+  }
+
+  /**
+   * Change Password Process
+   * Call OpenPGPService for change passphrase
+   */
   changePassword() {
     this.showChangePasswordFormErrors = true;
     if (this.changePasswordForm.valid) {
-      this.inProgress = true;
-      this.canDispatchChangePassphrase = true;
-      this.openPgpService.changePassphrase(
-        this.changePasswordForm.value.password,
-        this.deleteData,
-        this.userState.username,
-      );
+      this.passwordChangeInProgress = true;
+      this.openPgpService
+        .changePassphrase(this.changePasswordForm.value.password, this.deleteData, this.userState.username)
+        .subscribe(
+          response => {
+            this.changePasswordConfirmed(response.keys || {});
+          },
+          error => {
+            this.passwordChangeInProgress = false;
+            this.store.dispatch(new SnackErrorPush({ message: `Failed to change password` }));
+          },
+        );
     }
   }
 
-  changePasswordConfirmed() {
+  changePasswordConfirmed(updatedKeys: any) {
+    this.updatedPrivateKeys = updatedKeys;
     const data = this.changePasswordForm.value;
+    const new_keys: any[] = [];
+    const extra_keys: any[] = [];
+    Object.keys(updatedKeys).forEach((mailboxId: string) => {
+      updatedKeys[mailboxId].forEach((key: any) => {
+        if (key.is_primary) {
+          new_keys.push({
+            mailbox_id: mailboxId,
+            private_key: key.private_key,
+            public_key: key.public_key,
+          });
+        } else {
+          extra_keys.push({
+            mailbox_id: mailboxId,
+            private_key: key.private_key,
+            public_key: key.public_key,
+            mailbox_key_id: key.mailbox_key_id,
+          });
+        }
+      });
+    });
     const requestData = {
       username: this.userState.username,
       old_password: data.oldPassword,
       password: data.password,
       confirm_password: data.confirmPwd,
-      new_keys: this.updatedPrivateKeys,
       delete_data: this.deleteData,
+      new_keys,
+      extra_keys,
     };
     this.store.dispatch(new ChangePassword(requestData));
-    this.inProgress = true;
   }
 
   // == Toggle password visibility
@@ -316,7 +337,6 @@ export class SecurityComponent implements OnInit {
 
   updateUsingLocalStorage(isUsing: boolean) {
     localStorage.setItem(SYNC_DATA_WITH_STORE, isUsing ? 'true' : 'false');
-    localStorage.setItem(NOT_FIRST_LOGIN, 'true');
     this.store.dispatch(
       new SnackErrorPush({
         message: 'Settings updated successfully.',

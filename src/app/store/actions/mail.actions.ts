@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { MoveMailActionPayloadType } from '../datatypes';
 
 export enum MailActionTypes {
   GET_MAILS = '[Mail] GET_MAILS',
@@ -56,6 +55,20 @@ export enum MailActionTypes {
   SET_IS_COMPOSER_POPUP = '[MAIL] SET IS COMPOSERPOPUP ',
   MOVE_TAB = '[MAIL] MOVE TAB',
   EMPTY_ONLY_FOLDER = '[Mail] EMPTY ONLY FOLDER',
+  FETCH_MAILBOX_KEYS = '[MAILBOX] FETCH MAILBOX KEYS',
+  FETCH_MAILBOX_KEYS_SUCCESS = '[MAILBOX] FETCH MAILBOX KEYS SUCCESS',
+  FETCH_MAILBOX_KEYS_FAILURE = '[MAILBOX] FETCH MAILBOX KEYS FAILURE',
+  ADD_MAILBOX_KEYS = '[MAILBOX] ADD MAILBOX KEYS',
+  ADD_MAILBOX_KEYS_SUCCESS = '[MAILBOX] ADD MAILBOX KEYS SUCCESS',
+  ADD_MAILBOX_KEYS_FAILURE = '[MAILBOX] ADD MAILBOX KEYS FAILURE',
+  DELETE_MAILBOX_KEYS = '[MAILBOX] DELETE MAILBOX KEYS',
+  DELETE_MAILBOX_KEYS_SUCCESS = '[MAILBOX] DELETE MAILBOX KEYS SUCCESS',
+  DELETE_MAILBOX_KEYS_FAILURE = '[MAILBOX] DELETE MAILBOX KEYS FAILURE',
+  SET_PRIMARY_MAILBOX_KEYS = '[MAILBOX] SET_PRIMARY MAILBOX KEYS',
+  SET_PRIMARY_MAILBOX_KEYS_SUCCESS = '[MAILBOX] SET_PRIMARY MAILBOX KEYS SUCCESS',
+  SET_PRIMARY_MAILBOX_KEYS_FAILURE = '[MAILBOX] SET_PRIMARY MAILBOX KEYS FAILURE',
+  SET_ATTACHMENTS_FOR_PGP_MIME = '[Mail] SET ATTACHMENTS FOR PGP MIME',
+  RESET_MAILBOX_KEY_OPERATION_STATE = '[MAILBOX] RESET MAILBOX KEY OPERATION STATE',
 }
 
 export class GetMails implements Action {
@@ -179,8 +192,6 @@ export class MoveMailSuccess implements Action {
 
 export class RevertMailsMoved implements Action {
   readonly type = MailActionTypes.REVERT_MAILS_MOVED;
-
-  constructor() {}
 }
 
 export class DeleteMail implements Action {
@@ -381,6 +392,88 @@ export class EmptyOnlyFolder implements Action {
   constructor(public payload: any) {}
 }
 
+export class FetchMailboxKeys implements Action {
+  readonly type = MailActionTypes.FETCH_MAILBOX_KEYS;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class FetchMailboxKeysSuccess implements Action {
+  readonly type = MailActionTypes.FETCH_MAILBOX_KEYS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class FetchMailboxKeysFailure implements Action {
+  readonly type = MailActionTypes.FETCH_MAILBOX_KEYS_FAILURE;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class AddMailboxKeys implements Action {
+  readonly type = MailActionTypes.ADD_MAILBOX_KEYS;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class AddMailboxKeysSuccess implements Action {
+  readonly type = MailActionTypes.ADD_MAILBOX_KEYS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class AddMailboxKeysFailure implements Action {
+  readonly type = MailActionTypes.ADD_MAILBOX_KEYS_FAILURE;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class DeleteMailboxKeys implements Action {
+  readonly type = MailActionTypes.DELETE_MAILBOX_KEYS;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class DeleteMailboxKeysSuccess implements Action {
+  readonly type = MailActionTypes.DELETE_MAILBOX_KEYS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteMailboxKeysFailure implements Action {
+  readonly type = MailActionTypes.DELETE_MAILBOX_KEYS_FAILURE;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class SetMailboxKeyPrimary implements Action {
+  readonly type = MailActionTypes.SET_PRIMARY_MAILBOX_KEYS;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class SetMailboxKeyPrimarySuccess implements Action {
+  readonly type = MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class SetMailboxKeyPrimaryFailure implements Action {
+  readonly type = MailActionTypes.SET_PRIMARY_MAILBOX_KEYS_FAILURE;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class SetAttachmentsForPGPMime implements Action {
+  readonly type = MailActionTypes.SET_ATTACHMENTS_FOR_PGP_MIME;
+
+  constructor(public payload: any = {}) {}
+}
+
+export class ResetMailboxKeyOperationState implements Action {
+  readonly type = MailActionTypes.RESET_MAILBOX_KEY_OPERATION_STATE;
+}
+
 export type MailActions =
   | GetMails
   | GetMailsSuccess
@@ -435,4 +528,18 @@ export type MailActions =
   | DeleteMailboxSuccess
   | SetIsComposerPopUp
   | MoveTab
-  | EmptyOnlyFolder;
+  | EmptyOnlyFolder
+  | FetchMailboxKeys
+  | FetchMailboxKeysSuccess
+  | FetchMailboxKeysFailure
+  | AddMailboxKeys
+  | AddMailboxKeysSuccess
+  | AddMailboxKeysFailure
+  | DeleteMailboxKeys
+  | DeleteMailboxKeysSuccess
+  | DeleteMailboxKeysFailure
+  | SetMailboxKeyPrimary
+  | SetMailboxKeyPrimarySuccess
+  | SetMailboxKeyPrimaryFailure
+  | SetAttachmentsForPGPMime
+  | ResetMailboxKeyOperationState;

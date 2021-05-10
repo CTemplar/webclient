@@ -7,9 +7,11 @@ import * as parseEmail from 'email-addresses';
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { Folder } from '../models';
-import { PlanType, PricingPlan } from '../datatypes';
-
+import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
 import { NotificationService } from './notification.service';
+import bcrypt from 'bcryptjs';
+import { untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
 
 // image format for retrieving custom attributes
 
@@ -65,15 +67,42 @@ export class SharedService {
 
   private paymentFailureModalRef: NgbModalRef;
 
+  username: string;
+
   //
   constructor(
     private http: HttpClient,
     private modalService: NgbModal,
     private notificationService: NotificationService,
-  ) {}
+    private store: Store<AppState>,
+  ) {
+    /**
+     * Get user's settings
+     */
+    this.store
+      .select(state => state.user)
+      .subscribe((user: UserState) => {
+        this.username = user.username;
+      });
+  }
 
   sortByDate(data: any[], sortField: string): any[] {
     return data.sort((a: any, b: any) => new Date(b[sortField]).getTime() - new Date(a[sortField]).getTime());
+  }
+
+  getHashPurePasswordWithUserName(password: string): string {
+    const username = this.username.toLowerCase();
+    const salt = this.createSalt('$2a$10$', username);
+    return bcrypt.hashSync(password, salt);
+  }
+
+  private createSalt(salt: string, username: string): any {
+    username = username.replace(/[^ A-Za-z]/g, '');
+    username = username || 'test';
+    if (salt.length < 29) {
+      return this.createSalt(salt + username, username);
+    }
+    return salt.slice(0, 29);
   }
 
   /**
@@ -157,6 +186,62 @@ export class SharedService {
     a.remove();
   }
 
+  arrayBufferToBase64(buffer: ArrayBuffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const length = bytes.byteLength;
+    for (let i = 0; i < length; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+
+  /**
+   * Parsing UsersKeys is very annoying now due to unstructured BACKEND response for several user types
+   * Parsing UsersKeys with given email and RETURN
+   * @param usersKeys
+   * @param email
+   */
+  parseUserKey(usersKeys: Map<string, GlobalPublicKey>, email: string): any {
+    const parsedData = parseEmail.parseOneAddress(email) as parseEmail.ParsedMailbox;
+    if (!parsedData) {
+      return {
+        isCTemplarKey: false,
+        isExistKey: false,
+        keys: [],
+      };
+    }
+    const parsedEmail = parsedData.address;
+    let isCTemplarKey = false;
+    let isExistKey = false;
+    let keys = [];
+    if (
+      usersKeys.has(parsedEmail) &&
+      !usersKeys.get(parsedEmail).isFetching &&
+      usersKeys.get(parsedEmail).key &&
+      usersKeys.get(parsedEmail).key.length > 0
+    ) {
+      const keyObject: any = usersKeys.get(parsedEmail).key[0];
+      // Check if it has keys, but STILL not sure if it is CTemplar user or NOT
+      if (keyObject.exists) {
+        isExistKey = true;
+      }
+      // Check if it is CTemplar user - checking with `is_enabled` flag,
+      // TODO - Should be improved to check with `is_enabled` flag
+      if (keyObject.internal || keyObject.local) {
+        isCTemplarKey = true;
+      }
+      if (isExistKey) {
+        keys = keyObject.key;
+      }
+    }
+    return {
+      isCTemplarKey,
+      isExistKey,
+      keys,
+    };
+  }
+
   isRFCStandardValidEmail(address: string): boolean {
     return !!parseEmail.parseOneAddress({ input: address, rejectTLD: true });
   }
@@ -184,9 +269,9 @@ export function isComposeEditorOpen(): boolean {
 }
 
 export function getCryptoRandom(): number {
-  let array = new Uint32Array(1),
-    max = Math.pow(2, 32),
-    randomValue = window.crypto.getRandomValues(array)[0] / max;
+  const array = new Uint32Array(1);
+  const max = Math.pow(2, 32);
+  const randomValue = window.crypto.getRandomValues(array)[0] / max;
   return randomValue;
 }
 
