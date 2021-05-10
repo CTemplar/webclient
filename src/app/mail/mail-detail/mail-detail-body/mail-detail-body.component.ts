@@ -47,6 +47,8 @@ export class MailDetailBodyComponent implements OnInit {
 
   @Input() unsubscribeLink: string;
 
+  @Input() disableExternalImages: boolean;
+
   /**
    * Output Section
    */
@@ -87,21 +89,9 @@ export class MailDetailBodyComponent implements OnInit {
    */
   mailFolderTypes = MailFolderType;
 
-  disableExternalImages: boolean;
-
   loadingImage = LOADING_IMAGE;
 
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {
-    /**
-     * Get user settings
-     */
-    this.store
-      .select(state => state.user)
-      .pipe(untilDestroyed(this))
-      .subscribe((user: UserState) => {
-        this.disableExternalImages = user?.settings?.is_disable_loading_images;
-      });
-  }
+  ngOnInit(): void {}
 }
