@@ -5,6 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import * as xss from 'xss';
+import * as parseEmail from 'email-addresses';
 import { Subject } from 'rxjs/internal/Subject';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
@@ -854,6 +855,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
     newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email))?.id;
+    newMail.is_html = mail.is_html;
     if (mail.reply_to && mail.reply_to.length > 0) {
       newMail.receiver = mail.reply_to;
     } else {
@@ -914,6 +916,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
     newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
+    newMail.is_html = mail.is_html;
     if (mail.sender !== this.currentMailbox.email) {
       newMail.receiver = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
     } else {
@@ -1308,9 +1311,21 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
-        mail.sender
-      } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      // content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
+      //   mail.sender
+      // } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
+      const parsedEmailData = parseEmail.parseOneAddress(mail.sender) as parseEmail.ParsedMailbox;
+      const senderName =
+        !mail.sender_display?.name || (mail.sender_display?.name && mail.sender_display?.name === parsedEmailData.local)
+          ? ''
+          : mail.sender_display?.name;
+      const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
+      content += `
+        </br>---------- Original Message ----------</br>
+        On ${formattedDateTime} ${senderEmail} wrote:
+        </br>
+          <div class="originalblock">${this.decryptedContents[mail.id]}</div>
+        </br>`;
     }
     return content;
   }
