@@ -23,7 +23,8 @@ import * as xss from 'xss';
 import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
   CloseMailbox,
-  DeleteAttachment, DeleteMail,
+  DeleteAttachment,
+  DeleteMail,
   GetEmailContacts,
   GetUsersKeys,
   MoveMail,
