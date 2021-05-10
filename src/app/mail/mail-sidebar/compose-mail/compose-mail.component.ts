@@ -24,6 +24,7 @@ import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
   CloseMailbox,
   DeleteAttachment,
+  DeleteMail,
   GetEmailContacts,
   GetUsersKeys,
   MoveMail,
@@ -1233,15 +1234,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isSavedInDraft = true;
     if (this.draftMail && this.draftMail.id) {
-      this.store.dispatch(
-        new MoveMail({
-          ids: this.draftMail.id,
-          folder: MailFolderType.TRASH,
-          sourceFolder: MailFolderType.DRAFT,
-          mail: this.draftMail,
-          allowUndo: true,
-        }),
-      );
+      this.store.dispatch(new DeleteMail({ ids: [this.draftMail.id].join(','), folder: this.draftMail.folder }));
     }
     this.hide.emit();
     this.resetValues();

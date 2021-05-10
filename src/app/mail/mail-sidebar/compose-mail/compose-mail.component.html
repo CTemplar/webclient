@@ -833,7 +833,7 @@
               <button
                 role="button"
                 (click)="discardEmail()"
-                [disabled]="isUploadingAttachment || isDownloadingAttachmentCounter > 0"
+                [disabled]="!draftMail.id || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                 class="actions-btn mail-garbage-btn border-radius-l-0"
                 placement="top"
                 [ngbTooltip]="'settings.compose.delete_draft' | translate"

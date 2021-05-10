@@ -722,12 +722,6 @@ export function reducer(
           folderMap.set(key, folderInfo);
         }
       });
-      if (action.payload.isMailDetailPage) {
-        return {
-          ...state,
-          folderMap,
-        };
-      }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const currentMailFolder = folderMap.get(state.currentFolder);
       state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
