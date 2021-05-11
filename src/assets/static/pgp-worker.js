@@ -393,7 +393,7 @@ async function generateNewKeys(mailboxes, password, username, key_type) {
           curve: "ed25519",
           passphrase: password,
         };
-      } else if (key_type === 'RSA 4096') {
+      } else if (key_type === 'RSA4096') {
         options = {
           userIds: [{ name: username, email: mailboxes[i].email }],
           numBits: 4096,
