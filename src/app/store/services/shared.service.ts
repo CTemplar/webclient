@@ -12,6 +12,7 @@ import { NotificationService } from './notification.service';
 import bcrypt from 'bcryptjs';
 import { untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
+import { ParsedMailbox } from 'email-addresses';
 
 // image format for retrieving custom attributes
 
@@ -244,6 +245,11 @@ export class SharedService {
 
   isRFCStandardValidEmail(address: string): boolean {
     return !!parseEmail.parseOneAddress({ input: address, rejectTLD: true });
+  }
+
+  parseEmailWithRFCStandard(email: string): ParsedMailbox | any {
+    const parsedEmail = parseEmail.parseOneAddress(email);
+    return parsedEmail ? (parsedEmail as parseEmail.ParsedMailbox) : {};
   }
 }
 

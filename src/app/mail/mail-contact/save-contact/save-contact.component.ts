@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, SimpleChanges,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -34,7 +34,7 @@ import {
   ContactRemoveKeys,
   SnackErrorPush,
 } from '../../../store';
-import { OpenPgpService } from '../../../store/services';
+import { OpenPgpService, SharedService } from '../../../store/services';
 
 import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
 
@@ -94,6 +94,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     private openpgp: OpenPgpService,
     private cdr: ChangeDetectorRef,
     private modalService: NgbModal,
+    private sharedService: SharedService,
   ) {}
 
   ngOnInit() {
@@ -104,9 +105,9 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     // Get contactEmail, Domain and check if this is internalUser with domain
     this.newContactModel = { ...this.selectedContact };
     const contactEmail = this.newContactModel.email;
-    const emailDomain = contactEmail.substring(contactEmail.indexOf('@') + 1, contactEmail.length);
+    const emailDomain = this.sharedService.parseEmailWithRFCStandard(contactEmail).domain;
     this.internalUser = emailDomain === getEmailDomain();
-    if (!this.internalUser) {
+    if (!this.internalUser && this.selectedContact.id) {
       this.store.dispatch(new ContactFetchKeys(this.selectedContact));
     }
   }
@@ -149,7 +150,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
 
   createNewContact(isCheckForm = true) {
     if (isCheckForm && this.newContactForm.invalid) {
-      return false;
+      return;
     }
     this.newContactModel.email = this.newContactModel.email.toLocaleLowerCase();
     if (this.isContactsEncrypted) {
@@ -158,11 +159,6 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
       this.store.dispatch(new ContactAdd(this.newContactModel));
     }
     this.inProgress = true;
-  }
-
-  clearPublicKey() {
-    // this.newContactModel.public_key = '';
-    // return false;
   }
 
   onShowAdvancedSettings() {
