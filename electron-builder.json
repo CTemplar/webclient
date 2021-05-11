@@ -16,7 +16,7 @@
     "target": ["portable"]
   },
   "mac": {
-    "icon": "dist/assets/icons/icon.png",
+    "icon": "dist/assets/icons/icon@512.png",
     "category": "public.app-category.social-networking",
     "target": ["dmg"]
   },
