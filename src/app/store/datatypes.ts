@@ -804,7 +804,7 @@ export interface AutocryptEncryptDetermine {
 }
 
 export enum PGPKeyType {
-  RSA_4096 = 'RSA 4096',
+  RSA_4096 = 'RSA4096',
   ECC = 'ECC',
 }
 

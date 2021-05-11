@@ -393,7 +393,7 @@ async function generateNewKeys(mailboxes, password, username, key_type) {
           curve: "ed25519",
           passphrase: password,
         };
-      } else if (key_type === 'RSA 4096') {
+      } else if (key_type === 'RSA4096') {
         options = {
           userIds: [{ name: username, email: mailboxes[i].email }],
           numBits: 4096,
@@ -468,8 +468,6 @@ async function decryptContent(data, privateKeyObj) {
       return payload.data;
     });
   } catch (e) {
-    // TODO - should be removed
-    console.error(e)
     return Promise.reject(data);
   }
 }
@@ -510,7 +508,6 @@ async function decryptAttachment(data, privateKeyObj) {
       return payload.data;
     });
   } catch (e) {
-    console.error(e);
     return Promise.resolve(data);
   }
 }
@@ -533,7 +530,6 @@ async function decryptAttachmentWithPassword(data, password) {
       return payload.data;
     });
   } catch (e) {
-    console.error(e);
     return Promise.resolve(data);
   }
 }
@@ -565,7 +561,6 @@ async function decryptWithPassword(data, password) {
       return payload.data;
     });
   } catch (e) {
-    console.error(e);
     return Promise.resolve(data);
   }
 }
@@ -615,7 +610,6 @@ async function getKeyInfoFromPublicKey(publicKey) {
     };
     return Promise.resolve(keyInfo);
   } catch (e) {
-    console.error(e);
     return Promise.reject(publicKey);
   }
 }
@@ -652,7 +646,6 @@ function decryptContentProcess(data) {
   let isDecryptedError = false;
   let decryptedContent = {};
   if (!isPGPEncrypted(data.mailData.content)) {
-    console.error('error decrypt content', data.mailData.content)
     if (!data.mailData.content) {
       decryptedContent = { ...decryptedContent, content: '(Empty Content)' };
       decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
@@ -669,7 +662,6 @@ function decryptContentProcess(data) {
       })
       // Content decryption error catch
       .catch((error) => {
-        console.error(error)
         isDecryptedError = true;
         decryptedContent = { ...decryptedContent, content: data.mailData.content };
         decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError);
@@ -701,7 +693,6 @@ function decryptIncomingHeadersProcess(data, decryptedContent, isDecryptedError)
       })
       // IncomingHeaders decryption error catch
       .catch((error) => {
-        console.error(error)
         isDecryptedError = true;
         decryptedContent = { ...decryptedContent, incomingHeaders: data.mailData.incomingHeaders };
         decryptSubjectProcess(data, decryptedContent, isDecryptedError);
@@ -739,7 +730,6 @@ function decryptSubjectProcess(data, decryptedContent, isDecryptedError) {
       })
       // Subject decryption error catch
       .catch((error) => {
-        console.error(error)
         isDecryptedError = true;
         decryptedContent = { ...decryptedContent, subject: data.mailData.subject };
         decryptContentPlainProcess(data, decryptedContent, isDecryptedError, true);
@@ -787,7 +777,6 @@ function decryptContentPlainProcess(data, decryptedContent, isDecryptedError, is
         })
         // Content plain decryption error catch
         .catch((error) => {
-          console.error(error)
           isDecryptedError = true;
           decryptedContent = { ...decryptedContent, content_plain: data.mailData.content_plain };
           postMessage({
