@@ -176,6 +176,22 @@ $error-red: #e94e4c;
   }
 }
 
+.form-content-row-condition {
+  &:not(:last-child) {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.form-content-row-m {
+  width: 90%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.form-condition-remove-icon {
+  color: var(--brand-light-gray);
+  font-size: 1.063rem;
+}
+
 .ui-list,
 .info-card {
   &:not(:last-child) {

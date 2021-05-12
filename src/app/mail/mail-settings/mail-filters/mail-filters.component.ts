@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -8,7 +8,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CreateFilter, DeleteFilter, UpdateFilter, UpdateFilterOrder } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
-import { Filter, FilterCondition, FilterParameter } from '../../../store/models/filter.model';
+import { Filter, FilterCondition, FilterConditionChoices, FilterConditionObj, FilterParameter } from '../../../store/models/filter.model';
 
 @UntilDestroy()
 @Component({
@@ -31,6 +31,7 @@ export class MailFiltersComponent implements OnInit {
   mailFolderType = MailFolderType;
 
   filterCondition = FilterCondition;
+  filterConditionChoices = FilterConditionChoices;
 
   filterParameter = FilterParameter;
 
@@ -42,7 +43,9 @@ export class MailFiltersComponent implements OnInit {
 
   createFilterForm: FormGroup;
 
-  createFilterData: any;
+  createFilterData: Filter;
+
+  filterConditionText: string;
 
   errorMessage: string;
 
@@ -85,7 +88,6 @@ export class MailFiltersComponent implements OnInit {
 
     this.createFilterForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(64)]],
-      filterText: [''],
       moveTo: [false],
       markAsRead: [false],
       markAsStarred: [false],
@@ -116,18 +118,51 @@ export class MailFiltersComponent implements OnInit {
       this.createFilterData = { ...selectedFilter };
       this.selectedFilter = selectedFilter;
       this.createFilterForm.get('name').setValue(selectedFilter.name);
-      this.createFilterForm.get('filterText').setValue(selectedFilter.filter_text);
       this.createFilterForm.get('moveTo').setValue(selectedFilter.move_to);
       this.createFilterForm.get('markAsRead').setValue(selectedFilter.mark_as_read);
       this.createFilterForm.get('markAsStarred').setValue(selectedFilter.mark_as_starred);
+
+      this.createFilterData.conditions.map((c, index) => {
+        const filterTextName = 'filterText-' + index.toString();
+        this.createFilterForm.addControl(filterTextName, new FormControl());
+        this.createFilterForm.get(filterTextName).setValue(c.filter_text);
+      })
     } else {
-      this.createFilterData = {};
+      this.createFilterData = {
+        name: '',
+        conditions: [{
+          parameter: null,
+          condition: null,
+          filter_text: ''
+        }],
+        folder: '',
+        mark_as_read: false,
+        mark_as_starred: false,
+        move_to: false,
+      };
+      this.createFilterForm.addControl('filterText-0', new FormControl());
       this.selectedFilter = null;
+      this.filterConditionText = '';
     }
     this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
       centered: true,
       windowClass: 'modal-sm',
     });
+  }
+
+  onAddCondition () {
+    this.createFilterData.conditions = [
+      ...this.createFilterData.conditions, 
+      {
+        parameter: null,
+        condition: null,
+        filter_text: ''
+      },
+    ];
+    this.createFilterForm.addControl('filterText-' + (this.createFilterData.conditions.length - 1).toString(), new FormControl());
+  }
+  onRemoveCondition (index: number) {
+    this.createFilterData.conditions.splice(index, 1);
   }
 
   /**
@@ -136,19 +171,47 @@ export class MailFiltersComponent implements OnInit {
   onSubmit() {
     this.errorMessage = null;
     if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
-      const data = {
-        ...this.createFilterData,
+      let conditions: FilterConditionObj[] = [];
+      this.createFilterData.conditions.map((c, index) => {
+        const filterTextName = 'filterText-' + index.toString();
+        const filterText = this.createFilterForm.get(filterTextName).value;
+        if (!c.parameter || c.parameter.length === 0) {
+          this.errorMessage = 'Please select a condition.';
+          return;
+        } else if (!c.condition || c.condition.length === 0) {
+          this.errorMessage = 'Please select a condition.';
+          return;
+        } else if (!filterText || filterText.length === 0) {
+          this.errorMessage = 'Please enter some text or pattern.';
+          return;
+        }
+        conditions = [
+          ...conditions,
+          {
+            parameter: c.parameter,
+            condition: c.condition,
+            filter_text: filterText,
+          },
+        ];
+      });
+
+      if(this.errorMessage) return;
+
+      const data: Filter = {
+        conditions,
         name: this.createFilterForm.get('name').value,
-        filter_text: this.createFilterForm.get('filterText').value,
         move_to: this.createFilterForm.get('moveTo').value || false,
         mark_as_read: this.createFilterForm.get('markAsRead').value || false,
         mark_as_starred: this.createFilterForm.get('markAsStarred').value || false,
       };
-      if (!data.condition || !data.parameter) {
-        this.errorMessage = 'Please select a condition.';
-      } else if (!data.filter_text) {
-        this.errorMessage = 'Please enter some text or pattern.';
-      } else if (data.move_to && !data.folder) {
+      if(this.createFilterData.id) {
+        data.id = this.createFilterData.id;
+      }
+      if (this.createFilterData.folder) {
+        data.folder = this.createFilterData.folder;
+      }
+
+      if (data.move_to && !data.folder) {
         this.errorMessage = 'Please select a folder.';
       } else if (data.id) {
         this.store.dispatch(new UpdateFilter(data));
