@@ -149,13 +149,14 @@
               <label class="form-label mb-sm-0" [translate]="'settings.filters.conditions'"> Condition: </label>
             </div>
             <div class="col-sm-9">
-              <div 
-                class="form-group"
-                *ngFor="let condition of createFilterData.conditions; let i=index"
-              >
+              <div class="form-group" *ngFor="let condition of createFilterData.conditions; let i = index">
                 <div class="row form-content-row-condition">
-                  <div ngbDropdown class="col-sm-5 btn-dropdown btn-dropdown-select dropdown-sm" placement="bottom-left">
-                    <button ngbDropdownToggle id="filterParameterDropdownMenuBtn-{{i}}" role="button">
+                  <div
+                    ngbDropdown
+                    class="col-sm-5 btn-dropdown btn-dropdown-select dropdown-sm"
+                    placement="bottom-left"
+                  >
+                    <button ngbDropdownToggle id="filterParameterDropdownMenuBtn-{{ i }}" role="button">
                       <span *ngIf="condition.parameter; else selectCondition">
                         {{ 'If the ' + condition.parameter }}
                       </span>
@@ -163,7 +164,7 @@
                         <span [translate]="'settings.filters.select_condition'"> Select condition </span>
                       </ng-template>
                     </button>
-                    <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn-{{i}}">
+                    <div ngbDropdownMenu aria-labelledby="filterParameterDropdownMenuBtn-{{ i }}">
                       <a (click)="condition.parameter = filterParameter.SUBJECT" class="dropdown-item">
                         <span [translate]="'settings.filters.if_subject'">If the subject</span>
                       </a>
@@ -177,17 +178,21 @@
                         <span [translate]="'settings.filters.if_header'">If the header</span>
                       </a>
                     </div>
-                  </div>                  
-                  <div ngbDropdown class="col-sm-7 btn-dropdown btn-dropdown-select dropdown-sm" placement="bottom-left">
+                  </div>
+                  <div
+                    ngbDropdown
+                    class="col-sm-7 btn-dropdown btn-dropdown-select dropdown-sm"
+                    placement="bottom-left"
+                  >
                     <button
                       ngbDropdownToggle
-                      id="filterConditionDropdownMenuBtn-{{i}}"
+                      id="filterConditionDropdownMenuBtn-{{ i }}"
                       role="button"
                       [disabled]="!condition.parameter"
                     >
                       {{ filterConditionChoices[condition.condition] }}
                     </button>
-                    <div ngbDropdownMenu aria-labelledby="filterConditionDropdownMenuBtn-{{i}}" >
+                    <div ngbDropdownMenu aria-labelledby="filterConditionDropdownMenuBtn-{{ i }}">
                       <a (click)="condition.condition = filterCondition.CONTAINS" class="dropdown-item">
                         <span [translate]="'settings.filters.contains'">Contains</span>
                       </a>
@@ -233,8 +238,8 @@
                     <ng-template #showFilterTextField>
                       <input
                         type="text"
-                        id="filterTextField-{{i}}"
-                        formControlName="filterText-{{i}}"
+                        id="filterTextField-{{ i }}"
+                        formControlName="filterText-{{ i }}"
                         class="form-control form-control-sm"
                         placeholder="text or pattern"
                       />
@@ -245,16 +250,12 @@
                       <i class="icon icon-garbage"></i>
                     </a>
                   </div>
-                </div>  
+                </div>
               </div>
             </div>
           </div>
 
-          <a
-            class="btn btn-user-action"
-            (click)="onAddCondition()"
-            [translate]="'settings.filters.add_confition'"
-          >
+          <a class="btn btn-user-action" (click)="onAddCondition()" [translate]="'settings.filters.add_confition'">
             Add Condition
           </a>
         </div>

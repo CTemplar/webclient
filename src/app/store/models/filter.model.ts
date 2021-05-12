@@ -38,14 +38,14 @@ export enum FilterCondition {
 }
 
 export const FilterConditionChoices = {
-  'contains': 'Contains',
-  'not_contains': 'Does Not Contain',
-  'startswith': 'Startswith',
-  'not_startswith': 'Does Not Startswith',
-  'endswith': 'Endswith',
-  'not_endswith': 'Does Not Endswith',
-  'exactly': 'Exactly',
-  'not_exactly': 'Does Not Exactly Match',
-  'pattern': 'Match',
-  'not_pattern': 'Does Not Match',
-}
+  contains: 'Contains',
+  not_contains: 'Does Not Contain',
+  startswith: 'Startswith',
+  not_startswith: 'Does Not Startswith',
+  endswith: 'Endswith',
+  not_endswith: 'Does Not Endswith',
+  exactly: 'Exactly',
+  not_exactly: 'Does Not Exactly Match',
+  pattern: 'Match',
+  not_pattern: 'Does Not Match',
+};

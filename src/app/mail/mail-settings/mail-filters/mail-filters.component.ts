@@ -8,7 +8,13 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CreateFilter, DeleteFilter, UpdateFilter, UpdateFilterOrder } from '../../../store/actions';
 import { AppState, UserState } from '../../../store/datatypes';
 import { Folder, MailFolderType } from '../../../store/models';
-import { Filter, FilterCondition, FilterConditionChoices, FilterConditionObj, FilterParameter } from '../../../store/models/filter.model';
+import {
+  Filter,
+  FilterCondition,
+  FilterConditionChoices,
+  FilterConditionObj,
+  FilterParameter,
+} from '../../../store/models/filter.model';
 
 @UntilDestroy()
 @Component({
@@ -126,15 +132,17 @@ export class MailFiltersComponent implements OnInit {
         const filterTextName = 'filterText-' + index.toString();
         this.createFilterForm.addControl(filterTextName, new FormControl());
         this.createFilterForm.get(filterTextName).setValue(c.filter_text);
-      })
+      });
     } else {
       this.createFilterData = {
         name: '',
-        conditions: [{
-          parameter: null,
-          condition: null,
-          filter_text: ''
-        }],
+        conditions: [
+          {
+            parameter: null,
+            condition: null,
+            filter_text: '',
+          },
+        ],
         folder: '',
         mark_as_read: false,
         mark_as_starred: false,
@@ -150,18 +158,21 @@ export class MailFiltersComponent implements OnInit {
     });
   }
 
-  onAddCondition () {
+  onAddCondition() {
     this.createFilterData.conditions = [
-      ...this.createFilterData.conditions, 
+      ...this.createFilterData.conditions,
       {
         parameter: null,
         condition: null,
-        filter_text: ''
+        filter_text: '',
       },
     ];
-    this.createFilterForm.addControl('filterText-' + (this.createFilterData.conditions.length - 1).toString(), new FormControl());
+    this.createFilterForm.addControl(
+      'filterText-' + (this.createFilterData.conditions.length - 1).toString(),
+      new FormControl(),
+    );
   }
-  onRemoveCondition (index: number) {
+  onRemoveCondition(index: number) {
     this.createFilterData.conditions.splice(index, 1);
   }
 
@@ -195,7 +206,7 @@ export class MailFiltersComponent implements OnInit {
         ];
       });
 
-      if(this.errorMessage) return;
+      if (this.errorMessage) return;
 
       const data: Filter = {
         conditions,
@@ -204,7 +215,7 @@ export class MailFiltersComponent implements OnInit {
         mark_as_read: this.createFilterForm.get('markAsRead').value || false,
         mark_as_starred: this.createFilterForm.get('markAsStarred').value || false,
       };
-      if(this.createFilterData.id) {
+      if (this.createFilterData.id) {
         data.id = this.createFilterData.id;
       }
       if (this.createFilterData.folder) {
