@@ -401,15 +401,31 @@ button[disabled] {
   color: $brand-primary;
 }
 
-.gmail_extra,
-.gmail_quote,
-.ctemplar_quote {
-  display: none;
-}
+//.gmail_extra,
+//.gmail_quote,
+//.ctemplar_quote {
+//  display: none;
+//}
 
 .show_gmail_extra .gmail_extra,
 .show_gmail_extra .gmail_quote {
   display: block;
+}
+
+.originalblock {
+  border-left: 3px solid #ccc;
+  padding-left: 2ex;
+  margin-top: 2ex;
+}
+
+blockquote,
+.blockquote {
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  border-left: 3px solid #ccc;
+  padding-left: 2ex;
+  margin-top: 2ex;
 }
 
 .l-alert-custom {

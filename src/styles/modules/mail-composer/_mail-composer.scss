@@ -363,9 +363,15 @@ a {
     min-height: 385.867px;
     line-height: inherit;
     color: var(--text-color-black-white);
-    .originalblock {
-      border-left: 1px solid rgb(204, 204, 204);
-      padding-left: 1ex;
+
+    blockquote,
+    .blockquote {
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+      border-left: 3px solid #ccc;
+      padding-left: 2ex;
+      margin-top: 2ex;
     }
     p {
       font-size: 14px;

@@ -44,8 +44,6 @@ export class SafePipe implements PipeTransform {
           onTag: (tag: string, html: string, options: any) => {
             if (tag === 'a' && !(options && options.isClosing === true)) {
               let htmlAttributes = '';
-
-              // "<a href='' target=''>" => "href='' target=''"
               const spaceIndex = html.indexOf(' ');
               if (spaceIndex > 0) {
                 htmlAttributes = html.slice(spaceIndex + 1, -1).trim();

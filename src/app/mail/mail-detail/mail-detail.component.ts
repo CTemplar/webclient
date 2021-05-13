@@ -706,6 +706,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         const decryptedContents = child.is_html
           ? childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
           : childDecryptedContent.content;
+        console.log('backup child decrypted content', decryptedContents)
         this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
         if (child.is_subject_encrypted) {
@@ -1295,9 +1296,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (previousMails.length === 0) {
       return '';
     }
-    let history = SummarySeparator;
+    let history = '';
     previousMails.forEach(previousMail => (history = this.getMessageSummary(history, previousMail)));
-    return `<div class="gmail_quote">${history}</div>`;
+    return `<div class="gmail_quote ctemplar-quote">${history}</div>`;
   }
 
   /**
@@ -1306,14 +1307,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getMessageSummary(content: string, mail: Mail): string {
     if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
       const formattedDateTime = mail.sent_at
-        ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A')
-        : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
+        ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm A')
+        : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm A');
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      // content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
-      //   mail.sender
-      // } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
       const parsedEmailData = parseEmail.parseOneAddress(mail.sender) as parseEmail.ParsedMailbox;
       const senderName =
         !mail.sender_display?.name || (mail.sender_display?.name && mail.sender_display?.name === parsedEmailData.local)
@@ -1322,10 +1320,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
       content += `
         </br>---------- Original Message ----------</br>
-        On ${formattedDateTime} ${senderEmail} wrote:
-        </br>
-          <div class="originalblock">${this.decryptedContents[mail.id]}</div>
-        </br>`;
+        On ${formattedDateTime},  ${senderEmail} wrote:
+        <div class="originalblock">${this.decryptedContents[mail.id]}</div>`;
     }
     return content;
   }
