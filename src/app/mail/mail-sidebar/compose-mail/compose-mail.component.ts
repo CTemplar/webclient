@@ -65,8 +65,12 @@ import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } 
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
+/**
+ * Start Quill Configuration
+ */
 const Quill: any = QuillNamespace;
 const BlockEmbed = Quill.import('blots/block/embed');
+import Parchment from 'parchment';
 class keepHTML extends BlockEmbed {
   static create(node: any) {
     return node;
@@ -78,7 +82,7 @@ class keepHTML extends BlockEmbed {
 }
 keepHTML.blotName = 'keepHTML';
 keepHTML.className = 'keepHTML';
-// keepHTML.tagName = 'div';
+keepHTML.tagName = 'div';
 
 Quill.register(keepHTML);
 /**
@@ -130,6 +134,49 @@ ImageBlot.tagName = 'img';
 
 Quill.register(ImageBlot);
 
+const Container = Quill.import('blots/container');
+class Section extends Container {}
+Section.tagName = 'section1';
+Section.blotName = 'section1';
+Section.scope = Parchment.Scope.BLOCK_BLOT;
+
+const Block = Quill.import('blots/block');
+class CustomBlockQuote extends Block {
+  static create(value: any) {
+    const node = super.create(value);
+    node.classList.add('test');
+    return node;
+  }
+}
+CustomBlockQuote.blotName = 'blockquote';
+CustomBlockQuote.tagName = 'blockquote';
+
+Section.allowedChildren = [Block, Inline, BlockEmbed, CustomBlockQuote];
+
+Quill.register(CustomBlockQuote);
+Quill.register(Section);
+
+//
+// class BlockQuoteBlot extends Block {
+//   static create(value: any) {
+//     let node = super.create()
+//     if (value.class !== '') { node.setAttribute('class', value.class) }
+//     if (value.style !== '') { node.setAttribute('style', value.style) }
+//     return node
+//   }
+//   static formats(node: any) {
+//     if (node) {
+//       return {
+//         class: node.getAttribute('class') ? node.getAttribute('class') : '',
+//         style: node.getAttribute('style') ? node.getAttribute('style') : ''
+//       }
+//     }
+//   }
+// }
+// BlockQuoteBlot.blotName = 'blockquote'
+// BlockQuoteBlot.tagName = 'blockquote'
+// Quill.register(BlockQuoteBlot)
+
 /**
  * Custom Signature Blot to add custom html signature to Quill Editor
  */
@@ -174,6 +221,10 @@ OriginalBlot.tagName = 'div';
 OriginalBlot.className = 'originalblock';
 
 Quill.register(OriginalBlot);
+
+/**
+ * End Quill Configuration
+ */
 
 export class PasswordValidation {
   static MatchPassword(AC: AbstractControl): any {
@@ -731,10 +782,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.mailData.content) {
       // this.content = this.mailData.content ? this.mailData.content.replace(/\n/g, '<br>') : this.content;
 
-      this.quill.clipboard.dangerouslyPasteHTML(
-        0,
-        `<div class="keepHTML" style="white-space: normal;">${this.formatContent(this.mailData.content)}</div>`,
-      );
+      // this.quill.clipboard.dangerouslyPasteHTML(
+      //   0,
+      //   `<div class="keepHTML" style="white-space: normal;">${this.formatContent(this.mailData.content)}</div>`,
+      // );
+      this.quill.clipboard.dangerouslyPasteHTML(0, this.formatContent(this.mailData.content));
       // this.quill.clipboard.dangerouslyPasteHTML(0, this.mailData.content.replace(/\n/g, '<br>'));
     }
 
@@ -1792,7 +1844,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       // if (!shouldSave) {
       //   this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
       // }
-      console.log('==========>>>>>>>>>>>> setting draft content', this.draftMail.content);
 
       if (shouldSend) {
         // this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');

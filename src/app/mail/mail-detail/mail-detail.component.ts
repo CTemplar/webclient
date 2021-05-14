@@ -706,7 +706,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         const decryptedContents = child.is_html
           ? childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
           : childDecryptedContent.content;
-        console.log('backup child decrypted content', decryptedContents)
         this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
         if (child.is_subject_encrypted) {
@@ -855,6 +854,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
+    console.log('====>>>>>>>> reply text', newMail.content)
     newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
     if (mail.reply_to && mail.reply_to.length > 0) {
@@ -1321,7 +1321,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content += `
         </br>---------- Original Message ----------</br>
         On ${formattedDateTime},  ${senderEmail} wrote:
-        <div class="originalblock">${this.decryptedContents[mail.id]}</div>`;
+        <section1><blockquote>${this.decryptedContents[mail.id]}</blockquote></section1>`;
     }
     return content;
   }
