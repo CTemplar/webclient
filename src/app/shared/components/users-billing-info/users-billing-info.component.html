@@ -220,7 +220,12 @@
               <div
                 class="form-step-card"
                 [class]="stripePaymentValidation.param"
-                *ngIf="paymentMethod === paymentMethodType.STRIPE && isScriptsLoaded && planType !== planTypeEnum.FREE && isNeedPaymentInformationWithPromoCode"
+                *ngIf="
+                  paymentMethod === paymentMethodType.STRIPE &&
+                  isScriptsLoaded &&
+                  planType !== planTypeEnum.FREE &&
+                  isNeedPaymentInformationWithPromoCode
+                "
               >
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong [translate]="'billing_info.payment_information'">Payment Information</strong>
