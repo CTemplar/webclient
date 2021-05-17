@@ -125,6 +125,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   isPrime: boolean;
 
+  /**
+   * If applied promo code is full (new_amount = 0), it would not prompt Payment information
+   */
+  isNeedPaymentInformationWithPromoCode = true;
+
   private checkTransactionResponse: CheckTransactionResponse;
 
   private timerObservable: Subscription;
@@ -178,6 +183,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         }
         this.promoCode = userState.promoCode;
         this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
+        if (this.promoCode.is_valid && this.promoCode.new_amount === 0 && this.promoCode.new_amount_btc === 0) {
+          this.isNeedPaymentInformationWithPromoCode = false;
+        }
         this.isPrime = userState.isPrime;
       });
 
@@ -334,7 +342,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     };
 
     if (this.paymentMethod === PaymentMethod.STRIPE) {
-      this.getToken();
+      if (this.isNeedPaymentInformationWithPromoCode) {
+        this.getToken();
+      } else {
+        this.inProgress = true;
+        this.openAccountInitModal();
+        this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
+        this.waitForPGPKeys({ ...this.signupState });
+      }
     } else {
       this.bitcoinSignup();
     }
