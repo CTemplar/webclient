@@ -31,24 +31,16 @@
         </li>
       </ul>
       <div class="row row-xs" *ngIf="settings.enable_forwarding">
-        <div class="d-flex align-items-center">
-          <span class="fancy-field-group mr-2">
-            <input
-              type="checkbox"
-              id="copyForwarding"
-              name="copyForwarding"
-              [(ngModel)]="settings.enable_copy_forwarding"
-              (ngModelChange)="changeKeepCopy($event)"
-              class="d-none fancy-field-control fancy-field-control-lg"
-            />
-            <label for="copyForwarding" class="fancy-field-empty"></label>
-          </span>
-          <div class="checkbox-text lh-sm cursor-pointer mt-1">
-            <span class="info-text" [translate]="'settings.forwarding.keep_copy'"
-              >Keep a copy of forwarded messages</span
-            >
-          </div>
-        </div>
+        <mat-checkbox
+          type="checkbox"
+          id="copyForwarding"
+          name="copyForwarding"
+          [(ngModel)]="settings.enable_copy_forwarding"
+          (ngModelChange)="changeKeepCopy($event)"
+          [translate]="'settings.forwarding.keep_copy'"
+        >
+        Keep a copy of forwarded messages
+        </mat-checkbox>
       </div>
       <ng-template #addForwardingAddress>
         <div class="info-card">
