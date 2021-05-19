@@ -360,6 +360,34 @@
                 </div>
               </div>
 
+              <div class="form-step-card">
+                <h3 class="form-step-card-title text-dark mb-0">
+                  <strong [translate]="'create_account.referral_code'">Referral code</strong>
+                </h3>
+                <div class="form-step-card-subtitle">
+                  <small [translate]="'create_account.referral_code_explanation'">
+                    If you have a referral code, please input it. You can get referral code from any existing customer.
+                  </small>
+                </div>
+                <div class="form-group">
+                  <label
+                    for="referralCode"
+                    [translate]="'create_account.invite_code'"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    >Referral code
+                  </label>
+                  <input
+                    class="form-control text-dark"
+                    id="referralCode"
+                    [placeholder]="'create_account.referral_code' | translate"
+                    type="text"
+                    name="referralCode"
+                    [(ngModel)]="referralCode"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+              </div>
+
               <div
                 class="info-card d-flex align-items-center bg-faded mb-3"
                 [ngClass]="{ 'is-validate': isConfirmedPrivacy == false }"

@@ -1212,6 +1212,25 @@
         </section>
 
         <!-- Notification Section Ends -->
+
+        <!-- Referral Code Section -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0">
+              <strong [translate]="'settings.referral_code'">Referral Code</strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="text-dark">
+              <span>{{ userState.settings.referral_code }}</span>
+              <button mat-icon-button (click)="copyToClipboard(userState.settings.referral_code)" class="copy-btn">
+                <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+        <!-- Referral Code Section Ends -->
+
         <section class="mailbox-section">
           <app-invite-codes></app-invite-codes>
         </section>

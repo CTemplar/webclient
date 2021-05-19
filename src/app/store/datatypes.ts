@@ -94,6 +94,7 @@ export interface SignupState {
   monthlyPrice?: number;
   annualPricePerMonth?: number;
   annualPriceTotal?: number;
+  referral_code?: string;
 }
 
 export class UserState {
@@ -294,6 +295,8 @@ export class Settings {
   is_subject_auto_decrypt?: boolean;
 
   use_local_cache?: string;
+
+  referral_code?: string;
 }
 
 export interface Invoice {
