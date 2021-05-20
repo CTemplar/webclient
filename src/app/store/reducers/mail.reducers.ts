@@ -297,7 +297,7 @@ export function reducer(
         const folderState = {
           ...oldFolderInfo,
           mails: basicFolderState.mails,
-          total_mail_count: basicFolderState.total_mail_count ? basicFolderState.total_mail_count: 0,
+          total_mail_count: basicFolderState.total_mail_count ? basicFolderState.total_mail_count : 0,
         };
         folderMap.set(MailFolderType.ALL_EMAILS, folderState);
       }
