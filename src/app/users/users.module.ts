@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { SharedModule } from '../shared/shared.module';
 import { UsersService } from '../store/services';
@@ -40,6 +41,7 @@ import { UseCacheDialogComponent } from './dialogs/use-cache-dialog/use-cache-di
     SharedModule,
     TranslateModule,
     UsersRoutingModule,
+    MatCheckboxModule,
   ],
   exports: [UsersRoutingModule],
   providers: [UsersService],
