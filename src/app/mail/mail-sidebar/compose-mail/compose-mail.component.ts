@@ -1048,7 +1048,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
     this.firstSaveSubscription = this.valueChanged$
-      .pipe(first(() => !this.draft.draft.id && this.hasData()))
+      .pipe(first(() => !this.draft?.draft?.id && this.hasData()))
       .subscribe(data => {
         this.updateEmail();
       });
@@ -1181,7 +1181,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveInDrafts() {
-    if (this.inProgress || this.draft.isSaving || this.isProcessingAttachments) {
+    if (this.inProgress || this.draft?.isSaving || this.isProcessingAttachments) {
       // If saving is in progress, then wait to send.
       setTimeout(() => {
         this.saveInDrafts();
@@ -1664,7 +1664,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.draftMail) {
       this.draftMail = { is_html: null, content: null, folder: 'draft' };
     }
-    this.draft.isSaving = shouldSave;
+    if (this.draft)
+      this.draft.isSaving = shouldSave;
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
     this.draftMail.sender = this.selectedMailbox.email;
     this.draftMail.receiver = this.mailData.receiver.map((receiver: any) =>
