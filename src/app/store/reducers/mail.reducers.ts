@@ -259,7 +259,7 @@ export function reducer(
           : payloadMails.map((mail: any) => mail.id);
         const folderState = {
           mails: mailIDS,
-          total_mail_count: action.payload.total_mail_count,
+          total_mail_count: action.payload.total_mail_count ? action.payload.total_mail_count : 0,
           is_not_first_page: action.payload.is_from_socket
             ? oldFolderInfo && oldFolderInfo.is_not_first_page
             : action.payload.is_not_first_page,
