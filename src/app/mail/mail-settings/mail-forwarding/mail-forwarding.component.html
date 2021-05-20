@@ -37,9 +37,8 @@
           name="copyForwarding"
           [(ngModel)]="settings.enable_copy_forwarding"
           (ngModelChange)="changeKeepCopy($event)"
-          [translate]="'settings.forwarding.keep_copy'"
         >
-          Keep a copy of forwarded messages
+          {{ 'settings.forwarding.keep_copy' | translate }}
         </mat-checkbox>
       </div>
       <ng-template #addForwardingAddress>

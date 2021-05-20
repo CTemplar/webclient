@@ -221,17 +221,16 @@
                 </div>
                 <div class="form-group">
                   <div class="info-card d-flex bg-faded">
-                    <span class="fancy-field-group mr-3">
-                      <input
-                        class="d-none fancy-field-control fancy-field-control-lg"
+                    <div class="mr-3 mt-1">
+                      <mat-checkbox
+                        type="checkbox"
                         id="moreInfoCheckbox"
                         name="[]"
-                        type="checkbox"
                         [(ngModel)]="isRecoveryEmail"
                         [ngModelOptions]="{ standalone: true }"
-                      />
-                      <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
-                    </span>
+                      >
+                      </mat-checkbox>
+                    </div>
                     <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': isTextToggled }">
                       <span class="info-text">
                         <small [translate]="'create_account.checking_box'"
@@ -364,17 +363,16 @@
                 class="info-card d-flex align-items-center bg-faded mb-3"
                 [ngClass]="{ 'is-validate': isConfirmedPrivacy == false }"
               >
-                <span class="fancy-field-group mr-3">
-                  <input
-                    class="d-none fancy-field-control fancy-field-control-lg"
+                <div class="mat-checkbox-row mr-3">
+                  <mat-checkbox
+                    type="checkbox"
                     id="termsConditionCheckbox"
                     name="[]"
-                    type="checkbox"
                     [(ngModel)]="isConfirmedPrivacy"
                     [ngModelOptions]="{ standalone: true }"
-                  />
-                  <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
-                </span>
+                  >
+                  </mat-checkbox>
+                </div>
                 <div class="checkbox-text lh-sm">
                   <span class="info-text">
                     <small>

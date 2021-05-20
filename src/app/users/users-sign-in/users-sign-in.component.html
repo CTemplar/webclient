@@ -130,19 +130,14 @@
 
             <div class="form-group remember-me">
               <div class="d-flex">
-                <span class="fancy-field-group mr-3">
-                  <input
-                    class="d-none fancy-field-control fancy-field-control-lg"
-                    id="moreInfoCheckbox"
-                    name="[]"
-                    type="checkbox"
-                    formControlName="rememberMe"
-                  />
-                  <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
-                </span>
-                <div class="checkbox-text lh-sm cursor-pointer" (click)="toggleRememberMe()">
-                  <span class="info-text" [translate]="'login.remember_me'"> Remember me on this device. </span>
-                </div>
+                <mat-checkbox
+                  type="checkbox"
+                  id="moreInfoCheckbox"
+                  name="[]"
+                  formControlName="rememberMe"
+                >
+                  {{ 'login.remember_me' | translate }}
+                </mat-checkbox>
               </div>
             </div>
             <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">
@@ -334,20 +329,19 @@
               </div>
 
               <div
-                class="d-flex align-items-baseline bg-faded mb-3"
+                class="d-flex bg-faded mb-3"
                 [ngClass]="{ 'is-validated': isConfirmedPrivacy == false }"
               >
-                <span class="fancy-field-group mr-3">
-                  <input
-                    class="d-none fancy-field-control fancy-field-control-lg"
+                <div class="mr-3">
+                  <mat-checkbox
+                    type="checkbox"
                     id="termsConditionCheckbox"
                     name="[]"
-                    type="checkbox"
                     [(ngModel)]="isConfirmedPrivacy"
                     [ngModelOptions]="{ standalone: true }"
-                  />
-                  <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
-                </span>
+                  >
+                  </mat-checkbox>
+                </div>
                 <div class="checkbox-text lh-sm">
                   <p [translate]="'settings.reset_password'">
                     I understand that all data will be deleted irrevocably and a new encryption key will be generated.

@@ -239,21 +239,14 @@
             <div class="col-sm-9">
               <div class="form-content-row form-content-row-sm">
                 <div class="row row-sm align-items-center">
-                  <div class="col-sm-4">
-                    <div class="d-flex">
-                      <span class="fancy-field-group mr-2">
-                        <input
-                          formControlName="moveTo"
-                          id="filterMoveTo"
-                          class="d-none fancy-field-control fancy-field-control-lg"
-                          type="checkbox"
-                        />
-                        <label for="filterMoveTo" class="fancy-field-empty"></label>
-                      </span>
-                      <div class="checkbox-text lh-sm cursor-pointer mt-1">
-                        <span class="info-text" [translate]="'settings.filters.move_to'">move to</span>
-                      </div>
-                    </div>
+                  <div class="col-sm-4 mat-checkbox-row">
+                    <mat-checkbox
+                      type="checkbox"
+                      id="filterMoveTo"
+                      formControlName="moveTo"
+                    >
+                      {{ 'settings.filters.move_to' | translate }}
+                    </mat-checkbox>
                   </div>
                   <div class="col-sm-8">
                     <div class="btn-dropdown btn-dropdown-select">
@@ -309,36 +302,22 @@
               <div class="form-content-row">
                 <div class="row row-sm align-items-center">
                   <div class="col-6 flex-auto-col">
-                    <div class="d-flex">
-                      <span class="fancy-field-group mr-2">
-                        <input
-                          formControlName="markAsRead"
-                          id="filterMarkAsRead"
-                          class="d-none fancy-field-control fancy-field-control-lg"
-                          type="checkbox"
-                        />
-                        <label for="filterMarkAsRead" class="fancy-field-empty"></label>
-                      </span>
-                      <div class="checkbox-text lh-sm cursor-pointer mt-1">
-                        <span class="info-text" [translate]="'mail_list.mark_as_read'">mark as read</span>
-                      </div>
-                    </div>
+                    <mat-checkbox
+                      type="checkbox"
+                      id="filterMarkAsRead"
+                      formControlName="markAsRead"
+                    >
+                      {{ 'mail_list.mark_as_read' | translate }}
+                    </mat-checkbox>
                   </div>
                   <div class="col-8 flex-auto-col">
-                    <div class="d-flex">
-                      <span class="fancy-field-group mr-2">
-                        <input
-                          formControlName="markAsStarred"
-                          id="filterMarkAsStarred"
-                          class="d-none fancy-field-control fancy-field-control-lg"
-                          type="checkbox"
-                        />
-                        <label for="filterMarkAsStarred" class="fancy-field-empty"></label>
-                      </span>
-                      <div class="checkbox-text lh-sm cursor-pointer mt-1">
-                        <span class="info-text" [translate]="'settings.filters.mark_as_starred'">mark as starred</span>
-                      </div>
-                    </div>
+                    <mat-checkbox
+                      type="checkbox"
+                      id="filterMarkAsStarred"
+                      formControlName="markAsStarred"
+                    >
+                      {{ 'settings.filters.mark_as_starred' | translate }}
+                    </mat-checkbox>
                   </div>
                 </div>
               </div>
