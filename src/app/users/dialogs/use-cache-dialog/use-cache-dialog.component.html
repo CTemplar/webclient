@@ -17,20 +17,16 @@
       >.
     </div>
     <div class="row bottom-view">
-      <div class="d-flex align-items-center ask-more">
-        <span class="fancy-field-group mr-2">
-          <input
-            type="checkbox"
-            id="askLocalCache"
-            name="askLocalCache"
-            [(ngModel)]="askLocalCache"
-            class="d-none fancy-field-control fancy-field-control-lg"
-          />
-          <label for="askLocalCache" class="fancy-field-empty"></label>
-        </span>
-        <div class="checkbox-text lh-sm cursor-pointer">
-          <span class="info-text" [translate]="'common.dont_ask_use_local_cache'">Don't ask any more</span>
-        </div>
+      <div class="ask-more">
+        <mat-checkbox
+          type="checkbox"
+          id="askLocalCache"
+          name="askLocalCache"
+          [(ngModel)]="askLocalCache"
+          [translate]="'common.dont_ask_use_local_cache'"
+        >
+          Don't ask any more
+        </mat-checkbox>
       </div>
       <div class="form-group text-right mb-0">
         <button

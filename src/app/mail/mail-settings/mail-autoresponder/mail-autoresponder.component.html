@@ -24,21 +24,15 @@
         </div>
       </div>
       <div class="form-group col">
-        <div class="d-flex align-items-center">
-          <span class="fancy-field-group mr-3">
-            <input
-              type="checkbox"
-              id="timeRestricted"
-              name="timeRestricted"
-              [(ngModel)]="autoresponder.is_time_range_restricted"
-              class="d-none fancy-field-control fancy-field-control-lg"
-            />
-            <label for="timeRestricted" class="fancy-field-empty"></label>
-          </span>
-          <div class="checkbox-text lh-sm cursor-pointer mt-1">
-            <span class="info-text" [translate]="'settings.forwarding.restrict'">Restrict to time range</span>
-          </div>
-        </div>
+        <mat-checkbox
+          type="checkbox"
+          id="timeRestricted"
+          name="timeRestricted"
+          [(ngModel)]="autoresponder.is_time_range_restricted"
+          [translate]="'settings.forwarding.restrict'"
+        >
+          Restrict to time range
+        </mat-checkbox>
       </div>
       <div class="form-group row col-md-8">
         <div class="col-md-12 row">
@@ -132,23 +126,15 @@
         </div>
       </div>
       <div class="form-group col">
-        <div class="d-flex align-items-center">
-          <span class="fancy-field-group mr-3">
-            <input
-              type="checkbox"
-              id="onlyContacts"
-              name="onlyContacts"
-              [(ngModel)]="autoresponder.only_contacts"
-              class="d-none fancy-field-control fancy-field-control-lg"
-            />
-            <label for="onlyContacts" class="fancy-field-empty"></label>
-          </span>
-          <div class="checkbox-text lh-sm cursor-pointer mt-1">
-            <span class="info-text" [translate]="'settings.forwarding.send_response'"
-              >Only send a response to people in my contacts</span
-            >
-          </div>
-        </div>
+        <mat-checkbox
+          type="checkbox"
+          id="onlyContacts"
+          name="onlyContacts"
+          [(ngModel)]="autoresponder.only_contacts"
+          [translate]="'settings.forwarding.send_response'"
+        >
+          Only send a response to people in my contacts
+        </mat-checkbox>
       </div>
       <div *ngIf="errorMessage" class="l-alert l-alert-danger mb-3 ml-1">
         {{ errorMessage }}
