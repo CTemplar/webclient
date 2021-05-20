@@ -203,7 +203,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       password: this.signupForm.get('password').value,
       recaptcha: this.signupForm.value.captchaResponse,
     };
-    if(this.referralCode) {
+    if (this.referralCode) {
       signupData.referral_code = this.referralCode;
     }
     this.store.dispatch(new UpdateSignupData(signupData));
@@ -253,7 +253,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       invite_code: this.inviteCode,
       language: currentLang.name,
     };
-    if(this.referralCode) {
+    if (this.referralCode) {
       this.data.referral_code = this.referralCode;
     }
     this.store.dispatch(new SignUp(this.data));
