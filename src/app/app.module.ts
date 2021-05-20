@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import * as Sentry from '@sentry/browser';
 import { CookieLawModule } from 'angular2-cookie-law';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AppComponent } from './app.component';
 import { AppStoreModule } from './store/store.module';
@@ -78,6 +79,7 @@ export class SentryErrorHandler implements ErrorHandler {
     SharedModule,
     UsersModule,
     CookieLawModule,
+    CKEditorModule,
   ],
   providers: [
     AuthGuard,

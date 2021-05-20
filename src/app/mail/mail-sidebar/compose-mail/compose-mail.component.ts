@@ -64,13 +64,14 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import * as ChangeEvent from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 /**
  * Start Quill Configuration
  */
 const Quill: any = QuillNamespace;
 const BlockEmbed = Quill.import('blots/block/embed');
-import Parchment from 'parchment';
 class keepHTML extends BlockEmbed {
   static create(node: any) {
     return node;
@@ -138,7 +139,7 @@ const Container = Quill.import('blots/container');
 class Section extends Container {}
 Section.tagName = 'section1';
 Section.blotName = 'section1';
-Section.scope = Parchment.Scope.BLOCK_BLOT;
+// Section.scope = Parchment.Scope.BLOCK_BLOT;
 
 const Block = Quill.import('blots/block');
 class CustomBlockQuote extends Block {
@@ -155,27 +156,6 @@ Section.allowedChildren = [Block, Inline, BlockEmbed, CustomBlockQuote];
 
 Quill.register(CustomBlockQuote);
 Quill.register(Section);
-
-//
-// class BlockQuoteBlot extends Block {
-//   static create(value: any) {
-//     let node = super.create()
-//     if (value.class !== '') { node.setAttribute('class', value.class) }
-//     if (value.style !== '') { node.setAttribute('style', value.style) }
-//     return node
-//   }
-//   static formats(node: any) {
-//     if (node) {
-//       return {
-//         class: node.getAttribute('class') ? node.getAttribute('class') : '',
-//         style: node.getAttribute('style') ? node.getAttribute('style') : ''
-//       }
-//     }
-//   }
-// }
-// BlockQuoteBlot.blotName = 'blockquote'
-// BlockQuoteBlot.tagName = 'blockquote'
-// Quill.register(BlockQuoteBlot)
 
 /**
  * Custom Signature Blot to add custom html signature to Quill Editor
@@ -456,6 +436,33 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * This variable will be used for pass to suggest to add to the contact or update
    */
   clonedContacts: any[] = [];
+
+  toolbarItems = [
+    'fontfamily',
+    'fontsize',
+    '|',
+    'bold',
+    'italic',
+    'underline',
+    '|',
+    'alignment',
+    '|',
+    'fontcolor',
+    'fontbackgroundcolor',
+    '|',
+    'bulletedlist',
+    'numberedlist',
+    'indent',
+    'outdent',
+    '|',
+    'removeformat',
+  ];
+
+  editorConfig = {
+    toolbar: this.toolbarItems,
+  };
+
+  Editor = DecoupledEditor;
 
   constructor(
     private modalService: NgbModal,
@@ -741,7 +748,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   initializeComposeMail() {
     if (this.draftMail.is_html === null || this.draftMail.is_html) {
       if (this.editor) {
-        this.initializeQuillEditor();
+        // this.initializeQuillEditor();
+        this.initializeCKEditor();
       }
     } else {
       // display mail content and change from html to text if html version
@@ -762,6 +770,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 300);
       }
     }
+  }
+
+  initializeCKEditor() {
+
+  }
+
+  public onEditorReady(editor: any) {
+    const toolbarContainer = document.querySelector('#toolbar');
+    toolbarContainer.appendChild(editor.ui.view.toolbar.element);
   }
 
   initializeQuillEditor() {
@@ -797,10 +814,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.quill.format('background', this.settings.default_background);
       this.quill.format('font', this.settings.default_font);
 
-      const qlEditor = document.querySelectorAll('.ql-editor p');
-      for (let i = 0; i < qlEditor.length; i++) {
-        qlEditor[i].setAttribute('style', '');
-      }
+      // const qlEditor = document.querySelectorAll('.ql-editor p');
+      // for (const element of qlEditor) {
+      //   element.setAttribute('style', '');
+      // }
     }
     setTimeout(() => {
       this.quill.setSelection(0, 0, 'silent');

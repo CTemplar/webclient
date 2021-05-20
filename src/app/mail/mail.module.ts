@@ -48,6 +48,7 @@ import { ImportPrivateKeyComponent } from './dialogs/import-private-key/import-p
 import { MailDetailHeaderComponent } from './mail-detail/mail-detail-header/mail-detail-header.component';
 import { MailDetailBodyComponent } from './mail-detail/mail-detail-body/mail-detail-body.component';
 import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-detail-password-decryption-panel/mail-detail-password-decryption-panel.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -99,6 +100,7 @@ import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-d
     QuillModule.forRoot(),
     ReactiveFormsModule,
     SharedModule,
+    CKEditorModule,
   ],
   exports: [MailFooterComponent],
   providers: [MailSettingsService, ComposeMailService, WebsocketService, PushNotificationService],
