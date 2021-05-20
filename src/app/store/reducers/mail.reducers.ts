@@ -152,8 +152,15 @@ function getUpdatesFolderMap(
       originalMailIDs = originalMailIDs.slice(0, limit);
     }
     const total_mail_count =
-      originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length >= 0
-        ? originalFolderState.total_mail_count + mailIDs.length - parentWithChild.length - duplicatedMailIDS.length
+      (originalFolderState.total_mail_count ? originalFolderState.total_mail_count : 0) +
+        mailIDs.length -
+        parentWithChild.length -
+        duplicatedMailIDS.length >=
+      0
+        ? (originalFolderState.total_mail_count ? originalFolderState.total_mail_count : 0) +
+          mailIDs.length -
+          parentWithChild.length -
+          duplicatedMailIDS.length
         : 0;
     return {
       mails: originalMailIDs,
@@ -274,7 +281,7 @@ export function reducer(
         const folderState = {
           ...oldFolderInfo,
           mails: basicFolderState.mails,
-          total_mail_count: basicFolderState.total_mail_count,
+          total_mail_count: basicFolderState.total_mail_count ? basicFolderState.total_mail_count : 0,
         };
         folderMap.set(MailFolderType.UNREAD, folderState);
       }
@@ -290,14 +297,14 @@ export function reducer(
         const folderState = {
           ...oldFolderInfo,
           mails: basicFolderState.mails,
-          total_mail_count: basicFolderState.total_mail_count,
+          total_mail_count: basicFolderState.total_mail_count ? basicFolderState.total_mail_count: 0,
         };
         folderMap.set(MailFolderType.ALL_EMAILS, folderState);
       }
       // Update Current Viewing Folder
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const currentFolderMap = folderMap.get(state.currentFolder);
-      state.total_mail_count = currentFolderMap.total_mail_count;
+      state.total_mail_count = currentFolderMap.total_mail_count ? currentFolderMap.total_mail_count : 0;
       mails.forEach((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {
