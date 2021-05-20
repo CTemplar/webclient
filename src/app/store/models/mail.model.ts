@@ -8,6 +8,7 @@ export interface Mail {
   bcc_display?: Array<EmailDisplay>;
   bcc?: Array<string>;
   cc?: Array<string>;
+  cc_display?: Array<EmailDisplay>;
   checked?: boolean;
   children_count?: number;
   children?: Array<Mail>;
@@ -53,6 +54,8 @@ export interface Mail {
   has_starred_children?: boolean;
   is_autocrypt_encrypted?: boolean;
   encryption_type?: PGPEncryptionType;
+  reply_to_display?: Array<EmailDisplay>;
+  email_display_name_map?: Object;
 }
 
 export class EncryptionNonCTemplar {
@@ -135,6 +138,10 @@ export interface Attachment {
 export interface EmailDisplay {
   email: string;
   name?: string;
+  is_deleted?: boolean;
+  is_encrypted?: boolean;
+  enabled_encryption?: boolean;
+  starred: boolean;
 }
 
 export interface PGPMimeMessageProgressModel {
