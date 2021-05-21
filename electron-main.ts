@@ -5,8 +5,30 @@ import * as url from 'url';
 import * as windowStateKeeper from 'electron-window-state';
 import * as notifier from 'node-notifier';
 
+const contextMenu = require('electron-context-menu');
+
 // Initialize remote module
 require('@electron/remote/main').initialize();
+
+contextMenu({
+	prepend: (defaultActions, parameters, browserWindow) => [],
+  showLookUpSelection: false,
+  showSearchWithGoogle: false,
+  showCopyImage: false,
+  showCopyImageAddress: true,
+  showSaveImage: false,
+  showSaveImageAs: false,
+  showSaveLinkAs: false,
+  showServices: false,
+  shouldShowMenu: (event, parameters) => {
+    if(parameters.linkURL && parameters.linkURL.length > 0){
+      const regex = /(https?:\/\/(?:www\.|(?!www))[\da-z][\da-z-]+[\da-z]\.\S{2,}|www\.[\da-z][\da-z-]+[\da-z]\.\S{2,}|https?:\/\/(?:www\.|(?!www))[\da-z]+\.\S{2,}|[\da-z][\da-z-]+[\da-z]\.com|www\.[\da-z]+\.\S{2,})/gi;
+      return regex.test(parameters.linkURL);
+    } else {
+      return true;
+    }
+  },
+});
 
 let mainWindow: BrowserWindow;
 const args = process.argv.slice(1),
