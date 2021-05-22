@@ -166,8 +166,12 @@ a {
         max-height: none;
         height: calc(100vh - 280px);
 
-        .ql-editor {
+        //.ql-editor {
+        //  min-height: 640.867px;
+        //}
+        .ck-editor__editable_inline {
           min-height: 640.867px;
+          word-wrap: break-word;
         }
         .plain-editor {
           min-height: 635px;
@@ -359,6 +363,10 @@ a {
     outline: 0;
   }
 
+  .ck-editor__editable_inline {
+    min-height: 385.867px;
+    word-wrap: break-word;
+  }
   .ql-editor {
     min-height: 385.867px;
     line-height: inherit;
@@ -851,5 +859,25 @@ a {
     .ql-fill {
       stroke: #06c !important;
     }
+  }
+}
+
+.ck-content {
+  font-size: 14px;
+  color: var(--text-color-black-white);
+  .text-tiny {
+    font-size: 0.7em;
+  }
+
+  .text-small {
+    font-size: 1em;
+  }
+
+  .text-big {
+    font-size: 1.8em;
+  }
+
+  .text-huge {
+    font-size: 2.2em;
   }
 }

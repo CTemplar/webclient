@@ -19,6 +19,8 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
+import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import * as ChangeEvent from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
@@ -64,8 +66,6 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
-import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import * as ChangeEvent from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 /**
  * Start Quill Configuration
@@ -459,6 +459,28 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   editorConfig = {
+    fontSize: {
+      options: [
+        {
+          title: 'Tiny',
+          model: '10px',
+        },
+        {
+          title: 'Small',
+          model: '12px',
+        },
+        'default',
+        {
+          title: 'Big',
+          model: '24px',
+        },
+        {
+          title: 'Huge',
+          model: '40px',
+        },
+      ],
+      supportAllValues: true,
+    },
     toolbar: this.toolbarItems,
   };
 
@@ -773,12 +795,36 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initializeCKEditor() {
+    DecoupledEditor.create(document.querySelector('#editor'), this.editorConfig)
+      .then((editor: any) => {
+        const toolbarContainer = document.querySelector('#toolbar');
+        toolbarContainer.append(editor.ui.view.toolbar.element);
+        this.Editor = editor;
+        this.updateSignature();
+        editor.editing.view.focus();
+        // editor.model.change((writer: any) => {
+        //   writer.setSelection(editor.model.document.getRoot());
+        // });
 
+        // Configure for default settings
+        // This should be done after filled the data up
+        if (this.settings) {
+          this.Editor.execute('fontSize', { value: `${this.settings.default_size}px` });
+          this.Editor.execute('fontColor', {
+            value: this.settings.default_color !== 'none' ? this.settings.default_color : 'black',
+          });
+          this.Editor.execute('fontBackgroundColor', { value: this.settings.default_background });
+          this.Editor.execute('fontFamily', { value: this.settings.default_font });
+        }
+      })
+      .catch((error: any) => {
+        console.error(error);
+      });
   }
 
   public onEditorReady(editor: any) {
     const toolbarContainer = document.querySelector('#toolbar');
-    toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+    toolbarContainer.append(editor.ui.view.toolbar.element);
   }
 
   initializeQuillEditor() {
@@ -950,9 +996,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.content = this.getPlainText(this.decryptedContent);
       return;
     }
-    if (this.quill) {
-      this.quill.setText('');
-      this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
+    // if (this.quill) {
+    //   this.quill.setText('');
+    //   this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
+    // }
+    if (this.Editor) {
+      this.Editor.setData(this.decryptedContent);
     }
   }
 
@@ -1038,7 +1087,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   validateEmail(email: string) {
-    const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+    const re =
+      /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
@@ -1177,15 +1227,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   insertLink(text: string, link: string) {
-    // add content with link based on https or http to quill
+    // add content with link based on https or http
     this.insertLinkData.modalRef.close();
     if (!/^https?:\/\//i.test(link)) {
       link = `http://${link}`;
     }
-    this.quill.focus();
-    this.quill.updateContents(
-      new Delta().retain(this.quill.getSelection().index).insert(text, { link, target: '_blank' }),
-    );
+    this.Editor.model.change((writer: any) => {
+      const linkElement = writer.createText(text, {
+        linkHref: link,
+      });
+      this.Editor.model.insertContent(linkElement, this.Editor.model.document.selection);
+    });
   }
 
   openInsertLinkModal() {
@@ -1216,15 +1268,22 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onImagesSelected(files: FileList) {
-    if (!this.draftMail || !this.draftMail.id) {
-      this.updateEmail();
-    }
+    // if (!this.draftMail || !this.draftMail.id) {
+    //   this.updateEmail();
+    // }
+    const _this = this;
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
       if (/^image\//.test(file.type)) {
         const FR = new FileReader();
         FR.addEventListener('load', function (e) {
-          document.querySelector('.ql-editor p').innerHTML += `<img src=${e.target.result} alt="image" />`;
+          _this.Editor.model.change((writer: any) => {
+            const imageElement = writer.createElement('image', {
+              src: e.target.result,
+            });
+            // Insert the image in the current selection location.
+            _this.Editor.model.insertContent(imageElement, _this.Editor.model.document.selection);
+          });
         });
         FR.readAsDataURL(file);
       } else {
@@ -1318,7 +1377,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onAttachImageURL(url: string) {
-    this.embedImageInQuill(url);
+    // this.embedImageInQuill(url);
+    this.Editor.model.change((writer: any) => {
+      const imageElement = writer.createElement('image', {
+        src: url,
+      });
+      // Insert the image in the current selection location.
+      this.Editor.model.insertContent(imageElement, this.Editor.model.document.selection);
+    });
     this.attachImagesModalRef.dismiss();
   }
 
@@ -1401,7 +1467,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addHyperLink() {
-    const regex = /(https?:\/\/(?:www\.|(?!www))[\da-z][\da-z-]+[\da-z]\.\S{2,}|www\.[\da-z][\da-z-]+[\da-z]\.\S{2,}|https?:\/\/(?:www\.|(?!www))[\da-z]+\.\S{2,}|[\da-z][\da-z-]+[\da-z]\.com|www\.[\da-z]+\.\S{2,})/gi;
+    const regex =
+      /(https?:\/\/(?:www\.|(?!www))[\da-z][\da-z-]+[\da-z]\.\S{2,}|www\.[\da-z][\da-z-]+[\da-z]\.\S{2,}|https?:\/\/(?:www\.|(?!www))[\da-z]+\.\S{2,}|[\da-z][\da-z-]+[\da-z]\.com|www\.[\da-z]+\.\S{2,})/gi;
     this.quill.focus();
     const contents = this.quill.getText();
     const filtered = contents.trim().split(/\s+/);
@@ -1425,6 +1492,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * Check exceptions and validations of subject and receiver before send mail
    */
   sendEmailCheck() {
+    debugger
     if (this.isPreparingToSendEmail) return;
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
@@ -1488,6 +1556,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendEmail() {
+    debugger
     if (this.confirmModalRef) {
       this.confirmModalRef.dismiss();
     }
@@ -1553,11 +1622,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       let content: string;
       let oldSig: string;
       let newSig: string;
-      if (this.quill && this.quill.container) {
-        content = this.quill.container.innerHTML || '';
+      if (this.Editor) {
+        content = this.Editor.getData() || '';
         content = content.replace(/\n\n/g, '<br>');
-      }
-      if (this.quill && this.quill.container) {
         if (this.oldMailbox && this.oldMailbox.signature) {
           // update signature from old to new if signature is updated
           oldSig = this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length));
@@ -1567,13 +1634,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           } else {
             content = content.replace(new RegExp(`${oldSig}$`), '');
           }
-          this.quill.clipboard.dangerouslyPasteHTML(content);
+          this.Editor.setData(content);
         } else if (this.selectedMailbox && this.selectedMailbox.signature) {
           // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
           content = `<br><br>${newSig}${content}`;
           this.isSignatureAdded = true;
-          this.quill.clipboard.dangerouslyPasteHTML(content);
+          this.Editor.setData(content);
         }
       }
     }
@@ -1783,12 +1850,24 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   hasData() {
     // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
+    // return (
+    //   (!this.draftMail.is_html
+    //     ? this.mailData.content.length > 1 &&
+    //       this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
+    //     : this.quill.getLength() > 1 &&
+    //       this.quill.getText().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
+    //   this.mailData.receiver.length > 0 ||
+    //   this.mailData.cc.length > 0 ||
+    //   this.mailData.bcc.length > 0 ||
+    //   this.mailData.subject.length > 0
+    // );
+
     return (
       (!this.draftMail.is_html
         ? this.mailData.content.length > 1 &&
           this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
-        : this.quill.getLength() > 1 &&
-          this.quill.getText().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
+        : !this.Editor.model.isEmpty() &&
+          this.Editor.getData().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
       this.mailData.receiver.length > 0 ||
       this.mailData.cc.length > 0 ||
       this.mailData.bcc.length > 0 ||
@@ -1813,6 +1892,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
+    debugger;
     this.inProgress = true;
     this.setMailData(false, true);
     this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail));
@@ -1848,9 +1928,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     let tokens;
     if (this.draftMail.is_html) {
       // if html version, convert text to html format with html tags
-      if (this.quill.container.firstChild !== null) {
+      if (this.Editor) {
         // this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-        this.draftMail.content = this.quill.container.firstChild.innerHTML;
+        this.draftMail.content = this.Editor.getData();
         // tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
       }
       // if (tokens && tokens.length > 1) {
@@ -1918,26 +1998,25 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   checkInlineAttachments() {
     if (!this.draftMail.is_html) {
-      return;
     }
-    const contents = this.quill.getContents().ops;
-    const currentAttachments: string[] = [];
-    contents.forEach((item: any) => {
-      if (item.insert && item.insert.image && item.insert.image.content_id) {
-        currentAttachments.push(item.insert.image.content_id);
-      }
-    });
-    // inline attachments don't have attachment id
-    this.inlineAttachmentContentIds = this.inlineAttachmentContentIds.filter(contentId => {
-      if (!currentAttachments.includes(contentId)) {
-        const attachmentToRemove = this.attachments.find(attachment => attachment.content_id === contentId);
-        if (attachmentToRemove) {
-          this.removeAttachment(attachmentToRemove);
-        }
-        return false;
-      }
-      return true;
-    });
+    // const contents = this.quill.getContents().ops;
+    // const currentAttachments: string[] = [];
+    // contents.forEach((item: any) => {
+    //   if (item.insert && item.insert.image && item.insert.image.content_id) {
+    //     currentAttachments.push(item.insert.image.content_id);
+    //   }
+    // });
+    // // inline attachments don't have attachment id
+    // this.inlineAttachmentContentIds = this.inlineAttachmentContentIds.filter(contentId => {
+    //   if (!currentAttachments.includes(contentId)) {
+    //     const attachmentToRemove = this.attachments.find(attachment => attachment.content_id === contentId);
+    //     if (attachmentToRemove) {
+    //       this.removeAttachment(attachmentToRemove);
+    //     }
+    //     return false;
+    //   }
+    //   return true;
+    // });
   }
 
   private resetValues() {
@@ -1945,8 +2024,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.firstSaveSubscription.unsubscribe();
     this.options = {};
     this.attachments = [];
-    if (this.quill) {
-      this.quill.setText('');
+    // if (this.quill) {
+    //   this.quill.setText('');
+    // }
+    if (this.Editor) {
+      this.Editor.setData('');
     }
     this.resetMailData();
     this.clearSelfDestructValue();

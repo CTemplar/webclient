@@ -121,5 +121,7 @@ $variables: (
   --receiver-chip-popover-divider-color: (
     $receiver-chip-popover-divider-color-light,
     $receiver-chip-popover-divider-color-dark
-  )
+  ),
+  --ck-focus-ring: (transparent, transparent),
+  --ck-inner-shadow: (transparent, transparent)
 );
