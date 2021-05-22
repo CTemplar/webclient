@@ -488,6 +488,178 @@
               </div>
               <div class="form-content-row">
                 <div class="row align-items-center">
+                  <div
+                    class="col-sm-3"
+                    ngbTooltip="Enabling this option would block all the external images from loading automatically when you open an email"
+                  >
+                    <label class="form-label mb-0">Block external images</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="blockExternalImages1"
+                            name="[blockExternalImages]"
+                            type="radio"
+                            (click)="updateSettings('is_disable_loading_images', true)"
+                            [checked]="settings.is_disable_loading_images"
+                          />
+                          <label for="blockExternalImages1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="blockExternalImages2"
+                            name="[blockExternalImages]"
+                            type="radio"
+                            (click)="updateSettings('is_disable_loading_images', false)"
+                            [checked]="!settings.is_disable_loading_images"
+                          />
+                          <label for="blockExternalImages2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div
+                    class="col-sm-3"
+                    ngbTooltip="Enabling this option would include original message text when you reply"
+                  >
+                    <label class="form-label mb-0">Include original message text</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="includeOriginalMsg1"
+                            name="[includeOriginalMsg]"
+                            type="radio"
+                            (click)="updateSettings('include_original_message', true)"
+                            [checked]="settings.include_original_message"
+                          />
+                          <label for="includeOriginalMsg1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="includeOriginalMsg2"
+                            name="[includeOriginalMsg]"
+                            type="radio"
+                            (click)="updateSettings('include_original_message', false)"
+                            [checked]="!settings.include_original_message"
+                          />
+                          <label for="includeOriginalMsg2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3" ngbTooltip="Help to report bugs automatically by enabling this option">
+                    <label class="form-label mb-0">Report bugs</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="reportBugs1"
+                            name="[reportBugs]"
+                            type="radio"
+                            (click)="updateSettings('is_enable_report_bugs', true)"
+                            [checked]="settings.is_enable_report_bugs"
+                          />
+                          <label for="reportBugs1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="reportBugs2"
+                            name="[reportBugs]"
+                            type="radio"
+                            (click)="updateSettings('is_enable_report_bugs', false)"
+                            [checked]="!settings.is_enable_report_bugs"
+                          />
+                          <label for="reportBugs2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">Universal Spam Filter</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="universalSpamFilter1"
+                            name="[universalSpamFilter]"
+                            type="radio"
+                            (click)="updateSettings('universal_spam_filter', true)"
+                            [checked]="settings.universal_spam_filter"
+                          />
+                          <label for="universalSpamFilter1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col" *ngIf="userPlanType !== planType.FREE">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="universalSpamFilter2"
+                            name="[universalSpamFilter]"
+                            type="radio"
+                            (click)="updateSettings('universal_spam_filter', false)"
+                            [checked]="!settings.universal_spam_filter"
+                          />
+                          <label for="universalSpamFilter2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="info-card mt-2 mx-3 full-width" *ngIf="userPlanType === planType.FREE">
+                    <p [translate]="'settings.upgrade_to_change_spam_filter'">
+                      Upgrade to Prime to change the spam filter setting!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Composer Settings -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0">
+              <strong [translate]="'settings.composer_settings'"> Composer </strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <div class="form-content-row">
+                <div class="row align-items-center">
                   <div class="col-sm-3">
                     <label class="form-label mb-0">Default composer size</label>
                   </div>
@@ -688,7 +860,7 @@
                 <div class="row align-items-center">
                   <div class="col-sm-3">
                     <label class="form-label mb-0" [translate]="'settings.compose_autosave_duration'">
-                      Mail compose autosave duration
+                      Composing autosave interval
                     </label>
                   </div>
                   <div class="col-sm-7 col-md-5">
@@ -710,86 +882,6 @@
                           >
                             {{ duration }}
                           </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div
-                    class="col-sm-3"
-                    ngbTooltip="Enabling this option would block all the external images from loading automatically when you open an email"
-                  >
-                    <label class="form-label mb-0">Block external images</label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="blockExternalImages1"
-                            name="[blockExternalImages]"
-                            type="radio"
-                            (click)="updateSettings('is_disable_loading_images', true)"
-                            [checked]="settings.is_disable_loading_images"
-                          />
-                          <label for="blockExternalImages1" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="blockExternalImages2"
-                            name="[blockExternalImages]"
-                            type="radio"
-                            (click)="updateSettings('is_disable_loading_images', false)"
-                            [checked]="!settings.is_disable_loading_images"
-                          />
-                          <label for="blockExternalImages2" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div
-                    class="col-sm-3"
-                    ngbTooltip="Enabling this option would include original message text when you reply"
-                  >
-                    <label class="form-label mb-0">Include original message text</label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="includeOriginalMsg1"
-                            name="[includeOriginalMsg]"
-                            type="radio"
-                            (click)="updateSettings('include_original_message', true)"
-                            [checked]="settings.include_original_message"
-                          />
-                          <label for="includeOriginalMsg1" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="includeOriginalMsg2"
-                            name="[includeOriginalMsg]"
-                            type="radio"
-                            (click)="updateSettings('include_original_message', false)"
-                            [checked]="!settings.include_original_message"
-                          />
-                          <label for="includeOriginalMsg2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
                     </div>
@@ -834,129 +926,6 @@
                   <div class="info-card mt-2 mx-3 full-width">
                     <p [translate]="'settings.disabling_editor_message'">
                       Disable the HTML editor if you want to send emails in plain text.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3" ngbTooltip="Help to report bugs automatically by enabling this option">
-                    <label class="form-label mb-0">Report bugs</label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="reportBugs1"
-                            name="[reportBugs]"
-                            type="radio"
-                            (click)="updateSettings('is_enable_report_bugs', true)"
-                            [checked]="settings.is_enable_report_bugs"
-                          />
-                          <label for="reportBugs1" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="reportBugs2"
-                            name="[reportBugs]"
-                            type="radio"
-                            (click)="updateSettings('is_enable_report_bugs', false)"
-                            [checked]="!settings.is_enable_report_bugs"
-                          />
-                          <label for="reportBugs2" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0">Universal Spam Filter</label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="universalSpamFilter1"
-                            name="[universalSpamFilter]"
-                            type="radio"
-                            (click)="updateSettings('universal_spam_filter', true)"
-                            [checked]="settings.universal_spam_filter"
-                          />
-                          <label for="universalSpamFilter1" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col" *ngIf="userPlanType !== planType.FREE">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="universalSpamFilter2"
-                            name="[universalSpamFilter]"
-                            type="radio"
-                            (click)="updateSettings('universal_spam_filter', false)"
-                            [checked]="!settings.universal_spam_filter"
-                          />
-                          <label for="universalSpamFilter2" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="info-card mt-2 mx-3 full-width" *ngIf="userPlanType === planType.FREE">
-                    <p [translate]="'settings.upgrade_to_change_spam_filter'">
-                      Upgrade to Prime to change the spam filter setting!
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.ask_local_cache'"
-                      >Ask to use local cache</label
-                    >
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="askLocalCacheEnable"
-                            name="[askLocalCache]"
-                            type="radio"
-                            (click)="updateSettings('use_local_cache', 'ASK')"
-                            [checked]="askLocalCache"
-                          />
-                          <label for="askLocalCacheEnable" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col" *ngIf="userPlanType !== planType.FREE">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="askLocalCacheDisable"
-                            name="[askLocalCache]"
-                            type="radio"
-                            (click)="updateSettings('use_local_cache', 'DISALLOWED')"
-                            [checked]="!askLocalCache"
-                          />
-                          <label for="askLocalCacheDisable" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="info-card mt-2 mx-3 full-width" *ngIf="userPlanType === planType.FREE">
-                    <p [translate]="'settings.upgrade_to_change_spam_filter'">
-                      Upgrade to Prime to change the spam filter setting!
                     </p>
                   </div>
                 </div>
@@ -1470,10 +1439,6 @@
     </ngb-tab>
   </ngb-tabset>
 
-  <!-- Save Button -->
-  <button mat-fab color="warn" class="fab-bottom" (click)="onUpdateSettingsBtnClick()">
-    <i class="icon icon-save-disk"></i>
-  </button>
   <app-mail-footer></app-mail-footer>
 </div>
 
