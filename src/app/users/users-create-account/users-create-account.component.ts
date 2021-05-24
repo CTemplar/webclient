@@ -66,6 +66,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   inviteCode: string;
 
+  referralCode: string = '';
+
   primaryWebsite = PRIMARY_WEBSITE;
 
   private paymentType: PaymentType;
@@ -195,14 +197,16 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private navigateToBillingPage() {
-    this.store.dispatch(
-      new UpdateSignupData({
-        recovery_email: this.signupForm.get('recoveryEmail').value,
-        username: this.signupForm.get('username').value,
-        password: this.signupForm.get('password').value,
-        recaptcha: this.signupForm.value.captchaResponse,
-      }),
-    );
+    const signupData: SignupState = {
+      recovery_email: this.signupForm.get('recoveryEmail').value,
+      username: this.signupForm.get('username').value,
+      password: this.signupForm.get('password').value,
+      recaptcha: this.signupForm.value.captchaResponse,
+    };
+    if (this.referralCode) {
+      signupData.referral_code = this.referralCode;
+    }
+    this.store.dispatch(new UpdateSignupData(signupData));
     this.router.navigateByUrl(`/billing-info?plan=${this.selectedPlan}&billing=${this.paymentType}`);
   }
 
@@ -249,6 +253,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       invite_code: this.inviteCode,
       language: currentLang.name,
     };
+    if (this.referralCode) {
+      this.data.referral_code = this.referralCode;
+    }
     this.store.dispatch(new SignUp(this.data));
   }
 
