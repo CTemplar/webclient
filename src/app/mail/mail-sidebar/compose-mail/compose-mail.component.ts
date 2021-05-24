@@ -20,6 +20,7 @@ import { debounceTime, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+import * as CKEditorInspector from '@ckeditor/ckeditor5-inspector';
 
 import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
@@ -485,6 +486,28 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       items: this.toolbarItems,
       shouldNotGroupWhenFull: true,
     },
+    extraPlugins: [
+      function ConvertQuoteAttribute(editor: any) {
+        // Allow <div> elements in the model to have all attributes.
+        editor.model.schema.addAttributeCheck( (context: any) => {
+          if ( context.endsWith( 'blockQuote' ) ) {
+            return true;
+          }
+        } );
+
+        // The view-to-model converter converting a view <div> with all its attributes to the model.
+        editor.conversion.for( 'upcast' ).elementToElement( {
+          view: 'blockquote',
+          model: 'blockQuote'
+        } );
+
+        // The model-to-view converter for the <div> element (attributes are converted separately).
+        editor.conversion.for( 'downcast' ).elementToElement( {
+          model: 'blockQuote',
+          view: 'blockquote'
+        } );
+      },
+    ],
   };
 
   composerEditor: any;
@@ -797,9 +820,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     const editorContainer = this.editor.nativeElement;
     DecoupledEditor.create(editorContainer, this.editorConfig)
       .then((editor: any) => {
+        CKEditorInspector.attach(editor);
         const toolbarContainer = document.querySelector('#toolbar');
         toolbarContainer.append(editor.ui.view.toolbar.element);
         this.composerEditor = editor;
+
         // need to change text to html contents
         if (this.mailData.content) {
           editor.setData(this.formatContent(this.mailData.content));
@@ -838,11 +863,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
     }
-    this.firstSaveSubscription = this.valueChanged$
-      .pipe(first(() => !this.draft.draft.id && this.hasData()))
-      .subscribe(data => {
-        this.updateEmail();
-      });
+    if (!this.draft.draft.id && this.hasData()) {
+      this.updateEmail();
+    }
   }
 
   /**
@@ -884,7 +907,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       // @ts-ignore
       const xssValue = xss(content, {
         onTag: (tag: string, html: string, options: any) => {
-          if (!options.isClosing && allowedTags.has(tag.toLowerCase())) {
+          if (options && !options.isClosing && allowedTags.has(tag.toLowerCase())) {
             let htmlAttributes = '';
             const spaceIndex = html.indexOf(' ');
             if (spaceIndex > 0) {
@@ -1317,9 +1340,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         !this.inlineAttachmentContentIds.includes(attachment.content_id)
       ) {
         this.inlineAttachmentContentIds.push(attachment.content_id);
-        if (!attachment.is_forwarded) {
-          this.embedImageInQuill(attachment.document, attachment.content_id);
-        }
+        // if (!attachment.is_forwarded) {
+        //   this.embedImageInQuill(attachment.document, attachment.content_id);
+        // }
       }
       if (attachment.progress < 100 && !attachment.isRemoved) {
         this.isUploadingAttachment = true;
@@ -1802,18 +1825,28 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    */
 
   hasData() {
-    return (
-      (!this.draftMail.is_html
-        ? this.mailData.content.length > 1 &&
-          this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
-        : this.composerEditor?.model?.hasContent(this.composerEditor?.model.document.getRoot()) &&
-          this.composerEditor?.getData().replace(/(^[\t ]*\n)/gm, '') !==
-            this.getPlainText(this.selectedMailbox.signature)) ||
+    if (
       this.mailData.receiver.length > 0 ||
       this.mailData.cc.length > 0 ||
       this.mailData.bcc.length > 0 ||
       this.mailData.subject.length > 0
-    );
+    ) {
+      return true;
+    }
+    if (this.draftMail.is_html) {
+      if (
+        this.mailData.content.length > 1 &&
+        this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
+      ) {
+        return true;
+      }
+    } else if (
+      this.composerEditor?.model?.hasContent(this.composerEditor?.model.document.getRoot()) &&
+      this.composerEditor?.getData().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
+    ) {
+      return true;
+    }
+    return false;
   }
 
   private embedImageInQuill(source: string, contentId?: string) {
@@ -1869,23 +1902,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.draftMail.is_html) {
       // if html version, convert text to html format with html tags
       if (this.composerEditor) {
-        // this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
+        const adsf = this.editor.nativeElement;
         this.draftMail.content = this.composerEditor.getData();
-        // tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
-      }
-      // if (tokens && tokens.length > 1) {
-      //   tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
-      //   tokens[tokens.length - 1] += `</span>`;
-      //   this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
-      //   this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
-      // }
-      // if (!shouldSave) {
-      //   this.draftMail.content = this.draftMail.content.replace('class="ctemplar-signature"', '');
-      // }
-
-      if (shouldSend) {
-        // this.draftMail.content = this.draftMail.content.replace(new RegExp('<p>', 'g'), '<div>');
-        // this.draftMail.content = this.draftMail.content.replace(new RegExp('</p>', 'g'), '</div>');
       }
     } else {
       // if text version, don't convert content
@@ -1962,7 +1980,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private resetValues() {
     this.unSubscribeAutoSave();
-    this.firstSaveSubscription.unsubscribe();
+    // this.firstSaveSubscription.unsubscribe();
     this.options = {};
     this.attachments = [];
     // if (this.quill) {

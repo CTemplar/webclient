@@ -407,11 +407,6 @@ button[disabled] {
 //  display: none;
 //}
 
-.show_gmail_extra .gmail_extra,
-.show_gmail_extra .gmail_quote {
-  display: block;
-}
-
 .originalblock {
   border-left: 3px solid #ccc;
   padding-left: 2ex;
@@ -721,4 +716,7 @@ a.text-dark:hover {
   border: solid 1px #e5e5e5;
   margin: 5px;
   padding: 5px 1rem;
+}
+button.ctemplar-blockquote-toggle~* {
+  display: none;
 }

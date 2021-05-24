@@ -256,7 +256,7 @@ export class MailService {
       }),
       body: { password: data.password },
     };
-    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`, options);
+    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}/`, options);
   }
 
   setPrimaryMailboxKeys(data: MailboxKey) {

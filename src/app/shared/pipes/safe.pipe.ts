@@ -12,6 +12,94 @@ import { apiUrl, PRIMARY_DOMAIN } from '../config';
 export class SafePipe implements PipeTransform {
   static hasExternalImages: boolean;
 
+  static allowedTags: any = {
+    a: [],
+    b: [],
+    br: [],
+    div: [],
+    font: [],
+    h1: [],
+    h2: [],
+    h3: [],
+    h4: [],
+    h5: [],
+    h6: [],
+    hr: [],
+    img: [],
+    label: [],
+    li: [],
+    ol: [],
+    p: [],
+    span: [],
+    strong: [],
+    table: [],
+    td: [],
+    th: [],
+    tr: [],
+    u: [],
+    ul: [],
+    i: [],
+    blockquote: [],
+  };
+
+  static headingAttributes = ['align', 'dir', 'id', 'style'];
+
+  static allowedAttributes: any = {
+    a: ['href', 'style', 'target'],
+    b: ['style'],
+    br: ['style'],
+    div: ['align', 'dir', 'style'],
+    font: ['color', 'face', 'size', 'style'],
+    h1: SafePipe.headingAttributes,
+    h2: SafePipe.headingAttributes,
+    h3: SafePipe.headingAttributes,
+    h4: SafePipe.headingAttributes,
+    h5: SafePipe.headingAttributes,
+    h6: SafePipe.headingAttributes,
+    hr: ['align', 'size', 'width'],
+    img: ['align', 'border', 'height', 'hspace', 'src', 'style', 'usemap', 'vspace', 'width'],
+    label: ['id', 'style'],
+    li: ['dir', 'style', 'type'],
+    ol: ['dir', 'style', 'type'],
+    p: ['align', 'dir', 'style'],
+    span: ['style'],
+    strong: ['style'],
+    table: ['align', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'dir', 'frame', 'rules', 'style', 'width'],
+    td: [
+      'abbr',
+      'align',
+      'bgcolor',
+      'colspan',
+      'dir',
+      'height',
+      'lang',
+      'rowspan',
+      'scope',
+      'style',
+      'valign',
+      'width',
+    ],
+    th: [
+      'abbr',
+      'align',
+      'background',
+      'bgcolor',
+      'colspan',
+      'dir',
+      'height',
+      'lang',
+      'scope',
+      'style',
+      'valign',
+      'width',
+    ],
+    tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
+    u: ['style'],
+    ul: ['dir', 'style'],
+    i: ['style'],
+    blockquote: ['style', 'class'],
+  };
+
   constructor(private sanitizer: DomSanitizer) {}
 
   public transform(value: any, type = '', disableExternalImages?: boolean, fromEmail?: string): SafeHtml | SafeUrl {
@@ -124,8 +212,12 @@ export class SafePipe implements PipeTransform {
         return this.sanitizer.bypassSecurityTrustUrl(value);
       case 'sanitize':
         // Move style from style tag to inline style
+        // eslint-disable-next-line no-param-reassign
         value = juice(value);
+        // eslint-disable-next-line no-param-reassign
+        value = this.removeTitle(value);
         // Sanitize Mail
+        // eslint-disable-next-line no-param-reassign
         value = SafePipe.processSanitization(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
       default:
@@ -134,112 +226,128 @@ export class SafePipe implements PipeTransform {
   }
 
   static processSanitization(value: string, disableExternalImages: boolean) {
-    const allowedTags: any = {
-      a: [],
-      b: [],
-      br: [],
-      div: [],
-      font: [],
-      h1: [],
-      h2: [],
-      h3: [],
-      h4: [],
-      h5: [],
-      h6: [],
-      hr: [],
-      img: [],
-      label: [],
-      li: [],
-      ol: [],
-      p: [],
-      span: [],
-      strong: [],
-      table: [],
-      td: [],
-      th: [],
-      tr: [],
-      u: [],
-      ul: [],
-      i: [],
-    };
-    const headingAttributes = ['align', 'dir', 'id', 'style'];
-    const allowedAttributes: any = {
-      a: ['href', 'style', 'target'],
-      b: ['style'],
-      br: ['style'],
-      div: ['align', 'dir', 'style'],
-      font: ['color', 'face', 'size', 'style'],
-      h1: headingAttributes,
-      h2: headingAttributes,
-      h3: headingAttributes,
-      h4: headingAttributes,
-      h5: headingAttributes,
-      h6: headingAttributes,
-      hr: ['align', 'size', 'width'],
-      img: ['align', 'border', 'height', 'hspace', 'src', 'style', 'usemap', 'vspace', 'width'],
-      label: ['id', 'style'],
-      li: ['dir', 'style', 'type'],
-      ol: ['dir', 'style', 'type'],
-      p: ['align', 'dir', 'style'],
-      span: ['style'],
-      strong: ['style'],
-      table: ['align', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'dir', 'frame', 'rules', 'style', 'width'],
-      td: [
-        'abbr',
-        'align',
-        'bgcolor',
-        'colspan',
-        'dir',
-        'height',
-        'lang',
-        'rowspan',
-        'scope',
-        'style',
-        'valign',
-        'width',
-      ],
-      th: [
-        'abbr',
-        'align',
-        'background',
-        'bgcolor',
-        'colspan',
-        'dir',
-        'height',
-        'lang',
-        'scope',
-        'style',
-        'valign',
-        'width',
-      ],
-      tr: ['align', 'bgcolor', 'dir', 'style', 'valign'],
-      u: ['style'],
-      ul: ['dir', 'style'],
-      i: ['style'],
-    };
+    const cssFilter = SafePipe.createCssFilter();
     // @ts-ignore
+    // eslint-disable-next-line no-param-reassign
     value = xss(value, {
-      whiteList: allowedTags,
+      whiteList: SafePipe.allowedTags,
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
-      onIgnoreTagAttr: (tag: string, name: string, attribute: string) => {
-        if (name !== 'class') {
-          // get attr whitelist for specific tag
-          const attributeWhitelist = allowedAttributes[tag];
-          // if the current attr is whitelisted, should be added to tag
-          if (attributeWhitelist.includes(name)) {
-            if (disableExternalImages && tag === 'img' && name === 'src') {
-              if (!(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)) {
-                SafePipe.hasExternalImages = true;
-                return `${attribute}=""`;
+      onTag: (tag: string, html: string, options: any) => {
+        if (!(options && options.isClosing === true)) {
+          const htmlAttributes = SafePipe.getAttributesFromHtml(html);
+          let containsTargetAttribute = false;
+          let isNeededAddCollapseButton = false;
+          let attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
+            // <anchor> tag AND attribute is target, _blank should be added
+            if (tag === 'a' && attributeName === 'target') {
+              containsTargetAttribute = true;
+              return `${attributeName}="_blank"`;
+            }
+            // <blockquote> and quote attribute value, then should add collapse button later
+            if (tag === 'blockquote') {
+              if (
+                attributeName === 'class' &&
+                (attributeValue.includes('gmail_quote') ||
+                  attributeValue.includes('ctemplar_quote') ||
+                  attributeValue.includes('proton_quote'))
+              ) {
+                isNeededAddCollapseButton = true;
+                return `${attributeName}="${attributeValue}"`;
               }
             }
-            return `${name}="${xss.escapeAttrValue(attribute)}"`;
+            // Other Default Process
+            // call `onTagAttr()`
+            const attributeWhitelist = SafePipe.allowedAttributes[tag];
+            // if the current attr is whitelisted, should be added to tag
+            const isWhiteAttribute = attributeWhitelist.includes(attributeName);
+            const returnValue1 = xss.onTagAttr(tag, attributeName, attributeValue, isWhiteAttribute) || '';
+            if (returnValue1 !== '') {
+              return returnValue1;
+            }
+
+            if (isWhiteAttribute) {
+              // call `safeAttrValue()`
+              attributeValue = xss.safeAttrValue(tag, attributeName, attributeValue, cssFilter);
+              if (attributeValue) {
+                return `${attributeName}="${attributeValue}"`;
+              }
+              return attributeName;
+            }
+            // call `onIgnoreTagAttr()`
+            const returnValue2 = xss.onIgnoreTagAttr(tag, attributeName, attributeValue, isWhiteAttribute) || '';
+            return returnValue2;
+          });
+
+          // If <anchor> tag AND no target attribute, force adding it.
+          if (tag === 'a' && !containsTargetAttribute) {
+            attributesHtml += ' target="_blank" rel="noopener noreferrer"';
           }
+          let collapseButton = '';
+          if (isNeededAddCollapseButton) {
+            collapseButton = `<button class="ctemplar-blockquote-toggle" onclick="event.target.classList.toggle('ctemplar-blockquote-toggle');">HAHAHA</button>`;
+          }
+
+          // Final Building HTML TAG
+          let outputHtml = collapseButton ? `${collapseButton}<${tag}` : `<${tag}`;
+          if (attributesHtml) {
+            outputHtml += ` ${attributesHtml}`;
+          }
+          outputHtml += '>';
+          return outputHtml;
+        }
+      },
+      onTagAttr: (tag: string, name: string, attribute: string) => {
+        // get attr whitelist for specific tag
+        const attributeWhitelist = SafePipe.allowedAttributes[tag];
+        // if the current attr is whitelisted, should be added to tag
+        if (attributeWhitelist.includes(name)) {
+          if (tag === 'img' && name === 'src' && attribute.indexOf('data:image/png;base64,') === 0) {
+            return `${name}="${xss.friendlyAttrValue(attribute)}"`;
+          }
+          if (disableExternalImages && tag === 'img' && name === 'src') {
+            if (!(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)) {
+              SafePipe.hasExternalImages = true;
+              return `${attribute}=""`;
+            }
+          }
+          return `${name}="${xss.escapeAttrValue(attribute)}"`;
         }
       },
     });
     return value;
+  }
+
+  static createCssFilter(): any {
+    const cssFilter = new cssfilter.FilterCSS({
+      onIgnoreAttr: (styleName: any, styleValue: string) => {
+        const blackList: any = {
+          position: ['fixed'],
+        };
+        if (blackList.hasOwnProperty(styleName)) {
+          const blackValueList = blackList[styleName];
+          const value = styleValue.replace(/!important/g, '').trim();
+          if (blackValueList.includes(value)) {
+            return '';
+          }
+        }
+        const safeAttributeValue = cssfilter.safeAttrValue(styleName, styleValue);
+        if (safeAttributeValue) {
+          return `${styleName}:${safeAttributeValue}`;
+        }
+        return '';
+      },
+    });
+    return cssFilter;
+  }
+
+  static getAttributesFromHtml(html: string): string {
+    let htmlAttributes = '';
+    const spaceIndex = html.indexOf(' ');
+    if (spaceIndex > 0) {
+      htmlAttributes = html.slice(spaceIndex + 1, -1).trim();
+    }
+    return htmlAttributes;
   }
 
   replaceLinksInText(inputText: string) {

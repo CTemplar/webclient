@@ -85,6 +85,7 @@
     "@angular/cli": "^9.1.12",
     "@angular/compiler-cli": "^9.1.12",
     "@angular/language-service": "^9.1.12",
+    "@ckeditor/ckeditor5-inspector": "^2.2.2",
     "@types/jasmine": "^3.5.14",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^15.0.1",

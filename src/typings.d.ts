@@ -12,3 +12,9 @@ declare module '@ckeditor/ckeditor5-build-decoupled-document' {
 
   export = DecoupledEditorBuild;
 }
+
+declare module '@ckeditor/ckeditor5-inspector' {
+  const CKEditorInspectorBuild: any;
+
+  export = CKEditorInspectorBuild;
+}

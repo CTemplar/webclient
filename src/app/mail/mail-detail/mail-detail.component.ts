@@ -854,7 +854,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
-    console.log('====>>>>>>>> reply text', newMail.content)
     newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
     if (mail.reply_to && mail.reply_to.length > 0) {
@@ -1298,7 +1297,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     let history = '';
     previousMails.forEach(previousMail => (history = this.getMessageSummary(history, previousMail)));
-    return `<div class="gmail_quote ctemplar-quote">${history}</div>`;
+    return `<div>${history}</div>`;
   }
 
   /**
@@ -1321,7 +1320,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content += `
         </br>---------- Original Message ----------</br>
         On ${formattedDateTime},  ${senderEmail} wrote:
-        <blockquote>${this.decryptedContents[mail.id]}</blockquote>`;
+        <blockquote class="ctemplar_quote">${this.decryptedContents[mail.id]}</blockquote>`;
     }
     return content;
   }
