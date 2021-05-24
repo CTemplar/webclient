@@ -545,7 +545,9 @@
     "not_available_for_bitcoin": "Not available for bitcoin",
     "delete_alias_confirm": "Are you sure, you want to delete alias",
     "catch_all": "Catch all",
-    "attachments_encryption": "Attachments encryption"
+    "attachments_encryption": "Attachments encryption",
+    "referral_code": "Referral Code",
+    "get_one_month_prime_membership": "Get one month of Prime membership free for every Prime sign up made using your referral code."
   },
   "mail_sidebar": {
     "unread": "Unread",
@@ -737,7 +739,9 @@
     "with_email_address": "This is the display name that will be shown next to your email address.",
     "display_name_req": "Enter a valid display name with maximum 32 characters.",
     "can_change_settings": "You can change this in the settings page later.",
-    "insert_valid_inviteCode": "Please enter a valid invite code format."
+    "insert_valid_inviteCode": "Please enter a valid invite code format.",
+    "referral_code": "Referral code",
+    "referral_code_explanation": "If you have a referral code, please input it. You can get a referral code from any existing customer."
   },
   "billing_info": {
     "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",

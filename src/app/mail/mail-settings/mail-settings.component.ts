@@ -661,4 +661,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     popupWin.document.write(invoiceData);
     popupWin.document.close();
   }
+
+  copyToClipboard(value: string) {
+    this.sharedService.copyToClipboard(value);
+  }
 }

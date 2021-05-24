@@ -674,3 +674,13 @@ $error-red: #e94e4c;
   vertical-align: middle;
   border: solid 1px rgba(0, 0, 0, 0.12);
 }
+
+::ng-deep .mat-checkbox .mat-checkbox-frame {
+  border: 2px solid var(--mat-checkbox-border-color);
+}
+::ng-deep .mat-checkbox .mat-checkbox-background {
+  border: var(--width-0-2) solid var(--mat-checkbox-border-color);
+}
+.mat-checkbox-row {
+  height: 24px;
+}

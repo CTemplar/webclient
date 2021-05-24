@@ -29,9 +29,8 @@
           id="timeRestricted"
           name="timeRestricted"
           [(ngModel)]="autoresponder.is_time_range_restricted"
-          [translate]="'settings.forwarding.restrict'"
         >
-          Restrict to time range
+          {{ 'settings.forwarding.restrict' | translate }}
         </mat-checkbox>
       </div>
       <div class="form-group row">
@@ -126,14 +125,8 @@
         </div>
       </div>
       <div class="form-group">
-        <mat-checkbox
-          type="checkbox"
-          id="onlyContacts"
-          name="onlyContacts"
-          [(ngModel)]="autoresponder.only_contacts"
-          [translate]="'settings.forwarding.send_response'"
-        >
-          Only send a response to people in my contacts
+        <mat-checkbox type="checkbox" id="onlyContacts" name="onlyContacts" [(ngModel)]="autoresponder.only_contacts">
+          {{ 'settings.forwarding.send_response' | translate }}
         </mat-checkbox>
       </div>
       <div *ngIf="errorMessage" class="l-alert l-alert-danger mb-3 ml-1">

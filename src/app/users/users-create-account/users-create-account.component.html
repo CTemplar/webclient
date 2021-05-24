@@ -221,17 +221,16 @@
                 </div>
                 <div class="form-group">
                   <div class="info-card d-flex bg-faded">
-                    <span class="fancy-field-group mr-3">
-                      <input
-                        class="d-none fancy-field-control fancy-field-control-lg"
+                    <div class="mr-3 mt-1">
+                      <mat-checkbox
+                        type="checkbox"
                         id="moreInfoCheckbox"
                         name="[]"
-                        type="checkbox"
                         [(ngModel)]="isRecoveryEmail"
                         [ngModelOptions]="{ standalone: true }"
-                      />
-                      <label for="moreInfoCheckbox" class="fancy-field-empty"></label>
-                    </span>
+                      >
+                      </mat-checkbox>
+                    </div>
                     <div class="checkbox-text lh-sm" [ngClass]="{ 'd-none': isTextToggled }">
                       <span class="info-text">
                         <small [translate]="'create_account.checking_box'"
@@ -360,21 +359,49 @@
                 </div>
               </div>
 
+              <div class="form-step-card" *ngIf="selectedPlan === planType.PRIME">
+                <h3 class="form-step-card-title text-dark mb-0">
+                  <strong [translate]="'create_account.referral_code'">Referral code</strong>
+                </h3>
+                <div class="form-step-card-subtitle">
+                  <small [translate]="'create_account.referral_code_explanation'">
+                    If you have a referral code, please input it. You can get a referral code from any existing
+                    customer.
+                  </small>
+                </div>
+                <div class="form-group">
+                  <label
+                    for="referralCode"
+                    [translate]="'create_account.invite_code'"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    >Referral code
+                  </label>
+                  <input
+                    class="form-control text-dark"
+                    id="referralCode"
+                    [placeholder]="'create_account.referral_code' | translate"
+                    type="text"
+                    name="referralCode"
+                    [(ngModel)]="referralCode"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+              </div>
+
               <div
                 class="info-card d-flex align-items-center bg-faded mb-3"
                 [ngClass]="{ 'is-validate': isConfirmedPrivacy == false }"
               >
-                <span class="fancy-field-group mr-3">
-                  <input
-                    class="d-none fancy-field-control fancy-field-control-lg"
+                <div class="mat-checkbox-row mr-3">
+                  <mat-checkbox
+                    type="checkbox"
                     id="termsConditionCheckbox"
                     name="[]"
-                    type="checkbox"
                     [(ngModel)]="isConfirmedPrivacy"
                     [ngModelOptions]="{ standalone: true }"
-                  />
-                  <label for="termsConditionCheckbox" class="fancy-field-empty"></label>
-                </span>
+                  >
+                  </mat-checkbox>
+                </div>
                 <div class="checkbox-text lh-sm">
                   <span class="info-text">
                     <small>
