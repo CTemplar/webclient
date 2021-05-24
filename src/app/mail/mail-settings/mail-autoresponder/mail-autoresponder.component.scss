@@ -1,9 +1,16 @@
 ::ng-deep .ql-editor.ql-blank::before {
   color: var(--input-color-placeholder);
 }
+
+.col-row {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 ::ng-deep .mat-checkbox .mat-checkbox-frame {
   border: 2px solid var(--mat-checkbox-border-color);
 }
+
 ::ng-deep .mat-checkbox .mat-checkbox-background {
   border: var(--width-0-2) solid var(--mat-checkbox-border-color);
 }
