@@ -743,7 +743,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.encryptionData.password_hint = this.draftMail.encryption.password_hint;
       this.encryptionData.expiryHours = this.draftMail.encryption.expiry_hours;
     }
-
     const draft: Draft = {
       id: this.draftId,
       draft: this.draftMail,
@@ -767,26 +766,23 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * @Description
-   * If draftMail is html, then process for Quill
+   * If draftMail is html, then process for CKEditor
    * Unless, just create content
    */
   initializeComposeMail() {
     if (this.draftMail.is_html === null || this.draftMail.is_html) {
       if (this.editor) {
-        // this.initializeQuillEditor();
         this.initializeCKEditor();
       }
     } else {
       // display mail content and change from html to text if html version
-      const content = this.mailData.content ? this.mailData.content : '';
-      // if (this.editor) {
-      //   this.content = this.editor.nativeElement.firstChild.innerHTML;
-      // }
-      // this.content = this.content || content;
-      //
-      // if (this.content) {
-      //   content = this.getPlainText(this.content);
-      // }
+      let content = this.mailData.content ? this.mailData.content : '';
+      if (this.editor) {
+        content = this.composerEditor.getData() || content;
+      }
+      if (content) {
+        content = this.getPlainText(content);
+      }
       if (content) {
         setTimeout(() => {
           this.mailData.content = content;
@@ -804,11 +800,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         const toolbarContainer = document.querySelector('#toolbar');
         toolbarContainer.append(editor.ui.view.toolbar.element);
         this.composerEditor = editor;
+        // need to change text to html contents
+        if (this.mailData.content) {
+          editor.setData(this.formatContent(this.mailData.content));
+        }
         this.updateSignature();
         editor.editing.view.focus();
-        // editor.model.change((writer: any) => {
-        //   writer.setSelection(editor.model.document.getRoot());
-        // });
 
         // Configure for default settings
         // This should be done after filled the data up
@@ -827,54 +824,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .catch((error: any) => {
         console.error(error);
       });
-  }
-
-  public onEditorReady(editor: any) {
-    const toolbarContainer = document.querySelector('#toolbar');
-    toolbarContainer.append(editor.ui.view.toolbar.element);
-  }
-
-  initializeQuillEditor() {
-    this.quill = new Quill(this.editor.nativeElement, {
-      modules: {
-        toolbar: this.toolbar.nativeElement,
-      },
-      clipboard: {
-        matchVisual: false,
-      },
-    });
-    this.quill.scrollingContainer = document.querySelector('#editor-cover-scroller');
-
-    this.quill.on('text-change', () => {
-      this.valueChanged$.next();
-    });
-    // need to change text to html contents
-    if (this.mailData.content) {
-      // this.content = this.mailData.content ? this.mailData.content.replace(/\n/g, '<br>') : this.content;
-
-      // this.quill.clipboard.dangerouslyPasteHTML(
-      //   0,
-      //   `<div class="keepHTML" style="white-space: normal;">${this.formatContent(this.mailData.content)}</div>`,
-      // );
-      this.quill.clipboard.dangerouslyPasteHTML(0, this.formatContent(this.mailData.content));
-      // this.quill.clipboard.dangerouslyPasteHTML(0, this.mailData.content.replace(/\n/g, '<br>'));
-    }
-
-    this.updateSignature();
-    if (this.settings) {
-      this.quill.format('color', this.settings.default_color);
-      this.quill.format('size', `${this.settings.default_size}px`);
-      this.quill.format('background', this.settings.default_background);
-      this.quill.format('font', this.settings.default_font);
-
-      // const qlEditor = document.querySelectorAll('.ql-editor p');
-      // for (const element of qlEditor) {
-      //   element.setAttribute('style', '');
-      // }
-    }
-    setTimeout(() => {
-      this.quill.setSelection(0, 0, 'silent');
-    }, 100);
   }
 
   initializeAutoSave() {
@@ -896,6 +845,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
+  /**
+   * Sanitizing Html Content
+   * @param content
+   * @private
+   */
   private formatContent(content: string) {
     if (this.draftMail.is_html) {
       const allowedTags = new Set([
@@ -937,9 +891,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               htmlAttributes = html.slice(spaceIndex + 1, -1).trim();
             }
             const attributesHtml = xss.parseAttr(htmlAttributes, (attributeName, attributeValue) => {
-              // if (attributeName === 'class') {
-              //   attributeValue = attributeValue.replace('gmail_quote', '');
-              // }
               return `${attributeName}="${attributeValue}"`;
             });
             let outputHtml = `<${tag}`;
@@ -952,9 +903,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           return html;
         },
       });
-      return content;
+      return content.replace(/\n/g, '<br>');
     }
-    return content.replace(/\n/g, '<br>');
   }
 
   private resetMailData() {
@@ -983,7 +933,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // action is existed MEANS this compose is either REPLY or REPLY_ALL or FORWARD
     // this.draftMail.content would not be encrypted, but PURE
     if (this.action) {
-      // this.mailData.content = this.content ? this.content : this.draftMail.content;
       this.mailData.content = this.draftMail.content;
     }
     if (this.mailData.cc.length > 0) {
@@ -1003,10 +952,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.content = this.getPlainText(this.decryptedContent);
       return;
     }
-    // if (this.quill) {
-    //   this.quill.setText('');
-    //   this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
-    // }
     if (this.composerEditor) {
       this.composerEditor.setData(this.decryptedContent);
     }
@@ -1158,7 +1103,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const element = document.createElement('div');
     element.innerHTML = html
-      .replace(/<br>/g, '')
       .replace(/<\/div>/g, '<br></div>')
       .replace(/<\/p>/g, '<br></p>')
       .replace(/<br>/g, '\n')
@@ -1255,7 +1199,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  quillImageHandler() {
+  onInsertImage() {
     this.attachImagesModalRef = this.modalService.open(this.attachImagesModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal',
@@ -1473,6 +1417,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // Temporary Commenting
+  // Not sure this operation would be needed.
+  /*
   addHyperLink() {
     const regex =
       /(https?:\/\/(?:www\.|(?!www))[\da-z][\da-z-]+[\da-z]\.\S{2,}|www\.[\da-z][\da-z-]+[\da-z]\.\S{2,}|https?:\/\/(?:www\.|(?!www))[\da-z]+\.\S{2,}|[\da-z][\da-z-]+[\da-z]\.com|www\.[\da-z]+\.\S{2,})/gi;
@@ -1494,6 +1441,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
+  */
 
   /**
    * Check exceptions and validations of subject and receiver before send mail
@@ -1554,9 +1502,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         windowClass: 'modal-sm users-action-modal',
       });
     } else {
-      if (this.draftMail.is_html) {
-        // this.addHyperLink();
-      }
+      // if (this.draftMail.is_html) {
+      //   this.addHyperLink();
+      // }
       this.sendEmail();
     }
   }

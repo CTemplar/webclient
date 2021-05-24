@@ -1321,7 +1321,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content += `
         </br>---------- Original Message ----------</br>
         On ${formattedDateTime},  ${senderEmail} wrote:
-        <section1><blockquote>${this.decryptedContents[mail.id]}</blockquote></section1>`;
+        <blockquote>${this.decryptedContents[mail.id]}</blockquote>`;
     }
     return content;
   }
