@@ -865,6 +865,9 @@ a {
 .ck-content {
   font-size: 14px;
   color: var(--text-color-black-white);
+  p {
+    margin-bottom: 0;
+  }
   .text-tiny {
     font-size: 0.7em;
   }
@@ -879,5 +882,11 @@ a {
 
   .text-huge {
     font-size: 2.2em;
+  }
+}
+
+#toolbar {
+  .ck-toolbar {
+    width: 380px;
   }
 }

@@ -20,7 +20,6 @@ import { debounceTime, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import * as ChangeEvent from '@ckeditor/ckeditor5-angular/ckeditor.component';
 
 import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
@@ -449,9 +448,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     '|',
     'fontcolor',
     'fontbackgroundcolor',
-    '|',
+    '-',
     'bulletedlist',
     'numberedlist',
+    '|',
     'indent',
     'outdent',
     '|',
@@ -481,10 +481,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
       supportAllValues: true,
     },
-    toolbar: this.toolbarItems,
+    toolbar: {
+      items: this.toolbarItems,
+      shouldNotGroupWhenFull: true,
+    },
   };
 
-  Editor = DecoupledEditor;
+  composerEditor: any;
 
   constructor(
     private modalService: NgbModal,
@@ -795,11 +798,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initializeCKEditor() {
-    DecoupledEditor.create(document.querySelector('#editor'), this.editorConfig)
+    const editorContainer = this.editor.nativeElement;
+    DecoupledEditor.create(editorContainer, this.editorConfig)
       .then((editor: any) => {
         const toolbarContainer = document.querySelector('#toolbar');
         toolbarContainer.append(editor.ui.view.toolbar.element);
-        this.Editor = editor;
+        this.composerEditor = editor;
         this.updateSignature();
         editor.editing.view.focus();
         // editor.model.change((writer: any) => {
@@ -809,13 +813,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         // Configure for default settings
         // This should be done after filled the data up
         if (this.settings) {
-          this.Editor.execute('fontSize', { value: `${this.settings.default_size}px` });
-          this.Editor.execute('fontColor', {
+          this.composerEditor.execute('fontSize', { value: `${this.settings.default_size}px` });
+          this.composerEditor.execute('fontColor', {
             value: this.settings.default_color !== 'none' ? this.settings.default_color : 'black',
           });
-          this.Editor.execute('fontBackgroundColor', { value: this.settings.default_background });
-          this.Editor.execute('fontFamily', { value: this.settings.default_font });
+          this.composerEditor.execute('fontBackgroundColor', { value: this.settings.default_background });
+          this.composerEditor.execute('fontFamily', { value: this.settings.default_font });
         }
+        editor.model.document.on('change', () => {
+          this.valueChanged$.next();
+        });
       })
       .catch((error: any) => {
         console.error(error);
@@ -1000,8 +1007,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     //   this.quill.setText('');
     //   this.quill.clipboard.dangerouslyPasteHTML(0, this.decryptedContent, 'silent');
     // }
-    if (this.Editor) {
-      this.Editor.setData(this.decryptedContent);
+    if (this.composerEditor) {
+      this.composerEditor.setData(this.decryptedContent);
     }
   }
 
@@ -1232,11 +1239,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!/^https?:\/\//i.test(link)) {
       link = `http://${link}`;
     }
-    this.Editor.model.change((writer: any) => {
+    this.composerEditor.model.change((writer: any) => {
       const linkElement = writer.createText(text, {
         linkHref: link,
       });
-      this.Editor.model.insertContent(linkElement, this.Editor.model.document.selection);
+      this.composerEditor.model.insertContent(linkElement, this.composerEditor.model.document.selection);
     });
   }
 
@@ -1277,12 +1284,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (/^image\//.test(file.type)) {
         const FR = new FileReader();
         FR.addEventListener('load', function (e) {
-          _this.Editor.model.change((writer: any) => {
+          _this.composerEditor.model.change((writer: any) => {
             const imageElement = writer.createElement('image', {
               src: e.target.result,
             });
             // Insert the image in the current selection location.
-            _this.Editor.model.insertContent(imageElement, _this.Editor.model.document.selection);
+            _this.composerEditor.model.insertContent(imageElement, _this.composerEditor.model.document.selection);
           });
         });
         FR.readAsDataURL(file);
@@ -1378,12 +1385,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onAttachImageURL(url: string) {
     // this.embedImageInQuill(url);
-    this.Editor.model.change((writer: any) => {
+    this.composerEditor.model.change((writer: any) => {
       const imageElement = writer.createElement('image', {
         src: url,
       });
       // Insert the image in the current selection location.
-      this.Editor.model.insertContent(imageElement, this.Editor.model.document.selection);
+      this.composerEditor.model.insertContent(imageElement, this.composerEditor.model.document.selection);
     });
     this.attachImagesModalRef.dismiss();
   }
@@ -1492,7 +1499,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * Check exceptions and validations of subject and receiver before send mail
    */
   sendEmailCheck() {
-    debugger
     if (this.isPreparingToSendEmail) return;
     if (!this.selectedMailbox.is_enabled) {
       this.store.dispatch(
@@ -1549,14 +1555,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     } else {
       if (this.draftMail.is_html) {
-        this.addHyperLink();
+        // this.addHyperLink();
       }
       this.sendEmail();
     }
   }
 
   sendEmail() {
-    debugger
     if (this.confirmModalRef) {
       this.confirmModalRef.dismiss();
     }
@@ -1622,8 +1627,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       let content: string;
       let oldSig: string;
       let newSig: string;
-      if (this.Editor) {
-        content = this.Editor.getData() || '';
+      if (this.composerEditor) {
+        content = this.composerEditor?.getData() || '';
         content = content.replace(/\n\n/g, '<br>');
         if (this.oldMailbox && this.oldMailbox.signature) {
           // update signature from old to new if signature is updated
@@ -1634,13 +1639,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           } else {
             content = content.replace(new RegExp(`${oldSig}$`), '');
           }
-          this.Editor.setData(content);
+          this.composerEditor.setData(content);
         } else if (this.selectedMailbox && this.selectedMailbox.signature) {
           // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
           content = `<br><br>${newSig}${content}`;
           this.isSignatureAdded = true;
-          this.Editor.setData(content);
+          this.composerEditor.setData(content);
         }
       }
     }
@@ -1849,25 +1854,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    */
 
   hasData() {
-    // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
-    // return (
-    //   (!this.draftMail.is_html
-    //     ? this.mailData.content.length > 1 &&
-    //       this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
-    //     : this.quill.getLength() > 1 &&
-    //       this.quill.getText().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
-    //   this.mailData.receiver.length > 0 ||
-    //   this.mailData.cc.length > 0 ||
-    //   this.mailData.bcc.length > 0 ||
-    //   this.mailData.subject.length > 0
-    // );
-
     return (
       (!this.draftMail.is_html
         ? this.mailData.content.length > 1 &&
           this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
-        : !this.Editor.model.isEmpty() &&
-          this.Editor.getData().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)) ||
+        : this.composerEditor?.model?.hasContent(this.composerEditor?.model.document.getRoot()) &&
+          this.composerEditor?.getData().replace(/(^[\t ]*\n)/gm, '') !==
+            this.getPlainText(this.selectedMailbox.signature)) ||
       this.mailData.receiver.length > 0 ||
       this.mailData.cc.length > 0 ||
       this.mailData.bcc.length > 0 ||
@@ -1892,7 +1885,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private updateEmail() {
-    debugger;
     this.inProgress = true;
     this.setMailData(false, true);
     this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail));
@@ -1928,14 +1920,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     let tokens;
     if (this.draftMail.is_html) {
       // if html version, convert text to html format with html tags
-      if (this.Editor) {
+      if (this.composerEditor) {
         // this.draftMail.content = this.editor.nativeElement.firstChild.innerHTML;
-        this.draftMail.content = this.Editor.getData();
+        this.draftMail.content = this.composerEditor.getData();
         // tokens = this.draftMail.content.split(`<p>${SummarySeparator}</p>`);
       }
       // if (tokens && tokens.length > 1) {
       //   tokens[0] += `</br><span class="gmail_quote ctemplar_quote">`;
       //   tokens[tokens.length - 1] += `</span>`;
+      //   this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
       //   this.draftMail.content = tokens.join(`<p>${SummarySeparator}</p>`);
       // }
       // if (!shouldSave) {
@@ -2027,8 +2020,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (this.quill) {
     //   this.quill.setText('');
     // }
-    if (this.Editor) {
-      this.Editor.setData('');
+    if (this.composerEditor) {
+      this.composerEditor.setData('');
     }
     this.resetMailData();
     this.clearSelfDestructValue();
