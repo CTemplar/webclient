@@ -406,8 +406,21 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.pgpKeyGenerationCompleted({ ...userKeys, ...data });
         return;
       }
+      const generateKeyError = this.openPgpService.getGenerateKeyError();
+      if(generateKeyError) {
+        this.generateKeyFailed(generateKeyError);
+        return;
+      }
       this.waitForPGPKeys(data);
     }, 1000);
+  }
+
+  generateKeyFailed(error: string) {
+    this.errorMessage = error;
+    this.inProgress = false;
+    if (this.modalRef) {
+      this.modalRef.componentInstance.closeModal();
+    }
   }
 
   private getSignupData(data: any = {}) {

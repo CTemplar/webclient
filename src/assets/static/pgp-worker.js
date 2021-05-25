@@ -47,11 +47,24 @@ onmessage = async function (event) {
     });
   } else if (event.data.generateKeys) {
     generateKeys(event.data.options).then(data => {
-      postMessage({
-        generateKeys: true,
-        keys: data,
-        callerId: event.data.callerId,
-        forEmail: !!event.data.forEmail,
+      validateKeysGenerated(data).then(valide => {
+        if (valide) {
+          postMessage({
+            generateKeys: true,
+            keys: data,
+            callerId: event.data.callerId,
+            forEmail: !!event.data.forEmail,
+          });
+        } else {
+          postMessage({
+            generateKeys: true,
+            errorMessage: 'Failed to generate keys.',
+            error: true,
+            callerId: event.data.callerId,
+            forEmail: !!event.data.forEmail,
+            options: event.data.options,
+          });
+        }
       });
     });
   } else if (event.data.decryptSecureMessageKey) {
@@ -372,6 +385,27 @@ function generateKeys(options) {
       fingerprint: (await openpgp.key.readArmored(key.publicKeyArmored)).keys[0].primaryKey.getFingerprint(),
     };
   });
+}
+
+async function validateKeysGenerated(data) {
+  if (data.private_key && data.private_key.indexOf('-----BEGIN PGP PRIVATE KEY BLOCK-----') === 0
+    && data.public_key && data.public_key.indexOf('-----BEGIN PGP PUBLIC KEY BLOCK-----') === 0) {
+    try {
+      const armoredPrivateKey = (await openpgp.key.readArmored(data.private_key)).keys[0];
+      if (!armoredPrivateKey) {
+        return false;
+      }
+      const armoredPublicKey = (await openpgp.key.readArmored(data.public_key)).keys[0];
+      if (!armoredPublicKey) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    };
+  } else {
+    return false;
+  }
 }
 
 /**

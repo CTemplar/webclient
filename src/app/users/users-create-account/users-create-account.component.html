@@ -424,7 +424,7 @@
               </div>
 
               <div class="form-group text-center">
-                <button class="btn btn-lg btn-secondary" [disabled]="signupInProgress" type="submit" role="button">
+                <button class="btn btn-lg btn-secondary" [disabled]="(signupInProgress$ | async)" type="submit" role="button">
                   <span [translate]="'login.create_account'">Create Account</span>
                 </button>
               </div>
@@ -451,7 +451,7 @@
         {{ errorMessage }}
       </div>
     </div>
-    <app-loading-spinner [showSpinner]="signupInProgress"></app-loading-spinner>
+    <app-loading-spinner [showSpinner]="(signupInProgress$ | async)"></app-loading-spinner>
   </div>
   <div></div>
   <!-- /.Site container ends -->
