@@ -185,6 +185,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
         if (this.promoCode.is_valid && this.promoCode.new_amount === 0 && this.promoCode.new_amount_btc === 0) {
           this.isNeedPaymentInformationWithPromoCode = false;
+        } else {
+          this.isNeedPaymentInformationWithPromoCode = true;
         }
         this.isPrime = userState.isPrime;
       });
