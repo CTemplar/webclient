@@ -34,7 +34,7 @@ export class MailService {
     if (payload.folder === MailFolderType.STARRED) {
       url = `${url}&starred=true`;
     } else {
-      const folder = encodeURIComponent(payload.folder)
+      const folder = encodeURIComponent(payload.folder);
       url = `${url}&folder=${folder}`;
     }
     if (payload.read === false || payload.read === true) {
