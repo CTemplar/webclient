@@ -645,6 +645,43 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'mail_detail.show_plain_text'">Show Plain Text</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showPlainTextMode1"
+                            name="[showPlainTextMode]"
+                            type="radio"
+                            (click)="updateShowPlainTextMode(true)"
+                            [checked]="settings.show_plain_text"
+                          />
+                          <label for="showPlainTextMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showPlainTextMode2"
+                            name="[showPlainTextMode]"
+                            type="radio"
+                            (click)="updateShowPlainTextMode(false)"
+                            [checked]="!settings.show_plain_text"
+                          />
+                          <label for="showPlainTextMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -1061,43 +1098,6 @@
                             [checked]="!settings.is_conversation_mode"
                           />
                           <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'mail_detail.show_plain_text'">Show Plain Text</label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="showPlainTextMode1"
-                            name="[showPlainTextMode]"
-                            type="radio"
-                            (click)="updateShowPlainTextMode(true)"
-                            [checked]="settings.is_conversation_mode"
-                          />
-                          <label for="showPlainTextMode1" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="showPlainTextMode2"
-                            name="[showPlainTextMode]"
-                            type="radio"
-                            (click)="updateShowPlainTextMode(false)"
-                            [checked]="!settings.is_conversation_mode"
-                          />
-                          <label for="showPlainTextMode2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
                     </div>

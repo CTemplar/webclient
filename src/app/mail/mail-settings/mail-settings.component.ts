@@ -391,7 +391,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   updateShowPlainTextMode(is_showplaintext_mode: boolean) {
-    // this.updateSettings('is_showplaintext_mode', is_showplaintext_mode);
+    this.updateSettings('show_plain_text', is_showplaintext_mode);
   }
 
   /**
