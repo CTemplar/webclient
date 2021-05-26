@@ -409,7 +409,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         return;
       }
       const generateKeyError = this.openPgpService.getGenerateKeyError();
-      if(generateKeyError) {
+      if (generateKeyError) {
         this.generateKeyFailed(generateKeyError);
         return;
       }
