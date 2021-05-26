@@ -297,6 +297,8 @@ export class Settings {
   use_local_cache?: string;
 
   referral_code?: string;
+
+  show_plain_text?: boolean;
 }
 
 export interface Invoice {

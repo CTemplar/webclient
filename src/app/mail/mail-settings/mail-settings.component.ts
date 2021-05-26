@@ -390,6 +390,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.store.dispatch(new GetUnreadMailsCount());
   }
 
+  updateShowPlainTextMode(is_showplaintext_mode: boolean) {
+    this.updateSettings('show_plain_text', is_showplaintext_mode);
+  }
+
   /**
    * convert m:s format to milliseconds and update settings
    */

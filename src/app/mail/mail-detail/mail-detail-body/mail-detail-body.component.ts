@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Attachment, Mail, MailFolderType } from '../../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppState, UserState } from '../../../store/datatypes';
+import { AppState, Settings, UserState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { LOADING_IMAGE } from '../../../store/services';
 
@@ -11,7 +11,7 @@ import { LOADING_IMAGE } from '../../../store/services';
   templateUrl: './mail-detail-body.component.html',
   styleUrls: ['./mail-detail-body.component.scss'],
 })
-export class MailDetailBodyComponent implements OnInit {
+export class MailDetailBodyComponent implements OnInit, OnChanges {
   /**
    * Input Section
    */
@@ -91,7 +91,30 @@ export class MailDetailBodyComponent implements OnInit {
 
   loadingImage = LOADING_IMAGE;
 
+  settings: Settings;
+
+  checkedShowPlainTextSetting = false;
+
   constructor(private store: Store<AppState>) {}
 
-  ngOnInit(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      this.decryptedContentsPlain &&
+      this.settings.show_plain_text &&
+      !this.plainTextViewState &&
+      !this.checkedShowPlainTextSetting
+    ) {
+      this.checkedShowPlainTextSetting = true;
+      this.onSwitchHtmlPlainTextMode.emit();
+    }
+  }
+
+  ngOnInit(): void {
+    this.store
+      .select((state: AppState) => state.user)
+      .pipe(untilDestroyed(this))
+      .subscribe((user: UserState) => {
+        this.settings = user.settings;
+      });
+  }
 }
