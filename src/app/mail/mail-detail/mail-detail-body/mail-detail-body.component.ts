@@ -96,9 +96,14 @@ export class MailDetailBodyComponent implements OnInit, OnChanges {
   checkedShowPlainTextSetting = false;
 
   constructor(private store: Store<AppState>) {}
-  
+
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.decryptedContentsPlain && this.settings.show_plain_text && !this.plainTextViewState && !this.checkedShowPlainTextSetting ) {
+    if (
+      this.decryptedContentsPlain &&
+      this.settings.show_plain_text &&
+      !this.plainTextViewState &&
+      !this.checkedShowPlainTextSetting
+    ) {
       this.checkedShowPlainTextSetting = true;
       this.onSwitchHtmlPlainTextMode.emit();
     }
