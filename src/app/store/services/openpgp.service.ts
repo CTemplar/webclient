@@ -431,7 +431,7 @@ export class OpenPgpService {
         self[callbackFn]();
         return;
       }
-      if(this.getGenerateKeyError()) {
+      if (this.getGenerateKeyError()) {
         self[failedCallbackFn]();
         return;
       }
@@ -627,11 +627,11 @@ export class OpenPgpService {
       // Generate Keys
       if (event.data.generateKeys) {
         if (event.data.errorMessage) {
-          if(this.generateKeyCount < 2) {
+          if (this.generateKeyCount < 2) {
             this.generateKeyCount += 1;
             this.pgpWorker.postMessage({ options: event.data.options, generateKeys: true });
           } else {
-            this.generateKeyError = event.data.errorMessage; 
+            this.generateKeyError = event.data.errorMessage;
           }
         } else {
           if (event.data.forEmail) {
