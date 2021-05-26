@@ -720,3 +720,13 @@ a.text-dark:hover {
 button.ctemplar-blockquote-toggle~* {
   display: none;
 }
+
+.btn-ctemplar-blockquote-toggle {
+  width: 35px;
+  height: 18px;
+  border-radius: 10px;
+  border: none;
+  background: #ccc;
+  display: block;
+  color: #777;
+}

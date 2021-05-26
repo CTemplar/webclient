@@ -63,17 +63,30 @@
               <label for="signature" class="form-label mb-sm-0" [translate]="'settings.signature'"> Signature </label>
             </div>
             <div class="col">
-              <quill-editor
-                id="signature"
-                [ngModel]="selectedMailboxForSignature.signature"
-                (ngModelChange)="onSignatureChange($event)"
-                [modules]="quillModules"
-                (onBlur)="signatureFocused(false)"
-                (onFocus)="signatureFocused(true)"
-                [disabled]="!userState.isPrime"
-                [ngbTooltip]="!userState.isPrime && ('settings.upgrade_to_paid' | translate)"
-              >
-              </quill-editor>
+<!--              <quill-editor-->
+<!--                (ngModelChange)="onSignatureChange($event)"-->
+<!--                [modules]="quillModules"-->
+<!--                (onBlur)="signatureFocused(false)"-->
+<!--                (onFocus)="signatureFocused(true)"-->
+<!--                [disabled]="!userState.isPrime"-->
+<!--                [ngbTooltip]="!userState.isPrime && ('settings.upgrade_to_paid' | translate)"-->
+<!--              >-->
+<!--              </quill-editor>-->
+              <div class="signature-editor-toolbar-container mt-2"></div>
+              <div class="signature-editor-container">
+<!--                <ckeditor-->
+<!--                  [editor]="Editor"-->
+<!--                  (ready)="onSignatureReady($event)"-->
+<!--                  id="signature"-->
+<!--                  [data]="selectedMailboxForSignature.signature"-->
+<!--                  [disabled]="!userState.isPrime"-->
+<!--                  (change)="onSignatureChange($event)"-->
+<!--                  (blur)="signatureFocused(false)"-->
+<!--                  (focus)="signatureFocused(true)"-->
+<!--                  [ngbTooltip]="!userState.isPrime && ('settings.upgrade_to_paid' | translate)"-->
+<!--                >-->
+<!--                </ckeditor>-->
+              </div>
             </div>
           </div>
         </div>

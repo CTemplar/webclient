@@ -14,13 +14,13 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
-import * as QuillNamespace from 'quill';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
-import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-import * as CKEditorInspector from '@ckeditor/ckeditor5-inspector';
+// import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+// import * as ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
+import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 
 import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {
@@ -67,144 +67,9 @@ import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } 
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 
-/**
- * Start Quill Configuration
- */
-const Quill: any = QuillNamespace;
-const BlockEmbed = Quill.import('blots/block/embed');
-class keepHTML extends BlockEmbed {
-  static create(node: any) {
-    return node;
-  }
-
-  static value(node: any) {
-    return node;
-  }
-}
-keepHTML.blotName = 'keepHTML';
-keepHTML.className = 'keepHTML';
-keepHTML.tagName = 'div';
-
-Quill.register(keepHTML);
-/**
- * Add custom fonts, sizes, styles to quill
- */
-const FontAttributor = Quill.import('attributors/class/font');
-FontAttributor.whitelist = [...FONTS];
-Quill.register(FontAttributor, true);
-
-const SizeAttributor = Quill.import('attributors/style/size');
 const updatedSizes = SIZES.map(size => {
   return `${size}px`;
 });
-SizeAttributor.whitelist = updatedSizes;
-Quill.register(SizeAttributor, true);
-Quill.register(Quill.import('attributors/style/align'), true);
-Quill.register(Quill.import('attributors/style/background'), true);
-Quill.register(Quill.import('attributors/style/color'), true);
-
-const QuillBlockEmbed = Quill.import('blots/block/embed');
-const Inline = Quill.import('blots/inline');
-const Delta = Quill.import('delta');
-
-/**
- * Define Custom Image Blot to store meta-data in Quill Editor
- */
-class ImageBlot extends QuillBlockEmbed {
-  // Converts the HTML tag to image blot
-  static create(value: any) {
-    const node: any = super.create(value);
-    if (value) {
-      node.dataset.contentId = value.content_id;
-      node.setAttribute('src', value.url ? value.url : value);
-    }
-    return node;
-  }
-
-  // Converts the image blot to HTML tag
-  static value(node: any) {
-    return {
-      content_id: node.getAttribute('data-content-id'),
-      url: node.getAttribute('src'),
-    };
-  }
-}
-
-ImageBlot.blotName = 'image';
-ImageBlot.tagName = 'img';
-
-Quill.register(ImageBlot);
-
-const Container = Quill.import('blots/container');
-class Section extends Container {}
-Section.tagName = 'section1';
-Section.blotName = 'section1';
-// Section.scope = Parchment.Scope.BLOCK_BLOT;
-
-const Block = Quill.import('blots/block');
-class CustomBlockQuote extends Block {
-  static create(value: any) {
-    const node = super.create(value);
-    node.classList.add('test');
-    return node;
-  }
-}
-CustomBlockQuote.blotName = 'blockquote';
-CustomBlockQuote.tagName = 'blockquote';
-
-Section.allowedChildren = [Block, Inline, BlockEmbed, CustomBlockQuote];
-
-Quill.register(CustomBlockQuote);
-Quill.register(Section);
-
-/**
- * Custom Signature Blot to add custom html signature to Quill Editor
- */
-class SignatureBlot extends QuillBlockEmbed {
-  // Converts the HTML tag to text version
-  static create(value: string) {
-    const node: any = super.create(value);
-    value = value.replace(/<br>/g, '\n');
-    node.textContent = value;
-    return node;
-  }
-
-  static value(node: any) {
-    return node.innerHTML;
-  }
-}
-
-SignatureBlot.blotName = 'signature';
-SignatureBlot.tagName = 'div';
-SignatureBlot.className = 'ctemplar-signature';
-
-Quill.register(SignatureBlot);
-
-/**
- * Custom Inline Blot to Quill Editor
- */
-class OriginalBlot extends Inline {
-  // add custom class to node
-  static create() {
-    const node = super.create();
-    node.setAttribute('class', 'originalblock');
-    return node;
-  }
-
-  static value(node: any) {
-    return node.innerHTML;
-  }
-}
-
-OriginalBlot.blotName = 'originalblock';
-OriginalBlot.tagName = 'div';
-OriginalBlot.className = 'originalblock';
-
-Quill.register(OriginalBlot);
-
-/**
- * End Quill Configuration
- */
 
 export class PasswordValidation {
   static MatchPassword(AC: AbstractControl): any {
@@ -225,6 +90,9 @@ export class PasswordValidation {
   styleUrls: ['./compose-mail.component.scss', './../mail-sidebar.component.scss'],
 })
 export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  public composerEditorInstance = DecoupledEditor;
+
   @Input() receivers: Array<string>;
 
   @Input() cc: Array<string>;
@@ -373,8 +241,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private isSavedInDraft = false;
 
-  private quill: any;
-
   private autoSaveSubscription: Subscription;
 
   private firstSaveSubscription: Subscription;
@@ -488,29 +354,52 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     },
     extraPlugins: [
       function ConvertQuoteAttribute(editor: any) {
-        // Allow <div> elements in the model to have all attributes.
-        editor.model.schema.addAttributeCheck( (context: any) => {
-          if ( context.endsWith( 'blockQuote' ) ) {
+        // Allow <blockquote> elements in the model to have all attributes.
+        editor.model.schema.addAttributeCheck((context: any) => {
+          if (context.endsWith('blockQuote')) {
             return true;
           }
-        } );
-
-        // The view-to-model converter converting a view <div> with all its attributes to the model.
-        editor.conversion.for( 'upcast' ).elementToElement( {
+        });
+        // The view-to-model converter converting a view <blockquote> with all its attributes to the model.
+        editor.conversion.for('upcast').elementToElement({
           view: 'blockquote',
-          model: 'blockQuote'
-        } );
+          model: (viewElement: any, { writer: modelWriter }: any) => {
+            return modelWriter.createElement('blockQuote', viewElement.getAttributes());
+          },
+        });
 
-        // The model-to-view converter for the <div> element (attributes are converted separately).
-        editor.conversion.for( 'downcast' ).elementToElement( {
+        // The model-to-view converter for the <blockquote> element (attributes are converted separately).
+        editor.conversion.for('downcast').elementToElement({
           model: 'blockQuote',
-          view: 'blockquote'
-        } );
+          view: 'blockquote',
+        });
+
+        // The model-to-view converter for <blockquote> attributes.
+        // Note that a lower-level, event-based API is used here.
+        editor.conversion.for('downcast').add((dispatcher: any) => {
+          dispatcher.on('attribute', (evt: any, data: any, conversionApi: any) => {
+            // Convert <div> attributes only.
+            if (data.item.name !== 'blockQuote') {
+              return;
+            }
+            const viewWriter = conversionApi.writer;
+            const viewBlockQuote = conversionApi.mapper.toViewElement(data.item);
+
+            // In the model-to-view conversion we convert changes.
+            // An attribute can be added or removed or changed.
+            // The below code handles all 3 cases.
+            if (data.attributeNewValue) {
+              viewWriter.setAttribute(data.attributeKey, data.attributeNewValue, viewBlockQuote);
+            } else {
+              viewWriter.removeAttribute(data.attributeKey, viewBlockQuote);
+            }
+          });
+        });
       },
     ],
   };
 
-  composerEditor: any;
+  // composerEditor: any;
 
   constructor(
     private modalService: NgbModal,
@@ -801,7 +690,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       // display mail content and change from html to text if html version
       let content = this.mailData.content ? this.mailData.content : '';
       if (this.editor) {
-        content = this.composerEditor.getData() || content;
+        content = this.editor?.editorInstance?.getData() || content;
       }
       if (content) {
         content = this.getPlainText(content);
@@ -816,39 +705,34 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  initializeCKEditor() {
-    const editorContainer = this.editor.nativeElement;
-    DecoupledEditor.create(editorContainer, this.editorConfig)
-      .then((editor: any) => {
-        CKEditorInspector.attach(editor);
-        const toolbarContainer = document.querySelector('#toolbar');
-        toolbarContainer.append(editor.ui.view.toolbar.element);
-        this.composerEditor = editor;
+  onEditorReady(editor: any) {
+    const toolbarContainer = document.querySelector('#toolbar');
+    toolbarContainer.append(editor.ui.view.toolbar.element);
+    // need to change text to html contents
+    if (this.mailData.content) {
+      editor.setData(this.formatContent(this.mailData.content));
+    }
+    this.updateSignature();
+    editor.editing.view.focus();
 
-        // need to change text to html contents
-        if (this.mailData.content) {
-          editor.setData(this.formatContent(this.mailData.content));
-        }
-        this.updateSignature();
-        editor.editing.view.focus();
-
-        // Configure for default settings
-        // This should be done after filled the data up
-        if (this.settings) {
-          this.composerEditor.execute('fontSize', { value: `${this.settings.default_size}px` });
-          this.composerEditor.execute('fontColor', {
-            value: this.settings.default_color !== 'none' ? this.settings.default_color : 'black',
-          });
-          this.composerEditor.execute('fontBackgroundColor', { value: this.settings.default_background });
-          this.composerEditor.execute('fontFamily', { value: this.settings.default_font });
-        }
-        editor.model.document.on('change', () => {
-          this.valueChanged$.next();
-        });
-      })
-      .catch((error: any) => {
-        console.error(error);
+    // Configure for default settings
+    // This should be done after filled the data up
+    if (this.settings) {
+      editor.execute('fontSize', { value: `${this.settings.default_size}px` });
+      editor.execute('fontColor', {
+        value: this.settings.default_color !== 'none' ? this.settings.default_color : 'black',
       });
+      editor.execute('fontBackgroundColor', { value: this.settings.default_background });
+      editor.execute('fontFamily', { value: this.settings.default_font });
+    }
+    editor.model.document.on('change', () => {
+      this.valueChanged$.next();
+    });
+  }
+
+  initializeCKEditor() {
+    // It's blank due to using custom build
+    // All of configuration is done on build
   }
 
   initializeAutoSave() {
@@ -975,9 +859,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.content = this.getPlainText(this.decryptedContent);
       return;
     }
-    if (this.composerEditor) {
-      this.composerEditor.setData(this.decryptedContent);
-    }
+    this.editor?.editorInstance?.setData(this.decryptedContent);
   }
 
   setHtmlEditor(value: boolean) {
@@ -1206,11 +1088,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!/^https?:\/\//i.test(link)) {
       link = `http://${link}`;
     }
-    this.composerEditor.model.change((writer: any) => {
+    this.editor?.editorInstance?.model.change((writer: any) => {
       const linkElement = writer.createText(text, {
         linkHref: link,
       });
-      this.composerEditor.model.insertContent(linkElement, this.composerEditor.model.document.selection);
+      this.editor?.editorInstance?.model.insertContent(linkElement, this.editor?.editorInstance?.model.document.selection);
     });
   }
 
@@ -1251,12 +1133,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (/^image\//.test(file.type)) {
         const FR = new FileReader();
         FR.addEventListener('load', function (e) {
-          _this.composerEditor.model.change((writer: any) => {
+          _this.editor?.editorInstance?.model.change((writer: any) => {
             const imageElement = writer.createElement('image', {
               src: e.target.result,
             });
             // Insert the image in the current selection location.
-            _this.composerEditor.model.insertContent(imageElement, _this.composerEditor.model.document.selection);
+            _this.editor?.editorInstance?.model.insertContent(imageElement, _this.editor?.editorInstance?.model.document.selection);
           });
         });
         FR.readAsDataURL(file);
@@ -1352,12 +1234,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onAttachImageURL(url: string) {
     // this.embedImageInQuill(url);
-    this.composerEditor.model.change((writer: any) => {
+    this.editor?.editorInstance?.model.change((writer: any) => {
       const imageElement = writer.createElement('image', {
         src: url,
       });
       // Insert the image in the current selection location.
-      this.composerEditor.model.insertContent(imageElement, this.composerEditor.model.document.selection);
+      this.editor?.editorInstance?.model.insertContent(imageElement, this.editor?.editorInstance?.model.document.selection);
     });
     this.attachImagesModalRef.dismiss();
   }
@@ -1515,7 +1397,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (
       this.mailData.subject === '' &&
       ((this.draftMail.is_html &&
-        this.getPlainText(this.editor.nativeElement.firstChild.innerHTML).replace(/ /g, '').replace(/\n/g, '')
+        this.getPlainText(this.editor?.editorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '')
           .length === 0) ||
         (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))
     ) {
@@ -1598,8 +1480,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       let content: string;
       let oldSig: string;
       let newSig: string;
-      if (this.composerEditor) {
-        content = this.composerEditor?.getData() || '';
+      if (this.editor) {
+        content = this.editor.editorInstance?.getData() || '';
         content = content.replace(/\n\n/g, '<br>');
         if (this.oldMailbox && this.oldMailbox.signature) {
           // update signature from old to new if signature is updated
@@ -1610,13 +1492,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           } else {
             content = content.replace(new RegExp(`${oldSig}$`), '');
           }
-          this.composerEditor.setData(content);
+          this.editor?.editorInstance?.setData(content);
         } else if (this.selectedMailbox && this.selectedMailbox.signature) {
           // add two lines and signature after message content with html format
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
           content = `<br><br>${newSig}${content}`;
           this.isSignatureAdded = true;
-          this.composerEditor.setData(content);
+          this.editor?.editorInstance?.setData(content);
         }
       }
     }
@@ -1841,29 +1723,30 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         return true;
       }
     } else if (
-      this.composerEditor?.model?.hasContent(this.composerEditor?.model.document.getRoot()) &&
-      this.composerEditor?.getData().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
+      this.editor?.editorInstance?.model?.hasContent(this.editor?.editorInstance?.model.document.getRoot()) &&
+      this.editor?.editorInstance?.getData().replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
     ) {
       return true;
     }
     return false;
   }
 
-  private embedImageInQuill(source: string, contentId?: string) {
-    if (source && this.quill) {
-      const selection = this.quill.getSelection();
-      const index = selection ? selection.index : this.quill.getLength();
-      if (contentId === undefined) {
-        this.quill.insertEmbed(index, 'image', source);
-      } else {
-        this.quill.insertEmbed(index, 'image', {
-          url: source,
-          content_id: contentId,
-        });
-      }
-      this.quill.setSelection(index + 1);
-    }
-  }
+  // Temporary Commenting
+  // private embedImageInQuill(source: string, contentId?: string) {
+  // if (source && this.quill) {
+  //   const selection = this.quill.getSelection();
+  //   const index = selection ? selection.index : this.quill.getLength();
+  //   if (contentId === undefined) {
+  //     this.quill.insertEmbed(index, 'image', source);
+  //   } else {
+  //     this.quill.insertEmbed(index, 'image', {
+  //       url: source,
+  //       content_id: contentId,
+  //     });
+  //   }
+  //   this.quill.setSelection(index + 1);
+  // }
+  // }
 
   private updateEmail() {
     this.inProgress = true;
@@ -1901,9 +1784,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     let tokens;
     if (this.draftMail.is_html) {
       // if html version, convert text to html format with html tags
-      if (this.composerEditor) {
-        const adsf = this.editor.nativeElement;
-        this.draftMail.content = this.composerEditor.getData();
+      if (this.editor) {
+        this.draftMail.content = this.editor?.editorInstance?.getData();
       }
     } else {
       // if text version, don't convert content
@@ -1932,7 +1814,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.draftMail.encryption = new EncryptionNonCTemplar();
     }
 
-    this.checkInlineAttachments();
+    // this.checkInlineAttachments();
     if (!shouldSend) {
       this.draftMail.folder = this.draftMail.folder ? this.draftMail.folder : MailFolderType.DRAFT;
       this.store.dispatch(
@@ -1955,39 +1837,35 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  checkInlineAttachments() {
-    if (!this.draftMail.is_html) {
-    }
-    // const contents = this.quill.getContents().ops;
-    // const currentAttachments: string[] = [];
-    // contents.forEach((item: any) => {
-    //   if (item.insert && item.insert.image && item.insert.image.content_id) {
-    //     currentAttachments.push(item.insert.image.content_id);
-    //   }
-    // });
-    // // inline attachments don't have attachment id
-    // this.inlineAttachmentContentIds = this.inlineAttachmentContentIds.filter(contentId => {
-    //   if (!currentAttachments.includes(contentId)) {
-    //     const attachmentToRemove = this.attachments.find(attachment => attachment.content_id === contentId);
-    //     if (attachmentToRemove) {
-    //       this.removeAttachment(attachmentToRemove);
-    //     }
-    //     return false;
-    //   }
-    //   return true;
-    // });
-  }
+  // Temporary Commenting
+  // checkInlineAttachments() {
+  // const contents = this.quill.getContents().ops;
+  // const currentAttachments: string[] = [];
+  // contents.forEach((item: any) => {
+  //   if (item.insert && item.insert.image && item.insert.image.content_id) {
+  //     currentAttachments.push(item.insert.image.content_id);
+  //   }
+  // });
+  // // inline attachments don't have attachment id
+  // this.inlineAttachmentContentIds = this.inlineAttachmentContentIds.filter(contentId => {
+  //   if (!currentAttachments.includes(contentId)) {
+  //     const attachmentToRemove = this.attachments.find(attachment => attachment.content_id === contentId);
+  //     if (attachmentToRemove) {
+  //       this.removeAttachment(attachmentToRemove);
+  //     }
+  //     return false;
+  //   }
+  //   return true;
+  // });
+  // }
 
   private resetValues() {
     this.unSubscribeAutoSave();
     // this.firstSaveSubscription.unsubscribe();
     this.options = {};
     this.attachments = [];
-    // if (this.quill) {
-    //   this.quill.setText('');
-    // }
-    if (this.composerEditor) {
-      this.composerEditor.setData('');
+    if (this.editor) {
+      this.editor?.editorInstance?.setData('');
     }
     this.resetMailData();
     this.clearSelfDestructValue();

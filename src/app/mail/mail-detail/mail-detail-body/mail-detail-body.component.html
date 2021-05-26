@@ -112,8 +112,8 @@
               id="{{ mail?.id }}-raw-mail-content"
               [innerHTML]="
                 mail?.is_html
-                  ? (decryptedContents | safe: 'sanitize':disableExternalImages)
-                  : (decryptedContents | linebreaktobrtag | safe: 'sanitize':disableExternalImages)
+                  ? (decryptedContents | safe: 'sanitize': disableExternalImages)
+                  : (decryptedContents | linebreaktobrtag | safe: 'sanitize': disableExternalImages)
               "
             ></div>
           </ng-template>
@@ -121,7 +121,7 @@
             <div
               class="msg-reply-content text-dark"
               id="{{ mail?.id }}-raw-mail-content"
-              [innerHTML]="decryptedContentsPlain | linebreaktobrtag | safe: 'sanitize':disableExternalImages"
+              [innerHTML]="decryptedContentsPlain | linebreaktobrtag | safe: 'sanitize': disableExternalImages"
             ></div>
           </ng-template>
         </div>

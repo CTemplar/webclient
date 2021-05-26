@@ -7,6 +7,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
 import ImageResize from 'quill-image-resize-module';
 import Quill from 'quill';
+// import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+// import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
@@ -24,6 +26,7 @@ import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } 
 import { Folder, Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
 
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
@@ -54,6 +57,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   @ViewChild('downloadPrivateKeyRef') downloadPrivateKeyRef: any;
 
   @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef: any;
+
+  // public Editor = DecoupledEditor;
 
   private downloadKeyModalRef: NgbModalRef;
 
@@ -235,6 +240,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     this.handleUsernameAvailability();
   }
 
+  public onSignatureReady(editor: any) {
+    const toolbarContainer = document.querySelector('.signature-editor-toolbar-container');
+    toolbarContainer.append(editor.ui.view.toolbar.element);
+  }
+
   onDomainChange(customDomain: string) {
     this.newAddressForm.get('username').reset();
     if (customDomain !== PRIMARY_DOMAIN) {
@@ -327,8 +337,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     )}`;
   }
 
-  onSignatureChange(value: string) {
-    this.signatureChanged.next(value);
+  onSignatureChange({ editor }: ChangeEvent) {
+    this.signatureChanged.next(editor.getData());
   }
 
   signatureFocused(value: boolean) {
