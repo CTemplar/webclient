@@ -1070,6 +1070,43 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'mail_detail.show_plain_text'">Show Plain Text</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showPlainTextMode1"
+                            name="[showPlainTextMode]"
+                            type="radio"
+                            (click)="updateShowPlainTextMode(true)"
+                            [checked]="settings.is_conversation_mode"
+                          />
+                          <label for="showPlainTextMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showPlainTextMode2"
+                            name="[showPlainTextMode]"
+                            type="radio"
+                            (click)="updateShowPlainTextMode(false)"
+                            [checked]="!settings.is_conversation_mode"
+                          />
+                          <label for="showPlainTextMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
                     <label for="customCss" class="form-label mb-sm-0"> Customize CSS </label>
                   </div>
                   <form class="col-sm-7 col-md-5" autocomplete="off">
@@ -1196,7 +1233,7 @@
                 <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
               </button>
             </div>
-            <div class="info-card mx-3 mt-2 full-width">
+            <div class="info-card mt-2 full-width">
               <p [translate]="'settings.get_one_month_prime_membership'">
                 Get one month of Prime membership free for every Prime sign up made using your referral code.
               </p>
