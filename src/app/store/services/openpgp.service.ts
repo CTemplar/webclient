@@ -112,6 +112,10 @@ export class OpenPgpService {
 
   private mailboxKeysInProgress: boolean;
 
+  private generateKeyError: string = '';
+
+  private generateKeyCount: number = 0;
+
   private messageForPGPMimeInProcess: Map<number, PGPMimeMessageProgressModel> = new Map<
     number,
     PGPMimeMessageProgressModel
@@ -372,6 +376,9 @@ export class OpenPgpService {
     domain: string = PRIMARY_DOMAIN,
     key_type: PGPKeyType = PGPKeyType.ECC,
   ) {
+    this.generateKeyError = '';
+    this.generateKeyCount = 1;
+
     if (username.split('@').length > 1) {
       domain = username.split('@')[1];
       username = username.split('@')[0];
@@ -414,13 +421,21 @@ export class OpenPgpService {
     return this.userKeys;
   }
 
-  waitForPGPKeys(self: any, callbackFn: string) {
+  getGenerateKeyError() {
+    return this.generateKeyError;
+  }
+
+  waitForPGPKeys(self: any, callbackFn: string, failedCallbackFn: string) {
     setTimeout(() => {
       if (this.getUserKeys()) {
         self[callbackFn]();
         return;
       }
-      this.waitForPGPKeys(self, callbackFn);
+      if(this.getGenerateKeyError()) {
+        self[failedCallbackFn]();
+        return;
+      }
+      this.waitForPGPKeys(self, callbackFn, failedCallbackFn);
     }, 500);
   }
 
@@ -611,16 +626,25 @@ export class OpenPgpService {
     this.pgpWorker.onmessage = (event: MessageEvent) => {
       // Generate Keys
       if (event.data.generateKeys) {
-        if (event.data.forEmail) {
-          this.store.dispatch(
-            new UpdatePGPSshKeys({
-              isSshInProgress: false,
-              keys: event.data.keys,
-              draftId: event.data.callerId,
-            }),
-          );
+        if (event.data.errorMessage) {
+          if(this.generateKeyCount < 2) {
+            this.generateKeyCount += 1;
+            this.pgpWorker.postMessage({ options: event.data.options, generateKeys: true });
+          } else {
+            this.generateKeyError = event.data.errorMessage; 
+          }
         } else {
-          this.userKeys = event.data.keys;
+          if (event.data.forEmail) {
+            this.store.dispatch(
+              new UpdatePGPSshKeys({
+                isSshInProgress: false,
+                keys: event.data.keys,
+                draftId: event.data.callerId,
+              }),
+            );
+          } else {
+            this.userKeys = event.data.keys;
+          }
         }
       } else if (event.data.decryptAllPrivateKeys) {
         this.decryptedAllPrivKeys = event.data.keys;

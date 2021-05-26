@@ -52,7 +52,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   data: any = null;
 
-  signupInProgress = false;
+  signupInProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   signupState$: BehaviorSubject<SignupState> = new BehaviorSubject<SignupState>({ recaptcha: '' });
 
@@ -214,7 +214,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
-      this.signupInProgress = true;
+      this.signupInProgress$.next(true);
       this.openAccountInitModal();
       this.openPgpService.generateUserKeys(
         this.signupForm.get('username').value,
@@ -231,8 +231,21 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         this.pgpKeyGenerationCompleted();
         return;
       }
+      const generateKeyError = this.openPgpService.getGenerateKeyError();
+      if(generateKeyError) {
+        this.generateKeyFailed(generateKeyError);
+        return;
+      }
       this.waitForPGPKeys();
     }, 1000);
+  }
+
+  generateKeyFailed(error: string) {
+    this.errorMessage = error;
+    this.signupInProgress$.next(false);
+    if (this.modalRef) {
+      this.modalRef.componentInstance.closeModal();
+    }
   }
 
   pgpKeyGenerationCompleted() {
@@ -264,11 +277,11 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (this.signupInProgress && !authState.inProgress) {
+        if (this.signupInProgress$.value && !authState.inProgress) {
           if (authState.errorMessage) {
             this.notificationService.showSnackBar(`Failed to create account.${authState.errorMessage}`);
           }
-          this.signupInProgress = false;
+          this.signupInProgress$.next(false);
         }
         this.signupState$.next(authState.signupState);
       });

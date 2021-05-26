@@ -132,4 +132,11 @@ export class UserAccountInitDialogComponent implements OnInit {
       });
     }
   }
+
+  closeModal() {
+    this.isDisplayNameOpened = true;
+    if (this.activeModal) {
+      this.activeModal.close();
+    }
+  }
 }

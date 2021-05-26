@@ -24,6 +24,7 @@ import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } 
 import { Folder, Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
+import { TranslateService } from '@ngx-translate/core';
 
 // Register quill modules and fonts and image parameters
 Quill.register('modules/imageResize', ImageResize);
@@ -139,6 +140,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private store: Store<AppState>,
     private sharedService: SharedService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -300,7 +302,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       if (this.openPgpService.getUserKeys()) {
         this.addNewAddress();
       } else {
-        this.openPgpService.waitForPGPKeys(this, 'addNewAddress');
+        this.openPgpService.waitForPGPKeys(this, 'addNewAddress', 'generateKeyFailed');
       }
     }
   }
@@ -311,6 +313,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       ...this.openPgpService.getUserKeys(),
     };
     this.store.dispatch(new CreateMailbox(requestData));
+  }
+
+  generateKeyFailed() {
+    this.newAddressOptions.isBusy = false;
+    this.store.dispatch(new SnackErrorPush({ message: this.translate.instant('create_account.failed_generate_code') }));
   }
 
   updateDefaultEmailAddress(selectedMailbox: Mailbox) {
