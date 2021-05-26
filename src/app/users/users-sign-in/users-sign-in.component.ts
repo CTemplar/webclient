@@ -239,7 +239,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
         return;
       }
       const generateKeyError = this.openPgpService.getGenerateKeyError();
-      if(generateKeyError) {
+      if (generateKeyError) {
         this.generateKeyFailed(generateKeyError);
         return;
       }

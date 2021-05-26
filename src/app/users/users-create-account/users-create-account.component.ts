@@ -232,7 +232,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         return;
       }
       const generateKeyError = this.openPgpService.getGenerateKeyError();
-      if(generateKeyError) {
+      if (generateKeyError) {
         this.generateKeyFailed(generateKeyError);
         return;
       }
