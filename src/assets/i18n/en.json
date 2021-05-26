@@ -741,7 +741,8 @@
     "can_change_settings": "You can change this in the settings page later.",
     "insert_valid_inviteCode": "Please enter a valid invite code format.",
     "referral_code": "Referral code",
-    "referral_code_explanation": "If you have a referral code, please input it. You can get a referral code from any existing customer."
+    "referral_code_explanation": "If you have a referral code, please input it. You can get a referral code from any existing customer.",
+    "failed_generate_code": "Failed to generate keys."
   },
   "billing_info": {
     "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",

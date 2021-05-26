@@ -217,10 +217,22 @@ onmessage = async function (event) {
   } else if (event.data.generateKeysForEmail) {
     generateKeys(event.data.options)
       .then(data => {
-        postMessage({
-          generateKeysForEmail: true,
-          keys: data,
-          subjectId: event.data.subjectId,
+        validateKeysGenerated(data).then(valide => {
+          if (valide) {
+            postMessage({
+              generateKeysForEmail: true,
+              keys: data,
+              subjectId: event.data.subjectId,
+            });
+          } else {
+            postMessage({
+              generateKeysForEmail: true,
+              errorMessage: 'Failed to generate keys.',
+              error: true,
+              subjectId: event.data.subjectId,
+              options: event.data.options,
+            });
+          }
         });
       })
       .catch(e => {

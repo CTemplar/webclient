@@ -425,13 +425,17 @@ export class OpenPgpService {
     return this.generateKeyError;
   }
 
-  waitForPGPKeys(self: any, callbackFn: string) {
+  waitForPGPKeys(self: any, callbackFn: string, failedCallbackFn: string) {
     setTimeout(() => {
       if (this.getUserKeys()) {
         self[callbackFn]();
         return;
       }
-      this.waitForPGPKeys(self, callbackFn);
+      if(this.getGenerateKeyError()) {
+        self[failedCallbackFn]();
+        return;
+      }
+      this.waitForPGPKeys(self, callbackFn, failedCallbackFn);
     }, 500);
   }
 
@@ -624,7 +628,7 @@ export class OpenPgpService {
       if (event.data.generateKeys) {
         if (event.data.errorMessage) {
           if(this.generateKeyCount < 2) {
-            this.generateKeyCount = this.generateKeyCount + 1;
+            this.generateKeyCount += 1;
             this.pgpWorker.postMessage({ options: event.data.options, generateKeys: true });
           } else {
             this.generateKeyError = event.data.errorMessage; 

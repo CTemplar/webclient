@@ -16,7 +16,8 @@ import {
   OrganizationState,
   UpdateOrganizationUser,
 } from '../../../../store/organization.store';
-import { MoveTab } from '../../../../store/actions';
+import { MoveTab, SnackErrorPush } from '../../../../store/actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @UntilDestroy()
 @Component({
@@ -67,6 +68,7 @@ export class OrganizationUsersComponent implements OnInit {
     private usersService: UsersService,
     private openPgpService: OpenPgpService,
     private formBuilder: FormBuilder,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -177,7 +179,7 @@ export class OrganizationUsersComponent implements OnInit {
     if (this.openPgpService.getUserKeys()) {
       this.addNewUser();
     } else {
-      this.openPgpService.waitForPGPKeys(this, 'addNewUser');
+      this.openPgpService.waitForPGPKeys(this, 'addNewUser', 'generateKeyFailed');
     }
   }
 
@@ -188,6 +190,11 @@ export class OrganizationUsersComponent implements OnInit {
       username: this.getEmail(),
     });
     this.store.dispatch(new AddOrganizationUser(user));
+  }
+
+  generateKeyFailed() {
+    this.isAddingUserInProgress = false;
+    this.store.dispatch(new SnackErrorPush({ message: this.translate.instant('create_account.failed_generate_code') }));
   }
 
   startUpdatingUser(user: OrganizationUser) {
