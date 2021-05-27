@@ -206,3 +206,30 @@ export const QUILL_FORMATTING_MODULES = {
   ],
   imageResize: true,
 };
+
+// This is NOT for Composer, but Signature, Auto Responder
+export const CKEDITOR_TOOLBAR_ITEMS = [
+  'fontfamily',
+  'fontsize',
+  '|',
+  'bold',
+  'italic',
+  'underline',
+  '|',
+  'alignment',
+  'link',
+  '|',
+  'fontcolor',
+  'fontbackgroundcolor',
+  '|',
+  'bulletedlist',
+  'numberedlist',
+  '|',
+  'indent',
+  'outdent',
+  '|',
+  'undo',
+  'redo',
+  '|',
+  'removeformat',
+];

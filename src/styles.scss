@@ -730,3 +730,10 @@ button.ctemplar-blockquote-toggle~* {
   display: block;
   color: #777;
 }
+
+.custom-ckeditor-container {
+  border-radius: 2px;
+  border: 1px solid var(--ck-color-toolbar-border);
+  border-top: none;
+  margin-top: -2px;
+}

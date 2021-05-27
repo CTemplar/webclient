@@ -8,7 +8,8 @@ import { SaveAutoResponder, SnackErrorPush } from '../../../store/actions';
 import { AppState, AutoResponder, Settings, UserState } from '../../../store/datatypes';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { SharedService } from '../../../store/services';
-import { QUILL_FORMATTING_MODULES } from '../../../shared/config';
+import { QUILL_FORMATTING_MODULES, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
+import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 
 @UntilDestroy()
 @Component({
@@ -20,6 +21,10 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   @ViewChild('startDatePicker') startDatePicker: NgbDatepicker;
 
   @ViewChild('endDatePicker') endDatePicker: NgbDatepicker;
+
+  public DecoupledEditor = DecoupledEditor;
+
+  public CKEDITOR_TOOLBAR_ITEMS = CKEDITOR_TOOLBAR_ITEMS;
 
   userState: UserState;
 
@@ -36,8 +41,6 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   endDate: NgbDateStruct;
 
   errorMessage: string;
-
-  quillModules = QUILL_FORMATTING_MODULES;
 
   constructor(
     private store: Store<AppState>,
@@ -61,9 +64,7 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    SharedService.isQuillEditorOpen = false;
-  }
+  ngOnDestroy(): void {}
 
   /**
    * initialize Autoresponder time and date from user's autoresponder status
@@ -88,6 +89,16 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
       if (this.endDate && this.endDatePicker) {
         this.endDatePicker.navigateTo(this.endDate);
       }
+    }
+  }
+
+  public onEditorReady(editor: any, isVacation = false) {
+    if (isVacation) {
+      const toolbarContainer = document.querySelector('.vacation-autoresponder-editor-toolbar-container');
+      toolbarContainer.append(editor.ui.view.toolbar.element);
+    } else {
+      const toolbarContainer = document.querySelector('.autoresponder-editor-toolbar-container');
+      toolbarContainer.append(editor.ui.view.toolbar.element);
     }
   }
 
@@ -121,9 +132,5 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
       }
     }
     this.store.dispatch(new SaveAutoResponder(this.autoresponder));
-  }
-
-  editorFocused(value: boolean) {
-    SharedService.isQuillEditorOpen = value;
   }
 }

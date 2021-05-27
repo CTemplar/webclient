@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import ImageResize from 'quill-image-resize-module';
 import Quill from 'quill';
 // import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 // import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
-
+import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
@@ -24,7 +24,7 @@ import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { Folder, Mailbox } from '../../../store/models';
-import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
+import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
 
@@ -133,6 +133,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   currentAddKeyStep: AddKeyStep = AddKeyStep.SELECT_MAILBOX;
 
   deleteKeyConfirmString: string;
+
+  public DecoupledEditor = DecoupledEditor;
+
+  public CKEDITOR_TOOLBAR_ITEMS = CKEDITOR_TOOLBAR_ITEMS;
 
   constructor(
     private formBuilder: FormBuilder,
