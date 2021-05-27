@@ -246,7 +246,7 @@
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
 <!--          <div #editor id="editor" class="editor" *ngIf="draftMail?.is_html"></div>-->
-          <ckeditor #editor id="editor" class="editor" *ngIf="draftMail?.is_html" [config]="editorConfig" [editor]="composerEditorInstance" (ready)="onEditorReady($event)"></ckeditor>
+          <ckeditor #composerEditorElementRef id="editor" class="editor" *ngIf="draftMail?.is_html" [editor]="DecoupledEditor" (ready)="onEditorReady($event)"></ckeditor>
 
           <div *ngIf="!draftMail?.is_html">
             <textarea

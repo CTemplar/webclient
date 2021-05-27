@@ -1297,7 +1297,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     let history = '';
     previousMails.forEach(previousMail => (history = this.getMessageSummary(history, previousMail)));
-    return `<div>${history}</div>`;
+    return `${history}`;
   }
 
   /**
@@ -1317,10 +1317,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           ? ''
           : mail.sender_display?.name;
       const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
-      content += `
-        </br>---------- Original Message ----------</br>
-        On ${formattedDateTime},  ${senderEmail} wrote:
-        <blockquote class="ctemplar_quote">${this.decryptedContents[mail.id]}</blockquote>`;
+      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${this.decryptedContents[mail.id]}</blockquote>`;
     }
     return content;
   }

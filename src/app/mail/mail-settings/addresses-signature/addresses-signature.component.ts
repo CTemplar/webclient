@@ -58,8 +58,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef: any;
 
-  // public Editor = DecoupledEditor;
-
   private downloadKeyModalRef: NgbModalRef;
 
   private setAutocryptConfirmModalRef: NgbModalRef;

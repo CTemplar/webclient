@@ -146,6 +146,7 @@ export class SafePipe implements PipeTransform {
             }
             // <blockquote> and quote attribute value, then should add collapse button later
             if (tag === 'blockquote') {
+              // Checking several email's blockquote: CTemplar, Gmail, ProtonMail
               if (
                 attributeName === 'class' &&
                 (attributeValue.includes('gmail_quote') ||
@@ -154,6 +155,10 @@ export class SafePipe implements PipeTransform {
               ) {
                 isNeededAddCollapseButton = true;
                 return `${attributeName}="${attributeValue}"`;
+              }
+              // Removing styles for gmail_quote, because it has different quote styles with CTemplar blockquote
+              if (htmlAttributes.includes('class="gmail_quote"') && attributeName === 'style') {
+                return `${attributeName}=""`;
               }
             }
             // Embeded Image process
@@ -196,9 +201,10 @@ export class SafePipe implements PipeTransform {
             attributesHtml += ' target="_blank" rel="noopener noreferrer"';
           }
           let collapseButton = '';
+          // Adding Collapse button
           if (isNeededAddCollapseButton && !isAddedCollapseButton) {
             isAddedCollapseButton = true;
-            collapseButton = `<button title="Show Trimmed Messages" class="fa fa-ellipsis-h cursor-pointer btn-ctemplar-blockquote-toggle ctemplar-blockquote-toggle" onclick="event.target.classList.toggle('ctemplar-blockquote-toggle');"></button>`;
+            collapseButton = `<button title="Show Trimmed Messages" class="fa fa-ellipsis-h cursor-pointer btn-ctemplar-blockquote-toggle ctemplar-blockquote-toggle mt-2 mb-2" onclick="event.target.classList.toggle('ctemplar-blockquote-toggle');"></button>`;
           }
 
           // Final Building HTML TAG
