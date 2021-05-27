@@ -186,6 +186,16 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <header class="ui-header ui-header-bordered">
+    <h5 class="ui-header-subtitle text-dark mb-0">
+      <strong [translate]="'settings.security.local_storage'">Local Storage</strong>
+    </h5>
+  </header>
+  <div class="mailbox-section-body mailbox-section-body-sm">
+    <div class="form-content-holder">
       <!-- Using Local Storage for Encryption Data -->
       <div class="form-content-row">
         <div class="row align-items-center">
@@ -220,6 +230,45 @@
                     [checked]="!isUsingLocalStorage"
                   />
                   <label for="usingLocalStorage2" [translate]="'common.disabled'">Disabled</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-content-row">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <label class="form-label mb-0" [translate]="'settings.ask_local_cache'"
+              >Ask to use local cache</label
+            >
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="askLocalCacheEnable"
+                    name="[askLocalCache]"
+                    type="radio"
+                    (click)="updateSettings('use_local_cache', 'ASK')"
+                    [checked]="askLocalCache"
+                  />
+                  <label for="askLocalCacheEnable" [translate]="'common.enabled'">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="askLocalCacheDisable"
+                    name="[askLocalCache]"
+                    type="radio"
+                    (click)="updateSettings('use_local_cache', 'DISALLOWED')"
+                    [checked]="!askLocalCache"
+                  />
+                  <label for="askLocalCacheDisable" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
             </div>

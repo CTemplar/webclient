@@ -70,6 +70,8 @@ export class SecurityComponent implements OnInit {
 
   passwordChangeInProgress = false;
 
+  askLocalCache: boolean;
+
   constructor(
     private store: Store<AppState>,
     private settingsService: MailSettingsService,
@@ -90,6 +92,7 @@ export class SecurityComponent implements OnInit {
         this.userState = user;
         this.isContactsEncrypted = user.settings.is_contacts_encrypted;
         this.settings$.next(user.settings);
+        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
       });
 
     /**
