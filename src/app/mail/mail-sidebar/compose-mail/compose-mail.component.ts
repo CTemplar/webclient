@@ -1940,6 +1940,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onFilesDrop(event: any) {
     event.preventDefault();
     event.stopPropagation();
+    if (event.dataTransfer?.files?.length === 1) {
+      const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+      const fileType = event.dataTransfer?.files[0].type;
+      if (fileType && acceptedImageTypes.includes(fileType)) {
+        // Then, it's image
+        this.onImagesSelected(event.dataTransfer?.files);
+        return;
+      }
+    }
     this.onFilesSelected(event.dataTransfer.files);
   }
 
