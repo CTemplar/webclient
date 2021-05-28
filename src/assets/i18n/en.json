@@ -549,7 +549,7 @@
     "attachments_encryption": "Attachments encryption",
     "referral_code": "Referral Code",
     "get_one_month_prime_membership": "Get one month of Prime membership free for every Prime sign up made using your referral code.",
-    "hard_wrap": "Hard Wrap"
+    "plain_text_hard_wrap": "Plain text hard wrap"
   },
   "mail_sidebar": {
     "unread": "Unread",
