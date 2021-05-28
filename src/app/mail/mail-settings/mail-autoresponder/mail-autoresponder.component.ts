@@ -8,7 +8,7 @@ import { SaveAutoResponder, SnackErrorPush } from '../../../store/actions';
 import { AppState, AutoResponder, Settings, UserState } from '../../../store/datatypes';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { SharedService } from '../../../store/services';
-import { QUILL_FORMATTING_MODULES, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
+import { CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 
 @UntilDestroy()

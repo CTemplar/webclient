@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import Quill from 'quill';
 import * as parseEmail from 'email-addresses';
 
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
@@ -10,36 +9,7 @@ import { Folder } from '../models';
 import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
 import { NotificationService } from './notification.service';
 import bcrypt from 'bcryptjs';
-import { untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
-
-// image format for retrieving custom attributes
-
-const BaseImageFormat = Quill.import('formats/image');
-const ImageFormatAttributesList = ['alt', 'height', 'width', 'style'];
-
-export class ImageFormat extends BaseImageFormat {
-  static formats(domNode: any) {
-    return ImageFormatAttributesList.reduce(function (formats: any, attribute) {
-      if (domNode.hasAttribute(attribute)) {
-        formats[attribute] = domNode.getAttribute(attribute);
-      }
-      return formats;
-    }, {});
-  }
-
-  format(name: string, value: any) {
-    if (ImageFormatAttributesList.includes(name)) {
-      if (value) {
-        this.domNode.setAttribute(name, value);
-      } else {
-        this.domNode.removeAttribute(name);
-      }
-    } else {
-      super.format(name, value);
-    }
-  }
-}
 
 @Injectable({
   providedIn: 'root',
@@ -48,8 +18,6 @@ export class SharedService {
   static PRICING_PLANS: any;
 
   static PRICING_PLANS_ARRAY: Array<PricingPlan> = [];
-
-  static isQuillEditorOpen: boolean;
 
   isReady: EventEmitter<boolean> = new EventEmitter();
 
@@ -261,7 +229,6 @@ export function sortByString(data: any[], field: string) {
 
 export function isComposeEditorOpen(): boolean {
   return (
-    SharedService.isQuillEditorOpen ||
     document.querySelectorAll('app-compose-mail-dialog').length > 0 ||
     document.querySelectorAll('app-compose-mail').length > 0 ||
     document.querySelectorAll('ngb-modal-window').length > 0

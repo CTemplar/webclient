@@ -737,3 +737,9 @@ button.ctemplar-blockquote-toggle~* {
   border-top: none;
   margin-top: -2px;
 }
+
+.ckeditor-composer-toolbar-container {
+  .ck-toolbar {
+    width: 380px!important;
+  }
+}

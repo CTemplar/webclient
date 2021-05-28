@@ -19,8 +19,6 @@ import { debounceTime, finalize, first } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
-// import * as DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-// import * as ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
 import {

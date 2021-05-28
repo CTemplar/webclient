@@ -1,6 +1,3 @@
-import * as QuillNamespace from 'quill';
-import ImageResize from 'quill-image-resize-module';
-
 import { AppConfig } from '../../environments/environment';
 
 export const IS_ELECTRON = window.location.protocol === 'file:';
@@ -187,25 +184,6 @@ export const SYNC_DATA_WITH_STORE = 'sync_data_with_store';
 export const NOT_FIRST_LOGIN = 'not_first_login';
 
 export const SummarySeparator = '';
-const Quill: any = QuillNamespace;
-
-Quill.register('modules/imageResize', ImageResize);
-
-export const QUILL_FORMATTING_MODULES = {
-  toolbar: [
-    ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-    ['blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-    [{ direction: 'rtl' }], // text direction
-    [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
-    [{ color: COLORS }, { background: COLORS }], // dropdown with defaults from theme
-    [{ align: [] as any[] }],
-    ['clean'], // remove formatting button
-    ['link', 'image'], // link /not-allowed-in-simple-version(and image, video)
-  ],
-  imageResize: true,
-};
 
 // This is NOT for Composer, but Signature, Auto Responder
 export const CKEDITOR_TOOLBAR_ITEMS = [
