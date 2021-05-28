@@ -123,5 +123,8 @@ $variables: (
     $receiver-chip-popover-divider-color-dark
   ),
   --ck-focus-ring: (transparent, transparent),
-  --ck-inner-shadow: (transparent, transparent)
+  --ck-inner-shadow: (transparent, transparent),
+  --ck-color-button-default-background: (transparent, $brand-secondary-dark),
+  --ck-color-toolbar-background: (--ck-color-base-foreground, $brand-secondary-dark),
+  --ck-color-text: (--ck-color-base-background, $text-color-dark)
 );
