@@ -317,7 +317,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 this.mail.subject = decryptedContent.subject;
               }
               this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
-              if(this.userState?.settings?.show_plain_text && decryptedContent.content_plain){
+              if (this.userState?.settings?.show_plain_text && decryptedContent.content_plain) {
                 this.plainTextViewState[this.mail.id] = true;
               }
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
@@ -711,7 +711,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           : childDecryptedContent.content;
         this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
-        if(this.userState?.settings?.show_plain_text && childDecryptedContent.content_plain){
+        if (this.userState?.settings?.show_plain_text && childDecryptedContent.content_plain) {
           this.plainTextViewState[child.id] = true;
         }
         if (child.is_subject_encrypted) {
