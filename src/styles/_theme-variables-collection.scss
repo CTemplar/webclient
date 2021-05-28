@@ -132,6 +132,9 @@ $variables: (
   --ck-color-button-on-background: (hsl(0, 0%, 87%), $mail-row-background-active-dark),
   --ck-color-button-on-hover-background: (hsl(0, 0%, 77%), $mail-row-background-active-dark),
   --ck-color-button-on-active-background: (hsl(0, 0%, 73%), $mail-row-background-active-dark),
-  --ck-color-list-button-hover-background: (--ck-color-button-default-hover-background, $mail-row-background-active-dark),
-  --ck-color-panel-background: (--ck-color-base-background, $mail-row-background-active-dark),
+  --ck-color-list-button-hover-background: (
+    --ck-color-button-default-hover-background,
+    $mail-row-background-active-dark
+  ),
+  --ck-color-panel-background: (--ck-color-base-background, $mail-row-background-active-dark)
 );

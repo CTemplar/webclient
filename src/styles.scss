@@ -717,7 +717,7 @@ a.text-dark:hover {
   margin: 5px;
   padding: 5px 1rem;
 }
-button.ctemplar-blockquote-toggle~* {
+button.ctemplar-blockquote-toggle ~ * {
   display: none;
 }
 
@@ -740,6 +740,6 @@ button.ctemplar-blockquote-toggle~* {
 
 .ckeditor-composer-toolbar-container {
   .ck-toolbar {
-    width: 380px!important;
+    width: 380px !important;
   }
 }

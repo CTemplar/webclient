@@ -704,8 +704,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onEditorReady(editor: any) {
     if (!this.composerEditorInstance) {
-      this.composerEditorInstance =
-        this.composerEditorElementRef?.nativeElement?.querySelector('.ck-editor__editable')?.ckeditorInstance;
+      this.composerEditorInstance = this.composerEditorElementRef?.nativeElement?.querySelector(
+        '.ck-editor__editable',
+      )?.ckeditorInstance;
     }
     const toolbarContainer = document.querySelector('#toolbar');
     toolbarContainer.append(editor.ui.view.toolbar.element);
@@ -835,7 +836,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           ? this.draftMail.bcc.map(receiver => ({ display: receiver, value: receiver, email: receiver }))
           : [],
       subject:
-        this.draftMail && this.draftMail.is_subject_encrypted ? '' : (this.draftMail ? this.draftMail.subject : ''),
+        this.draftMail && this.draftMail.is_subject_encrypted ? '' : this.draftMail ? this.draftMail.subject : '',
       content: '',
     };
     // action is existed MEANS this compose is either REPLY or REPLY_ALL or FORWARD
@@ -945,8 +946,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   validateEmail(email: string) {
-    const re =
-      /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+    const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
@@ -1407,9 +1407,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (
       this.mailData.subject === '' &&
       ((this.draftMail.is_html &&
-        this.getPlainText(this.composerEditorInstance?.getData())
-          .replace(/ /g, '')
-          .replace(/\n/g, '').length === 0) ||
+        this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length === 0) ||
         (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))
     ) {
       // show message to confirm without subject and content

@@ -18,7 +18,6 @@ import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
 
-
 @UntilDestroy()
 @Component({
   selector: 'app-reply-secure-message',
@@ -27,7 +26,6 @@ import { OpenPgpService } from '../../store/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReplySecureMessageComponent implements OnInit {
-
   public DecoupledEditor = DecoupledEditor;
 
   composerEditorInstance: any;
@@ -89,8 +87,9 @@ export class ReplySecureMessageComponent implements OnInit {
 
   onEditorReady(editor: any) {
     if (!this.composerEditorInstance) {
-      this.composerEditorInstance =
-        this.composerEditorElementRef?.nativeElement?.querySelector('.ck-editor__editable')?.ckeditorInstance;
+      this.composerEditorInstance = this.composerEditorElementRef?.nativeElement?.querySelector(
+        '.ck-editor__editable',
+      )?.ckeditorInstance;
     }
     const toolbarContainer = this.toolbar.nativeElement;
     toolbarContainer.append(editor.ui.view.toolbar.element);

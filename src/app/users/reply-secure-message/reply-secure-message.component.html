@@ -19,8 +19,14 @@
         <div class="msg-reply-card-body">
           <div class="msg-reply-card-innerbody has-custom-scroll has-custom-scroll-sm">
             <div class="secure-message-editor mail-compose-editable-box">
-<!--              <div #editor></div>-->
-              <ckeditor #composerEditorElementRef id="editor" class="editor" [editor]="DecoupledEditor" (ready)="onEditorReady($event)"></ckeditor>
+              <!--              <div #editor></div>-->
+              <ckeditor
+                #composerEditorElementRef
+                id="editor"
+                class="editor"
+                [editor]="DecoupledEditor"
+                (ready)="onEditorReady($event)"
+              ></ckeditor>
             </div>
           </div>
         </div>
@@ -55,8 +61,7 @@
                   <i class="icon icon-text-color"></i>
                 </button>
                 <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
-                  <div #toolbar class="mail-comopser-typo-actions-holder ckeditor-composer-toolbar-container">
-                  </div>
+                  <div #toolbar class="mail-comopser-typo-actions-holder ckeditor-composer-toolbar-container"></div>
                 </div>
               </div>
             </li>

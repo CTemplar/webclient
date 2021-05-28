@@ -245,7 +245,14 @@
     <div class="mail-compose-box has-custom-scroll" id="editor-cover-scroller">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
-          <ckeditor #composerEditorElementRef id="editor" class="editor" *ngIf="draftMail?.is_html" [editor]="DecoupledEditor" (ready)="onEditorReady($event)"></ckeditor>
+          <ckeditor
+            #composerEditorElementRef
+            id="editor"
+            class="editor"
+            *ngIf="draftMail?.is_html"
+            [editor]="DecoupledEditor"
+            (ready)="onEditorReady($event)"
+          ></ckeditor>
 
           <div *ngIf="!draftMail?.is_html">
             <textarea
@@ -349,8 +356,11 @@
                     <i class="icon icon-text-color"></i>
                   </button>
                   <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
-                    <div #toolbar id="toolbar" class="mail-comopser-typo-actions-holder toolbar-container ckeditor-composer-toolbar-container">
-                    </div>
+                    <div
+                      #toolbar
+                      id="toolbar"
+                      class="mail-comopser-typo-actions-holder toolbar-container ckeditor-composer-toolbar-container"
+                    ></div>
                   </div>
                 </div>
               </ng-template>

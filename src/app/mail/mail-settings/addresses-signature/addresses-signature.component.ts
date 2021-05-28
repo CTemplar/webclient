@@ -25,7 +25,6 @@ import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/impo
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
 import { TranslateService } from '@ngx-translate/core';
 
-
 enum AddKeyStep {
   SELECT_MAILBOX,
   USER_PASSWORD,
