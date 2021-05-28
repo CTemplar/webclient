@@ -1108,25 +1108,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  initializeAutoSave() {
-    if (this.settings.autosave_duration !== 'none') {
-      this.autoSaveSubscription = this.valueChanged$
-        .pipe(
-          debounceTime(Number(this.settings.autosave_duration)), // get autosave interval from user's settings
-        )
-        .subscribe(() => {
-          if (!this.draft.isSaving && this.hasData()) {
-            this.updateEmail();
-          }
-        });
-    }
-    this.firstSaveSubscription = this.valueChanged$
-      .pipe(first(() => !this.draft?.draft?.id && this.hasData()))
-      .subscribe(data => {
-        this.updateEmail();
-      });
-  }
-
   onInsertImage() {
     this.attachImagesModalRef = this.modalService.open(this.attachImagesModal, {
       centered: true,
