@@ -672,6 +672,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         : mail.sender_display.name;
     } else if (this.mailFolder === this.mailFolderTypes.SENT || this.mailFolder === this.mailFolderTypes.OUTBOX) {
       info = mail.receiver_list;
+      if (mail.cc_display?.length > 0) {
+        const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+        info = info + ', ' + cc;
+      }
+      if (mail.bcc_display?.length > 0) {
+        const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+        info = info + ', bcc: ' + bcc;
+      }
     } else {
       // For Search, All Emails, Custom Folders
       switch (mail.folder) {
@@ -688,6 +696,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         case MailFolderType.SENT:
         case MailFolderType.OUTBOX:
           info = mail.receiver_list;
+          if (mail.cc_display?.length > 0) {
+            const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+            info = info + ', ' + cc;
+          }
+          if (mail.bcc_display?.length > 0) {
+            const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+            info = info + ', bcc: ' + bcc;
+          }
           break;
 
         case MailFolderType.DRAFT:
@@ -697,6 +713,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         default:
           if (mail.send) {
             info = mail.receiver_list;
+            if (mail.cc_display?.length > 0) {
+              const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+              info = info + ', ' + cc;
+            }
+            if (mail.bcc_display?.length > 0) {
+              const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+              info = info + ', bcc: ' + bcc;
+            }
           } else {
             info = isTooltip
               ? mail.sender_display_name

@@ -126,11 +126,11 @@
                         >Discounted price</label
                       >
                       <div class="billing-overview-val text-secondary col-9">
-                        <strong>${{ promoCode.new_amount }}/-</strong>
+                        <strong>${{ promoCode.new_amount }}</strong>
                       </div>
                       <label class="billing-overview-label mb-0 col-3">You will save</label>
                       <div class="billing-overview-val text-secondary col-9">
-                        <strong>${{ promoCode.discount_amount }}/-</strong>
+                        <strong>${{ promoCode.discount_amount }}</strong>
                       </div>
                     </ng-container>
                   </div>
@@ -220,7 +220,12 @@
               <div
                 class="form-step-card"
                 [class]="stripePaymentValidation.param"
-                *ngIf="paymentMethod === paymentMethodType.STRIPE && isScriptsLoaded && planType !== planTypeEnum.FREE"
+                *ngIf="
+                  paymentMethod === paymentMethodType.STRIPE &&
+                  isScriptsLoaded &&
+                  planType !== planTypeEnum.FREE &&
+                  isNeedPaymentInformationWithPromoCode
+                "
               >
                 <h3 class="form-step-card-title text-dark mb-3">
                   <strong [translate]="'billing_info.payment_information'">Payment Information</strong>

@@ -125,6 +125,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   isPrime: boolean;
 
+  /**
+   * If applied promo code is full (new_amount = 0), it would not prompt Payment information
+   */
+  isNeedPaymentInformationWithPromoCode = true;
+
   private checkTransactionResponse: CheckTransactionResponse;
 
   private timerObservable: Subscription;
@@ -178,6 +183,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         }
         this.promoCode = userState.promoCode;
         this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
+        if (this.promoCode.is_valid && this.promoCode.new_amount === 0 && this.promoCode.new_amount_btc === 0) {
+          this.isNeedPaymentInformationWithPromoCode = false;
+        } else {
+          this.isNeedPaymentInformationWithPromoCode = true;
+        }
         this.isPrime = userState.isPrime;
       });
 
@@ -334,7 +344,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     };
 
     if (this.paymentMethod === PaymentMethod.STRIPE) {
-      this.getToken();
+      if (this.isNeedPaymentInformationWithPromoCode) {
+        this.getToken();
+      } else {
+        this.inProgress = true;
+        this.openAccountInitModal();
+        this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
+        this.waitForPGPKeys({ ...this.signupState });
+      }
     } else {
       this.bitcoinSignup();
     }
@@ -391,8 +408,21 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.pgpKeyGenerationCompleted({ ...userKeys, ...data });
         return;
       }
+      const generateKeyError = this.openPgpService.getGenerateKeyError();
+      if (generateKeyError) {
+        this.generateKeyFailed(generateKeyError);
+        return;
+      }
       this.waitForPGPKeys(data);
     }, 1000);
+  }
+
+  generateKeyFailed(error: string) {
+    this.errorMessage = error;
+    this.inProgress = false;
+    if (this.modalRef) {
+      this.modalRef.componentInstance.closeModal();
+    }
   }
 
   private getSignupData(data: any = {}) {

@@ -239,16 +239,10 @@
             <div class="col-sm-9">
               <div class="form-content-row form-content-row-sm">
                 <div class="row row-sm align-items-center">
-                  <div class="col-sm-4">
-                    <div class="fancy-field-group">
-                      <input
-                        formControlName="moveTo"
-                        id="filterMoveTo"
-                        class="d-none fancy-field-control fancy-field-control-sm"
-                        type="checkbox"
-                      />
-                      <label for="filterMoveTo" [translate]="'settings.filters.move_to'">move to</label>
-                    </div>
+                  <div class="col-sm-4 mat-checkbox-row">
+                    <mat-checkbox type="checkbox" id="filterMoveTo" formControlName="moveTo">
+                      {{ 'settings.filters.move_to' | translate }}
+                    </mat-checkbox>
                   </div>
                   <div class="col-sm-8">
                     <div class="btn-dropdown btn-dropdown-select">
@@ -304,28 +298,14 @@
               <div class="form-content-row">
                 <div class="row row-sm align-items-center">
                   <div class="col-6 flex-auto-col">
-                    <div class="fancy-field-group">
-                      <input
-                        formControlName="markAsRead"
-                        id="filterMarkAsRead"
-                        class="d-none fancy-field-control fancy-field-control-sm"
-                        type="checkbox"
-                      />
-                      <label for="filterMarkAsRead" [translate]="'mail_list.mark_as_read'">mark as read</label>
-                    </div>
+                    <mat-checkbox type="checkbox" id="filterMarkAsRead" formControlName="markAsRead">
+                      {{ 'mail_list.mark_as_read' | translate }}
+                    </mat-checkbox>
                   </div>
                   <div class="col-8 flex-auto-col">
-                    <div class="fancy-field-group">
-                      <input
-                        formControlName="markAsStarred"
-                        id="filterMarkAsStarred"
-                        class="d-none fancy-field-control fancy-field-control-sm"
-                        type="checkbox"
-                      />
-                      <label for="filterMarkAsStarred" [translate]="'settings.filters.mark_as_starred'">
-                        mark as starred
-                      </label>
-                    </div>
+                    <mat-checkbox type="checkbox" id="filterMarkAsStarred" formControlName="markAsStarred">
+                      {{ 'settings.filters.mark_as_starred' | translate }}
+                    </mat-checkbox>
                   </div>
                 </div>
               </div>

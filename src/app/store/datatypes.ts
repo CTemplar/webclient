@@ -94,6 +94,7 @@ export interface SignupState {
   monthlyPrice?: number;
   annualPricePerMonth?: number;
   annualPriceTotal?: number;
+  referral_code?: string;
 }
 
 export class UserState {
@@ -294,6 +295,10 @@ export class Settings {
   is_subject_auto_decrypt?: boolean;
 
   use_local_cache?: string;
+
+  referral_code?: string;
+
+  show_plain_text?: boolean;
 }
 
 export interface Invoice {
@@ -804,7 +809,7 @@ export interface AutocryptEncryptDetermine {
 }
 
 export enum PGPKeyType {
-  RSA_4096 = 'RSA 4096',
+  RSA_4096 = 'RSA4096',
   ECC = 'ECC',
 }
 

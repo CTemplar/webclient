@@ -238,8 +238,18 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
         this.resetPasswordConfirmed(data);
         return;
       }
+      const generateKeyError = this.openPgpService.getGenerateKeyError();
+      if (generateKeyError) {
+        this.generateKeyFailed(generateKeyError);
+        return;
+      }
       this.waitForPGPKeys(data);
     }, 1000);
+  }
+
+  generateKeyFailed(error: string) {
+    this.isGeneratingKeys = false;
+    this.resetPasswordErrorMessage = error;
   }
 
   resetPasswordConfirmed(data: any) {

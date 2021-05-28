@@ -10,6 +10,7 @@ import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../
 import { NotificationService } from './notification.service';
 import bcrypt from 'bcryptjs';
 import { Store } from '@ngrx/store';
+import { ParsedMailbox } from 'email-addresses';
 
 @Injectable({
   providedIn: 'root',
@@ -212,6 +213,11 @@ export class SharedService {
 
   isRFCStandardValidEmail(address: string): boolean {
     return !!parseEmail.parseOneAddress({ input: address, rejectTLD: true });
+  }
+
+  parseEmailWithRFCStandard(email: string): ParsedMailbox | any {
+    const parsedEmail = parseEmail.parseOneAddress(email);
+    return parsedEmail ? (parsedEmail as parseEmail.ParsedMailbox) : {};
   }
 }
 

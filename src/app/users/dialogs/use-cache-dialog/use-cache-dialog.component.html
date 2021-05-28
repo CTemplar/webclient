@@ -14,18 +14,13 @@
         rel="noopener noreferrer"
         target="_blank"
         >Learn more</a
-      >.
+      >
     </div>
-    <div class="row bottom-view">
-      <div class="fancy-field-group ask-more">
-        <input
-          type="checkbox"
-          id="timeRestricted"
-          name="timeRestricted"
-          [(ngModel)]="askLocalCache"
-          class="d-none fancy-field-control fancy-field-control-sm"
-        />
-        <label for="timeRestricted" [translate]="'common.dont_ask_use_local_cache'">Don't ask any more</label>
+    <div class="row bottom-view align-items-center">
+      <div class="ask-more mat-checkbox-row">
+        <mat-checkbox type="checkbox" id="askLocalCache" name="askLocalCache" [(ngModel)]="askLocalCache">
+          {{ 'common.dont_ask_use_local_cache' | translate }}
+        </mat-checkbox>
       </div>
       <div class="form-group text-right mb-0">
         <button

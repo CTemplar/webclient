@@ -564,16 +564,16 @@
             }"
           >
             <td class="mail-checkbox">
-              <div class="fancy-field-group">
-                <input
-                  class="d-none fancy-field-control"
-                  id="{{ mail.id }}"
+              <span class="fancy-field-group">
+                <mat-checkbox
                   type="checkbox"
+                  id="{{ mail.id }}"
                   [ngModel]="mail.marked"
                   (ngModelChange)="toggleEmailSelection(mail, $event)"
-                />
+                >
+                </mat-checkbox>
                 <label for="{{ mail.id }}" class="fancy-field-empty"></label>
-              </div>
+              </span>
             </td>
             <td class="mail-from-name">
               <!-- Sender Name -->
