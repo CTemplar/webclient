@@ -21,6 +21,8 @@ export class MailDetailBodyComponent implements OnInit, OnChanges {
 
   @Input() mail: Mail;
 
+  @Input() plainTextFont: string;
+
   @Input() mailExpandedStatus: boolean;
 
   @Input() decryptedContents: string;

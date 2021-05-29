@@ -299,6 +299,8 @@ export class Settings {
   referral_code?: string;
 
   show_plain_text?: boolean;
+
+  plain_text_font?: string;
 }
 
 export interface Invoice {

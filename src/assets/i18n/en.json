@@ -99,6 +99,7 @@
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Composing autosave interval",
     "ask_local_cache": "Ask to use local cache",
+    "plain_text_font": "Default plain text font",
     "overview": "Overview",
     "username": "Username",
     "domains": "Domains",
