@@ -122,7 +122,7 @@
               class="msg-reply-content text-dark"
               id="{{ mail?.id }}-raw-mail-content"
               [innerHTML]="decryptedContentsPlain | linebreaktobrtag | safe: 'sanitize':disableExternalImages"
-              [ngStyle]="{'font-family': plainTextFont ? plainTextFont : 'monospace'}"
+              [ngStyle]="{ 'font-family': plainTextFont ? plainTextFont : 'monospace' }"
             ></div>
           </ng-template>
         </div>

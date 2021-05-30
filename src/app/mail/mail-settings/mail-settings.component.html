@@ -747,7 +747,7 @@
                           class="text-capitalize"
                           role="button"
                           id="defaultFontDropdownMenuButton"
-                          [ngStyle]="{'font-family': settings.default_font}"
+                          [ngStyle]="{ 'font-family': settings.default_font }"
                         >
                           {{ settings.default_font }}
                         </button>
@@ -756,7 +756,7 @@
                             class="dropdown-item text-capitalize"
                             *ngFor="let font of fonts"
                             (click)="updateSettings('default_font', font)"
-                            [ngStyle]="{'font-family': font}"
+                            [ngStyle]="{ 'font-family': font }"
                           >
                             {{ font }}
                           </a>
@@ -1121,7 +1121,7 @@
                           class="text-capitalize"
                           role="button"
                           id="defaultFontDropdownMenuButton"
-                          [ngStyle]="{'font-family': settings.plain_text_font}"
+                          [ngStyle]="{ 'font-family': settings.plain_text_font }"
                         >
                           {{ settings.plain_text_font }}
                         </button>
@@ -1130,7 +1130,7 @@
                             class="dropdown-item text-capitalize"
                             *ngFor="let font of fonts"
                             (click)="updateSettings('plain_text_font', font)"
-                            [ngStyle]="{'font-family': font}"
+                            [ngStyle]="{ 'font-family': font }"
                           >
                             {{ font }}
                           </a>
@@ -1376,7 +1376,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToBlacklist(item.id, item.name, item.email)" role="button">
@@ -1455,7 +1462,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToWhitelist(item.id, item.name, item.email)" role="button">
