@@ -262,6 +262,7 @@
               (ngModelChange)="valueChanged$.next(mailData.content)"
               id="content"
               rows="1"
+              [ngStyle]="{ 'font-family': settings.plain_text_font ? settings.plain_text_font : 'monospace' }"
             >
             </textarea>
           </div>

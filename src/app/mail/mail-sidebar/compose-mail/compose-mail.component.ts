@@ -946,7 +946,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   validateEmail(email: string) {
-    const re = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+    const re =
+      /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
@@ -1438,6 +1439,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         (!this.usersKeys.get(email.toLowerCase()).key && !this.usersKeys.get(email.toLowerCase()).isFetching),
     );
 
+    if (!this.draftMail?.is_html && this.settings.is_hard_wrap) {
+      //mail content hard wrap
+      this.mailData.content = this.mailData.content.replace(
+        new RegExp(`(?![^\\n]{1,${80}}$)([^\\n]{1,${80}})\\s`, 'g'),
+        '$1\n',
+      );
+    }
     this.isMailSent = true;
     this.setMailData(true, false);
     this.inProgress = true;

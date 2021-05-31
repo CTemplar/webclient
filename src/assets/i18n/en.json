@@ -99,6 +99,7 @@
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Composing autosave interval",
     "ask_local_cache": "Ask to use local cache",
+    "plain_text_font": "Default plain text font",
     "overview": "Overview",
     "username": "Username",
     "domains": "Domains",
@@ -340,6 +341,7 @@
       "disable_2FA": "Disable 2 Factor authentication",
       "upgrade_to_paid": "Please upgrade to paid plan in order to use this feature",
       "contacts_encryption": "Contacts encryption",
+      "local_storage": "Local Storage",
       "using_local_storage": "Using local/session storage",
       "anti_phishing_phrase": "The Anti-Phishing phrase allows users to link a custom word or phrase of your choice to your CTemplar account.Once set, if you ever log into your webmail and your Anti-Phishing phrase is either missing or incorrect, you may be the victim of phishing. You should immediately confirm that you are visiting ",
       "phishing_phrase_title": "Anti Phishing Phrase",
@@ -547,7 +549,8 @@
     "catch_all": "Catch all",
     "attachments_encryption": "Attachments encryption",
     "referral_code": "Referral Code",
-    "get_one_month_prime_membership": "Get one month of Prime membership free for every Prime sign up made using your referral code."
+    "get_one_month_prime_membership": "Get one month of Prime membership free for every Prime sign up made using your referral code.",
+    "plain_text_hard_wrap": "Plain text hard wrap"
   },
   "mail_sidebar": {
     "unread": "Unread",

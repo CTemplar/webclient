@@ -747,6 +747,7 @@
                           class="text-capitalize"
                           role="button"
                           id="defaultFontDropdownMenuButton"
+                          [ngStyle]="{ 'font-family': settings.default_font }"
                         >
                           {{ settings.default_font }}
                         </button>
@@ -755,6 +756,7 @@
                             class="dropdown-item text-capitalize"
                             *ngFor="let font of fonts"
                             (click)="updateSettings('default_font', font)"
+                            [ngStyle]="{ 'font-family': font }"
                           >
                             {{ font }}
                           </a>
@@ -967,6 +969,45 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.plain_text_hard_wrap'"
+                      >Plain text hard wrap</label
+                    >
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="hardWrapMode1"
+                            name="[hardWrapMode]"
+                            type="radio"
+                            (click)="updateSettings('is_hard_wrap', true)"
+                            [checked]="settings.is_hard_wrap"
+                          />
+                          <label for="hardWrapMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="hardWrapMode2"
+                            name="[hardWrapMode]"
+                            type="radio"
+                            (click)="updateSettings('is_hard_wrap', false)"
+                            [checked]="!settings.is_hard_wrap"
+                          />
+                          <label for="hardWrapMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -1098,6 +1139,40 @@
                             [checked]="!settings.is_conversation_mode"
                           />
                           <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.plain_text_font'">
+                      Default plain text font
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultFontDropdownMenuButton"
+                          [ngStyle]="{ 'font-family': settings.plain_text_font }"
+                        >
+                          {{ settings.plain_text_font }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let font of fonts"
+                            (click)="updateSettings('plain_text_font', font)"
+                            [ngStyle]="{ 'font-family': font }"
+                          >
+                            {{ font }}
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -1340,7 +1415,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToBlacklist(item.id, item.name, item.email)" role="button">
@@ -1419,7 +1501,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToWhitelist(item.id, item.name, item.email)" role="button">
