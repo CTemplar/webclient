@@ -112,9 +112,9 @@ export class OpenPgpService {
 
   private mailboxKeysInProgress: boolean;
 
-  private generateKeyError: string = '';
+  private generateKeyError = '';
 
-  private generateKeyCount: number = 0;
+  private generateKeyCount = 0;
 
   private messageForPGPMimeInProcess: Map<number, PGPMimeMessageProgressModel> = new Map<
     number,
@@ -633,18 +633,16 @@ export class OpenPgpService {
           } else {
             this.generateKeyError = event.data.errorMessage;
           }
+        } else if (event.data.forEmail) {
+          this.store.dispatch(
+            new UpdatePGPSshKeys({
+              isSshInProgress: false,
+              keys: event.data.keys,
+              draftId: event.data.callerId,
+            }),
+          );
         } else {
-          if (event.data.forEmail) {
-            this.store.dispatch(
-              new UpdatePGPSshKeys({
-                isSshInProgress: false,
-                keys: event.data.keys,
-                draftId: event.data.callerId,
-              }),
-            );
-          } else {
-            this.userKeys = event.data.keys;
-          }
+          this.userKeys = event.data.keys;
         }
       } else if (event.data.decryptAllPrivateKeys) {
         this.decryptedAllPrivKeys = event.data.keys;

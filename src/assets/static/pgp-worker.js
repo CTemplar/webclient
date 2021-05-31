@@ -47,8 +47,8 @@ onmessage = async function (event) {
     });
   } else if (event.data.generateKeys) {
     generateKeys(event.data.options).then(data => {
-      validateKeysGenerated(data).then(valide => {
-        if (valide) {
+      validateKeysGenerated(data).then(validate => {
+        if (validate) {
           postMessage({
             generateKeys: true,
             keys: data,
@@ -400,8 +400,10 @@ function generateKeys(options) {
 }
 
 async function validateKeysGenerated(data) {
-  if (data.private_key && data.private_key.indexOf('-----BEGIN PGP PRIVATE KEY BLOCK-----') === 0
-    && data.public_key && data.public_key.indexOf('-----BEGIN PGP PUBLIC KEY BLOCK-----') === 0) {
+  if (
+    data.private_key && data.private_key.indexOf('-----BEGIN PGP PRIVATE KEY BLOCK-----') === 0 &&
+    data.public_key && data.public_key.indexOf('-----BEGIN PGP PUBLIC KEY BLOCK-----') === 0
+  ) {
     try {
       const armoredPrivateKey = (await openpgp.key.readArmored(data.private_key)).keys[0];
       if (!armoredPrivateKey) {
