@@ -747,6 +747,7 @@
                           class="text-capitalize"
                           role="button"
                           id="defaultFontDropdownMenuButton"
+                          [ngStyle]="{ 'font-family': settings.default_font }"
                         >
                           {{ settings.default_font }}
                         </button>
@@ -755,6 +756,7 @@
                             class="dropdown-item text-capitalize"
                             *ngFor="let font of fonts"
                             (click)="updateSettings('default_font', font)"
+                            [ngStyle]="{ 'font-family': font }"
                           >
                             {{ font }}
                           </a>
@@ -1137,6 +1139,40 @@
                             [checked]="!settings.is_conversation_mode"
                           />
                           <label for="conversationViewMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.plain_text_font'">
+                      Default plain text font
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultFontDropdownMenuButton"
+                          [ngStyle]="{ 'font-family': settings.plain_text_font }"
+                        >
+                          {{ settings.plain_text_font }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let font of fonts"
+                            (click)="updateSettings('plain_text_font', font)"
+                            [ngStyle]="{ 'font-family': font }"
+                          >
+                            {{ font }}
+                          </a>
                         </div>
                       </div>
                     </div>

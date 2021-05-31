@@ -430,11 +430,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       data.promo_code = this.promoCode.value;
     }
     const currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
-    const currentLang = LANGUAGES.find(lang => {
-      if (lang.locale === currentLocale) {
-        return true;
-      }
-    });
+    const currentLang = LANGUAGES.find((lang: any) => lang.locale === currentLocale);
     return {
       ...data,
       plan_type: this.planType,
