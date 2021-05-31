@@ -171,9 +171,10 @@ export interface Language {
 export const ESCAPE_KEYCODE = 27;
 export const MAX_FOLDERS_COUNT = 5;
 
-export const VALID_EMAIL_REGEX: any = /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+export const VALID_EMAIL_REGEX: any =
+  /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
 
-export const FONTS = ['lato', 'roboto', 'arial', 'times-new-roman'];
+export const FONTS = ['monospace', 'lato', 'roboto', 'arial', 'times-new-roman'];
 export const COMPOSE_COLORS = ['none', 'red', 'blue', 'green', 'white', 'black', 'pink', 'grey'];
 export const SIZES = [10, 12, 14, 16, 18, 20, 24, 32];
 export const BACKGROUNDS = ['none', 'red', 'blue', 'green', 'white', 'black', 'pink', 'grey'];
