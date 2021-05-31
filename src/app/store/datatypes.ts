@@ -300,6 +300,8 @@ export class Settings {
 
   show_plain_text?: boolean;
 
+  is_hard_wrap?: boolean;
+  
   plain_text_font?: string;
 }
 
