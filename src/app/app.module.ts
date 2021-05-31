@@ -8,7 +8,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import * as Sentry from '@sentry/browser';
 import { CookieLawModule } from 'angular2-cookie-law';
 
 import { AppComponent } from './app.component';
@@ -37,20 +36,11 @@ import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { DonationService } from './store/services/donation.service';
 import { NotificationService } from './store/services/notification.service';
 import { TimezoneService } from './store/services/timezone.service';
+import { errorHandlerFactory } from './app.error-handler';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class SentryErrorHandler implements ErrorHandler {
-  handleError(error: any) {
-    Sentry.captureException(error.originalError || error);
-    // Sentry.showReportDialog({ eventId });
-  }
 }
 
 @NgModule({
@@ -96,7 +86,7 @@ export class SentryErrorHandler implements ErrorHandler {
     ElectronService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CancelPendingRequestInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: SentryErrorHandler },
+    { provide: ErrorHandler, useFactory: errorHandlerFactory, deps: [] },
   ],
   bootstrap: [AppComponent],
 })
