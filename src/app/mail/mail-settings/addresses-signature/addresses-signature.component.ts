@@ -1,13 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
-import ImageResize from 'quill-image-resize-module';
-import Quill from 'quill';
-
+import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
@@ -18,17 +16,14 @@ import {
   ResetMailboxKeyOperationState,
   SetMailboxKeyPrimary,
 } from '../../../store/actions/mail.actions';
-import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
+import { OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { Folder, Mailbox } from '../../../store/models';
-import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
+import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
 import { TranslateService } from '@ngx-translate/core';
-
-// Register quill modules and fonts and image parameters
-Quill.register('modules/imageResize', ImageResize);
-Quill.register(ImageFormat, true);
 
 enum AddKeyStep {
   SELECT_MAILBOX,
@@ -41,7 +36,7 @@ enum AddKeyStep {
   templateUrl: './addresses-signature.component.html',
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss'],
 })
-export class AddressesSignatureComponent implements OnInit, OnDestroy {
+export class AddressesSignatureComponent implements OnInit {
   @ViewChild('downloadKeyModal') downloadKeyModal: any;
 
   @ViewChild('setAutocryptConfirmModal') setAutocryptConfirmModal: any;
@@ -98,8 +93,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   signatureChanged: Subject<string> = new Subject<string>();
 
-  quillModules = QUILL_FORMATTING_MODULES;
-
   isCustomDomainSelected: boolean;
 
   aliasKeyExpandedStatus: Array<boolean> = [];
@@ -131,6 +124,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   currentAddKeyStep: AddKeyStep = AddKeyStep.SELECT_MAILBOX;
 
   deleteKeyConfirmString: string;
+
+  public DecoupledEditor = DecoupledEditor;
+
+  public CKEDITOR_TOOLBAR_ITEMS = CKEDITOR_TOOLBAR_ITEMS;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -237,6 +234,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     this.handleUsernameAvailability();
   }
 
+  public onSignatureReady(editor: any) {
+    const toolbarContainer = document.querySelector('.signature-editor-toolbar-container');
+    toolbarContainer.append(editor.ui.view.toolbar.element);
+  }
+
   onDomainChange(customDomain: string) {
     this.newAddressForm.get('username').reset();
     if (customDomain !== PRIMARY_DOMAIN) {
@@ -334,12 +336,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     )}`;
   }
 
-  onSignatureChange(value: string) {
-    this.signatureChanged.next(value);
-  }
-
-  signatureFocused(value: boolean) {
-    SharedService.isQuillEditorOpen = value;
+  onSignatureChange({ editor }: ChangeEvent) {
+    this.signatureChanged.next(editor.getData());
   }
 
   updateMailboxSettings(selectedMailbox: any, key: string, value: any) {
@@ -610,9 +608,5 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       return;
     }
     input.type = input.type === 'password' ? 'text' : 'password';
-  }
-
-  ngOnDestroy(): void {
-    SharedService.isQuillEditorOpen = false;
   }
 }

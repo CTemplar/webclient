@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CookieLawModule } from 'angular2-cookie-law';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { AppComponent } from './app.component';
 import { AppStoreModule } from './store/store.module';
@@ -68,6 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedModule,
     UsersModule,
     CookieLawModule,
+    CKEditorModule,
   ],
   providers: [
     AuthGuard,

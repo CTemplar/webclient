@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { QuillModule } from 'ngx-quill';
 
 import { SharedModule } from '../shared/shared.module';
 import { ComposeMailService } from '../store/services/compose-mail.service';
@@ -48,6 +47,7 @@ import { ImportPrivateKeyComponent } from './dialogs/import-private-key/import-p
 import { MailDetailHeaderComponent } from './mail-detail/mail-detail-header/mail-detail-header.component';
 import { MailDetailBodyComponent } from './mail-detail/mail-detail-body/mail-detail-body.component';
 import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-detail-password-decryption-panel/mail-detail-password-decryption-panel.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -96,9 +96,9 @@ import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-d
     NgbModalModule,
     NgbModule,
     DragDropModule,
-    QuillModule.forRoot(),
     ReactiveFormsModule,
     SharedModule,
+    CKEditorModule,
   ],
   exports: [MailFooterComponent],
   providers: [MailSettingsService, ComposeMailService, WebsocketService, PushNotificationService],

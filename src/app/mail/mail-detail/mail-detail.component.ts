@@ -1301,9 +1301,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (previousMails.length === 0) {
       return '';
     }
-    let history = SummarySeparator;
+    let history = '';
     previousMails.forEach(previousMail => (history = this.getMessageSummary(history, previousMail)));
-    return `<div class="gmail_quote">${history}</div>`;
+    return `${history}`;
   }
 
   /**
@@ -1312,26 +1312,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getMessageSummary(content: string, mail: Mail): string {
     if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
       const formattedDateTime = mail.sent_at
-        ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A')
-        : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
+        ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm A')
+        : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm A');
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      // content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
-      //   mail.sender
-      // } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
       const parsedEmailData = parseEmail.parseOneAddress(mail.sender) as parseEmail.ParsedMailbox;
       const senderName =
         !mail.sender_display?.name || (mail.sender_display?.name && mail.sender_display?.name === parsedEmailData.local)
           ? ''
           : mail.sender_display?.name;
       const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
-      content += `
-        </br>---------- Original Message ----------</br>
-        On ${formattedDateTime} ${senderEmail} wrote:
-        </br>
-          <div class="originalblock">${this.decryptedContents[mail.id]}</div>
-        </br>`;
+      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${
+        this.decryptedContents[mail.id]
+      }</blockquote>`;
     }
     return content;
   }

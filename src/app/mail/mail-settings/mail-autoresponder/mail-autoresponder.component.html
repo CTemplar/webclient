@@ -58,15 +58,20 @@
           <label for="autoresponseMessage" class="form-inline" [translate]="'settings.forwarding.auto_message'">
             Email autoresponse message
           </label>
-          <quill-editor
-            id="autoresponseMessage"
-            [(ngModel)]="autoresponder.autoresponder_message"
-            [modules]="quillModules"
-            (onBlur)="editorFocused(false)"
-            (onFocus)="editorFocused(true)"
-            [placeholder]="'settings.forwarding.insert_message_here' | translate"
-          >
-          </quill-editor>
+          <div class="autoresponder-editor-toolbar-container mt-2"></div>
+          <div class="custom-ckeditor-container">
+            <ckeditor
+              [editor]="DecoupledEditor"
+              (ready)="onEditorReady($event)"
+              [config]="{
+                toolbar: CKEDITOR_TOOLBAR_ITEMS,
+                placeholder: 'settings.forwarding.insert_message_here' | translate
+              }"
+              id="autoresponseMessage"
+              [(ngModel)]="autoresponder.autoresponder_message"
+            >
+            </ckeditor>
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -113,15 +118,20 @@
           <label for="vacationAutoresponseMessage" class="form-inline" [translate]="'settings.forwarding.auto_message'">
             Email autoresponse message
           </label>
-          <quill-editor
-            id="vacationAutoresponseMessage"
-            [(ngModel)]="autoresponder.vacationautoresponder_message"
-            [modules]="quillModules"
-            (onBlur)="editorFocused(false)"
-            (onFocus)="editorFocused(true)"
-            [placeholder]="'settings.forwarding.insert_message_here' | translate"
-          >
-          </quill-editor>
+          <div class="vacation-autoresponder-editor-toolbar-container mt-2"></div>
+          <div class="custom-ckeditor-container">
+            <ckeditor
+              [editor]="DecoupledEditor"
+              (ready)="onEditorReady($event, true)"
+              [config]="{
+                toolbar: CKEDITOR_TOOLBAR_ITEMS,
+                placeholder: 'settings.forwarding.insert_message_here' | translate
+              }"
+              id="vacationAutoresponseMessage"
+              [(ngModel)]="autoresponder.vacationautoresponder_message"
+            >
+            </ckeditor>
+          </div>
         </div>
       </div>
       <div class="form-group">
