@@ -87,9 +87,8 @@ export class ReplySecureMessageComponent implements OnInit {
 
   onEditorReady(editor: any) {
     if (!this.composerEditorInstance) {
-      this.composerEditorInstance = this.composerEditorElementRef?.nativeElement?.querySelector(
-        '.ck-editor__editable',
-      )?.ckeditorInstance;
+      this.composerEditorInstance =
+        this.composerEditorElementRef?.nativeElement?.querySelector('.ck-editor__editable')?.ckeditorInstance;
     }
     const toolbarContainer = this.toolbar.nativeElement;
     toolbarContainer.append(editor.ui.view.toolbar.element);
