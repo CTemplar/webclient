@@ -469,6 +469,8 @@ export class ComposeMailService {
         const oldComponentReference = this.componentRefList.find(componentReference => {
           return (
             componentReference.instance.composeMail.draftMail &&
+            componentReference.instance.composeMail.draftMail.id &&
+            inputData.draft.id &&
             componentReference.instance.composeMail.draftMail.id === inputData.draft.id
           );
         });

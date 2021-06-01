@@ -1380,7 +1380,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onClickChildHeader(mail: Mail) {
     if (mail.folder === MailFolderType.DRAFT) {
       if (!this.mailExpandedStatus[mail.id]) {
-        this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
         const onHide$ = new Subject<boolean>();
         onHide$.subscribe(isHide => {
           if (isHide) {
