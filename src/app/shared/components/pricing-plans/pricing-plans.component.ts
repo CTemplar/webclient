@@ -16,7 +16,7 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
   styleUrls: ['./pricing-plans.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PricingPlansComponent implements OnInit, OnDestroy {
+export class PricingPlansComponent implements OnInit{
   readonly planType = PlanType;
 
   @Input() hideHeader: boolean;
@@ -66,7 +66,6 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sharedService.hideFooter.emit(true);
     for (let i = 6; i <= 50; i++) {
       this.availableStorage.push(i);
     }
@@ -124,9 +123,5 @@ export class PricingPlansComponent implements OnInit, OnDestroy {
     this.selectedPaymentType =
       this.selectedPaymentType === PaymentType.MONTHLY ? PaymentType.ANNUALLY : PaymentType.MONTHLY;
     this.paymentType = this.selectedPaymentType;
-  }
-
-  ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
   }
 }

@@ -165,7 +165,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.years.push(year++);
     }
     this.store.dispatch(new ClearPromoCode());
-    this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     if (this.isUpgradeAccount) {
       if (this.planType === PlanType.FREE) {
@@ -560,7 +559,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
     this.store.dispatch(new ClearWallet());
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();

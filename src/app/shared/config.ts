@@ -169,7 +169,7 @@ export const ESCAPE_KEYCODE = 27;
 export const MAX_FOLDERS_COUNT = 5;
 
 export const VALID_EMAIL_REGEX: any =
-  /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+  /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
 
 export const FONTS = ['monospace', 'lato', 'roboto', 'arial', 'times-new-roman'];
 export const COMPOSE_COLORS = ['none', 'red', 'blue', 'green', 'white', 'black', 'pink', 'grey'];

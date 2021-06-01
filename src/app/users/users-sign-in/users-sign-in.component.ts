@@ -101,8 +101,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       this.store.dispatch(new FinalLoading({ loadingState: false }));
     });
 
-    this.sharedService.hideFooter.emit(true);
-
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -160,7 +158,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     document.querySelector('#main').classList.remove('visible-signin');
     document.querySelector('#app-outer-id').classList.remove('visible-signin');
     this.store.dispatch(new ClearAuthErrorMessage());
-    this.sharedService.hideFooter.emit(false);
   }
 
   openResetPasswordModal() {

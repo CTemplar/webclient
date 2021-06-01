@@ -57,7 +57,6 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.sharedService.hideEntireFooter.emit(true);
     this.sharedService.isExternalPage.emit(true);
 
     this.decryptForm = this.formBuilder.group({
@@ -98,7 +97,6 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sharedService.hideEntireFooter.emit(false);
     this.sharedService.isExternalPage.emit(false);
   }
 

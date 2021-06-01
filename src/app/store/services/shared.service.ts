@@ -22,15 +22,7 @@ export class SharedService {
 
   isReady: EventEmitter<boolean> = new EventEmitter();
 
-  hideFooter: EventEmitter<boolean> = new EventEmitter();
-
-  hideHeader: EventEmitter<boolean> = new EventEmitter();
-
-  hideEntireFooter: EventEmitter<boolean> = new EventEmitter();
-
   keyPressed: EventEmitter<any> = new EventEmitter();
-
-  isMail: EventEmitter<boolean> = new EventEmitter();
 
   isExternalPage: EventEmitter<boolean> = new EventEmitter();
 

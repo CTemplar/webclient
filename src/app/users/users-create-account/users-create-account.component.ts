@@ -35,7 +35,7 @@ export class PasswordValidation {
   styleUrls: ['./users-create-account.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersCreateAccountComponent implements OnInit, OnDestroy {
+export class UsersCreateAccountComponent implements OnInit {
   isTextToggled = false;
 
   signupForm: FormGroup;
@@ -87,8 +87,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.handleUserState();
-    this.sharedService.hideFooter.emit(true);
-
     this.signupForm = this.formBuilder.group(
       {
         username: [
@@ -296,9 +294,5 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
           this.store.dispatch(new CheckUsernameAvailability(username));
         }
       });
-  }
-
-  ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
   }
 }

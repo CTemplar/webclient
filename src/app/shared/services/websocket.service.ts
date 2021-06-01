@@ -68,7 +68,7 @@ export class WebsocketService {
 
     this.webSocket.addEventListener('error', (error: any) => {
       LoggerService.error('Socket encountered error: ', error.message, 'Closing socket');
-      this.webSocket.close();
+      this.webSocket?.close();
     });
   }
 
