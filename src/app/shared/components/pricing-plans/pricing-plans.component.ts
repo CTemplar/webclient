@@ -16,7 +16,7 @@ import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader
   styleUrls: ['./pricing-plans.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PricingPlansComponent implements OnInit{
+export class PricingPlansComponent implements OnInit {
   readonly planType = PlanType;
 
   @Input() hideHeader: boolean;
