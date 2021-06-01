@@ -12,7 +12,7 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
   styleUrls: ['./users-sign-up.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersSignUpComponent implements OnDestroy, OnInit {
+export class UsersSignUpComponent implements OnInit {
   public storageList: Storage[];
 
   public selectedStorage: Storage;
@@ -29,7 +29,6 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
   constructor(private sharedService: SharedService, private store: Store<any>) {}
 
   ngOnInit() {
-    this.sharedService.hideFooter.emit(true);
     this.storageList = StorageData;
     this.selectedStorage = this.storageList[0];
     this.mainPayments = [
@@ -60,9 +59,5 @@ export class UsersSignUpComponent implements OnDestroy, OnInit {
 
   onChangePayment(index: number) {
     this.selectedPayment = index;
-  }
-
-  ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
   }
 }

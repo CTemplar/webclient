@@ -137,10 +137,6 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       });
 
-    this.sharedService.hideFooter.emit(true);
-    this.sharedService.hideHeader.emit(true);
-    this.sharedService.hideEntireFooter.emit(true);
-    this.sharedService.isMail.emit(true);
     this.composeMailService.getWindowWidth(window.innerWidth);
   }
 
@@ -163,10 +159,6 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
-    this.sharedService.hideHeader.emit(false);
-    this.sharedService.hideEntireFooter.emit(false);
-    this.sharedService.isMail.emit(false);
     this.composeMailService.destroyAllComposeMailDialogs();
   }
 
