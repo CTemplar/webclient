@@ -51,9 +51,13 @@ export class AddressesSignatureComponent implements OnInit {
 
   @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef: any;
 
+  @ViewChild('manageMailboxModal') manageMailboxModal: any;
+
   private downloadKeyModalRef: NgbModalRef;
 
   private setAutocryptConfirmModalRef: NgbModalRef;
+
+  private manageMailboxModalRef: NgbModalRef;
 
   private addNewKeyModalRef: NgbModalRef;
 
@@ -80,6 +84,8 @@ export class AddressesSignatureComponent implements OnInit {
   newAddressOptions: any = {};
 
   selectedMailboxForSignature: Mailbox;
+
+  selectedMailboxForManage: Mailbox;
 
   selectedMailboxForKey: Mailbox;
 
@@ -109,6 +115,11 @@ export class AddressesSignatureComponent implements OnInit {
 
   pickedMailboxKeyForUpdate: MailboxKey; // Download or Remove
 
+  /**
+   * This is temporary mailbox for
+   * - Download, Remove on Multiple keys
+   * - Manage Mailbox for auto Sign, auto attach public key
+   */
   pickedMailboxForUpdate: MailboxKey; // Download or Remove - multiple keys
 
   selectedMailboxForAutocrypt: Mailbox;
@@ -496,6 +507,28 @@ export class AddressesSignatureComponent implements OnInit {
   }
   /**
    * End Set Primary Key Section
+   */
+
+  /**
+   * Start Manage Mailbox Section
+   */
+  onManageMailbox(mailbox: Mailbox) {
+    this.selectedMailboxForManage = mailbox;
+    this.manageMailboxModalRef = this.modalService.open(this.manageMailboxModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-sm',
+    });
+  }
+
+  onClickAttachPublicKey(isEnabled: boolean) {
+    if (this.selectedMailboxForManage) {
+      this.selectedMailboxForManage.is_attach_public_key = isEnabled;
+    }
+  }
+
+  /**
+   * End Manage Mailbox Section
    */
 
   /**

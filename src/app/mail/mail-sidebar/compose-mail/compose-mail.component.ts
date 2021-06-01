@@ -1392,6 +1392,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 100);
       return;
     }
+    // Attach public key if needed
+    if (this.selectedMailbox.is_attach_public_key) {
+
+    }
     if (
       receivers.some(
         receiver => this.usersKeys.has(receiver.toLowerCase()) && this.usersKeys.get(receiver.toLowerCase()).isFetching,
