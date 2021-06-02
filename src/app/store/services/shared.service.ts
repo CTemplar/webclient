@@ -5,7 +5,7 @@ import * as parseEmail from 'email-addresses';
 
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
-import { Folder } from '../models';
+import { Folder, Mail } from '../models';
 import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
 import { NotificationService } from './notification.service';
 import bcrypt from 'bcryptjs';
@@ -155,6 +155,15 @@ export class SharedService {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
+  }
+
+  /**
+   * Check if all receiver's is CTemplar based in
+   * @param usersKeys
+   * @param receiver
+   */
+  checkRecipients(usersKeys: Map<string, GlobalPublicKey>, receivers: string[]): boolean {
+    return receivers.every(receiver => this.parseUserKey(usersKeys, receiver)?.isCTemplarKey);
   }
 
   /**
