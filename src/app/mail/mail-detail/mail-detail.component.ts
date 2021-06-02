@@ -1334,6 +1334,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
    * Add forwarded message summary with original message
    */
   private getForwardMessageSummary(mail: Mail): string {
+    const toHeaderString =
+      mail.receiver_display?.length > 0
+        ? mail.receiver_display
+            .map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true))
+            .join(', ')
+        : mail.receiver.join(', ');
     let content =
       `</br>---------- Forwarded message ----------</br>` +
       `From: ${EmailFormatPipe.transformToFormattedEmail(
@@ -1347,9 +1353,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
       `Subject: ${xss.escapeHtml(mail.subject)}</br>` +
-      `To: ${mail.receiver_display
-        .map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true))
-        .join(', ')}</br>`;
+      `To: ${toHeaderString}</br>`;
 
     if (mail.cc.length > 0) {
       content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
