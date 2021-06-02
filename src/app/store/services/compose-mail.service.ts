@@ -494,9 +494,8 @@ export class ComposeMailService {
         }
       }
       const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
-      const newComponentReference: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(
-        factory,
-      );
+      const newComponentReference: ComponentRef<ComposeMailDialogComponent> =
+        this.composeMailContainer.createComponent(factory);
       this.componentRefList.push(newComponentReference);
       Object.keys(inputData).forEach(key => {
         (newComponentReference as any).instance[key] = inputData[key];
