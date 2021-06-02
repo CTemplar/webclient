@@ -138,7 +138,7 @@ export class AuthEffects {
     switchMap(() => {
       return this.authService.expireSession().pipe(
         switchMap(() => EMPTY),
-        catchError(() => of(new SnackErrorPush({ message: 'Failed to expire user session.' }))),
+        catchError(() => EMPTY),
       );
     }),
   );
@@ -215,13 +215,16 @@ export class AuthEffects {
     map((action: ChangePassword) => action.payload),
     switchMap(payload => {
       return this.authService.changePassword(payload).pipe(
-        switchMap(user =>
-          of(
+        switchMap(user => {
+          if (payload.delete_data) {
+            return of(new ExpireSession(), new Logout(), new SnackPush({ message: 'Password changed successfully.' }));
+          }
+          return of(
             new ChangePasswordSuccess(payload),
             new GetMailboxes(),
             new SnackPush({ message: 'Password changed successfully.' }),
-          ),
-        ),
+          );
+        }),
         catchError((response: any) =>
           of(
             new SnackErrorPush({ message: `Failed to change password, ${response.error}` }),
