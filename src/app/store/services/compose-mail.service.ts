@@ -469,6 +469,8 @@ export class ComposeMailService {
         const oldComponentReference = this.componentRefList.find(componentReference => {
           return (
             componentReference.instance.composeMail.draftMail &&
+            componentReference.instance.composeMail.draftMail.id &&
+            inputData.draft.id &&
             componentReference.instance.composeMail.draftMail.id === inputData.draft.id
           );
         });
@@ -478,9 +480,8 @@ export class ComposeMailService {
         }
       }
       const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
-      const newComponentReference: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(
-        factory,
-      );
+      const newComponentReference: ComponentRef<ComposeMailDialogComponent> =
+        this.composeMailContainer.createComponent(factory);
       this.componentRefList.push(newComponentReference);
       Object.keys(inputData).forEach(key => {
         (newComponentReference as any).instance[key] = inputData[key];
