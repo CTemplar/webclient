@@ -143,7 +143,7 @@
               [ngClass]="{ 'icon-star': !mail?.starred, 'text-info': mail?.starred }"
             ></i>
           </div>
-          <div>
+          <div class="d-flex justify-content-end mt-1">
             <label class="folder-batch" [style.background]="folderColors[mail?.folder]">{{ mail?.folder }}</label>
             <i class="fas fa-angle-down expand-collapse" *ngIf="!mailExpandedStatus"></i>
             <i class="fas fa-angle-up expand-collapse" *ngIf="mailExpandedStatus"></i>
