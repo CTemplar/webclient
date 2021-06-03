@@ -383,7 +383,10 @@
       "anti_phishing": "Anti Phishing",
       "enable_attachments_enc": "Note: If you enable attachments encryption, inline attachments won't be available anymore, all the attachments that you will send/receive will be treated as external attachments and all of them will be encrypted.",
       "read_more": "Read more",
-      "local_cache": "Local Cache"
+      "local_cache": "Local Cache",
+      "attach_public_key": "Attach public key",
+      "manage_mailbox": "Manage Mailbox",
+      "attach_public_key_tooltip": "Attach public key automatically to every outgoing messages you send"
     },
     "signs_and_aliases": "Signatures & Aliases",
     "autocrypt": "Autocrypt",

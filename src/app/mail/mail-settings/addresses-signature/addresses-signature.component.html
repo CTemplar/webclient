@@ -976,7 +976,9 @@
 <!--Manage Mailbox Modal - Auto Sign, Auto attach public key-->
 <ng-template #manageMailboxModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark" id="manageMailboxModalLabel">Manage Mailbox</h3>
+    <h3 class="modal-title w-100 text-dark" id="manageMailboxModalLabel"> 
+      <strong>{{ 'settings.security.manage_mailbox' | translate }}</strong>
+    </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -987,11 +989,11 @@
       <div class="form-content-row mb-3">
         <div class="row align-items-center">
           <div class="col-sm-5">
-            <label class="form-label mb-0">
+            <label class="form-label mb-0" [translate]="'settings.security.attach_public_key'">
               Attach public key
               <i
                 class="fas fa-info-circle ml-1"
-                ngbTooltip="Attach public key automatically to every outgoing messages you send"
+                [ngbTooltip]="'settings.security.attach_public_key_tooltip' | translate"
               ></i
             ></label>
           </div>
