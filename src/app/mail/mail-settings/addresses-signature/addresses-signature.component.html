@@ -992,12 +992,12 @@
                   <input
                     class="d-none fancy-field-control fancy-field-control-sm"
                     id="isAttach1"
-                    name="[1]"
+                    name="[isAttach]"
                     type="radio"
-                    [checked]="true"
+                    [checked]="selectedMailboxForManage.is_attach_public_key"
                     (click)="onClickAttachPublicKey(true)"
                   />
-                  <label for="isEncrypt1" [translate]="'common.enabled'">Enabled</label>
+                  <label for="isAttach1" [translate]="'common.enabled'">Enabled</label>
                 </div>
               </div>
               <div class="col-6 flex-auto-col">
@@ -1005,12 +1005,12 @@
                   <input
                     class="d-none fancy-field-control fancy-field-control-sm"
                     id="isAttach2"
-                    name="[1]"
+                    name="[isAttach]"
                     type="radio"
-                    [checked]="false"
+                    [checked]="!selectedMailboxForManage.is_attach_public_key"
                     (click)="onClickAttachPublicKey(false)"
                   />
-                  <label for="isEncrypt2" [translate]="'common.disabled'">Disabled</label>
+                  <label for="isAttach2" [translate]="'common.disabled'">Disabled</label>
                 </div>
               </div>
             </div>
@@ -1026,7 +1026,7 @@
         <button
           type="button"
           class="btn btn-secondary btn-sm"
-          (click)="onConfirmSetAutocrypt()"
+          (click)="onConfirmSetManageMailbox()"
           [disabled]="inProgress"
         >
           {{ 'common.save' | translate }}

@@ -204,8 +204,12 @@ export class AddressesSignatureComponent implements OnInit {
         }
         this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
         this.mailboxKeysMap = mailboxesState.mailboxKeysMap;
-        if (this.inProgress && !mailboxesState.inProgress && this.setAutocryptConfirmModalRef) {
-          this.setAutocryptConfirmModalRef.dismiss();
+        if (this.inProgress && !mailboxesState.inProgress ) {
+          if (this.setAutocryptConfirmModalRef) {
+            this.setAutocryptConfirmModalRef.dismiss();
+          } else if (this.manageMailboxModalRef) {
+            this.manageMailboxModalRef.dismiss();
+          }
         }
         this.inProgress = mailboxesState.inProgress;
       });
@@ -524,6 +528,12 @@ export class AddressesSignatureComponent implements OnInit {
   onClickAttachPublicKey(isEnabled: boolean) {
     if (this.selectedMailboxForManage) {
       this.selectedMailboxForManage.is_attach_public_key = isEnabled;
+    }
+  }
+  
+  onConfirmSetManageMailbox() {
+    if (this.selectedMailboxForManage) {
+      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForManage));
     }
   }
 
