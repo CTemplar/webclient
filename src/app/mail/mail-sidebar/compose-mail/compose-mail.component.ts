@@ -1392,11 +1392,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 100);
       return;
     }
-    
+
     // Attach public key if needed
     const publicKeyFileName = `publickey-${this.selectedMailbox.email}.asc`;
-    if (this.selectedMailbox.is_attach_public_key && !this.attachments.find(a=> a.name === publicKeyFileName)) {
-      const publicKeyFile = new File([this.selectedMailbox.public_key], publicKeyFileName)
+    if (this.selectedMailbox.is_attach_public_key && !this.attachments.find(a => a.name === publicKeyFileName)) {
+      const publicKeyFile = new File([this.selectedMailbox.public_key], publicKeyFileName);
       this.isProcessingAttachments = true;
       this.uploadAttachment(publicKeyFile, false);
 
@@ -1406,7 +1406,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 500);
       return;
     }
-    
+
     if (
       receivers.some(
         receiver => this.usersKeys.has(receiver.toLowerCase()) && this.usersKeys.get(receiver.toLowerCase()).isFetching,

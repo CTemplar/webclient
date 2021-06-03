@@ -435,7 +435,13 @@
                   </button>
                 </li>
                 <li>
-                  <button type="button" role="button" class="btn-link" (click)="onManageMailbox(mailbox)" ngbTooltip="Edit">
+                  <button
+                    type="button"
+                    role="button"
+                    class="btn-link"
+                    (click)="onManageMailbox(mailbox)"
+                    ngbTooltip="Edit"
+                  >
                     <i class="icon icon-edit"></i>
                   </button>
                 </li>
@@ -970,9 +976,7 @@
 <!--Manage Mailbox Modal - Auto Sign, Auto attach public key-->
 <ng-template #manageMailboxModal let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h3 class="modal-title w-100 text-dark" id="manageMailboxModalLabel">
-      Manage Mailbox
-    </h3>
+    <h3 class="modal-title w-100 text-dark" id="manageMailboxModalLabel">Manage Mailbox</h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -983,7 +987,13 @@
       <div class="form-content-row mb-3">
         <div class="row align-items-center">
           <div class="col-sm-5">
-            <label class="form-label mb-0"> Attach public key <i class="fas fa-info-circle ml-1" ngbTooltip="Attach public key automatically to every outgoing messages you send"></i></label>
+            <label class="form-label mb-0">
+              Attach public key
+              <i
+                class="fas fa-info-circle ml-1"
+                ngbTooltip="Attach public key automatically to every outgoing messages you send"
+              ></i
+            ></label>
           </div>
           <div class="col-sm-7">
             <div class="row row-sm">

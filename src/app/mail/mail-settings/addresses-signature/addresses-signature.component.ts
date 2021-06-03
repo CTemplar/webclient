@@ -204,7 +204,7 @@ export class AddressesSignatureComponent implements OnInit {
         }
         this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
         this.mailboxKeysMap = mailboxesState.mailboxKeysMap;
-        if (this.inProgress && !mailboxesState.inProgress ) {
+        if (this.inProgress && !mailboxesState.inProgress) {
           if (this.setAutocryptConfirmModalRef) {
             this.setAutocryptConfirmModalRef.dismiss();
           } else if (this.manageMailboxModalRef) {
@@ -530,7 +530,7 @@ export class AddressesSignatureComponent implements OnInit {
       this.selectedMailboxForManage.is_attach_public_key = isEnabled;
     }
   }
-  
+
   onConfirmSetManageMailbox() {
     if (this.selectedMailboxForManage) {
       this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForManage));
