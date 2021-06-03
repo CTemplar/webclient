@@ -307,6 +307,7 @@ export class SecurityComponent implements OnInit {
             mailbox_id: mailboxId,
             private_key: key.private_key,
             public_key: key.public_key,
+            fingerprint: key.fingerprint,
           });
         } else {
           extra_keys.push({
@@ -314,6 +315,7 @@ export class SecurityComponent implements OnInit {
             private_key: key.private_key,
             public_key: key.public_key,
             mailbox_key_id: key.mailbox_key_id,
+            fingerprint: key.fingerprint,
           });
         }
       });
