@@ -557,12 +557,12 @@
                 >
                   <i class="fa fa-ellipsis-v"></i>
                 </button>
-                <div
-                  ngbDropdownMenu
-                  class="dropdown-menu-right text-center"
-                  aria-labelledby="btn_more"
-                >
-                  <button class="dropdown-item" (click)="setHtmlEditor(true)" [disabled]="draftMail.is_html || pgpEncryptionType === 'PGP_INLINE'">
+                <div ngbDropdownMenu class="dropdown-menu-right text-center" aria-labelledby="btn_more">
+                  <button
+                    class="dropdown-item"
+                    (click)="setHtmlEditor(true)"
+                    [disabled]="draftMail.is_html || pgpEncryptionType === 'PGP_INLINE'"
+                  >
                     <div class="row-item">
                       <div class="check-box">
                         <i *ngIf="draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
@@ -578,10 +578,16 @@
                       <a class="ql-size-small">Plain Text</a>
                     </div>
                   </button>
-                  <button class="dropdown-item" (click)="onClickAttachPublicKey(!selectedMailbox?.is_attach_public_key)">
+                  <button
+                    class="dropdown-item"
+                    (click)="onClickAttachPublicKey(!selectedMailbox?.is_attach_public_key)"
+                  >
                     <div class="row-item">
                       <div class="check-box">
-                        <i *ngIf="selectedMailbox?.is_attach_public_key" class="fa fa-check text-black-50 ng-star-inserted"></i>
+                        <i
+                          *ngIf="selectedMailbox?.is_attach_public_key"
+                          class="fa fa-check text-black-50 ng-star-inserted"
+                        ></i>
                       </div>
                       <a class="ql-size-small" [translate]="'settings.security.attach_public_key'">Attach public key</a>
                     </div>
