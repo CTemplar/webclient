@@ -165,7 +165,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.years.push(year++);
     }
     this.store.dispatch(new ClearPromoCode());
-    this.sharedService.hideFooter.emit(true);
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
     if (this.isUpgradeAccount) {
       if (this.planType === PlanType.FREE) {
@@ -185,6 +184,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
         if (this.promoCode.is_valid && this.promoCode.new_amount === 0 && this.promoCode.new_amount_btc === 0) {
           this.isNeedPaymentInformationWithPromoCode = false;
+        } else {
+          this.isNeedPaymentInformationWithPromoCode = true;
         }
         this.isPrime = userState.isPrime;
       });
@@ -406,8 +407,21 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.pgpKeyGenerationCompleted({ ...userKeys, ...data });
         return;
       }
+      const generateKeyError = this.openPgpService.getGenerateKeyError();
+      if (generateKeyError) {
+        this.generateKeyFailed(generateKeyError);
+        return;
+      }
       this.waitForPGPKeys(data);
     }, 1000);
+  }
+
+  generateKeyFailed(error: string) {
+    this.errorMessage = error;
+    this.inProgress = false;
+    if (this.modalRef) {
+      this.modalRef.componentInstance.closeModal();
+    }
   }
 
   private getSignupData(data: any = {}) {
@@ -415,11 +429,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       data.promo_code = this.promoCode.value;
     }
     const currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
-    const currentLang = LANGUAGES.find(lang => {
-      if (lang.locale === currentLocale) {
-        return true;
-      }
-    });
+    const currentLang = LANGUAGES.find((lang: any) => lang.locale === currentLocale);
     return {
       ...data,
       plan_type: this.planType,
@@ -549,7 +559,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
     this.store.dispatch(new ClearWallet());
     if (this.timerObservable) {
       this.timerObservable.unsubscribe();

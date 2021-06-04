@@ -14,18 +14,12 @@
         rel="noopener noreferrer"
         target="_blank"
         >Learn more</a
-      >.
+      >
     </div>
-    <div class="row bottom-view">
-      <div class="ask-more">
-        <mat-checkbox
-          type="checkbox"
-          id="askLocalCache"
-          name="askLocalCache"
-          [(ngModel)]="askLocalCache"
-          [translate]="'common.dont_ask_use_local_cache'"
-        >
-          Don't ask any more
+    <div class="row bottom-view align-items-center">
+      <div class="ask-more mat-checkbox-row">
+        <mat-checkbox type="checkbox" id="askLocalCache" name="askLocalCache" [(ngModel)]="askLocalCache">
+          {{ 'common.dont_ask_use_local_cache' | translate }}
         </mat-checkbox>
       </div>
       <div class="form-group text-right mb-0">

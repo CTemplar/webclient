@@ -63,17 +63,20 @@
               <label for="signature" class="form-label mb-sm-0" [translate]="'settings.signature'"> Signature </label>
             </div>
             <div class="col">
-              <quill-editor
-                id="signature"
-                [ngModel]="selectedMailboxForSignature.signature"
-                (ngModelChange)="onSignatureChange($event)"
-                [modules]="quillModules"
-                (onBlur)="signatureFocused(false)"
-                (onFocus)="signatureFocused(true)"
-                [disabled]="!userState.isPrime"
-                [ngbTooltip]="!userState.isPrime && ('settings.upgrade_to_paid' | translate)"
-              >
-              </quill-editor>
+              <div class="signature-editor-toolbar-container mt-2"></div>
+              <div class="custom-ckeditor-container">
+                <ckeditor
+                  [editor]="DecoupledEditor"
+                  (ready)="onSignatureReady($event)"
+                  [config]="{ toolbar: CKEDITOR_TOOLBAR_ITEMS, placeholder: 'Insert text here...' }"
+                  id="signature"
+                  [data]="selectedMailboxForSignature.signature"
+                  [disabled]="!userState.isPrime"
+                  (change)="onSignatureChange($event)"
+                  [ngbTooltip]="!userState.isPrime && ('settings.upgrade_to_paid' | translate)"
+                >
+                </ckeditor>
+              </div>
             </div>
           </div>
         </div>
@@ -183,6 +186,7 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
+      <!-- Start Alias Action -->
       <div class="mb-3 row">
         <div class="col-6">
           <button
@@ -206,6 +210,8 @@
           </button>
         </div>
       </div>
+      <!-- End Alias Action -->
+
       <ul class="ui-list ui-list-styled list-styled addresses-list">
         <li *ngIf="newAddressOptions.isAddingNew" class="ui-list-item ui-list-item-xs-full">
           <form class="signup-form" [formGroup]="newAddressForm" #form="ngForm">
@@ -376,6 +382,7 @@
               </div>
             </div>
             <div class="col-2 col-sm-4 row">
+              <!-- Reorder Action - Sort Up, Sort Down -->
               <div class="col" align="right" *ngIf="reorder">
                 <i
                   class="fas fa-chevron-up cursor-pointer mr-2"
@@ -392,6 +399,7 @@
                 >
                 </i>
               </div>
+              <!-- Reorder Action - Sort Up, Sort Down -->
               <ul
                 *ngIf="!reorder && !mailbox.inProgress"
                 class="col setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
@@ -426,11 +434,24 @@
                     <span>Autocrypt</span>
                   </button>
                 </li>
+                <li>
+                  <button
+                    type="button"
+                    role="button"
+                    class="btn-link"
+                    (click)="onManageMailbox(mailbox)"
+                    ngbTooltip="Edit"
+                  >
+                    <i class="icon icon-edit"></i>
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
         </li>
       </ul>
+
+      <!-- Start Reorder Action -->
       <div align="right" *ngIf="reorder">
         <app-loading-spinner [showSpinner]="reorderInProgress"></app-loading-spinner>
         <button class="btn btn-sm btn-primary mr-1" [disabled]="reorderInProgress" (click)="cancelOrder()">
@@ -440,6 +461,7 @@
           <span [translate]="'settings.save_order'">Save order</span>
         </button>
       </div>
+      <!-- End Reorder Action -->
     </div>
   </div>
 </section>
@@ -942,6 +964,81 @@
           type="button"
           class="btn btn-secondary btn-sm"
           (click)="onConfirmSetAutocrypt()"
+          [disabled]="inProgress"
+        >
+          {{ 'common.save' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Manage Mailbox Modal - Auto Sign, Auto attach public key-->
+<ng-template #manageMailboxModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark" id="manageMailboxModalLabel">
+      <strong>{{ 'settings.security.manage_mailbox' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mt-3">
+      <!-- Attach Public Key -->
+      <div class="form-content-row mb-3">
+        <div class="row align-items-center">
+          <div class="col-sm-5">
+            <label class="form-label mb-0" [translate]="'settings.security.attach_public_key'">
+              Attach public key
+              <i
+                class="fas fa-info-circle ml-1"
+                [ngbTooltip]="'settings.security.attach_public_key_tooltip' | translate"
+              ></i
+            ></label>
+          </div>
+          <div class="col-sm-7">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="isAttach1"
+                    name="[isAttach]"
+                    type="radio"
+                    [checked]="selectedMailboxForManage.is_attach_public_key"
+                    (click)="onClickAttachPublicKey(true)"
+                  />
+                  <label for="isAttach1" [translate]="'common.enabled'">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="isAttach2"
+                    name="[isAttach]"
+                    type="radio"
+                    [checked]="!selectedMailboxForManage.is_attach_public_key"
+                    (click)="onClickAttachPublicKey(false)"
+                  />
+                  <label for="isAttach2" [translate]="'common.disabled'">Disabled</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="text-holder text-dark text-medium">
+      <div class="mx-auto mt-2 pt-sm-2">
+        <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          (click)="onConfirmSetManageMailbox()"
           [disabled]="inProgress"
         >
           {{ 'common.save' | translate }}

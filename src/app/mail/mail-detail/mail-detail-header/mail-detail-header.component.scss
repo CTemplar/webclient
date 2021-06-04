@@ -1,6 +1,5 @@
 .expand-collapse {
-  position: absolute;
-  right: 12px;
+  margin-top: 1px;
 }
 
 .folder-batch {
@@ -17,9 +16,7 @@
   text-overflow: ellipsis;
   font-size: 14px;
   white-space: nowrap;
-  position: absolute;
-  right: 40px;
-  top: 23px;
+  margin-right: 26px;
 }
 
 .mail-header {

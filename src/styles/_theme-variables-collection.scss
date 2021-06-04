@@ -121,5 +121,20 @@ $variables: (
   --receiver-chip-popover-divider-color: (
     $receiver-chip-popover-divider-color-light,
     $receiver-chip-popover-divider-color-dark
-  )
+  ),
+  --ck-focus-ring: (transparent, transparent),
+  --ck-inner-shadow: (transparent, transparent),
+  --ck-color-button-default-background: (transparent, $brand-secondary-dark),
+  --ck-color-toolbar-background: (--ck-color-base-foreground, $brand-secondary-dark),
+  --ck-color-text: (--ck-color-base-background, $text-color-dark),
+  --ck-color-button-default-hover-background: (hsl(0, 0%, 90%), $mail-row-background-active-dark),
+  --ck-color-button-default-active-background: (hsl(0, 0%, 90%), $mail-row-background-active-dark),
+  --ck-color-button-on-background: (hsl(0, 0%, 87%), $mail-row-background-active-dark),
+  --ck-color-button-on-hover-background: (hsl(0, 0%, 77%), $mail-row-background-active-dark),
+  --ck-color-button-on-active-background: (hsl(0, 0%, 73%), $mail-row-background-active-dark),
+  --ck-color-list-button-hover-background: (
+    --ck-color-button-default-hover-background,
+    $mail-row-background-active-dark
+  ),
+  --ck-color-panel-background: (--ck-color-base-background, $mail-row-background-active-dark)
 );

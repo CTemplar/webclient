@@ -70,6 +70,8 @@ export class SecurityComponent implements OnInit {
 
   passwordChangeInProgress = false;
 
+  askLocalCache: boolean;
+
   constructor(
     private store: Store<AppState>,
     private settingsService: MailSettingsService,
@@ -90,6 +92,7 @@ export class SecurityComponent implements OnInit {
         this.userState = user;
         this.isContactsEncrypted = user.settings.is_contacts_encrypted;
         this.settings$.next(user.settings);
+        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
       });
 
     /**
@@ -304,6 +307,7 @@ export class SecurityComponent implements OnInit {
             mailbox_id: mailboxId,
             private_key: key.private_key,
             public_key: key.public_key,
+            fingerprint: key.fingerprint,
           });
         } else {
           extra_keys.push({
@@ -311,6 +315,7 @@ export class SecurityComponent implements OnInit {
             private_key: key.private_key,
             public_key: key.public_key,
             mailbox_key_id: key.mailbox_key_id,
+            fingerprint: key.fingerprint,
           });
         }
       });

@@ -245,7 +245,15 @@
     <div class="mail-compose-box has-custom-scroll" id="editor-cover-scroller">
       <div class="mail-compose-box-inner">
         <div class="mail-compose-editable-box" (drop)="onFilesDrop($event)">
-          <div #editor *ngIf="draftMail?.is_html"></div>
+          <ckeditor
+            #composerEditorElementRef
+            id="editor"
+            class="editor"
+            *ngIf="draftMail?.is_html"
+            [editor]="DecoupledEditor"
+            (ready)="onEditorReady($event)"
+          ></ckeditor>
+
           <div *ngIf="!draftMail?.is_html">
             <textarea
               class="plain-editor"
@@ -254,6 +262,7 @@
               (ngModelChange)="valueChanged$.next(mailData.content)"
               id="content"
               rows="1"
+              [ngStyle]="{ 'font-family': settings.plain_text_font ? settings.plain_text_font : 'monospace' }"
             >
             </textarea>
           </div>
@@ -348,231 +357,11 @@
                     <i class="icon icon-text-color"></i>
                   </button>
                   <div ngbDropdownMenu class="typo-actions-dropdown-menu" aria-labelledby="typoDropdownMenu">
-                    <div #toolbar class="mail-comopser-typo-actions-holder">
-                      <ul class="mail-composer-actions d-flex align-items-center justify-content-center pb-1">
-                        <li class="pr-0">
-                          <div ngbDropdown placement="top" class="dropup">
-                            <button
-                              ngbDropdownToggle
-                              role="button"
-                              ngbTooltip="Font family"
-                              class="actions-btn mail-font-family-btn border-right-0 border-radius-r-0"
-                              id="typoFamilyDropdownMenu"
-                            >
-                              <i class="icon icon-text-size"></i>
-                            </button>
-                            <div
-                              ngbDropdownMenu
-                              class="typo-family-dropdown-menu"
-                              aria-labelledby="typoFamilyDropdownMenu"
-                            >
-                              <div class="typo-holder">
-                                <ul class="typo-list list-styled">
-                                  <li *ngFor="let font of fonts">
-                                    <button [value]="font" class="ql-font typo-select-link text-capitalize">
-                                      {{ font }}
-                                    </button>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="pl-0">
-                          <div ngbDropdown placement="top" class="dropup">
-                            <button
-                              ngbDropdownToggle
-                              role="button"
-                              ngbTooltip="Font size"
-                              class="actions-btn mail-font-family-btn"
-                              id="typoSizeDropdownMenu"
-                            >
-                              <i class="icon icon-text-size-alt"></i>
-                            </button>
-                            <div ngbDropdownMenu class="typo-size-dropdown-menu" aria-labelledby="typoSizeDropdownMenu">
-                              <div class="typo-holder">
-                                <ul class="typo-list list-styled">
-                                  <li *ngFor="let size of sizes">
-                                    <button [value]="size" class="ql-size typo-select-link">
-                                      {{ size }}
-                                    </button>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="pr-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Bold"
-                            class="ql-bold actions-btn mail-bold-btn border-right-0 border-radius-r-0"
-                          >
-                            <i class="icon icon-bold"></i>
-                          </button>
-                        </li>
-                        <li class="px-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Italic"
-                            class="ql-italic actions-btn mail-italic-btn border-right-0 border-radius-0"
-                          >
-                            <i class="icon icon-italic"></i>
-                          </button>
-                        </li>
-                        <li class="px-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Underline"
-                            class="ql-underline actions-btn mail-underline-btn border-right-0 border-radius-0"
-                          >
-                            <i class="icon icon-underline"></i>
-                          </button>
-                        </li>
-                        <li class="pl-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Quote"
-                            class="ql-blockquote actions-btn mail-quote-right-btn border-radius-l-0"
-                          >
-                            <i class="icon icon-quote-right"></i>
-                          </button>
-                        </li>
-                        <li class="pr-0 d-none d-sm-block">
-                          <button
-                            role="button"
-                            ngbTooltip="Align right"
-                            class="ql-align actions-btn mail-align-right-btn border-right-0 border-radius-r-0"
-                            value="right"
-                          >
-                            <i class="icon icon-text-align-right"></i>
-                          </button>
-                        </li>
-                        <li class="px-0 d-none d-sm-block">
-                          <button
-                            role="button"
-                            ngbTooltip="Align center"
-                            class="ql-align actions-btn mail-align-center-btn border-right-0 border-radius-0"
-                            value="center"
-                          >
-                            <i class="icon icon-text-align-center"></i>
-                          </button>
-                        </li>
-                        <li class="pl-0 d-none d-sm-block">
-                          <button
-                            role="button"
-                            ngbTooltip="Align left"
-                            class="ql-align actions-btn mail-align-left-btn border-radius-l-0"
-                          >
-                            <i class="icon icon-text-align-left"></i>
-                          </button>
-                        </li>
-                      </ul>
-                      <ul class="mail-composer-actions d-flex align-items-center justify-content-center">
-                        <li class="pl-0">
-                          <div ngbDropdown placement="top" class="dropdown">
-                            <button
-                              ngbDropdownToggle
-                              ngbTooltip="Font color"
-                              class="actions-btn mail-font-color-btn border-radius-l-0"
-                              id="typoColorDropdownMenu"
-                              role="button"
-                            >
-                              <i class="icon icon-text-color"></i>
-                            </button>
-                            <div ngbDropdownMenu class="left-0" aria-labelledby="typoColorDropdownMenu">
-                              <div class="color-picker-holder">
-                                <div class="row">
-                                  <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <div class="color-picker">
-                                      <div class="color-picker-title">
-                                        <strong> {{ 'settings.compose.background_color' | translate }}</strong>
-                                      </div>
-                                      <ul class="color-picker-list d-flex flex-wrap">
-                                        <li *ngFor="let color of colors">
-                                          <button
-                                            class="ql-background color-shape"
-                                            [class.border-lightgrey]="color === '#ffffff'"
-                                            [value]="color"
-                                            [style.background]="color"
-                                          ></button>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                  <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <div class="color-picker">
-                                      <div class="color-picker-title">
-                                        <strong> {{ 'settings.compose.text_color' | translate }}</strong>
-                                      </div>
-                                      <ul class="color-picker-list d-flex flex-wrap">
-                                        <li *ngFor="let color of colors">
-                                          <button
-                                            class="ql-color color-shape"
-                                            [class.border-lightgrey]="color === '#ffffff'"
-                                            [value]="color"
-                                            [style.background]="color"
-                                          ></button>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="pr-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Unordered list"
-                            class="ql-list actions-btn mail-unorder-list-btn border-right-0 border-radius-r-0"
-                            value="bullet"
-                          >
-                            <i class="icon icon-unorder-list"></i>
-                          </button>
-                        </li>
-                        <li class="px-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Ordered list"
-                            class="ql-list actions-btn mail-order-list-btn border-right-0 border-radius-0"
-                            value="ordered"
-                          >
-                            <i class="icon icon-ordered-list"></i>
-                          </button>
-                        </li>
-                        <li class="px-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Decrease indent"
-                            class="ql-indent actions-btn mail-indent-decrease-btn border-right-0 border-radius-0"
-                            value="-1"
-                          >
-                            <i class="icon icon-indent-decrease"></i>
-                          </button>
-                        </li>
-                        <li class="pl-0">
-                          <button
-                            role="button"
-                            ngbTooltip="Increase indent"
-                            class="ql-indent actions-btn mail-indent-increase-btn"
-                            value="+1"
-                          >
-                            <i class="icon icon-indent-increase"></i>
-                          </button>
-                        </li>
-                        <li>
-                          <button
-                            role="button"
-                            ngbTooltip="Clear formatting"
-                            class="ql-clean actions-btn mail-format-clear-btn"
-                          >
-                            <i class="icon icon-format-clear"></i>
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
+                    <div
+                      #toolbar
+                      id="toolbar"
+                      class="mail-comopser-typo-actions-holder toolbar-container ckeditor-composer-toolbar-container"
+                    ></div>
                   </div>
                 </div>
               </ng-template>
@@ -627,7 +416,7 @@
                 <button
                   role="button"
                   ngbTooltip="Insert Image"
-                  (click)="quillImageHandler()"
+                  (click)="onInsertImage()"
                   class="actions-btn mail-attach-image-btn"
                 >
                   <i class="icon fa fa-image"></i>
@@ -1262,7 +1051,7 @@
       </div>
     </div> </ng-template
   ><!-- /.encryption modal ends -->
-  <!-- Confirm delete folder modal -->
+  <!-- Confirm send email without subject modal -->
   <ng-template #confirmationModal let-c="close" let-d="dismiss">
     <div class="modal-header">
       <h3 class="modal-title w-100 text-dark">
@@ -1290,7 +1079,7 @@
         </div>
       </div>
     </div> </ng-template
-  ><!-- /.Confirm delete folder modal ends -->
+  ><!-- /.Confirm send email without subject modal ends -->
   <!-- Close Confirm modal -->
   <ng-template #closeConfirmationModal let-c="close" let-d="dismiss">
     <div class="modal-header">

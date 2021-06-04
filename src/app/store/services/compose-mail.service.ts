@@ -28,6 +28,7 @@ import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
 import { AutocryptProcessService } from './autocrypt.process.service';
 import { Subject } from 'rxjs/internal/Subject';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +63,7 @@ export class ComposeMailService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private messageBuilderService: MessageBuilderService,
     private autocryptProcessService: AutocryptProcessService,
+    private sharedService: SharedService,
   ) {
     this.store
       .select((state: AppState) => state.composeMail)
@@ -142,19 +144,8 @@ export class ComposeMailService {
                     draftMail.draft.encryption.password,
                   );
                 } else if (publicKeys.length > 0) {
-                  const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(
-                    draftMail,
-                    usersKeys,
-                  );
-                  if (determinedAutocryptStatus.encryptTotally) {
-                    this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
-                  } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
-                    draftMail.draft.is_encrypted = false;
-                    draftMail.draft.is_subject_encrypted = false;
-                    this.sendEmailWithDecryptedData(false, draftMail, publicKeys, encryptionTypeForExternal);
-                  } else if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
-                    this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
-                  } else {
+                  if (this.sharedService.checkRecipients(usersKeys, draftMail?.draft?.receiver || [])) {
+                    // If all recipients are in CTemplar, not need to check autocrypt and ...
                     draftMail.attachments.forEach(attachment => {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                     });
@@ -165,6 +156,31 @@ export class ComposeMailService {
                       publicKeys,
                       encryptionTypeForExternal,
                     );
+                  } else {
+                    const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(
+                      draftMail,
+                      usersKeys,
+                    );
+                    if (determinedAutocryptStatus.encryptTotally) {
+                      this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
+                    } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
+                      draftMail.draft.is_encrypted = false;
+                      draftMail.draft.is_subject_encrypted = false;
+                      this.sendEmailWithDecryptedData(false, draftMail, publicKeys, encryptionTypeForExternal);
+                    } else if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
+                      this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
+                    } else {
+                      draftMail.attachments.forEach(attachment => {
+                        this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
+                      });
+                      this.openPgpService.encrypt(
+                        draftMail.draft.mailbox,
+                        draftMail.id,
+                        new SecureContent(draftMail.draft),
+                        publicKeys,
+                        encryptionTypeForExternal,
+                      );
+                    }
                   }
                 } else if (!draftMail.isSaving) {
                   this.sendEmailWithDecryptedData(true, draftMail, publicKeys, encryptionTypeForExternal);
@@ -469,6 +485,8 @@ export class ComposeMailService {
         const oldComponentReference = this.componentRefList.find(componentReference => {
           return (
             componentReference.instance.composeMail.draftMail &&
+            componentReference.instance.composeMail.draftMail.id &&
+            inputData.draft.id &&
             componentReference.instance.composeMail.draftMail.id === inputData.draft.id
           );
         });
@@ -478,9 +496,8 @@ export class ComposeMailService {
         }
       }
       const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
-      const newComponentReference: ComponentRef<ComposeMailDialogComponent> = this.composeMailContainer.createComponent(
-        factory,
-      );
+      const newComponentReference: ComponentRef<ComposeMailDialogComponent> =
+        this.composeMailContainer.createComponent(factory);
       this.componentRefList.push(newComponentReference);
       Object.keys(inputData).forEach(key => {
         (newComponentReference as any).instance[key] = inputData[key];

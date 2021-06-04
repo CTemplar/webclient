@@ -7,55 +7,16 @@ import {
   Output,
   ViewChild,
   ChangeDetectionStrategy,
+  ElementRef,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as QuillNamespace from 'quill';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-import { COLORS, FONTS, SIZES } from '../../shared/config';
+import * as DecoupledEditor from '../../../assets/js/ckeditor-build/ckeditor';
 import { GetSecureMessageUserKeys, SendSecureMessageReply } from '../../store/actions';
 import { AppState, SecureMessageState } from '../../store/datatypes';
 import { Attachment, Mail } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
-
-const Quill: any = QuillNamespace;
-
-const FontAttributor = Quill.import('attributors/style/font');
-FontAttributor.whitelist = [...FONTS];
-Quill.register(FontAttributor, true);
-
-const SizeAttributor = Quill.import('attributors/style/size');
-const updatedSizes = SIZES.map(size => `${size}px`);
-SizeAttributor.whitelist = updatedSizes;
-Quill.register(SizeAttributor, true);
-Quill.register(Quill.import('attributors/style/align'), true);
-Quill.register(Quill.import('attributors/style/background'), true);
-Quill.register(Quill.import('attributors/style/color'), true);
-
-const QuillBlockEmbed = Quill.import('blots/block/embed');
-
-class ImageBlot extends QuillBlockEmbed {
-  static create(value: any) {
-    const node: any = super.create(value);
-    node.setAttribute('src', value.url);
-    if (value.content_id) {
-      node.setAttribute('data-content-id', value.content_id);
-    }
-    return node;
-  }
-
-  static value(node: any) {
-    return {
-      content_id: node.getAttribute('data-content-id'),
-      url: node.getAttribute('src'),
-    };
-  }
-}
-
-ImageBlot.blotName = 'image';
-ImageBlot.tagName = 'img';
-
-Quill.register(ImageBlot);
 
 @UntilDestroy()
 @Component({
@@ -64,7 +25,11 @@ Quill.register(ImageBlot);
   styleUrls: ['./reply-secure-message.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
+export class ReplySecureMessageComponent implements OnInit {
+  public DecoupledEditor = DecoupledEditor;
+
+  composerEditorInstance: any;
+
   @Input() sourceMessage: Mail;
 
   @Input() hash: string;
@@ -77,23 +42,15 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
 
   @Output() replySuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @ViewChild('editor') editor: any;
+  @ViewChild('composerEditorElementRef', { read: ElementRef, static: false }) composerEditorElementRef: any;
 
   @ViewChild('toolbar') toolbar: any;
-
-  colors = COLORS;
-
-  fonts = FONTS;
-
-  sizes = updatedSizes;
 
   attachments: Attachment[] = [];
 
   inProgress: boolean;
 
   private message: Mail;
-
-  private quill: any;
 
   private secureMessageState: SecureMessageState;
 
@@ -128,16 +85,14 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit() {
-    this.initializeQuillEditor();
-  }
-
-  initializeQuillEditor() {
-    this.quill = new Quill(this.editor.nativeElement, {
-      modules: {
-        toolbar: this.toolbar.nativeElement,
-      },
-    });
+  onEditorReady(editor: any) {
+    if (!this.composerEditorInstance) {
+      this.composerEditorInstance =
+        this.composerEditorElementRef?.nativeElement?.querySelector('.ck-editor__editable')?.ckeditorInstance;
+    }
+    const toolbarContainer = this.toolbar.nativeElement;
+    toolbarContainer.append(editor.ui.view.toolbar.element);
+    editor.editing.view.focus();
   }
 
   onSend() {
@@ -145,7 +100,7 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
       this.message = {
         receiver: [this.sourceMessage.sender],
         subject: this.sourceMessage.subject,
-        content: this.editor.nativeElement.firstChild.innerHTML,
+        content: this.composerEditorInstance?.getData(),
         sender: this.senderId,
         parent: this.sourceMessage.id,
       };
@@ -158,7 +113,6 @@ export class ReplySecureMessageComponent implements OnInit, AfterViewInit {
   }
 
   private hasData() {
-    // using >1 because there is always a blank line represented by ‘\n’ (quill docs)
-    return this.quill.getLength() > 1;
+    return this.composerEditorInstance?.model?.hasContent(this.composerEditorInstance?.model.document.getRoot());
   }
 }

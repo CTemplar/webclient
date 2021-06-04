@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Attachment, Mail, MailFolderType } from '../../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppState, UserState } from '../../../store/datatypes';
+import { AppState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
 import { LOADING_IMAGE } from '../../../store/services';
 
@@ -20,6 +20,8 @@ export class MailDetailBodyComponent implements OnInit {
   @Input() mailFolder: MailFolderType;
 
   @Input() mail: Mail;
+
+  @Input() plainTextFont: string;
 
   @Input() mailExpandedStatus: boolean;
 

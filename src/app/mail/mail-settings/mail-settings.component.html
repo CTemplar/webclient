@@ -402,7 +402,7 @@
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
+                      <div ngbDropdown class="dropdown-sm" placement="bottom-left">
                         <button ngbDropdownToggle role="button" id="langDropdownMenuButton">
                           {{ selectedLanguage?.name }} ({{ selectedLanguage?.locale }})
                         </button>
@@ -429,7 +429,7 @@
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
+                      <div ngbDropdown class="dropdown-sm" placement="bottom-left">
                         <button ngbDropdownToggle role="button" id="timezoneDropdownMenuButton">
                           {{ settings.timezone }}
                         </button>
@@ -480,236 +480,6 @@
                             [checked]="!settings.save_contacts"
                           />
                           <label for="autoSaveField2" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0">Default composer size</label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="composersize1"
-                            name="[composerSize]"
-                            type="radio"
-                            (click)="updateSettings('is_composer_full_screen', false)"
-                            [checked]="!settings.is_composer_full_screen"
-                          />
-                          <label for="composersize1">Small pop-up</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="composersize2"
-                            name="[composerSize]"
-                            type="radio"
-                            (click)="updateSettings('is_composer_full_screen', true)"
-                            [checked]="settings.is_composer_full_screen"
-                          />
-                          <label for="composersize2">Full screen</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_font'">
-                      Default composing font
-                    </label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
-                        <button
-                          ngbDropdownToggle
-                          class="text-capitalize"
-                          role="button"
-                          id="defaultFontDropdownMenuButton"
-                        >
-                          {{ settings.default_font }}
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
-                          <a
-                            class="dropdown-item text-capitalize"
-                            *ngFor="let font of fonts"
-                            (click)="updateSettings('default_font', font)"
-                          >
-                            {{ font }}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_color'">
-                      Default composing color
-                    </label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
-                        <button
-                          ngbDropdownToggle
-                          class="text-capitalize"
-                          role="button"
-                          id="defaultColorDropdownMenuButton"
-                        >
-                          <span *ngIf="settings.default_color; else notDefaultColor">
-                            <i class="color-box" [style.background]="settings.default_color"></i>
-                            {{ settings.default_color }}
-                          </span>
-                          <ng-template #notDefaultColor>
-                            <i class="color-box" [style.background]="colors[0]"></i>
-                            <span> {{ colors[0] }} </span>
-                          </ng-template>
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="defaultColorDropdownMenuButton">
-                          <a
-                            class="dropdown-item text-capitalize"
-                            *ngFor="let color of colors"
-                            (click)="updateSettings('default_color', color)"
-                          >
-                            <i class="color-box" [style.background]="color"></i>
-                            <span class="text-capitalize">
-                              {{ color }}
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_background'">
-                      Default composing background
-                    </label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
-                        <button
-                          ngbDropdownToggle
-                          class="text-capitalize"
-                          role="button"
-                          id="defaultBackgroundDropdownMenuButton"
-                        >
-                          <span *ngIf="settings.default_background; else notDefaultBackground">
-                            <i class="color-box" [style.background]="settings.default_background"></i>
-                            {{ settings.default_background }}
-                          </span>
-                          <ng-template #notDefaultBackground>
-                            <i class="color-box" [style.background]="backgrounds[0]"></i>
-                            <span> {{ backgrounds[0] }} </span>
-                          </ng-template>
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="defaultBackgroundDropdownMenuButton">
-                          <a
-                            class="dropdown-item text-capitalize"
-                            *ngFor="let background of backgrounds"
-                            (click)="updateSettings('default_background', background)"
-                          >
-                            <i class="color-box" [style.background]="background"></i>
-                            <span class="text-capitalize">
-                              {{ background }}
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_size'">
-                      Default composing size
-                    </label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
-                        <button
-                          ngbDropdownToggle
-                          class="text-capitalize"
-                          role="button"
-                          id="defaultSizeDropdownMenuButton"
-                        >
-                          <span
-                            *ngIf="
-                              settings.default_size && settings.default_size !== defaultFontSize;
-                              else displayDefault
-                            "
-                          >
-                            {{ settings.default_size }}px
-                          </span>
-                          <ng-template #displayDefault>
-                            <span> {{ defaultFontSize }}px (default) </span>
-                          </ng-template>
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="defaultSizeDropdownMenuButton">
-                          <a
-                            class="dropdown-item text-capitalize"
-                            *ngFor="let size of sizes"
-                            (click)="updateSettings('default_size', size)"
-                          >
-                            <span *ngIf="size !== defaultFontSize; else setDefault"> {{ size }}px </span>
-                            <ng-template #setDefault>
-                              <span> {{ size }}px (default) </span>
-                            </ng-template>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.compose_autosave_duration'">
-                      Mail compose autosave duration
-                    </label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="btn-dropdown btn-dropdown-select">
-                      <div ngbDropdown class="dropdown-sm">
-                        <button
-                          ngbDropdownToggle
-                          class="text-capitalize"
-                          role="button"
-                          id="defaultAutosaveDropdownMenuButton"
-                        >
-                          {{ autosave_duration }}
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="defaultAutosaveDropdownMenuButton">
-                          <a
-                            class="dropdown-item text-capitalize"
-                            *ngFor="let duration of autosave_duration_list"
-                            (click)="updateSettings('autosave_duration', duration)"
-                          >
-                            {{ duration }}
-                          </a>
                         </div>
                       </div>
                     </div>
@@ -798,48 +568,6 @@
               </div>
               <div class="form-content-row">
                 <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.html_editor'">HTML editor</label>
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="htmlEditor1"
-                            name="[htmlEditor]"
-                            type="radio"
-                            (click)="updateSettings('is_html_disabled', false)"
-                            [checked]="!settings.is_html_disabled"
-                          />
-                          <label for="htmlEditor1" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="htmlEditor2"
-                            name="[htmlEditor]"
-                            type="radio"
-                            (click)="updateSettings('is_html_disabled', true)"
-                            [checked]="settings.is_html_disabled"
-                          />
-                          <label for="htmlEditor2" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="info-card mt-2 mx-3 full-width">
-                    <p [translate]="'settings.disabling_editor_message'">
-                      Disable the HTML editor if you want to send emails in plain text.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
                   <div class="col-sm-3" ngbTooltip="Help to report bugs automatically by enabling this option">
                     <label class="form-label mb-0">Report bugs</label>
                   </div>
@@ -920,8 +648,45 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.ask_local_cache'"
-                      >Ask to use local cache</label
+                    <label class="form-label mb-0" [translate]="'mail_detail.show_plain_text'">Show Plain Text</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showPlainTextMode1"
+                            name="[showPlainTextMode]"
+                            type="radio"
+                            (click)="updateShowPlainTextMode(true)"
+                            [checked]="settings.show_plain_text"
+                          />
+                          <label for="showPlainTextMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showPlainTextMode2"
+                            name="[showPlainTextMode]"
+                            type="radio"
+                            (click)="updateShowPlainTextMode(false)"
+                            [checked]="!settings.show_plain_text"
+                          />
+                          <label for="showPlainTextMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.plain_text_hard_wrap'"
+                      >Plain text hard wrap</label
                     >
                   </div>
                   <div class="col-sm-7 col-md-5">
@@ -930,33 +695,315 @@
                         <div class="fancy-field-group">
                           <input
                             class="d-none fancy-field-control fancy-field-control-sm"
-                            id="askLocalCacheEnable"
-                            name="[askLocalCache]"
+                            id="hardWrapMode1"
+                            name="[hardWrapMode]"
                             type="radio"
-                            (click)="updateSettings('use_local_cache', 'ASK')"
-                            [checked]="askLocalCache"
+                            (click)="updateSettings('is_hard_wrap', true)"
+                            [checked]="settings.is_hard_wrap"
                           />
-                          <label for="askLocalCacheEnable" [translate]="'common.enabled'">Enabled</label>
+                          <label for="hardWrapMode1" [translate]="'common.enabled'">Enabled</label>
                         </div>
                       </div>
-                      <div class="col-6 flex-auto-col" *ngIf="userPlanType !== planType.FREE">
+                      <div class="col-6 flex-auto-col">
                         <div class="fancy-field-group">
                           <input
                             class="d-none fancy-field-control fancy-field-control-sm"
-                            id="askLocalCacheDisable"
-                            name="[askLocalCache]"
+                            id="hardWrapMode2"
+                            name="[hardWrapMode]"
                             type="radio"
-                            (click)="updateSettings('use_local_cache', 'DISALLOWED')"
-                            [checked]="!askLocalCache"
+                            (click)="updateSettings('is_hard_wrap', false)"
+                            [checked]="!settings.is_hard_wrap"
                           />
-                          <label for="askLocalCacheDisable" [translate]="'common.disabled'">Disabled</label>
+                          <label for="hardWrapMode2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="info-card mt-2 mx-3 full-width" *ngIf="userPlanType === planType.FREE">
-                    <p [translate]="'settings.upgrade_to_change_spam_filter'">
-                      Upgrade to Prime to change the spam filter setting!
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Composer Settings -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0">
+              <strong [translate]="'settings.composer_settings'"> Composer </strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0">Default composer size</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="composersize1"
+                            name="[composerSize]"
+                            type="radio"
+                            (click)="updateSettings('is_composer_full_screen', false)"
+                            [checked]="!settings.is_composer_full_screen"
+                          />
+                          <label for="composersize1">Small pop-up</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="composersize2"
+                            name="[composerSize]"
+                            type="radio"
+                            (click)="updateSettings('is_composer_full_screen', true)"
+                            [checked]="settings.is_composer_full_screen"
+                          />
+                          <label for="composersize2">Full screen</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_font'">
+                      Default composing font
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm" placement="bottom-left">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultFontDropdownMenuButton"
+                          [ngStyle]="{ 'font-family': settings.default_font }"
+                        >
+                          {{ settings.default_font }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let font of fonts"
+                            (click)="updateSettings('default_font', font)"
+                            [ngStyle]="{ 'font-family': font }"
+                          >
+                            {{ font }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_color'">
+                      Default composing color
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm" placement="bottom-left">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultColorDropdownMenuButton"
+                        >
+                          <span *ngIf="settings.default_color; else notDefaultColor">
+                            <i class="color-box" [style.background]="settings.default_color"></i>
+                            {{ settings.default_color }}
+                          </span>
+                          <ng-template #notDefaultColor>
+                            <i class="color-box" [style.background]="colors[0]"></i>
+                            <span> {{ colors[0] }} </span>
+                          </ng-template>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultColorDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let color of colors"
+                            (click)="updateSettings('default_color', color)"
+                          >
+                            <i class="color-box" [style.background]="color"></i>
+                            <span class="text-capitalize">
+                              {{ color }}
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_background'">
+                      Default composing background
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm" placement="bottom-left">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultBackgroundDropdownMenuButton"
+                        >
+                          <span *ngIf="settings.default_background; else notDefaultBackground">
+                            <i class="color-box" [style.background]="settings.default_background"></i>
+                            {{ settings.default_background }}
+                          </span>
+                          <ng-template #notDefaultBackground>
+                            <i class="color-box" [style.background]="backgrounds[0]"></i>
+                            <span> {{ backgrounds[0] }} </span>
+                          </ng-template>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultBackgroundDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let background of backgrounds"
+                            (click)="updateSettings('default_background', background)"
+                          >
+                            <i class="color-box" [style.background]="background"></i>
+                            <span class="text-capitalize">
+                              {{ background }}
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_size'">
+                      Default composing size
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm" placement="bottom-left">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultSizeDropdownMenuButton"
+                        >
+                          <span
+                            *ngIf="
+                              settings.default_size && settings.default_size !== defaultFontSize;
+                              else displayDefault
+                            "
+                          >
+                            {{ settings.default_size }}px
+                          </span>
+                          <ng-template #displayDefault>
+                            <span> {{ defaultFontSize }}px (default) </span>
+                          </ng-template>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultSizeDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let size of sizes"
+                            (click)="updateSettings('default_size', size)"
+                          >
+                            <span *ngIf="size !== defaultFontSize; else setDefault"> {{ size }}px </span>
+                            <ng-template #setDefault>
+                              <span> {{ size }}px (default) </span>
+                            </ng-template>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.compose_autosave_duration'">
+                      Composing autosave interval
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm" placement="bottom-left">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultAutosaveDropdownMenuButton"
+                        >
+                          {{ autosave_duration }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultAutosaveDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let duration of autosave_duration_list"
+                            (click)="updateSettings('autosave_duration', duration)"
+                          >
+                            {{ duration }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.html_editor'">HTML editor</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="htmlEditor1"
+                            name="[htmlEditor]"
+                            type="radio"
+                            (click)="updateSettings('is_html_disabled', false)"
+                            [checked]="!settings.is_html_disabled"
+                          />
+                          <label for="htmlEditor1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="htmlEditor2"
+                            name="[htmlEditor]"
+                            type="radio"
+                            (click)="updateSettings('is_html_disabled', true)"
+                            [checked]="settings.is_html_disabled"
+                          />
+                          <label for="htmlEditor2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="info-card mt-2 mx-3 full-width">
+                    <p [translate]="'settings.disabling_editor_message'">
+                      Disable the HTML editor if you want to send emails in plain text.
                     </p>
                   </div>
                 </div>
@@ -1101,6 +1148,40 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.plain_text_font'">
+                      Default plain text font
+                    </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="defaultFontDropdownMenuButton"
+                          [ngStyle]="{ 'font-family': settings.plain_text_font }"
+                        >
+                          {{ settings.plain_text_font }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let font of fonts"
+                            (click)="updateSettings('plain_text_font', font)"
+                            [ngStyle]="{ 'font-family': font }"
+                          >
+                            {{ font }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
                     <label for="customCss" class="form-label mb-sm-0"> Customize CSS </label>
                   </div>
                   <form class="col-sm-7 col-md-5" autocomplete="off">
@@ -1212,6 +1293,30 @@
         </section>
 
         <!-- Notification Section Ends -->
+
+        <!-- Referral Code Section -->
+        <section class="mailbox-section">
+          <header class="ui-header ui-header-bordered">
+            <h5 class="ui-header-subtitle text-dark mb-0">
+              <strong [translate]="'settings.referral_code'">Referral Code</strong>
+            </h5>
+          </header>
+          <div class="mailbox-section-body mailbox-section-body-sm">
+            <div class="form-content-holder">
+              <span>{{ userState.settings.referral_code }}</span>
+              <button mat-icon-button (click)="copyToClipboard(userState.settings.referral_code)" class="copy-btn">
+                <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
+              </button>
+            </div>
+            <div class="info-card mt-2 full-width">
+              <p [translate]="'settings.get_one_month_prime_membership'">
+                Get one month of Prime membership free for every Prime sign up made using your referral code.
+              </p>
+            </div>
+          </div>
+        </section>
+        <!-- Referral Code Section Ends -->
+
         <section class="mailbox-section">
           <app-invite-codes></app-invite-codes>
         </section>
@@ -1310,7 +1415,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToBlacklist(item.id, item.name, item.email)" role="button">
@@ -1389,7 +1501,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToWhitelist(item.id, item.name, item.email)" role="button">
@@ -1470,10 +1589,6 @@
     </ngb-tab>
   </ngb-tabset>
 
-  <!-- Save Button -->
-  <button mat-fab color="warn" class="fab-bottom" (click)="onUpdateSettingsBtnClick()">
-    <i class="icon icon-save-disk"></i>
-  </button>
   <app-mail-footer></app-mail-footer>
 </div>
 

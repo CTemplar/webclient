@@ -4,15 +4,15 @@
   id="app-outer-id"
   [class.resize-active]="windowIsResized"
   *ngIf="!isLoading"
-  [class.app-outer-secondary]="!isMail"
+  [class.app-outer-secondary]="!isMailStaff"
 >
-  <app-header [hidden]="hideHeader"></app-header>
+  <app-header [hidden]="isMailStaff"></app-header>
   <main id="main" role="main">
     <div class="content">
       <router-outlet></router-outlet>
     </div>
   </main>
-  <app-footer [hidden]="hideHeader"></app-footer>
+  <app-footer [hidden]="isMailStaff"></app-footer>
 </div>
 <cookie-law #cookieLaw *ngIf="!cookieEnabled">
   Cookies are required to use CTemplar. Please enable them in your browser.

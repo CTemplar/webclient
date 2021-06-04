@@ -1,13 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs/internal/Subject';
-import ImageResize from 'quill-image-resize-module';
-import Quill from 'quill';
-
+import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
@@ -18,16 +16,14 @@ import {
   ResetMailboxKeyOperationState,
   SetMailboxKeyPrimary,
 } from '../../../store/actions/mail.actions';
-import { ImageFormat, OpenPgpService, SharedService, UsersService } from '../../../store/services';
+import { OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
 import { Folder, Mailbox } from '../../../store/models';
-import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, QUILL_FORMATTING_MODULES } from '../../../shared/config';
+import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
-
-// Register quill modules and fonts and image parameters
-Quill.register('modules/imageResize', ImageResize);
-Quill.register(ImageFormat, true);
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 enum AddKeyStep {
   SELECT_MAILBOX,
@@ -40,7 +36,7 @@ enum AddKeyStep {
   templateUrl: './addresses-signature.component.html',
   styleUrls: ['./../mail-settings.component.scss', './addresses-signature.component.scss'],
 })
-export class AddressesSignatureComponent implements OnInit, OnDestroy {
+export class AddressesSignatureComponent implements OnInit {
   @ViewChild('downloadKeyModal') downloadKeyModal: any;
 
   @ViewChild('setAutocryptConfirmModal') setAutocryptConfirmModal: any;
@@ -55,9 +51,13 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef: any;
 
+  @ViewChild('manageMailboxModal') manageMailboxModal: any;
+
   private downloadKeyModalRef: NgbModalRef;
 
   private setAutocryptConfirmModalRef: NgbModalRef;
+
+  private manageMailboxModalRef: NgbModalRef;
 
   private addNewKeyModalRef: NgbModalRef;
 
@@ -85,6 +85,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   selectedMailboxForSignature: Mailbox;
 
+  selectedMailboxForManage: Mailbox;
+
   selectedMailboxForKey: Mailbox;
 
   settings: Settings;
@@ -96,8 +98,6 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
   reorderInProgress = false;
 
   signatureChanged: Subject<string> = new Subject<string>();
-
-  quillModules = QUILL_FORMATTING_MODULES;
 
   isCustomDomainSelected: boolean;
 
@@ -115,6 +115,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   pickedMailboxKeyForUpdate: MailboxKey; // Download or Remove
 
+  /**
+   * This is temporary mailbox for
+   * - Download, Remove on Multiple keys
+   * - Manage Mailbox for auto Sign, auto attach public key
+   */
   pickedMailboxForUpdate: MailboxKey; // Download or Remove - multiple keys
 
   selectedMailboxForAutocrypt: Mailbox;
@@ -131,6 +136,10 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
 
   deleteKeyConfirmString: string;
 
+  public DecoupledEditor = DecoupledEditor;
+
+  public CKEDITOR_TOOLBAR_ITEMS = CKEDITOR_TOOLBAR_ITEMS;
+
   constructor(
     private formBuilder: FormBuilder,
     private openPgpService: OpenPgpService,
@@ -139,6 +148,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private store: Store<AppState>,
     private sharedService: SharedService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -194,8 +204,12 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
         }
         this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
         this.mailboxKeysMap = mailboxesState.mailboxKeysMap;
-        if (this.inProgress && !mailboxesState.inProgress && this.setAutocryptConfirmModalRef) {
-          this.setAutocryptConfirmModalRef.dismiss();
+        if (this.inProgress && !mailboxesState.inProgress) {
+          if (this.setAutocryptConfirmModalRef) {
+            this.setAutocryptConfirmModalRef.dismiss();
+          } else if (this.manageMailboxModalRef) {
+            this.manageMailboxModalRef.dismiss();
+          }
         }
         this.inProgress = mailboxesState.inProgress;
       });
@@ -233,6 +247,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     });
 
     this.handleUsernameAvailability();
+  }
+
+  public onSignatureReady(editor: any) {
+    const toolbarContainer = document.querySelector('.signature-editor-toolbar-container');
+    toolbarContainer.append(editor.ui.view.toolbar.element);
   }
 
   onDomainChange(customDomain: string) {
@@ -300,7 +319,7 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       if (this.openPgpService.getUserKeys()) {
         this.addNewAddress();
       } else {
-        this.openPgpService.waitForPGPKeys(this, 'addNewAddress');
+        this.openPgpService.waitForPGPKeys(this, 'addNewAddress', 'generateKeyFailed');
       }
     }
   }
@@ -311,6 +330,11 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       ...this.openPgpService.getUserKeys(),
     };
     this.store.dispatch(new CreateMailbox(requestData));
+  }
+
+  generateKeyFailed() {
+    this.newAddressOptions.isBusy = false;
+    this.store.dispatch(new SnackErrorPush({ message: this.translate.instant('create_account.failed_generate_code') }));
   }
 
   updateDefaultEmailAddress(selectedMailbox: Mailbox) {
@@ -327,12 +351,8 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
     )}`;
   }
 
-  onSignatureChange(value: string) {
-    this.signatureChanged.next(value);
-  }
-
-  signatureFocused(value: boolean) {
-    SharedService.isQuillEditorOpen = value;
+  onSignatureChange({ editor }: ChangeEvent) {
+    this.signatureChanged.next(editor.getData());
   }
 
   updateMailboxSettings(selectedMailbox: any, key: string, value: any) {
@@ -494,6 +514,34 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
    */
 
   /**
+   * Start Manage Mailbox Section
+   */
+  onManageMailbox(mailbox: Mailbox) {
+    this.selectedMailboxForManage = mailbox;
+    this.manageMailboxModalRef = this.modalService.open(this.manageMailboxModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-sm',
+    });
+  }
+
+  onClickAttachPublicKey(isEnabled: boolean) {
+    if (this.selectedMailboxForManage) {
+      this.selectedMailboxForManage.is_attach_public_key = isEnabled;
+    }
+  }
+
+  onConfirmSetManageMailbox() {
+    if (this.selectedMailboxForManage) {
+      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailboxForManage));
+    }
+  }
+
+  /**
+   * End Manage Mailbox Section
+   */
+
+  /**
    * Start Autocrypt Section
    */
   onSetAutocrypt(mailbox: Mailbox) {
@@ -603,9 +651,5 @@ export class AddressesSignatureComponent implements OnInit, OnDestroy {
       return;
     }
     input.type = input.type === 'password' ? 'text' : 'password';
-  }
-
-  ngOnDestroy(): void {
-    SharedService.isQuillEditorOpen = false;
   }
 }

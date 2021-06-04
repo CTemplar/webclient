@@ -34,7 +34,8 @@ export class MailService {
     if (payload.folder === MailFolderType.STARRED) {
       url = `${url}&starred=true`;
     } else {
-      url = `${url}&folder=${payload.folder}`;
+      const folder = encodeURIComponent(payload.folder);
+      url = `${url}&folder=${folder}`;
     }
     if (payload.read === false || payload.read === true) {
       url = `${url}&read=${payload.read}`;
@@ -256,7 +257,7 @@ export class MailService {
       }),
       body: { password: data.password },
     };
-    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}`, options);
+    return this.http.delete<any>(`${apiUrl}emails/mailbox-keys/${data.id}/`, options);
   }
 
   setPrimaryMailboxKeys(data: MailboxKey) {

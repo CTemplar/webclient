@@ -6,7 +6,7 @@
     </h5>
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
-    <div class="form-content-holder col-sm col-sm-8">
+    <div class="form-content-holder">
       <ul class="ui-list ui-list-styled list-styled" *ngIf="settings?.enable_forwarding; else addForwardingAddress">
         <li class="ui-list-item ui-list-item-xs-full">
           <div class="row row-xs align-items-center">
@@ -30,16 +30,15 @@
           </div>
         </li>
       </ul>
-      <div class="row row-xs" *ngIf="settings.enable_forwarding">
+      <div class="row row-xs mat-row" *ngIf="settings.enable_forwarding">
         <mat-checkbox
           type="checkbox"
           id="copyForwarding"
           name="copyForwarding"
           [(ngModel)]="settings.enable_copy_forwarding"
           (ngModelChange)="changeKeepCopy($event)"
-          [translate]="'settings.forwarding.keep_copy'"
         >
-          Keep a copy of forwarded messages
+          {{ 'settings.forwarding.keep_copy' | translate }}
         </mat-checkbox>
       </div>
       <ng-template #addForwardingAddress>
