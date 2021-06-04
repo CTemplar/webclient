@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
@@ -10,7 +10,6 @@ import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
   AddMailboxKeys,
-  AddMailboxKeysSuccess,
   DeleteMailboxKeys,
   MailboxSettingsUpdate,
   ResetMailboxKeyOperationState,
@@ -19,7 +18,7 @@ import {
 import { OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
-import { Folder, Mailbox } from '../../../store/models';
+import { Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
@@ -528,6 +527,12 @@ export class AddressesSignatureComponent implements OnInit {
   onClickAttachPublicKey(isEnabled: boolean) {
     if (this.selectedMailboxForManage) {
       this.selectedMailboxForManage.is_attach_public_key = isEnabled;
+    }
+  }
+
+  onClickSignMessage(isEnabled: boolean) {
+    if (this.selectedMailboxForManage) {
+      this.selectedMailboxForManage.is_pgp_sign = isEnabled;
     }
   }
 

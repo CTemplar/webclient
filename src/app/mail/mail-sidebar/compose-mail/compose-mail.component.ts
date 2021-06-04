@@ -2123,6 +2123,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailbox));
     }
   }
+  onClickSignMessage(isEnabled: boolean) {
+    if (this.selectedMailbox) {
+      this.selectedMailbox.is_pgp_sign = isEnabled;
+      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailbox));
+    }
+  }
 
   ngOnDestroy(): void {
     // save to draft when close compose
