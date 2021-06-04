@@ -442,7 +442,7 @@
                     (click)="onManageMailbox(mailbox)"
                     ngbTooltip="Edit"
                   >
-                    <i class="icon icon-edit"></i>
+                    <i class="icon icon-gear"></i>
                   </button>
                 </li>
               </ul>
@@ -984,18 +984,15 @@
     </button>
   </div>
   <div class="modal-body bg-faded">
+    <p class="text-holder text-dark text-medium">
+      {{ 'settings.security.attach_public_key_tooltip' | translate }}
+    </p>
     <div class="mt-3">
       <!-- Attach Public Key -->
       <div class="form-content-row mb-3">
         <div class="row align-items-center">
           <div class="col-sm-5">
-            <label class="form-label mb-0" [translate]="'settings.security.attach_public_key'">
-              Attach public key
-              <i
-                class="fas fa-info-circle ml-1"
-                [ngbTooltip]="'settings.security.attach_public_key_tooltip' | translate"
-              ></i
-            ></label>
+            <label class="form-label mb-0" [translate]="'settings.security.attach_public_key'">Attach public key</label>
           </div>
           <div class="col-sm-7">
             <div class="row row-sm">

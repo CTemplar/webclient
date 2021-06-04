@@ -64,6 +64,7 @@ import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from
 import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
+import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 
 const updatedSizes = SIZES.map(size => {
   return `${size}px`;
@@ -2114,6 +2115,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       !this.usersKeys.has(email.toLowerCase()) ||
       (this.usersKeys.has(email.toLowerCase()) && this.usersKeys.get(email.toLowerCase()).isFetching)
     );
+  }
+
+  onClickAttachPublicKey(isEnabled: boolean) {
+    if (this.selectedMailbox) {
+      this.selectedMailbox.is_attach_public_key = isEnabled;
+      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailbox));
+    }
   }
 
   ngOnDestroy(): void {
