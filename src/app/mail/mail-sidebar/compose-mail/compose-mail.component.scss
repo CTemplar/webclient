@@ -51,9 +51,16 @@ textarea:disabled {
   }
   a {
     color: var(--text-dark);
+    margin-left: 10px;
   }
   .item {
     margin-left: -25px;
+  }
+  .row-item {
+    display: flex;
+  }
+  .check-box {
+    width: 16px;
   }
 }
 
