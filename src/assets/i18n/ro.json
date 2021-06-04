@@ -241,7 +241,7 @@
       "attach_url": "Atașează o adresă URL",
       "self_dest_email": "Sindistruge e-mail-ul",
       "confirm_send": "Confirmă trimiterea",
-      "send_without_all": "Sunteți sigur(ă) că doriți să trimiteți acest mesaj fără subiect sau conținut?", // The English string needs an update here
+      "send_without_all": "Sunteți sigur(ă) că doriți să trimiteți acest mesaj fără subiect sau conținut?",
       "email_deleted": "E-mail-ul va fi șters la data aleasă",
       "select_date": "Alege data",
       "select_time": "Alege timpul",
