@@ -11,6 +11,13 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+      
+      - name: Mirror at Codeberg
+        uses: spyoungtech/mirror-action@master
+        with:
+          REMOTE: git@codeberg.org:CTemplar/webclient.git
+          GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
+          GIT_SSH_NO_VERIFY_HOST: "true"
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/cache@v1
@@ -69,8 +76,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Prepare for app notarization
+        if: startsWith(matrix.os, 'macos')
+        # Import Apple API key for app notarization on macOS
+        run: |
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+          
       - name: Build and pre-release Electron apps
         uses: samuelmeuli/action-electron-builder@v1
+        env:
+          # macOS notarization API key
+          API_KEY_ID: ${{ secrets.api_key_id }}
+          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           build_script_name: 'build:electron'
