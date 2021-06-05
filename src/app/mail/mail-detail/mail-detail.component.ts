@@ -317,6 +317,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 this.mail.subject = decryptedContent.subject;
               }
               this.decryptedContentsPlain[this.mail.id] = decryptedContent.content_plain;
+              if (this.userState?.settings?.show_plain_text && decryptedContent.content_plain) {
+                this.plainTextViewState[this.mail.id] = true;
+              }
               this.decryptedHeaders[this.mail.id] = this.parseHeaders(decryptedContent.incomingHeaders);
               this.isDecryptingError[this.mail.id] = decryptedContent.decryptError;
               this.handleEmailLinks();
@@ -708,6 +711,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           : childDecryptedContent.content;
         this.decryptedContents[child.id] = decryptedContents;
         this.decryptedContentsPlain[child.id] = childDecryptedContent.content_plain;
+        if (this.userState?.settings?.show_plain_text && childDecryptedContent.content_plain) {
+          this.plainTextViewState[child.id] = true;
+        }
         if (child.is_subject_encrypted) {
           child.subject = childDecryptedContent.subject;
         }
@@ -1295,9 +1301,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (previousMails.length === 0) {
       return '';
     }
-    let history = SummarySeparator;
+    let history = '';
     previousMails.forEach(previousMail => (history = this.getMessageSummary(history, previousMail)));
-    return `<div class="gmail_quote">${history}</div>`;
+    return `${history}`;
   }
 
   /**
@@ -1306,26 +1312,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   private getMessageSummary(content: string, mail: Mail): string {
     if (mail.folder !== MailFolderType.DRAFT && mail.folder !== MailFolderType.TRASH && this.includeOriginMessage) {
       const formattedDateTime = mail.sent_at
-        ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A')
-        : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm:ss A');
+        ? this.dateTimeUtilService.formatDateTimeStr(mail.sent_at, 'ddd, MMMM D, YYYY [at] h:mm A')
+        : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'ddd, MMMM D, YYYY [at] h:mm A');
       if (this.decryptedContents[mail.id] === undefined) {
         this.decryptedContents[mail.id] = '';
       }
-      // content += `</br>---------- Original Message ----------</br>On ${formattedDateTime} < ${
-      //   mail.sender
-      // } > wrote:</br><div class="originalblock">${this.decryptedContents[mail.id]}</div></br>`;
       const parsedEmailData = parseEmail.parseOneAddress(mail.sender) as parseEmail.ParsedMailbox;
       const senderName =
         !mail.sender_display?.name || (mail.sender_display?.name && mail.sender_display?.name === parsedEmailData.local)
           ? ''
           : mail.sender_display?.name;
       const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
-      content += `
-        </br>---------- Original Message ----------</br>
-        On ${formattedDateTime} ${senderEmail} wrote:
-        </br>
-          <div class="originalblock">${this.decryptedContents[mail.id]}</div>
-        </br>`;
+      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${
+        this.decryptedContents[mail.id]
+      }</blockquote>`;
     }
     return content;
   }
@@ -1334,6 +1334,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
    * Add forwarded message summary with original message
    */
   private getForwardMessageSummary(mail: Mail): string {
+    const toHeaderString =
+      mail.receiver_display?.length > 0
+        ? mail.receiver_display
+            .map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true))
+            .join(', ')
+        : mail.receiver.join(', ');
     let content =
       `</br>---------- Forwarded message ----------</br>` +
       `From: ${EmailFormatPipe.transformToFormattedEmail(
@@ -1347,9 +1353,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           : this.dateTimeUtilService.formatDateTimeStr(mail.created_at, 'medium')
       }</br>` +
       `Subject: ${xss.escapeHtml(mail.subject)}</br>` +
-      `To: ${mail.receiver_display
-        .map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true))
-        .join(', ')}</br>`;
+      `To: ${toHeaderString}</br>`;
 
     if (mail.cc.length > 0) {
       content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
@@ -1380,7 +1384,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onClickChildHeader(mail: Mail) {
     if (mail.folder === MailFolderType.DRAFT) {
       if (!this.mailExpandedStatus[mail.id]) {
-        this.mailExpandedStatus[mail.id] = !this.mailExpandedStatus[mail.id];
         const onHide$ = new Subject<boolean>();
         onHide$.subscribe(isHide => {
           if (isHide) {

@@ -462,11 +462,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         isFullScreen: this.userState.settings.is_composer_full_screen,
       });
     } else {
-      // change sender display before to open mail detail, because this sender display was for last child.
-      // TODO should be regression test for this part for sender_display_name
-      this.store.dispatch(
-        new GetMailDetailSuccess({ ...mail, sender_display: { name: mail.sender, email: mail.sender } }),
-      );
+      this.store.dispatch(new GetMailDetailSuccess(mail));
       const queryParams: any = {};
       if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
         queryParams.search = this.searchText;

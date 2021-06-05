@@ -155,8 +155,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
-  askLocalCache: boolean;
-
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
@@ -200,7 +198,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
         this.WhitelistItems = user.whiteList;
         this.BlacklistItems = user.blackList;
         this.settings = user.settings;
-        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
         this.notificationEmail = user.settings.notification_email;
         this.timeZoneFilter.setValue(user.settings.timezone);
         this.cdr.detectChanges();
@@ -391,6 +388,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.updateSettings('is_conversation_mode', is_conversation_mode);
     this.store.dispatch(new ClearMailsOnConversationModeChange());
     this.store.dispatch(new GetUnreadMailsCount());
+  }
+
+  updateShowPlainTextMode(is_showplaintext_mode: boolean) {
+    this.updateSettings('show_plain_text', is_showplaintext_mode);
   }
 
   /**
@@ -663,5 +664,9 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     popupWin.document.open();
     popupWin.document.write(invoiceData);
     popupWin.document.close();
+  }
+
+  copyToClipboard(value: string) {
+    this.sharedService.copyToClipboard(value);
   }
 }

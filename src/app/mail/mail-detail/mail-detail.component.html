@@ -303,6 +303,7 @@
   </section>
   <app-mail-detail-body
     [mail]="mail"
+    [plainTextFont]="userState.settings.plain_text_font"
     [isShowTrashRelatedChildren]="isShowTrashRelatedChildren"
     [mailFolder]="mailFolder"
     [mailExpandedStatus]="mailExpandedStatus[mail.id]"
@@ -340,6 +341,7 @@
     <!--Mail Content-->
     <app-mail-detail-body
       [mail]="childMail"
+      [plainTextFont]="userState.settings.plain_text_font"
       [isShowTrashRelatedChildren]="isShowTrashRelatedChildren"
       [mailFolder]="mailFolder"
       [mailExpandedStatus]="mailExpandedStatus[childMail.id]"

@@ -31,6 +31,10 @@ export class MailHeaderComponent implements OnInit {
 
   selectedLanguage: Language = { name: 'English', locale: 'en' };
 
+  // Language should be set at least once here
+  // Because a user can use multiple account with different language
+  isSetLanguage = false;
+
   languages = LANGUAGES;
 
   searchInput = new FormControl();
@@ -66,7 +70,8 @@ export class MailHeaderComponent implements OnInit {
       .subscribe((user: UserState) => {
         if (user.settings.language) {
           const language = this.languages.find(item => item.name === user.settings.language);
-          if (this.selectedLanguage.name !== language.name) {
+          if (this.selectedLanguage.name !== language.name || !this.isSetLanguage) {
+            this.isSetLanguage = true;
             this.translate.use(language.locale);
           }
           this.selectedLanguage = language;

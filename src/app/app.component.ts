@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -11,6 +11,7 @@ import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes, QuoteType } from './store/quotes';
 import { FinalLoading } from './store/actions';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
+import { filter } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -21,21 +22,17 @@ import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/con
 export class AppComponent implements OnInit {
   @ViewChild('cookieLaw') cookieLawEl: any;
 
-  public hideFooter = false;
-
-  public hideHeader = false;
-
   public windowIsResized = false;
 
   public isLoading = true;
-
-  public isMail = false;
 
   quote: QuoteType;
 
   isAuthenticated: boolean;
 
   cookieEnabled = true;
+
+  isMailStaff = false;
 
   constructor(
     public router: Router,
@@ -44,11 +41,19 @@ export class AppComponent implements OnInit {
     private store: Store<AppState>,
     private translate: TranslateService,
   ) {
-    // this.store.dispatch(new RefreshToken());
     this.store.dispatch(new FinalLoading({ loadingState: true }));
-    this.sharedService.hideHeader.subscribe((data: boolean) => (this.hideHeader = data));
-    this.sharedService.hideFooter.subscribe((data: boolean) => (this.hideFooter = data));
-    this.sharedService.isMail.subscribe((data: boolean) => (this.isMail = data));
+    this.router.events
+      .pipe(
+        untilDestroyed(this),
+        filter(event => event instanceof NavigationEnd),
+      )
+      .subscribe((event: NavigationEnd) => {
+        if (event.url.includes('/mail')) {
+          this.isMailStaff = true;
+        } else {
+          this.isMailStaff = false;
+        }
+      });
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');

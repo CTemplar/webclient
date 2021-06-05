@@ -121,3 +121,20 @@ $error-red: #e94e4c;
   margin: 0 auto;
   z-index: 10;
 }
+
+.d-flex {
+  ::ng-deep .mat-checkbox .mat-checkbox-frame {
+    border: 2px solid $brand-white;
+  }
+  ::ng-deep .mat-checkbox .mat-checkbox-background {
+    border: 2px solid $brand-white;
+  }
+  .mr-3 {
+    ::ng-deep .mat-checkbox .mat-checkbox-frame {
+      border: 2px solid var(--mat-checkbox-border-color);
+    }
+    ::ng-deep .mat-checkbox .mat-checkbox-background {
+      border: 0 solid var(--mat-checkbox-border-color);
+    }
+  }
+}

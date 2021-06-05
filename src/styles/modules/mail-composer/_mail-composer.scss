@@ -166,8 +166,12 @@ a {
         max-height: none;
         height: calc(100vh - 280px);
 
-        .ql-editor {
+        //.ql-editor {
+        //  min-height: 640.867px;
+        //}
+        .ck-editor__editable_inline {
           min-height: 640.867px;
+          word-wrap: break-word;
         }
         .plain-editor {
           min-height: 635px;
@@ -359,13 +363,23 @@ a {
     outline: 0;
   }
 
+  .ck-editor__editable_inline {
+    min-height: 385.867px;
+    word-wrap: break-word;
+  }
   .ql-editor {
     min-height: 385.867px;
     line-height: inherit;
     color: var(--text-color-black-white);
-    .originalblock {
-      border-left: 1px solid rgb(204, 204, 204);
-      padding-left: 1ex;
+
+    blockquote,
+    .blockquote {
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+      border-left: 3px solid #ccc;
+      padding-left: 2ex;
+      margin-top: 2ex;
     }
     p {
       font-size: 14px;
@@ -845,5 +859,28 @@ a {
     .ql-fill {
       stroke: #06c !important;
     }
+  }
+}
+
+.ck-content {
+  font-size: 14px;
+  color: var(--text-color-black-white);
+  p {
+    margin-bottom: 0;
+  }
+  .text-tiny {
+    font-size: 0.7em;
+  }
+
+  .text-small {
+    font-size: 1em;
+  }
+
+  .text-big {
+    font-size: 1.8em;
+  }
+
+  .text-huge {
+    font-size: 2.2em;
   }
 }

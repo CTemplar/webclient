@@ -35,7 +35,7 @@ export class PasswordValidation {
   styleUrls: ['./users-create-account.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersCreateAccountComponent implements OnInit, OnDestroy {
+export class UsersCreateAccountComponent implements OnInit {
   isTextToggled = false;
 
   signupForm: FormGroup;
@@ -52,7 +52,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   data: any = null;
 
-  signupInProgress = false;
+  signupInProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   signupState$: BehaviorSubject<SignupState> = new BehaviorSubject<SignupState>({ recaptcha: '' });
 
@@ -65,6 +65,8 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   modalRef: NgbModalRef;
 
   inviteCode: string;
+
+  referralCode: string = '';
 
   primaryWebsite = PRIMARY_WEBSITE;
 
@@ -85,8 +87,6 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.handleUserState();
-    this.sharedService.hideFooter.emit(true);
-
     this.signupForm = this.formBuilder.group(
       {
         username: [
@@ -176,7 +176,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
-      const reg = /^[0-9]{4}-[0-9]{5,6}$/;
+      const reg = /^[0-9]{4}-[0-9]{4,6}$/;
       if (this.inviteCode && reg.test(this.inviteCode)) {
         this.signupFormCompleted();
       } else {
@@ -195,14 +195,16 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
   }
 
   private navigateToBillingPage() {
-    this.store.dispatch(
-      new UpdateSignupData({
-        recovery_email: this.signupForm.get('recoveryEmail').value,
-        username: this.signupForm.get('username').value,
-        password: this.signupForm.get('password').value,
-        recaptcha: this.signupForm.value.captchaResponse,
-      }),
-    );
+    const signupData: SignupState = {
+      recovery_email: this.signupForm.get('recoveryEmail').value,
+      username: this.signupForm.get('username').value,
+      password: this.signupForm.get('password').value,
+      recaptcha: this.signupForm.value.captchaResponse,
+    };
+    if (this.referralCode) {
+      signupData.referral_code = this.referralCode;
+    }
+    this.store.dispatch(new UpdateSignupData(signupData));
     this.router.navigateByUrl(`/billing-info?plan=${this.selectedPlan}&billing=${this.paymentType}`);
   }
 
@@ -210,7 +212,7 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
-      this.signupInProgress = true;
+      this.signupInProgress$.next(true);
       this.openAccountInitModal();
       this.openPgpService.generateUserKeys(
         this.signupForm.get('username').value,
@@ -227,8 +229,21 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
         this.pgpKeyGenerationCompleted();
         return;
       }
+      const generateKeyError = this.openPgpService.getGenerateKeyError();
+      if (generateKeyError) {
+        this.generateKeyFailed(generateKeyError);
+        return;
+      }
       this.waitForPGPKeys();
     }, 1000);
+  }
+
+  generateKeyFailed(error: string) {
+    this.errorMessage = error;
+    this.signupInProgress$.next(false);
+    if (this.modalRef) {
+      this.modalRef.componentInstance.closeModal();
+    }
   }
 
   pgpKeyGenerationCompleted() {
@@ -249,6 +264,9 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       invite_code: this.inviteCode,
       language: currentLang.name,
     };
+    if (this.referralCode) {
+      this.data.referral_code = this.referralCode;
+    }
     this.store.dispatch(new SignUp(this.data));
   }
 
@@ -257,11 +275,11 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (this.signupInProgress && !authState.inProgress) {
+        if (this.signupInProgress$.value && !authState.inProgress) {
           if (authState.errorMessage) {
             this.notificationService.showSnackBar(`Failed to create account.${authState.errorMessage}`);
           }
-          this.signupInProgress = false;
+          this.signupInProgress$.next(false);
         }
         this.signupState$.next(authState.signupState);
       });
@@ -276,9 +294,5 @@ export class UsersCreateAccountComponent implements OnInit, OnDestroy {
           this.store.dispatch(new CheckUsernameAvailability(username));
         }
       });
-  }
-
-  ngOnDestroy() {
-    this.sharedService.hideFooter.emit(false);
   }
 }

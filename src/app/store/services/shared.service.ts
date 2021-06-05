@@ -1,46 +1,16 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import Quill from 'quill';
 import * as parseEmail from 'email-addresses';
 
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
-import { Folder } from '../models';
+import { Folder, Mail } from '../models';
 import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
 import { NotificationService } from './notification.service';
 import bcrypt from 'bcryptjs';
-import { untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { ParsedMailbox } from 'email-addresses';
-
-// image format for retrieving custom attributes
-
-const BaseImageFormat = Quill.import('formats/image');
-const ImageFormatAttributesList = ['alt', 'height', 'width', 'style'];
-
-export class ImageFormat extends BaseImageFormat {
-  static formats(domNode: any) {
-    return ImageFormatAttributesList.reduce(function (formats: any, attribute) {
-      if (domNode.hasAttribute(attribute)) {
-        formats[attribute] = domNode.getAttribute(attribute);
-      }
-      return formats;
-    }, {});
-  }
-
-  format(name: string, value: any) {
-    if (ImageFormatAttributesList.includes(name)) {
-      if (value) {
-        this.domNode.setAttribute(name, value);
-      } else {
-        this.domNode.removeAttribute(name);
-      }
-    } else {
-      super.format(name, value);
-    }
-  }
-}
 
 @Injectable({
   providedIn: 'root',
@@ -50,19 +20,9 @@ export class SharedService {
 
   static PRICING_PLANS_ARRAY: Array<PricingPlan> = [];
 
-  static isQuillEditorOpen: boolean;
-
   isReady: EventEmitter<boolean> = new EventEmitter();
 
-  hideFooter: EventEmitter<boolean> = new EventEmitter();
-
-  hideHeader: EventEmitter<boolean> = new EventEmitter();
-
-  hideEntireFooter: EventEmitter<boolean> = new EventEmitter();
-
   keyPressed: EventEmitter<any> = new EventEmitter();
-
-  isMail: EventEmitter<boolean> = new EventEmitter();
 
   isExternalPage: EventEmitter<boolean> = new EventEmitter();
 
@@ -198,6 +158,15 @@ export class SharedService {
   }
 
   /**
+   * Check if all receiver's is CTemplar based in
+   * @param usersKeys
+   * @param receiver
+   */
+  checkRecipients(usersKeys: Map<string, GlobalPublicKey>, receivers: string[]): boolean {
+    return receivers.every(receiver => this.parseUserKey(usersKeys, receiver)?.isCTemplarKey);
+  }
+
+  /**
    * Parsing UsersKeys is very annoying now due to unstructured BACKEND response for several user types
    * Parsing UsersKeys with given email and RETURN
    * @param usersKeys
@@ -267,7 +236,6 @@ export function sortByString(data: any[], field: string) {
 
 export function isComposeEditorOpen(): boolean {
   return (
-    SharedService.isQuillEditorOpen ||
     document.querySelectorAll('app-compose-mail-dialog').length > 0 ||
     document.querySelectorAll('app-compose-mail').length > 0 ||
     document.querySelectorAll('ngb-modal-window').length > 0

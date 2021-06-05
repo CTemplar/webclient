@@ -91,6 +91,7 @@ export interface Mailbox {
   // Autocrypt settings
   is_autocrypt_enabled?: boolean;
   prefer_encrypt?: string;
+  is_attach_public_key?: boolean;
 }
 
 export interface Folder {
