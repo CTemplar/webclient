@@ -66,7 +66,7 @@ export class UsersCreateAccountComponent implements OnInit {
 
   inviteCode: string;
 
-  referralCode: string = '';
+  referralCode = '';
 
   primaryWebsite = PRIMARY_WEBSITE;
 
