@@ -21,7 +21,7 @@ function transformFilename(attachments: Attachment[]) {
 function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
   const mails = sortArray
     .map(mailID => {
-      if (mailMap.hasOwnProperty(mailID)) {
+      if (Object.prototype.hasOwnProperty.call(mailMap, mailID)) {
         return mailMap[mailID];
       } else {
         return null;

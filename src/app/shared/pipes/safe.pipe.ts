@@ -252,7 +252,7 @@ export class SafePipe implements PipeTransform {
         const blackList: any = {
           position: ['fixed'],
         };
-        if (blackList.hasOwnProperty(styleName)) {
+        if (Object.prototype.hasOwnProperty.call(blackList, styleName)) {
           const blackValueList = blackList[styleName];
           const value = styleValue.replace(/!important/g, '').trim();
           if (blackValueList.includes(value)) {

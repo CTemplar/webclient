@@ -609,7 +609,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       const anchorElements = document.querySelectorAll('a');
       for (const i in anchorElements) {
-        if (anchorElements.hasOwnProperty(i) && anchorElements[i].href.indexOf('mailto:') === 0) {
+        if (Object.prototype.hasOwnProperty.call(anchorElements, i) && anchorElements[i].href.indexOf('mailto:') === 0) {
           const receivers = [anchorElements[i].href.split('mailto:')[1]];
           anchorElements[i].addEventListener('click', event => {
             event.preventDefault();
@@ -747,7 +747,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.unsubscribeLink = valueArray[1].replace(/(\n <|>)+/g, '');
             }
           }
-          if (header.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(header, key)) {
             headersArray.push({ key, value: header[key] });
           }
         });
