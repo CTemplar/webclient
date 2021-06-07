@@ -116,6 +116,8 @@ export class OpenPgpService {
 
   private generateKeyCount = 0;
 
+  private MAXIMIUM_KEY_GENERATE_COUNT = 2;
+
   private messageForPGPMimeInProcess: Map<number, PGPMimeMessageProgressModel> = new Map<
     number,
     PGPMimeMessageProgressModel
@@ -376,6 +378,10 @@ export class OpenPgpService {
     domain: string = PRIMARY_DOMAIN,
     key_type: PGPKeyType = PGPKeyType.ECC,
   ) {
+    const subject = new Subject<any>();
+    const subjectId = performance.now();
+    this.subjects[subjectId] = subject;
+
     this.generateKeyError = '';
     this.generateKeyCount = 1;
 
@@ -404,7 +410,8 @@ export class OpenPgpService {
         passphrase: password,
       };
     }
-    this.pgpWorker.postMessage({ options, generateKeys: true });
+    this.pgpWorker.postMessage({ options, generateKeys: true, subjectId });
+    return subject.asObservable();
   }
 
   generateEmailSshKeys(password: string, draftId: number) {
@@ -626,12 +633,17 @@ export class OpenPgpService {
     this.pgpWorker.onmessage = (event: MessageEvent) => {
       // Generate Keys
       if (event.data.generateKeys) {
-        if (event.data.errorMessage) {
-          if (this.generateKeyCount < 2) {
+        if (event.data.error) {
+          if (this.generateKeyCount < this.MAXIMIUM_KEY_GENERATE_COUNT) {
             this.generateKeyCount += 1;
-            this.pgpWorker.postMessage({ options: event.data.options, generateKeys: true });
+            this.pgpWorker.postMessage({
+              options: event.data.options,
+              generateKeys: true,
+              subjectId: event.data.subjectId,
+            });
           } else {
             this.generateKeyError = event.data.errorMessage;
+            this.handleObservable(event.data.subjectId, event.data);
           }
         } else if (event.data.forEmail) {
           this.store.dispatch(
@@ -643,6 +655,7 @@ export class OpenPgpService {
           );
         } else {
           this.userKeys = event.data.keys;
+          this.handleObservable(event.data.subjectId, event.data);
         }
       } else if (event.data.decryptAllPrivateKeys) {
         this.decryptedAllPrivKeys = event.data.keys;
