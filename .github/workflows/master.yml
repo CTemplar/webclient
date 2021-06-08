@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/cache@v1
@@ -49,13 +51,13 @@ jobs:
       - name: Publish to Iceland server
         run: |
           ${{ secrets.DEPLOY_COMMAND }} webclient-master
-      
-      - name: Mirror at Codeberg
-        uses: spyoungtech/mirror-action@master
+
+      - uses: pixta-dev/repository-mirroring-action@v1
         with:
-          REMOTE: git@codeberg.org:CTemplar/webclient.git
-          GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
-          GIT_SSH_NO_VERIFY_HOST: "true"
+          target_repo_url:
+            git@codeberg.org:CTemplar/webclient.git
+          ssh_private_key:
+            ${{ secrets.CODEBERG_SSH_PRIVATE_KEY }}
 
   pre-release:
     runs-on: ${{ matrix.os }}
