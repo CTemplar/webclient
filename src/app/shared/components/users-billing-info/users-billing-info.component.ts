@@ -402,8 +402,23 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
-        this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({ ...this.signupState, from_address: this.bitcoinState.newWalletAddress });
+        this.openPgpService
+          .generateUserKeys(this.signupState.username, this.signupState.password)
+          .pipe(take(1))
+          .subscribe(
+            data => {
+              if (data?.keys) {
+                this.pgpKeyGenerationCompleted({
+                  ...data.keys,
+                  ...this.signupState,
+                  from_address: this.bitcoinState.newWalletAddress,
+                });
+              }
+            },
+            error => {
+              this.generateKeyFailed(error?.errorMessage);
+            },
+          );
       }
     } else {
       this.store.dispatch(
