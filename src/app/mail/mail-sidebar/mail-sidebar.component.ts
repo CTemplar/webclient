@@ -167,9 +167,9 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
             }
-          } else if (webSocketState.message.hasOwnProperty('used_storage')) {
+          } else if (Object.prototype.hasOwnProperty.call(webSocketState.message, 'used_storage')) {
             this.store.dispatch(new SettingsUpdateUsedStorage(webSocketState.message));
-          } else if (webSocketState.message.hasOwnProperty('starred_count')) {
+          } else if (Object.prototype.hasOwnProperty.call(webSocketState.message, 'starred_count')) {
             this.store.dispatch(new StarredFolderCountUpdate(webSocketState.message));
           } else if (webSocketState.message.marked_as_read !== null) {
             this.updateUnreadCount(webSocketState);
