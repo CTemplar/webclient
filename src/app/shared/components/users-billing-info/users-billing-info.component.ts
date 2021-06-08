@@ -19,7 +19,8 @@ import {
   SnackErrorPush,
   UpgradeAccount,
   ValidatePromoCode,
-  CardAdd, AddMailboxKeys,
+  CardAdd,
+  AddMailboxKeys,
 } from '../../../store/actions';
 import {
   AppState,
@@ -28,7 +29,8 @@ import {
   CheckTransactionResponse,
   Payment,
   PaymentMethod,
-  PaymentType, PGPKeyType,
+  PaymentType,
+  PGPKeyType,
   PlanType,
   PricingPlan,
   PromoCode,
