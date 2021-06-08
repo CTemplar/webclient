@@ -49,6 +49,16 @@ textarea:disabled {
     min-width: 152px;
     max-width: 152px;
   }
+  .dropdown-menu-item {
+    padding-top: 12px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 1px solid rgba(224, 224, 224, 0);
+  }
+  .dropdown-menu-item-attach {
+    border-top: 1px solid rgba(224, 224, 224, 0.5);
+  }
   a {
     color: var(--text-dark);
     margin-left: 10px;

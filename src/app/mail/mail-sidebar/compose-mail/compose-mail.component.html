@@ -559,7 +559,7 @@
                 </button>
                 <div ngbDropdownMenu class="dropdown-menu-right text-center" aria-labelledby="btn_more">
                   <button
-                    class="dropdown-item"
+                    class="dropdown-item dropdown-menu-item"
                     (click)="setHtmlEditor(true)"
                     [disabled]="draftMail.is_html || pgpEncryptionType === 'PGP_INLINE'"
                   >
@@ -570,7 +570,7 @@
                       <a class="ql-size-small" target="_blank" rel="noopener noreferrer"> HTML Editor</a>
                     </div>
                   </button>
-                  <button class="dropdown-item" (click)="setHtmlEditor(false)" [disabled]="!draftMail.is_html">
+                  <button class="dropdown-item dropdown-menu-item" (click)="setHtmlEditor(false)" [disabled]="!draftMail.is_html">
                     <div class="row-item">
                       <div class="check-box">
                         <i *ngIf="!draftMail.is_html" class="fa fa-check text-black-50 ng-star-inserted"></i>
@@ -579,7 +579,7 @@
                     </div>
                   </button>
                   <button
-                    class="dropdown-item"
+                    class="dropdown-item dropdown-menu-item dropdown-menu-item-attach"
                     (click)="onClickAttachPublicKey(!selectedMailbox?.is_attach_public_key)"
                   >
                     <div class="row-item">
