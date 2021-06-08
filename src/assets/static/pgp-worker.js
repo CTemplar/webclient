@@ -54,6 +54,7 @@ onmessage = async function (event) {
             keys: data,
             callerId: event.data.callerId,
             forEmail: !!event.data.forEmail,
+            subjectId: event.data.subjectId,
           });
         } else {
           postMessage({
@@ -63,6 +64,7 @@ onmessage = async function (event) {
             callerId: event.data.callerId,
             forEmail: !!event.data.forEmail,
             options: event.data.options,
+            subjectId: event.data.subjectId,
           });
         }
       });
