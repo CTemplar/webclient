@@ -72,13 +72,13 @@
     "simple-keyboard": "^2.30.9",
     "tslib": "^2.0.0",
     "xss": "^1.0.8",
-    "zone.js": "^0.11.4"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^8.4.1",
     "@angular-builders/dev-server": "^7.3.1",
-    "@angular-devkit/build-angular": "^0.1102.14",
-    "@angular/cli": "^11.2.14",
+    "@angular-devkit/build-angular": "^12.0.3",
+    "@angular/cli": "^12.0.3",
     "@angular/compiler-cli": "^12.0.3",
     "@angular/language-service": "^12.0.3",
     "@ckeditor/ckeditor5-inspector": "^2.2.2",
@@ -87,6 +87,7 @@
     "@types/node": "^15.0.1",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
+    "crypto-browserify": "^3.12.0",
     "electron": "^12.0.5",
     "electron-builder": "^22.10.5",
     "electron-reload": "1.5.0",
@@ -106,7 +107,6 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "lint-staged": "^10.5.4",
-    "node-sass": "^4.13.1",
     "prettier": "^2.1.1",
     "protractor": "^7.0.0",
     "ts-node": "^8.10.2",

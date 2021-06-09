@@ -22,7 +22,6 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "aot": true,
             "assets": [
               "src/assets",
               "src/README.md",
@@ -45,7 +44,13 @@
               "node_modules/moment-timezone/builds/moment-timezone.min.js",
               "node_modules/bcryptjs/dist/bcrypt.js",
               "src/assets/js/scrambler.min.js"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -71,7 +76,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
