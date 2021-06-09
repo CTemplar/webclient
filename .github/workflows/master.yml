@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: '0'
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/cache@v1
@@ -51,6 +49,11 @@ jobs:
       - name: Publish to Iceland server
         run: |
           ${{ secrets.DEPLOY_COMMAND }} webclient-master
+          
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
 
       - uses: pixta-dev/repository-mirroring-action@v1
         with:
