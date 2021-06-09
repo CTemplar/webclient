@@ -45,6 +45,8 @@ export class MailDetailHeaderComponent implements OnInit {
 
   @Output() onClick = new EventEmitter();
 
+  @Output() onUnsubscribe = new EventEmitter();
+
   settings: Settings;
 
   currentMailbox: Mailbox;
@@ -111,7 +113,7 @@ export class MailDetailHeaderComponent implements OnInit {
 
   openUnsubscribeLink() {
     if (this.unsubscribeLink) {
-      window.open(this.unsubscribeLink, '_blank');
+      this.onUnsubscribe.emit();
     }
   }
 }

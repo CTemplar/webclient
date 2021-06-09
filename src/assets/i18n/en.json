@@ -836,7 +836,10 @@
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",
     "confirm_external_link": "Do you trust the person who sent this link? This link takes you outside of CTemplar’s platform and we are not responsible for any third-party content.",
-    "unsubscribe": "Unsubscribe"
+    "unsubscribe": "Unsubscribe",
+    "unsubscribe_description": "Are you sure you'd like to stop receiving similar messages",
+    "failed_unsubscribe": "Failed to unsubscribe.",
+    "success_unsubscribe": "Success to unsubscribe."
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",
