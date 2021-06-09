@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { finalize, take } from 'rxjs/operators';
-import { BehaviorSubject, forkJoin, Observable, Observer } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 
@@ -27,7 +27,6 @@ import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
 import { AutocryptProcessService } from './autocrypt.process.service';
-import { Subject } from 'rxjs/internal/Subject';
 import { SharedService } from './shared.service';
 
 @Injectable({

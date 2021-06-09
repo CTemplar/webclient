@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs/internal/observable/empty';
 import { Injectable } from '@angular/core';
 import { map, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 
 import { Message } from '../shared/services/websocket.service';

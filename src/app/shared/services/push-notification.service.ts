@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 import { AppState } from '../../store/datatypes';
 import { SnackErrorPush, SnackPush } from '../../store/actions';
+
 @Injectable({
   providedIn: 'root',
 })

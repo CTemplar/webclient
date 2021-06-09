@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs/internal/Subject';
+import { Subject } from 'rxjs';
+
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';

@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import * as xss from 'xss';
 import * as parseEmail from 'email-addresses';
-import { Subject } from 'rxjs/internal/Subject';
+import { Subject } from 'rxjs';
 
 import { PRIMARY_WEBSITE, SummarySeparator } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
