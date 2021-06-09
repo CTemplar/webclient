@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ComposerEncryptionTypeIconComponent } from './composer-encryption-type-icon.component';
 
@@ -6,7 +6,7 @@ describe('ComposerEncryptionTypeIconComponent', () => {
   let component: ComposerEncryptionTypeIconComponent;
   let fixture: ComponentFixture<ComposerEncryptionTypeIconComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ComposerEncryptionTypeIconComponent],
     }).compileComponents();
