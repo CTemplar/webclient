@@ -27,17 +27,17 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^11.2.14",
-    "@angular/cdk": "^10.2.7",
-    "@angular/common": "^11.2.14",
-    "@angular/compiler": "^11.2.14",
-    "@angular/core": "^11.2.14",
-    "@angular/forms": "^11.2.14",
-    "@angular/localize": "^11.2.14",
-    "@angular/material": "^10.2.7",
-    "@angular/platform-browser": "^11.2.14",
-    "@angular/platform-browser-dynamic": "^11.2.14",
-    "@angular/router": "^11.2.14",
+    "@angular/animations": "^12.0.3",
+    "@angular/cdk": "^12.0.4",
+    "@angular/common": "^12.0.3",
+    "@angular/compiler": "^12.0.3",
+    "@angular/core": "^12.0.3",
+    "@angular/forms": "^12.0.3",
+    "@angular/localize": "^12.0.3",
+    "@angular/material": "^12.0.4",
+    "@angular/platform-browser": "^12.0.3",
+    "@angular/platform-browser-dynamic": "^12.0.3",
+    "@angular/router": "^12.0.3",
     "@ckeditor/ckeditor5-angular": "^2.0.1",
     "@electron/remote": "^1.1.0",
     "@ng-bootstrap/ng-bootstrap": "9.0.0",
@@ -72,15 +72,15 @@
     "simple-keyboard": "^2.30.9",
     "tslib": "^2.0.0",
     "xss": "^1.0.8",
-    "zone.js": "^0.10.2"
+    "zone.js": "^0.11.4"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^8.4.1",
     "@angular-builders/dev-server": "^7.3.1",
     "@angular-devkit/build-angular": "^0.1102.14",
     "@angular/cli": "^11.2.14",
-    "@angular/compiler-cli": "^11.2.14",
-    "@angular/language-service": "^11.2.14",
+    "@angular/compiler-cli": "^12.0.3",
+    "@angular/language-service": "^12.0.3",
     "@ckeditor/ckeditor5-inspector": "^2.2.2",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.8",
@@ -110,6 +110,6 @@
     "prettier": "^2.1.1",
     "protractor": "^7.0.0",
     "ts-node": "^8.10.2",
-    "typescript": "~4.0.7"
+    "typescript": "~4.2.4"
   }
 }
