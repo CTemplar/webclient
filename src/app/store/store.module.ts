@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule, ActionReducer, MetaReducer, INIT } from '@ngrx/store';
 
@@ -80,7 +80,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [rehydrateMetaReducer, localS
     EffectsModule.forRoot(effects),
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({ maxAge: 100, logOnly: AppConfig.production }),
-    StoreRouterConnectingModule.forRoot(),
+    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
 })
