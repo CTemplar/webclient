@@ -22,7 +22,9 @@
               "juice",
               "cssfilter",
               "xss",
-              "moment-timezone"
+              "moment-timezone",
+              "bcryptjs",
+              "mimemessage"
             ],
             "outputPath": "dist",
             "index": "src/index.html",

@@ -1,9 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { EMPTY } from 'rxjs/internal/observable/empty';
-import { of } from 'rxjs/internal/observable/of';
+import { Observable, of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OpenPgpService, UsersService } from '../services';

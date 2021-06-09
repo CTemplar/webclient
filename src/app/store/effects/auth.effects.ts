@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
+import { Observable, of, EMPTY } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 
 import { UsersService } from '../services';
 import {

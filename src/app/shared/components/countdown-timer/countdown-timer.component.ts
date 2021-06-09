@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
-import { timer } from 'rxjs/internal/observable/timer';
+import { timer } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()

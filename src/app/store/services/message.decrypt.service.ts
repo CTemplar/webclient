@@ -2,14 +2,11 @@
 import * as postal_mime from 'postal-mime';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { take } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
 
 import { Attachment, Mail } from '../models';
 import { AppState, PGP_MIME_DEFAULT_CONTENT, PGPEncryptionType, SecureContent } from '../datatypes';
 import { SetAttachmentsForPGPMime, SnackErrorPush, UpdatePGPDecryptedContent } from '../actions';
-import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
 import { OpenPgpService } from './openpgp.service';
 import { MailService } from './mail.service';

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { of } from 'rxjs/internal/observable/of';
 
 import { DonationService } from '../services/donation.service';
 import { DonationActionTypes, MakeStripDonation, MakeStripeDonationSuccess } from '../actions/donate.actions';

@@ -2,8 +2,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
+import { Observable, of } from 'rxjs';
 
 import { GetDomains, SnackErrorPush } from './actions';
 import { OrganizationUser } from './models';

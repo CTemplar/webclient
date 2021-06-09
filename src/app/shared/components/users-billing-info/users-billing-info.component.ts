@@ -5,7 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { timer } from 'rxjs/internal/observable/timer';
+import { timer } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import {

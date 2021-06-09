@@ -1,9 +1,8 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { catchError, finalize, map, mergeMap, switchMap, concatMap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import { MailService } from '../services';
 import {
