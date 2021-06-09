@@ -20,6 +20,7 @@ import {
   UpgradeAccount,
   ValidatePromoCode,
   CardAdd,
+  AddMailboxKeys,
 } from '../../../store/actions';
 import {
   AppState,
@@ -29,6 +30,7 @@ import {
   Payment,
   PaymentMethod,
   PaymentType,
+  PGPKeyType,
   PlanType,
   PricingPlan,
   PromoCode,
@@ -40,6 +42,7 @@ import { OpenPgpService, SharedService } from '../../../store/services';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 import { apiUrl, PROMO_CODE_KEY, LANGUAGES } from '../../config';
+import { take } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -373,8 +376,19 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
-        this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({ ...this.signupState, stripe_token });
+        this.openPgpService
+          .generateUserKeys(this.signupState.username, this.signupState.password)
+          .pipe(take(1))
+          .subscribe(
+            data => {
+              if (data?.keys) {
+                this.pgpKeyGenerationCompleted({ ...data.keys, ...this.signupState, stripe_token });
+              }
+            },
+            error => {
+              this.generateKeyFailed(error?.errorMessage);
+            },
+          );
       }
     } else {
       this.store.dispatch(new SnackErrorPush('Cannot create account, please reload page and try again.'));
@@ -390,8 +404,23 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       } else {
         this.inProgress = true;
         this.openAccountInitModal();
-        this.openPgpService.generateUserKeys(this.signupState.username, this.signupState.password);
-        this.waitForPGPKeys({ ...this.signupState, from_address: this.bitcoinState.newWalletAddress });
+        this.openPgpService
+          .generateUserKeys(this.signupState.username, this.signupState.password)
+          .pipe(take(1))
+          .subscribe(
+            data => {
+              if (data?.keys) {
+                this.pgpKeyGenerationCompleted({
+                  ...data.keys,
+                  ...this.signupState,
+                  from_address: this.bitcoinState.newWalletAddress,
+                });
+              }
+            },
+            error => {
+              this.generateKeyFailed(error?.errorMessage);
+            },
+          );
       }
     } else {
       this.store.dispatch(

@@ -147,7 +147,7 @@
       <!-- Decrypting Image ends -->
 
       <!-- Attachments list starts -->
-      <ul class="list-style-none mt-3" *ngIf="decryptedContents && mail?.attachments?.length > 0">
+      <ul class="list-style-none mt-3 attachment-content" *ngIf="decryptedContents && mail?.attachments?.length > 0">
         <ng-container *ngFor="let attachment of mail?.attachments">
           <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
             <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>

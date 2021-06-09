@@ -13,7 +13,7 @@ import { MailSettingsService } from '../../../store/services/mail-settings.servi
   styleUrls: ['./use-cache-dialog.component.scss'],
 })
 export class UseCacheDialogComponent implements OnInit {
-  askLocalCache: boolean = false;
+  askLocalCache = false;
   settings: Settings = new Settings();
 
   constructor(
