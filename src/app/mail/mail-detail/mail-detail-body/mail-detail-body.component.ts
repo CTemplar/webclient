@@ -55,7 +55,7 @@ export class MailDetailBodyComponent implements OnInit {
    * Output Section
    */
   @Output() onUnsubscribe = new EventEmitter();
-  
+
   @Output() onForward = new EventEmitter();
 
   @Output() onReply = new EventEmitter();
