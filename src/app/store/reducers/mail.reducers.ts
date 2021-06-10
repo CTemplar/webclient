@@ -304,7 +304,7 @@ export function reducer(
       // Update Current Viewing Folder
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const currentFolderMap = folderMap.get(state.currentFolder);
-      state.total_mail_count = currentFolderMap.total_mail_count ? currentFolderMap.total_mail_count : 0;
+      state.total_mail_count = currentFolderMap?.total_mail_count ? currentFolderMap?.total_mail_count : 0;
       mails.forEach((mail: Mail) => {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
         if (mail.is_subject_encrypted && state.decryptedSubjects[mail.id]) {

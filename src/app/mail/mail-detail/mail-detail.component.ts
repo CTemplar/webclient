@@ -418,22 +418,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
           this.currentMailNumber = this.EMAILS_PER_PAGE * (this.page - 1) + this.currentMailIndex + 1 || '-';
         }
-        if (
-          !mailState.loaded &&
-          this.mails.length === 0 &&
-          !mailState.inProgress &&
-          this.EMAILS_PER_PAGE &&
-          this.mailFolder !== MailFolderType.SEARCH
-        ) {
-          this.store.dispatch(
-            new GetMails({
-              limit: this.EMAILS_PER_PAGE,
-              inProgress: true,
-              offset: this.OFFSET,
-              folder: this.mailFolder,
-            }),
-          );
-        }
 
         if (this.mail && this.mail.children) {
           const draft_children = this.mail.children.filter(child => child.folder === 'draft');

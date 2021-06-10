@@ -78,8 +78,13 @@ const metaReducers: Array<MetaReducer<any, any>> = [rehydrateMetaReducer, localS
 @NgModule({
   imports: [
     EffectsModule.forRoot(effects),
-    StoreModule.forRoot(reducers, { metaReducers }),
-    StoreDevtoolsModule.instrument({ maxAge: 100, logOnly: AppConfig.production }),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+      },
+    }),
     StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
