@@ -29,7 +29,11 @@
               <span class="position-relative">
                 <i *ngIf="mail?.last_action" class="fas fa-{{ mail?.last_action | lastAction }} last-action"></i>
               </span>
+
+              <i *ngIf="mail.is_verified" class="fa fa-check-circle verified-sender" ngbTooltip="{{'mail_header.verified_user' | translate}}"></i>
+
               <app-mail-detail-encryption-type-icon [mail]="mail"></app-mail-detail-encryption-type-icon>
+
               <a
                 *ngIf="unsubscribeLink"
                 class="unsubscribe text-grey-dark"
