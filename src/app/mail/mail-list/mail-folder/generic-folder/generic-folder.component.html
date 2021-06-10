@@ -406,7 +406,12 @@
                     class="fas fa-{{ mail.last_action_thread | lastAction }} last-action"
                   ></i>
                 </span>
-                <i *ngIf="mail.is_verified" class="fa fa-check-circle verified-sender" ngbTooltip="Verified Sender" ngbTooltip="{{'mail_header.verified_user' | translate}}"></i>
+                <i
+                  *ngIf="mail.is_verified"
+                  class="fa fa-check-circle verified-sender"
+                  ngbTooltip="Verified Sender"
+                  ngbTooltip="{{ 'mail_header.verified_user' | translate }}"
+                ></i>
               </a>
             </td>
             <!-- Subject -->
