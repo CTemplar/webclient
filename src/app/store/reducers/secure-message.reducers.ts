@@ -28,6 +28,7 @@ export function reducer(
         ...state,
         decryptedContent: action.payload.decryptedContent,
         isContentDecryptionInProgress: action.payload.inProgress,
+        errorMessage: action.payload.errorMessage,
       };
     }
     case SecureMessageActionTypes.UPDATE_SECURE_MESSAGE_ENCRYPTED_CONTENT: {
