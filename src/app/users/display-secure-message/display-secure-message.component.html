@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="msg-reply-card-body">
-          <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'html'"></div>
+          <div class="msg-reply-content text-dark" [innerHTML]="decryptedContent | safe: 'sanitize'"></div>
           <div>
             <ul class="list-style-none mt-3">
               <ng-container *ngFor="let attachment of message.attachments">

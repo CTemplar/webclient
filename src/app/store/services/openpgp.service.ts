@@ -523,7 +523,7 @@ export class OpenPgpService {
       mailData.subject = null;
     }
     this.pgpWorker.postMessage({ decryptSecureMessageContent: true, password, mailData });
-    this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true }));
+    this.store.dispatch(new UpdateSecureMessageContent({ decryptedContent: null, inProgress: true, errorMessage: '' }));
   }
 
   decryptAttachmentWithOnlyPassword(fileData: string, fileInfo: any, password: string): Observable<Attachment> {
@@ -704,7 +704,7 @@ export class OpenPgpService {
         );
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(
-          new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
+          new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false, errorMessage: event.data.errorMessage }),
         );
       } else if (event.data.changePassphrase) {
         Object.keys(event.data.keys).forEach(mailboxId => {
