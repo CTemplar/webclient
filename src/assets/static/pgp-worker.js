@@ -85,8 +85,11 @@ onmessage = async function (event) {
     } else {
       decryptWithPassword(event.data.mailData.content, event.data.password).then(content => {
         decryptWithPassword(event.data.mailData.subject, event.data.password).then(subject => {
-          postMessage({ mailData: { content, subject }, decryptSecureMessageContent: true });
+          postMessage({ mailData: { content, subject }, decryptSecureMessageContent: true, errorMessage: '' });
         });
+      })
+      .catch(error => {
+        postMessage({ mailData: { content: '', subject: '' }, decryptSecureMessageContent: true, errorMessage: 'Password is incorrect' });
       });
     }
   } else if (event.data.decryptSecureMessageAttachment) {
@@ -599,7 +602,7 @@ async function encryptWithPassword(data, password) {
 }
 
 async function decryptWithPassword(data, password) {
-  if (!data) {
+  if (!data || !password) {
     return Promise.resolve(data);
   }
   try {
