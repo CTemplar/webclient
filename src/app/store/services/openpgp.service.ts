@@ -704,7 +704,11 @@ export class OpenPgpService {
         );
       } else if (event.data.decryptSecureMessageContent) {
         this.store.dispatch(
-          new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false, errorMessage: event.data.errorMessage }),
+          new UpdateSecureMessageContent({
+            decryptedContent: event.data.mailData,
+            inProgress: false,
+            errorMessage: event.data.errorMessage,
+          }),
         );
       } else if (event.data.changePassphrase) {
         Object.keys(event.data.keys).forEach(mailboxId => {
