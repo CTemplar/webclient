@@ -1,6 +1,8 @@
 <span
-  >{{ days | async }} Day{{ (days | async) === 1 ? '' : 's' }} {{ hours | async }} Hour{{ (hours | async) === 1 ? '' : 's' }} {{ (minutes | async) }} Minute{{
-  (minutes | async) === 1 ? '' : 's'
+  >{{ days | async }} Day{{ (days | async) === 1 ? '' : 's' }} {{ hours | async }} Hour{{
+    (hours | async) === 1 ? '' : 's'
   }}
-  {{ (seconds | async) }} Second{{ (seconds | async) === 1 ? '' : 's' }}
+  {{ minutes | async }} Minute{{ (minutes | async) === 1 ? '' : 's' }} {{ seconds | async }} Second{{
+    (seconds | async) === 1 ? '' : 's'
+  }}
 </span>

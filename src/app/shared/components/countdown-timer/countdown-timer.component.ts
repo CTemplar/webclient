@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy
 import { takeWhile } from 'rxjs/operators';
 import { timer } from 'rxjs/internal/observable/timer';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
