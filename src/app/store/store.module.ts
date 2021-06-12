@@ -85,6 +85,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [rehydrateMetaReducer, localS
         strictActionImmutability: false,
       },
     }),
+    StoreDevtoolsModule.instrument({ maxAge: 100, logOnly: AppConfig.production }),
     StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
