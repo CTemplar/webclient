@@ -1,0 +1,12 @@
+electron-main.ts
+karma.conf.js
+webpack.config.js
+typings.d.ts
+test.ts
+node-modules/
+release/
+docs/
+e2e/
+.github/
+src/assets/
+src/environments/

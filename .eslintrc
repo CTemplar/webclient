@@ -5,14 +5,14 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:unicorn/recommended",
     "plugin:prettier/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "parserOptions": {
     "ecmaVersion": 2020,
-    "project": "./tsconfig.json",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": ["./tsconfig.json"] // Specify it only for TypeScript files
   },
+  "parser": "@typescript-eslint/parser",
   "env": {
     "es6": true,
     "browser": true,
