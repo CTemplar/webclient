@@ -1,8 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { EMPTY } from 'rxjs';
+import { Observable, of, EMPTY } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OpenPgpService, UsersService } from '../services';
@@ -63,7 +62,7 @@ export class ContactsEffects {
           }
           let count = 0;
           const contacts: Contact[] = response.results;
-          contacts.forEach(contact => {
+          for (const contact of contacts) {
             if (contact.is_encrypted) {
               contact.is_decryptionInProgress = true;
               count += 1;
@@ -71,7 +70,7 @@ export class ContactsEffects {
                 this.openPgpService.decryptContact(contact.encrypted_data, contact.id);
               }, count * 300);
             }
-          });
+          }
 
           return new ContactGetSuccess(response);
         }),
@@ -236,15 +235,14 @@ export class ContactsEffects {
               }),
               new SnackPush({ message: `Public Key with fingerprint ${payload.fingerprint} has been updated` }),
             );
-          } else {
-            return of(
-              new ContactAddKeysSuccess(res),
-              // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyAdd: true })
-              new GetUsersKeys({
-                emails: [payload.email],
-              }),
-            );
           }
+          return of(
+            new ContactAddKeysSuccess(res),
+            // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyAdd: true })
+            new GetUsersKeys({
+              emails: [payload.email],
+            }),
+          );
         }),
         catchError(error => {
           return of(

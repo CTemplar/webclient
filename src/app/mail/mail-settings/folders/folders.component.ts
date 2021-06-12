@@ -157,19 +157,15 @@ export class FoldersComponent implements OnInit {
   sortWithAlphabetic() {
     this.sortedWithAlphabetic = !this.sortedWithAlphabetic;
     if (this.sortedWithAlphabetic) {
-      this.folders
-        .sort((f, s) => f.name.localeCompare(s.name))
-        .forEach((folder, index) => {
-          folder.sort_order = index + 1;
-          this.folders[index] = folder;
-        });
+      for (const [index, folder] of this.folders.sort((f, s) => f.name.localeCompare(s.name)).entries()) {
+        folder.sort_order = index + 1;
+        this.folders[index] = folder;
+      }
     } else {
-      this.folders
-        .sort((f, s) => -f.name.localeCompare(s.name))
-        .forEach((folder, index) => {
-          folder.sort_order = index + 1;
-          this.folders[index] = folder;
-        });
+      for (const [index, folder] of this.folders.sort((f, s) => -f.name.localeCompare(s.name)).entries()) {
+        folder.sort_order = index + 1;
+        this.folders[index] = folder;
+      }
     }
     this.saveOrder();
   }

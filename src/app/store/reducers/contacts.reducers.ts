@@ -76,7 +76,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
 
       return {
         ...state,
-        contacts: sortByString(state.contacts.concat([action.payload]), 'name'),
+        contacts: sortByString([...state.contacts, action.payload], 'name'),
         inProgress: false,
         isError: false,
       };
@@ -88,9 +88,9 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
     case ContactsActionTypes.CONTACT_DELETE_SUCCESS: {
       const ids = action.payload.split(',');
       const contacts = state.contacts.filter(item => ids.includes(`${item.id}`));
-      contacts.forEach(contact => {
+      for (const contact of contacts) {
         state.contacts.splice(state.contacts.indexOf(contact), 1);
-      });
+      }
       state.totalContacts -= ids.length;
       return { ...state, inProgress: false, isError: false };
     }
@@ -151,7 +151,7 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { ...state, advancedSettingInProgress: true };
     }
     case ContactsActionTypes.CONTACT_ADD_KEYS_SUCCESS: {
-      const selectedContactKeys = state.selectedContactKeys;
+      const { selectedContactKeys } = state;
       let filteredKeys = selectedContactKeys.filter(key => key.fingerprint !== action.payload.fingerprint);
       filteredKeys = [...filteredKeys, action.payload];
       return {
@@ -185,12 +185,12 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
       return { ...state, advancedSettingInProgress: true };
     }
     case ContactsActionTypes.CONTACT_BULK_UPDATE_KEYS_SUCCESS: {
-      const contacts = state.contacts;
-      contacts.forEach(contact => {
+      const { contacts } = state;
+      for (const contact of contacts) {
         if (contact.id === action.payload.id) {
           contact.encryption_type = action.payload.encryption_type;
         }
-      });
+      }
       return {
         ...state,
         selectedContactKeys: action.payload,

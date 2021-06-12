@@ -87,7 +87,7 @@ export class UserAccountInitDialogComponent implements OnInit {
       });
     setTimeout(() => {
       this.close();
-    }, 120000);
+    }, 120_000);
   }
 
   pgpGenerationCompleted() {

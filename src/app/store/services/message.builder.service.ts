@@ -4,11 +4,13 @@ import * as mimemessage from 'mimemessage';
 
 import { EmailContentType, PGPEncryptionType, SecureContent } from '../datatypes';
 import { Attachment } from '../models';
+
 import { SharedService } from './shared.service';
 
 @Injectable()
 export class MessageBuilderService {
   constructor(private sharedService: SharedService) {}
+
   /**
    * Build mime message raw data, will be used for only PGP/MIME now
    * @param mailData - SecureContent that contains message content and content_plain

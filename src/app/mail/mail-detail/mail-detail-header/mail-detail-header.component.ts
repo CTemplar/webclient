@@ -72,9 +72,9 @@ export class MailDetailHeaderComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
-        user.customFolders.forEach(folder => {
+        for (const folder of user.customFolders) {
           this.folderColors[folder.name] = folder.color;
-        });
+        }
         this.userState = user;
         this.settings = this.userState.settings;
       });

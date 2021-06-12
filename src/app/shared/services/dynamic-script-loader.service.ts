@@ -33,7 +33,7 @@ export class DynamicScriptLoaderService {
 
   load(...scripts: string[]) {
     const promises: any[] = [];
-    scripts.forEach(script => promises.push(this.loadScript(script)));
+    for (const script of scripts) promises.push(this.loadScript(script));
     return Promise.all(promises);
   }
 

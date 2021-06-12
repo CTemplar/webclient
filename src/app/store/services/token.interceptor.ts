@@ -51,18 +51,17 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       tap(event => {
-        if (event instanceof HttpResponse) {
-          if (
-            event.ok &&
-            event.url.includes(apiUrl) &&
-            !event.url.includes('auth/sign-out') &&
-            !event.url.includes('auth/sign-in') &&
-            !event.url.includes('auth/check-username') &&
-            !event.url.includes('emails/secure-message') &&
-            !this.isAuthenticated
-          ) {
-            this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }));
-          }
+        if (
+          event instanceof HttpResponse &&
+          event.ok &&
+          event.url.includes(apiUrl) &&
+          !event.url.includes('auth/sign-out') &&
+          !event.url.includes('auth/sign-in') &&
+          !event.url.includes('auth/check-username') &&
+          !event.url.includes('emails/secure-message') &&
+          !this.isAuthenticated
+        ) {
+          this.store.dispatch(new SetAuthenticatedState({ isAuthenticated: true }));
         }
       }),
       catchError((error: any) => {

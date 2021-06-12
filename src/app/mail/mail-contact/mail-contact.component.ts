@@ -289,7 +289,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
   }
 
   toggleSelectAll() {
-    this.contactsState.contacts.forEach(item => (item.markForDelete = this.selectAll));
+    for (const item of this.contactsState.contacts) item.markForDelete = this.selectAll;
     this.selectedContacts = this.contactsState.contacts.filter(item => item.markForDelete);
   }
 

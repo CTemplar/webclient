@@ -31,7 +31,7 @@ import { ElectronService, OpenPgpService, SharedService, UsersService } from '..
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
 
-declare let Scrambler: (arg0: { target: string; random: number[]; speed: number; text: string }) => void;
+declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
 @UntilDestroy()
 @Component({
@@ -157,13 +157,12 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.isConversationView =
-          this.userState.settings && !this.userState.settings.is_conversation_mode ? false : true;
+        this.isConversationView = !(this.userState.settings && !this.userState.settings.is_conversation_mode);
         this.customFolders = user.customFolders;
         if (this.mailFolder === MailFolderType.SEARCH) {
-          user.customFolders.forEach(folder => {
+          for (const folder of user.customFolders) {
             this.folderColors[folder.name] = folder.color;
-          });
+          }
         }
         if (this.fetchMails && this.userState.settings && user.settings.emails_per_page) {
           this.LIMIT = user.settings.emails_per_page;
@@ -250,7 +249,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
   }
 
   getMailReceiverList() {
-    this.mails.forEach(mail => {
+    for (const mail of this.mails) {
       if (mail.receiver_display.length > 1) {
         mail.receiver_list = '';
         mail.receiver_display.forEach((item: EmailDisplay) => {
@@ -266,7 +265,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       } else {
         mail.receiver_list = mail.receiver_display.map((item: EmailDisplay) => item.name).join(', ');
       }
-    });
+    }
   }
 
   selectEntire(status: boolean) {
@@ -280,14 +279,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   markAllMails(checkAll: boolean) {
     if (checkAll && !this.isSomeEmailsSelected()) {
-      this.mails.forEach(mail => {
+      for (const mail of this.mails) {
         mail.marked = true;
-      });
+      }
       this.noEmailSelected = false;
     } else {
-      this.mails.forEach(mail => {
+      for (const mail of this.mails) {
         mail.marked = false;
-      });
+      }
       this.noEmailSelected = true;
       this.checkAll = false;
     }
@@ -378,8 +377,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       // 2. mail doesn't be existed on mail list
       // 3. mail (parent, if conversation mode) is encrypted with password
       let isExistMatchMail = false;
-      for (let i = 0; i < this.mails.length; i++) {
-        const mail = this.mails[i];
+      for (let index = 0; index < this.mails.length; index++) {
+        const mail = this.mails[index];
         if (mail.id === decryptingMail) {
           isExistMatchMail = true;
           if (!mail.is_subject_encrypted) {
@@ -392,9 +391,9 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       }
       return isExistMatchMail;
     });
-    for (let i = 0; i < this.mails.length; i++) {
+    for (let index = 0; index < this.mails.length; index++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
-        const mail = this.mails[i];
+        const mail = this.mails[index];
         if (
           mail.is_subject_encrypted &&
           !(mail.encryption && mail.encryption.password_hint) &&
@@ -463,11 +462,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       });
     } else {
       this.store.dispatch(new GetMailDetailSuccess(mail));
-      const queryParams: any = {};
+      const queryParameters: any = {};
       if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
-        queryParams.search = this.searchText;
+        queryParameters.search = this.searchText;
       }
-      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], { queryParams });
+      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
+        queryParams: queryParameters,
+      });
     }
   }
 
@@ -507,40 +508,40 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   markReadMails() {
     let isExist = false;
-    this.mails.forEach(mail => {
+    for (const mail of this.mails) {
       mail.marked = mail.read;
       isExist = !isExist && mail.read ? true : isExist;
-    });
+    }
     this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
 
   markUnreadMails() {
     let isExist = false;
-    this.mails.forEach(mail => {
+    for (const mail of this.mails) {
       mail.marked = !mail.read;
       isExist = !isExist && mail.marked ? true : isExist;
-    });
+    }
     this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
 
   markStarredMails() {
     let isExist = false;
-    this.mails.forEach(mail => {
+    for (const mail of this.mails) {
       mail.marked = mail.has_starred_children;
       isExist = !isExist && mail.marked ? true : isExist;
-    });
+    }
     this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
 
   markUnstarredMails() {
     let isExist = false;
-    this.mails.forEach(mail => {
+    for (const mail of this.mails) {
       mail.marked = !mail.has_starred_children;
       isExist = !isExist && mail.marked ? true : isExist;
-    });
+    }
     this.noEmailSelected = !isExist;
     this.setIsSelectAll();
   }
@@ -592,7 +593,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       Scrambler({
         target: `#subject-scramble-${mailId}`,
-        random: [1000, 120000],
+        random: [1000, 120_000],
         speed: 70,
         text: 'A7gHc6H66A9SAQfoBJDq4C7',
       });
@@ -621,11 +622,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     const markedMails = this.getMarkedMails();
     if (markedMails.length === this.LIMIT && this.checkAll) {
       return allString;
-    } else {
-      return this.getMarkedMails()
-        .map(mail => mail.id)
-        .join(',');
     }
+    return this.getMarkedMails()
+      .map(mail => mail.id)
+      .join(',');
   }
 
   getMarkedMails() {
@@ -638,11 +638,11 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
    * @returns {boolean} Boolean value that the mails is existed for the current folder on Store
    */
   private isNeedFetchMails() {
-    const curFolderMap = this.mailState.folderMap.get(this.mailFolder);
-    if (curFolderMap && (curFolderMap.is_not_first_page || curFolderMap.is_dirty)) {
+    const currentFolderMap = this.mailState.folderMap.get(this.mailFolder);
+    if (currentFolderMap && (currentFolderMap.is_not_first_page || currentFolderMap.is_dirty)) {
       return true;
     }
-    if (!curFolderMap || !curFolderMap.mails || curFolderMap.mails.length === 0) {
+    if (!currentFolderMap || !currentFolderMap.mails || currentFolderMap.mails.length === 0) {
       return true;
     }
     return false;
@@ -656,68 +656,41 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
    */
   getMailSenderReceiverInfo(mail: Mail, isTooltip = false) {
     let info = '';
-    if (this.mailFolder === this.mailFolderTypes.DRAFT) {
-      info = 'Draft';
-    } else if (this.mailFolder === this.mailFolderTypes.INBOX) {
-      info = isTooltip
-        ? mail.sender_display_name
+    switch (this.mailFolder) {
+      case this.mailFolderTypes.DRAFT: {
+        info = 'Draft';
+
+        break;
+      }
+      case this.mailFolderTypes.INBOX: {
+        info = isTooltip
           ? mail.sender_display_name
-          : mail.sender_display.email
-        : mail.sender_display_name
-        ? mail.sender_display_name
-        : mail.sender_display.name;
-    } else if (this.mailFolder === this.mailFolderTypes.SENT || this.mailFolder === this.mailFolderTypes.OUTBOX) {
-      info = mail.receiver_list;
-      if (mail.cc_display?.length > 0) {
-        const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-        info = info + ', ' + cc;
-      }
-      if (mail.bcc_display?.length > 0) {
-        const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-        info = info + ', bcc: ' + bcc;
-      }
-    } else {
-      // For Search, All Emails, Custom Folders
-      switch (mail.folder) {
-        case MailFolderType.INBOX:
-          info = isTooltip
             ? mail.sender_display_name
-              ? mail.sender_display_name
-              : mail.sender_display.email
-            : mail.sender_display_name
-            ? mail.sender_display_name
-            : mail.sender_display.name;
-          break;
+            : mail.sender_display.email
+          : mail.sender_display_name
+          ? mail.sender_display_name
+          : mail.sender_display.name;
 
-        case MailFolderType.SENT:
-        case MailFolderType.OUTBOX:
-          info = mail.receiver_list;
-          if (mail.cc_display?.length > 0) {
-            const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-            info = info + ', ' + cc;
-          }
-          if (mail.bcc_display?.length > 0) {
-            const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-            info = info + ', bcc: ' + bcc;
-          }
-          break;
+        break;
+      }
+      case this.mailFolderTypes.SENT:
+      case this.mailFolderTypes.OUTBOX: {
+        info = mail.receiver_list;
+        if (mail.cc_display?.length > 0) {
+          const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+          info = `${info}, ${cc}`;
+        }
+        if (mail.bcc_display?.length > 0) {
+          const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+          info = `${info}, bcc: ${bcc}`;
+        }
 
-        case MailFolderType.DRAFT:
-          info = 'Draft';
-          break;
-
-        default:
-          if (mail.send) {
-            info = mail.receiver_list;
-            if (mail.cc_display?.length > 0) {
-              const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-              info = info + ', ' + cc;
-            }
-            if (mail.bcc_display?.length > 0) {
-              const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-              info = info + ', bcc: ' + bcc;
-            }
-          } else {
+        break;
+      }
+      default: {
+        // For Search, All Emails, Custom Folders
+        switch (mail.folder) {
+          case MailFolderType.INBOX:
             info = isTooltip
               ? mail.sender_display_name
                 ? mail.sender_display_name
@@ -725,8 +698,47 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
               : mail.sender_display_name
               ? mail.sender_display_name
               : mail.sender_display.name;
-          }
-          break;
+            break;
+
+          case MailFolderType.SENT:
+          case MailFolderType.OUTBOX:
+            info = mail.receiver_list;
+            if (mail.cc_display?.length > 0) {
+              const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+              info = `${info}, ${cc}`;
+            }
+            if (mail.bcc_display?.length > 0) {
+              const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+              info = `${info}, bcc: ${bcc}`;
+            }
+            break;
+
+          case MailFolderType.DRAFT:
+            info = 'Draft';
+            break;
+
+          default:
+            if (mail.send) {
+              info = mail.receiver_list;
+              if (mail.cc_display?.length > 0) {
+                const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+                info = `${info}, ${cc}`;
+              }
+              if (mail.bcc_display?.length > 0) {
+                const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
+                info = `${info}, bcc: ${bcc}`;
+              }
+            } else {
+              info = isTooltip
+                ? mail.sender_display_name
+                  ? mail.sender_display_name
+                  : mail.sender_display.email
+                : mail.sender_display_name
+                ? mail.sender_display_name
+                : mail.sender_display.name;
+            }
+            break;
+        }
       }
     }
     return info;

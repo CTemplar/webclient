@@ -6,6 +6,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { TimezoneActionTypes, TimezoneGet, TimezoneGetSuccess } from '../actions/timezone.action';
 import { TimezoneService } from '../services/timezone.service';
 import { SnackErrorPush } from '../actions';
+
 @Injectable({
   providedIn: 'root',
 })

@@ -113,9 +113,9 @@ export class CustomDomainsComponent implements OnInit {
 
   prepareMapForDomainAlias(domains: Domain[], aliases: Array<any>) {
     if (domains && aliases) {
-      domains.forEach((domain, indexDomain) => {
+      for (const [indexDomain, domain] of domains.entries()) {
         const aliasesForDomain: any[] = [];
-        aliases.forEach(alias => {
+        for (const alias of aliases) {
           const domainForAlias = alias.email.split('@')[1];
           if (domain.domain === domainForAlias && alias.is_enabled) {
             aliasesForDomain.push(alias.email);
@@ -124,9 +124,9 @@ export class CustomDomainsComponent implements OnInit {
               this.domains[indexDomain] = domain;
             }
           }
-        });
+        }
         this.mailboxesForCustomDomains.set(domain.id, aliasesForDomain);
-      });
+      }
     }
   }
 

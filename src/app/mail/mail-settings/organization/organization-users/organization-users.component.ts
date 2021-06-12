@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 
 import { OrganizationUser } from '../../../../store/models';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../../../shared/config';
@@ -17,7 +18,6 @@ import {
   UpdateOrganizationUser,
 } from '../../../../store/organization.store';
 import { MoveTab, SnackErrorPush } from '../../../../store/actions';
-import { TranslateService } from '@ngx-translate/core';
 
 @UntilDestroy()
 @Component({

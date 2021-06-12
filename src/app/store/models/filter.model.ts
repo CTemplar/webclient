@@ -1,6 +1,6 @@
 export interface Filter {
   id?: number;
-  conditions?: FilterConditionObj[];
+  conditions?: FilterConditionObject[];
   folder?: string;
   mark_as_read?: boolean;
   mark_as_starred?: boolean;
@@ -10,7 +10,7 @@ export interface Filter {
   delete_msg?: boolean;
 }
 
-export interface FilterConditionObj {
+export interface FilterConditionObject {
   id?: number;
   parameter?: FilterParameter;
   condition?: FilterCondition;

@@ -3,12 +3,12 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 
 import { AddMailboxKeys, ResetMailboxKeyOperationState, SnackErrorPush } from '../../../store';
 import { Mailbox } from '../../../store/models';
 import { AppState, MailBoxesState, MailboxKey, PlanType, UserState } from '../../../store/datatypes';
 import { OpenPgpService, SharedService } from '../../../store/services';
-import { BehaviorSubject } from 'rxjs';
 
 enum ImportPrivateKeyStep {
   SELECT_MAILBOX,

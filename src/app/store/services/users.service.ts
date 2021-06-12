@@ -39,7 +39,7 @@ export class UsersService {
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + 1000 * 60 * 60 * 3; // set 3 hours expiration token time.
+    const expiration = Date.now() + 1000 * 60 * 60 * 3; // set 3 hours expiration token time.
     localStorage.setItem('token_expiration', expiration.toString());
   }
 
@@ -57,7 +57,7 @@ export class UsersService {
   }
 
   isTokenExpired() {
-    return +localStorage.getItem('token_expiration') < new Date().getTime();
+    return +localStorage.getItem('token_expiration') < Date.now();
   }
 
   signIn(body: any): Observable<any> {
@@ -236,11 +236,11 @@ export class UsersService {
       return true;
     }
     let authenticated = false;
-    authenticatedUrls.forEach(item => {
+    for (const item of authenticatedUrls) {
       if (url.includes(item)) {
         authenticated = true;
       }
-    });
+    }
     return authenticated;
   }
 

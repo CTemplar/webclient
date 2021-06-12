@@ -23,9 +23,8 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
     .map(mailID => {
       if (Object.prototype.hasOwnProperty.call(mailMap, mailID)) {
         return mailMap[mailID];
-      } else {
-        return null;
       }
+      return null;
     })
     .filter(mail => !!mail);
   const sorted = mails
@@ -41,7 +40,7 @@ function sortByDueDateWithID(sortArray: Array<number>, mailMap: any): any[] {
 function getTotalUnreadCount(data: any): number {
   if (data) {
     let total_count = 0;
-    Object.keys(data).forEach(key => {
+    for (const key of Object.keys(data)) {
       if (
         key !== MailFolderType.SENT &&
         key !== MailFolderType.TRASH &&
@@ -53,13 +52,12 @@ function getTotalUnreadCount(data: any): number {
         key !== 'updateUnreadCount' &&
         key !== 'outbox_dead_man_counter' &&
         key !== 'outbox_delayed_delivery_counter' &&
-        key !== 'outbox_self_destruct_counter'
+        key !== 'outbox_self_destruct_counter' &&
+        !isNaN(data[`${key}`])
       ) {
-        if (!isNaN(data[`${key}`])) {
-          total_count += data[`${key}`];
-        }
+        total_count += data[`${key}`];
       }
-    });
+    }
 
     return total_count;
   }
@@ -69,9 +67,9 @@ function getTotalUnreadCount(data: any): number {
 function updateMailMap(currentMap: any, mails: Mail[]): any {
   if (mails && mails.length > 0) {
     let temporaryMailMap = {};
-    mails.forEach(mail => {
+    for (const mail of mails) {
       temporaryMailMap = { ...temporaryMailMap, [mail.id]: mail };
-    });
+    }
     return { ...currentMap, ...temporaryMailMap };
   }
   return currentMap;
@@ -85,9 +83,9 @@ function filterAndMergeMailIDs(
 ): Array<number> {
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
   const newMailsMap: any = {};
-  newMails.forEach(mail => {
+  for (const mail of newMails) {
     newMailsMap[mail.id] = mail;
-  });
+  }
   if (originalMailIDs && originalMailIDs.length > 0) {
     originalMailIDs = originalMailIDs.filter(id => !mailIDs.includes(id));
     mailIDs = mailIDs.map(mailID => {
@@ -117,9 +115,9 @@ function getUpdatesFolderMap(
   let originalMailIDs = originalFolderState.mails;
   let mailIDs = newMails.filter(mail => (checkUnread ? !mail.read : true)).map(mail => mail.id);
   const newMailsMap: any = {};
-  newMails.forEach(mail => {
+  for (const mail of newMails) {
     newMailsMap[mail.id] = mail;
-  });
+  }
   if (originalMailIDs && originalMailIDs.length > 0) {
     // Remove duplicated mails
     let duplicatedMailIDS: any = [];
@@ -410,15 +408,15 @@ export function reducer(
       const folder_keys = [...folderMap.keys()].filter(
         key => key !== sourceFolderName && key !== targetFolderName && key !== state.currentFolder,
       );
-      folder_keys.forEach(key => {
+      for (const key of folder_keys) {
         const folderInfo = folderMap.get(key);
         folderInfo.is_dirty = true;
         folderInfo.mails = [];
         folderMap.set(key, folderInfo);
-      });
+      }
       // Update mail map
       const mailMapKeys = Object.keys(mailMap);
-      mailMapKeys.forEach(key => {
+      for (const key of mailMapKeys) {
         if (listOfIDs.includes(mailMap[key].id.toString())) {
           mailMap[key] = { ...mailMap[key], folder: action.payload.folder };
           if (
@@ -444,7 +442,7 @@ export function reducer(
             };
           }
         }
-      });
+      }
       // This is to move to trash only child from any folder
       // should update children_folder_info as well
       const incomeMails = Array.isArray(action.payload.mail) ? action.payload.mail : [action.payload.mail];
@@ -470,12 +468,12 @@ export function reducer(
         state.mailDetail.children &&
         state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))
       ) {
-        state.mailDetail.children.forEach((child, index) => {
+        for (const [index, child] of state.mailDetail.children.entries()) {
           if (listOfIDs.includes(child.id.toString())) {
             state.mailDetail.children[index] = { ...state.mailDetail.children[index], folder: action.payload.folder };
             state.mailDetail.children_count = state.mailDetail.children.length;
           }
-        });
+        }
         const sourceFolderChildren = state.mailDetail.children.filter(child => child.folder === sourceFolderName);
         if (sourceFolderName && folderMap.has(sourceFolderName)) {
           const sourceFolderState = folderMap.get(sourceFolderName);
@@ -524,23 +522,25 @@ export function reducer(
       }
       // Update mail children info
       undo_mails.forEach((mail: any) => {
-        if (action.payload.sourceFolder === MailFolderType.TRASH && mail.has_children && mail.children_count > 0) {
-          // Action from the other to Trash folder (undo from trash to the other folder)
+        if (
+          action.payload.sourceFolder === MailFolderType.TRASH &&
+          mail.has_children &&
+          mail.children_count > 0 && // Action from the other to Trash folder (undo from trash to the other folder)
           // All children would be set with Trash again
           // TODO, needs to get which chilren are needed to undo exactly
-          if (mailMap[mail.id]) {
-            mailMap[mail.id].children_folder_info = {
-              trash_children_count: mailMap[mail.id].children_count,
-              non_trash_children_count: 0,
-            };
-          }
+          mailMap[mail.id]
+        ) {
+          mailMap[mail.id].children_folder_info = {
+            trash_children_count: mailMap[mail.id].children_count,
+            non_trash_children_count: 0,
+          };
         }
       });
       // Update current folder map
       if (action.payload.sourceFolder === state.currentFolder) {
         mails = prepareMails(action.payload.sourceFolder, folderMap, state.mailMap);
-        const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
+        const currentMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
       }
       const listOfIDs = action.payload.ids.toString().split(',');
       if (
@@ -548,14 +548,14 @@ export function reducer(
         state.mailDetail.children &&
         state.mailDetail.children.some(child => listOfIDs.includes(child.id.toString()))
       ) {
-        state.mailDetail.children.forEach((child, index) => {
+        for (const [index, child] of state.mailDetail.children.entries()) {
           if (listOfIDs.includes(child.id.toString())) {
             state.mailDetail.children[index] = {
               ...state.mailDetail.children[index],
               folder: action.payload.sourceFolder,
             };
           }
-        });
+        }
       }
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, folder: action.payload.sourceFolder };
@@ -573,11 +573,11 @@ export function reducer(
       const { folderMap } = state;
       const { mailMap } = state;
       const allIDS = Object.keys(mailMap);
-      allIDS.forEach(mailID => {
+      for (const mailID of allIDS) {
         if (listOfIDs.includes(mailID.toString())) {
           mailMap[mailID] = { ...mailMap[mailID], read: action.payload.read };
         }
-      });
+      }
 
       // Update Unread folder
       if (state.currentFolder !== MailFolderType.UNREAD) {
@@ -607,8 +607,8 @@ export function reducer(
         folderMap.set(MailFolderType.UNREAD, currentFolderInfo);
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
 
       if (state.mailDetail && listOfIDs.includes(state.mailDetail.id.toString())) {
         state.mailDetail = { ...state.mailDetail, read: action.payload.read };
@@ -629,12 +629,12 @@ export function reducer(
       const { folderMap } = state;
       const { mailMap } = state;
       const allIDS = Object.keys(mailMap);
-      allIDS.forEach(mailID => {
+      for (const mailID of allIDS) {
         if (listOfIDs.includes(mailID.toString())) {
           const has_starred_children = !(!action.payload.starred && action.payload.withChildren);
           mailMap[mailID] = { ...mailMap[mailID], starred: action.payload.starred, has_starred_children };
         }
-      });
+      }
 
       // Update Star folder
       if (state.currentFolder !== MailFolderType.STARRED) {
@@ -655,11 +655,11 @@ export function reducer(
           if (state.mailDetail && mailID === state.mailDetail.id) {
             const { children } = state.mailDetail;
             if (children && children.length > 0) {
-              children.forEach((child, index) => {
+              for (const [index, child] of children.entries()) {
                 if (listOfIDs.includes(child.id.toString())) {
                   children[index] = { ...child, starred: action.payload.starred };
                 }
-              });
+              }
               return children.some(child => child.starred);
             }
           }
@@ -679,7 +679,7 @@ export function reducer(
         const { children } = state.mailDetail;
         if (listOfIDs.includes(state.mailDetail.id.toString())) {
           if (action.payload.withChildren && children && children.length > 0) {
-            children.forEach((child, index) => (children[index].starred = action.payload.starred));
+            for (const [index, child] of children.entries()) children[index].starred = action.payload.starred;
           }
           const has_starred_children =
             children && children.length > 0
@@ -687,11 +687,11 @@ export function reducer(
               : action.payload.starred;
           state.mailDetail = { ...state.mailDetail, starred: action.payload.starred, children, has_starred_children };
         } else if (children && children.length > 0) {
-          children.forEach((child, index) => {
+          for (const [index, child] of children.entries()) {
             if (listOfIDs.includes(child.id.toString())) {
               children[index] = { ...child, starred: action.payload.starred };
             }
-          });
+          }
           const has_starred_children = children.some(child => child.starred) || state.mailDetail.starred;
           state.mailDetail = { ...state.mailDetail, children, has_starred_children };
           if (state.mailDetail.id in mailMap) {
@@ -701,8 +701,8 @@ export function reducer(
       }
 
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
-      const curMailFolder = folderMap.get(state.currentFolder);
-      state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
+      const currentMailFolder = folderMap.get(state.currentFolder);
+      state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
 
       return {
         ...state,
@@ -720,7 +720,7 @@ export function reducer(
       const folderMap = new Map(state.folderMap);
       const mailMap = { ...state.mailMap };
       const folder_keys = [MailFolderType.DRAFT, MailFolderType.TRASH, MailFolderType.SPAM];
-      folder_keys.forEach(key => {
+      for (const key of folder_keys) {
         if (folderMap.has(key)) {
           const folderInfo = folderMap.get(key);
           folderInfo.mails = folderInfo.mails.filter(mailID => !listOfIDs.includes(mailID.toString()));
@@ -728,7 +728,7 @@ export function reducer(
           folderInfo.is_dirty = true;
           folderMap.set(key, folderInfo);
         }
-      });
+      }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const currentMailFolder = folderMap.get(state.currentFolder);
       state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
@@ -760,27 +760,21 @@ export function reducer(
           mail.is_subject_encrypted = false;
           mail.subject = state.decryptedSubjects[mail.id];
         }
-        if (
+        mail.attachments =
           mail.encryption_type === PGPEncryptionType.PGP_MIME &&
           decryptedAttachmentsMap.has(mail.id) &&
           decryptedAttachmentsMap.get(mail.id).length > 0
-        ) {
-          mail.attachments = decryptedAttachmentsMap.get(mail.id);
-        } else {
-          mail.attachments = transformFilename(mail.attachments);
-        }
+            ? decryptedAttachmentsMap.get(mail.id)
+            : transformFilename(mail.attachments);
         if (mail.children && mail.children.length > 0) {
-          mail.children.forEach(item => {
-            if (
+          for (const item of mail.children) {
+            item.attachments =
               item.encryption_type === PGPEncryptionType.PGP_MIME &&
               decryptedAttachmentsMap.has(item.id) &&
               decryptedAttachmentsMap.get(item.id).length > 0
-            ) {
-              item.attachments = decryptedAttachmentsMap.get(item.id);
-            } else {
-              item.attachments = transformFilename(item.attachments);
-            }
-          });
+                ? decryptedAttachmentsMap.get(item.id)
+                : transformFilename(item.attachments);
+          }
         }
       }
       return {
@@ -877,17 +871,17 @@ export function reducer(
       const { mailMap } = state;
       const mails = prepareMails(action.payload, folderMap, state.mailMap);
       const total_mail_count = folderMap.has(action.payload) ? folderMap.get(action.payload).total_mail_count : 0;
-      Object.keys(mailMap).forEach(key => {
+      for (const key of Object.keys(mailMap)) {
         const mail = mailMap[key];
         mail.marked = false;
         mailMap[key] = { ...mail };
-      });
-      mails.forEach(mail => {
+      }
+      for (const mail of mails) {
         if (state.decryptedSubjects[mail.id]) {
           mail.subject = state.decryptedSubjects[mail.id];
           mail.is_subject_encrypted = false;
         }
-      });
+      }
       return {
         ...state,
         mails,
@@ -935,7 +929,7 @@ export function reducer(
       mailMap = updateMailMap(mailMap, [newMail]);
       if (newMail.parent) {
         const mailIDs = Object.keys(mailMap);
-        mailIDs.forEach(mailID => {
+        for (const mailID of mailIDs) {
           if (mailMap[mailID].id === newMail.parent && !newMail.isUpdate) {
             mailMap[mailID].has_children = true;
             mailMap[mailID].children_count = mailMap[mailID].children_count + 1;
@@ -951,7 +945,7 @@ export function reducer(
               };
             }
           }
-        });
+        }
       }
       // update target folder map
       if (folderMap.has(newMail.folder) && folderMap.get(newMail.folder).mails?.length > 0) {
@@ -961,8 +955,8 @@ export function reducer(
       }
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       if (state.currentFolder) {
-        const curMailFolder = folderMap.get(state.currentFolder);
-        state.total_mail_count = curMailFolder ? curMailFolder.total_mail_count : 0;
+        const currentMailFolder = folderMap.get(state.currentFolder);
+        state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
       }
       return {
         ...state,
@@ -1006,18 +1000,18 @@ export function reducer(
         if (messageID === mailDetail.id) {
           mailDetail.attachments = attachments;
         } else if (mailDetail.children?.length > 0) {
-          mailDetail.children.forEach(child => {
+          for (const child of mailDetail.children) {
             if (child.id === messageID) {
               child.attachments = attachments;
             }
-          });
+          }
         }
       }
-      Object.keys(mailMap).forEach(mailID => {
+      for (const mailID of Object.keys(mailMap)) {
         if (mailID === messageID.toString()) {
           mailMap[mailID].attachments = attachments;
         }
-      });
+      }
       decryptedAttachmentsMap.set(messageID, attachments);
       return { ...state, mailDetail, mailMap, decryptedAttachmentsMap };
     }

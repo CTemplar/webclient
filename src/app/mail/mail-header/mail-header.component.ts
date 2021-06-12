@@ -13,8 +13,7 @@ import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
 import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store/actions';
 import { AppState, UserState } from '../../store/datatypes';
 import { SearchState } from '../../store/reducers/search.reducers';
-import { LOADING_IMAGE } from '../../store/services';
-import { HttpCancelService } from '../../store/services';
+import { LOADING_IMAGE, HttpCancelService } from '../../store/services';
 
 @UntilDestroy()
 @Component({

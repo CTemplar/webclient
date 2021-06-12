@@ -127,11 +127,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (!authState.isAuthenticated) {
-          this.isLoading = authState.inProgress;
-        } else {
-          this.isLoading = false;
-        }
+        this.isLoading = !authState.isAuthenticated ? authState.inProgress : false;
         this.errorMessage = authState.errorMessage;
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
         this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;

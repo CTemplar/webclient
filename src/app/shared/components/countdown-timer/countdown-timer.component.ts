@@ -38,8 +38,8 @@ export class CountdownTimerComponent implements OnInit {
 
   calculate() {
     let durationCopy = this.duration;
-    this.days = Math.floor(durationCopy / 86400);
-    durationCopy -= this.days * 86400;
+    this.days = Math.floor(durationCopy / 86_400);
+    durationCopy -= this.days * 86_400;
     this.hours = Math.floor(durationCopy / 3600) % 24;
     durationCopy -= this.hours * 3600;
     this.minutes = Math.floor(durationCopy / 60) % 60;

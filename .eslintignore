@@ -24,6 +24,7 @@ e2e/
 
 # assets
 src/assets/
+src/styles/
 
 # others
 npm-debug.log*

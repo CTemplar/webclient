@@ -72,7 +72,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS: {
       const { cards } = state;
-      cards.forEach(card => (card.is_primary = action.payload === card.id));
+      for (const card of cards) card.is_primary = action.payload === card.id;
       return {
         ...state,
         cards,
@@ -222,11 +222,11 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.CREATE_FOLDER_SUCCESS: {
       let index = -1;
       action.payload.sort_order = action.payload.sort_order || state.customDomains.length;
-      state.customFolders.forEach((folder, i) => {
+      for (const [index_, folder] of state.customFolders.entries()) {
         if (folder.id === action.payload.id) {
-          index = i;
+          index = index_;
         }
-      });
+      }
       if (index > -1) {
         state.customFolders[index] = action.payload;
       } else {

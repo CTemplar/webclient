@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
+
 import {
   AutocryptEncryptDetermine,
   AutocryptPreferEncryptType,
@@ -92,22 +93,13 @@ export class ComposerEncryptionTypeIconComponent {
            * Autocryp Enabled
            * At this case, Autocrypt icon would be showed
            */
-          if (
+          this.encryptionType =
             this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL &&
             this.autocryptInfo.encryptTotally &&
             (this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE ||
               this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT)
-          ) {
-            /**
-             * Fully Autocrypt Enabled and Encrypted
-             */
-            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
-          } else {
-            /**
-             * Autocrypt Enabled, but would be attached JUST Autocrypt Header
-             */
-            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
-          }
+              ? ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT
+              : ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
         } else {
           this.encryptionType = this.encryptionTypeMap[this.selectedEmail];
         }

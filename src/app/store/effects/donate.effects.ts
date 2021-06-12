@@ -37,7 +37,7 @@ export class DonateEffects {
     ofType(DonationActionTypes.MAKE_STRIPE_DONATION_SUCCESS),
     tap(response => {
       this.notificationService.showSnackBar('Donated Successfully. Thank you for your donation.', 'CLOSE', {
-        duration: 10000,
+        duration: 10_000,
       });
       this.router.navigateByUrl('/donate');
     }),

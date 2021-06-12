@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Attachment, Mail, MailFolderType } from '../../../store/models';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppState } from '../../../store/datatypes';
 import { Store } from '@ngrx/store';
+
+import { Attachment, Mail, MailFolderType } from '../../../store/models';
+import { AppState } from '../../../store/datatypes';
 import { LOADING_IMAGE } from '../../../store/services';
 
 @UntilDestroy()

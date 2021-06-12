@@ -69,13 +69,13 @@ export class PushNotificationService {
   }
 
   generateNotification(source: Array<any>): void {
-    source.forEach(item => {
+    for (const item of source) {
       const options = {
         body: item.alertContent,
         icon: '../resource/images/bell-icon.png',
       };
       const notify = this.create(item.title, options).subscribe();
-    });
+    }
   }
 }
 

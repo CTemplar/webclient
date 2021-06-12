@@ -5,6 +5,8 @@ import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
+import { TranslateService } from '@ngx-translate/core';
 
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
@@ -23,8 +25,6 @@ import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } 
 import { Folder, Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
-import { TranslateService } from '@ngx-translate/core';
 
 enum AddKeyStep {
   SELECT_MAILBOX,

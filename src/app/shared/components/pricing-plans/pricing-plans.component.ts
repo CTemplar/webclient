@@ -66,14 +66,14 @@ export class PricingPlansComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    for (let i = 6; i <= 50; i++) {
-      this.availableStorage.push(i);
+    for (let index = 6; index <= 50; index++) {
+      this.availableStorage.push(index);
     }
-    for (let i = 20; i <= 100; i += 10) {
-      this.availableEmailAddress.push(i);
+    for (let index = 20; index <= 100; index += 10) {
+      this.availableEmailAddress.push(index);
     }
-    for (let i = 2; i <= 10; i++) {
-      this.availableCustomDomain.push(i);
+    for (let index = 2; index <= 10; index++) {
+      this.availableCustomDomain.push(index);
     }
     this.paymentType = this.paymentType || PaymentType.MONTHLY;
     this.paymentMethod = this.paymentMethod || PaymentMethod.STRIPE;

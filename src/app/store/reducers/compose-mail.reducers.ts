@@ -111,7 +111,7 @@ export function reducer(
           getUserKeyInProgress: true,
         };
       }
-      const usersKeys = state.usersKeys;
+      const { usersKeys } = state;
       action.payload.emails.forEach((email: string) => {
         usersKeys.set(email, { key: null, isFetching: true });
       });
@@ -128,7 +128,7 @@ export function reducer(
         };
       }
       // Saving on global user keys
-      const usersKeys = state.usersKeys;
+      const { usersKeys } = state;
       if (!action.payload.isBlind && action.payload.data && action.payload.data.keys) {
         action.payload.data.keys.forEach((key: any) => {
           usersKeys.set(key.email, {
@@ -212,7 +212,7 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.START_ATTACHMENT_ENCRYPTION: {
-      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+      for (const [index, attachment] of state.drafts[action.payload.draftId].attachments.entries()) {
         if (attachment.attachmentId === action.payload.attachmentId) {
           state.drafts[action.payload.draftId].attachments[index] = {
             ...state.drafts[action.payload.draftId].attachments[index],
@@ -223,13 +223,13 @@ export function reducer(
             isProcessingAttachments: true,
           };
         }
-      });
+      }
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT: {
       if (action.payload.id) {
-        state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+        for (const [index, attachment] of state.drafts[action.payload.draftId].attachments.entries()) {
           if (attachment.attachmentId === action.payload.attachmentId) {
             state.drafts[action.payload.draftId].attachments[index] = {
               ...state.drafts[action.payload.draftId].attachments[index],
@@ -240,7 +240,7 @@ export function reducer(
               isProcessingAttachments: true,
             };
           }
-        });
+        }
       } else {
         state.drafts[action.payload.draftId].attachments = [
           ...state.drafts[action.payload.draftId].attachments,
@@ -255,32 +255,32 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_PROGRESS: {
-      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+      for (const [index, attachment] of state.drafts[action.payload.draftId].attachments.entries()) {
         if (attachment.attachmentId === action.payload.attachmentId) {
           state.drafts[action.payload.draftId].attachments[index] = {
             ...state.drafts[action.payload.draftId].attachments[index],
             progress: action.payload.progress,
           };
         }
-      });
+      }
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_REQUEST: {
-      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+      for (const [index, attachment] of state.drafts[action.payload.draftId].attachments.entries()) {
         if (attachment.attachmentId === action.payload.attachmentId) {
           state.drafts[action.payload.draftId].attachments[index] = {
             ...state.drafts[action.payload.draftId].attachments[index],
             request: action.payload.request,
           };
         }
-      });
+      }
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
       const { data, isPGPMimeMessage } = action.payload;
-      state.drafts[data.draftId].attachments.forEach((attachment, index) => {
+      for (const [index, attachment] of state.drafts[data.draftId].attachments.entries()) {
         if (attachment.attachmentId === data.attachmentId) {
           state.drafts[data.draftId].attachments[index] = {
             ...state.drafts[data.draftId].attachments[index],
@@ -291,7 +291,7 @@ export function reducer(
             request: null,
           };
         }
-      });
+      }
       const isProcessingAttachments = !!state.drafts[data.draftId].attachments.find(
         attachment => attachment.inProgress,
       );
@@ -319,7 +319,7 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.DELETE_ATTACHMENT: {
-      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+      for (const [index, attachment] of state.drafts[action.payload.draftId].attachments.entries()) {
         if (attachment.attachmentId === action.payload.attachmentId) {
           state.drafts[action.payload.draftId].attachments[index] = {
             ...state.drafts[action.payload.draftId].attachments[index],
@@ -327,7 +327,7 @@ export function reducer(
             inProgress: true,
           };
         }
-      });
+      }
       state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments: true };
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -352,7 +352,7 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.DELETE_ATTACHMENT_FAILURE: {
-      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+      for (const [index, attachment] of state.drafts[action.payload.draftId].attachments.entries()) {
         if (attachment.attachmentId === action.payload.attachmentId) {
           state.drafts[action.payload.draftId].attachments[index] = {
             ...state.drafts[action.payload.draftId].attachments[index],
@@ -360,7 +360,7 @@ export function reducer(
             inProgress: false,
           };
         }
-      });
+      }
       const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(
         attachment => attachment.inProgress,
       );
@@ -374,19 +374,19 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.UPDATE_DRAFT_ATTACHMENT: {
-      state.drafts[action.payload.draftId].attachments.forEach((attachment, index) => {
+      for (const [index, attachment] of state.drafts[action.payload.draftId].attachments.entries()) {
         if (attachment.attachmentId === action.payload.attachment.attachmentId) {
           state.drafts[action.payload.draftId].attachments[index] = {
             ...state.drafts[action.payload.draftId].attachments[index],
             ...action.payload.attachment,
           };
         }
-      });
+      }
       return { ...state, drafts: { ...state.drafts } };
     }
 
     case ComposeMailActionTypes.MATCH_CONTACT_USER_KEYS: {
-      const usersKeys = state.usersKeys;
+      const { usersKeys } = state;
       if (action.payload.contactKeyAdd) {
         const key = action.payload;
         usersKeys.set(key.email, {
@@ -400,7 +400,7 @@ export function reducer(
       } else if (action.payload.contactKeyRemove) {
       } else if (action.payload.contactAdd) {
         // setting encryption type
-        const email = action.payload.email;
+        const { email } = action.payload;
         if (usersKeys.has(email) && usersKeys.get(email).key && usersKeys.get(email).key.length > 0) {
           usersKeys.set(email, {
             ...usersKeys.get(email),

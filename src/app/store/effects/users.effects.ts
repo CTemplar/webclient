@@ -4,6 +4,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import { MailService, SharedService, UsersService } from '../services';
 import {
@@ -111,7 +112,6 @@ import { NotificationService } from '../services/notification.service';
 import { GetOrganizationUsers } from '../organization.store';
 import { NOT_FIRST_LOGIN } from '../../shared/config';
 import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
   providedIn: 'root',

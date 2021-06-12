@@ -75,10 +75,8 @@ export class ReplySecureMessageComponent implements OnInit {
             this.store.dispatch(
               new SendSecureMessageReply({ hash: this.hash, secret: this.secret, message: this.message }),
             );
-          } else if (this.secureMessageState.inProgress && !state.inProgress) {
-            if (!state.errorMessage) {
-              this.replySuccess.emit(true);
-            }
+          } else if (this.secureMessageState.inProgress && !state.inProgress && !state.errorMessage) {
+            this.replySuccess.emit(true);
           }
         }
         this.secureMessageState = state;

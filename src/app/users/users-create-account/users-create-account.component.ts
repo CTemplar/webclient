@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs/operators';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
 
 import { AppState, AuthState, PaymentType, PlanType, SignupState } from '../../store/datatypes';
 import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } from '../../store/actions';
@@ -14,10 +15,9 @@ import { OpenPgpService, SharedService, UsersService } from '../../store/service
 import { NotificationService } from '../../store/services/notification.service';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
-import { BehaviorSubject } from 'rxjs';
 
-export class PasswordValidation {
-  static MatchPassword(AC: AbstractControl): any {
+export const PasswordValidation = {
+  MatchPassword(AC: AbstractControl): any {
     const password = AC.get('password').value; // to get value in input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
     if (password !== confirmPassword) {
@@ -25,8 +25,8 @@ export class PasswordValidation {
     } else {
       return null;
     }
-  }
-}
+  },
+};
 
 @UntilDestroy()
 @Component({
@@ -114,13 +114,13 @@ export class UsersCreateAccountComponent implements OnInit {
         const { queryParams } = this.activatedRoute.snapshot;
         this.selectedPlan = state.signupState.plan_type || queryParams.plan || PlanType.PRIME;
         this.paymentType = state.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
-        if (Object.keys(queryParams).length !== 0 && !queryParams.billing) {
+        if (Object.keys(queryParams).length > 0 && !queryParams.billing) {
           if (!Object.values(PlanType).includes(this.selectedPlan)) {
             this.selectedPlan = PlanType.FREE;
             this.router.navigateByUrl(`/create-account?plan=${this.selectedPlan}`);
           }
         } else if (
-          Object.keys(queryParams).length !== 0 &&
+          Object.keys(queryParams).length > 0 &&
           (!Object.values(PlanType).includes(this.selectedPlan) ||
             !Object.values(PaymentType).includes(this.paymentType))
         ) {
@@ -176,7 +176,7 @@ export class UsersCreateAccountComponent implements OnInit {
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
-      const reg = /^[0-9]{4}-[0-9]{4,6}$/;
+      const reg = /^\d{4}-\d{4,6}$/;
       if (this.inviteCode && reg.test(this.inviteCode)) {
         this.signupFormCompleted();
       } else {

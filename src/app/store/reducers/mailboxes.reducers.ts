@@ -183,7 +183,7 @@ export function reducer(
       const { mailboxKeysMap } = state;
       if (action.payload.updateKeyMap) {
         const { keyMap } = action.payload;
-        [...mailboxKeysMap.keys()].forEach(mailboxId => {
+        for (const mailboxId of [...mailboxKeysMap.keys()]) {
           if (mailboxKeysMap.get(mailboxId).length > 0 && keyMap[mailboxId] && keyMap[mailboxId].length > 0) {
             const updatedKeys = mailboxKeysMap.get(mailboxId).map((key, index) => {
               if (keyMap[mailboxId].length > index + 1) {
@@ -197,7 +197,7 @@ export function reducer(
             });
             mailboxKeysMap.set(mailboxId, updatedKeys);
           }
-        });
+        }
         return {
           ...state,
           mailboxKeysMap,
@@ -310,7 +310,7 @@ export function reducer(
       // Update mailbox to set key info
       const { mailboxes } = state;
       let currentPrimaryMailbox: Mailbox;
-      mailboxes.forEach(mailbox => {
+      for (const mailbox of mailboxes) {
         if (mailbox.id === newPrimaryKey.mailbox) {
           currentPrimaryMailbox = { ...mailbox };
           mailbox.public_key = newPrimaryKey.public_key;
@@ -318,12 +318,12 @@ export function reducer(
           mailbox.fingerprint = newPrimaryKey.fingerprint;
           mailbox.key_type = newPrimaryKey.key_type;
         }
-      });
+      }
 
       // Update mailbox key list
       const { mailboxKeysMap } = state;
       if (mailboxKeysMap.has(newPrimaryKey.mailbox) && mailboxKeysMap.get(newPrimaryKey.mailbox).length > 0) {
-        mailboxKeysMap.get(newPrimaryKey.mailbox).forEach((key, index) => {
+        for (const [index, key] of mailboxKeysMap.get(newPrimaryKey.mailbox).entries()) {
           if (index === 0) {
             key.private_key = newPrimaryKey.private_key;
             key.public_key = newPrimaryKey.public_key;
@@ -336,7 +336,7 @@ export function reducer(
             key.fingerprint = currentPrimaryMailbox.fingerprint;
             key.key_type = currentPrimaryMailbox.key_type;
           }
-        });
+        }
       }
       return {
         ...state,

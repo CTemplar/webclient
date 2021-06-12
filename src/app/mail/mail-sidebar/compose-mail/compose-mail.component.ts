@@ -70,8 +70,8 @@ const updatedSizes = SIZES.map(size => {
   return `${size}px`;
 });
 
-export class PasswordValidation {
-  static MatchPassword(AC: AbstractControl): any {
+export const PasswordValidation = {
+  MatchPassword(AC: AbstractControl): any {
     const password = AC.get('password').value; // to get value in password input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in confirm password input tag
     if (password !== confirmPassword) {
@@ -79,8 +79,8 @@ export class PasswordValidation {
     } else {
       return null;
     }
-  }
-}
+  },
+};
 
 @UntilDestroy()
 @Component({
@@ -450,10 +450,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           if (draft.draft && draft.draft.id && this.attachmentsQueue.length > 0) {
             // when open draft mail with attachments
-            this.attachmentsQueue.forEach(attachment => {
+            for (const attachment of this.attachmentsQueue) {
               attachment.message = draft.draft.id;
               this.encryptAttachment(attachment);
-            });
+            }
             this.attachmentsQueue = [];
           }
           if (!this.inProgress) {
@@ -513,21 +513,21 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((contactsState: ContactsState) => {
         this.contacts = [];
         if (contactsState.emailContacts === undefined) {
-          contactsState.contacts.forEach(x => {
+          for (const x of contactsState.contacts) {
             this.contacts.push({
               name: x.name,
               email: x.email,
               display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name),
             });
-          });
+          }
         } else {
-          contactsState.emailContacts.forEach(x => {
+          for (const x of contactsState.emailContacts) {
             this.contacts.push({
               name: x.name,
               email: x.email,
               display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name),
             });
-          });
+          }
         }
         this.clonedContacts =
           contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
@@ -1033,7 +1033,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   decryptAttachments(attachments: Array<Attachment>) {
-    attachments.forEach(attachment => {
+    for (const attachment of attachments) {
       // TODO: Do we need to download attachment even if it is not encrypted?
       if (!attachment.decryptedDocument && !this.downloadingAttachments[attachment.id]) {
         this.downloadingAttachments[attachment.id] = true;
@@ -1081,7 +1081,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to get attachments.' })),
           );
       }
-    });
+    }
   }
 
   insertLink(text: string, link: string) {
@@ -1133,8 +1133,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     //   this.updateEmail();
     // }
     const _this = this;
-    for (let i = 0; i < files.length; i++) {
-      const file = files.item(i);
+    for (let index = 0; index < files.length; index++) {
+      const file = files.item(index);
       if (/^image\//.test(file.type)) {
         const FR = new FileReader();
         FR.addEventListener('load', function (e) {
@@ -1161,8 +1161,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if ((!this.draftMail || !this.draftMail.id) && !this.draft.isSaving) {
       this.updateEmail();
     }
-    for (let i = 0; i < files.length; i++) {
-      const file: File = files.item(i);
+    for (let index = 0; index < files.length; index++) {
+      const file: File = files.item(index);
       this.uploadAttachment(file, false);
     }
   }
@@ -1220,7 +1220,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.decryptAttachments(this.attachments);
     this.isUploadingAttachment = false;
     // TODO: remove this if its not required anymore due to change in handling of inline attachments?
-    this.attachments.forEach(attachment => {
+    for (const attachment of this.attachments) {
       if (
         attachment.is_inline &&
         attachment.progress === 100 &&
@@ -1237,7 +1237,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       if (attachment.progress < 100 && !attachment.isRemoved) {
         this.isUploadingAttachment = true;
       }
-    });
+    }
   }
 
   onAttachImageURL(url: string) {
@@ -1322,12 +1322,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.cc.map((cc: any) => cc.email),
       ...this.mailData.bcc.map((bcc: any) => bcc.email),
     ];
-    receivers.forEach(receiver => {
+    for (const receiver of receivers) {
       const getDomain = receiver.substring(receiver.indexOf('@') + 1, receiver.length);
       if (getDomain === 'ctemplar.com') {
         this.isSelfDestruction = true;
       }
-    });
+    }
     if (!this.isSelfDestruction && this.selfDestruct.date) {
       this.clearSelfDestructValue();
     }
@@ -1455,7 +1455,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     if (!this.draftMail?.is_html && this.settings.is_hard_wrap) {
-      //mail content hard wrap
+      // mail content hard wrap
       this.mailData.content = this.mailData.content.replace(
         new RegExp(`(?![^\\n]{1,${80}}$)([^\\n]{1,${80}})\\s`, 'g'),
         '$1\n',
@@ -1480,7 +1480,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     const message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...';
 
-    this.store.dispatch(new SnackPush({ message, duration: 120000 }));
+    this.store.dispatch(new SnackPush({ message, duration: 120_000 }));
     this.resetValues();
     this.hide.emit();
   }
@@ -1815,13 +1815,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.is_subject_encrypted = true;
     let tokens;
-    if (this.draftMail.is_html) {
-      // if html version, convert text to html format with html tags
-      this.draftMail.content = this.composerEditorInstance?.getData();
-    } else {
-      // if text version, don't convert content
-      this.draftMail.content = this.mailData.content;
-    }
+    this.draftMail.content = this.draftMail.is_html ? this.composerEditorInstance?.getData() : this.mailData.content;
     this.draftMail.send = shouldSend;
 
     if (this.action) {
@@ -1973,7 +1967,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onAddingReceiver(tag: any, data: any[]) {
     // convert tag values to custom format with value, display, email, name
-    data.forEach(item => {
+    for (const item of data) {
       if (item.email) {
         item.display = item.email;
       } else if (item.value) {
@@ -1989,10 +1983,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           item.email = item.name = item.value;
         }
       }
-    });
+    }
     if (tag.value && tag.value.split(',').length > 1) {
       const emails: any[] = [];
-      data.forEach(item => {
+      for (const item of data) {
         if (item.value === tag.value) {
           const tokens = tag.value.split(',');
           emails.push(
@@ -2004,7 +1998,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           emails.push(item);
         }
-      });
+      }
       data.splice(0, this.mailData.receiver.length);
       data.push(...emails);
     }
@@ -2047,7 +2041,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.usersKeys,
     );
     if (localReceivers.length > 0) {
-      localReceivers.forEach(rec => {
+      for (const rec of localReceivers) {
         const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
         if (keyInfo.isExistKey) {
           if (keyInfo.isCTemplarKey) {
@@ -2072,7 +2066,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             [rec]: ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_NONE,
           };
         }
-      });
+      }
       if (!this.autocryptInfo.senderAutocryptEnabled) {
         // Set Editor style with encryption type
         // If all receiver is based on PGP Inline, Plain Text Editor

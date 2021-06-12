@@ -12,7 +12,7 @@ import {
   Filter,
   FilterCondition,
   FilterConditionChoices,
-  FilterConditionObj,
+  FilterConditionObj as FilterConditionObject,
   FilterParameter,
 } from '../../../store/models/filter.model';
 
@@ -37,6 +37,7 @@ export class MailFiltersComponent implements OnInit {
   mailFolderType = MailFolderType;
 
   filterCondition = FilterCondition;
+
   filterConditionChoices = FilterConditionChoices;
 
   filterParameter = FilterParameter;
@@ -129,7 +130,7 @@ export class MailFiltersComponent implements OnInit {
       this.createFilterForm.get('markAsStarred').setValue(selectedFilter.mark_as_starred);
 
       this.createFilterData.conditions.map((c, index) => {
-        const filterTextName = 'filterText-' + index.toString();
+        const filterTextName = `filterText-${index.toString()}`;
         this.createFilterForm.addControl(filterTextName, new FormControl());
         this.createFilterForm.get(filterTextName).setValue(c.filter_text);
       });
@@ -168,10 +169,11 @@ export class MailFiltersComponent implements OnInit {
       },
     ];
     this.createFilterForm.addControl(
-      'filterText-' + (this.createFilterData.conditions.length - 1).toString(),
+      `filterText-${(this.createFilterData.conditions.length - 1).toString()}`,
       new FormControl(),
     );
   }
+
   onRemoveCondition(index: number) {
     this.createFilterData.conditions.splice(index, 1);
   }
@@ -182,17 +184,19 @@ export class MailFiltersComponent implements OnInit {
   onSubmit() {
     this.errorMessage = null;
     if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
-      let conditions: FilterConditionObj[] = [];
+      let conditions: FilterConditionObject[] = [];
       this.createFilterData.conditions.map((c, index) => {
-        const filterTextName = 'filterText-' + index.toString();
+        const filterTextName = `filterText-${index.toString()}`;
         const filterText = this.createFilterForm.get(filterTextName).value;
         if (!c.parameter || c.parameter.length === 0) {
           this.errorMessage = 'Please select a condition.';
           return;
-        } else if (!c.condition || c.condition.length === 0) {
+        }
+        if (!c.condition || c.condition.length === 0) {
           this.errorMessage = 'Please select a condition.';
           return;
-        } else if (!filterText || filterText.length === 0) {
+        }
+        if (!filterText || filterText.length === 0) {
           this.errorMessage = 'Please enter some text or pattern.';
           return;
         }

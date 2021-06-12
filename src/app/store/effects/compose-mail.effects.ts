@@ -155,7 +155,7 @@ export class ComposeMailEffects {
           of(
             new SnackErrorPush({
               message: errorResponse.error || 'Failed to send mail.',
-              duration: 10000,
+              duration: 10_000,
             }),
             new SendMailFailure(payload),
           ),
@@ -176,9 +176,8 @@ export class ComposeMailEffects {
           ),
           catchError(() => of(new SnackErrorPush({ message: 'Failed to get public keys.' }))),
         );
-      } else {
-        return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));
       }
+      return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));
     }),
   );
 }

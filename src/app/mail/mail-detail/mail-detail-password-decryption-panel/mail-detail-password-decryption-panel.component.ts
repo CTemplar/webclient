@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { take } from 'rxjs/operators';
+
 import { Mail, MailFolderType } from '../../../store/models';
 import { NumberBooleanMappedType, SecureContent, StringBooleanMappedType } from '../../../store/datatypes';
-import { take } from 'rxjs/operators';
 import { getEmailDomain } from '../../../shared/config';
 import { ContactFetchKeys } from '../../../store';
 

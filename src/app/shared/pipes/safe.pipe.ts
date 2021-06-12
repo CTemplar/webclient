@@ -166,13 +166,14 @@ export class SafePipe implements PipeTransform {
               return `${attributeName}="${xss.friendlyAttrValue(attributeValue)}"`;
             }
             // Disabling External Image
-            if (disableExternalImages && tag === 'img' && attributeName === 'src') {
-              if (
-                !(attributeValue.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attributeValue.indexOf(apiUrl) === 0)
-              ) {
-                SafePipe.hasExternalImages = true;
-                return `${attributeName}=""`;
-              }
+            if (
+              disableExternalImages &&
+              tag === 'img' &&
+              attributeName === 'src' &&
+              !(attributeValue.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attributeValue.indexOf(apiUrl) === 0)
+            ) {
+              SafePipe.hasExternalImages = true;
+              return `${attributeName}=""`;
             }
             // Other Default Process
             // call `onTagAttr()`
@@ -232,11 +233,14 @@ export class SafePipe implements PipeTransform {
           const attributeWhitelist = SafePipe.allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag
           if (attributeWhitelist.includes(name)) {
-            if (disableExternalImages && tag === 'img' && name === 'src') {
-              if (!(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)) {
-                SafePipe.hasExternalImages = true;
-                return `${attribute}=""`;
-              }
+            if (
+              disableExternalImages &&
+              tag === 'img' &&
+              name === 'src' &&
+              !(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)
+            ) {
+              SafePipe.hasExternalImages = true;
+              return `${attribute}=""`;
             }
             return `${name}="${xss.escapeAttrValue(attribute)}"`;
           }
@@ -282,13 +286,13 @@ export class SafePipe implements PipeTransform {
     if (!/<[a-z][\S\s]*>/i.test(inputText)) {
       if (typeof inputText === 'string') {
         // URLs starting with http://, https://, or ftp://
-        const urlPattern = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+        const urlPattern = /(\b(https?|ftp):\/\/[\w!#%&+,./:;=?@|~-]*[\w#%&+/=@|~-])/gim;
 
         // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-        const pseudoUrlPattern = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+        const pseudoUrlPattern = /(^|[^/])(www\.\S+(\b|$))/gim;
 
         // Change email addresses to mailto:: links.
-        const emailAddressPattern = /(\w+@[a-zA-Z_]+?(\.[a-zA-Z]{2,6})+)/gim;
+        const emailAddressPattern = /(\w+@[_a-z]+?(\.[a-z]{2,6})+)/gim;
 
         inputText = inputText
           .replace(urlPattern, '<a target="_blank" rel="noopener noreferrer" href="$1">$1</a>')
@@ -304,7 +308,7 @@ export class SafePipe implements PipeTransform {
     const element = document.createElement('div');
     element.innerHTML = value;
     if (element.querySelectorAll('title').length > 0) {
-      element.querySelectorAll('title')[0].innerText = '';
+      element.querySelectorAll('title')[0].textContent = '';
       return element.innerHTML;
     }
     return value;

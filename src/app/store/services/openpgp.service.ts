@@ -135,7 +135,7 @@ export class OpenPgpService {
           this.privateKeys = this.privateKeys || {};
           this.publicKeys = this.publicKeys || {};
           const { mailboxKeysMap } = mailBoxesState;
-          mailBoxesState.mailboxes.forEach(mailbox => {
+          for (const mailbox of mailBoxesState.mailboxes) {
             if (mailboxKeysMap.has(mailbox.id) && mailboxKeysMap.get(mailbox.id).length > 0) {
               this.privateKeys[mailbox.id] = mailboxKeysMap.get(mailbox.id).map(key => {
                 return {
@@ -155,7 +155,7 @@ export class OpenPgpService {
             if (mailbox.is_default && !this.primaryMailbox) {
               this.primaryMailbox = mailbox;
             }
-          });
+          }
           if (this.mailboxKeysInProgress && !mailBoxesState.mailboxKeyInProgress && this.privateKeys) {
             this.decryptAllPrivateKeys();
           }
@@ -282,11 +282,11 @@ export class OpenPgpService {
     contact.is_encrypted = true;
     const content = JSON.stringify(contact);
     const allPublicKeysArray: any[] = [];
-    Object.keys(this.publicKeys).forEach(mailboxId => {
+    for (const mailboxId of Object.keys(this.publicKeys)) {
       this.publicKeys[mailboxId].forEach((key: any) => {
         allPublicKeysArray.push(key.public_key);
       });
-    });
+    }
     this.pgpWorker.postMessage({
       content,
       isAddContact,
@@ -432,17 +432,17 @@ export class OpenPgpService {
     return this.generateKeyError;
   }
 
-  waitForPGPKeys(self: any, callbackFn: string, failedCallbackFn: string) {
+  waitForPGPKeys(self: any, callbackFunction: string, failedCallbackFunction: string) {
     setTimeout(() => {
       if (this.getUserKeys()) {
-        self[callbackFn]();
+        self[callbackFunction]();
         return;
       }
       if (this.getGenerateKeyError()) {
-        self[failedCallbackFn]();
+        self[failedCallbackFunction]();
         return;
       }
-      this.waitForPGPKeys(self, callbackFn, failedCallbackFn);
+      this.waitForPGPKeys(self, callbackFunction, failedCallbackFunction);
     }, 500);
   }
 
@@ -707,7 +707,7 @@ export class OpenPgpService {
           new UpdateSecureMessageContent({ decryptedContent: event.data.mailData, inProgress: false }),
         );
       } else if (event.data.changePassphrase) {
-        Object.keys(event.data.keys).forEach(mailboxId => {
+        for (const mailboxId of Object.keys(event.data.keys)) {
           event.data.keys[mailboxId].forEach((key: any) => {
             if (!key.public_key) {
               const properPublicKey = this.publicKeys[mailboxId].find((pubKey: any) =>
@@ -721,7 +721,7 @@ export class OpenPgpService {
               key.is_primary = true;
             }
           });
-        });
+        }
         this.handleObservable(event.data.subjectId, event.data);
         this.store.dispatch(new ChangePassphraseSuccess(event.data.keys));
       } else if (event.data.encrypted) {
