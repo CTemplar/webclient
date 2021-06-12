@@ -21,6 +21,18 @@
   "rules": {
     "import/order": ["error", { "newlines-between": "always" }],
     "no-debugger": "off",
-    "no-console": 0
+    "no-console": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "*.spec.ts",
+          "**/webpack.config.js",
+          "**/webpack.config.*.js",
+          "**/karma.conf.js"
+        ],
+        "optionalDependencies": false
+      }
+    ]
   }
 }

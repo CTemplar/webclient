@@ -1,12 +1,34 @@
+# See https://eslint.org/docs/user-guide/configuring#eslintignore for more about ignoring files.
+
+# misc
+src/environments/
+
+# configuration
 electron-main.ts
 karma.conf.js
 webpack.config.js
 typings.d.ts
 test.ts
+
+# dependencies
 node-modules/
+
+# build
+.DS_Store
 release/
+
+# others
 docs/
 e2e/
 .github/
+
+# assets
 src/assets/
-src/environments/
+
+# others
+npm-debug.log*
+npm-debug.log*
+npm-error.log*
+
+# test
+*.spec.ts
