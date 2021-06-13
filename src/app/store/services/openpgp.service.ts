@@ -22,6 +22,7 @@ import {
   UpdateSecureMessageContent,
   UpdateSecureMessageEncryptedContent,
   UpdateSecureMessageKey,
+  UpdateSignContent,
   UploadAttachment,
 } from '../actions';
 import {
@@ -191,6 +192,15 @@ export class OpenPgpService {
       decryptAllPrivateKeys: true,
       privateKeys: this.privateKeys,
       user_key: atob(userKey),
+    });
+  }
+
+  signContents(mailboxId: number, mailData: SecureContent, draftId: number) {
+    this.pgpWorker.postMessage({
+      mailData,
+      signing: true,
+      mailboxId,
+      callerId: draftId,
     });
   }
 
@@ -825,6 +835,13 @@ export class OpenPgpService {
         this.handleObservable(event.data.subjectId, event.data);
       } else if (event.data.encryptedPrivateKey) {
         this.handleObservable(event.data.subjectId, event.data);
+      } else if (event.data.signing) {
+        this.store.dispatch(
+          new UpdateSignContent({
+            signContent: event.data.signContent,
+            draftId: event.data.callerId,
+          }),
+        );
       }
     };
   }

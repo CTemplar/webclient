@@ -328,6 +328,10 @@ onmessage = async function (event) {
         subjectId: event.data.subjectId,
       });
     });
+  } else if (event.data.signing) {
+    signContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
+      postMessage({ ...event.data, signContent: content?.signature ?? '' });
+    });
   }
 };
 
@@ -487,6 +491,18 @@ async function changePassphrase(passphrase) {
     keysMap[mailboxId] = keys;
   }
   return { keys: keysMap, changePassphrase: true };
+}
+
+async function signContent(cotents, privateKeyObj) {
+  if (!cotents) {
+    return Promise.resolve(cotents);
+  }
+  const signature = await openpgp.sign({
+    message: openpgp.message.fromText(cotents),
+    signingKeys: privateKeyObj.map(obj => obj.private_key),
+    detached: true
+  });
+  return signature;
 }
 
 async function encryptContent(data, publicKeys) {

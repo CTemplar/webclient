@@ -59,6 +59,7 @@ import {
   UserState,
   BlackList,
   WhiteList,
+  SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } from '../../../store/services';
@@ -1406,6 +1407,28 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sendEmailCheck();
       }, 500);
       return;
+    }
+
+    // Attach Sign file if needed
+    if (this.selectedMailbox.is_pgp_sign) {
+      if(!this.draft.signContent) {
+        this.openPgpService.signContents(this.selectedMailbox.id, new SecureContent(this.draftMail), this.draft.id);
+        setTimeout(() => {
+          this.isPreparingToSendEmail = false;
+          this.sendEmailCheck();
+        }, 500);
+        return;
+      } else if (!this.attachments.find(a => a.name === SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME)) {
+        const signatureFile = new File([this.draft.signContent], SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME);
+        this.isProcessingAttachments = true;
+        this.uploadAttachment(signatureFile, false);
+
+        setTimeout(() => {
+          this.isPreparingToSendEmail = false;
+          this.sendEmailCheck();
+        }, 500);
+        return;
+      }
     }
 
     if (
