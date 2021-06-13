@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const number = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
-    if (number > document.querySelector('#mastHead').offsetHeight) {
+    if (number > document.querySelector<HTMLElement>('#mastHead').offsetHeight) {
       this.navIsFixed = true;
     } else if (this.navIsFixed && number < 10) {
       this.navIsFixed = false;

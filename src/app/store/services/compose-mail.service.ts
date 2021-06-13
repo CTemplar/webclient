@@ -474,7 +474,7 @@ export class ComposeMailService {
     this.composesWidth = temporaryWidth;
   }
 
-  openComposeMailDialog(inputData: any = {}, onHide: Subject<boolean>) {
+  openComposeMailDialog(inputData: any = {}, onHide: Subject<boolean> = new Subject<boolean>()) {
     if (this.userState && this.componentRefList.length < this.maxComposeCount) {
       for (const componentReference of this.componentRefList) {
         componentReference.instance.isMinimized = true;

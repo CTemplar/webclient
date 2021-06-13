@@ -12,7 +12,7 @@ import {
   Filter,
   FilterCondition,
   FilterConditionChoices,
-  FilterConditionObj as FilterConditionObject,
+  FilterConditionObject,
   FilterParameter,
 } from '../../../store/models/filter.model';
 
@@ -112,13 +112,13 @@ export class MailFiltersComponent implements OnInit {
       .valueChanges.pipe(untilDestroyed(this))
       .subscribe(value => {
         if (!value && this.createFilterData) {
-          this.createFilterData.folder = null;
+          this.createFilterData.folder = undefined;
         }
       });
   }
 
   openCustomFilterModal(selectedFilter?: Filter) {
-    this.errorMessage = null;
+    this.errorMessage = undefined;
     this.hasDuplicateFilterName = false;
     this.createFilterForm.reset();
     if (selectedFilter) {
@@ -129,18 +129,19 @@ export class MailFiltersComponent implements OnInit {
       this.createFilterForm.get('markAsRead').setValue(selectedFilter.mark_as_read);
       this.createFilterForm.get('markAsStarred').setValue(selectedFilter.mark_as_starred);
 
-      this.createFilterData.conditions.map((c, index) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [index, condition] of this.createFilterData.conditions.entries()) {
         const filterTextName = `filterText-${index.toString()}`;
         this.createFilterForm.addControl(filterTextName, new FormControl());
-        this.createFilterForm.get(filterTextName).setValue(c.filter_text);
-      });
+        this.createFilterForm.get(filterTextName).setValue(condition.filter_text);
+      }
     } else {
       this.createFilterData = {
         name: '',
         conditions: [
           {
-            parameter: null,
-            condition: null,
+            parameter: undefined,
+            condition: undefined,
             filter_text: '',
           },
         ],
@@ -150,7 +151,7 @@ export class MailFiltersComponent implements OnInit {
         move_to: false,
       };
       this.createFilterForm.addControl('filterText-0', new FormControl());
-      this.selectedFilter = null;
+      this.selectedFilter = undefined;
       this.filterConditionText = '';
     }
     this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
@@ -163,8 +164,8 @@ export class MailFiltersComponent implements OnInit {
     this.createFilterData.conditions = [
       ...this.createFilterData.conditions,
       {
-        parameter: null,
-        condition: null,
+        parameter: undefined,
+        condition: undefined,
         filter_text: '',
       },
     ];
@@ -182,7 +183,7 @@ export class MailFiltersComponent implements OnInit {
    * Save custom filter's form content
    */
   onSubmit() {
-    this.errorMessage = null;
+    this.errorMessage = undefined;
     if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
       let conditions: FilterConditionObject[] = [];
       this.createFilterData.conditions.map((c, index) => {

@@ -71,13 +71,11 @@ const updatedSizes = SIZES.map(size => {
 });
 
 export const PasswordValidation = {
-  MatchPassword(AC: AbstractControl): any {
+  MatchPassword(AC: AbstractControl) {
     const password = AC.get('password').value; // to get value in password input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in confirm password input tag
     if (password !== confirmPassword) {
       AC.get('confirmPwd').setErrors({ MatchPassword: true });
-    } else {
-      return null;
     }
   },
 };

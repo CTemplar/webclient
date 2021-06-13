@@ -22,6 +22,11 @@
     "import/order": ["error", { "newlines-between": "always" }],
     "no-debugger": "off",
     "no-console": 0,
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {

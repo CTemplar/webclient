@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Storage, StorageData } from '../../store/models';
@@ -30,7 +30,7 @@ export class UsersSignUpComponent implements OnInit {
 
   ngOnInit() {
     this.storageList = StorageData;
-    this.selectedStorage = this.storageList[0];
+    [this.selectedStorage] = this.storageList;
     this.mainPayments = [
       {
         id: 'pay-monthly',

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,13 +17,11 @@ import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/conf
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 export const PasswordValidation = {
-  MatchPassword(AC: AbstractControl): any {
+  MatchPassword(AC: AbstractControl) {
     const password = AC.get('password').value; // to get value in input tag
     const confirmPassword = AC.get('confirmPwd').value; // to get value in input tag
     if (password !== confirmPassword) {
       AC.get('confirmPwd').setErrors({ MatchPassword: true });
-    } else {
-      return null;
     }
   },
 };
@@ -40,9 +38,9 @@ export class UsersCreateAccountComponent implements OnInit {
 
   signupForm: FormGroup;
 
-  isRecoveryEmail: boolean = null;
+  isRecoveryEmail: boolean = undefined;
 
-  isConfirmedPrivacy: boolean = null;
+  isConfirmedPrivacy: boolean = undefined;
 
   errorMessage = '';
 
@@ -50,7 +48,7 @@ export class UsersCreateAccountComponent implements OnInit {
 
   planType = PlanType;
 
-  data: any = null;
+  data: any = undefined;
 
   signupInProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -155,11 +153,11 @@ export class UsersCreateAccountComponent implements OnInit {
 
   signup() {
     this.submitted = true;
-    if (this.isConfirmedPrivacy === null) {
+    if (this.isConfirmedPrivacy === undefined) {
       this.isConfirmedPrivacy = false;
     }
 
-    if (this.isRecoveryEmail === null) {
+    if (this.isRecoveryEmail === undefined) {
       this.isRecoveryEmail = false;
     }
 
@@ -170,7 +168,7 @@ export class UsersCreateAccountComponent implements OnInit {
       (!this.isRecoveryEmail &&
         (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))
     ) {
-      return false;
+      return;
     }
 
     if (this.selectedPlan !== PlanType.FREE) {
@@ -251,11 +249,7 @@ export class UsersCreateAccountComponent implements OnInit {
       this.modalRef.componentInstance.pgpGenerationCompleted();
     }
     const currentLocale = this.translate.currentLang ? this.translate.currentLang : 'en';
-    const currentLang = LANGUAGES.find(lang => {
-      if (lang.locale === currentLocale) {
-        return true;
-      }
-    });
+    const currentLang = LANGUAGES.find(lang => lang.locale === currentLocale);
     this.data = {
       ...this.userKeys,
       recovery_email: this.signupForm.get('recoveryEmail').value,

@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import * as bcrypt from 'bcryptjs';
 import * as Sentry from '@sentry/browser';
 
+// eslint-disable-next-line import/no-cycle
 import { LogInSuccess } from '../actions';
 import {
   apiUrl,
@@ -18,6 +19,7 @@ import {
   REMEMBER_ME,
   NOT_FIRST_LOGIN,
 } from '../../shared/config';
+// eslint-disable-next-line import/no-cycle
 import { AppState, AutoResponder, Contact, Settings, AuthState, Domain } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
@@ -117,7 +119,7 @@ export class UsersService {
   }
 
   expireSession() {
-    this.userKey = null;
+    this.userKey = undefined;
     localStorage.removeItem('user_key');
     localStorage.removeItem('ctemplar_mail');
     sessionStorage.removeItem('ctemplar_mail');
@@ -126,10 +128,10 @@ export class UsersService {
     return this.http.get(`${apiUrl}auth/sign-out/`);
   }
 
-  onBeforeLoader(e: any) {
+  onBeforeLoader(error: any) {
     const confirmationMessage =
       "If you close the window now all the progress will be lost and your account won't be created.";
-    (e || window.event).returnValue = confirmationMessage; // Gecko + IE
+    (error || window.event).returnValue = confirmationMessage; // Gecko + IE
     return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
   }
 
@@ -236,6 +238,7 @@ export class UsersService {
       return true;
     }
     let authenticated = false;
+    // eslint-disable-next-line no-restricted-syntax
     for (const item of authenticatedUrls) {
       if (url.includes(item)) {
         authenticated = true;
@@ -390,7 +393,7 @@ export class UsersService {
     // Get cookie for cjevent
     const referralId = document.cookie.split('; ').find(row => row.startsWith(REFFERAL_ID_KEY));
     if (referralId) {
-      data[REFFERAL_ID_KEY] = referralId.split('=')[1];
+      [, data[REFFERAL_ID_KEY]] = referralId.split('=');
     }
     return data;
   }
@@ -543,7 +546,7 @@ export class UsersService {
     const d = new Date();
     d.setTime(d.getTime() + 1000);
     const expires = `expires=${d.toUTCString()}`;
-
+    // eslint-disable-next-line unicorn/no-document-cookie
     document.cookie = `${cookiename}=new_value;path=/;${expires}`;
     if (!document.cookie.includes(`${cookiename}=`)) {
       return true;

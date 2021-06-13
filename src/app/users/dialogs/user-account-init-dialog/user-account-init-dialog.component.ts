@@ -95,7 +95,7 @@ export class UserAccountInitDialogComponent implements OnInit {
     if (this.step === 2) {
       // move animation to page 4
       setTimeout(() => {
-        this.step++;
+        this.step += 1;
       }, 1000);
     }
   }
@@ -107,14 +107,14 @@ export class UserAccountInitDialogComponent implements OnInit {
       // pause animation because pgp key generation is not complete
     } else if (this.step === 3) {
       setTimeout(() => {
-        this.step++;
+        this.step += 1;
         if (this.isAccountCreationComplete) {
           this.close();
         }
       }, 2000);
     } else {
       setTimeout(() => {
-        this.step++;
+        this.step += 1;
       }, 2000);
     }
   }
