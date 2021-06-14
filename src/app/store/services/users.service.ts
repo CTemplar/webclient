@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import * as bcrypt from 'bcryptjs';
 import * as Sentry from '@sentry/browser';
 
-// eslint-disable-next-line import/no-cycle
 import { LogInSuccess } from '../actions';
 import {
   apiUrl,
@@ -19,7 +18,6 @@ import {
   REMEMBER_ME,
   NOT_FIRST_LOGIN,
 } from '../../shared/config';
-// eslint-disable-next-line import/no-cycle
 import { AppState, AutoResponder, Contact, Settings, AuthState, Domain } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
@@ -79,7 +77,7 @@ export class UsersService {
   trimUsername(username: string) {
     username = username.toLowerCase();
     if (username.split('@')[1] === PRIMARY_DOMAIN) {
-      username = username.split('@')[0];
+      [username] = username.split('@');
     }
     return username;
   }
@@ -238,7 +236,6 @@ export class UsersService {
       return true;
     }
     let authenticated = false;
-    // eslint-disable-next-line no-restricted-syntax
     for (const item of authenticatedUrls) {
       if (url.includes(item)) {
         authenticated = true;
@@ -530,6 +527,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

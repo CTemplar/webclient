@@ -92,6 +92,7 @@ export class AutocryptProcessService {
       };
     }
     const receiversStatus = new Map<string, AutocryptEncryptDetermineForSingle>();
+
     for (const receiver of receivers) {
       const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
       if (!parsedEmail) {

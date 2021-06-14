@@ -72,6 +72,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CARD_MAKE_PRIMARY_SUCCESS: {
       const { cards } = state;
+
       for (const card of cards) card.is_primary = action.payload === card.id;
       return {
         ...state,
@@ -102,7 +103,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
-        whiteList: state.whiteList.concat(action.payload),
+        whiteList: [...state.whiteList, ...action.payload],
         inProgress: false,
         isError: false,
         error: '',
@@ -115,7 +116,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
-        blackList: state.blackList.concat(action.payload),
+        blackList: [...state.blackList, ...action.payload],
         inProgress: false,
         isError: false,
       };
@@ -221,10 +222,11 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.CREATE_FOLDER_SUCCESS: {
       let index = -1;
-      action.payload.sort_order = action.payload.sort_order || state.customDomains.length;
-      for (const [index_, folder] of state.customFolders.entries()) {
+      action.payload.sort_order = action.payload.sort_order || state.customDomains.length > 0;
+
+      for (const [folderIndex, folder] of state.customFolders.entries()) {
         if (folder.id === action.payload.id) {
-          index = index_;
+          index = folderIndex;
         }
       }
       if (index > -1) {
@@ -396,16 +398,17 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       const domain: Domain = action.payload.res;
       let isError = false;
       let { step } = action.payload;
+      const { gotoNextStep, reverify, res } = action.payload;
       if (domain.is_domain_verified) {
-        if (action.payload.gotoNextStep) {
-          step++;
+        if (gotoNextStep) {
+          step += 1;
         }
       } else {
         isError = true;
       }
       return {
         ...state,
-        customDomains: action.payload.reverify
+        customDomains: reverify
           ? state.customDomains.map(item => {
               if (item.id === domain.id) {
                 return domain;
@@ -415,7 +418,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
           : state.customDomains,
         isError,
         inProgress: false,
-        newCustomDomain: action.payload.res,
+        newCustomDomain: res,
         currentCreationStep: step,
       };
     }

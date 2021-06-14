@@ -1782,7 +1782,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private updateEmail() {
     this.inProgress = true;
     this.setMailData(false, true);
-    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail));
+    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail), []);
   }
 
   /**

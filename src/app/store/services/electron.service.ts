@@ -1,9 +1,10 @@
 import * as fs from 'fs';
 import * as childProcess from 'child_process';
-import { Injectable } from '@angular/core';
 
+import { Injectable } from '@angular/core';
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { ipcRenderer, webFrame } from 'electron';
 import * as remote from '@electron/remote';
 

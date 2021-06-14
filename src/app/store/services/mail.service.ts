@@ -196,8 +196,7 @@ export class MailService {
     if (attachment.is_pgp_mime) {
       formData.append('is_pgp_mime', attachment.is_pgp_mime.toString());
     }
-    let request;
-    request = attachment.id
+    const request = attachment.id
       ? new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${attachment.id}/`, formData, {
           reportProgress: true,
         })
@@ -265,6 +264,7 @@ export class MailService {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

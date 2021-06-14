@@ -110,12 +110,9 @@ export class SafePipe implements PipeTransform {
         return this.sanitizer.bypassSecurityTrustUrl(value);
       case 'sanitize':
         // Move style from style tag to inline style
-        // eslint-disable-next-line no-param-reassign
         value = juice(value);
-        // eslint-disable-next-line no-param-reassign
         value = this.removeTitle(value);
         // Sanitize Mail
-        // eslint-disable-next-line no-param-reassign
         value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
       default:
@@ -127,7 +124,6 @@ export class SafePipe implements PipeTransform {
     const cssFilter = SafePipe.createCssFilter();
     let isAddedCollapseButton = false;
     // @ts-ignore
-    // eslint-disable-next-line no-param-reassign
     const returnValue = xss(value, {
       whiteList: SafePipe.allowedTags,
       stripIgnoreTag: true,

@@ -2,6 +2,7 @@ import { SecureMessageActions, SecureMessageActionTypes } from '../actions';
 import { SecureMessageState } from '../datatypes';
 
 export function reducer(
+  // eslint-disable-next-line unicorn/no-object-as-default-parameter
   state: SecureMessageState = {
     message: null,
     inProgress: false,

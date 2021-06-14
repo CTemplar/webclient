@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, of, EMPTY } from 'rxjs';
 
-// eslint-disable-next-line import/no-cycle
 import { Message } from '../shared/services/websocket.service';
 
 export enum WebSocketActionTypes {

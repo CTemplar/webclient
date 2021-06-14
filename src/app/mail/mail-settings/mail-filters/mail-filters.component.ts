@@ -129,7 +129,6 @@ export class MailFiltersComponent implements OnInit {
       this.createFilterForm.get('markAsRead').setValue(selectedFilter.mark_as_read);
       this.createFilterForm.get('markAsStarred').setValue(selectedFilter.mark_as_starred);
 
-      // eslint-disable-next-line no-restricted-syntax
       for (const [index, condition] of this.createFilterData.conditions.entries()) {
         const filterTextName = `filterText-${index.toString()}`;
         this.createFilterForm.addControl(filterTextName, new FormControl());

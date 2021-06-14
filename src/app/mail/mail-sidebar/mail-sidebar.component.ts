@@ -304,7 +304,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   // == Open NgbModal
   createFolder() {
-    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
+    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, undefined);
   }
 
   // == Show mail compose modal
