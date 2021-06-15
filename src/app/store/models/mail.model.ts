@@ -156,3 +156,8 @@ export enum ContactFolderType {
   ALL_CONTACTS = 'allContacts',
   STARRED = 'starred',
 }
+
+export interface Unsubscribe {
+  mailbox_id: number;
+  mailto: string;
+}
