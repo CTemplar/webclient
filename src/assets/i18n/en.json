@@ -593,7 +593,8 @@
     "learn_more": "Learn more",
     "undo": "Undo",
     "permanently_delete": "Permanently deleting data",
-    "permanently_delete_all": "Permanently deleting all usage data  from your visit"
+    "permanently_delete_all": "Permanently deleting all usage data  from your visit",
+    "verified_user": "Verified Sender"
   },
   "mail_list": {
     "select_messages": "Select messages",
