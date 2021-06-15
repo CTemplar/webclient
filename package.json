@@ -9,6 +9,7 @@
     "email": "support@ctemplar.com"
   },
   "scripts": {
+    "prepare": "husky install",
     "build:dev:electron": "tsc -p electron-tsconfig.json && ng build --subresource-integrity --base-href ./",
     "build:dev": "ng build --output-hashing all  --subresource-integrity",
     "build:electron": "tsc -p electron-tsconfig.json && ng build --prod --subresource-integrity --base-href ./",
