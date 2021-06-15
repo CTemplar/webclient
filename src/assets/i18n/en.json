@@ -560,7 +560,7 @@
     "html_editor": "HTML editor",
     "disabling_editor_message": "Disabling HTML editor will allow you to use plain text editor for composing email.",
     "not_available_for_bitcoin": "Not available for bitcoin",
-    "delete_alias_confirm": "Are you sure, you want to delete alias",
+    "delete_alias_confirm": "Are you sure you want to delete alias",
     "catch_all": "Catch all",
     "attachments_encryption": "Attachments encryption",
     "referral_code": "Referral Code",
@@ -837,7 +837,7 @@
     "download_attachments": "Download All Attachments",
     "confirm_external_link": "Do you trust the person who sent this link? This link takes you outside of CTemplar’s platform and we are not responsible for any third-party content.",
     "unsubscribe": "Unsubscribe",
-    "unsubscribe_description": "Are you sure you'd like to stop receiving similar messages",
+    "unsubscribe_description": "Are you sure you'd like to stop receiving similar messages?",
     "failed_unsubscribe": "Failed to unsubscribe.",
     "success_unsubscribe": "Success to unsubscribe."
   },
