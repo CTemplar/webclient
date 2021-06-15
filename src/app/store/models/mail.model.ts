@@ -29,6 +29,7 @@ export interface Mail {
   is_encrypted?: boolean;
   is_html?: boolean;
   is_protected?: boolean;
+  is_verified?: boolean;
   is_subject_encrypted?: boolean;
   last_action_parent_id?: number;
   last_action_thread?: MailAction;
@@ -156,4 +157,9 @@ export interface PGPMimeMessageProgressModel {
 export enum ContactFolderType {
   ALL_CONTACTS = 'allContacts',
   STARRED = 'starred',
+}
+
+export interface Unsubscribe {
+  mailbox_id: number;
+  mailto: string;
 }

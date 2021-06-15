@@ -19,6 +19,7 @@
       [unsubscribeLink]="unsubscribeLink"
       (onClick)="onClickHeader.emit()"
       (onToggleStarred)="onToggleStarred.emit($event)"
+      (onUnsubscribe)="onUnsubscribe.emit($event)"
     ></app-mail-detail-header>
     <section id="ngb-collapse" [ngbCollapse]="!mailExpandedStatus">
       <!-- Password Decryption Form -->
