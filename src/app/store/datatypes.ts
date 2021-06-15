@@ -595,6 +595,7 @@ export interface AppState {
   timezone: TimezonesState;
   user: UserState;
   webSocket: WebSocketState;
+  donate: any;
 }
 
 export interface TimezonesState {

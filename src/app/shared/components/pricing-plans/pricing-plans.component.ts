@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -66,12 +66,14 @@ export class PricingPlansComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // eslint-disable-next-line no-plusplus
     for (let index = 6; index <= 50; index++) {
       this.availableStorage.push(index);
     }
     for (let index = 20; index <= 100; index += 10) {
       this.availableEmailAddress.push(index);
     }
+    // eslint-disable-next-line no-plusplus
     for (let index = 2; index <= 10; index++) {
       this.availableCustomDomain.push(index);
     }

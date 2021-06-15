@@ -350,13 +350,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     } else {
       this.pushNotificationService.create(title, options).subscribe(
-        (notif: any) => {
-          if (notif.event.type === 'click') {
-            notif.notification.close();
+        (notify: any) => {
+          if (notify.event.type === 'click') {
+            notify.notification.close();
             window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
           }
         },
-        (error: any) => {
+        () => {
           this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
         },
       );

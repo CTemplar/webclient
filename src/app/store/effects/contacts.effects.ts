@@ -38,7 +38,6 @@ import {
   ContactBulkUpdateKeys,
   ContactBulkUpdateKeysSuccess,
   ContactBulkUpdateKeysFailure,
-  MatchContactUserKeys,
   GetUsersKeys,
 } from '../actions';
 import { Contact, ImportContactResponse } from '../datatypes';
@@ -130,8 +129,8 @@ export class ContactsEffects {
     map((action: Accounts) => action.payload),
     switchMap(payload => {
       return this.userService.notifyContact(payload).pipe(
-        switchMap(res => {
-          if (res && res.length === 0) {
+        switchMap(response => {
+          if (response && response.length === 0) {
             return of(new SnackErrorPush({ message: 'Failed to notify' }), new ContactNotifyFailure({}));
           }
           return of(
@@ -187,7 +186,7 @@ export class ContactsEffects {
     map((action: GetEmailContacts) => action.payload),
     switchMap(() => {
       return this.userService.getEmailContacts().pipe(
-        switchMap(res => of(new GetEmailContactsSuccess(res.results))),
+        switchMap(response => of(new GetEmailContactsSuccess(response.results))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get email contacts.' }))),
       );
     }),
@@ -211,7 +210,7 @@ export class ContactsEffects {
     map((action: ContactFetchKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactFetchKeys(payload).pipe(
-        switchMap(res => of(new ContactFetchKeysSuccess(res))),
+        switchMap(response => of(new ContactFetchKeysSuccess(response))),
         catchError(error => {
           return of(new ContactFetchKeysFailure(error.error));
         }),
@@ -225,10 +224,10 @@ export class ContactsEffects {
     map((action: ContactAddKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactAddKeys(payload.key).pipe(
-        switchMap(res => {
+        switchMap(response => {
           if (payload.id) {
             return of(
-              new ContactAddKeysSuccess(res),
+              new ContactAddKeysSuccess(response),
               // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyUpdate: true }),
               new GetUsersKeys({
                 emails: [payload.email],
@@ -237,7 +236,7 @@ export class ContactsEffects {
             );
           }
           return of(
-            new ContactAddKeysSuccess(res),
+            new ContactAddKeysSuccess(response),
             // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyAdd: true })
             new GetUsersKeys({
               emails: [payload.email],
@@ -260,7 +259,7 @@ export class ContactsEffects {
     map((action: ContactRemoveKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactRemoveKeys(payload.key).pipe(
-        switchMap(res =>
+        switchMap(() =>
           of(
             new ContactRemoveKeysSuccess(payload.key),
             // new MatchContactUserKeys({ ...res, email: payload.email, contactKeyRemove: true })
@@ -285,7 +284,7 @@ export class ContactsEffects {
     map((action: ContactBulkUpdateKeys) => action.payload),
     switchMap(payload => {
       return this.userService.contactBulkUpdateKeys(payload).pipe(
-        switchMap(res => of(new ContactBulkUpdateKeysSuccess(payload))),
+        switchMap(() => of(new ContactBulkUpdateKeysSuccess(payload))),
         catchError(error => {
           return of(
             new ContactBulkUpdateKeysFailure(error.error),

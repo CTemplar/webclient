@@ -173,7 +173,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
         if (mailBoxesState.currentMailbox) {
           this.currentMailbox = mailBoxesState.currentMailbox;
         } else if (mailBoxesState.mailboxes.length > 0) {
-          this.currentMailbox = mailBoxesState.mailboxes[0];
+          [this.currentMailbox] = mailBoxesState.mailboxes;
         }
       });
   }
@@ -317,15 +317,13 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     this.inProgress = true;
     this.contactsCount = this.contactsState.contacts.length;
     const contacts = this.selectedContacts.map(item => item.email);
-    const display_name = this.currentMailbox.display_name
-      ? this.currentMailbox.display_name
-      : this.currentMailbox.email;
+    const displayName = this.currentMailbox.display_name ? this.currentMailbox.display_name : this.currentMailbox.email;
     // generating mails
     this.notifyContactsMail = {
       mailbox: this.currentMailbox.id,
       sender: this.currentMailbox.email,
       receiver: contacts,
-      display_name,
+      display_name: displayName,
     };
     this.store.dispatch(new ContactNotify(this.notifyContactsMail));
   }
@@ -362,7 +360,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
 
   prevPage() {
     if (this.PAGE > 0) {
-      this.PAGE--;
+      this.PAGE -= 1;
       this.OFFSET = this.PAGE * this.LIMIT;
       this.store.dispatch(
         new ContactsGet({
@@ -378,7 +376,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
   nextPage() {
     if ((this.PAGE + 1) * this.LIMIT < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
-      this.PAGE++;
+      this.PAGE += 1;
       this.store.dispatch(
         new ContactsGet({
           limit: this.LIMIT,

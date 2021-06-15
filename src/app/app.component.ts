@@ -6,11 +6,9 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs/operators';
 
 import { SharedService, getCryptoRandom } from './store/services';
-
-// import { UsersService } from './users/shared/users.service';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes, QuoteType } from './store/quotes';
-import { FinalLoading } from './store/actions';
+import { FinalLoading } from './store';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
 
 @UntilDestroy()
@@ -103,6 +101,7 @@ export class AppComponent implements OnInit {
     let { cookieEnabled } = navigator;
     if (!cookieEnabled) {
       // Checking if cookie is absolutely disabled
+      // eslint-disable-next-line unicorn/no-document-cookie
       document.cookie = 'testcookie';
       cookieEnabled = document.cookie.includes('testcookie');
     }

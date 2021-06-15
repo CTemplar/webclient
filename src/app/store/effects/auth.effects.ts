@@ -124,7 +124,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   public LogOut: Observable<any> = this.actions.pipe(
     ofType(AuthActionTypes.LOGOUT),
-    tap(action => {
+    tap(() => {
       this.authService.signOut();
     }),
   );
@@ -167,7 +167,7 @@ export class AuthEffects {
     map((action: RecoverPassword) => action.payload),
     switchMap(payload => {
       return this.authService.recoverPassword(payload).pipe(
-        switchMap(res => of(new RecoverPasswordSuccess(res))),
+        switchMap(response => of(new RecoverPasswordSuccess(response))),
         catchError(error => of(new RecoverPasswordFailure(error.error))),
       );
     }),
@@ -194,8 +194,13 @@ export class AuthEffects {
         payload = { plan_type: PlanType.FREE };
       }
       return this.authService.upgradeAccount(payload).pipe(
-        switchMap(res => {
-          return of(new UpgradeAccountSuccess(res), new AccountDetailsGet(), new GetInvoices(), new GetMailboxes());
+        switchMap(response => {
+          return of(
+            new UpgradeAccountSuccess(response),
+            new AccountDetailsGet(),
+            new GetInvoices(),
+            new GetMailboxes(),
+          );
         }),
         catchError(error =>
           of(
@@ -213,7 +218,7 @@ export class AuthEffects {
     map((action: ChangePassword) => action.payload),
     switchMap(payload => {
       return this.authService.changePassword(payload).pipe(
-        switchMap(user => {
+        switchMap(() => {
           if (payload.delete_data) {
             return of(new ExpireSession(), new Logout(), new SnackPush({ message: 'Password changed successfully.' }));
           }

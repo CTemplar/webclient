@@ -241,7 +241,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
     this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges.pipe(
       startWith(''),
-      map(name => (name ? this._filterTimeZone(name) : [...this.timezones])),
+      map(name => (name ? this.filterTimeZone(name) : [...this.timezones])),
     );
 
     /**
@@ -263,7 +263,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private _filterTimeZone(name: string) {
+  private filterTimeZone(name: string) {
     return this.timezones.filter(option => option.value.toLowerCase().includes(name.toLowerCase()));
   }
 
@@ -275,17 +275,17 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
    * Convert milliseconds to time format(m:s)
    */
   initAutoSaving() {
-    const autosave_durations: string[] = [];
+    const autosaveDurations: string[] = [];
     for (const duration of this.autosaveDurations) {
       if (duration !== 'none' && duration) {
         const perduration = Number(duration);
         const newDuration = perduration >= 60_000 ? `${perduration / 60_000}m` : `${perduration / 1000}s`;
-        autosave_durations.push(newDuration);
+        autosaveDurations.push(newDuration);
       } else {
-        autosave_durations.push('none');
+        autosaveDurations.push('none');
       }
     }
-    this.autosave_duration_list = autosave_durations;
+    this.autosave_duration_list = autosaveDurations;
   }
 
   ngAfterViewInit() {
@@ -506,7 +506,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   viewInvoice(invoice: Invoice, print = false) {
-    let popupWin;
     let invoiceItems = '';
     for (const item of invoice.items) {
       invoiceItems += `
@@ -657,7 +656,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 </body>
 </html>`;
 
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
     popupWin.document.open();
     popupWin.document.write(invoiceData);
     popupWin.document.close();

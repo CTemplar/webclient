@@ -40,6 +40,7 @@ function updateDraftMailForPGPMimeMessage(
 }
 
 export function reducer(
+  // eslint-disable-next-line unicorn/no-object-as-default-parameter
   state: ComposeMailState = { drafts: {}, usersKeys: new Map() },
   action: ComposeMailActions,
 ): ComposeMailState {
@@ -111,24 +112,24 @@ export function reducer(
           getUserKeyInProgress: true,
         };
       }
-      const { usersKeys } = state;
+      const { usersKeys, drafts } = state;
       action.payload.emails.forEach((email: string) => {
         usersKeys.set(email, { key: null, isFetching: true });
       });
-      return { ...state, drafts: { ...state.drafts }, usersKeys };
+      return { ...state, drafts: { ...drafts }, usersKeys };
     }
 
     case ComposeMailActionTypes.GET_USERS_KEYS_SUCCESS: {
+      const { usersKeys, drafts } = state;
       if (action.payload.draftId) {
         // TODO - should be check
-        state.drafts[action.payload.draftId] = {
-          ...state.drafts[action.payload.draftId],
+        drafts[action.payload.draftId] = {
+          ...drafts[action.payload.draftId],
           getUserKeyInProgress: false,
-          usersKeys: !action.payload.isBlind ? action.payload.data : state.drafts[action.payload.draftId].usersKeys,
+          usersKeys: !action.payload.isBlind ? action.payload.data : drafts[action.payload.draftId].usersKeys,
         };
       }
       // Saving on global user keys
-      const { usersKeys } = state;
       if (!action.payload.isBlind && action.payload.data && action.payload.data.keys) {
         action.payload.data.keys.forEach((key: any) => {
           usersKeys.set(key.email, {
@@ -142,7 +143,7 @@ export function reducer(
       }
       return {
         ...state,
-        drafts: { ...state.drafts },
+        drafts: { ...drafts },
         usersKeys,
       };
     }
@@ -279,30 +280,26 @@ export function reducer(
     }
 
     case ComposeMailActionTypes.UPLOAD_ATTACHMENT_SUCCESS: {
-      const { data, isPGPMimeMessage } = action.payload;
+      const { data, isPGPMimeMessage, response } = action.payload;
       for (const [index, attachment] of state.drafts[data.draftId].attachments.entries()) {
         if (attachment.attachmentId === data.attachmentId) {
           state.drafts[data.draftId].attachments[index] = {
             ...state.drafts[data.draftId].attachments[index],
-            id: action.payload.response.id,
-            document: action.payload.response.document,
-            content_id: action.payload.response.content_id,
+            id: response.id,
+            document: response.document,
+            content_id: response.content_id,
             inProgress: false,
             request: null,
           };
         }
       }
-      const isProcessingAttachments = !!state.drafts[data.draftId].attachments.find(
+      const isProcessingAttachments = !!state.drafts[data.draftId].attachments.some(
         attachment => attachment.inProgress,
       );
       state.drafts[data.draftId] = { ...state.drafts[data.draftId], isProcessingAttachments };
       if (isPGPMimeMessage && data.name === PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME) {
         // PGP/MIME message process
-        state.drafts[data.draftId] = updateDraftMailForPGPMimeMessage(
-          state.drafts[data.draftId],
-          data,
-          action.payload.response,
-        );
+        state.drafts[data.draftId] = updateDraftMailForPGPMimeMessage(state.drafts[data.draftId], data, response);
       }
       return { ...state, drafts: { ...state.drafts } };
     }
@@ -311,7 +308,7 @@ export function reducer(
       state.drafts[action.payload.draftId].attachments = state.drafts[action.payload.draftId].attachments.filter(
         attachment => attachment.attachmentId !== action.payload.attachmentId,
       );
-      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(
+      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.some(
         attachment => attachment.inProgress,
       );
       state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments };
@@ -344,7 +341,7 @@ export function reducer(
           return true;
         },
       );
-      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(
+      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.some(
         attachment => attachment.inProgress,
       );
       state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments };
@@ -361,7 +358,7 @@ export function reducer(
           };
         }
       }
-      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.find(
+      const isProcessingAttachments = !!state.drafts[action.payload.draftId].attachments.some(
         attachment => attachment.inProgress,
       );
       state.drafts[action.payload.draftId] = { ...state.drafts[action.payload.draftId], isProcessingAttachments };
@@ -396,15 +393,17 @@ export function reducer(
               : [{ email: key.email, public_key: key.public_key }],
           isFetching: false,
         });
+        // eslint-disable-next-line no-empty
       } else if (action.payload.contactKeyUpdate) {
+        // eslint-disable-next-line no-empty
       } else if (action.payload.contactKeyRemove) {
       } else if (action.payload.contactAdd) {
         // setting encryption type
-        const { email } = action.payload;
+        const { email, enabledEncryption, encryptionType } = action.payload;
         if (usersKeys.has(email) && usersKeys.get(email).key && usersKeys.get(email).key.length > 0) {
           usersKeys.set(email, {
             ...usersKeys.get(email),
-            pgpEncryptionType: action.payload.enabled_encryption ? action.payload.encryption_type : null,
+            pgpEncryptionType: enabledEncryption ? encryptionType : null,
           });
         }
       }

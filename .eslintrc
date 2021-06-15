@@ -30,21 +30,10 @@
     "class-methods-use-this": "off",
     "unicorn/prefer-node-protocol": "off",
     "no-param-reassign": "off",
+    "max-classes-per-file": "off",
     "no-restricted-syntax": ["error", "ForInStatement"],
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": [
-          "*.spec.ts",
-          "**/webpack.config.js",
-          "**/webpack.config.*.js",
-          "**/karma.conf.js"
-        ],
-        "optionalDependencies": false
-      }
-    ]
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

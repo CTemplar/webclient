@@ -35,7 +35,7 @@ export class DonateEffects {
   @Effect({ dispatch: false })
   makeStripeDonationSuccess: Observable<any> = this.actions.pipe(
     ofType(DonationActionTypes.MAKE_STRIPE_DONATION_SUCCESS),
-    tap(response => {
+    tap(() => {
       this.notificationService.showSnackBar('Donated Successfully. Thank you for your donation.', 'CLOSE', {
         duration: 10_000,
       });

@@ -183,7 +183,7 @@ export class MailEffects {
     map((action: GetMailDetail) => action.payload),
     switchMap(payload => {
       return this.mailService.getMessage(payload).pipe(
-        switchMap(res => of(new GetMailDetailSuccess(res))),
+        switchMap(response => of(new GetMailDetailSuccess(response))),
         catchError(error => of(new GetMailDetailFailure(error))),
       );
     }),

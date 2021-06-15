@@ -7,7 +7,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Folder } from '../../../store/models';
 import { AppState, UserState, MailState } from '../../../store/datatypes';
 import { DeleteFolder, UpdateFolderOrder, GetCustomFolderMessageCount } from '../../../store/actions';
-import { MAX_FOLDERS_COUNT } from '../../../shared/config';
 import { CreateFolderComponent } from '../../dialogs/create-folder/create-folder.component';
 import { NotificationService } from '../../../store/services/notification.service';
 
@@ -72,15 +71,15 @@ export class FoldersComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        const mergeById = (a1: any[], a2: any[]) =>
-          a1.map(itm => ({
-            ...itm,
-            ...a2.find(item => item.folder === itm.name && item),
-          }));
-
-        this.folders = mergeById(this.folders, this.mailState.customFolderMessageCount);
+        this.folders = this.mergeById(this.folders, this.mailState.customFolderMessageCount);
       });
   }
+
+  mergeById = (a1: any[], a2: any[]) =>
+    a1.map(itm => ({
+      ...itm,
+      ...a2.find(item => item.folder === itm.name && item),
+    }));
 
   showConfirmationModal(folder: Folder) {
     this.confirmModalRef = this.modalService.open(this.confirmationModal, {
@@ -96,6 +95,7 @@ export class FoldersComponent implements OnInit {
    * Free Users - Only allow a maximum of 5 folders per account
    */
   // == Open NgbModal
+  // eslint-disable-next-line unicorn/no-object-as-default-parameter
   addFolder(folder: Folder = { id: null, name: '', color: '' }, edit?: boolean) {
     const options: any = {
       centered: true,

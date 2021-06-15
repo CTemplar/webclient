@@ -24,10 +24,10 @@ import {
   ReadMail,
   SetCurrentFolder,
   StarMail,
-} from '../../../../store/actions';
+} from '../../../../store';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
 import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
-import { ElectronService, OpenPgpService, SharedService, UsersService } from '../../../../store/services';
+import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
 
@@ -112,7 +112,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     private pgpService: OpenPgpService,
     private authService: UsersService,
     private modalService: NgbModal,
-    private electronService: ElectronService,
   ) {}
 
   ngOnInit() {
@@ -332,8 +331,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   isNeedRemoveStar() {
     if (this.getMarkedMails()) {
-      const starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
-      if (starred_mails.length > 0) {
+      const starredMails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      if (starredMails.length > 0) {
         return true;
       }
     }
@@ -342,8 +341,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   isNeedAddStar() {
     if (this.getMarkedMails()) {
-      const starred_mails = this.getMarkedMails().filter(mail => mail.starred) || [];
-      if (starred_mails.length === this.getMarkedMails().length) {
+      const starredMails = this.getMarkedMails().filter(mail => mail.starred) || [];
+      if (starredMails.length === this.getMarkedMails().length) {
         return false;
       }
     }
@@ -377,6 +376,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       // 2. mail doesn't be existed on mail list
       // 3. mail (parent, if conversation mode) is encrypted with password
       let isExistMatchMail = false;
+      // eslint-disable-next-line no-plusplus
       for (let index = 0; index < this.mails.length; index++) {
         const mail = this.mails[index];
         if (mail.id === decryptingMail) {
@@ -391,6 +391,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       }
       return isExistMatchMail;
     });
+    // eslint-disable-next-line no-plusplus
     for (let index = 0; index < this.mails.length; index++) {
       if (this.queueForDecryptSubject.length < this.MAX_DECRYPT_NUMBER) {
         const mail = this.mails[index];
@@ -556,7 +557,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   prevPage() {
     if (this.PAGE > 0) {
-      this.PAGE--;
+      this.PAGE -= 1;
       this.OFFSET = this.PAGE * this.LIMIT;
       this.store.dispatch(
         new GetMails({
@@ -574,7 +575,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
   nextPage() {
     if ((this.PAGE + 1) * this.LIMIT < this.MAX_EMAIL_PAGE_LIMIT) {
       this.OFFSET = (this.PAGE + 1) * this.LIMIT;
-      this.PAGE++;
+      this.PAGE += 1;
       this.store.dispatch(
         new GetMails({
           inProgress: true,
@@ -602,13 +603,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   toggleEmailSelection(mail: any) {
     mail.marked = !mail.marked;
-    if (mail.marked) {
-      this.noEmailSelected = false;
-    } else if (this.mails.filter(email => email.marked).length > 0) {
-      this.noEmailSelected = false;
-    } else {
-      this.noEmailSelected = true;
-    }
+    this.noEmailSelected = mail.marked ? false : this.mails.filter(email => email.marked).length <= 0;
     this.setIsSelectAll();
   }
 
@@ -642,10 +637,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     if (currentFolderMap && (currentFolderMap.is_not_first_page || currentFolderMap.is_dirty)) {
       return true;
     }
-    if (!currentFolderMap || !currentFolderMap.mails || currentFolderMap.mails.length === 0) {
-      return true;
-    }
-    return false;
+    return !currentFolderMap || !currentFolderMap.mails || currentFolderMap.mails.length === 0;
   }
 
   /**

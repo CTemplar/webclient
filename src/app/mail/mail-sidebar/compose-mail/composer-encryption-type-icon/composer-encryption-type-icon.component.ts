@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import {
   AutocryptEncryptDetermine,
@@ -28,7 +28,7 @@ export class ComposerEncryptionTypeIconComponent {
 
   constructor(private sharedService: SharedService) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.isAutocrypt) {
       /**
        * Sender Icon
@@ -83,6 +83,7 @@ export class ComposerEncryptionTypeIconComponent {
         /**
          * Recipient Icon
          */
+        // eslint-disable-next-line no-lonely-if
         if (this.encryptionTypeMap[this.selectedEmail] === ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_END_TO_END) {
           /**
            * If it is CTemplar user, don't check below and set as End to End

@@ -7,7 +7,6 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SaveAutoResponder, SnackErrorPush } from '../../../store/actions';
 import { AppState, AutoResponder, Settings, UserState } from '../../../store/datatypes';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
-import { SharedService } from '../../../store/services';
 import { CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 

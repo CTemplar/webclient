@@ -27,9 +27,9 @@ export class CountdownTimerComponent implements OnInit {
     timer(0, 1000)
       .pipe(untilDestroyed(this))
       .pipe(takeWhile(() => this.duration > 0))
-      .subscribe(res => {
+      .subscribe(() => {
         this.calculate();
-        this.duration--;
+        this.duration -= 1;
         if (this.duration === 0) {
           this.finished.emit(true);
         }

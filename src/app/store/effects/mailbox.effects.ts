@@ -53,7 +53,7 @@ export class MailboxEffects {
     switchMap(payload => {
       return this.mailService.getMailboxes(payload.limit, payload.offset).pipe(
         switchMap(mails => of(new GetMailboxesSuccess(mails), new FetchMailboxKeys())),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to get mailboxes.' }))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to get mailboxes.' }))),
       );
     }),
   );
@@ -65,8 +65,8 @@ export class MailboxEffects {
     switchMap((payload: any) => {
       payload.inProgress = false;
       return this.mailService.updateMailBoxSettings(payload).pipe(
-        switchMap(res => {
-          const actions: any[] = [new MailboxSettingsUpdateSuccess(res)];
+        switchMap(response => {
+          const actions: any[] = [new MailboxSettingsUpdateSuccess(response)];
           if (payload.successMsg) {
             actions.push(new SnackErrorPush({ message: payload.successMsg }));
           } else {
@@ -107,8 +107,8 @@ export class MailboxEffects {
     map((action: SetDefaultMailbox) => action.payload),
     switchMap((payload: Mailbox) => {
       return this.mailService.updateMailBoxSettings({ ...payload, is_default: true }).pipe(
-        switchMap(res => of(new SetDefaultMailboxSuccess(res))),
-        catchError(error => of(new SnackErrorPush({ message: 'Failed to set email address as default.' }))),
+        switchMap(response => of(new SetDefaultMailboxSuccess(response))),
+        catchError(() => of(new SnackErrorPush({ message: 'Failed to set email address as default.' }))),
       );
     }),
   );
@@ -153,8 +153,8 @@ export class MailboxEffects {
     map((action: FetchMailboxKeys) => action.payload),
     switchMap(() => {
       return this.mailService.fetchMailboxKeys().pipe(
-        switchMap(res => of(new FetchMailboxKeysSuccess(res))),
-        catchError(error => of(new FetchMailboxKeysFailure())),
+        switchMap(response => of(new FetchMailboxKeysSuccess(response))),
+        catchError(() => of(new FetchMailboxKeysFailure())),
       );
     }),
   );
@@ -165,9 +165,9 @@ export class MailboxEffects {
     map((action: AddMailboxKeys) => action.payload),
     switchMap((payload: MailboxKey) => {
       return this.mailService.addMailboxKeys(payload).pipe(
-        switchMap(res =>
+        switchMap(response =>
           of(
-            new AddMailboxKeysSuccess({ ...res, private_key: payload.private_key }),
+            new AddMailboxKeysSuccess({ ...response, private_key: payload.private_key }),
             new SnackPush({ message: 'Mailbox Key has been added successfully' }),
           ),
         ),
@@ -189,7 +189,7 @@ export class MailboxEffects {
     map((action: DeleteMailboxKeys) => action.payload),
     switchMap((payload: MailboxKey) => {
       return this.mailService.deleteMailboxKeys(payload).pipe(
-        switchMap(res =>
+        switchMap(() =>
           of(
             new DeleteMailboxKeysSuccess(payload),
             new SnackPush({ message: 'Mailbox Key has been deleted successfully' }),
@@ -213,13 +213,13 @@ export class MailboxEffects {
     map((action: SetMailboxKeyPrimary) => action.payload),
     switchMap((payload: MailboxKey) => {
       return this.mailService.setPrimaryMailboxKeys(payload).pipe(
-        switchMap(res =>
+        switchMap(() =>
           of(
             new SetMailboxKeyPrimarySuccess(payload),
             new SnackPush({ message: 'Mailbox key has been updated successfully' }),
           ),
         ),
-        catchError(error =>
+        catchError(() =>
           of(
             new SetMailboxKeyPrimaryFailure(),
             new SnackErrorPush({ message: 'Failed to set mailbox key as primary' }),

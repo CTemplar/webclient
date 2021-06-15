@@ -3,16 +3,7 @@ import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Folder, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import {
-  AppState,
-  Contact,
-  ContactsState,
-  MailBoxesState,
-  NumberBooleanMappedType,
-  Settings,
-  StringBooleanMappedType,
-  UserState,
-} from '../../../store/datatypes';
+import { AppState, Contact, ContactsState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 
 @UntilDestroy()
 @Component({

@@ -142,10 +142,10 @@ export class OrganizationUsersComponent implements OnInit {
       backdrop: 'static',
     });
     this.addUserModalRef.result.then(
-      result => {
+      () => {
         this.addUserModalClosed();
       },
-      error => {
+      () => {
         this.addUserModalClosed();
       },
     );
@@ -168,7 +168,7 @@ export class OrganizationUsersComponent implements OnInit {
     this.submitted = true;
     this.errorMessage = null;
     if (this.addUserForm.invalid || this.newAddressOptions.usernameExists === true) {
-      return false;
+      return;
     }
     this.isAddingUserInProgress = true;
     this.openPgpService.generateUserKeys(

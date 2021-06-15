@@ -15,19 +15,18 @@ import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, finalize, first } from 'rxjs/operators';
+import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
-import { COLORS, FONTS, SummarySeparator, SIZES } from '../../../shared/config';
+import { COLORS, FONTS, SIZES } from '../../../shared/config';
 import {
   CloseMailbox,
   DeleteAttachment,
   DeleteMail,
   GetEmailContacts,
   GetUsersKeys,
-  MoveMail,
   NewDraft,
   SetIsComposerPopUp,
   SnackErrorPush,
@@ -353,6 +352,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     extraPlugins: [
       function ConvertQuoteAttribute(editor: any) {
         // Allow <blockquote> elements in the model to have all attributes.
+        // eslint-disable-next-line consistent-return
         editor.model.schema.addAttributeCheck((context: any) => {
           if (context.endsWith('blockQuote')) {
             return true;
@@ -810,8 +810,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           return html;
         },
       });
-      return content.replace(/\n/g, '<br>');
+      // TODO, should be double checked
+      return xssValue.replace(/\n/g, '<br>');
     }
+    return content;
   }
 
   private resetMailData() {
@@ -945,7 +947,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   validateEmail(email: string) {
     const re =
-      /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z\-]+\.)+[A-Za-z]{2,}))$/;
+      /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
@@ -1035,13 +1037,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       // TODO: Do we need to download attachment even if it is not encrypted?
       if (!attachment.decryptedDocument && !this.downloadingAttachments[attachment.id]) {
         this.downloadingAttachments[attachment.id] = true;
-        this.isDownloadingAttachmentCounter++;
+        this.isDownloadingAttachmentCounter += 1;
         this.mailService
           .getAttachment(attachment)
           .pipe(untilDestroyed(this))
           .pipe(
             finalize(() => {
-              this.isDownloadingAttachmentCounter--;
+              this.isDownloadingAttachmentCounter -= 1;
             }),
           )
           .subscribe(
@@ -1076,7 +1078,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
                 );
               }
             },
-            error => this.store.dispatch(new SnackErrorPush({ message: 'Failed to get attachments.' })),
+            () => this.store.dispatch(new SnackErrorPush({ message: 'Failed to get attachments.' })),
           );
       }
     }
@@ -1130,20 +1132,22 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // if (!this.draftMail || !this.draftMail.id) {
     //   this.updateEmail();
     // }
-    const _this = this;
+    // eslint-disable-next-line @typescript-eslint/no-this-alias,unicorn/no-this-assignment
+    const clonedThis = this;
+    // eslint-disable-next-line no-plusplus
     for (let index = 0; index < files.length; index++) {
       const file = files.item(index);
       if (/^image\//.test(file.type)) {
         const FR = new FileReader();
-        FR.addEventListener('load', function (e) {
-          _this.composerEditorInstance?.model.change((writer: any) => {
+        FR.addEventListener('load', event => {
+          clonedThis.composerEditorInstance?.model.change((writer: any) => {
             const imageElement = writer.createElement('image', {
-              src: e.target.result,
+              src: event.target.result,
             });
             // Insert the image in the current selection location.
-            _this.composerEditorInstance?.model.insertContent(
+            clonedThis.composerEditorInstance?.model.insertContent(
               imageElement,
-              _this.composerEditorInstance?.model.document.selection,
+              clonedThis.composerEditorInstance?.model.document.selection,
             );
           });
         });
@@ -1159,6 +1163,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if ((!this.draftMail || !this.draftMail.id) && !this.draft.isSaving) {
       this.updateEmail();
     }
+    // eslint-disable-next-line no-plusplus
     for (let index = 0; index < files.length; index++) {
       const file: File = files.item(index);
       this.uploadAttachment(file, false);
@@ -1321,7 +1326,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.bcc.map((bcc: any) => bcc.email),
     ];
     for (const receiver of receivers) {
-      const getDomain = receiver.substring(receiver.indexOf('@') + 1, receiver.length);
+      const getDomain = receiver.slice(receiver.indexOf('@') + 1, receiver.length);
       if (getDomain === 'ctemplar.com') {
         this.isSelfDestruction = true;
       }
@@ -1394,7 +1399,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Attach public key if needed
     const publicKeyFileName = `publickey-${this.selectedMailbox.email}.asc`;
-    if (this.selectedMailbox.is_attach_public_key && !this.attachments.find(a => a.name === publicKeyFileName)) {
+    if (this.selectedMailbox.is_attach_public_key && !this.attachments.some(a => a.name === publicKeyFileName)) {
       const publicKeyFile = new File([this.selectedMailbox.public_key], publicKeyFileName);
       this.isProcessingAttachments = true;
       this.uploadAttachment(publicKeyFile, false);
@@ -1683,11 +1688,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   setDeadManTimerValue() {
     this.deadManTimer.days =
-      !this.deadManTimer.days || isNaN(this.deadManTimer.days) || this.deadManTimer.days < 0
+      !this.deadManTimer.days || Number.isNaN(this.deadManTimer.days) || this.deadManTimer.days < 0
         ? 0
         : Math.floor(this.deadManTimer.days);
     this.deadManTimer.hours =
-      !this.deadManTimer.hours || isNaN(this.deadManTimer.hours) || this.deadManTimer.hours < 0
+      !this.deadManTimer.hours || Number.isNaN(this.deadManTimer.hours) || this.deadManTimer.hours < 0
         ? 0
         : Math.floor(this.deadManTimer.hours);
     this.deadManTimer.value = this.deadManTimer.days * 24 + this.deadManTimer.hours;
@@ -1714,9 +1719,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onSubmitEncryption() {
     // Set password and expire date for message to non-ctemplar users
     this.showEncryptFormErrors = true;
-    const { value } = this.encryptForm;
+    const { value, valid } = this.encryptForm;
     const expiryHours = value.hours + value.days * 24;
-    if (this.encryptForm.valid && expiryHours > 0 && expiryHours <= 120) {
+    if (valid && expiryHours > 0 && expiryHours <= 120) {
       this.encryptionData = {
         expiryHours,
         password: value.password,
@@ -1812,7 +1817,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.delayed_delivery = this.delayedDelivery.value || null;
     this.draftMail.dead_man_duration = this.deadManTimer.value || null;
     this.draftMail.is_subject_encrypted = true;
-    let tokens;
     this.draftMail.content = this.draftMail.is_html ? this.composerEditorInstance?.getData() : this.mailData.content;
     this.draftMail.send = shouldSend;
 
@@ -1978,7 +1982,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           item.value = parsedEmail.address || item.value;
           item.email = parsedEmail.address || item.value;
         } else {
-          item.email = item.name = item.value;
+          item.email = item.value;
+          item.name = item.value;
         }
       }
     }

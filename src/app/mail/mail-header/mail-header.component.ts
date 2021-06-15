@@ -10,9 +10,8 @@ import { filter } from 'rxjs/operators';
 
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
-import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store/actions';
+import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store';
 import { AppState, UserState } from '../../store/datatypes';
-import { SearchState } from '../../store/reducers/search.reducers';
 import { LOADING_IMAGE, HttpCancelService } from '../../store/services';
 
 @UntilDestroy()
@@ -93,7 +92,7 @@ export class MailHeaderComponent implements OnInit {
     this.store
       .select(state => state.search)
       .pipe(untilDestroyed(this))
-      .subscribe((searchState: SearchState) => {
+      .subscribe(() => {
         this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
       });
   }

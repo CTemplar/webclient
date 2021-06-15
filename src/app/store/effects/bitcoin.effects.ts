@@ -25,7 +25,7 @@ export class BitcoinEffects {
     map((action: CreateNewWallet) => action.payload),
     switchMap(payload => {
       return this.bitcoinService.createNewWallet(payload).pipe(
-        switchMap(res => of(new CreateNewWalletSuccess(res))),
+        switchMap(response => of(new CreateNewWalletSuccess(response))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to create a new Bitcoin wallet.' }))),
       );
     }),

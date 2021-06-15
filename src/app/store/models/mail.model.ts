@@ -55,7 +55,7 @@ export interface Mail {
   is_autocrypt_encrypted?: boolean;
   encryption_type?: PGPEncryptionType;
   reply_to_display?: Array<EmailDisplay>;
-  email_display_name_map?: Object;
+  email_display_name_map?: any;
 }
 
 export class EncryptionNonCTemplar {

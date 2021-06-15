@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { RouterStateSerializer, StoreRouterConnectingModule, DefaultRouterStateSerializer } from '@ngrx/router-store';
+import { DefaultRouterStateSerializer, RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreModule, ActionReducer, MetaReducer, INIT } from '@ngrx/store';
+import { ActionReducer, INIT, MetaReducer, StoreModule } from '@ngrx/store';
 
 import { AppConfig } from '../../environments/environment';
 import { REMEMBER_ME, SYNC_DATA_WITH_STORE } from '../shared/config';
 
 import { logoutReducer } from './reducers/auth.reducers';
-import { MailActionTypes } from './actions/mail.actions';
+import { MailActionTypes } from './actions';
 
 import { CustomSerializer, effects, reducers } from '.';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function (state, action: any) {
+  return (state, action: any) => {
     const nextState = reducer(state, action);
 
     if (
@@ -37,7 +37,7 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
 }
 
 export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-  return function (state, action) {
+  return (state, action) => {
     const nextState = reducer(state, action);
     if (action.type === INIT) {
       const isNeedSync = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true';
@@ -49,8 +49,7 @@ export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer
         try {
           const parsedStorageValue = JSON.parse(storageValue);
           if (parsedStorageValue && parsedStorageValue.decryptedSubjects) {
-            const returnValueValue = { ...nextState, mail: { ...nextState.mail, ...parsedStorageValue } };
-            return returnValueValue;
+            return { ...nextState, mail: { ...nextState.mail, ...parsedStorageValue } };
           }
         } catch {
           if (isRememberMe) {

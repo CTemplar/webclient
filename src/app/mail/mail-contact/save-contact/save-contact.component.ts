@@ -8,7 +8,6 @@ import {
   Output,
   ViewChild,
   ChangeDetectionStrategy,
-  SimpleChanges,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -230,7 +229,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
                 );
               }
             },
-            error => {
+            () => {
               this.isImportingKey = false;
               this.store.dispatch(
                 new SnackErrorPush({

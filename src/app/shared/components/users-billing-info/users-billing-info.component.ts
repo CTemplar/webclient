@@ -20,7 +20,6 @@ import {
   UpgradeAccount,
   ValidatePromoCode,
   CardAdd,
-  AddMailboxKeys,
 } from '../../../store/actions';
 import {
   AppState,
@@ -30,7 +29,6 @@ import {
   Payment,
   PaymentMethod,
   PaymentType,
-  PGPKeyType,
   PlanType,
   PricingPlan,
   PromoCode,
@@ -158,13 +156,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     private dynamicScriptLoader: DynamicScriptLoaderService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
-    private _zone: NgZone,
+    private ngzone: NgZone,
   ) {}
 
   ngOnInit() {
     let year = new Date().getFullYear();
+    // eslint-disable-next-line no-plusplus
     for (let index = 0; index < 11; index++) {
-      this.years.push(year++);
+      this.years.push((year += 1));
     }
     this.store.dispatch(new ClearPromoCode());
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
@@ -276,10 +275,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.isScriptsLoading = true;
     this.dynamicScriptLoader
       .load('stripe')
-      .then(data => {
+      .then(() => {
         this.dynamicScriptLoader
           .load('stripe-key')
-          .then(stripeKeyLoaded => {
+          .then(() => {
             this.isScriptsLoaded = true;
             this.isScriptsLoading = false;
           })
@@ -303,7 +302,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       },
       (status: number, response: any) => {
         // Wrapping inside the Angular zone
-        this._zone.run(() => {
+        this.ngzone.run(() => {
           this.inProgress = false;
           if (status === 200) {
             this.stripeSignup(response.id);
@@ -358,7 +357,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   validateSignupData() {
     if (this.signupState && this.signupState.username && this.signupState.password) {
-      return true;
+      return;
     }
     this.router.navigateByUrl(`/create-account?plan=${this.planType}&billing=${this.paymentType}`);
   }

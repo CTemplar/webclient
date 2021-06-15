@@ -430,9 +430,9 @@ export class UsersEffects {
     map((action: CreateFolder) => action.payload),
     switchMap(folder => {
       return this.mailService.createFolder(folder).pipe(
-        switchMap(res => {
+        switchMap(response => {
           const actions: any[] = [
-            new CreateFolderSuccess(res),
+            new CreateFolderSuccess(response),
             new SnackErrorPush({
               message: `'${folder.name}' folder ${folder.id ? 'updated' : 'created'} successfully.`,
             }),
@@ -496,7 +496,7 @@ export class UsersEffects {
     map((action: GetFilters) => action.payload),
     switchMap(payload => {
       return this.userService.getFilters(payload).pipe(
-        switchMap(res => of(new GetFiltersSuccess(res.results))),
+        switchMap(response => of(new GetFiltersSuccess(response.results))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get filters.' }))),
       );
     }),
@@ -508,9 +508,9 @@ export class UsersEffects {
     map((action: CreateFilter) => action.payload),
     switchMap(payload => {
       return this.userService.createFilter(payload).pipe(
-        switchMap(res =>
+        switchMap(response =>
           of(
-            new CreateFilterSuccess(res),
+            new CreateFilterSuccess(response),
             new SnackErrorPush({ message: `The filter “${payload.name}” has been added.` }),
           ),
         ),
@@ -532,9 +532,9 @@ export class UsersEffects {
     map((action: UpdateFilter) => action.payload),
     switchMap(payload => {
       return this.userService.createFilter(payload).pipe(
-        switchMap(res =>
+        switchMap(response =>
           of(
-            new UpdateFilterSuccess(res),
+            new UpdateFilterSuccess(response),
             new SnackErrorPush({ message: `The filter “${payload.name}” has been updated.` }),
           ),
         ),
@@ -556,8 +556,11 @@ export class UsersEffects {
     map((action: UpdateFilterOrder) => action.payload),
     switchMap(payload => {
       return this.userService.updateFilterOrder(payload).pipe(
-        switchMap(res =>
-          of(new UpdateFilterOrderSuccess(res), new SnackErrorPush({ message: `The filter order has been updated.` })),
+        switchMap(response =>
+          of(
+            new UpdateFilterOrderSuccess(response),
+            new SnackErrorPush({ message: `The filter order has been updated.` }),
+          ),
         ),
         catchError(errorResponse =>
           of(
@@ -613,7 +616,7 @@ export class UsersEffects {
     map((action: CreateDomain) => action.payload),
     switchMap(payload => {
       return this.userService.createDomain(payload).pipe(
-        switchMap(res => of(new CreateDomainSuccess(res))),
+        switchMap(response => of(new CreateDomainSuccess(response))),
         catchError(errorResponse => of(new CreateDomainFailure(errorResponse.error))),
       );
     }),
@@ -625,7 +628,9 @@ export class UsersEffects {
     map((action: UpdateDomain) => action.payload),
     switchMap(payload => {
       return this.userService.updateDomain(payload).pipe(
-        switchMap(res => of(new UpdateDomainSuccess(res), new SnackPush({ message: `Domain updated successfully` }))),
+        switchMap(response =>
+          of(new UpdateDomainSuccess(response), new SnackPush({ message: `Domain updated successfully` })),
+        ),
         catchError(errorResponse =>
           of(
             new UpdateDomainFailure(errorResponse.error),
@@ -644,7 +649,7 @@ export class UsersEffects {
     map((action: ReadDomain) => action.payload),
     switchMap(payload => {
       return this.userService.readDomain(payload).pipe(
-        switchMap(res => of(new ReadDomainSuccess(res))),
+        switchMap(response => of(new ReadDomainSuccess(response))),
         catchError(errorResponse => of(new ReadDomainFailure({ err: errorResponse.error }))),
       );
     }),
@@ -668,10 +673,10 @@ export class UsersEffects {
     map((action: VerifyDomain) => action.payload),
     switchMap(payload => {
       return this.userService.verifyDomain(payload.id).pipe(
-        switchMap(res => {
+        switchMap(response => {
           return of(
             new VerifyDomainSuccess({
-              res,
+              response,
               step: payload.currentStep,
               gotoNextStep: payload.gotoNextStep,
               reverify: payload.reverify,
@@ -700,7 +705,7 @@ export class UsersEffects {
     map((action: SendEmailForwardingCode) => action.payload),
     switchMap(payload => {
       return this.userService.sendEmailForwardingCode(payload.email).pipe(
-        switchMap(res => of(new SendEmailForwardingCodeSuccess(res))),
+        switchMap(response => of(new SendEmailForwardingCodeSuccess(response))),
         catchError(errorResponse => of(new SendEmailForwardingCodeFailure(errorResponse.error))),
       );
     }),
@@ -712,8 +717,8 @@ export class UsersEffects {
     map((action: VerifyEmailForwardingCode) => action.payload),
     switchMap(payload => {
       return this.userService.verifyEmailForwardingCode(payload.email, payload.code).pipe(
-        switchMap(res => {
-          return of(new AccountDetailsGet(), new VerifyEmailForwardingCodeSuccess(res));
+        switchMap(response => {
+          return of(new AccountDetailsGet(), new VerifyEmailForwardingCodeSuccess(response));
         }),
         catchError(errorResponse => of(new VerifyEmailForwardingCodeFailure(errorResponse.error))),
       );
@@ -726,8 +731,8 @@ export class UsersEffects {
     map((action: SaveAutoResponder) => action.payload),
     switchMap(payload => {
       return this.userService.saveAutoResponder(payload).pipe(
-        switchMap(res => {
-          return of(new SnackPush({ message: `Saved successfully` }), new SaveAutoResponderSuccess(res));
+        switchMap(response => {
+          return of(new SnackPush({ message: `Saved successfully` }), new SaveAutoResponderSuccess(response));
         }),
         catchError(errorResponse =>
           of(
@@ -745,7 +750,7 @@ export class UsersEffects {
     map((action: GetInvoices) => action.payload),
     switchMap(() => {
       return this.userService.getInvoices().pipe(
-        switchMap(res => of(new GetInvoicesSuccess(res.results))),
+        switchMap(response => of(new GetInvoicesSuccess(response.results))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get invoices.' }))),
       );
     }),
@@ -757,7 +762,7 @@ export class UsersEffects {
     map((action: GetUpgradeAmount) => action.payload),
     switchMap(payload => {
       return this.userService.getUpgradeAmount(payload).pipe(
-        switchMap(res => of(new GetUpgradeAmountSuccess(res))),
+        switchMap(response => of(new GetUpgradeAmountSuccess(response))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get upgrade amount.' }))),
       );
     }),
@@ -769,7 +774,7 @@ export class UsersEffects {
     map((action: ValidatePromoCode) => action.payload),
     switchMap(payload => {
       return this.userService.validatePromoCode(payload).pipe(
-        switchMap(res => of(new ValidatePromoCodeSuccess(res))),
+        switchMap(response => of(new ValidatePromoCodeSuccess(response))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to validate promo code.' }))),
       );
     }),
@@ -781,7 +786,7 @@ export class UsersEffects {
     map((action: GetInviteCodes) => action.payload),
     switchMap(() => {
       return this.userService.getInviteCodes().pipe(
-        switchMap(res => of(new GetInviteCodesSuccess(res))),
+        switchMap(response => of(new GetInviteCodesSuccess(response))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get invite codes.' }))),
       );
     }),
@@ -793,7 +798,7 @@ export class UsersEffects {
     map((action: GenerateInviteCode) => action.payload),
     switchMap(() => {
       return this.userService.generateInviteCodes().pipe(
-        switchMap(res => of(new GenerateInviteCodeSuccess(res))),
+        switchMap(response => of(new GenerateInviteCodeSuccess(response))),
         catchError(errorResponse =>
           of(
             new SnackErrorPush({
@@ -812,7 +817,7 @@ export class UsersEffects {
     map((action: GetNotification) => action.payload),
     switchMap(() => {
       return this.userService.getUserNotifications().pipe(
-        switchMap(resp => of(new GetNotificationSuccess(resp))),
+        switchMap(response => of(new GetNotificationSuccess(response))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get user notifications.' }))),
       );
     }),

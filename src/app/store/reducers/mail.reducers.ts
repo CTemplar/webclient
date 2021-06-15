@@ -866,7 +866,7 @@ export function reducer(
           if (mailDetail.id === action.payload.last_action_data.last_action_parent_id) {
             mailDetail.last_action = action.payload.last_action_data.last_action;
           } else {
-            mailDetail.children = state.mailDetail.children.map(mail => {
+            mailDetail.children = mailDetail.children.map(mail => {
               if (mail.id === action.payload.last_action_data.last_action_parent_id) {
                 mail.last_action = action.payload.last_action_data.last_action;
               }
@@ -874,29 +874,28 @@ export function reducer(
             });
           }
         }
-        if (action.payload.parent === state.mailDetail.id) {
-          mailDetail.children = state.mailDetail.children || [];
-          mailDetail.children = state.mailDetail.children.filter(child => !(child.id === action.payload.id));
-          mailDetail.children = [...state.mailDetail.children, action.payload];
-          mailDetail.children_count = state.mailDetail.children.length;
+        if (action.payload.parent === mailDetail.id) {
+          mailDetail.children = mailDetail.children || [];
+          mailDetail.children = mailDetail.children.filter(child => !(child.id === action.payload.id));
+          mailDetail.children = [...mailDetail.children, action.payload];
+          mailDetail.children_count = mailDetail.children.length;
         }
       }
       return { ...state, mailDetail, noUnreadCountChange: true };
     }
 
     case MailActionTypes.SET_CURRENT_FOLDER: {
-      const { folderMap } = state;
-      const { mailMap } = state;
-      const mails = prepareMails(action.payload, folderMap, state.mailMap);
-      const total_mail_count = folderMap.has(action.payload) ? folderMap.get(action.payload).total_mail_count : 0;
+      const { folderMap, mailMap, decryptedSubjects } = state;
+      const mails = prepareMails(action.payload, folderMap, mailMap);
+      const totalMailCount = folderMap.has(action.payload) ? folderMap.get(action.payload).total_mail_count : 0;
       for (const key of Object.keys(mailMap)) {
         const mail = mailMap[key];
         mail.marked = false;
         mailMap[key] = { ...mail };
       }
       for (const mail of mails) {
-        if (state.decryptedSubjects[mail.id]) {
-          mail.subject = state.decryptedSubjects[mail.id];
+        if (decryptedSubjects[mail.id]) {
+          mail.subject = decryptedSubjects[mail.id];
           mail.is_subject_encrypted = false;
         }
       }
@@ -904,7 +903,7 @@ export function reducer(
         ...state,
         mails,
         mailMap,
-        total_mail_count,
+        total_mail_count: totalMailCount,
         currentFolder: action.payload,
       };
     }
@@ -950,7 +949,7 @@ export function reducer(
         for (const mailID of mailIDs) {
           if (mailMap[mailID].id === newMail.parent && !newMail.isUpdate) {
             mailMap[mailID].has_children = true;
-            mailMap[mailID].children_count = mailMap[mailID].children_count + 1;
+            mailMap[mailID].children_count += 1;
             if (mailMap[mailID].children_folder_info) {
               mailMap[mailID].children_folder_info = {
                 ...mailMap[mailID].children_folder_info,

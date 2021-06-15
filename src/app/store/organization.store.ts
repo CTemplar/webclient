@@ -158,7 +158,7 @@ export class OrganizationEffects {
     map((action: DeleteOrganizationUser) => action.payload),
     switchMap(payload => {
       return this.userService.deleteOrganizationUser(payload).pipe(
-        switchMap((response: any) => {
+        switchMap(() => {
           return of(
             new DeleteOrganizationUserSuccess(payload),
             new SnackErrorPush({ message: `User '${payload.username}' deleted successfully.` }),
@@ -202,6 +202,7 @@ export interface OrganizationState {
   error?: string;
 }
 
+// eslint-disable-next-line unicorn/no-object-as-default-parameter
 export function reducer(state: OrganizationState = { users: [] }, action: OrganizationActionAll) {
   switch (action.type) {
     case OrganizationActionTypes.GET_ORGANIZATION_USERS: {

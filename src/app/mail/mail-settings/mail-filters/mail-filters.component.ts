@@ -185,7 +185,7 @@ export class MailFiltersComponent implements OnInit {
     this.errorMessage = undefined;
     if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
       let conditions: FilterConditionObject[] = [];
-      this.createFilterData.conditions.map((c, index) => {
+      this.createFilterData.conditions.forEach((c, index) => {
         const filterTextName = `filterText-${index.toString()}`;
         const filterText = this.createFilterForm.get(filterTextName).value;
         if (!c.parameter || c.parameter.length === 0) {
@@ -255,7 +255,7 @@ export class MailFiltersComponent implements OnInit {
     if (value) {
       if (this.selectedFilter && this.selectedFilter.name.toLowerCase() === value.toLowerCase()) {
         this.hasDuplicateFilterName = false;
-      } else if (this.filters.find(filter => value && filter.name.toLowerCase() === value.toLowerCase())) {
+      } else if (this.filters.some(filter => value && filter.name.toLowerCase() === value.toLowerCase())) {
         this.hasDuplicateFilterName = true;
         return true;
       }

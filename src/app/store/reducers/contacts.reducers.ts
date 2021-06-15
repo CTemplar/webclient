@@ -1,4 +1,4 @@
-import { ContactKey, ContactsState } from '../datatypes';
+import { ContactsState } from '../datatypes';
 import { ContactsActionAll, ContactsActionTypes } from '../actions/contacts.action';
 import { sortByString } from '../services';
 

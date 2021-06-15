@@ -38,7 +38,7 @@ export class DynamicScriptLoaderService {
   }
 
   loadScript(name: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (!this.scripts[name].loaded) {
         const script = document.createElement('script');
         script.type = 'text/javascript';
@@ -49,7 +49,7 @@ export class DynamicScriptLoaderService {
           this.scripts[name].loaded = true;
           resolve({ script: name, loaded: true, status: 'Loaded' });
         });
-        script.addEventListener('error', (error: any) => resolve({ script: name, loaded: false, status: 'Loaded' }));
+        script.addEventListener('error', () => resolve({ script: name, loaded: false, status: 'Loaded' }));
         document.querySelectorAll('head')[0].append(script);
       } else {
         resolve({ script: name, loaded: true, status: 'Already Loaded' });
@@ -59,15 +59,15 @@ export class DynamicScriptLoaderService {
 
   removeStripeFromDOM() {
     if (document.querySelectorAll('iframe')[0]) {
-      document.querySelectorAll('body')[0].removeChild(document.querySelectorAll('iframe')[0]);
+      document.querySelectorAll('iframe')[0].remove();
       this.removeStripeFromDOM();
     } else {
       if (this.scripts.stripe.loaded && document.querySelector('#stripe')) {
-        document.querySelectorAll('head')[0].removeChild(document.querySelector('#stripe'));
+        document.querySelector('#stripe').remove();
         this.scripts.stripe.loaded = false;
       }
       if (this.scripts['stripe-key'].loaded && document.querySelector('#stripe-key')) {
-        document.querySelectorAll('head')[0].removeChild(document.querySelector('#stripe-key'));
+        document.querySelector('#stripe-key').remove();
         this.scripts['stripe-key'].loaded = false;
       }
     }

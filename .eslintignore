@@ -9,6 +9,9 @@ karma.conf.js
 webpack.config.js
 typings.d.ts
 test.ts
+protractor.conf.js
+patch-webpack.js
+electron-main.js
 
 # dependencies
 node-modules/

@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
@@ -129,6 +129,10 @@ export class ReceiverEmailChipComponent {
   }
 
   onClickBody(popOver: any) {
-    popOver.isOpen() ? popOver.close() : popOver.open();
+    if (popOver.isOpen) {
+      popOver.close();
+    } else {
+      popOver.open();
+    }
   }
 }

@@ -20,7 +20,7 @@ export class PagesDonateComponent implements OnInit {
   private loadStripeScripts() {
     this.dynamicScriptLoader
       .load('stripe')
-      .then(data => {
+      .then(() => {
         this.dynamicScriptLoader
           .load('stripe-key')
           .then(() => {

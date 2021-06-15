@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeUrl } from '@angular/platform-browser';
 import * as xss from 'xss';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import * as cssfilter from 'cssfilter';
 import * as juice from 'juice';
 
@@ -102,6 +103,7 @@ export class SafePipe implements PipeTransform {
 
   constructor(private sanitizer: DomSanitizer) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public transform(value: any, type = '', disableExternalImages?: boolean, fromEmail?: string): SafeHtml | SafeUrl {
     switch (type.toLowerCase()) {
       case 'html':
@@ -118,6 +120,7 @@ export class SafePipe implements PipeTransform {
       default:
         throw new Error(`Invalid safe type specified: ${type}`);
     }
+    return '';
   }
 
   static processSanitizationForEmail(value: string, disableExternalImages: boolean) {
@@ -210,6 +213,7 @@ export class SafePipe implements PipeTransform {
             outputHtml += ` ${attributesHtml}`;
           }
           outputHtml += '>';
+          // eslint-disable-next-line consistent-return
           return outputHtml;
         }
       },
@@ -223,6 +227,7 @@ export class SafePipe implements PipeTransform {
       whiteList: SafePipe.allowedTags,
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
+      // eslint-disable-next-line consistent-return
       onIgnoreTagAttr: (tag: string, name: string, attribute: string) => {
         if (name !== 'class') {
           // get attr whitelist for specific tag

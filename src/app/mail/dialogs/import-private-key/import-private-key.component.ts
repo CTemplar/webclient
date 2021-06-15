@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { AddMailboxKeys, ResetMailboxKeyOperationState, SnackErrorPush } from '../../../store';
 import { Mailbox } from '../../../store/models';
-import { AppState, MailBoxesState, MailboxKey, PlanType, UserState } from '../../../store/datatypes';
+import { AppState, MailBoxesState, MailboxKey } from '../../../store/datatypes';
 import { OpenPgpService, SharedService } from '../../../store/services';
 
 enum ImportPrivateKeyStep {
@@ -102,7 +102,7 @@ export class ImportPrivateKeyComponent implements OnInit {
             data => {
               if (data.data?.fingerprint && this.mailboxKeysMap.has(this.selectedMailbox.id)) {
                 const keys = this.mailboxKeysMap.get(this.selectedMailbox.id);
-                if (keys.find(key => data.data.fingerprint === key.fingerprint)) {
+                if (keys.some(key => data.data.fingerprint === key.fingerprint)) {
                   this.store.dispatch(
                     new SnackErrorPush({
                       message: `${file.name} is already in active use`,
@@ -123,7 +123,7 @@ export class ImportPrivateKeyComponent implements OnInit {
               this.inProgress = false;
               this.cdr.detectChanges();
             },
-            error => {
+            () => {
               this.store.dispatch(
                 new SnackErrorPush({
                   message: `${file.name} is not a valid PGP Private Key`,
@@ -141,12 +141,12 @@ export class ImportPrivateKeyComponent implements OnInit {
   }
 
   uploadImportedKey(keyData: any) {
-    const { data } = keyData;
+    const { data, algorithmInfo } = keyData;
     if (keyData && this.selectedMailbox) {
       data.mailbox = this.selectedMailbox.id;
       let keyType = '';
-      if (keyData.algorithmInfo) {
-        keyType = keyData.algorithmInfo.bits ? `RSA${keyData.algorithmInfo.bits}` : keyData.algorithmInfo.curve;
+      if (algorithmInfo) {
+        keyType = algorithmInfo.bits ? `RSA${algorithmInfo.bits}` : algorithmInfo.curve;
       }
       data.key_type = keyType;
       delete data.algorithmInfo;
@@ -164,13 +164,13 @@ export class ImportPrivateKeyComponent implements OnInit {
         .decryptPrivateKey(this.currentFileContent, this.passphrase)
         .pipe(take(1))
         .subscribe(
-          data => {
+          () => {
             this.inProgress = false;
             this.decryptError = false;
             this.currentStep += 1;
             this.cdr.detectChanges();
           },
-          error => {
+          () => {
             this.inProgress = false;
             this.decryptError = true;
             this.cdr.detectChanges();
@@ -191,7 +191,7 @@ export class ImportPrivateKeyComponent implements OnInit {
             this.uploadImportedKey(data);
             this.cdr.detectChanges();
           },
-          error => {
+          () => {
             this.inProgress = false;
             this.cdr.detectChanges();
           },
@@ -215,7 +215,7 @@ export class ImportPrivateKeyComponent implements OnInit {
 
   // == Toggle password visibility
   togglePassword(inputID: string): any {
-    const input = <HTMLInputElement>document.getElementById(inputID);
+    const input = <HTMLInputElement>document.querySelector(`#${inputID}`);
     if (!input.value) {
       return;
     }
