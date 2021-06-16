@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/browser';
 
 import { apiUrl } from '../../shared/config';
 import { MailboxKey } from '../datatypes';
-import { Attachment, Folder, Mail, Mailbox } from '../models';
+import { Attachment, Folder, Mail, Mailbox, Unsubscribe } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
 @Injectable({
@@ -262,6 +262,10 @@ export class MailService {
       mailbox_id: data.mailbox,
       mailboxkey_id: data.id,
     });
+  }
+
+  unsubscribe(data: Unsubscribe): Observable<any> {
+    return this.http.post<any>(`${apiUrl}emails/list-unsubscribe/`, data);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

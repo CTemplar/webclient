@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { timer, BehaviorSubject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
@@ -15,13 +15,13 @@ export class CountdownTimerComponent implements OnInit {
 
   @Output() finished = new EventEmitter<boolean>();
 
-  days: number;
+  days: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  hours: number;
+  hours: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  minutes: number;
+  minutes: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
-  seconds: number;
+  seconds: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   ngOnInit() {
     timer(0, 1000)
@@ -38,12 +38,12 @@ export class CountdownTimerComponent implements OnInit {
 
   calculate() {
     let durationCopy = this.duration;
-    this.days = Math.floor(durationCopy / 86_400);
-    durationCopy -= this.days * 86_400;
-    this.hours = Math.floor(durationCopy / 3600) % 24;
-    durationCopy -= this.hours * 3600;
-    this.minutes = Math.floor(durationCopy / 60) % 60;
-    durationCopy -= this.minutes * 60;
-    this.seconds = durationCopy % 60;
+    this.days.next(Math.floor(durationCopy / 86_400));
+    durationCopy -= this.days.value * 86_400;
+    this.hours.next(Math.floor(durationCopy / 3600) % 24);
+    durationCopy -= this.hours.value * 3600;
+    this.minutes.next(Math.floor(durationCopy / 60) % 60);
+    durationCopy -= this.minutes.value * 60;
+    this.seconds.next(durationCopy % 60);
   }
 }

@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 import * as xss from 'xss';
 import * as parseEmail from 'email-addresses';
 import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import { PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -40,7 +41,7 @@ import {
   StringBooleanMappedType,
   UserState,
 } from '../../store/datatypes';
-import { Attachment, Folder, Mail, Mailbox, MailFolderType } from '../../store/models';
+import { Attachment, Folder, Mail, Mailbox, MailFolderType, Unsubscribe } from '../../store/models';
 import {
   ElectronService,
   LOADING_IMAGE,
@@ -69,6 +70,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   @ViewChild('includeAttachmentsModal') includeAttachmentsModal: any;
 
   @ViewChild('incomingHeadersModal') incomingHeadersModal: any;
+
+  @ViewChild('unsubscribeConfirmModal') unsubscribeConfirmModal: any;
 
   mail: Mail;
 
@@ -164,6 +167,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private includeAttachmentsModalRef: NgbModalRef;
 
+  unsubscribeConfirmModalRef: NgbModalRef;
+
   userState: UserState;
 
   private mailboxes: Mailbox[];
@@ -213,6 +218,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private mailService: MailService,
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -699,10 +705,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (key === 'List-Unsubscribe') {
             const value = header[key];
             const valueArray = value.split(',');
-            if (valueArray.length > 1) {
-              this.unsubscribeMailTo = valueArray[0].replace(/(<mailto:|>)+/g, '');
-              this.unsubscribeLink = valueArray[1].replace(/(\n <|>)+/g, '');
-            }
+            valueArray.forEach((v: string) => {
+              if (v.includes('mailto:')) {
+                this.unsubscribeMailTo = v.replace(/(<|>)+/g, '').replace(' ', '');
+              } else {
+                this.unsubscribeLink = v.replace(/(<|>)+/g, '').replace(' ', '');
+              }
+            });
           }
           if (Object.prototype.hasOwnProperty.call(header, key)) {
             headersArray.push({ key, value: header[key] });
@@ -1356,5 +1365,35 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   onShowTrashRelatedChildren() {
     this.isShowTrashRelatedChildren = !this.isShowTrashRelatedChildren;
+  }
+
+  onClickUnsubscribe() {
+    this.unsubscribeConfirmModalRef = this.modalService.open(this.unsubscribeConfirmModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    });
+    this.unsubscribeConfirmModalRef.result.then(result => {
+      if (result) {
+        window.open(this.unsubscribeLink, '_blank');
+        const data: Unsubscribe = {
+          mailbox_id: this.currentMailbox.id,
+          mailto: this.unsubscribeMailTo,
+        };
+        this.mailService.unsubscribe(data).subscribe(
+          () => {
+            this.store.dispatch(
+              new SnackErrorPush({ message: this.translate.instant('mail-detail.success_unsubscribe') }),
+            );
+          },
+          (errorResponse: any) =>
+            this.store.dispatch(
+              new SnackErrorPush({
+                message: errorResponse.error || this.translate.instant('mail-detail.failed_unsubscribe'),
+              }),
+            ),
+        );
+      }
+      this.unsubscribeConfirmModalRef = null;
+    });
   }
 }
