@@ -747,7 +747,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
     }
-    if (!this.draft.draft.id && this.hasData()) {
+    if (!this.draft.draft.id) {
       this.updateEmail();
     }
   }
@@ -1035,7 +1035,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   decryptAttachments(attachments: Array<Attachment>) {
     for (const attachment of attachments) {
       // TODO: Do we need to download attachment even if it is not encrypted?
-      if (!attachment.decryptedDocument && !this.downloadingAttachments[attachment.id]) {
+      if (!attachment.decryptedDocument && !this.downloadingAttachments[attachment.id] && !attachment.is_pgp_mime) {
         this.downloadingAttachments[attachment.id] = true;
         this.isDownloadingAttachmentCounter += 1;
         this.mailService
