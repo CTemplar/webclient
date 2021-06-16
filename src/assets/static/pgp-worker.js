@@ -329,8 +329,8 @@ onmessage = async function (event) {
       });
     });
   } else if (event.data.signing) {
-    signContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
-      postMessage({ ...event.data, signContent: content?.signature ?? '' });
+    signContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId], event.data.publicKeys).then(content => {
+      postMessage({ ...event.data, signContent: content ?? '' });
     });
   }
 };
@@ -493,16 +493,32 @@ async function changePassphrase(passphrase) {
   return { keys: keysMap, changePassphrase: true };
 }
 
-async function signContent(cotents, privateKeyObj) {
-  if (!cotents) {
-    return Promise.resolve(cotents);
+async function signContent(contents, privateKeyObj, publicKeys) {
+  if (!contents) {
+    return Promise.resolve(contents);
   }
-  const signature = await openpgp.sign({
-    message: openpgp.message.fromText(cotents),
-    signingKeys: privateKeyObj.map(obj => obj.private_key),
-    detached: true
+  const message = openpgp.message.fromText(contents);
+  const { signature: detachedSignature } = await openpgp.sign({
+    message,
+    privateKeys: privateKeyObj.map(obj => obj.private_key),
+    detached: true,
   });
-  return signature;
+  
+  let signature = await openpgp.signature.readArmored(detachedSignature);
+  const pubkeys = await Promise.all(
+    publicKeys.map(async key => {
+      return (await openpgp.key.readArmored(key)).keys[0];
+    }),
+  );
+  let verified = await openpgp.verify({message, publicKeys: pubkeys, signature});
+  const { valid } = verified.signatures[0];
+  if (valid) {
+    console.log('signed by key id ' + verified.signatures[0].keyid.toHex());
+  } else {
+    console.log('signature could not be verified');
+  }
+
+  return detachedSignature;
 }
 
 async function encryptContent(data, publicKeys) {

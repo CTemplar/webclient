@@ -196,11 +196,13 @@ export class OpenPgpService {
   }
 
   signContents(mailboxId: number, mailData: SecureContent, draftId: number) {
+    const pubKeys = this.publicKeys[mailboxId].map((key: any) => key.public_key);
     this.pgpWorker.postMessage({
       mailData,
       signing: true,
       mailboxId,
       callerId: draftId,
+      publicKeys: pubKeys,
     });
   }
 
