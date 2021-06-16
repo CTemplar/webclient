@@ -106,7 +106,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     const contactEmail = this.newContactModel.email;
     const emailDomain = this.sharedService.parseEmailWithRFCStandard(contactEmail).domain;
     this.internalUser = emailDomain === getEmailDomain();
-    if (!this.internalUser && this.selectedContact.id) {
+    if (!this.internalUser && this.selectedContact?.id) {
       this.store.dispatch(new ContactFetchKeys(this.selectedContact));
     }
   }
