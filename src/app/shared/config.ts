@@ -209,6 +209,8 @@ export const CKEDITOR_TOOLBAR_ITEMS = [
   'indent',
   'outdent',
   '|',
+  'imageUpload',
+  '|',
   'undo',
   'redo',
   '|',
