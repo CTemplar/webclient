@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -16,10 +16,13 @@ export enum ThemeMode {
 })
 export class ThemeToggleService {
   private readonly LIGHT_THEME_CLASS_NAME = 'theme-light';
+
   private readonly DARK_THEME_CLASS_NAME = 'theme-dark';
 
   private isDarkMode = false;
+
   private isForceLightMode = false;
+
   public theme$ = new BehaviorSubject<ThemeMode>(ThemeMode.LIGHT);
 
   constructor(private store: Store<AppState>) {

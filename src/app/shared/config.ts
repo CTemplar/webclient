@@ -4,8 +4,11 @@ export const IS_ELECTRON = window.location.protocol === 'file:';
 
 export function getWindowConfig(): { host: string; protocol: string } {
   let { protocol } = window.location;
+  // eslint-disable-next-line no-restricted-globals
   let { host } = location;
-  if (IS_ELECTRON || location.hostname === 'localhost') {
+  // eslint-disable-next-line no-restricted-globals
+  const { hostname } = location;
+  if (IS_ELECTRON || hostname === 'localhost') {
     protocol = 'https:';
     host = AppConfig.production ? 'mail.ctemplar.com' : 'dev.ctemplar.net';
   }

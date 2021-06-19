@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgModule, ErrorHandler, Injectable } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -31,10 +31,10 @@ import {
   MessageDecryptService,
   AutocryptProcessService,
   ElectronService,
+  DonationService,
 } from './store/services';
 import { BreakpointsService } from './store/services/breakpoint.service';
 import { DateTimeUtilService } from './store/services/datetime-util.service';
-import { DonationService } from './store/services/donation.service';
 import { NotificationService } from './store/services/notification.service';
 import { TimezoneService } from './store/services/timezone.service';
 import { errorHandlerFactory } from './app.error-handler';

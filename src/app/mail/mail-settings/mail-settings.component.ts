@@ -9,21 +9,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import * as Sentry from '@sentry/browser';
 
-import { MoveToBlacklist, MoveToWhitelist } from '../../store/actions';
-import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
-import { SENTRY_DSN } from '../../shared/config';
 import {
-  FONTS,
-  Language,
-  LANGUAGES,
-  VALID_EMAIL_REGEX,
-  AUTOSAVE_DURATION,
-  COMPOSE_COLORS,
-  SIZES,
-  BACKGROUNDS,
-  DEFAULT_FONT_SIZE,
-} from '../../shared/config';
-import {
+  MoveToBlacklist,
+  MoveToWhitelist,
   BlackListDelete,
   DeleteAccount,
   SnackPush,
@@ -34,6 +22,19 @@ import {
   ClearMailsOnConversationModeChange,
   GetUnreadMailsCount,
 } from '../../store/actions';
+import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
+import {
+  SENTRY_DSN,
+  FONTS,
+  Language,
+  LANGUAGES,
+  VALID_EMAIL_REGEX,
+  AUTOSAVE_DURATION,
+  COMPOSE_COLORS,
+  SIZES,
+  BACKGROUNDS,
+  DEFAULT_FONT_SIZE,
+} from '../../shared/config';
 import {
   AppState,
   AuthState,
@@ -214,7 +215,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
         if (user.settings.autosave_duration !== 'none' && user.settings.autosave_duration) {
           const duration = Number(user.settings.autosave_duration);
           // convert duration to m:s format (1m = 60000ms, 1s = 1000ms)
-          const newDuration = duration >= 60000 ? `${duration / 60000}m` : `${duration / 1000}s`;
+          const newDuration = duration >= 60_000 ? `${duration / 60_000}m` : `${duration / 1000}s`;
           this.autosave_duration = newDuration;
         } else {
           this.autosave_duration = 'none';
@@ -240,7 +241,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
     this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges.pipe(
       startWith(''),
-      map(name => (name ? this._filterTimeZone(name) : this.timezones.slice())),
+      map(name => (name ? this.filterTimeZone(name) : [...this.timezones])),
     );
 
     /**
@@ -262,7 +263,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private _filterTimeZone(name: string) {
+  private filterTimeZone(name: string) {
     return this.timezones.filter(option => option.value.toLowerCase().includes(name.toLowerCase()));
   }
 
@@ -274,17 +275,17 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
    * Convert milliseconds to time format(m:s)
    */
   initAutoSaving() {
-    const autosave_durations: string[] = [];
-    this.autosaveDurations.forEach(duration => {
+    const autosaveDurations: string[] = [];
+    for (const duration of this.autosaveDurations) {
       if (duration !== 'none' && duration) {
         const perduration = Number(duration);
-        const newDuration = perduration >= 60000 ? `${perduration / 60000}m` : `${perduration / 1000}s`;
-        autosave_durations.push(newDuration);
+        const newDuration = perduration >= 60_000 ? `${perduration / 60_000}m` : `${perduration / 1000}s`;
+        autosaveDurations.push(newDuration);
       } else {
-        autosave_durations.push('none');
+        autosaveDurations.push('none');
       }
-    });
-    this.autosave_duration_list = autosave_durations;
+    }
+    this.autosave_duration_list = autosaveDurations;
   }
 
   ngAfterViewInit() {
@@ -360,11 +361,11 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   moveToBlacklist(id: number, name: string, email: string) {
-    this.store.dispatch(new MoveToBlacklist({ id: id, name: name, email: email }));
+    this.store.dispatch(new MoveToBlacklist({ id, name, email }));
   }
 
   moveToWhitelist(id: number, name: string, email: string) {
-    this.store.dispatch(new MoveToWhitelist({ id: id, name: name, email: email }));
+    this.store.dispatch(new MoveToWhitelist({ id, name, email }));
   }
 
   public deleteWhiteList(id: number) {
@@ -400,7 +401,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   updateSettings(key?: string, value?: any) {
     if (key === 'autosave_duration') {
       if (value.slice(-1) === 'm') {
-        value = Number(value.slice(0, -1)) * 60000;
+        value = Number(value.slice(0, -1)) * 60_000;
       }
       if (value.slice(-1) === 's') {
         value = Number(value.slice(0, -1)) * 1000;
@@ -505,9 +506,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   viewInvoice(invoice: Invoice, print = false) {
-    let popupWin;
     let invoiceItems = '';
-    invoice.items.forEach(item => {
+    for (const item of invoice.items) {
       invoiceItems += `
         <tr>
           <td>${moment(invoice.invoice_date).format('DD/MM/YYYY')}</td>
@@ -517,7 +517,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
           <td><b>$${(item.amount / 100).toFixed(2)}</b></td>
         </tr>
       `;
-    });
+    }
 
     let invoiceData = `
       <html>
@@ -602,11 +602,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
             }
         </style>
       </head>`;
-    if (print) {
-      invoiceData += `<body onload="window.print();window.close()">`;
-    } else {
-      invoiceData += `<body>`;
-    }
+    invoiceData += print ? `<body onload="window.print();window.close()">` : `<body>`;
     invoiceData += `
     <div class="container">
         <div class="row" style="margin-top: 1rem;">
@@ -660,7 +656,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 </body>
 </html>`;
 
-    popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=auto,width=auto');
     popupWin.document.open();
     popupWin.document.write(invoiceData);
     popupWin.document.close();

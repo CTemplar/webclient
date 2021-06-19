@@ -6,7 +6,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mail-detail-decryption-error.component.scss'],
 })
 export class MailDetailDecryptionErrorComponent implements OnInit {
-  constructor() {}
-
   ngOnInit(): void {}
 }

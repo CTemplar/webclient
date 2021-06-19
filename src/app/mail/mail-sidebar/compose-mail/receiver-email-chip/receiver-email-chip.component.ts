@@ -1,13 +1,10 @@
-import { Component, Input, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
-
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 
 import { AppState, AutocryptEncryptDetermine, BlackList, Contact, WhiteList } from '../../../../store/datatypes';
 import { Mailbox } from '../../../../store/models';
-
 import { SharedService } from '../../../../store/services';
-
 import { BlackListAdd, MoveToBlacklist, MoveToWhitelist } from '../../../../store/actions';
 
 @Component({
@@ -64,12 +61,12 @@ export class ReceiverEmailChipComponent {
   ngOnChanges(): void {
     this.selectedContact = this.contacts.find(contact => this.email === contact.email);
     if (!this.composePopover && this.mailboxes.length > 0) {
-      this.mailboxes.forEach(mailbox => {
+      for (const mailbox of this.mailboxes) {
         if (mailbox.email === this.email) {
           this.isMyMailbox = true;
           this.myDisplayName = mailbox.display_name ? mailbox.display_name : this.email;
         }
-      });
+      }
     }
     this.isValidEmail = this.sharedService.isRFCStandardValidEmail(this.email);
     this.isBlacklisted = false;
@@ -132,6 +129,10 @@ export class ReceiverEmailChipComponent {
   }
 
   onClickBody(popOver: any) {
-    popOver.isOpen() ? popOver.close() : popOver.open();
+    if (popOver.isOpen) {
+      popOver.close();
+    } else {
+      popOver.open();
+    }
   }
 }

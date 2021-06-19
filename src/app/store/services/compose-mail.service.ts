@@ -1,7 +1,7 @@
 import { ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { finalize, take } from 'rxjs/operators';
-import { BehaviorSubject, forkJoin, Observable, Observer } from 'rxjs';
+import { forkJoin, Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 
@@ -27,7 +27,6 @@ import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
 import { AutocryptProcessService } from './autocrypt.process.service';
-import { Subject } from 'rxjs/internal/Subject';
 import { SharedService } from './shared.service';
 
 @Injectable({
@@ -124,7 +123,7 @@ export class ComposeMailService {
                   publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
                 }
                 const encryptionTypeForExternal = this.getEncryptionTypeForExternal(draftMail, usersKeys);
-                if (encryptionTypeForExternal !== null && publicKeys.length > 0) {
+                if (encryptionTypeForExternal !== undefined && publicKeys.length > 0) {
                   draftMail.draft.is_encrypted = false;
                   draftMail.draft.is_subject_encrypted = false;
                   if (encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE) {
@@ -132,12 +131,12 @@ export class ComposeMailService {
                   }
                 }
                 if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
-                  draftMail.attachments.forEach(attachment => {
+                  for (const attachment of draftMail.attachments) {
                     this.openPgpService.encryptAttachmentWithOnlyPassword(
                       attachment,
                       draftMail.draft.encryption.password,
                     );
-                  });
+                  }
                   this.openPgpService.encryptWithOnlyPassword(
                     draftMail.id,
                     new SecureContent(draftMail.draft),
@@ -146,9 +145,10 @@ export class ComposeMailService {
                 } else if (publicKeys.length > 0) {
                   if (this.sharedService.checkRecipients(usersKeys, draftMail?.draft?.receiver || [])) {
                     // If all recipients are in CTemplar, not need to check autocrypt and ...
-                    draftMail.attachments.forEach(attachment => {
+
+                    for (const attachment of draftMail.attachments) {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
-                    });
+                    }
                     this.openPgpService.encrypt(
                       draftMail.draft.mailbox,
                       draftMail.id,
@@ -170,9 +170,9 @@ export class ComposeMailService {
                     } else if (encryptionTypeForExternal === PGPEncryptionType.PGP_MIME) {
                       this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
                     } else {
-                      draftMail.attachments.forEach(attachment => {
+                      for (const attachment of draftMail.attachments) {
                         this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
-                      });
+                      }
                       this.openPgpService.encrypt(
                         draftMail.draft.mailbox,
                         draftMail.id,
@@ -232,12 +232,13 @@ export class ComposeMailService {
         ...draftMail.draft.bcc.map(bcc => bcc),
       ];
       let keys: any[] = [];
-      receivers.forEach(receiver => {
+
+      for (const receiver of receivers) {
         const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
         if (usersKeys.has(parsedEmail.address)) {
           keys = [...keys, ...usersKeys.get(parsedEmail.address).key];
         }
-      });
+      }
       return keys;
     }
     return [];
@@ -284,9 +285,9 @@ export class ComposeMailService {
       if (isPGPMime) {
         return PGPEncryptionType.PGP_MIME;
       }
-      return null;
+      return undefined;
     }
-    return null;
+    return undefined;
   }
 
   private setEncryptedContent(draftMail: Draft) {
@@ -314,6 +315,7 @@ export class ComposeMailService {
     isEncryptMessageContent: boolean,
     draftMail: Draft,
     publicKeys: any[] = [],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     encryptionTypeForExternal: PGPEncryptionType,
   ) {
     const encryptedAttachments = draftMail.attachments.filter(attachment => !!attachment.is_encrypted);
@@ -339,7 +341,7 @@ export class ComposeMailService {
       )
         .pipe(take(1))
         .subscribe(
-          responses => {
+          () => {
             if (!isEncryptMessageContent || publicKeys.length === 0) {
               this.store.dispatch(new SendMail({ ...draftMail }));
             } else {
@@ -351,7 +353,7 @@ export class ComposeMailService {
               );
             }
           },
-          error =>
+          () =>
             this.store.dispatch(
               new SnackPush({
                 message: 'Failed to send email, please try again. Email has been saved in draft.',
@@ -376,17 +378,17 @@ export class ComposeMailService {
    * @private
    */
   private processPGPMimeMessage(draftMail: Draft) {
-    const { pgpMimeContent } = draftMail;
+    const { pgpMimeContent, id, draft } = draftMail;
     const newDocument = new File([pgpMimeContent], PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME, {
       type: '',
     });
     const attachmentToUpload: Attachment = {
       document: newDocument,
-      draftId: draftMail.id,
+      draftId: id,
       inProgress: false,
       is_inline: false,
       is_encrypted: false,
-      message: draftMail.draft.id,
+      message: draft.id,
       name: PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME,
       size: newDocument.size.toString(),
       actual_size: newDocument.size,
@@ -413,9 +415,17 @@ export class ComposeMailService {
           PGPEncryptionType.PGP_MIME,
         )
         .then(mimeData => {
-          this.openPgpService.encryptForPGPMime(mimeData, draftMail.draft.mailbox, draftMail.id, publicKeys);
+          if (mimeData) {
+            this.openPgpService.encryptForPGPMime(mimeData, draftMail.draft.mailbox, draftMail.id, publicKeys);
+          } else {
+            this.store.dispatch(
+              new SnackPush({
+                message: 'Failed to send email, please try again. Email has been saved in draft.',
+              }),
+            );
+          }
         })
-        .catch(error => {
+        .catch(() => {
           this.store.dispatch(
             new SnackPush({
               message: 'Failed to send email, please try again. Email has been saved in draft.',
@@ -447,18 +457,19 @@ export class ComposeMailService {
     }
     let composesWidth = 0;
     if (this.componentRefList.length > 0) {
-      for (let i = this.componentRefList.length - 1; i > -1; i--) {
-        composesWidth += this.componentRefList[i].instance.isMinimized ? this.minimizedWidth : this.originWidth;
+      // eslint-disable-next-line no-plusplus
+      for (let index = this.componentRefList.length - 1; index > -1; index--) {
+        composesWidth += this.componentRefList[index].instance.isMinimized ? this.minimizedWidth : this.originWidth;
         if (composesWidth > this.windowWidth) {
-          if (!this.componentRefList[i].instance.isMinimized) {
-            this.componentRefList[i].instance.isComposeVisible = true;
-            this.componentRefList[i + 1].instance.isComposeVisible = false;
+          if (!this.componentRefList[index].instance.isMinimized) {
+            this.componentRefList[index].instance.isComposeVisible = true;
+            this.componentRefList[index + 1].instance.isComposeVisible = false;
           } else {
-            this.componentRefList[i].instance.isComposeVisible = false;
+            this.componentRefList[index].instance.isComposeVisible = false;
           }
           break;
         } else {
-          this.componentRefList[i].instance.isComposeVisible = true;
+          this.componentRefList[index].instance.isComposeVisible = true;
         }
       }
     }
@@ -467,19 +478,20 @@ export class ComposeMailService {
   getComposesWidth() {
     // get entire width of opened Compose windows
     let temporaryWidth = 0;
-    this.componentRefList.forEach(componentReference => {
+
+    for (const componentReference of this.componentRefList) {
       if (componentReference.instance.isComposeVisible) {
         temporaryWidth += componentReference.instance.isMinimized ? this.minimizedWidth : this.originWidth;
       }
-    });
+    }
     this.composesWidth = temporaryWidth;
   }
 
-  openComposeMailDialog(inputData: any = {}, onHide: Subject<boolean> = undefined) {
+  openComposeMailDialog(inputData: any = {}, onHide: Subject<boolean> = new Subject<boolean>()) {
     if (this.userState && this.componentRefList.length < this.maxComposeCount) {
-      this.componentRefList.forEach(componentReference => {
+      for (const componentReference of this.componentRefList) {
         componentReference.instance.isMinimized = true;
-      });
+      }
 
       if (inputData.draft) {
         const oldComponentReference = this.componentRefList.find(componentReference => {
@@ -499,9 +511,10 @@ export class ComposeMailService {
       const newComponentReference: ComponentRef<ComposeMailDialogComponent> =
         this.composeMailContainer.createComponent(factory);
       this.componentRefList.push(newComponentReference);
-      Object.keys(inputData).forEach(key => {
+
+      for (const key of Object.keys(inputData)) {
         (newComponentReference as any).instance[key] = inputData[key];
-      });
+      }
       newComponentReference.instance.isComposeVisible = true;
       newComponentReference.instance.isMinimized = false;
       this.getComposesWidth();
@@ -515,45 +528,49 @@ export class ComposeMailService {
       newComponentReference.instance.minimize.subscribe((isMinimized: boolean) => {
         if (!isMinimized) {
           // when Compose window is maximized
-          this.componentRefList.forEach(componentReference => {
+
+          for (const componentReference of this.componentRefList) {
             componentReference.instance.isMinimized = true;
             componentReference.instance.isFullScreen = false;
             componentReference.instance.isComposeVisible = true;
-          });
+          }
           newComponentReference.instance.isMinimized = false;
           if (this.windowWidth < this.minimizedWidth * (this.componentRefList.length - 1) + this.originWidth) {
             let temporaryCount = 0;
-            for (let i = 0; i < this.componentRefList.length; i++) {
+            // eslint-disable-next-line no-plusplus
+            for (let index = 0; index < this.componentRefList.length; index++) {
               if (temporaryCount === this.componentRefList.length - this.countCommonCompose) {
                 break;
               }
-              if (this.componentRefList[i].instance.isMinimized) {
+              if (this.componentRefList[index].instance.isMinimized) {
                 temporaryCount += 1;
-                this.componentRefList[i].instance.isComposeVisible = false;
+                this.componentRefList[index].instance.isComposeVisible = false;
               }
             }
           }
         } else {
           // when Compose window is minimized
-          this.componentRefList.forEach(componentReference => {
+
+          for (const componentReference of this.componentRefList) {
             componentReference.instance.isMinimized = true;
             componentReference.instance.isComposeVisible = false;
-          });
+          }
           let count = Math.trunc(this.windowWidth / this.minimizedWidth);
           if (this.componentRefList.length < count) {
             count = this.componentRefList.length;
           }
-          for (let i = this.componentRefList.length - 1; i >= this.componentRefList.length - count; i--) {
-            this.componentRefList[i].instance.isComposeVisible = true;
+          // eslint-disable-next-line no-plusplus
+          for (let index = this.componentRefList.length - 1; index >= this.componentRefList.length - count; index--) {
+            this.componentRefList[index].instance.isComposeVisible = true;
           }
         }
       });
       newComponentReference.instance.fullScreen.subscribe((isFullScreen: boolean) => {
         if (isFullScreen) {
-          this.componentRefList.forEach(componentReference => {
+          for (const componentReference of this.componentRefList) {
             componentReference.instance.isFullScreen = false;
             componentReference.instance.isMinimized = true;
-          });
+          }
           newComponentReference.instance.isFullScreen = true;
         }
       });
@@ -564,9 +581,9 @@ export class ComposeMailService {
   }
 
   destroyAllComposeMailDialogs(): void {
-    this.componentRefList.forEach(componentReference => {
+    for (const componentReference of this.componentRefList) {
       componentReference.destroy();
-    });
+    }
     this.componentRefList = [];
   }
 
@@ -575,10 +592,11 @@ export class ComposeMailService {
     this.componentRefList.splice(index, 1);
     this.getComposesWidth();
     let countNewCompose = (this.windowWidth - this.composesWidth) / this.minimizedWidth;
-    for (let i = this.componentRefList.length; i > 0; i--) {
-      if (!this.componentRefList[i - 1].instance.isComposeVisible && countNewCompose >= 1) {
+    // eslint-disable-next-line no-plusplus
+    for (let referenceIndex = this.componentRefList.length; referenceIndex > 0; referenceIndex--) {
+      if (!this.componentRefList[referenceIndex - 1].instance.isComposeVisible && countNewCompose >= 1) {
         countNewCompose -= 1;
-        this.componentRefList[i - 1].instance.isComposeVisible = true;
+        this.componentRefList[referenceIndex - 1].instance.isComposeVisible = true;
       }
     }
   }

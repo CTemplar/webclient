@@ -1,9 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Mail, MailFolderType } from '../../../store/models';
-import { NumberBooleanMappedType, SecureContent, StringBooleanMappedType } from '../../../store/datatypes';
-import { take } from 'rxjs/operators';
-import { getEmailDomain } from '../../../shared/config';
-import { ContactFetchKeys } from '../../../store';
+
+import { Mail } from '../../../store/models';
 
 @Component({
   selector: 'app-mail-detail-password-decryption-panel',
@@ -27,12 +24,10 @@ export class MailDetailPasswordDecryptionPanelComponent implements OnInit {
 
   @Output() decryptWithPassword = new EventEmitter<string>();
 
-  constructor() {}
-
   ngOnInit(): void {}
 
   togglePassword(inputID: string) {
-    const input = <HTMLInputElement>document.getElementById(inputID);
+    const input = <HTMLInputElement>document.querySelector(`#${inputID}`);
     if (!input.value) {
       return;
     }
@@ -40,7 +35,7 @@ export class MailDetailPasswordDecryptionPanelComponent implements OnInit {
   }
 
   onDecrypt(inputID: string) {
-    const input = <HTMLInputElement>document.getElementById(inputID);
+    const input = <HTMLInputElement>document.querySelector(`#${inputID}`);
     if (!this.mail) return;
     if (!input.value) {
       return;

@@ -1,4 +1,5 @@
-import { DonateActionAll, DonationActionTypes } from '../actions/donate.actions';
+import { DonateActionAll, DonationActionTypes } from '../actions';
+
 export const initialState: any = {};
 
 export function reducer(state = initialState, action: DonateActionAll) {

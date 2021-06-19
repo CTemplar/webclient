@@ -17,7 +17,7 @@ import { Folder } from '../../../store/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateFolderComponent implements OnInit {
-  @Input() folder: Folder = { id: null, name: '', color: '' };
+  @Input() folder: Folder = { id: undefined, name: '', color: '' };
 
   @Input() edit = false;
 

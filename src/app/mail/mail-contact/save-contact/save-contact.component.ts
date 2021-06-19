@@ -8,7 +8,6 @@ import {
   Output,
   ViewChild,
   ChangeDetectionStrategy,
-  SimpleChanges,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -36,7 +35,6 @@ import {
   SnackErrorPush,
 } from '../../../store';
 import { OpenPgpService, SharedService } from '../../../store/services';
-
 import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
 
 @UntilDestroy()
@@ -108,7 +106,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     const contactEmail = this.newContactModel.email;
     const emailDomain = this.sharedService.parseEmailWithRFCStandard(contactEmail).domain;
     this.internalUser = emailDomain === getEmailDomain();
-    if (!this.internalUser && this.selectedContact.id) {
+    if (!this.internalUser && this.selectedContact?.id) {
       this.store.dispatch(new ContactFetchKeys(this.selectedContact));
     }
   }
@@ -138,14 +136,14 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
         this.advancedSettingInProgress = contactsState.advancedSettingInProgress;
         this.selectedContactPulbicKeys = contactsState.selectedContactKeys;
 
-        this.selectedContactPulbicKeys.forEach(key => {
+        for (const key of this.selectedContactPulbicKeys) {
           this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails
             ? key.parsed_emails.includes(this.selectedContact.email)
             : false;
           this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(
             key.public_key,
           )}`;
-        });
+        }
       });
   }
 
@@ -192,12 +190,12 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     if (files.length > 1) return;
     if (this.isImportingKey) return;
 
-    if (files && files.length) {
+    if (files && files.length > 0) {
       this.isImportingKey = true;
       const file = files[0];
-      let reader = new FileReader();
+      const reader = new FileReader();
       reader.addEventListener('load', (event: any) => {
-        const result = event.target.result;
+        const { result } = event.target;
         this.openpgp
           .getKeyInfoFromPublicKey(result)
           .pipe(take(1))
@@ -208,12 +206,12 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
               if (newKeyInfo) {
                 if (newKeyInfo.key_type === 'RSA4096' || newKeyInfo.key_type === 'ECC') {
                   if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
-                    this.selectedContactPulbicKeys.forEach(key => {
+                    for (const key of this.selectedContactPulbicKeys) {
                       if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
                         newKeyInfo.id = key.id;
                         newKeyInfo.is_primary = key.is_primary;
                       }
-                    });
+                    }
                   }
                   this.makeCallForAddKeys(newKeyInfo);
                 } else {
@@ -231,7 +229,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
                 );
               }
             },
-            error => {
+            () => {
               this.isImportingKey = false;
               this.store.dispatch(
                 new SnackErrorPush({
@@ -264,11 +262,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
       mailboxKey.parsed_emails = keyInfo.emails;
 
       // If there is no already associated key, new key would be Primary key
-      if (!this.selectedContactPulbicKeys || this.selectedContactPulbicKeys.length === 0) {
-        mailboxKey.is_primary = true;
-      } else {
-        mailboxKey.is_primary = false;
-      }
+      mailboxKey.is_primary = !!(!this.selectedContactPulbicKeys || this.selectedContactPulbicKeys.length === 0);
       return mailboxKey;
     }
     return null;
@@ -289,13 +283,13 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
   }
 
   onSetPrimary(key: ContactKey) {
-    this.selectedContactPulbicKeys.forEach(originKey => {
+    for (const originKey of this.selectedContactPulbicKeys) {
       originKey.is_primary = false;
       if (originKey.fingerprint === key.fingerprint) {
         originKey.is_primary = true;
         this.isUpdatedPrimaryKey = true;
       }
-    });
+    }
   }
 
   onSaveAdvancedSettings() {
@@ -304,10 +298,9 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
   }
 
   onSelectPreferEncrypt(type: string) {
-    if (type === AutocryptPreferEncryptType.NOPREFERENCE) {
-      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.NOPREFERENCE;
-    } else {
-      this.newContactModel.prefer_encrypt = AutocryptPreferEncryptType.MUTUAL;
-    }
+    this.newContactModel.prefer_encrypt =
+      type === AutocryptPreferEncryptType.NOPREFERENCE
+        ? AutocryptPreferEncryptType.NOPREFERENCE
+        : AutocryptPreferEncryptType.MUTUAL;
   }
 }
