@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import { MailService } from '../services';
 import {
@@ -184,7 +183,7 @@ export class MailEffects {
     map((action: GetMailDetail) => action.payload),
     switchMap(payload => {
       return this.mailService.getMessage(payload).pipe(
-        switchMap(res => of(new GetMailDetailSuccess(res))),
+        switchMap(response => of(new GetMailDetailSuccess(response))),
         catchError(error => of(new GetMailDetailFailure(error))),
       );
     }),

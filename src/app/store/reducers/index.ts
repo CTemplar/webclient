@@ -16,6 +16,7 @@ import * as composeMail from './compose-mail.reducers';
 import * as search from './search.reducers';
 import * as secureMessage from './secure-message.reducers';
 import * as contacts from './contacts.reducers';
+import * as donate from './donate.reducers';
 
 export const reducers: ActionReducerMap<AppState> = {
   auth: auth.reducer,
@@ -32,4 +33,5 @@ export const reducers: ActionReducerMap<AppState> = {
   secureMessage: secureMessage.reducer,
   webSocket: webSocket.reducer,
   organization: organization.reducer,
+  donate: donate.reducer,
 };

@@ -15,6 +15,7 @@ import {
   MailBoxesState,
   UIRecommendationValue,
 } from '../datatypes';
+
 import { SharedService } from './shared.service';
 
 @Injectable()
@@ -91,7 +92,8 @@ export class AutocryptProcessService {
       };
     }
     const receiversStatus = new Map<string, AutocryptEncryptDetermineForSingle>();
-    receivers.forEach(receiver => {
+
+    for (const receiver of receivers) {
       const parsedEmail = parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox;
       if (!parsedEmail) {
         receiversStatus.set(receiver, {
@@ -126,7 +128,7 @@ export class AutocryptProcessService {
           }
         }
       }
-    });
+    }
     const encryptTotally = [...receiversStatus.keys()].every(key => receiversStatus.get(key).encrypt);
     let recommendationValue = UIRecommendationValue.DISABLE;
     if (encryptTotally) {

@@ -41,7 +41,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   isLoading = false;
 
-  isConfirmedPrivacy: boolean = null;
+  isConfirmedPrivacy: boolean = undefined;
 
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
@@ -127,16 +127,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (!authState.isAuthenticated) {
-          this.isLoading = authState.inProgress;
-        } else {
-          this.isLoading = false;
-        }
+        this.isLoading = !authState.isAuthenticated ? authState.inProgress : false;
         this.errorMessage = authState.errorMessage;
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
         this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;
-        if (authState.errorMessage) {
-        }
         if (
           this.isRecoverFormSubmitted &&
           this.authState.inProgress &&
@@ -204,7 +198,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   recoverPassword(data: any) {
     this.showResetPasswordFormErrors = true;
-    if (this.isConfirmedPrivacy === null) {
+    if (this.isConfirmedPrivacy === undefined) {
       this.isConfirmedPrivacy = false;
     }
     if (this.recoverPasswordForm.valid && this.isConfirmedPrivacy) {

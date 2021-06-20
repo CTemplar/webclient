@@ -53,7 +53,7 @@ export class StripeFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private _zone: NgZone,
+    private ngzone: NgZone,
     private store: Store<AppState>,
     private donationService: DonationService,
   ) {}
@@ -124,7 +124,7 @@ export class StripeFormComponent implements OnInit {
       },
       (status: number, response: any) => {
         // Wrapping inside the Angular zone
-        this._zone.run(() => {
+        this.ngzone.run(() => {
           this.inProgress = false;
           if (status === 200) {
             this.performStripeDonationTransaction(response.id);

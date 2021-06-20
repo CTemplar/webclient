@@ -3,13 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
 
 import { GetMessage } from '../../store/actions';
 import { AppState, SecureContent, SecureMessageState } from '../../store/datatypes';
 import { Mail } from '../../store/models';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -76,11 +76,12 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       .subscribe((state: SecureMessageState) => {
         this.isLoading$.next(state.inProgress || state.isContentDecryptionInProgress);
         this.errorMessage = state.errorMessage;
-        if (!this.message$.value && state.message) {
-          // message is loaded so check if it has expired
-          if (this.dateTimeUtilService.isDateTimeInPast(state.message.encryption.expires)) {
-            this.isMessageExpired = true;
-          }
+        if (
+          !this.message$.value &&
+          state.message && // message is loaded so check if it has expired
+          this.dateTimeUtilService.isDateTimeInPast(state.message.encryption.expires)
+        ) {
+          this.isMessageExpired = true;
         }
 
         this.message$.next(state.message);

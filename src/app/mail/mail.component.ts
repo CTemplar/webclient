@@ -29,7 +29,6 @@ import {
   WhiteListGet,
   CardGet,
   ContactsGet,
-  FetchMailboxKeys,
 } from '../store/actions';
 import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
@@ -115,18 +114,14 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
         }
         if (userState.autoresponder) {
           this.autoresponder = userState.autoresponder;
-          if (
+          this.autoresponder_status = !!(
             this.autoresponder.autoresponder_active ||
             (this.autoresponder.vacationautoresponder_active &&
               this.autoresponder.vacationautoresponder_message &&
               this.autoresponder.start_date &&
               this.autoresponder.end_date &&
               this.currentDate >= this.autoresponder.start_date)
-          ) {
-            this.autoresponder_status = true;
-          } else {
-            this.autoresponder_status = false;
-          }
+          );
         }
         if (userState.has_notification && this.canLoadNotification) {
           this.store.dispatch(new GetNotification());

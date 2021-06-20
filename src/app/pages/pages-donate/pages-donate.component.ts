@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { AppState } from '../../store/datatypes';
 import { SnackErrorPush } from '../../store/actions';
 import { DynamicScriptLoaderService } from '../../shared/services/dynamic-script-loader.service';
@@ -19,7 +20,7 @@ export class PagesDonateComponent implements OnInit {
   private loadStripeScripts() {
     this.dynamicScriptLoader
       .load('stripe')
-      .then(data => {
+      .then(() => {
         this.dynamicScriptLoader
           .load('stripe-key')
           .then(() => {

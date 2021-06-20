@@ -11,7 +11,7 @@ export class Go implements Action {
   constructor(
     public payload: {
       path: any[];
-      query?: object;
+      query?: any;
       extras?: NavigationExtras;
     },
   ) {}

@@ -2,14 +2,11 @@
 import * as postal_mime from 'postal-mime';
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { take } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
 
 import { Attachment, Mail } from '../models';
 import { AppState, PGP_MIME_DEFAULT_CONTENT, PGPEncryptionType, SecureContent } from '../datatypes';
-import { SetAttachmentsForPGPMime, SnackErrorPush, UpdatePGPDecryptedContent } from '../actions';
-import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { SetAttachmentsForPGPMime, UpdatePGPDecryptedContent } from '../actions';
 
 import { OpenPgpService } from './openpgp.service';
 import { MailService } from './mail.service';
@@ -36,6 +33,7 @@ export class MessageDecryptService {
    * @param isDecryptingAllSubjects
    * @param password
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   decryptMessage(mail: Mail, isDecryptingAllSubjects = false, password = ''): Observable<any> {
     this.currentDecryptingMail = mail;
     const subject = new Subject<any>();
@@ -52,7 +50,7 @@ export class MessageDecryptService {
                 isDecryptingAllSubjects,
               );
             },
-            errorResponse => {
+            () => {
               this.store.dispatch(
                 new UpdatePGPDecryptedContent({
                   id: mail.id,

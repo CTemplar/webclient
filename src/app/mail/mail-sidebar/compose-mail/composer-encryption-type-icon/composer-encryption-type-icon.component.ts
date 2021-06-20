@@ -1,4 +1,5 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 import {
   AutocryptEncryptDetermine,
   AutocryptPreferEncryptType,
@@ -27,7 +28,7 @@ export class ComposerEncryptionTypeIconComponent {
 
   constructor(private sharedService: SharedService) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.isAutocrypt) {
       /**
        * Sender Icon
@@ -82,6 +83,7 @@ export class ComposerEncryptionTypeIconComponent {
         /**
          * Recipient Icon
          */
+        // eslint-disable-next-line no-lonely-if
         if (this.encryptionTypeMap[this.selectedEmail] === ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_END_TO_END) {
           /**
            * If it is CTemplar user, don't check below and set as End to End
@@ -92,22 +94,13 @@ export class ComposerEncryptionTypeIconComponent {
            * Autocryp Enabled
            * At this case, Autocrypt icon would be showed
            */
-          if (
+          this.encryptionType =
             this.autocryptInfo.senderPreferEncrypt === AutocryptPreferEncryptType.MUTUAL &&
             this.autocryptInfo.encryptTotally &&
             (this.autocryptInfo.recommendationValue === UIRecommendationValue.AVAILABLE ||
               this.autocryptInfo.recommendationValue === UIRecommendationValue.ENCRYPT)
-          ) {
-            /**
-             * Fully Autocrypt Enabled and Encrypted
-             */
-            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT;
-          } else {
-            /**
-             * Autocrypt Enabled, but would be attached JUST Autocrypt Header
-             */
-            this.encryptionType = ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
-          }
+              ? ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_ENCRYPT
+              : ComposerEncryptionType.COMPOSER_ENCRYPTION_TYPE_AUTOCRYPT_NON_ENCRYPT;
         } else {
           this.encryptionType = this.encryptionTypeMap[this.selectedEmail];
         }
