@@ -123,7 +123,15 @@ export class SecurityComponent implements OnInit {
     this.changePasswordForm = this.formBuilder.group(
       {
         oldPassword: ['', [Validators.required]],
-        password: ['', [Validators.required]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(128),
+            Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{1,128}$/),
+          ],
+        ],
         confirmPwd: ['', [Validators.required]],
       },
       {

@@ -96,7 +96,15 @@ export class UsersCreateAccountComponent implements OnInit {
             Validators.maxLength(64),
           ],
         ],
-        password: ['', [Validators.required, Validators.maxLength(128)]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(128),
+            Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{1,128}$/),
+          ],
+        ],
         confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
         recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       },

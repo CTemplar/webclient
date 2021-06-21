@@ -743,3 +743,9 @@ button.ctemplar-blockquote-toggle ~ * {
     width: 380px !important;
   }
 }
+
+.validate-message {
+  p {
+    margin-bottom: 0;
+  }
+}
