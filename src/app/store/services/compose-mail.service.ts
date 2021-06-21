@@ -149,12 +149,14 @@ export class ComposeMailService {
                     for (const attachment of draftMail.attachments) {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                     }
+                    const signFlag = this.openPgpService.getMailboxSignFlag(draftMail.draft.mailbox)
                     this.openPgpService.encrypt(
                       draftMail.draft.mailbox,
                       draftMail.id,
                       new SecureContent(draftMail.draft),
                       publicKeys,
                       encryptionTypeForExternal,
+                      signFlag,
                     );
                   } else {
                     const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(

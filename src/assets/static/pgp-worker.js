@@ -19,7 +19,7 @@ onmessage = async function (event) {
         });
       });
     } else {
-      encryptContent(event.data.mailData.content, event.data.publicKeys).then(content => {
+      encryptContent(event.data.mailData.content, event.data.publicKeys, event.data.shouldSign, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
         postMessage({ encryptedContent: { content, subject: event.data.mailData.subject }, encrypted: true, callerId: event.data.callerId });
       });
     }
@@ -521,7 +521,7 @@ async function signContent(contents, privateKeyObj, publicKeys) {
   return detachedSignature;
 }
 
-async function encryptContent(data, publicKeys) {
+async function encryptContent(data, publicKeys, shouldSign=false, privateKeyObj) {
   if (!data) {
     return Promise.resolve(data);
   }
@@ -530,10 +530,16 @@ async function encryptContent(data, publicKeys) {
       return (await openpgp.key.readArmored(key)).keys[0];
     }),
   );
-  const options = {
+  let options = {
     message: openpgp.message.fromText(data),
     publicKeys: pubkeys,
   };
+  if(shouldSign) {
+    options = {
+      ...options,
+      privateKeys: privateKeyObj.map(obj => obj.private_key),
+    }
+  }
   return openpgp.encrypt(options)
     .then(payload => {
       return payload.data;
