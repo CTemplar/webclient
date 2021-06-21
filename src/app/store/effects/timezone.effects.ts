@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import { TimezoneActionTypes, TimezoneGet, TimezoneGetSuccess } from '../actions/timezone.action';
 import { TimezoneService } from '../services/timezone.service';
 import { SnackErrorPush } from '../actions';
+
 @Injectable({
   providedIn: 'root',
 })

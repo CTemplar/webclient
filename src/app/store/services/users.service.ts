@@ -39,7 +39,7 @@ export class UsersService {
   }
 
   setTokenExpiration() {
-    const expiration = new Date().getTime() + 1000 * 60 * 60 * 3; // set 3 hours expiration token time.
+    const expiration = Date.now() + 1000 * 60 * 60 * 3; // set 3 hours expiration token time.
     localStorage.setItem('token_expiration', expiration.toString());
   }
 
@@ -57,7 +57,7 @@ export class UsersService {
   }
 
   isTokenExpired() {
-    return +localStorage.getItem('token_expiration') < new Date().getTime();
+    return +localStorage.getItem('token_expiration') < Date.now();
   }
 
   signIn(body: any): Observable<any> {
@@ -77,7 +77,7 @@ export class UsersService {
   trimUsername(username: string) {
     username = username.toLowerCase();
     if (username.split('@')[1] === PRIMARY_DOMAIN) {
-      username = username.split('@')[0];
+      [username] = username.split('@');
     }
     return username;
   }
@@ -117,7 +117,7 @@ export class UsersService {
   }
 
   expireSession() {
-    this.userKey = null;
+    this.userKey = undefined;
     localStorage.removeItem('user_key');
     localStorage.removeItem('ctemplar_mail');
     sessionStorage.removeItem('ctemplar_mail');
@@ -126,10 +126,10 @@ export class UsersService {
     return this.http.get(`${apiUrl}auth/sign-out/`);
   }
 
-  onBeforeLoader(e: any) {
+  onBeforeLoader(error: any) {
     const confirmationMessage =
       "If you close the window now all the progress will be lost and your account won't be created.";
-    (e || window.event).returnValue = confirmationMessage; // Gecko + IE
+    (error || window.event).returnValue = confirmationMessage; // Gecko + IE
     return confirmationMessage; // Gecko + Webkit, Safari, Chrome etc.
   }
 
@@ -240,11 +240,11 @@ export class UsersService {
       return true;
     }
     let authenticated = false;
-    authenticatedUrls.forEach(item => {
+    for (const item of authenticatedUrls) {
       if (url.includes(item)) {
         authenticated = true;
       }
-    });
+    }
     return authenticated;
   }
 
@@ -394,7 +394,7 @@ export class UsersService {
     // Get cookie for cjevent
     const referralId = document.cookie.split('; ').find(row => row.startsWith(REFFERAL_ID_KEY));
     if (referralId) {
-      data[REFFERAL_ID_KEY] = referralId.split('=')[1];
+      [, data[REFFERAL_ID_KEY]] = referralId.split('=');
     }
     return data;
   }
@@ -531,6 +531,7 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
@@ -547,7 +548,7 @@ export class UsersService {
     const d = new Date();
     d.setTime(d.getTime() + 1000);
     const expires = `expires=${d.toUTCString()}`;
-
+    // eslint-disable-next-line unicorn/no-document-cookie
     document.cookie = `${cookiename}=new_value;path=/;${expires}`;
     if (!document.cookie.includes(`${cookiename}=`)) {
       return true;

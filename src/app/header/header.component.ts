@@ -6,10 +6,9 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppState, AuthState } from '../store/datatypes';
-import { ExpireSession, Logout } from '../store/actions';
+import { ExpireSession, Logout } from '../store';
 import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../shared/config';
-import { SharedService } from '../store/services';
-import { UsersService } from '../store/services/users.service';
+import { SharedService, UsersService } from '../store/services';
 
 @UntilDestroy()
 @Component({
@@ -43,7 +42,9 @@ export class HeaderComponent implements OnInit {
     private store: Store<AppState>,
     private translate: TranslateService,
   ) {
-    this.sharedService.isExternalPage.subscribe((data: boolean) => (this.externalPageCallToAction = data));
+    this.sharedService.isExternalPage.subscribe((data: boolean) => {
+      this.externalPageCallToAction = data;
+    });
   }
 
   ngOnInit() {
@@ -51,7 +52,9 @@ export class HeaderComponent implements OnInit {
     this.store
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
-      .subscribe((data: AuthState) => (this.isLoggedIn = data.isAuthenticated));
+      .subscribe((data: AuthState) => {
+        this.isLoggedIn = data.isAuthenticated;
+      });
   }
 
   changeLanguage(lang: Language) {
@@ -71,7 +74,7 @@ export class HeaderComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const number = window.scrollY || this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
-    if (number > document.getElementById('mastHead').offsetHeight) {
+    if (number > document.querySelector<HTMLElement>('#mastHead').offsetHeight) {
       this.navIsFixed = true;
     } else if (this.navIsFixed && number < 10) {
       this.navIsFixed = false;

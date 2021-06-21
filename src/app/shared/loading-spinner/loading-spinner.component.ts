@@ -13,6 +13,8 @@ export class LoadingSpinnerComponent {
 
   // Width and Height in Pixel unit
   @Input() width = 40;
+
   @Input() height = 40;
+
   @Input() color = '#3a4e63';
 }

@@ -45,7 +45,6 @@ import { PushNotificationOptions, PushNotificationService } from '../../shared/s
 import { ElectronService, SharedService } from '../../store/services';
 import { PRIMARY_WEBSITE } from '../../shared/config';
 import { QuoteType } from '../../store/quotes';
-
 import { CreateFolderComponent } from '../dialogs/create-folder/create-folder.component';
 
 @UntilDestroy()
@@ -60,6 +59,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   EMAIL_LIMIT = 20; // limit to display emails
 
   starredCount = 0; // starred folder count
+
   // Public property of boolean type set false by default
   public isComposeVisible = false;
 
@@ -304,7 +304,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   // == Open NgbModal
   createFolder() {
-    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders);
+    this.sharedService.openCreateFolderDialog(this.userState.isPrime, this.customFolders, undefined);
   }
 
   // == Show mail compose modal
@@ -314,11 +314,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Toggle between display entire custom folders or limited count of folders
   toggleDisplayLimit(totalItems: number) {
-    if (this.LIMIT === totalItems) {
-      this.LIMIT = 3;
-    } else {
-      this.LIMIT = totalItems;
-    }
+    this.LIMIT = this.LIMIT === totalItems ? 3 : totalItems;
   }
 
   // Toggle menu according to screen size
@@ -332,17 +328,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isMenuOpened = true;
       }
     } else if (this.breakpointsService.isMD()) {
-      if (event) {
-        this.isSidebarOpened = false;
-      } else {
-        this.isSidebarOpened = !this.isSidebarOpened;
-      }
+      this.isSidebarOpened = event ? false : !this.isSidebarOpened;
     }
   }
 
   changeAsideExpand(event: any) {
     if (this.breakpointsService.isSM()) {
-      this.isSidebarOpened = event.type === 'mouseover' ? true : false;
+      this.isSidebarOpened = event.type === 'mouseover';
     }
   }
 
@@ -358,13 +350,13 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     } else {
       this.pushNotificationService.create(title, options).subscribe(
-        (notif: any) => {
-          if (notif.event.type === 'click') {
-            notif.notification.close();
+        (notify: any) => {
+          if (notify.event.type === 'click') {
+            notify.notification.close();
             window.open(`/mail/${folder}/page/1/message/${mail.id}`, '_blank');
           }
         },
-        (error: any) => {
+        () => {
           this.store.dispatch(new SnackErrorPush({ message: 'Failed to send push notification.' }));
         },
       );

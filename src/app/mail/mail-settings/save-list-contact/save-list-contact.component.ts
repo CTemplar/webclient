@@ -81,10 +81,10 @@ export class SaveListContactComponent implements OnInit {
       windowClass: 'modal-sm',
     });
     this.modalRef.result.then(
-      result => {
+      () => {
         this.closed.emit();
       },
-      error => {
+      () => {
         this.closed.emit();
       },
     );

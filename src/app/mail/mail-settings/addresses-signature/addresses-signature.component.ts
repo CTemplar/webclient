@@ -1,16 +1,18 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs/internal/Subject';
+import { Subject } from 'rxjs';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
+import { TranslateService } from '@ngx-translate/core';
+
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
   AddMailboxKeys,
-  AddMailboxKeysSuccess,
   DeleteMailboxKeys,
   MailboxSettingsUpdate,
   ResetMailboxKeyOperationState,
@@ -19,11 +21,9 @@ import {
 import { OpenPgpService, SharedService, UsersService } from '../../../store/services';
 import { AppState, MailBoxesState, Settings, UserState, PGPKeyType, MailboxKey } from '../../../store/datatypes';
 import { CreateMailbox, SetDefaultMailbox, SnackErrorPush, UpdateMailboxOrder } from '../../../store/actions';
-import { Folder, Mailbox } from '../../../store/models';
+import { Mailbox } from '../../../store/models';
 import { PRIMARY_DOMAIN, PRIMARY_WEBSITE, CKEDITOR_TOOLBAR_ITEMS } from '../../../shared/config';
 import { ImportPrivateKeyComponent } from '../../dialogs/import-private-key/import-private-key.component';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
-import { TranslateService } from '@ngx-translate/core';
 
 enum AddKeyStep {
   SELECT_MAILBOX,
@@ -179,7 +179,7 @@ export class AddressesSignatureComponent implements OnInit {
         this.mailboxes = mailboxesState.mailboxes;
         if (this.mailboxes.length > 0) {
           if (this.aliasKeyExpandedStatus.length === 0) {
-            this.aliasKeyExpandedStatus = new Array(this.mailboxes.length).fill(false);
+            this.aliasKeyExpandedStatus = Array.from({ length: this.mailboxes.length }, () => false);
           }
           this.currentMailBox = mailboxesState.currentMailbox;
           if (!this.selectedMailboxForSignature || this.selectedMailboxForSignature.id === this.currentMailBox.id) {
@@ -646,7 +646,7 @@ export class AddressesSignatureComponent implements OnInit {
 
   // == Toggle password visibility
   togglePassword(inputID: string): any {
-    const input = <HTMLInputElement>document.getElementById(inputID);
+    const input = <HTMLInputElement>document.querySelector(`#${inputID}}`);
     if (!input.value) {
       return;
     }

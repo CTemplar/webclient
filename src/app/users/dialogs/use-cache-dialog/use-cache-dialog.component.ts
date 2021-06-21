@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
 import { AppState, Settings, UserState } from '../../../store/datatypes';
 import { SYNC_DATA_WITH_STORE } from '../../../shared/config';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 
 @UntilDestroy()
@@ -14,6 +15,7 @@ import { MailSettingsService } from '../../../store/services/mail-settings.servi
 })
 export class UseCacheDialogComponent implements OnInit {
   askLocalCache = false;
+
   settings: Settings = new Settings();
 
   constructor(
@@ -31,6 +33,7 @@ export class UseCacheDialogComponent implements OnInit {
         this.settings = user.settings;
       });
   }
+
   onFlagSaveDecryptedSubject() {
     this.saveAskLocalCach();
     localStorage.setItem(SYNC_DATA_WITH_STORE, 'true');

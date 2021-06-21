@@ -22,7 +22,7 @@ export const initialState: AuthState = {
 };
 
 export function logoutReducer(reducerAction: any) {
-  return function (state: any, action: any) {
+  return (state: any, action: any) => {
     return reducerAction(action.type === AuthActionTypes.LOGOUT ? undefined : state, action);
   };
 }

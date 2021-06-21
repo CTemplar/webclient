@@ -3,15 +3,13 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { filter } from 'rxjs/operators';
 
-import { SharedService } from './store/services';
-import { getCryptoRandom } from './store/services';
-// import { UsersService } from './users/shared/users.service';
+import { SharedService, getCryptoRandom } from './store/services';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes, QuoteType } from './store/quotes';
-import { FinalLoading } from './store/actions';
+import { FinalLoading } from './store';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
-import { filter } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -48,11 +46,7 @@ export class AppComponent implements OnInit {
         filter(event => event instanceof NavigationEnd),
       )
       .subscribe((event: NavigationEnd) => {
-        if (event.url.includes('/mail')) {
-          this.isMailStaff = true;
-        } else {
-          this.isMailStaff = false;
-        }
+        this.isMailStaff = !!event.url.includes('/mail');
       });
 
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -104,11 +98,12 @@ export class AppComponent implements OnInit {
   }
 
   checkCookie() {
-    let cookieEnabled = navigator.cookieEnabled;
+    let { cookieEnabled } = navigator;
     if (!cookieEnabled) {
       // Checking if cookie is absolutely disabled
+      // eslint-disable-next-line unicorn/no-document-cookie
       document.cookie = 'testcookie';
-      cookieEnabled = document.cookie.indexOf('testcookie') != -1;
+      cookieEnabled = document.cookie.includes('testcookie');
     }
     this.cookieEnabled = cookieEnabled;
   }

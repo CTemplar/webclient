@@ -33,10 +33,11 @@ export class EmailFormatPipe implements PipeTransform {
   transform(email: string, displayName = '', isHtmlFormat = false, isTruncate = false): string {
     return EmailFormatPipe.transformToFormattedEmail(email, displayName, isHtmlFormat, isTruncate);
   }
+
   static getTrucatedString(content: string): string {
     const MAX_LENGTH_EMAIL = 40;
     if (content.length > MAX_LENGTH_EMAIL) {
-      return content.slice(0, MAX_LENGTH_EMAIL) + '...';
+      return `${content.slice(0, MAX_LENGTH_EMAIL)}...`;
     }
     return content;
   }
