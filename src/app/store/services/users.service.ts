@@ -174,6 +174,10 @@ export class UsersService {
     );
   }
 
+  resetRecoveryKey(data: any): Observable<any> {
+    return this.http.post<any>(`${apiUrl}reset/recovery-key/`, data);
+  }
+
   verifyToken(): Observable<any> {
     const body = { token: localStorage.getItem('token') };
     const url = `${apiUrl}auth/verify/`;
