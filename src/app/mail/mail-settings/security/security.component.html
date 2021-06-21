@@ -100,13 +100,11 @@
       <div class="form-content-row">
         <div class="row align-items-center">
           <div class="col-sm-3">
-            <label for="recoveryMail" class="form-label mb-sm-0">
-              Recovery key
-            </label>
+            <label for="recoveryMail" class="form-label mb-sm-0"> Recovery key </label>
           </div>
           <div class="col-sm-7 col-md-5">
             <a
-              (click)="openResetRecoveryKeyModal();"
+              (click)="openResetRecoveryKeyModal()"
               href="javascript:void(0);"
               class="col-12 text-uppercase btn-link"
               role="button"
@@ -836,7 +834,15 @@
     <h3 class="modal-title w-100 text-dark" id="addKeyModalLabel">
       <strong>Reset Recovery Key</strong>
     </h3>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="userPasswordForResetRecoveryKey = ''; currentResetRecoveryKeyStep = ResetRecoveryKeyStep.USER_PASSWORD; d()">
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="
+        userPasswordForResetRecoveryKey = ''; currentResetRecoveryKeyStep = ResetRecoveryKeyStep.USER_PASSWORD; d()
+      "
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -869,16 +875,21 @@
             </div>
           </div>
           <div class="col-sm-12 errors-field">
-            <span class="validate-message mt-3" *ngIf="resetRecoveryKeyErrorMessage">{{ resetRecoveryKeyErrorMessage }}</span>
+            <span class="validate-message mt-3" *ngIf="resetRecoveryKeyErrorMessage">{{
+              resetRecoveryKeyErrorMessage
+            }}</span>
           </div>
         </div>
-        <div class="mb-4 text-holder text-dark text-medium" *ngIf="currentResetRecoveryKeyStep === ResetRecoveryKeyStep.RESET_RESULT">
+        <div
+          class="mb-4 text-holder text-dark text-medium"
+          *ngIf="currentResetRecoveryKeyStep === ResetRecoveryKeyStep.RESET_RESULT"
+        >
           <h4 class="font-weight-bold">Backup Your Recovery Key</h4>
           <p>
             Please save this recovery key in a safe place, if you forget your password, you can use it to reset your
             password even if you don't remember your recovery email.
             <a href="https://ctemplar.com/help/answer/what-is-a-recovery-key/" target="_blank" rel="noopener noreferrer"
-            >Learn more</a
+              >Learn more</a
             >
           </p>
           <div class="bg-white px-3 py-3">
@@ -895,12 +906,7 @@
     <div class="text-holder text-dark text-medium">
       <div class="mx-auto mt-2 pt-sm-2">
         <app-loading-spinner [showSpinner]="inProgress"></app-loading-spinner>
-        <button
-          type="button"
-          class="btn btn-secondary btn-sm"
-          (click)="onResetRecoveryKey()"
-          [disabled]="inProgress"
-        >
+        <button type="button" class="btn btn-secondary btn-sm" (click)="onResetRecoveryKey()" [disabled]="inProgress">
           {{ currentResetRecoveryKeyStep === ResetRecoveryKeyStep.USER_PASSWORD ? 'Reset Recovery Key' : 'Close' }}
         </button>
       </div>
