@@ -3,22 +3,21 @@ import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
 
-import { AppState, Auth2FA, AuthState, ContactsState, PlanType, Settings, UserState } from '../../../store/datatypes';
+import { AppState, Auth2FA, AuthState, ContactsState, Settings, UserState } from '../../../store/datatypes';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
-  ChangePassphraseSuccess,
   ChangePassword,
   Update2FA,
   Get2FASecret,
   ContactsGet,
   ClearContactsToDecrypt,
-} from '../../../store/actions';
-import { SnackErrorPush } from '../../../store';
+  SnackErrorPush,
+} from '../../../store';
 import { OpenPgpService, SharedService, getCryptoRandom } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { apiUrl, SYNC_DATA_WITH_STORE } from '../../../shared/config';
-import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -197,7 +196,7 @@ export class SecurityComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal',
     });
-    this.decryptContactsModalRef.result.then(reason => {
+    this.decryptContactsModalRef.result.then(() => {
       this.isDecryptingContacts = false;
       this.decryptContactsModalRef = null;
     });
@@ -287,7 +286,7 @@ export class SecurityComponent implements OnInit {
           response => {
             this.changePasswordConfirmed(response.keys || {});
           },
-          error => {
+          () => {
             this.passwordChangeInProgress = false;
             this.store.dispatch(new SnackErrorPush({ message: `Failed to change password` }));
           },
@@ -298,19 +297,19 @@ export class SecurityComponent implements OnInit {
   changePasswordConfirmed(updatedKeys: any) {
     this.updatedPrivateKeys = updatedKeys;
     const data = this.changePasswordForm.value;
-    const new_keys: any[] = [];
-    const extra_keys: any[] = [];
+    const newKeys: any[] = [];
+    const extraKeys: any[] = [];
     Object.keys(updatedKeys).forEach((mailboxId: string) => {
       updatedKeys[mailboxId].forEach((key: any) => {
         if (key.is_primary) {
-          new_keys.push({
+          newKeys.push({
             mailbox_id: mailboxId,
             private_key: key.private_key,
             public_key: key.public_key,
             fingerprint: key.fingerprint,
           });
         } else {
-          extra_keys.push({
+          extraKeys.push({
             mailbox_id: mailboxId,
             private_key: key.private_key,
             public_key: key.public_key,
@@ -326,8 +325,8 @@ export class SecurityComponent implements OnInit {
       password: data.password,
       confirm_password: data.confirmPwd,
       delete_data: this.deleteData,
-      new_keys,
-      extra_keys,
+      new_keys: newKeys,
+      extra_keys: extraKeys,
     };
     this.store.dispatch(new ChangePassword(requestData));
   }

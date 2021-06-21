@@ -2,15 +2,16 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as parseEmail from 'email-addresses';
-
-import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
-import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
-import { Folder, Mail } from '../models';
-import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
-import { NotificationService } from './notification.service';
 import bcrypt from 'bcryptjs';
 import { Store } from '@ngrx/store';
 import { ParsedMailbox } from 'email-addresses';
+
+import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
+import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
+import { Folder } from '../models';
+import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
+
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -70,11 +71,11 @@ export class SharedService {
    * @description
    * Prime Users - Can create as many folders as they want
    */
-  openCreateFolderDialog(isPrime: boolean, customFolders: Folder[], callback: { self: any; method: string } = null) {
+  openCreateFolderDialog(isPrime: boolean, customFolders: Folder[], callback: { self: any; method: string }) {
     this.openModal(callback);
   }
 
-  private openModal(callback: { self: any; method: string } = null) {
+  private openModal(callback: { self: any; method: string }) {
     const modal: NgbModalRef = this.modalService.open(CreateFolderComponent, {
       centered: true,
       windowClass: 'modal-sm mailbox-modal create-folder-modal',
@@ -89,12 +90,13 @@ export class SharedService {
     this.http.get('./assets/static/pricing-plans.json').subscribe((data: any) => {
       SharedService.PRICING_PLANS = data;
       SharedService.PRICING_PLANS_ARRAY = [];
-      Object.keys(data).forEach(key => {
+
+      for (const key of Object.keys(data)) {
         if (key !== PlanType.PARAGON) {
           data[key].name = key;
           SharedService.PRICING_PLANS_ARRAY.push(data[key]);
         }
-      });
+      }
     });
   }
 
@@ -106,7 +108,9 @@ export class SharedService {
         backdrop: 'static',
         keyboard: false,
       });
-      this.paymentFailureModalRef.result.then(() => (this.paymentFailureModalRef = null));
+      this.paymentFailureModalRef.result.then(() => {
+        this.paymentFailureModalRef = undefined;
+      });
     }
   }
 
@@ -129,8 +133,9 @@ export class SharedService {
     const decodedData: any = atob(base64Data);
     const { length } = decodedData;
     const uint8Array = new Uint8Array(length);
-    for (let i = 0; i < length; i++) {
-      uint8Array[i] = decodedData.charCodeAt(i);
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < length; index++) {
+      uint8Array[index] = decodedData.charCodeAt(index);
     }
     return uint8Array;
   }
@@ -151,8 +156,9 @@ export class SharedService {
     let binary = '';
     const bytes = new Uint8Array(buffer);
     const length = bytes.byteLength;
-    for (let i = 0; i < length; i++) {
-      binary += String.fromCharCode(bytes[i]);
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < length; index++) {
+      binary += String.fromCharCode(bytes[index]);
     }
     return window.btoa(binary);
   }
@@ -244,7 +250,7 @@ export function isComposeEditorOpen(): boolean {
 
 export function getCryptoRandom(): number {
   const array = new Uint32Array(1);
-  const max = Math.pow(2, 32);
+  const max = 2 ** 32;
   const randomValue = window.crypto.getRandomValues(array)[0] / max;
   return randomValue;
 }

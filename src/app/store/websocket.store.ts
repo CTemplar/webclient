@@ -1,10 +1,8 @@
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs/internal/observable/empty';
 import { Injectable } from '@angular/core';
 import { map, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
+import { Observable, of, EMPTY } from 'rxjs';
 
 import { Message } from '../shared/services/websocket.service';
 
@@ -37,7 +35,7 @@ export class WebSocketEffects {
   webSocketNewMessage: Observable<any> = this.actions.pipe(
     ofType(WebSocketActionTypes.WEB_SOCKET_NEW_MESSAGE),
     map((action: WebSocketNewMessage) => action.payload),
-    switchMap(payload => {
+    switchMap(() => {
       return of(EMPTY);
     }),
   );
@@ -64,7 +62,7 @@ export function reducer(state: WebSocketState = {}, action: WebSocketActionAll) 
     }
 
     case WebSocketActionTypes.WEB_SOCKET_CLOSE: {
-      return { isClosed: true, message: null };
+      return { isClosed: true, message: undefined };
     }
 
     default: {

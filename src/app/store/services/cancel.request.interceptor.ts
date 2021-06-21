@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';

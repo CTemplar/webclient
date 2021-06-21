@@ -13,6 +13,7 @@ export class FilenamePipe implements PipeTransform {
     return filePathTokens[filePathTokens.length - 1];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   transform(value: any, arguments_?: any): any {
     return FilenamePipe.tranformToFilename(value);
   }

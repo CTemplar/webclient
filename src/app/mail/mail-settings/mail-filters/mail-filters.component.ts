@@ -12,7 +12,7 @@ import {
   Filter,
   FilterCondition,
   FilterConditionChoices,
-  FilterConditionObj,
+  FilterConditionObject,
   FilterParameter,
 } from '../../../store/models/filter.model';
 
@@ -37,6 +37,7 @@ export class MailFiltersComponent implements OnInit {
   mailFolderType = MailFolderType;
 
   filterCondition = FilterCondition;
+
   filterConditionChoices = FilterConditionChoices;
 
   filterParameter = FilterParameter;
@@ -111,13 +112,13 @@ export class MailFiltersComponent implements OnInit {
       .valueChanges.pipe(untilDestroyed(this))
       .subscribe(value => {
         if (!value && this.createFilterData) {
-          this.createFilterData.folder = null;
+          this.createFilterData.folder = undefined;
         }
       });
   }
 
   openCustomFilterModal(selectedFilter?: Filter) {
-    this.errorMessage = null;
+    this.errorMessage = undefined;
     this.hasDuplicateFilterName = false;
     this.createFilterForm.reset();
     if (selectedFilter) {
@@ -128,18 +129,18 @@ export class MailFiltersComponent implements OnInit {
       this.createFilterForm.get('markAsRead').setValue(selectedFilter.mark_as_read);
       this.createFilterForm.get('markAsStarred').setValue(selectedFilter.mark_as_starred);
 
-      this.createFilterData.conditions.map((c, index) => {
-        const filterTextName = 'filterText-' + index.toString();
+      for (const [index, condition] of this.createFilterData.conditions.entries()) {
+        const filterTextName = `filterText-${index.toString()}`;
         this.createFilterForm.addControl(filterTextName, new FormControl());
-        this.createFilterForm.get(filterTextName).setValue(c.filter_text);
-      });
+        this.createFilterForm.get(filterTextName).setValue(condition.filter_text);
+      }
     } else {
       this.createFilterData = {
         name: '',
         conditions: [
           {
-            parameter: null,
-            condition: null,
+            parameter: undefined,
+            condition: undefined,
             filter_text: '',
           },
         ],
@@ -149,7 +150,7 @@ export class MailFiltersComponent implements OnInit {
         move_to: false,
       };
       this.createFilterForm.addControl('filterText-0', new FormControl());
-      this.selectedFilter = null;
+      this.selectedFilter = undefined;
       this.filterConditionText = '';
     }
     this.customFilterModalRef = this.modalService.open(this.customFilterModal, {
@@ -162,16 +163,17 @@ export class MailFiltersComponent implements OnInit {
     this.createFilterData.conditions = [
       ...this.createFilterData.conditions,
       {
-        parameter: null,
-        condition: null,
+        parameter: undefined,
+        condition: undefined,
         filter_text: '',
       },
     ];
     this.createFilterForm.addControl(
-      'filterText-' + (this.createFilterData.conditions.length - 1).toString(),
+      `filterText-${(this.createFilterData.conditions.length - 1).toString()}`,
       new FormControl(),
     );
   }
+
   onRemoveCondition(index: number) {
     this.createFilterData.conditions.splice(index, 1);
   }
@@ -180,19 +182,21 @@ export class MailFiltersComponent implements OnInit {
    * Save custom filter's form content
    */
   onSubmit() {
-    this.errorMessage = null;
+    this.errorMessage = undefined;
     if (this.createFilterForm.valid && !this.hasDuplicateFilterName) {
-      let conditions: FilterConditionObj[] = [];
-      this.createFilterData.conditions.map((c, index) => {
-        const filterTextName = 'filterText-' + index.toString();
+      let conditions: FilterConditionObject[] = [];
+      this.createFilterData.conditions.forEach((c, index) => {
+        const filterTextName = `filterText-${index.toString()}`;
         const filterText = this.createFilterForm.get(filterTextName).value;
         if (!c.parameter || c.parameter.length === 0) {
           this.errorMessage = 'Please select a condition.';
           return;
-        } else if (!c.condition || c.condition.length === 0) {
+        }
+        if (!c.condition || c.condition.length === 0) {
           this.errorMessage = 'Please select a condition.';
           return;
-        } else if (!filterText || filterText.length === 0) {
+        }
+        if (!filterText || filterText.length === 0) {
           this.errorMessage = 'Please enter some text or pattern.';
           return;
         }
@@ -251,7 +255,7 @@ export class MailFiltersComponent implements OnInit {
     if (value) {
       if (this.selectedFilter && this.selectedFilter.name.toLowerCase() === value.toLowerCase()) {
         this.hasDuplicateFilterName = false;
-      } else if (this.filters.find(filter => value && filter.name.toLowerCase() === value.toLowerCase())) {
+      } else if (this.filters.some(filter => value && filter.name.toLowerCase() === value.toLowerCase())) {
         this.hasDuplicateFilterName = true;
         return true;
       }

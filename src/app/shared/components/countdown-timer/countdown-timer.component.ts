@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
-import { timer } from 'rxjs/internal/observable/timer';
+import { timer, BehaviorSubject } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -39,8 +38,8 @@ export class CountdownTimerComponent implements OnInit {
 
   calculate() {
     let durationCopy = this.duration;
-    this.days.next(Math.floor(durationCopy / 86400));
-    durationCopy -= this.days.value * 86400;
+    this.days.next(Math.floor(durationCopy / 86_400));
+    durationCopy -= this.days.value * 86_400;
     this.hours.next(Math.floor(durationCopy / 3600) % 24);
     durationCopy -= this.hours.value * 3600;
     this.minutes.next(Math.floor(durationCopy / 60) % 60);

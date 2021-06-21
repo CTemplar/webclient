@@ -4,11 +4,13 @@ import * as mimemessage from 'mimemessage';
 
 import { EmailContentType, PGPEncryptionType, SecureContent } from '../datatypes';
 import { Attachment } from '../models';
+
 import { SharedService } from './shared.service';
 
 @Injectable()
 export class MessageBuilderService {
   constructor(private sharedService: SharedService) {}
+
   /**
    * Build mime message raw data, will be used for only PGP/MIME now
    * @param mailData - SecureContent that contains message content and content_plain
@@ -24,8 +26,9 @@ export class MessageBuilderService {
     isHtml: boolean,
     isBase64EncodeForBody = false,
     isPGPMessage = false,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     pgpEncryptionType: PGPEncryptionType,
-  ): Promise<any> {
+  ) {
     if (isPGPMessage) {
       const message = mimemessage.factory({
         contentType: EmailContentType.MULTIPART_MIXED,
@@ -50,11 +53,12 @@ export class MessageBuilderService {
       message.body = [contentEntity, ...attachmentsEntities];
       return message.toString();
     }
+    return '';
   }
 
   private async processAttachments(attachments: Array<Attachment>): Promise<any> {
     const attachmentsEntities: any[] = [];
-    // eslint-disable-next-line no-restricted-syntax
+
     for (const attachment of attachments) {
       // eslint-disable-next-line no-await-in-loop
       const contentBuffer = await this.readFileAsync(attachment.decryptedDocument);

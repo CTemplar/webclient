@@ -6,6 +6,7 @@ import { MailAction } from '../../store/datatypes';
   name: 'lastAction',
 })
 export class LastActionPipe implements PipeTransform {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   transform(value: MailAction, ...arguments_: any[]): any {
     switch (value) {
       case MailAction.FORWARD:

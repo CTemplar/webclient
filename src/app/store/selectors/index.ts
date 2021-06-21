@@ -9,10 +9,10 @@ import { RouterStateUrl } from '../datatypes';
 })
 export class CustomSerializer implements fromRouter.RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
-    const { url } = routerState;
-    const { queryParams } = routerState.root;
+    const { url, root } = routerState;
+    const { queryParams } = root;
 
-    let state: ActivatedRouteSnapshot = routerState.root;
+    let state: ActivatedRouteSnapshot = root;
     while (state.firstChild) {
       state = state.firstChild;
     }

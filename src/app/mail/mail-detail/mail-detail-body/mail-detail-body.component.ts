@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { UntilDestroy } from '@ngneat/until-destroy';
+
 import { Attachment, Mail, MailFolderType } from '../../../store/models';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppState } from '../../../store/datatypes';
-import { Store } from '@ngrx/store';
 import { LOADING_IMAGE } from '../../../store/services';
 
 @UntilDestroy()
@@ -94,8 +93,6 @@ export class MailDetailBodyComponent implements OnInit {
   mailFolderTypes = MailFolderType;
 
   loadingImage = LOADING_IMAGE;
-
-  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {}
 }

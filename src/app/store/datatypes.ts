@@ -174,21 +174,21 @@ export interface InviteCode {
 }
 
 export class PromoCode {
-  is_valid: boolean = null;
+  is_valid: boolean;
 
   discount_amount?: number;
 
-  new_amount: number = null;
+  new_amount: number;
 
-  new_amount_btc: number = null;
+  new_amount_btc: number;
 
   message?: string;
 
-  value = '';
+  value: string;
 
-  enabled = false;
+  enabled: boolean;
 
-  inProgress = false;
+  inProgress: boolean;
 }
 
 export interface ContactsState {
@@ -595,6 +595,7 @@ export interface AppState {
   timezone: TimezonesState;
   user: UserState;
   webSocket: WebSocketState;
+  donate: any;
 }
 
 export interface TimezonesState {
