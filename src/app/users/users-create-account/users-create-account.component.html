@@ -161,8 +161,9 @@
                   <i
                     class="fas fa-check green input-ok"
                     *ngIf="
-                      signupForm.controls['password']?.value?.length > 0 &&
-                      signupForm.controls['password']?.value?.length <= 128
+                      signupForm.controls['password']?.value?.length >= 8 &&
+                      signupForm.controls['password']?.value?.length <= 128 &&
+                      !signupForm.controls['password'].errors?.pattern
                     "
                   ></i>
                   <div
@@ -171,11 +172,22 @@
                     "
                     class="validate-message"
                   >
-                    <ng-container *ngIf="signupForm.controls['password'].errors.required"
-                      >The password is required.
+                    <ng-container *ngIf="signupForm.controls['password'].errors.required">
+                      <p class="validate-error-message">The password is required.</p>
                     </ng-container>
-                    <ng-container *ngIf="signupForm.controls['password'].errors.maxlength"
-                      >The password must be between 1 and 128 characters.
+                    <ng-container
+                      *ngIf="
+                        signupForm.controls['password'].errors.minlength ||
+                        signupForm.controls['password'].errors.maxlength
+                      "
+                    >
+                      <p class="validate-error-message">The password must be between 8 and 128 characters.</p>
+                    </ng-container>
+                    <ng-container *ngIf="signupForm.controls['password'].errors.pattern">
+                      <p class="validate-error-message">
+                        The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1
+                        special character.
+                      </p>
                     </ng-container>
                   </div>
                 </div>

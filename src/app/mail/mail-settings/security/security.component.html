@@ -693,11 +693,25 @@
                   *ngIf="changePasswordForm.controls['password'].errors && showChangePasswordFormErrors"
                   class="validate-message"
                 >
-                  <span
-                    *ngIf="changePasswordForm.controls['password'].errors.required"
-                    [translate]="'settings.security.new_password_req'"
-                    >New password is required.</span
+                  <ng-container *ngIf="changePasswordForm.controls['password'].errors.required">
+                    <p class="validate-error-message" [translate]="'settings.security.new_password_req'">
+                      New password is required.
+                    </p>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="
+                      changePasswordForm.controls['password'].errors.minlength ||
+                      changePasswordForm.controls['password'].errors.maxlength
+                    "
                   >
+                    <p class="validate-error-message">The password must be between 8 and 128 characters.</p>
+                  </ng-container>
+                  <ng-container *ngIf="changePasswordForm.controls['password'].errors.pattern">
+                    <p class="validate-error-message">
+                      The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special
+                      character.
+                    </p>
+                  </ng-container>
                 </span>
               </div>
               <div class="form-group form-group-sm">
