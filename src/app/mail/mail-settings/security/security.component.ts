@@ -13,11 +13,18 @@ import {
   Get2FASecret,
   ContactsGet,
   ClearContactsToDecrypt,
-  SnackErrorPush,
-} from '../../../store';
-import { OpenPgpService, SharedService, getCryptoRandom } from '../../../store/services';
+  SnackPush,
+} from '../../../store/actions';
+import { SnackErrorPush } from '../../../store';
+import { OpenPgpService, SharedService, getCryptoRandom, UsersService } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { apiUrl, SYNC_DATA_WITH_STORE } from '../../../shared/config';
+
+// eslint-disable-next-line no-shadow
+enum ResetRecoveryKeyStep {
+  USER_PASSWORD = 1,
+  RESET_RESULT,
+}
 
 @UntilDestroy()
 @Component({
@@ -35,9 +42,13 @@ export class SecurityComponent implements OnInit {
 
   @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal: any;
 
+  @ViewChild('resetRecoveryKeyModal') resetRecoveryKeyModal: any;
+
   private changePasswordModalRef: NgbModalRef;
 
   private decryptContactsModalRef: NgbModalRef;
+
+  private resetRecoveryKeyModalRef: NgbModalRef;
 
   settings$: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({});
 
@@ -71,6 +82,16 @@ export class SecurityComponent implements OnInit {
 
   askLocalCache: boolean;
 
+  userPasswordForResetRecoveryKey = '';
+
+  ResetRecoveryKeyStep = ResetRecoveryKeyStep;
+
+  currentResetRecoveryKeyStep = ResetRecoveryKeyStep.USER_PASSWORD;
+
+  resetRecoveryKeyErrorMessage = '';
+
+  newResetRecoverKey = '';
+
   constructor(
     private store: Store<AppState>,
     private settingsService: MailSettingsService,
@@ -78,6 +99,7 @@ export class SecurityComponent implements OnInit {
     private openPgpService: OpenPgpService,
     private sharedService: SharedService,
     private formBuilder: FormBuilder,
+    private authService: UsersService,
   ) {}
 
   ngOnInit() {
@@ -296,7 +318,7 @@ export class SecurityComponent implements OnInit {
           },
           () => {
             this.passwordChangeInProgress = false;
-            this.store.dispatch(new SnackErrorPush({ message: `Failed to change password` }));
+            this.store.dispatch(new SnackErrorPush({ message: 'Failed to change password' }));
           },
         );
     }
@@ -354,5 +376,50 @@ export class SecurityComponent implements OnInit {
         message: 'Settings updated successfully.',
       }),
     );
+  }
+
+  /**
+   * Reset Recovery Key Section
+   */
+  /**
+   * Open Reset Recovery Key Modal
+   */
+  openResetRecoveryKeyModal() {
+    if (this.inProgress) return;
+    this.currentResetRecoveryKeyStep = ResetRecoveryKeyStep.USER_PASSWORD;
+    this.resetRecoveryKeyErrorMessage = '';
+    this.userPasswordForResetRecoveryKey = '';
+    this.resetRecoveryKeyModalRef = this.modalService.open(this.resetRecoveryKeyModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal',
+    });
+  }
+
+  onResetRecoveryKey() {
+    if (this.currentResetRecoveryKeyStep === ResetRecoveryKeyStep.USER_PASSWORD) {
+      if (!this.userPasswordForResetRecoveryKey) return;
+      this.inProgress = true;
+      this.authService
+        .resetRecoveryKey({
+          password: this.sharedService.getHashPurePasswordWithUserName(this.userPasswordForResetRecoveryKey),
+        })
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          (response: any) => {
+            this.newResetRecoverKey = response?.recovery_key || '';
+            this.inProgress = false;
+            this.currentResetRecoveryKeyStep = ResetRecoveryKeyStep.RESET_RESULT;
+            this.store.dispatch(new SnackPush({ message: 'Recovery Key has been reset successfully.' }));
+          },
+          (error: any) => {
+            this.inProgress = false;
+            this.resetRecoveryKeyErrorMessage = error?.error || 'Failed to reset recovery key';
+            this.store.dispatch(new SnackErrorPush({ message: 'Failed to reset recovery key' }));
+          },
+        );
+    } else {
+      this.resetRecoveryKeyModalRef.close();
+    }
   }
 }
