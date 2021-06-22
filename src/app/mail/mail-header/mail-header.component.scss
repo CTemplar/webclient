@@ -223,24 +223,41 @@
   }
 
   .form-control {
-    padding-right: 3.438rem + 0.938rem;
+    padding-left: 3.438rem + 0.938rem;
     height: 32px;
     @include media('<ipad', '>sm') {
       margin-top: -1px;
-      padding: 0.875rem 3.438rem + 0.938rem 0.875rem 0.938rem;
+      padding: 0.875rem 3.438rem + 0.938rem 0.938rem 3.438rem + 0.938rem;
     }
   }
 
   .search-btn {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     bottom: 0;
     padding-right: 0.938rem;
     padding-left: 0.938rem;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     min-width: 55px;
+  }
+
+  .advanced-search-btn-container {
+    position: static !important;
+    .advanced-search-btn {
+      left: auto;
+      right: 0;
+      width: 30px;
+      height: 32px;
+      min-width: 30px;
+      &::before {
+        right: 11px;
+      }
+    }
+    .dropdown-menu.show {
+      margin-top: 0;
+    }
   }
 
   .clear-btn {

@@ -1,5 +1,5 @@
 import { Component, Inject, ChangeDetectionStrategy, OnInit, ViewChild } from '@angular/core';
-import { NgbDropdownConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -23,6 +23,10 @@ import { LOADING_IMAGE, HttpCancelService } from '../../store/services';
 })
 export class MailHeaderComponent implements OnInit {
   @ViewChild('logoutModal') logoutModal: any;
+
+  @ViewChild('advancedSearchModal') advancedSearchModal: any;
+
+  private advancedSearchModalRef: NgbModalRef;
 
   // Public property of boolean type set false by default
   menuIsOpened = false;
@@ -139,5 +143,12 @@ export class MailHeaderComponent implements OnInit {
 
   openComposeMailDialog(receivers: any) {
     this.composeMailService.openComposeMailDialog({ receivers });
+  }
+
+  openAdvancedSearchModal() {
+    this.advancedSearchModalRef = this.modalService.open(this.advancedSearchModal, {
+      backdrop: false,
+      windowClass: 'modal-md advanced-search-modal',
+    });
   }
 }
