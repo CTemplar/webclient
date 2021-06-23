@@ -404,7 +404,7 @@
       "use_feature": "in order to use this feature.",
       "custom_domain": "Please add a custom domain first in order to add users.",
       "domain_verification_message": "Domain verification failed, please add above TXT record in your host DNS and try again. DNS records can take several hours to update. Once domain is verified, you can proceed to next step.",
-      "domain_deletion_message": "All the associated email aliases and users(if any) of this domain will also be deleted."
+      "domain_deletion_message": "All the associated data of this domain, including messages, will also be deleted."
     },
     "forwarding": {
       "title": "Forwarding",
