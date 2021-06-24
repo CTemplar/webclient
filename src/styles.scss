@@ -356,7 +356,7 @@ button[disabled] {
   border-bottom: 1px solid var(--settings-tabs-border-color);
 }
 
-.nav-tabs.nav li {
+.nav-tabs.nav a {
   border-right: 1px solid var(--settings-tabs-border-color);
 }
 
@@ -747,5 +747,12 @@ button.ctemplar-blockquote-toggle ~ * {
 .validate-message {
   p {
     margin-bottom: 0;
+  }
+}
+
+.advanced-search-row {
+  .dropdown-menu {
+    opacity: 1!important;
+    min-width: 50%!important;
   }
 }

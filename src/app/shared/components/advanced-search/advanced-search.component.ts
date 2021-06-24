@@ -6,9 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./advanced-search.component.scss'],
 })
 export class AdvancedSearchComponent implements OnInit {
-  isExact = false;
+  startDate = '';
 
-  ngOnInit(): void {
-    this.isExact = true;
-  }
+  endDate = '';
+
+  ngOnInit(): void {}
 }
