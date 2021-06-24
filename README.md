@@ -1,5 +1,7 @@
 # CTemplar
 
+[![webclient-master](https://github.com/CTemplar/webclient/actions/workflows/master.yml/badge.svg?branch=master)](https://github.com/CTemplar/webclient/actions/workflows/master.yml)
+
 Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.
 
 ## Usage
