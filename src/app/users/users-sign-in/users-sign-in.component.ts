@@ -41,7 +41,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   isLoading = false;
 
-  isConfirmedPrivacy: boolean = null;
+  isConfirmedPrivacy: boolean = undefined;
 
   // == NgBootstrap Modal stuffs
   resetModalRef: any;
@@ -114,7 +114,15 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     this.resetPasswordForm = this.formBuilder.group(
       {
         code: ['', [Validators.required]],
-        password: ['', [Validators.required]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(128),
+            Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{1,128}$/),
+          ],
+        ],
         confirmPwd: ['', [Validators.required]],
         username: ['', [Validators.required]],
       },
@@ -127,16 +135,10 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (!authState.isAuthenticated) {
-          this.isLoading = authState.inProgress;
-        } else {
-          this.isLoading = false;
-        }
+        this.isLoading = !authState.isAuthenticated ? authState.inProgress : false;
         this.errorMessage = authState.errorMessage;
         this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
         this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;
-        if (authState.errorMessage) {
-        }
         if (
           this.isRecoverFormSubmitted &&
           this.authState.inProgress &&
@@ -204,7 +206,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   recoverPassword(data: any) {
     this.showResetPasswordFormErrors = true;
-    if (this.isConfirmedPrivacy === null) {
+    if (this.isConfirmedPrivacy === undefined) {
       this.isConfirmedPrivacy = false;
     }
     if (this.recoverPasswordForm.valid && this.isConfirmedPrivacy) {

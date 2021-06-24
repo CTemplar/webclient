@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import {
   BitcoinActionTypes,
@@ -26,7 +25,7 @@ export class BitcoinEffects {
     map((action: CreateNewWallet) => action.payload),
     switchMap(payload => {
       return this.bitcoinService.createNewWallet(payload).pipe(
-        switchMap(res => of(new CreateNewWalletSuccess(res))),
+        switchMap(response => of(new CreateNewWalletSuccess(response))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to create a new Bitcoin wallet.' }))),
       );
     }),

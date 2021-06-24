@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/browser';
 
 import { apiUrl } from '../../shared/config';
 import { MailboxKey } from '../datatypes';
-import { Attachment, Folder, Mail, Mailbox } from '../models';
+import { Attachment, Folder, Mail, Mailbox, Unsubscribe } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
 @Injectable({
@@ -62,7 +62,7 @@ export class MailService {
     const url = `${apiUrl}emails/messages/?id__in=${payload.messageId}&folder=${payload.folder}`;
     return this.http.get<Mail>(url).pipe(
       map((data: any) => {
-        return data['results'] ? data['results'][0] : null;
+        return data.results ? data.results[0] : null;
       }),
     );
   }
@@ -196,16 +196,13 @@ export class MailService {
     if (attachment.is_pgp_mime) {
       formData.append('is_pgp_mime', attachment.is_pgp_mime.toString());
     }
-    let request;
-    if (attachment.id) {
-      request = new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${attachment.id}/`, formData, {
-        reportProgress: true,
-      });
-    } else {
-      request = new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
-        reportProgress: true,
-      });
-    }
+    const request = attachment.id
+      ? new HttpRequest('PATCH', `${apiUrl}emails/attachments/update/${attachment.id}/`, formData, {
+          reportProgress: true,
+        })
+      : new HttpRequest('POST', `${apiUrl}emails/attachments/create/`, formData, {
+          reportProgress: true,
+        });
 
     return this.http.request(request);
   }
@@ -267,6 +264,11 @@ export class MailService {
     });
   }
 
+  unsubscribe(data: Unsubscribe): Observable<any> {
+    return this.http.post<any>(`${apiUrl}emails/list-unsubscribe/`, data);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure

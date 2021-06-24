@@ -3,22 +3,28 @@ import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject } from 'rxjs';
 
-import { AppState, Auth2FA, AuthState, ContactsState, PlanType, Settings, UserState } from '../../../store/datatypes';
+import { AppState, Auth2FA, AuthState, ContactsState, Settings, UserState } from '../../../store/datatypes';
 import { MailSettingsService } from '../../../store/services/mail-settings.service';
 import {
-  ChangePassphraseSuccess,
   ChangePassword,
   Update2FA,
   Get2FASecret,
   ContactsGet,
   ClearContactsToDecrypt,
+  SnackPush,
 } from '../../../store/actions';
 import { SnackErrorPush } from '../../../store';
-import { OpenPgpService, SharedService, getCryptoRandom } from '../../../store/services';
+import { OpenPgpService, SharedService, getCryptoRandom, UsersService } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
 import { apiUrl, SYNC_DATA_WITH_STORE } from '../../../shared/config';
-import { BehaviorSubject } from 'rxjs';
+
+// eslint-disable-next-line no-shadow
+enum ResetRecoveryKeyStep {
+  USER_PASSWORD = 1,
+  RESET_RESULT,
+}
 
 @UntilDestroy()
 @Component({
@@ -36,9 +42,13 @@ export class SecurityComponent implements OnInit {
 
   @ViewChild('confirmEncryptContactsModal') confirmEncryptContactsModal: any;
 
+  @ViewChild('resetRecoveryKeyModal') resetRecoveryKeyModal: any;
+
   private changePasswordModalRef: NgbModalRef;
 
   private decryptContactsModalRef: NgbModalRef;
+
+  private resetRecoveryKeyModalRef: NgbModalRef;
 
   settings$: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({});
 
@@ -72,6 +82,16 @@ export class SecurityComponent implements OnInit {
 
   askLocalCache: boolean;
 
+  userPasswordForResetRecoveryKey = '';
+
+  ResetRecoveryKeyStep = ResetRecoveryKeyStep;
+
+  currentResetRecoveryKeyStep = ResetRecoveryKeyStep.USER_PASSWORD;
+
+  resetRecoveryKeyErrorMessage = '';
+
+  newResetRecoverKey = '';
+
   constructor(
     private store: Store<AppState>,
     private settingsService: MailSettingsService,
@@ -79,6 +99,7 @@ export class SecurityComponent implements OnInit {
     private openPgpService: OpenPgpService,
     private sharedService: SharedService,
     private formBuilder: FormBuilder,
+    private authService: UsersService,
   ) {}
 
   ngOnInit() {
@@ -124,7 +145,15 @@ export class SecurityComponent implements OnInit {
     this.changePasswordForm = this.formBuilder.group(
       {
         oldPassword: ['', [Validators.required]],
-        password: ['', [Validators.required]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(128),
+            Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{1,128}$/),
+          ],
+        ],
         confirmPwd: ['', [Validators.required]],
       },
       {
@@ -197,7 +226,7 @@ export class SecurityComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'modal-md change-password-modal',
     });
-    this.decryptContactsModalRef.result.then(reason => {
+    this.decryptContactsModalRef.result.then(() => {
       this.isDecryptingContacts = false;
       this.decryptContactsModalRef = null;
     });
@@ -287,9 +316,9 @@ export class SecurityComponent implements OnInit {
           response => {
             this.changePasswordConfirmed(response.keys || {});
           },
-          error => {
+          () => {
             this.passwordChangeInProgress = false;
-            this.store.dispatch(new SnackErrorPush({ message: `Failed to change password` }));
+            this.store.dispatch(new SnackErrorPush({ message: 'Failed to change password' }));
           },
         );
     }
@@ -298,19 +327,19 @@ export class SecurityComponent implements OnInit {
   changePasswordConfirmed(updatedKeys: any) {
     this.updatedPrivateKeys = updatedKeys;
     const data = this.changePasswordForm.value;
-    const new_keys: any[] = [];
-    const extra_keys: any[] = [];
+    const newKeys: any[] = [];
+    const extraKeys: any[] = [];
     Object.keys(updatedKeys).forEach((mailboxId: string) => {
       updatedKeys[mailboxId].forEach((key: any) => {
         if (key.is_primary) {
-          new_keys.push({
+          newKeys.push({
             mailbox_id: mailboxId,
             private_key: key.private_key,
             public_key: key.public_key,
             fingerprint: key.fingerprint,
           });
         } else {
-          extra_keys.push({
+          extraKeys.push({
             mailbox_id: mailboxId,
             private_key: key.private_key,
             public_key: key.public_key,
@@ -326,8 +355,8 @@ export class SecurityComponent implements OnInit {
       password: data.password,
       confirm_password: data.confirmPwd,
       delete_data: this.deleteData,
-      new_keys,
-      extra_keys,
+      new_keys: newKeys,
+      extra_keys: extraKeys,
     };
     this.store.dispatch(new ChangePassword(requestData));
   }
@@ -347,5 +376,50 @@ export class SecurityComponent implements OnInit {
         message: 'Settings updated successfully.',
       }),
     );
+  }
+
+  /**
+   * Reset Recovery Key Section
+   */
+  /**
+   * Open Reset Recovery Key Modal
+   */
+  openResetRecoveryKeyModal() {
+    if (this.inProgress) return;
+    this.currentResetRecoveryKeyStep = ResetRecoveryKeyStep.USER_PASSWORD;
+    this.resetRecoveryKeyErrorMessage = '';
+    this.userPasswordForResetRecoveryKey = '';
+    this.resetRecoveryKeyModalRef = this.modalService.open(this.resetRecoveryKeyModal, {
+      centered: true,
+      backdrop: 'static',
+      windowClass: 'modal-md change-password-modal',
+    });
+  }
+
+  onResetRecoveryKey() {
+    if (this.currentResetRecoveryKeyStep === ResetRecoveryKeyStep.USER_PASSWORD) {
+      if (!this.userPasswordForResetRecoveryKey) return;
+      this.inProgress = true;
+      this.authService
+        .resetRecoveryKey({
+          password: this.sharedService.getHashPurePasswordWithUserName(this.userPasswordForResetRecoveryKey),
+        })
+        .pipe(untilDestroyed(this))
+        .subscribe(
+          (response: any) => {
+            this.newResetRecoverKey = response?.recovery_key || '';
+            this.inProgress = false;
+            this.currentResetRecoveryKeyStep = ResetRecoveryKeyStep.RESET_RESULT;
+            this.store.dispatch(new SnackPush({ message: 'Recovery Key has been reset successfully.' }));
+          },
+          (error: any) => {
+            this.inProgress = false;
+            this.resetRecoveryKeyErrorMessage = error?.error || 'Failed to reset recovery key';
+            this.store.dispatch(new SnackErrorPush({ message: 'Failed to reset recovery key' }));
+          },
+        );
+    } else {
+      this.resetRecoveryKeyModalRef.close();
+    }
   }
 }

@@ -3,16 +3,7 @@ import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { Folder, Mail, Mailbox, MailFolderType } from '../../../store/models';
-import {
-  AppState,
-  Contact,
-  ContactsState,
-  MailBoxesState,
-  NumberBooleanMappedType,
-  Settings,
-  StringBooleanMappedType,
-  UserState,
-} from '../../../store/datatypes';
+import { AppState, Contact, ContactsState, MailBoxesState, Settings, UserState } from '../../../store/datatypes';
 
 @UntilDestroy()
 @Component({
@@ -45,6 +36,8 @@ export class MailDetailHeaderComponent implements OnInit {
 
   @Output() onClick = new EventEmitter();
 
+  @Output() onUnsubscribe = new EventEmitter();
+
   settings: Settings;
 
   currentMailbox: Mailbox;
@@ -72,9 +65,9 @@ export class MailDetailHeaderComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.customFolders = user.customFolders;
-        user.customFolders.forEach(folder => {
+        for (const folder of user.customFolders) {
           this.folderColors[folder.name] = folder.color;
-        });
+        }
         this.userState = user;
         this.settings = this.userState.settings;
       });
@@ -111,7 +104,7 @@ export class MailDetailHeaderComponent implements OnInit {
 
   openUnsubscribeLink() {
     if (this.unsubscribeLink) {
-      window.open(this.unsubscribeLink, '_blank');
+      this.onUnsubscribe.emit();
     }
   }
 }

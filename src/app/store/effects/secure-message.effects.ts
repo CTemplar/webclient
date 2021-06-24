@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import {
   GetMessage,
@@ -30,7 +29,7 @@ export class SecureMessageEffects {
     map((action: GetMessage) => action.payload),
     switchMap(payload => {
       return this.mailService.getSecureMessage(payload.hash, payload.secret).pipe(
-        switchMap(res => of(new GetMessageSuccess(res))),
+        switchMap(response => of(new GetMessageSuccess(response))),
         catchError(error => of(new GetMessageFailure({ error: error.error }))),
       );
     }),
@@ -42,9 +41,9 @@ export class SecureMessageEffects {
     map((action: SendSecureMessageReply) => action.payload),
     switchMap(payload => {
       return this.mailService.secureReply(payload.hash, payload.secret, payload.message).pipe(
-        switchMap(res => {
+        switchMap(response => {
           return of(
-            new SendSecureMessageReplySuccess({ data: payload, response: res }),
+            new SendSecureMessageReplySuccess({ data: payload, response }),
             new SnackPush({
               message: `Reply sent successfully`,
             }),

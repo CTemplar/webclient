@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { timer } from 'rxjs/internal/observable/timer';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { take } from 'rxjs/operators';
 
 import {
   CheckTransaction,
@@ -20,7 +20,6 @@ import {
   UpgradeAccount,
   ValidatePromoCode,
   CardAdd,
-  AddMailboxKeys,
 } from '../../../store/actions';
 import {
   AppState,
@@ -30,7 +29,6 @@ import {
   Payment,
   PaymentMethod,
   PaymentType,
-  PGPKeyType,
   PlanType,
   PricingPlan,
   PromoCode,
@@ -42,7 +40,6 @@ import { OpenPgpService, SharedService } from '../../../store/services';
 import { UserAccountInitDialogComponent } from '../../../users/dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { DynamicScriptLoaderService } from '../../services/dynamic-script-loader.service';
 import { apiUrl, PROMO_CODE_KEY, LANGUAGES } from '../../config';
-import { take } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -159,21 +156,20 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     private dynamicScriptLoader: DynamicScriptLoaderService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
-    private _zone: NgZone,
+    private ngzone: NgZone,
   ) {}
 
   ngOnInit() {
     let year = new Date().getFullYear();
-    for (let i = 0; i < 11; i++) {
-      this.years.push(year++);
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < 11; index++) {
+      this.years.push((year += 1));
     }
     this.store.dispatch(new ClearPromoCode());
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
-    if (this.isUpgradeAccount) {
-      if (this.planType === PlanType.FREE) {
-        this.paymentType = null;
-        this.paymentMethod = null;
-      }
+    if (this.isUpgradeAccount && this.planType === PlanType.FREE) {
+      this.paymentType = null;
+      this.paymentMethod = null;
     }
     this.store
       .select(state => state.user)
@@ -185,11 +181,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         }
         this.promoCode = userState.promoCode;
         this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
-        if (this.promoCode.is_valid && this.promoCode.new_amount === 0 && this.promoCode.new_amount_btc === 0) {
-          this.isNeedPaymentInformationWithPromoCode = false;
-        } else {
-          this.isNeedPaymentInformationWithPromoCode = true;
-        }
+        this.isNeedPaymentInformationWithPromoCode = !(
+          this.promoCode.is_valid &&
+          this.promoCode.new_amount === 0 &&
+          this.promoCode.new_amount_btc === 0
+        );
         this.isPrime = userState.isPrime;
       });
 
@@ -279,10 +275,10 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.isScriptsLoading = true;
     this.dynamicScriptLoader
       .load('stripe')
-      .then(data => {
+      .then(() => {
         this.dynamicScriptLoader
           .load('stripe-key')
-          .then(stripeKeyLoaded => {
+          .then(() => {
             this.isScriptsLoaded = true;
             this.isScriptsLoading = false;
           })
@@ -306,7 +302,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       },
       (status: number, response: any) => {
         // Wrapping inside the Angular zone
-        this._zone.run(() => {
+        this.ngzone.run(() => {
           this.inProgress = false;
           if (status === 200) {
             this.stripeSignup(response.id);
@@ -361,7 +357,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   validateSignupData() {
     if (this.signupState && this.signupState.username && this.signupState.password) {
-      return true;
+      return;
     }
     this.router.navigateByUrl(`/create-account?plan=${this.planType}&billing=${this.paymentType}`);
   }
@@ -501,12 +497,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     };
     setTimeout(() => {
       this.showPaymentPending = true;
-    }, 15000);
+    }, 15_000);
 
     this.timer();
     this.paymentSuccess = false;
     this.createNewWallet();
-    this.btcTimer = timer(15000, 10000)
+    this.btcTimer = timer(15_000, 10_000)
       .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.checkTransaction();

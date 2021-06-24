@@ -7,8 +7,8 @@ import { AppConfig } from './environments/environment';
 if (AppConfig.production) {
   enableProdMode();
   if (window) {
-    window.console.log = function () {};
-    window.console.error = function () {};
+    window.console.log = () => {};
+    window.console.error = () => {};
   }
 }
 

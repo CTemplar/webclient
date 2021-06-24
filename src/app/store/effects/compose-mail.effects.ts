@@ -1,9 +1,8 @@
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { catchError, finalize, map, mergeMap, switchMap, concatMap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import { MailService } from '../services';
 import {
@@ -45,11 +44,11 @@ export class ComposeMailEffects {
     map((action: CreateMail) => action.payload),
     mergeMap(payload => {
       return this.mailService.createMail(payload.draft).pipe(
-        switchMap(res =>
+        switchMap(response =>
           of(
-            new CreateMailSuccess({ draft: payload, response: res }),
-            new UpdateMailDetailChildren(res),
-            new UpdateCurrentFolder({ ...res, isUpdate: !!payload.draft.id }),
+            new CreateMailSuccess({ draft: payload, response }),
+            new UpdateMailDetailChildren(response),
+            new UpdateCurrentFolder({ ...response, isUpdate: !!payload.draft.id }),
             new GetUnreadMailsCount(),
           ),
         ),
@@ -83,7 +82,7 @@ export class ComposeMailEffects {
                 );
               }
             },
-            error => {
+            () => {
               observer.next(new SnackErrorPush({ message: 'Failed to upload attachment.' }));
               observer.next(new UploadAttachmentFailure(payload));
             },
@@ -134,17 +133,17 @@ export class ComposeMailEffects {
       }
       payload.draft.is_subject_encrypted = payload.draft.is_subject_encrypted && payload.draft.is_encrypted;
       return this.mailService.createMail(payload.draft).pipe(
-        switchMap((res: any) => {
-          res.last_action_data = {
+        switchMap((response: any) => {
+          response.last_action_data = {
             last_action: payload.draft.last_action,
             last_action_parent_id: payload.draft.last_action_parent_id,
           };
-          res.folder = MailFolderType.SENT;
+          response.folder = MailFolderType.SENT;
           const events: any[] = [
             new SendMailSuccess(payload),
-            new UpdateCurrentFolder({ ...res, isUpdate: !!payload.draft.id }),
-            new UpdateMailDetailChildren(res),
-            new DeleteMailSuccess({ ids: `${res.id}`, isDraft: true, isMailDetailPage: payload.isMailDetailPage }),
+            new UpdateCurrentFolder({ ...response, isUpdate: !!payload.draft.id }),
+            new UpdateMailDetailChildren(response),
+            new DeleteMailSuccess({ ids: `${response.id}`, isDraft: true, isMailDetailPage: payload.isMailDetailPage }),
             new SnackPush({
               message,
             }),
@@ -156,7 +155,7 @@ export class ComposeMailEffects {
           of(
             new SnackErrorPush({
               message: errorResponse.error || 'Failed to send mail.',
-              duration: 10000,
+              duration: 10_000,
             }),
             new SendMailFailure(payload),
           ),
@@ -177,9 +176,8 @@ export class ComposeMailEffects {
           ),
           catchError(() => of(new SnackErrorPush({ message: 'Failed to get public keys.' }))),
         );
-      } else {
-        return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));
       }
+      return of(new GetUsersKeysSuccess({ draftId: payload.draftId ? payload.draftId : 0, isBlind: true }));
     }),
   );
 }

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 import { AppState } from '../../store/datatypes';
-import { SnackErrorPush, SnackPush } from '../../store/actions';
+import { SnackErrorPush, SnackPush } from '../../store';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,45 +37,46 @@ export class PushNotificationService {
     }
   }
 
-  create(title: string, options?: PushNotificationOptions): any {
+  create(title: string, options?: PushNotificationOptions): Observable<any> {
     if (!('Notification' in window)) {
       this.store.dispatch(new SnackPush({ message: 'Notifications are not available in this environment' }));
       return;
     }
-    return new Observable(function (obs) {
-      const _notify = new Notification(title, options);
-      _notify.addEventListener('show', function (e) {
+    // eslint-disable-next-line consistent-return
+    return new Observable(obs => {
+      const notification = new Notification(title, options);
+      notification.addEventListener('show', event => {
         return obs.next({
-          notification: _notify,
-          event: e,
+          notification,
+          event,
         });
       });
-      _notify.addEventListener('click', function (e) {
+      notification.addEventListener('click', event => {
         return obs.next({
-          notification: _notify,
-          event: e,
+          notification,
+          event,
         });
       });
-      _notify.addEventListener('error', function (e) {
+      notification.addEventListener('error', event => {
         return obs.error({
-          notification: _notify,
-          event: e,
+          notification,
+          event,
         });
       });
-      _notify.onclose = function () {
+      notification.onclose = () => {
         return obs.complete();
       };
     });
   }
 
   generateNotification(source: Array<any>): void {
-    source.forEach(item => {
+    for (const item of source) {
       const options = {
         body: item.alertContent,
         icon: '../resource/images/bell-icon.png',
       };
-      const notify = this.create(item.title, options).subscribe();
-    });
+      this.create(item.title, options).subscribe();
+    }
   }
 }
 
@@ -101,6 +104,4 @@ export class PushNotificationOptions {
   dir?: 'auto' | 'ltr' | 'rtl';
 
   lang?: string;
-
-  vibrate?: number[];
 }

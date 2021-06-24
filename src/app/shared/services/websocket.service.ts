@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -42,6 +42,7 @@ export class WebsocketService {
   public connect() {
     const url = `${apiUrl.replace('http', 'ws')}connect/?user_id=${this.userId}`;
     this.webSocket = new WebSocket(url);
+    // eslint-disable-next-line unicorn/prefer-add-event-listener
     this.webSocket.onmessage = response => {
       const data = JSON.parse(response.data);
       if (data.logout === true || data.reason === 'INVALID_TOKEN') {
@@ -52,10 +53,10 @@ export class WebsocketService {
       }
     };
 
-    this.webSocket.onclose = e => {
+    this.webSocket.onclose = (error: any) => {
       if (this.isAuthenticated) {
         LoggerService.log(
-          `Socket is closed. Reconnect will be attempted in ${1000 + this.retryCount * 1000} second. ${e.reason}`,
+          `Socket is closed. Reconnect will be attempted in ${1000 + this.retryCount * 1000} second. ${error.reason}`,
         );
         setTimeout(() => {
           this.connect();
