@@ -10,5 +10,19 @@ export class AdvancedSearchComponent implements OnInit {
 
   endDate = '';
 
+  SEARCH_SIZE = {
+    GTE: 'Greater than',
+    LTE: 'Less than',
+    EQUALS: 'Equal',
+  };
+
+  size = 'GTE';
+
   ngOnInit(): void {}
+
+  onChangeSize($event: any, size: string) {
+    $event.preventDefault();
+    this.size = size;
+    console.log('aaaaaaaaaa', this.size);
+  }
 }

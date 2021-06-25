@@ -1,9 +1,9 @@
 <div class="advanced-search-container">
   <div class="row advanced-search-row">
-    <div class="col-sm-4">
+    <div class="col-3">
       Keyword
     </div>
-    <div class="col-sm-8">
+    <div class="col-9">
       <input
         class="form-control form-control-sm"
         type="text"
@@ -11,10 +11,10 @@
     </div>
   </div>
   <div class="row advanced-search-row">
-    <div class="col-sm-4">
+    <div class="col-3">
       From
     </div>
-    <div class="col-sm-8">
+    <div class="col-9">
       <input
         class="form-control form-control-sm"
         type="text"
@@ -22,10 +22,10 @@
     </div>
   </div>
   <div class="row advanced-search-row">
-    <div class="col-sm-4">
+    <div class="col-3">
       To
     </div>
-    <div class="col-sm-8">
+    <div class="col-9">
       <input
         class="form-control form-control-sm"
         type="text"
@@ -33,13 +33,64 @@
     </div>
   </div>
   <div class="row advanced-search-row">
-    <div class="col-sm-4">
-      Start Date
+    <div class="col-3">
+      Size
     </div>
-    <div class="col-sm-8">
-      <div class="input-group">
-        <input class="form-control" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker" datepickerClass="'ng-datepicker'" (focus)="d.toggle()">
+    <div class="col-9">
+<!--      <div class="size-container">-->
+<!--        <input-->
+<!--          class="form-control form-control-sm"-->
+<!--          type="text"-->
+<!--        />-->
+<!--        <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">-->
+<!--          <div ngbDropdown class="size-dropdown-container">-->
+<!--            <button role="button" id="size_dropdown_toggle" class="size-dropdown-toggle" ngbDropdownToggle>-->
+<!--            </button>-->
+<!--            <div ngbDropdownMenu aria-labelledby="size_dropdown_toggle">-->
+<!--              <div class="size-dropdown-content">-->
+<!--                AAA-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="row">
+        <div class="col=4">
+          <div ngbDropdown>
+            <button class="btn btn-outline" id="dropdownSize" ngbDropdownToggle>{{ size === 'GTE' ? SEARCH_SIZE.GTE : size === 'LTE' ? SEARCH_SIZE.LTE : SEARCH_SIZE.EQUALS }}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownSize">
+              <button ngbDropdownItem (click)="onChangeSize($event, 'GTE')">Greater than</button>
+              <button ngbDropdownItem (click)="onChangeSize($event, 'LTE')">Less than</button>
+              <button ngbDropdownItem (click)="onChangeSize($event, 'EQUALS')">Equal</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-8">
+          <input
+            class="form-control form-control-sm"
+            type="text"
+          />
+          <div ngbDropdown>
+            <button class="btn btn-outline" id="dropdownSizeUnit" ngbDropdownToggle>{{ size === 'GTE' ? SEARCH_SIZE.GTE : size === 'LTE' ? SEARCH_SIZE.LTE : SEARCH_SIZE.EQUALS }}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownSizeUnit">
+              <button ngbDropdownItem (click)="onChangeSize($event, 'GTE')">Greater than</button>
+              <button ngbDropdownItem (click)="onChangeSize($event, 'LTE')">Less than</button>
+              <button ngbDropdownItem (click)="onChangeSize($event, 'EQUALS')">Equal</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+<!--  <div class="row advanced-search-row">-->
+<!--    <div class="col-3">-->
+<!--      Start Date-->
+<!--    </div>-->
+<!--    <div class="col-9">-->
+<!--      <div class="input-group">-->
+<!--        <input class="form-control" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker" datepickerClass="'ng-datepicker'" (focus)="d.toggle()">-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
 </div>

@@ -5,9 +5,25 @@
     margin-top: 10px;
     margin-bottom: 10px;
 
-    .dropdown-menu {
-      opacity: 1!important;
-      min-width: 50%!important;
+    .size-container {
+      position: relative;
+      .size-dropdown-container {
+        position: static;
+        .size-dropdown-toggle {
+          position: absolute;
+          width: 30px;
+          right: 0;
+          top: 0;
+          height: 30px;
+          border-radius: 0;
+        }
+      }
+    }
+
+    .btn.btn-outline {
+      height: 32px;
+      font-size: 12px;
+      color: var(--body-color);
     }
   }
 }

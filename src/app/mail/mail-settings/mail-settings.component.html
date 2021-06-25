@@ -1187,7 +1187,7 @@
                       name="customCss"
                       [(ngModel)]="settings.custom_css"
                       [ngModelOptions]="{ updateOn: 'blur' }"
-                      (change)="updateSettings('custom_css', $event.target.value)"
+                      (change)="updateSettings('custom_css', $event.target?.value)"
                       rows="6"
                     >
                     </textarea>
@@ -1237,7 +1237,7 @@
                       autocomplete="off"
                       [(ngModel)]="notificationEmail"
                       [ngModelOptions]="{ updateOn: 'blur' }"
-                      (change)="updateSettings('notification_email', $event.target.value)"
+                      (change)="updateSettings('notification_email', $event.target?.value)"
                       placeholder="notify@example.com"
                       onfocus="(this.placeholder='')"
                       onfocusout="(this.placeholder='notify@example.com')"
