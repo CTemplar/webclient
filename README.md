@@ -1,6 +1,6 @@
 # CTemplar
 
-[![Build Status](https://travis-ci.org/CTemplar/webclient.svg?branch=master)](https://travis-ci.org/CTemplar/webclient)
+[![webclient-master](https://github.com/CTemplar/webclient/actions/workflows/master.yml/badge.svg?branch=master)](https://github.com/CTemplar/webclient/actions/workflows/master.yml)
 
 Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.
 
