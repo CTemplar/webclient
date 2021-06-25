@@ -13,7 +13,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'emailFormat',
 })
 export class EmailFormatPipe implements PipeTransform {
-  static transformToFormattedEmail(email: string, displayName = '', isHtmlFormat = false, isTruncate = false) {
+  static transformToFormattedEmail(email: string, displayName = '', isHtmlFormat = false, isTruncate = false): string {
     if (!email) return '';
 
     const formattedEmail = email.toLowerCase().trim();

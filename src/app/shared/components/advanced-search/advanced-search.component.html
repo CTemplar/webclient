@@ -15,10 +15,40 @@
       From
     </div>
     <div class="col-9">
-      <input
-        class="form-control form-control-sm"
-        type="text"
-      />
+      <tag-input
+        #fromInput
+        [ngModel]="fromSearch"
+        name="fromSearch"
+        [placeholder]="''"
+        [secondaryPlaceholder]="''"
+         [onTextChangeDebounce]="20"
+        [onlyFromAutocomplete]="false"
+        [addOnBlur]="true"
+        [editable]="true"
+        [separatorKeys]="[',']"
+        [separatorKeyCodes]="[13]"
+        (onAdd)="onAddFromTo($event, true)"
+        (onRemove)="onRemoveFromTo(true)"
+        (onTextChange)="handlePasteFromTo($event, true)"
+      >
+        <ng-template let-item="item" let-index="index">
+          <span class="tag-content">
+            {{ item.value }}
+          </span>
+          <delete-icon class="delete-icon" (click)="fromInput.removeItem(item, index)"></delete-icon>
+        </ng-template>
+        <tag-input-dropdown
+          [showDropdownIfEmpty]="true"
+          [appendToBody]="false"
+          [displayBy]="'display'"
+          [identifyBy]="'email'"
+          [autocompleteItems]="contacts"
+        >
+          <ng-template let-item="item">
+            <div>{{ item.email }}</div>
+          </ng-template>
+        </tag-input-dropdown>
+      </tag-input>
     </div>
   </div>
   <div class="row advanced-search-row">
@@ -26,10 +56,40 @@
       To
     </div>
     <div class="col-9">
-      <input
-        class="form-control form-control-sm"
-        type="text"
-      />
+      <tag-input
+        #toInput
+        [ngModel]="toSearch"
+        name="toSearch"
+        [placeholder]="''"
+        [secondaryPlaceholder]="''"
+        [onTextChangeDebounce]="20"
+        [onlyFromAutocomplete]="false"
+        [addOnBlur]="true"
+        [editable]="true"
+        [separatorKeys]="[',']"
+        [separatorKeyCodes]="[13]"
+        (onAdd)="onAddFromTo($event, true)"
+        (onRemove)="onRemoveFromTo(true)"
+        (onTextChange)="handlePasteFromTo($event, true)"
+      >
+        <ng-template let-item="item" let-index="index">
+          <span class="tag-content">
+            {{ item.value }}
+          </span>
+          <delete-icon class="delete-icon" (click)="toInput.removeItem(item, index)"></delete-icon>
+        </ng-template>
+        <tag-input-dropdown
+          [showDropdownIfEmpty]="true"
+          [appendToBody]="false"
+          [displayBy]="'display'"
+          [identifyBy]="'email'"
+          [autocompleteItems]="contacts"
+        >
+          <ng-template let-item="item">
+            <div>{{ item.email }}</div>
+          </ng-template>
+        </tag-input-dropdown>
+      </tag-input>
     </div>
   </div>
   <div class="row advanced-search-row">
@@ -37,25 +97,8 @@
       Size
     </div>
     <div class="col-9">
-<!--      <div class="size-container">-->
-<!--        <input-->
-<!--          class="form-control form-control-sm"-->
-<!--          type="text"-->
-<!--        />-->
-<!--        <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">-->
-<!--          <div ngbDropdown class="size-dropdown-container">-->
-<!--            <button role="button" id="size_dropdown_toggle" class="size-dropdown-toggle" ngbDropdownToggle>-->
-<!--            </button>-->
-<!--            <div ngbDropdownMenu aria-labelledby="size_dropdown_toggle">-->
-<!--              <div class="size-dropdown-content">-->
-<!--                AAA-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
       <div class="row">
-        <div class="col=4">
+        <div class="col-4">
           <div ngbDropdown>
             <button class="btn btn-outline" id="dropdownSize" ngbDropdownToggle>{{ size === 'GTE' ? SEARCH_SIZE.GTE : size === 'LTE' ? SEARCH_SIZE.LTE : SEARCH_SIZE.EQUALS }}</button>
             <div ngbDropdownMenu aria-labelledby="dropdownSize">
@@ -65,23 +108,61 @@
             </div>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-4">
           <input
             class="form-control form-control-sm"
             type="text"
           />
+        </div>
+        <div class="col-4">
           <div ngbDropdown>
-            <button class="btn btn-outline" id="dropdownSizeUnit" ngbDropdownToggle>{{ size === 'GTE' ? SEARCH_SIZE.GTE : size === 'LTE' ? SEARCH_SIZE.LTE : SEARCH_SIZE.EQUALS }}</button>
+            <button class="btn btn-outline" id="dropdownSizeUnit" ngbDropdownToggle>{{ sizeUnit === 'MB' ? SEARCH_SIZE_UNIT.MB : sizeUnit === 'KB' ? SEARCH_SIZE_UNIT.KB : SEARCH_SIZE_UNIT.BYTES }}</button>
             <div ngbDropdownMenu aria-labelledby="dropdownSizeUnit">
-              <button ngbDropdownItem (click)="onChangeSize($event, 'GTE')">Greater than</button>
-              <button ngbDropdownItem (click)="onChangeSize($event, 'LTE')">Less than</button>
-              <button ngbDropdownItem (click)="onChangeSize($event, 'EQUALS')">Equal</button>
+              <button ngbDropdownItem (click)="onChangeSizeUnit($event, 'MB')">MB</button>
+              <button ngbDropdownItem (click)="onChangeSizeUnit($event, 'KB')">KB</button>
+              <button ngbDropdownItem (click)="onChangeSizeUnit($event, 'BYTES')">Bytes</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="row advanced-search-row">
+    <div class="col-3">
+      Folder
+    </div>
+    <div class="col-9">
+      <div ngbDropdown>
+        <button class="btn btn-outline" id="dropdownFolders" ngbDropdownToggle>{{ getValueFromFolderName }}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownSizeUnit">
+          <button *ngFor="let item of MailFolderTypeName | keyvalue" ngbDropdownItem (click)="onChangeFolder($event, item.key)">
+            {{ item.value }}
+          </button>
+          <div class="dropdown-divider"></div>
+          <button *ngFor="let folder of customFolders" ngbDropdownItem (click)="onChangeFolder($event, folder.name)">
+            {{ folder.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--      <div class="size-container">-->
+  <!--        <input-->
+  <!--          class="form-control form-control-sm"-->
+  <!--          type="text"-->
+  <!--        />-->
+  <!--        <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">-->
+  <!--          <div ngbDropdown class="size-dropdown-container">-->
+  <!--            <button role="button" id="size_dropdown_toggle" class="size-dropdown-toggle" ngbDropdownToggle>-->
+  <!--            </button>-->
+  <!--            <div ngbDropdownMenu aria-labelledby="size_dropdown_toggle">-->
+  <!--              <div class="size-dropdown-content">-->
+  <!--                AAA-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </div>-->
 <!--  <div class="row advanced-search-row">-->
 <!--    <div class="col-3">-->
 <!--      Start Date-->
@@ -92,5 +173,38 @@
 <!--      </div>-->
 <!--    </div>-->
 <!--  </div>-->
+  <div class="row advanced-search-row mt-2">
+    <div class="d-flex p-2 justify-content-around w-75">
+      <div>
+        <mat-checkbox
+          class="align-middle mr-2"
+          type="checkbox"
+          id="sameExactly"
+          name="sameExactly"
+          [(ngModel)]="sameExactly"
+        >
+        </mat-checkbox>
+        <label for="sameExactly" class="fancy-field-empty">Same exactly</label>
+      </div>
+      <div>
+        <mat-checkbox
+          class="align-middle mr-2"
+          type="checkbox"
+          id="hasAttachment"
+          name="hasAttachment"
+          [(ngModel)]="hasAttachment"
+        >
+        </mat-checkbox>
+        <label for="hasAttachment" class="fancy-field-empty">Has attachment</label>
+      </div>
+    </div>
 
+  </div>
+  <div class="row advanced-search-row mt-3">
+    <button
+      class="btn btn-secondary text-small mb-2"
+    >
+      Search
+    </button>
+  </div>
 </div>

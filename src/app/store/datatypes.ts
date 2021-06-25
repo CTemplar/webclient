@@ -580,6 +580,7 @@ export interface Contact {
   autocrypt_timestamp?: string;
   last_seen?: string;
   starred?: boolean;
+  display?: string;
 }
 
 export interface AppState {
