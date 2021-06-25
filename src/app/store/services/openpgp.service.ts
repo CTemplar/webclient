@@ -194,9 +194,11 @@ export class OpenPgpService {
       user_key: atob(userKey),
     });
   }
+
   getMailboxSignFlag(mailboxId: number) {
     return this.mailboxes.find(m => m.id === mailboxId)?.is_pgp_sign;
   }
+
   signContents(mailboxId: number, mailData: SecureContent, draftId: number) {
     const pubKeys = this.publicKeys[mailboxId].map((key: any) => key.public_key);
     this.pgpWorker.postMessage({
@@ -215,7 +217,7 @@ export class OpenPgpService {
     mailData: SecureContent,
     publicKeys: any[] = [],
     pgpEncryptionTypeForExternal: PGPEncryptionType = undefined,
-    shouldSign: boolean = false,
+    shouldSign = false,
   ) {
     this.store.dispatch(new UpdatePGPEncryptedContent({ isPGPInProgress: true, encryptedContent: {}, draftId }));
     const pubKeys =

@@ -58,7 +58,6 @@ import {
   UserState,
   BlackList,
   WhiteList,
-  SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
 } from '../../../store/datatypes';
 import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
 import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } from '../../../store/services';
@@ -2121,6 +2120,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailbox));
     }
   }
+
   onClickSignMessage(isEnabled: boolean) {
     if (this.selectedMailbox) {
       this.selectedMailbox.is_pgp_sign = isEnabled;

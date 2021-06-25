@@ -19,6 +19,7 @@ import {
   PublicKey,
   SecureContent,
   UserState,
+  SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
 } from '../datatypes';
 import { ClearDraft, CreateMail, SendMail, SnackPush, UploadAttachment } from '../actions';
 import { Attachment } from '../models';
@@ -27,7 +28,7 @@ import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
 import { AutocryptProcessService } from './autocrypt.process.service';
-import { SharedService } from './shared.service';
+import { getCryptoRandom, SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root',
@@ -80,6 +81,7 @@ export class ComposeMailService {
               this.setEncryptedContent(draftMail);
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
+              const signFlag = this.openPgpService.getMailboxSignFlag(draftMail.draft.mailbox);
               if (
                 (this.drafts[key].isPGPInProgress &&
                   !draftMail.isPGPInProgress &&
@@ -149,7 +151,6 @@ export class ComposeMailService {
                     for (const attachment of draftMail.attachments) {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                     }
-                    const signFlag = this.openPgpService.getMailboxSignFlag(draftMail.draft.mailbox)
                     this.openPgpService.encrypt(
                       draftMail.draft.mailbox,
                       draftMail.id,
@@ -185,7 +186,15 @@ export class ComposeMailService {
                     }
                   }
                 } else if (!draftMail.isSaving) {
-                  this.sendEmailWithDecryptedData(true, draftMail, publicKeys, encryptionTypeForExternal);
+                  if (signFlag) {
+                    this.openPgpService.signContents(
+                      draftMail.draft.mailbox,
+                      new SecureContent(draftMail.draft),
+                      draftMail.id,
+                    );
+                  } else {
+                    this.sendEmailWithDecryptedData(true, draftMail, publicKeys, encryptionTypeForExternal);
+                  }
                 } else {
                   this.store.dispatch(
                     new SnackPush({
@@ -193,7 +202,12 @@ export class ComposeMailService {
                     }),
                   );
                 }
-                // }
+              } else if (signFlag && draftMail.signContent) {
+                if (!draftMail.draft.attachments.some(a => a.name === SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME)) {
+                  this.processSignContents(draftMail);
+                } else {
+                  this.sendEmailWithDecryptedData(true, draftMail, [], undefined);
+                }
               }
             }
           }
@@ -372,6 +386,28 @@ export class ComposeMailService {
         publicKeys,
       );
     }
+  }
+
+  private processSignContents(draftMail: Draft) {
+    const { signContent, id, draft } = draftMail;
+    const newDocument = new File([signContent], SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME, {
+      type: '',
+    });
+    const attachmentToUpload: Attachment = {
+      draftId: id,
+      document: newDocument,
+      decryptedDocument: newDocument,
+      inProgress: false,
+      is_inline: false,
+      is_encrypted: false,
+      message: draft.id,
+      name: SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
+      size: newDocument.size.toString(),
+      actual_size: newDocument.size,
+      attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
+    };
+    draft.attachments.push(attachmentToUpload);
+    this.store.dispatch(new UploadAttachment({ ...attachmentToUpload }));
   }
 
   /**
