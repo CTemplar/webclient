@@ -566,7 +566,8 @@
     "attachments_encryption": "Attachments encryption",
     "referral_code": "Referral Code",
     "get_one_month_prime_membership": "Get one month of Prime membership free for every Prime sign up made using your referral code.",
-    "plain_text_hard_wrap": "Plain text hard wrap"
+    "plain_text_hard_wrap": "Plain text hard wrap",
+    "plain_text_hard_wrap_desc": "Email contents will be hard wrapped when you send plain text email."
   },
   "mail_sidebar": {
     "unread": "Unread",
