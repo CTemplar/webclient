@@ -384,7 +384,7 @@
       "enable_attachments_enc": "Note: If you enable attachments encryption, inline attachments won't be available anymore, all the attachments that you will send/receive will be treated as external attachments and all of them will be encrypted.",
       "read_more": "Read more",
       "local_cache": "Local Cache",
-      "attach_public_key": "Attach public key",
+      "attach_public_key": "Attach Public Key",
       "manage_mailbox": "Manage Mailbox",
       "attach_public_key_tooltip": "Attach public key automatically adds your public key to each message you send. Recipients can use this to verify the authenticity of your messages and send encrypted messages to you."
     },
