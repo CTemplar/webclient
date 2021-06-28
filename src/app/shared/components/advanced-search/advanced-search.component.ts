@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
-import { Folder } from '../../../store/models';
+import { Folder, MailFolderType } from '../../../store/models';
 import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { EmailFormatPipe } from '../../pipes/email-formatting.pipe';
 
@@ -12,7 +13,15 @@ import { EmailFormatPipe } from '../../pipes/email-formatting.pipe';
   templateUrl: './advanced-search.component.html',
   styleUrls: ['./advanced-search.component.scss'],
 })
-export class AdvancedSearchComponent implements OnInit {
+export class AdvancedSearchComponent implements OnInit, OnChanges {
+  @Input() searchInput = '';
+
+  @Output() close = new EventEmitter<string>();
+
+  query = '';
+
+  size = '';
+
   startDate = '';
 
   endDate = '';
@@ -23,7 +32,7 @@ export class AdvancedSearchComponent implements OnInit {
     EQUALS: 'Equal',
   };
 
-  size = 'GTE';
+  sizeOperator = 'GTE';
 
   SEARCH_SIZE_UNIT = {
     MB: 'MB',
@@ -50,9 +59,9 @@ export class AdvancedSearchComponent implements OnInit {
 
   customFolders: Folder[] = [];
 
-  fromSearch: string[] = [];
+  fromSearch: any[] = [];
 
-  toSearch: string[] = [];
+  toSearch: any[] = [];
 
   contacts: Contact[] = [];
 
@@ -70,7 +79,7 @@ export class AdvancedSearchComponent implements OnInit {
     return selectedCustomFolder ? selectedCustomFolder.name : '';
   }
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     /**
@@ -111,9 +120,13 @@ export class AdvancedSearchComponent implements OnInit {
       });
   }
 
+  ngOnChanges(): void {
+    this.query = this.searchInput;
+  }
+
   onChangeSize($event: any, size: string) {
     $event.preventDefault();
-    this.size = size;
+    this.sizeOperator = size;
   }
 
   onChangeSizeUnit($event: any, sizeUnit: string) {
@@ -126,15 +139,67 @@ export class AdvancedSearchComponent implements OnInit {
     this.folder = folder;
   }
 
-  onAddFromTo($event: any, isFrom: boolean) {
-    console.log('on add from', $event);
-  }
-
-  onRemoveFromTo(isFrom: boolean) {
-    console.log('on remove from');
-  }
-
-  handlePasteFromTo($event: any, isFrom: boolean) {
-    console.log('handle paste from to', $event);
+  search() {
+    let queryParameters = {};
+    if (this.query) {
+      queryParameters = { q: this.query };
+      if (this.sameExactly) {
+        queryParameters = {
+          ...queryParameters,
+          exact: true,
+        };
+      }
+    }
+    if (this.fromSearch?.length > 0) {
+      queryParameters = {
+        ...queryParameters,
+        sender: this.fromSearch.map(from => from.value).join(','),
+      };
+    }
+    if (this.toSearch?.length > 0) {
+      queryParameters = {
+        ...queryParameters,
+        receiver: this.toSearch.map(to => to.value).join(','),
+      };
+    }
+    if (this.size && Number.parseFloat(this.size)) {
+      let sizeByByte: number;
+      if (this.sizeUnit === this.SEARCH_SIZE_UNIT.MB) {
+        sizeByByte = Number.parseFloat(this.size) * 1_000_000;
+      } else if (this.sizeUnit === this.SEARCH_SIZE_UNIT.KB) {
+        sizeByByte = Number.parseFloat(this.size) * 1000;
+      } else {
+        sizeByByte = Number.parseFloat(this.size);
+      }
+      queryParameters = {
+        ...queryParameters,
+        size: sizeByByte,
+        size_operator: this.sizeOperator,
+      };
+    }
+    if (this.hasAttachment) {
+      queryParameters = {
+        ...queryParameters,
+        have_attachment: this.hasAttachment,
+      };
+    }
+    if (this.folder) {
+      const folderName = (<any>MailFolderType)[this.folder];
+      queryParameters = {
+        ...queryParameters,
+        folder: folderName,
+      };
+    }
+    if (queryParameters && queryParameters !== {}) {
+      this.router.navigate(['/mail/search/page', 1], { queryParams: { search: true, ...queryParameters } });
+      this.close.emit(this.query);
+    }
+    // if (this.searchInput.value) {
+    //   if (this.isContactsPage) {
+    //     this.router.navigate(['/mail/contacts'], { queryParams: { search: this.searchInput.value } });
+    //   } else {
+    //     this.router.navigate(['/mail/search/page', 1], { queryParams: { search: this.searchInput.value } });
+    //   }
+    // }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,6 +25,8 @@ export class MailHeaderComponent implements OnInit {
   @ViewChild('logoutModal') logoutModal: any;
 
   @ViewChild('advancedSearchModal') advancedSearchModal: any;
+
+  @ViewChild('advancedSearchElement') advancedSearchElement: any;
 
   private advancedSearchModalRef: NgbModalRef;
 
@@ -111,7 +113,7 @@ export class MailHeaderComponent implements OnInit {
       if (this.isContactsPage) {
         this.router.navigate(['/mail/contacts'], { queryParams: { search: this.searchInput.value } });
       } else {
-        this.router.navigate(['/mail/search/page', 1], { queryParams: { search: this.searchInput.value } });
+        this.router.navigate(['/mail/search/page', 1], { queryParams: { search: true, q: this.searchInput.value } });
       }
     }
   }
@@ -150,5 +152,12 @@ export class MailHeaderComponent implements OnInit {
       backdrop: false,
       windowClass: 'modal-md advanced-search-modal',
     });
+  }
+
+  closeAdvancedSearch(query: any) {
+    if (query) {
+      this.searchInput.setValue(query);
+    }
+    this.advancedSearchElement?.close();
   }
 }
