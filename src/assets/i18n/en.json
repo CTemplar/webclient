@@ -192,7 +192,8 @@
       "delete_key_confirm": "Yes, I am sure",
       "update_primary_key": "Update Primary Key",
       "update_primary_key_desc": "After changed the primary key, all of messages with this alias will be encrypted with this key. Primary key will always be placed in the top of the key list. Are you sure you want to continue?",
-      "make_as_primary": "Make as Primary"
+      "make_as_primary": "Make as Primary",
+      "select_mailbox_import_key_for": "Please select a mailbox that you want to import key for:"
     },
     "download_public_key": "Download public key",
     "download_private_key": "Download private key",
