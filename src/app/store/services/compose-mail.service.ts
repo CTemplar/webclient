@@ -69,8 +69,8 @@ export class ComposeMailService {
       .select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
         Object.keys(response.drafts).forEach((key: any) => {
-          const draftMail: Draft = response.drafts[key];
-          const { usersKeys } = response;
+          const { usersKeys, drafts } = response;
+          const draftMail: Draft = drafts[key];
           if (draftMail.draft) {
             if (
               draftMail.shouldSave &&
@@ -85,10 +85,12 @@ export class ComposeMailService {
               if (
                 (this.drafts[key].isPGPInProgress &&
                   !draftMail.isPGPInProgress &&
-                  !draftMail.isProcessingAttachments) ||
-                (this.drafts[key].isProcessingAttachments &&
                   !draftMail.isProcessingAttachments &&
-                  !draftMail.isPGPInProgress)
+                  !draftMail.signContent) ||
+                (this.drafts[key].isProcessingAttachments &&
+                  !draftMail.isPGPInProgress &&
+                  !draftMail.isProcessingAttachments &&
+                  !draftMail.signContent)
               ) {
                 // PGP Encryption has been finished, don't need to set encryption data, if it is PGP/MIME message
                 if (!draftMail.isPGPMimeMessage) {
@@ -147,7 +149,6 @@ export class ComposeMailService {
                 } else if (publicKeys.length > 0) {
                   if (this.sharedService.checkRecipients(usersKeys, draftMail?.draft?.receiver || [])) {
                     // If all recipients are in CTemplar, not need to check autocrypt and ...
-
                     for (const attachment of draftMail.attachments) {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                     }
@@ -204,8 +205,9 @@ export class ComposeMailService {
                 }
               } else if (signFlag && draftMail.signContent) {
                 if (!draftMail.draft.attachments.some(a => a.name === SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME)) {
-                  this.processSignContents(draftMail);
-                } else {
+                  const attachment = this.processSignContents(draftMail);
+                  draftMail.draft.attachments.push(attachment);
+                } else if (!draftMail.isProcessingAttachments) {
                   this.sendEmailWithDecryptedData(true, draftMail, [], undefined);
                 }
               }
@@ -406,8 +408,10 @@ export class ComposeMailService {
       actual_size: newDocument.size,
       attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
     };
-    draft.attachments.push(attachmentToUpload);
+
     this.store.dispatch(new UploadAttachment({ ...attachmentToUpload }));
+
+    return attachmentToUpload;
   }
 
   /**
