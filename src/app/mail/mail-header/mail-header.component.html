@@ -24,16 +24,28 @@
             <button class="btn btn-sm btn-secondary search-btn" (click)="search()" role="button">
               <i class="icon icon-search"></i>
             </button>
-<!--            <button class="btn btn-sm btn-secondary search-btn advanced-search-btn" (click)="openAdvancedSearchModal()" role="button">-->
-<!--              <i class="fas fa-angle-down"></i>-->
-<!--            </button>-->
+            <!--            <button class="btn btn-sm btn-secondary search-btn advanced-search-btn" (click)="openAdvancedSearchModal()" role="button">-->
+            <!--              <i class="fas fa-angle-down"></i>-->
+            <!--            </button>-->
             <div class="btn-dropdown btn-dropdown-lg btn-dropdown-select">
-              <div ngbDropdown #advancedSearchElement="ngbDropdown" autoClose="outside" class="advanced-search-btn-container">
-                <button role="button" id="dateDropdownMenuButton" ngbDropdownToggle class="search-btn advanced-search-btn">
-                </button>
+              <div
+                ngbDropdown
+                #advancedSearchElement="ngbDropdown"
+                autoClose="outside"
+                class="advanced-search-btn-container"
+              >
+                <button
+                  role="button"
+                  id="dateDropdownMenuButton"
+                  ngbDropdownToggle
+                  class="search-btn advanced-search-btn"
+                ></button>
                 <div ngbDropdownMenu aria-labelledby="dateDropdownMenuButton">
                   <div>
-                    <app-advanced-search (close)="closeAdvancedSearch($event)" [searchInput]="searchInput.value"></app-advanced-search>
+                    <app-advanced-search
+                      (close)="closeAdvancedSearch($event)"
+                      [searchInput]="searchInput.value"
+                    ></app-advanced-search>
                   </div>
                 </div>
               </div>
