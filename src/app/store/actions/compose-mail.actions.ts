@@ -91,6 +91,7 @@ export class UpdatePGPSshKeys implements Action {
 
 export class UpdateSignContent implements Action {
   readonly type = ComposeMailActionTypes.UPDATE_SIGN_CONTENT;
+
   constructor(public payload?: any) {}
 }
 

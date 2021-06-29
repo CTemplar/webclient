@@ -20,6 +20,7 @@ import {
   SecureContent,
   UserState,
   SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
+  SignContentType,
 } from '../datatypes';
 import { ClearDraft, CreateMail, SendMail, SnackPush, UploadAttachment } from '../actions';
 import { Attachment } from '../models';
@@ -99,6 +100,9 @@ export class ComposeMailService {
                 if (!draftMail.isSaving) {
                   if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                     draftMail.draft.encryption.password = '';
+                  }
+                  if (signFlag) {
+                    draftMail.draft.sign = SignContentType.BUILTIN;
                   }
                   this.store.dispatch(new SendMail({ ...draftMail }));
                 } else {

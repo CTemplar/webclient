@@ -57,6 +57,7 @@ export interface Mail {
   encryption_type?: PGPEncryptionType;
   reply_to_display?: Array<EmailDisplay>;
   email_display_name_map?: any;
+  sign?: string;
 }
 
 export class EncryptionNonCTemplar {

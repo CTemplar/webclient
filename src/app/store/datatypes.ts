@@ -837,6 +837,10 @@ export const PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME = 'encrypted.asc';
 export const PGP_MIME_DEFAULT_CONTENT = 'Version 1';
 export const SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME = 'signature.asc';
 
+export enum SignContentType {
+  BUILTIN = 'BUILTIN',
+}
+
 // eslint-disable-next-line no-shadow
 export enum ComposerEncryptionType {
   COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE = 'COMPOSER_ENCRYPTION_TYPE_PGP_MIME_INLINE',
