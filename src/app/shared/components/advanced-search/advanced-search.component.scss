@@ -1,9 +1,27 @@
 .advanced-search-container {
   padding: 30px 20px;
+  max-height: 700px;
+  overflow-y: auto;
+  height: 611px;
 
   .advanced-search-row {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .form-control {
+      height: 32px;
+      border-radius: 4px;
+    }
+
+    .advanced-search-date-picker {
+      margin: auto;
+    }
+
+    .date-toggle {
+      height: 32px;
+      color: #9e9e9e;
+      font-size: 14px;
+    }
 
     .size-container {
       position: relative;
@@ -24,6 +42,8 @@
       height: 32px;
       font-size: 12px;
       color: var(--body-color);
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
     }
 
     tag-input {
@@ -34,10 +54,7 @@
       background-image: none;
       background-clip: padding-box;
       border: 1px solid var(--input-border-color);
-
-      tag {
-
-      }
+      border-radius: 4px;
     }
   }
 }

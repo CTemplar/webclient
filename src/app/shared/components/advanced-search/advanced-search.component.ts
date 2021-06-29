@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { NgbCalendar, NgbDatepicker, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 import { Folder, MailFolderType } from '../../../store/models';
 import { AppState, Contact, ContactsState, UserState } from '../../../store/datatypes';
 import { EmailFormatPipe } from '../../pipes/email-formatting.pipe';
+import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 
 @UntilDestroy()
 @Component({
@@ -18,13 +20,21 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
 
   @Output() close = new EventEmitter<string>();
 
+  @ViewChild('startDateDatePicker') startDateDatePicker: NgbDatepicker;
+
+  @ViewChild('endDateDatePicker') endDateDatePicker: NgbDatepicker;
+
   query = '';
 
   size = '';
 
-  startDate = '';
+  startDate: NgbDateStruct;
 
-  endDate = '';
+  isShowStartDate = false;
+
+  endDate: NgbDateStruct;
+
+  isShowEndDate = false;
 
   SEARCH_SIZE = {
     GTE: 'Greater than',
@@ -55,7 +65,7 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
     OUTBOX: 'Outbox',
   };
 
-  folder = 'ALL_EMAILS';
+  folder = '';
 
   customFolders: Folder[] = [];
 
@@ -79,7 +89,13 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
     return selectedCustomFolder ? selectedCustomFolder.name : '';
   }
 
-  constructor(private store: Store<AppState>, private router: Router) {}
+  constructor(
+    private store: Store<AppState>,
+    private router: Router,
+    public dateTimeUtilService: DateTimeUtilService,
+    public calendar: NgbCalendar,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -190,6 +206,15 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
         folder: folderName,
       };
     }
+    if (this.startDate) {
+      const startDateString = this.dateTimeUtilService.createDateStrFromNgbDateStruct(this.startDate, 'YYYY-MM-DD');
+      if (startDateString) {
+        queryParameters = {
+          ...queryParameters,
+          start_date: startDateString,
+        };
+      }
+    }
     if (queryParameters && queryParameters !== {}) {
       this.router.navigate(['/mail/search/page', 1], { queryParams: { search: true, ...queryParameters } });
       this.close.emit(this.query);
@@ -201,5 +226,20 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
     //     this.router.navigate(['/mail/search/page', 1], { queryParams: { search: this.searchInput.value } });
     //   }
     // }
+  }
+
+  onClear() {
+    this.query = '';
+    this.folder = '';
+    this.startDate = null;
+    this.endDate = null;
+    this.size = '';
+    this.sizeUnit = 'MB';
+    this.sizeOperator = 'GTE';
+    this.sameExactly = false;
+    this.hasAttachment = false;
+    this.toSearch = [];
+    this.fromSearch = [];
+    this.cdr.detectChanges();
   }
 }

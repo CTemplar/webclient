@@ -14,6 +14,25 @@
   </div>
   <div class="row advanced-search-row">
     <div class="col-3">
+      Folder
+    </div>
+    <div class="col-9">
+      <div ngbDropdown>
+        <button class="btn btn-outline" id="dropdownFolders" ngbDropdownToggle>{{ getValueFromFolderName }}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownSizeUnit">
+          <button *ngFor="let item of MailFolderTypeName | keyvalue" ngbDropdownItem (click)="onChangeFolder($event, item.key)">
+            {{ item.value }}
+          </button>
+          <div class="dropdown-divider"></div>
+          <button *ngFor="let folder of customFolders" ngbDropdownItem (click)="onChangeFolder($event, folder.name)">
+            {{ folder.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row advanced-search-row">
+    <div class="col-3">
       From
     </div>
     <div class="col-9">
@@ -113,7 +132,7 @@
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12">
           <div ngbDropdown class="mt-1">
-            <button class="btn btn-outline" id="dropdownSizeUnit" ngbDropdownToggle (click)="$event.preventDefault(); $event.stopPropagation();">{{ sizeUnit === 'MB' ? SEARCH_SIZE_UNIT.MB : sizeUnit === 'KB' ? SEARCH_SIZE_UNIT.KB : SEARCH_SIZE_UNIT.BYTES }}</button>
+            <button class="btn btn-outline border-radius-dropdown-btn" id="dropdownSizeUnit" ngbDropdownToggle (click)="$event.preventDefault(); $event.stopPropagation();">{{ sizeUnit === 'MB' ? SEARCH_SIZE_UNIT.MB : sizeUnit === 'KB' ? SEARCH_SIZE_UNIT.KB : SEARCH_SIZE_UNIT.BYTES }}</button>
             <div ngbDropdownMenu aria-labelledby="dropdownSizeUnit">
               <button ngbDropdownItem (click)="onChangeSizeUnit($event, 'MB')">MB</button>
               <button ngbDropdownItem (click)="onChangeSizeUnit($event, 'KB')">KB</button>
@@ -126,50 +145,77 @@
   </div>
   <div class="row advanced-search-row">
     <div class="col-3">
-      Folder
+      Start Date
     </div>
     <div class="col-9">
-      <div ngbDropdown>
-        <button class="btn btn-outline" id="dropdownFolders" ngbDropdownToggle>{{ getValueFromFolderName }}</button>
-        <div ngbDropdownMenu aria-labelledby="dropdownSizeUnit">
-          <button *ngFor="let item of MailFolderTypeName | keyvalue" ngbDropdownItem (click)="onChangeFolder($event, item.key)">
-            {{ item.value }}
-          </button>
-          <div class="dropdown-divider"></div>
-          <button *ngFor="let folder of customFolders" ngbDropdownItem (click)="onChangeFolder($event, folder.name)">
-            {{ folder.name }}
-          </button>
+      <div class="position-relative">
+        <div class="input-group">
+          <input
+            [value]="this.startDate ? dateTimeUtilService.createDateStrFromNgbDateStruct(this.startDate, 'YYYY-MM-DD') : ''"
+            class="form-control form-control-sm mt-1 border-radius-right-0"
+            type="text"
+            placeholder="YYYY-MM-DD"
+            aria-describedby="startDateToggle"
+            [disabled]="true"
+          />
+          <span
+            class="input-group-addon date-toggle bg-white mt-1 cursor-pointer"
+            (click)="isShowStartDate=!isShowStartDate"
+            id="startDateToggle"
+          >
+            <i [class]="isShowStartDate ? 'fas fa-angle-up' : 'fas fa-angle-down'"></i>
+          </span>
         </div>
+      </div>
+      <div class="input-group mt-2">
+        <ngb-datepicker
+          #startDateDatePicker
+          [(ngModel)]="startDate"
+          *ngIf="isShowStartDate"
+          [maxDate]="endDate ? endDate : calendar.getToday()"
+          class="bg-white ng-datepicker ng-datepicker-265 advanced-search-date-picker"
+        >
+        </ngb-datepicker>
       </div>
     </div>
   </div>
-  <!--      <div class="size-container">-->
-  <!--        <input-->
-  <!--          class="form-control form-control-sm"-->
-  <!--          type="text"-->
-  <!--        />-->
-  <!--        <div class="btn-dropdown btn-dropdown-sm btn-dropdown-select">-->
-  <!--          <div ngbDropdown class="size-dropdown-container">-->
-  <!--            <button role="button" id="size_dropdown_toggle" class="size-dropdown-toggle" ngbDropdownToggle>-->
-  <!--            </button>-->
-  <!--            <div ngbDropdownMenu aria-labelledby="size_dropdown_toggle">-->
-  <!--              <div class="size-dropdown-content">-->
-  <!--                AAA-->
-  <!--              </div>-->
-  <!--            </div>-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--      </div>-->
-<!--  <div class="row advanced-search-row">-->
-<!--    <div class="col-3">-->
-<!--      Start Date-->
-<!--    </div>-->
-<!--    <div class="col-9">-->
-<!--      <div class="input-group">-->
-<!--        <input class="form-control" [(ngModel)]="startDate" ngbDatepicker #d="ngbDatepicker" datepickerClass="'ng-datepicker'" (focus)="d.toggle()">-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="row advanced-search-row">
+    <div class="col-3">
+      End Date
+    </div>
+    <div class="col-9">
+      <div>
+        <div class="input-group">
+          <input
+            [value]="this.endDate ? dateTimeUtilService.createDateStrFromNgbDateStruct(this.endDate, 'YYYY-MM-DD') : ''"
+            class="form-control form-control-sm mt-1 border-radius-right-0"
+            type="text"
+            placeholder="YYYY-MM-DD"
+            aria-describedby="endDateToggle"
+            [disabled]="true"
+          />
+          <span
+            class="input-group-addon date-toggle bg-white mt-1 cursor-pointer"
+            (click)="isShowEndDate=!isShowEndDate"
+            id="endDateToggle"
+          >
+            <i [class]="isShowEndDate ? 'fas fa-angle-up' : 'fas fa-angle-down'"></i>
+          </span>
+        </div>
+      </div>
+      <div class="input-group mt-2">
+        <ngb-datepicker
+          #endDateDatePicker
+          [(ngModel)]="endDate"
+          *ngIf="isShowEndDate"
+          [maxDate]="calendar.getToday()"
+          [minDate]="startDate ? startDate : null"
+          class="bg-white ng-datepicker ng-datepicker-265 advanced-search-date-picker"
+        >
+        </ngb-datepicker>
+      </div>
+    </div>
+  </div>
   <div class="row advanced-search-row mt-3">
     <div class="col-6">
         <mat-checkbox
@@ -196,7 +242,13 @@
         <label for="hasAttachment" class="fancy-field-empty">Has attachment</label>
     </div>
   </div>
-  <div class="d-flex flex-row-reverse mt-4">
+  <div class="d-flex justify-content-between mt-4">
+    <button
+      class="btn btn-outline text-small search-btn"
+      (click)="onClear()"
+    >
+      Clear Filter
+    </button>
     <button
       class="btn btn-secondary text-small search-btn"
       (click)="$event.preventDefault(); $event.stopPropagation(); search()"
