@@ -199,6 +199,14 @@ export class OpenPgpService {
     return this.mailboxes.find(m => m.id === mailboxId)?.is_pgp_sign;
   }
 
+  getMailboxPublicKey(mailboxId: number) {
+    return this.mailboxes.find(m => m.id === mailboxId)?.public_key;
+  }
+
+  getMailboxEmail(mailboxId: number) {
+    return this.mailboxes.find(m => m.id === mailboxId)?.email;
+  }
+
   signContents(mailboxId: number, mailData: SecureContent, draftId: number) {
     const pubKeys = this.publicKeys[mailboxId].map((key: any) => key.public_key);
     this.pgpWorker.postMessage({

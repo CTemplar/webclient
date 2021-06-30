@@ -1399,7 +1399,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Attach public key if needed
     const publicKeyFileName = `publickey-${this.selectedMailbox.email}.asc`;
-    if (this.selectedMailbox.is_attach_public_key && !this.attachments.some(a => a.name === publicKeyFileName)) {
+    if (
+      !this.selectedMailbox.is_pgp_sign &&
+      this.selectedMailbox.is_attach_public_key &&
+      !this.attachments.some(a => a.name === publicKeyFileName)
+    ) {
       const publicKeyFile = new File([this.selectedMailbox.public_key], publicKeyFileName);
       this.isProcessingAttachments = true;
       this.uploadAttachment(publicKeyFile, false);

@@ -396,26 +396,47 @@ export class ComposeMailService {
 
   private processSignContents(draftMail: Draft) {
     const { signContent, id, draft } = draftMail;
-    const newDocument = new File([signContent], SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME, {
+    const signFile = new File([signContent], SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME, {
       type: '',
     });
-    const attachmentToUpload: Attachment = {
+    const signAttachmentToUpload: Attachment = {
       draftId: id,
-      document: newDocument,
-      decryptedDocument: newDocument,
+      document: signFile,
+      decryptedDocument: signFile,
       inProgress: false,
       is_inline: false,
       is_encrypted: false,
       message: draft.id,
       name: SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
-      size: newDocument.size.toString(),
-      actual_size: newDocument.size,
+      size: signFile.size.toString(),
+      actual_size: signFile.size,
       attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
     };
 
-    this.store.dispatch(new UploadAttachment({ ...attachmentToUpload }));
+    const email = this.openPgpService.getMailboxEmail(draft.mailbox);
+    const publicKey = this.openPgpService.getMailboxPublicKey(draft.mailbox);
+    const publicKeyFileName = `publickey-${email}.asc`;
+    const publicKeyFile = new File([publicKey], publicKeyFileName, {
+      type: '',
+    });
+    const publicKeyAttachmentToUpload: Attachment = {
+      draftId: id,
+      document: publicKeyFile,
+      decryptedDocument: publicKeyFile,
+      inProgress: false,
+      is_inline: false,
+      is_encrypted: false,
+      message: draft.id,
+      name: publicKeyFileName,
+      size: publicKeyFile.size.toString(),
+      actual_size: publicKeyFile.size,
+      attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
+    };
 
-    return attachmentToUpload;
+    this.store.dispatch(new UploadAttachment({ ...signAttachmentToUpload }));
+    this.store.dispatch(new UploadAttachment({ ...publicKeyAttachmentToUpload }));
+
+    return signAttachmentToUpload;
   }
 
   /**
