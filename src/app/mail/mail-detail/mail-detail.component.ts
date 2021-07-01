@@ -1235,7 +1235,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   onSwitchHtmlPlainTextMode(mail: Mail) {
-    this.plainTextViewState[mail.id] = !this.plainTextViewState[mail.id];
+    if (this.plainTextViewState[mail.id]) {
+      this.plainTextViewState[mail.id] = !this.plainTextViewState[mail.id];
+    }
   }
 
   private getPreviousMail(index: number, isChildMail: boolean, mainReply = false, isForwarding = false) {

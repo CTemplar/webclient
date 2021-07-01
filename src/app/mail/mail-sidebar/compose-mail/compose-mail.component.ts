@@ -461,7 +461,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.draft = draft;
         this.usersKeys = response.usersKeys;
         this.analyzeUsersKeysWithContact();
-        const receivers = this.draftMail.receiver;
+        const receivers = this.draftMail?.receiver;
         if (receivers && receivers.length > 0) {
           const receiversToFetchKey = receivers
             .map(rec => (parseEmail.parseOneAddress(rec.toLowerCase()) as parseEmail.ParsedMailbox).address)
@@ -695,7 +695,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.mailData.content = content;
           this.updateSignature();
-          this.mailData.content = this.mailData.content.replace(/\n+$/, '');
         }, 300);
       }
     }
