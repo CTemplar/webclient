@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as Sentry from '@sentry/browser';
+import { query } from '@angular/animations';
 
 import { apiUrl } from '../../shared/config';
 import { MailboxKey } from '../datatypes';
-import { Attachment, Folder, Mail, Mailbox, Unsubscribe } from '../models';
+import { AdvancedSearchQueryParameters, Attachment, Folder, Mail, Mailbox, Unsubscribe } from '../models';
 import { MailFolderType } from '../models/mail.model';
 
 @Injectable({
@@ -21,10 +22,10 @@ export class MailService {
     folder: MailFolderType;
     read?: boolean;
     seconds?: number;
-    searchText?: string;
+    search?: boolean;
   }): Observable<any> {
     payload.limit = payload.limit ? payload.limit : 20;
-    if (payload.searchText && payload.folder === MailFolderType.SEARCH) {
+    if (payload.search) {
       return this.searchMessages(payload);
     }
     let url = `${apiUrl}emails/messages/?limit=${payload.limit}&offset=${payload.offset}`;
@@ -52,9 +53,61 @@ export class MailService {
     folder: MailFolderType;
     read?: boolean;
     seconds?: number;
-    searchText?: string;
+    searchData?: AdvancedSearchQueryParameters;
   }): Observable<any> {
-    const url = `${apiUrl}search/messages/?q=${payload.searchText}&limit=${payload.limit}&offset=${payload.offset}`;
+    const { searchData, limit, offset } = payload;
+    let url = '';
+    if (searchData) {
+      let queryParameters = '';
+      if (searchData.q) {
+        queryParameters = `q=${searchData.q}`;
+        if (searchData.exact) {
+          queryParameters = `${queryParameters}&exact=${searchData.exact}`;
+        }
+      }
+      if (searchData.sender) {
+        queryParameters = queryParameters
+          ? `${queryParameters}&sender=${searchData.sender}`
+          : `sender=${searchData.sender}`;
+      }
+      if (searchData.receiver) {
+        queryParameters = queryParameters
+          ? `${queryParameters}&receiver=${searchData.receiver}`
+          : `receiver=${searchData.receiver}`;
+      }
+      if (searchData.start_date) {
+        queryParameters = queryParameters
+          ? `${queryParameters}&start_date=${searchData.start_date}`
+          : `start_date=${searchData.start_date}`;
+      }
+      if (searchData.end_date) {
+        queryParameters = queryParameters
+          ? `${queryParameters}&end_date=${searchData.end_date}`
+          : `end_date=${searchData.end_date}`;
+      }
+      if (searchData.size !== undefined) {
+        queryParameters = queryParameters ? `${queryParameters}&size=${searchData.size}` : `size=${searchData.size}`;
+        if (searchData.size_operator) {
+          queryParameters = `${queryParameters}&size_operator=${searchData.size_operator}`;
+        }
+      }
+      if (searchData.have_attachment) {
+        queryParameters = queryParameters
+          ? `${queryParameters}&have_attachment=${searchData.have_attachment}`
+          : `have_attachment=${searchData.have_attachment}`;
+      }
+      if (searchData.folder) {
+        queryParameters = queryParameters
+          ? `${queryParameters}&folder=${searchData.folder}`
+          : `folder=${searchData.folder}`;
+      }
+      if (queryParameters) {
+        queryParameters = `${queryParameters}&`;
+      }
+      url = `${apiUrl}search/messages/?${queryParameters}limit=${limit}&offset=${offset}`;
+    } else {
+      url = `${apiUrl}search/messages/?q=''`;
+    }
     return this.http.get<Mail[]>(url);
   }
 

@@ -303,6 +303,8 @@ export class Settings {
   is_hard_wrap?: boolean;
 
   plain_text_font?: string;
+
+  universal_spam_filter?: string;
 }
 
 export interface Invoice {
@@ -578,6 +580,7 @@ export interface Contact {
   autocrypt_timestamp?: string;
   last_seen?: string;
   starred?: boolean;
+  display?: string;
 }
 
 export interface AppState {

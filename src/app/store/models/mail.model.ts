@@ -162,3 +162,16 @@ export interface Unsubscribe {
   mailbox_id: number;
   mailto: string;
 }
+
+export interface AdvancedSearchQueryParameters {
+  q?: string;
+  exact?: boolean;
+  folder?: string;
+  sender?: string;
+  receiver?: string;
+  have_attachment?: boolean;
+  start_date?: string;
+  end_date?: string;
+  size?: number;
+  size_operator?: string;
+}

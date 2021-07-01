@@ -223,31 +223,53 @@
   }
 
   .form-control {
-    padding-right: 3.438rem + 0.938rem;
+    padding-left: 3.438rem + 0.938rem;
     height: 32px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
     @include media('<ipad', '>sm') {
       margin-top: -1px;
-      padding: 0.875rem 3.438rem + 0.938rem 0.875rem 0.938rem;
+      padding: 0.875rem 0.938rem 0.875rem 3.438rem + 0.938rem;
     }
   }
 
   .search-btn {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     bottom: 0;
     padding-right: 0.938rem;
     padding-left: 0.938rem;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
     min-width: 55px;
+  }
+
+  .advanced-search-btn-container {
+    display: block;
+    position: static !important;
+    .advanced-search-btn {
+      left: auto;
+      right: 0;
+      width: 30px;
+      height: 32px;
+      min-width: 30px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      &::before {
+        right: 11px;
+      }
+    }
+    .dropdown-menu.show {
+      margin-top: 0;
+    }
   }
 
   .clear-btn {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 58px;
+    right: 30px;
     min-width: 40px;
     background: transparent;
     border: 0;
@@ -307,12 +329,21 @@
   }
 
   .search-btn {
+    position: absolute;
+    right: 0px;
+    top: 0;
+    left: auto;
+    height: 32px;
     padding: 0.5rem 0.625rem;
     border-color: #2c3e50;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
     min-width: 2rem;
     transition: none;
+  }
+
+  .clear-btn {
+    height: 32px;
   }
 }
 
