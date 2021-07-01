@@ -218,6 +218,17 @@ export class OpenPgpService {
     });
   }
 
+  signPGPInlineMessage(mailboxId: number, mailData: SecureContent, draftId: number) {
+    const pubKeys = this.publicKeys[mailboxId].map((key: any) => key.public_key);
+    this.pgpWorker.postMessage({
+      mailData,
+      signingPGPInline: true,
+      mailboxId,
+      callerId: draftId,
+      publicKeys: pubKeys,
+    });
+  }
+
   // Encrypt - Decrypt content
   encrypt(
     mailboxId: number,
@@ -854,6 +865,13 @@ export class OpenPgpService {
       } else if (event.data.encryptedPrivateKey) {
         this.handleObservable(event.data.subjectId, event.data);
       } else if (event.data.signing) {
+        this.store.dispatch(
+          new UpdateSignContent({
+            signContent: event.data.signContent,
+            draftId: event.data.callerId,
+          }),
+        );
+      } else if (event.data.signingPGPInline) {
         this.store.dispatch(
           new UpdateSignContent({
             signContent: event.data.signContent,

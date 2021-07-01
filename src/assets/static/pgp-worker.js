@@ -332,6 +332,10 @@ onmessage = async function (event) {
     signContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId], event.data.publicKeys).then(content => {
       postMessage({ ...event.data, signContent: content ?? '' });
     });
+  } else if (event.data.signingPGPInline) {
+    signPGPInlineMessage(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
+      postMessage({ ...event.data, signContent: content ?? '' });
+    });
   }
 };
 
@@ -519,6 +523,19 @@ async function signContent(contents, privateKeyObj, publicKeys) {
   }
 
   return detachedSignature;
+}
+
+async function signPGPInlineMessage(contents, privateKeyObj) {
+  if (!contents) {
+    return Promise.resolve(contents);
+  }
+  const message = openpgp.cleartext.fromText(contents);
+  const { data: signature } = await openpgp.sign({
+    message,
+    privateKeys: privateKeyObj.map(obj => obj.private_key),
+  });
+  
+  return signature;
 }
 
 async function encryptContent(data, publicKeys, shouldSign=false, privateKeyObj) {
