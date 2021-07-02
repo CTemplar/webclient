@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { LOADING_IMAGE } from '../../store/services';
+import { LOADING_IMAGE } from '../../../store/services';
 
 @Component({
   selector: 'app-loading',

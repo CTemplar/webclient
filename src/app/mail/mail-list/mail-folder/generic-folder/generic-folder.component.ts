@@ -26,7 +26,7 @@ import {
   StarMail,
 } from '../../../../store';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
-import { EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
+import { AdvancedSearchQueryParameters, EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
 import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
@@ -89,6 +89,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
   isEnabledToDecryptSubject = false;
 
   private searchText: string;
+
+  private advancedSearchQuery: AdvancedSearchQueryParameters = {};
 
   private mailState: MailState;
 
@@ -182,11 +184,20 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     if (this.mailFolder === MailFolderType.SEARCH) {
       this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(parameters => {
         if (parameters.search) {
-          this.searchText = parameters.search;
+          this.advancedSearchQuery.q = parameters.q;
+          this.advancedSearchQuery.folder = parameters.folder;
+          this.advancedSearchQuery.start_date = parameters.start_date;
+          this.advancedSearchQuery.end_date = parameters.end_date;
+          this.advancedSearchQuery.sender = parameters.sender;
+          this.advancedSearchQuery.receiver = parameters.receiver;
+          this.advancedSearchQuery.size = parameters.size;
+          this.advancedSearchQuery.size_operator = parameters.size_operator;
+          this.advancedSearchQuery.exact = parameters.exact;
           this.store.dispatch(
             new GetMails({
               forceReload: true,
-              searchText: this.searchText,
+              search: true,
+              searchData: this.advancedSearchQuery,
               limit: this.LIMIT,
               offset: this.OFFSET,
               folder: this.mailFolder,

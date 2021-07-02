@@ -13,6 +13,9 @@ protractor.conf.js
 patch-webpack.js
 electron-main.js
 
+# spec
+**/*.spec.ts
+
 # dependencies
 node-modules/
 
