@@ -212,10 +212,13 @@
                               Billing Cycle End
                             </div>
                             <div class="info-list-text info-list-val">
-                              <span>{{ isLifeTimePrime ? 'Never' : payment.billing_cycle_ends | momentDate: 'mediumDate' }}</span>
+                              <span>{{
+                                isLifeTimePrime ? 'Never' : (payment.billing_cycle_ends | momentDate: 'mediumDate')
+                              }}</span>
                               <a
                                 *ngIf="
-                                  !isLifeTimePrime && (!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin)
+                                  !isLifeTimePrime &&
+                                  (!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin)
                                 "
                                 [ngbTooltip]="'settings.extend_billing_cycle' | translate"
                                 class="float-right"
