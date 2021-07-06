@@ -92,10 +92,8 @@ export class SharedService {
       SharedService.PRICING_PLANS_ARRAY = [];
 
       for (const key of Object.keys(data)) {
-        if (key !== PlanType.PARAGON) {
-          data[key].name = key;
-          SharedService.PRICING_PLANS_ARRAY.push(data[key]);
-        }
+        data[key].name = key;
+        SharedService.PRICING_PLANS_ARRAY.push(data[key]);
       }
     });
   }
