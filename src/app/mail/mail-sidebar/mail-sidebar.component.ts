@@ -339,7 +339,11 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   showNotification(mail: Mail, folder: string) {
-    const title = mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+    let title = mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
+    if (mail.children?.length > 0) {
+      const lastMail = mail.children[mail.children.length - 1];
+      title = lastMail.sender_display_name ? lastMail.sender_display_name : lastMail.sender_display.name;
+    }
     const options = new PushNotificationOptions();
     options.body = 'You have received a new email';
     options.icon = 'https://mail.ctemplar.com/assets/images/media-kit/mediakit-logo4.png';
