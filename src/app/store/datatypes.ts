@@ -747,7 +747,6 @@ export enum PlanType {
   PRIME = 'PRIME',
   KNIGHT = 'KNIGHT',
   MARSHAL = 'MARSHALL',
-  PARAGON = 'PARAGON',
   CHAMPION = 'CHAMPION',
 }
 
