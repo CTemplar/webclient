@@ -300,103 +300,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   clonedContacts: any[] = [];
 
-  toolbarItems = [
-    'fontfamily',
-    'fontsize',
-    '|',
-    'bold',
-    'italic',
-    'underline',
-    '|',
-    'alignment',
-    '|',
-    'fontcolor',
-    'fontbackgroundcolor',
-    '-',
-    'bulletedlist',
-    'numberedlist',
-    '|',
-    'indent',
-    'outdent',
-    '|',
-    'removeformat',
-  ];
-
-  editorConfig = {
-    fontSize: {
-      options: [
-        {
-          title: 'Tiny',
-          model: '10px',
-        },
-        {
-          title: 'Small',
-          model: '12px',
-        },
-        'default',
-        {
-          title: 'Big',
-          model: '24px',
-        },
-        {
-          title: 'Huge',
-          model: '40px',
-        },
-      ],
-      supportAllValues: true,
-    },
-    toolbar: {
-      items: this.toolbarItems,
-      shouldNotGroupWhenFull: true,
-    },
-    extraPlugins: [
-      function ConvertQuoteAttribute(editor: any) {
-        // Allow <blockquote> elements in the model to have all attributes.
-        // eslint-disable-next-line consistent-return
-        editor.model.schema.addAttributeCheck((context: any) => {
-          if (context.endsWith('blockQuote')) {
-            return true;
-          }
-        });
-        // The view-to-model converter converting a view <blockquote> with all its attributes to the model.
-        editor.conversion.for('upcast').elementToElement({
-          view: 'blockquote',
-          model: (viewElement: any, { writer: modelWriter }: any) => {
-            return modelWriter.createElement('blockQuote', viewElement.getAttributes());
-          },
-        });
-
-        // The model-to-view converter for the <blockquote> element (attributes are converted separately).
-        editor.conversion.for('downcast').elementToElement({
-          model: 'blockQuote',
-          view: 'blockquote',
-        });
-
-        // The model-to-view converter for <blockquote> attributes.
-        // Note that a lower-level, event-based API is used here.
-        editor.conversion.for('downcast').add((dispatcher: any) => {
-          dispatcher.on('attribute', (event_: any, data: any, conversionApi: any) => {
-            // Convert <div> attributes only.
-            if (data.item.name !== 'blockQuote') {
-              return;
-            }
-            const viewWriter = conversionApi.writer;
-            const viewBlockQuote = conversionApi.mapper.toViewElement(data.item);
-
-            // In the model-to-view conversion we convert changes.
-            // An attribute can be added or removed or changed.
-            // The below code handles all 3 cases.
-            if (data.attributeNewValue) {
-              viewWriter.setAttribute(data.attributeKey, data.attributeNewValue, viewBlockQuote);
-            } else {
-              viewWriter.removeAttribute(data.attributeKey, viewBlockQuote);
-            }
-          });
-        });
-      },
-    ],
-  };
-
   // composerEditor: any;
 
   constructor(
@@ -461,7 +364,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.draft = draft;
         this.usersKeys = response.usersKeys;
         this.analyzeUsersKeysWithContact();
-        const receivers = this.draftMail.receiver;
+        const receivers = this.draftMail?.receiver;
         if (receivers && receivers.length > 0) {
           const receiversToFetchKey = receivers
             .map(rec => (parseEmail.parseOneAddress(rec.toLowerCase()) as parseEmail.ParsedMailbox).address)
@@ -695,7 +598,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         setTimeout(() => {
           this.mailData.content = content;
           this.updateSignature();
-          this.mailData.content = this.mailData.content.replace(/\n+$/, '');
         }, 300);
       }
     }
@@ -811,7 +713,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       });
       // TODO, should be double checked
-      return xssValue.replace(/\n/g, '<br>');
+      // return xssValue.replace(/\n/g, '<br>');
+      return xssValue;
     }
     return content;
   }

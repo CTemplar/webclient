@@ -18,12 +18,17 @@
     'Bulleted List': 'Bulleted List',
     'Bulleted list styles toolbar': 'Bulleted list styles toolbar',
     Cancel: 'Cancel',
+    'Centered image': 'Centered image',
     'Change image text alternative': 'Change image text alternative',
+    'Choose heading': 'Choose heading',
     Circle: 'Circle',
+    Column: 'Column',
     Decimal: 'Decimal',
     'Decimal with leading zero': 'Decimal with leading zero',
     'Decrease indent': 'Decrease indent',
     Default: 'Default',
+    'Delete column': 'Delete column',
+    'Delete row': 'Delete row',
     'Dim grey': 'Dim grey',
     Disc: 'Disc',
     'Document colors': 'Document colors',
@@ -37,17 +42,34 @@
     'Font Color': 'Font Color',
     'Font Family': 'Font Family',
     'Font Size': 'Font Size',
+    'Full size image': 'Full size image',
     Green: 'Green',
     Grey: 'Grey',
+    'Header column': 'Header column',
+    'Header row': 'Header row',
+    Heading: 'Heading',
+    'Heading 1': 'Heading 1',
+    'Heading 2': 'Heading 2',
+    'Heading 3': 'Heading 3',
+    'Heading 4': 'Heading 4',
+    'Heading 5': 'Heading 5',
+    'Heading 6': 'Heading 6',
     Huge: 'Huge',
     'Image resize list': 'Image resize list',
+    'Image toolbar': 'Image toolbar',
     'image widget': 'image widget',
     'Increase indent': 'Increase indent',
+    'Insert column left': 'Insert column left',
+    'Insert column right': 'Insert column right',
     'Insert image': 'Insert image',
     'Insert paragraph after block': 'Insert paragraph after block',
     'Insert paragraph before block': 'Insert paragraph before block',
+    'Insert row above': 'Insert row above',
+    'Insert row below': 'Insert row below',
+    'Insert table': 'Insert table',
     Italic: 'Italic',
     Justify: 'Justify',
+    'Left aligned image': 'Left aligned image',
     'Light blue': 'Light blue',
     'Light green': 'Light green',
     'Light grey': 'Light grey',
@@ -55,6 +77,11 @@
     'Link URL': 'Link URL',
     'Lower-latin': 'Lower-latin',
     'Lower–roman': 'Lower–roman',
+    'Merge cell down': 'Merge cell down',
+    'Merge cell left': 'Merge cell left',
+    'Merge cell right': 'Merge cell right',
+    'Merge cell up': 'Merge cell up',
+    'Merge cells': 'Merge cells',
     Next: 'Next',
     'Numbered List': 'Numbered List',
     'Numbered list styles toolbar': 'Numbered list styles toolbar',
@@ -62,6 +89,7 @@
     'Open link in new tab': 'Open link in new tab',
     Orange: 'Orange',
     Original: 'Original',
+    Paragraph: 'Paragraph',
     Previous: 'Previous',
     Purple: 'Purple',
     Red: 'Red',
@@ -73,10 +101,17 @@
     'Resize image to the original size': 'Resize image to the original size',
     'Rich Text Editor': 'Rich Text Editor',
     'Rich Text Editor, %0': 'Rich Text Editor, %0',
+    'Right aligned image': 'Right aligned image',
+    Row: 'Row',
     Save: 'Save',
     'Select all': 'Select all',
+    'Select column': 'Select column',
+    'Select row': 'Select row',
     'Show more items': 'Show more items',
+    'Side image': 'Side image',
     Small: 'Small',
+    'Split cell horizontally': 'Split cell horizontally',
+    'Split cell vertically': 'Split cell vertically',
     Square: 'Square',
     'Text alignment': 'Text alignment',
     'Text alignment toolbar': 'Text alignment toolbar',
@@ -166,7 +201,7 @@
           return Object.prototype.hasOwnProperty.call(t, e);
         }),
         (n.p = ''),
-        n((n.s = 57))
+        n((n.s = 63))
       );
     })([
       function (t, e, n) {
@@ -458,7 +493,7 @@
         'use strict';
         (function (t) {
           var o = n(5),
-            i = n(56),
+            i = n(62),
             r = 'object' == typeof exports && exports && !exports.nodeType && exports,
             s = r && 'object' == typeof t && t && !t.nodeType && t,
             a = s && s.exports === r ? o.a.Buffer : void 0,
@@ -486,18 +521,18 @@
         'use strict';
         (function (t) {
           var e = n(0);
-          const o = '27.1.0';
+          const o = '28.0.0';
           const i = 'object' == typeof window ? window : t;
           if (i.CKEDITOR_VERSION) throw new e.a('ckeditor-duplicated-modules', null);
           i.CKEDITOR_VERSION = o;
-        }.call(this, n(55)));
+        }.call(this, n(61)));
       },
       function (t, e, n) {
         'use strict';
         (function (t) {
           var n = 'object' == typeof t && t && t.Object === Object && t;
           e.a = n;
-        }.call(this, n(55)));
+        }.call(this, n(61)));
       },
       function (t, e, n) {
         'use strict';
@@ -1317,7 +1352,7 @@
           s = n.n(r)()(i.a);
         s.push([
           t.i,
-          ':root{--ck-color-resizer:var(--ck-color-focus-border);--ck-color-resizer-tooltip-background:#262626;--ck-color-resizer-tooltip-text:#f2f2f2;--ck-resizer-border-radius:var(--ck-border-radius);--ck-resizer-tooltip-offset:10px}.ck .ck-widget,.ck .ck-widget.ck-widget_with-selection-handle{position:relative}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{position:absolute}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon{display:block}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle{visibility:visible}.ck .ck-size-view{background:var(--ck-color-resizer-tooltip-background);color:var(--ck-color-resizer-tooltip-text);border:1px solid var(--ck-color-resizer-tooltip-text);border-radius:var(--ck-resizer-border-radius);font-size:var(--ck-font-size-tiny);display:block;padding:var(--ck-spacing-small)}.ck .ck-size-view.ck-orientation-bottom-left,.ck .ck-size-view.ck-orientation-bottom-right,.ck .ck-size-view.ck-orientation-top-left,.ck .ck-size-view.ck-orientation-top-right{position:absolute}.ck .ck-size-view.ck-orientation-top-left{top:var(--ck-resizer-tooltip-offset);left:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-top-right{top:var(--ck-resizer-tooltip-offset);right:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-bottom-right{bottom:var(--ck-resizer-tooltip-offset);right:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-bottom-left{bottom:var(--ck-resizer-tooltip-offset);left:var(--ck-resizer-tooltip-offset)}:root{--ck-widget-outline-thickness:3px;--ck-widget-handler-icon-size:16px;--ck-widget-handler-animation-duration:200ms;--ck-widget-handler-animation-curve:ease;--ck-color-widget-blurred-border:#dedede;--ck-color-widget-hover-border:#ffc83d;--ck-color-widget-editable-focus-background:var(--ck-color-base-background);--ck-color-widget-drag-handler-icon-color:var(--ck-color-base-background)}.ck .ck-widget{outline-width:var(--ck-widget-outline-thickness);outline-style:solid;outline-color:transparent;transition:outline-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve)}.ck .ck-widget.ck-widget_selected,.ck .ck-widget.ck-widget_selected:hover{outline:var(--ck-widget-outline-thickness) solid var(--ck-color-focus-border)}.ck .ck-widget:hover{outline-color:var(--ck-color-widget-hover-border)}.ck .ck-editor__nested-editable{border:1px solid transparent}.ck .ck-editor__nested-editable.ck-editor__nested-editable_focused,.ck .ck-editor__nested-editable:focus{outline:none;border:var(--ck-focus-ring);box-shadow:var(--ck-inner-shadow),0 0;background-color:var(--ck-color-widget-editable-focus-background)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{padding:4px;box-sizing:border-box;background-color:transparent;opacity:0;transition:background-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),visibility var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),opacity var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve);border-radius:var(--ck-border-radius) var(--ck-border-radius) 0 0;transform:translateY(-100%);left:calc(0px - var(--ck-widget-outline-thickness))}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon{width:var(--ck-widget-handler-icon-size);height:var(--ck-widget-handler-icon-size);color:var(--ck-color-widget-drag-handler-icon-color)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator{opacity:0;transition:opacity .3s var(--ck-widget-handler-animation-curve)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle:hover .ck-icon .ck-icon__selected-indicator{opacity:1}.ck .ck-widget.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle{opacity:1;background-color:var(--ck-color-widget-hover-border)}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle{opacity:1;background-color:var(--ck-color-focus-border)}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator,.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator{opacity:1}.ck[dir=rtl] .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{left:auto;right:calc(0px - var(--ck-widget-outline-thickness))}.ck.ck-editor__editable.ck-read-only .ck-widget{transition:none}.ck.ck-editor__editable.ck-read-only .ck-widget:not(.ck-widget_selected){--ck-widget-outline-thickness:0px}.ck.ck-editor__editable.ck-read-only .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle,.ck.ck-editor__editable.ck-read-only .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle:hover{background:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover{outline-color:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle:hover,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle>.ck-widget__selection-handle,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle>.ck-widget__selection-handle:hover{background:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable>.ck-widget.ck-widget_with-selection-handle:first-child,.ck.ck-editor__editable blockquote>.ck-widget.ck-widget_with-selection-handle:first-child{margin-top:calc(1em + var(--ck-widget-handler-icon-size))}',
+          ':root{--ck-color-resizer:var(--ck-color-focus-border);--ck-color-resizer-tooltip-background:#262626;--ck-color-resizer-tooltip-text:#f2f2f2;--ck-resizer-border-radius:var(--ck-border-radius);--ck-resizer-tooltip-offset:10px}.ck .ck-widget,.ck .ck-widget.ck-widget_with-selection-handle{position:relative}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{position:absolute}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon{display:block}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle{visibility:visible}.ck .ck-size-view{background:var(--ck-color-resizer-tooltip-background);color:var(--ck-color-resizer-tooltip-text);border:1px solid var(--ck-color-resizer-tooltip-text);border-radius:var(--ck-resizer-border-radius);font-size:var(--ck-font-size-tiny);display:block;padding:var(--ck-spacing-small)}.ck .ck-size-view.ck-orientation-bottom-left,.ck .ck-size-view.ck-orientation-bottom-right,.ck .ck-size-view.ck-orientation-top-left,.ck .ck-size-view.ck-orientation-top-right{position:absolute}.ck .ck-size-view.ck-orientation-top-left{top:var(--ck-resizer-tooltip-offset);left:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-top-right{top:var(--ck-resizer-tooltip-offset);right:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-bottom-right{bottom:var(--ck-resizer-tooltip-offset);right:var(--ck-resizer-tooltip-offset)}.ck .ck-size-view.ck-orientation-bottom-left{bottom:var(--ck-resizer-tooltip-offset);left:var(--ck-resizer-tooltip-offset)}:root{--ck-widget-outline-thickness:3px;--ck-widget-handler-icon-size:16px;--ck-widget-handler-animation-duration:200ms;--ck-widget-handler-animation-curve:ease;--ck-color-widget-blurred-border:#dedede;--ck-color-widget-hover-border:#ffc83d;--ck-color-widget-editable-focus-background:var(--ck-color-base-background);--ck-color-widget-drag-handler-icon-color:var(--ck-color-base-background)}.ck .ck-widget{outline-width:var(--ck-widget-outline-thickness);outline-style:solid;outline-color:transparent;transition:outline-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve)}.ck .ck-widget.ck-widget_selected,.ck .ck-widget.ck-widget_selected:hover{outline:var(--ck-widget-outline-thickness) solid var(--ck-color-focus-border)}.ck .ck-widget:hover{outline-color:var(--ck-color-widget-hover-border)}.ck .ck-editor__nested-editable{border:1px solid transparent}.ck .ck-editor__nested-editable.ck-editor__nested-editable_focused,.ck .ck-editor__nested-editable:focus{outline:none;border:var(--ck-focus-ring);box-shadow:var(--ck-inner-shadow),0 0;background-color:var(--ck-color-widget-editable-focus-background)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{padding:4px;box-sizing:border-box;background-color:transparent;opacity:0;transition:background-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),visibility var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),opacity var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve);border-radius:var(--ck-border-radius) var(--ck-border-radius) 0 0;transform:translateY(-100%);left:calc(0px - var(--ck-widget-outline-thickness));top:0}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon{width:var(--ck-widget-handler-icon-size);height:var(--ck-widget-handler-icon-size);color:var(--ck-color-widget-drag-handler-icon-color)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator{opacity:0;transition:opacity .3s var(--ck-widget-handler-animation-curve)}.ck .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle:hover .ck-icon .ck-icon__selected-indicator{opacity:1}.ck .ck-widget.ck-widget_with-selection-handle:hover>.ck-widget__selection-handle{opacity:1;background-color:var(--ck-color-widget-hover-border)}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle,.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle{opacity:1;background-color:var(--ck-color-focus-border)}.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected:hover>.ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator,.ck .ck-widget.ck-widget_with-selection-handle.ck-widget_selected>.ck-widget__selection-handle .ck-icon .ck-icon__selected-indicator{opacity:1}.ck[dir=rtl] .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle{left:auto;right:calc(0px - var(--ck-widget-outline-thickness))}.ck.ck-editor__editable.ck-read-only .ck-widget{transition:none}.ck.ck-editor__editable.ck-read-only .ck-widget:not(.ck-widget_selected){--ck-widget-outline-thickness:0px}.ck.ck-editor__editable.ck-read-only .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle,.ck.ck-editor__editable.ck-read-only .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle:hover{background:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover{outline-color:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected.ck-widget_with-selection-handle>.ck-widget__selection-handle:hover,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle>.ck-widget__selection-handle,.ck.ck-editor__editable.ck-blurred .ck-widget.ck-widget_selected:hover.ck-widget_with-selection-handle>.ck-widget__selection-handle:hover{background:var(--ck-color-widget-blurred-border)}.ck.ck-editor__editable>.ck-widget.ck-widget_with-selection-handle:first-child,.ck.ck-editor__editable blockquote>.ck-widget.ck-widget_with-selection-handle:first-child{margin-top:calc(1em + var(--ck-widget-handler-icon-size))}',
           '',
           {
             version: 3,
@@ -1329,10 +1364,10 @@
             ],
             names: [],
             mappings:
-              'AAKA,MACC,+CAAgD,CAChD,6CAAsD,CACtD,uCAAgD,CAEhD,kDAAmD,CACnD,gCACD,CAOA,8DAEC,iBAqBD,CAnBC,4EACC,iBAOD,CALC,qFAGC,aACD,CASD,iLACC,kBACD,CAGD,kBACC,qDAAsD,CACtD,0CAA2C,CAC3C,qDAAsD,CACtD,6CAA8C,CAC9C,kCAAmC,CACnC,aAAc,CACd,+BA4BD,CA1BC,gLAIC,iBACD,CAEA,0CACC,oCAAqC,CACrC,qCACD,CAEA,2CACC,oCAAqC,CACrC,sCACD,CAEA,8CACC,uCAAwC,CACxC,sCACD,CAEA,6CACC,uCAAwC,CACxC,qCACD,CCtED,MACC,iCAAkC,CAClC,kCAAmC,CACnC,4CAA6C,CAC7C,wCAAyC,CAEzC,wCAAiD,CACjD,sCAAkD,CAClD,2EAA4E,CAC5E,yEACD,CAEA,eACC,gDAAiD,CACjD,mBAAoB,CACpB,yBAA0B,CAC1B,6GAUD,CARC,0EAEC,6EACD,CAEA,qBACC,iDACD,CAGD,gCACC,4BAWD,CAPC,yGC/BA,YAAa,CACb,2BAA2B,CCF3B,qCAA8B,CFqC7B,iEACD,CAIA,4EACC,WAAY,CACZ,qBAAsB,CAGtB,4BAA6B,CAC7B,SAAU,CAMV,6SAG6F,CAG7F,iEAAkE,CAGlE,2BAA4B,CAC5B,mDAqBD,CAnBC,qFAEC,wCAAyC,CACzC,yCAA0C,CAC1C,oDASD,CANC,kHACC,SAAU,CAGV,+DACD,CAID,wHACC,SACD,CAID,kFACC,SAAU,CACV,oDACD,CAKC,oMACC,SAAU,CACV,6CAMD,CAHC,gRACC,SACD,CAOH,qFACC,SAAU,CACV,oDACD,CAGA,gDAEC,eAkBD,CAhBC,yEAOC,iCACD,CAGC,gOAEC,gDACD,CAOD,wIAEC,mDAQD,CALE,ghBAEC,gDACD,CAKH,yKAOC,yDACD',
+              'AAKA,MACC,+CAAgD,CAChD,6CAAsD,CACtD,uCAAgD,CAEhD,kDAAmD,CACnD,gCACD,CAOA,8DAEC,iBAqBD,CAnBC,4EACC,iBAOD,CALC,qFAGC,aACD,CASD,iLACC,kBACD,CAGD,kBACC,qDAAsD,CACtD,0CAA2C,CAC3C,qDAAsD,CACtD,6CAA8C,CAC9C,kCAAmC,CACnC,aAAc,CACd,+BA4BD,CA1BC,gLAIC,iBACD,CAEA,0CACC,oCAAqC,CACrC,qCACD,CAEA,2CACC,oCAAqC,CACrC,sCACD,CAEA,8CACC,uCAAwC,CACxC,sCACD,CAEA,6CACC,uCAAwC,CACxC,qCACD,CCtED,MACC,iCAAkC,CAClC,kCAAmC,CACnC,4CAA6C,CAC7C,wCAAyC,CAEzC,wCAAiD,CACjD,sCAAkD,CAClD,2EAA4E,CAC5E,yEACD,CAEA,eACC,gDAAiD,CACjD,mBAAoB,CACpB,yBAA0B,CAC1B,6GAUD,CARC,0EAEC,6EACD,CAEA,qBACC,iDACD,CAGD,gCACC,4BAWD,CAPC,yGC/BA,YAAa,CACb,2BAA2B,CCF3B,qCAA8B,CFqC7B,iEACD,CAIA,4EACC,WAAY,CACZ,qBAAsB,CAGtB,4BAA6B,CAC7B,SAAU,CAMV,6SAG6F,CAG7F,iEAAkE,CAGlE,2BAA4B,CAC5B,mDAAoD,CACpD,KAqBD,CAnBC,qFAEC,wCAAyC,CACzC,yCAA0C,CAC1C,oDASD,CANC,kHACC,SAAU,CAGV,+DACD,CAID,wHACC,SACD,CAID,kFACC,SAAU,CACV,oDACD,CAKC,oMACC,SAAU,CACV,6CAMD,CAHC,gRACC,SACD,CAOH,qFACC,SAAU,CACV,oDACD,CAGA,gDAEC,eAkBD,CAhBC,yEAOC,iCACD,CAGC,gOAEC,gDACD,CAOD,wIAEC,mDAQD,CALE,ghBAEC,gDACD,CAKH,yKAOC,yDACD',
             sourcesContent: [
               '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-color-resizer: var(--ck-color-focus-border);\n\t--ck-color-resizer-tooltip-background: hsl(0, 0%, 15%);\n\t--ck-color-resizer-tooltip-text: hsl(0, 0%, 95%);\n\n\t--ck-resizer-border-radius: var(--ck-border-radius);\n\t--ck-resizer-tooltip-offset: 10px;\n}\n\n.ck .ck-widget {\n\t/* This is neccessary for type around UI to be positioned properly. */\n\tposition: relative;\n}\n\n.ck .ck-widget.ck-widget_with-selection-handle {\n\t/* Make the widget wrapper a relative positioning container for the drag handle. */\n\tposition: relative;\n\n\t& .ck-widget__selection-handle {\n\t\tposition: absolute;\n\n\t\t& .ck-icon {\n\t\t\t/* Make sure the icon in not a subject to font-size or line-height to avoid\n\t\t\tunnecessary spacing around it. */\n\t\t\tdisplay: block;\n\t\t}\n\t}\n\n\t/* Show the selection handle on mouse hover over the widget, but not for nested widgets. */\n\t&:hover > .ck-widget__selection-handle {\n\t\tvisibility: visible;\n\t}\n\n\t/* Show the selection handle when the widget is selected, but not for nested widgets. */\n\t&.ck-widget_selected > .ck-widget__selection-handle {\n\t\tvisibility: visible;\n\t}\n}\n\n.ck .ck-size-view {\n\tbackground: var(--ck-color-resizer-tooltip-background);\n\tcolor: var(--ck-color-resizer-tooltip-text);\n\tborder: 1px solid var(--ck-color-resizer-tooltip-text);\n\tborder-radius: var(--ck-resizer-border-radius);\n\tfont-size: var(--ck-font-size-tiny);\n\tdisplay: block;\n\tpadding: var(--ck-spacing-small);\n\n\t&.ck-orientation-top-left,\n\t&.ck-orientation-top-right,\n\t&.ck-orientation-bottom-right,\n\t&.ck-orientation-bottom-left {\n\t\tposition: absolute;\n\t}\n\n\t&.ck-orientation-top-left {\n\t\ttop: var(--ck-resizer-tooltip-offset);\n\t\tleft: var(--ck-resizer-tooltip-offset);\n\t}\n\n\t&.ck-orientation-top-right {\n\t\ttop: var(--ck-resizer-tooltip-offset);\n\t\tright: var(--ck-resizer-tooltip-offset);\n\t}\n\n\t&.ck-orientation-bottom-right {\n\t\tbottom: var(--ck-resizer-tooltip-offset);\n\t\tright: var(--ck-resizer-tooltip-offset);\n\t}\n\n\t&.ck-orientation-bottom-left {\n\t\tbottom: var(--ck-resizer-tooltip-offset);\n\t\tleft: var(--ck-resizer-tooltip-offset);\n\t}\n}\n',
-              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n@import "../mixins/_focus.css";\n@import "../mixins/_shadow.css";\n\n:root {\n\t--ck-widget-outline-thickness: 3px;\n\t--ck-widget-handler-icon-size: 16px;\n\t--ck-widget-handler-animation-duration: 200ms;\n\t--ck-widget-handler-animation-curve: ease;\n\n\t--ck-color-widget-blurred-border: hsl(0, 0%, 87%);\n\t--ck-color-widget-hover-border: hsl(43, 100%, 62%);\n\t--ck-color-widget-editable-focus-background: var(--ck-color-base-background);\n\t--ck-color-widget-drag-handler-icon-color: var(--ck-color-base-background);\n}\n\n.ck .ck-widget {\n\toutline-width: var(--ck-widget-outline-thickness);\n\toutline-style: solid;\n\toutline-color: transparent;\n\ttransition: outline-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve);\n\n\t&.ck-widget_selected,\n\t&.ck-widget_selected:hover {\n\t\toutline: var(--ck-widget-outline-thickness) solid var(--ck-color-focus-border);\n\t}\n\n\t&:hover {\n\t\toutline-color: var(--ck-color-widget-hover-border);\n\t}\n}\n\n.ck .ck-editor__nested-editable {\n\tborder: 1px solid transparent;\n\n\t/* The :focus style is applied before .ck-editor__nested-editable_focused class is rendered in the view.\n\tThese styles show a different border for a blink of an eye, so `:focus` need to have same styles applied. */\n\t&.ck-editor__nested-editable_focused,\n\t&:focus {\n\t\t@mixin ck-focus-ring;\n\t\t@mixin ck-box-shadow var(--ck-inner-shadow);\n\n\t\tbackground-color: var(--ck-color-widget-editable-focus-background);\n\t}\n}\n\n.ck .ck-widget.ck-widget_with-selection-handle {\n\t& .ck-widget__selection-handle {\n\t\tpadding: 4px;\n\t\tbox-sizing: border-box;\n\n\t\t/* Background and opacity will be animated as the handler shows up or the widget gets selected. */\n\t\tbackground-color: transparent;\n\t\topacity: 0;\n\n\t\t/* Transition:\n\t\t   * background-color for the .ck-widget_selected state change,\n\t\t   * visibility for hiding the handler,\n\t\t   * opacity for the proper look of the icon when the handler disappears. */\n\t\ttransition:\n\t\t\tbackground-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),\n\t\t\tvisibility var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),\n\t\t\topacity var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve);\n\n\t\t/* Make only top corners round. */\n\t\tborder-radius: var(--ck-border-radius) var(--ck-border-radius) 0 0;\n\n\t\t/* Place the drag handler outside the widget wrapper. */\n\t\ttransform: translateY(-100%);\n\t\tleft: calc(0px - var(--ck-widget-outline-thickness));\n\n\t\t& .ck-icon {\n\t\t\t/* Make sure the dimensions of the icon are independent of the fon-size of the content. */\n\t\t\twidth: var(--ck-widget-handler-icon-size);\n\t\t\theight: var(--ck-widget-handler-icon-size);\n\t\t\tcolor: var(--ck-color-widget-drag-handler-icon-color);\n\n\t\t\t/* The "selected" part of the icon is invisible by default */\n\t\t\t& .ck-icon__selected-indicator {\n\t\t\t\topacity: 0;\n\n\t\t\t\t/* Note: The animation is longer on purpose. Simply feels better. */\n\t\t\t\ttransition: opacity 300ms var(--ck-widget-handler-animation-curve);\n\t\t\t}\n\t\t}\n\n\t\t/* Advertise using the look of the icon that once clicked the handler, the widget will be selected. */\n\t\t&:hover .ck-icon .ck-icon__selected-indicator {\n\t\t\topacity: 1;\n\t\t}\n\t}\n\n\t/* Show the selection handler on mouse hover over the widget, but not for nested widgets. */\n\t&:hover > .ck-widget__selection-handle {\n\t\topacity: 1;\n\t\tbackground-color: var(--ck-color-widget-hover-border);\n\t}\n\n\t/* Show the selection handler when the widget is selected, but not for nested widgets. */\n\t&.ck-widget_selected,\n\t&.ck-widget_selected:hover {\n\t\t& > .ck-widget__selection-handle {\n\t\t\topacity: 1;\n\t\t\tbackground-color: var(--ck-color-focus-border);\n\n\t\t\t/* When the widget is selected, notify the user using the proper look of the icon. */\n\t\t\t& .ck-icon .ck-icon__selected-indicator {\n\t\t\t\topacity: 1;\n\t\t\t}\n\t\t}\n\t}\n}\n\n/* In a RTL environment, align the selection handler to the right side of the widget */\n/* stylelint-disable-next-line no-descending-specificity */\n.ck[dir="rtl"] .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle {\n\tleft: auto;\n\tright: calc(0px - var(--ck-widget-outline-thickness));\n}\n\n/* https://github.com/ckeditor/ckeditor5/issues/6415 */\n.ck.ck-editor__editable.ck-read-only .ck-widget {\n\t/* Prevent the :hover outline from showing up because of the used outline-color transition. */\n\ttransition: none;\n\n\t&:not(.ck-widget_selected) {\n\t\t/* Disable visual effects of hover/active widget when CKEditor is in readOnly mode.\n\t\t * See: https://github.com/ckeditor/ckeditor5/issues/1261\n\t\t *\n\t\t * Leave the unit because this custom property is used in calc() by other features.\n\t\t * See: https://github.com/ckeditor/ckeditor5/issues/6775\n\t\t */\n\t\t--ck-widget-outline-thickness: 0px;\n\t}\n\n\t&.ck-widget_with-selection-handle {\n\t\t& .ck-widget__selection-handle,\n\t\t& .ck-widget__selection-handle:hover {\n\t\t\tbackground: var(--ck-color-widget-blurred-border);\n\t\t}\n\t}\n}\n\n/* Style the widget when it\'s selected but the editable it belongs to lost focus. */\n/* stylelint-disable-next-line no-descending-specificity */\n.ck.ck-editor__editable.ck-blurred .ck-widget {\n\t&.ck-widget_selected,\n\t&.ck-widget_selected:hover {\n\t\toutline-color: var(--ck-color-widget-blurred-border);\n\n\t\t&.ck-widget_with-selection-handle {\n\t\t\t& > .ck-widget__selection-handle,\n\t\t\t& > .ck-widget__selection-handle:hover {\n\t\t\t\tbackground: var(--ck-color-widget-blurred-border);\n\t\t\t}\n\t\t}\n\t}\n}\n\n.ck.ck-editor__editable > .ck-widget.ck-widget_with-selection-handle:first-child,\n.ck.ck-editor__editable blockquote > .ck-widget.ck-widget_with-selection-handle:first-child {\n\t/* Do not crop selection handler if a widget is a first-child in the blockquote or in the root editable.\n\tIn fact, anything with overflow: hidden.\n\thttps://github.com/ckeditor/ckeditor5-block-quote/issues/28\n\thttps://github.com/ckeditor/ckeditor5-widget/issues/44\n\thttps://github.com/ckeditor/ckeditor5-widget/issues/66 */\n\tmargin-top: calc(1em + var(--ck-widget-handler-icon-size));\n}\n',
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n@import "../mixins/_focus.css";\n@import "../mixins/_shadow.css";\n\n:root {\n\t--ck-widget-outline-thickness: 3px;\n\t--ck-widget-handler-icon-size: 16px;\n\t--ck-widget-handler-animation-duration: 200ms;\n\t--ck-widget-handler-animation-curve: ease;\n\n\t--ck-color-widget-blurred-border: hsl(0, 0%, 87%);\n\t--ck-color-widget-hover-border: hsl(43, 100%, 62%);\n\t--ck-color-widget-editable-focus-background: var(--ck-color-base-background);\n\t--ck-color-widget-drag-handler-icon-color: var(--ck-color-base-background);\n}\n\n.ck .ck-widget {\n\toutline-width: var(--ck-widget-outline-thickness);\n\toutline-style: solid;\n\toutline-color: transparent;\n\ttransition: outline-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve);\n\n\t&.ck-widget_selected,\n\t&.ck-widget_selected:hover {\n\t\toutline: var(--ck-widget-outline-thickness) solid var(--ck-color-focus-border);\n\t}\n\n\t&:hover {\n\t\toutline-color: var(--ck-color-widget-hover-border);\n\t}\n}\n\n.ck .ck-editor__nested-editable {\n\tborder: 1px solid transparent;\n\n\t/* The :focus style is applied before .ck-editor__nested-editable_focused class is rendered in the view.\n\tThese styles show a different border for a blink of an eye, so `:focus` need to have same styles applied. */\n\t&.ck-editor__nested-editable_focused,\n\t&:focus {\n\t\t@mixin ck-focus-ring;\n\t\t@mixin ck-box-shadow var(--ck-inner-shadow);\n\n\t\tbackground-color: var(--ck-color-widget-editable-focus-background);\n\t}\n}\n\n.ck .ck-widget.ck-widget_with-selection-handle {\n\t& .ck-widget__selection-handle {\n\t\tpadding: 4px;\n\t\tbox-sizing: border-box;\n\n\t\t/* Background and opacity will be animated as the handler shows up or the widget gets selected. */\n\t\tbackground-color: transparent;\n\t\topacity: 0;\n\n\t\t/* Transition:\n\t\t   * background-color for the .ck-widget_selected state change,\n\t\t   * visibility for hiding the handler,\n\t\t   * opacity for the proper look of the icon when the handler disappears. */\n\t\ttransition:\n\t\t\tbackground-color var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),\n\t\t\tvisibility var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve),\n\t\t\topacity var(--ck-widget-handler-animation-duration) var(--ck-widget-handler-animation-curve);\n\n\t\t/* Make only top corners round. */\n\t\tborder-radius: var(--ck-border-radius) var(--ck-border-radius) 0 0;\n\n\t\t/* Place the drag handler outside the widget wrapper. */\n\t\ttransform: translateY(-100%);\n\t\tleft: calc(0px - var(--ck-widget-outline-thickness));\n\t\ttop: 0;\n\n\t\t& .ck-icon {\n\t\t\t/* Make sure the dimensions of the icon are independent of the fon-size of the content. */\n\t\t\twidth: var(--ck-widget-handler-icon-size);\n\t\t\theight: var(--ck-widget-handler-icon-size);\n\t\t\tcolor: var(--ck-color-widget-drag-handler-icon-color);\n\n\t\t\t/* The "selected" part of the icon is invisible by default */\n\t\t\t& .ck-icon__selected-indicator {\n\t\t\t\topacity: 0;\n\n\t\t\t\t/* Note: The animation is longer on purpose. Simply feels better. */\n\t\t\t\ttransition: opacity 300ms var(--ck-widget-handler-animation-curve);\n\t\t\t}\n\t\t}\n\n\t\t/* Advertise using the look of the icon that once clicked the handler, the widget will be selected. */\n\t\t&:hover .ck-icon .ck-icon__selected-indicator {\n\t\t\topacity: 1;\n\t\t}\n\t}\n\n\t/* Show the selection handler on mouse hover over the widget, but not for nested widgets. */\n\t&:hover > .ck-widget__selection-handle {\n\t\topacity: 1;\n\t\tbackground-color: var(--ck-color-widget-hover-border);\n\t}\n\n\t/* Show the selection handler when the widget is selected, but not for nested widgets. */\n\t&.ck-widget_selected,\n\t&.ck-widget_selected:hover {\n\t\t& > .ck-widget__selection-handle {\n\t\t\topacity: 1;\n\t\t\tbackground-color: var(--ck-color-focus-border);\n\n\t\t\t/* When the widget is selected, notify the user using the proper look of the icon. */\n\t\t\t& .ck-icon .ck-icon__selected-indicator {\n\t\t\t\topacity: 1;\n\t\t\t}\n\t\t}\n\t}\n}\n\n/* In a RTL environment, align the selection handler to the right side of the widget */\n/* stylelint-disable-next-line no-descending-specificity */\n.ck[dir="rtl"] .ck-widget.ck-widget_with-selection-handle .ck-widget__selection-handle {\n\tleft: auto;\n\tright: calc(0px - var(--ck-widget-outline-thickness));\n}\n\n/* https://github.com/ckeditor/ckeditor5/issues/6415 */\n.ck.ck-editor__editable.ck-read-only .ck-widget {\n\t/* Prevent the :hover outline from showing up because of the used outline-color transition. */\n\ttransition: none;\n\n\t&:not(.ck-widget_selected) {\n\t\t/* Disable visual effects of hover/active widget when CKEditor is in readOnly mode.\n\t\t * See: https://github.com/ckeditor/ckeditor5/issues/1261\n\t\t *\n\t\t * Leave the unit because this custom property is used in calc() by other features.\n\t\t * See: https://github.com/ckeditor/ckeditor5/issues/6775\n\t\t */\n\t\t--ck-widget-outline-thickness: 0px;\n\t}\n\n\t&.ck-widget_with-selection-handle {\n\t\t& .ck-widget__selection-handle,\n\t\t& .ck-widget__selection-handle:hover {\n\t\t\tbackground: var(--ck-color-widget-blurred-border);\n\t\t}\n\t}\n}\n\n/* Style the widget when it\'s selected but the editable it belongs to lost focus. */\n/* stylelint-disable-next-line no-descending-specificity */\n.ck.ck-editor__editable.ck-blurred .ck-widget {\n\t&.ck-widget_selected,\n\t&.ck-widget_selected:hover {\n\t\toutline-color: var(--ck-color-widget-blurred-border);\n\n\t\t&.ck-widget_with-selection-handle {\n\t\t\t& > .ck-widget__selection-handle,\n\t\t\t& > .ck-widget__selection-handle:hover {\n\t\t\t\tbackground: var(--ck-color-widget-blurred-border);\n\t\t\t}\n\t\t}\n\t}\n}\n\n.ck.ck-editor__editable > .ck-widget.ck-widget_with-selection-handle:first-child,\n.ck.ck-editor__editable blockquote > .ck-widget.ck-widget_with-selection-handle:first-child {\n\t/* Do not crop selection handler if a widget is a first-child in the blockquote or in the root editable.\n\tIn fact, anything with overflow: hidden.\n\thttps://github.com/ckeditor/ckeditor5-block-quote/issues/28\n\thttps://github.com/ckeditor/ckeditor5-widget/issues/44\n\thttps://github.com/ckeditor/ckeditor5-widget/issues/66 */\n\tmargin-top: calc(1em + var(--ck-widget-handler-icon-size));\n}\n',
               "/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n/**\n * A visual style of focused element's border.\n */\n@define-mixin ck-focus-ring {\n\t/* Disable native outline. */\n\toutline: none;\n\tborder: var(--ck-focus-ring)\n}\n",
               '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n/**\n * A helper to combine multiple shadows.\n */\n@define-mixin ck-box-shadow $shadowA, $shadowB: 0 0 {\n\tbox-shadow: $shadowA, $shadowB;\n}\n\n/**\n * Gives an element a drop shadow so it looks like a floating panel.\n */\n@define-mixin ck-drop-shadow {\n\t@mixin ck-box-shadow var(--ck-drop-shadow);\n}\n',
             ],
@@ -1361,8 +1396,8 @@
             mappings:
               'AASC,8DACC,cAAe,CACf,iBAAkB,CAClB,mBAMD,CAJC,mEACC,iBAAkB,CAClB,OACD,CAWA,qJACC,YACD,CCzBF,MACC,yCAA0C,CAC1C,yCAA0C,CAC1C,6DACD,CAOE,mEACC,4DAA8D,CAC9D,yDAA2D,CAC3D,sDAAuD,CACvD,gDAAiD,CACjD,gBAkBD,CAfC,yEACC,UAAW,CACX,OAAQ,CACR,QAAS,CAET,aAAc,CACd,iBAAkB,CAClB,QAAS,CACT,yDAA2D,CAE3D,0BAA2B,CAG3B,iFAAmB,CAAnB,iCAAmB,CAAnB,kFAAmB,CAAnB,uGACD,CA2DF,kEACC,gGACD,CAKA,gDACC,OAAS,CACT,sBACD',
             sourcesContent: [
-              '/*\n * Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck.ck-editor__editable {\n\t/*\n\t * Vertical drop target (in text).\n\t */\n\t& .ck.ck-clipboard-drop-target-position {\n\t\tdisplay: inline;\n\t\tposition: relative;\n\t\tpointer-events: none;\n\n\t\t& span {\n\t\t\tposition: absolute;\n\t\t\twidth: 0;\n\t\t}\n\t}\n\n\t/*\n\t * Styles of the widget being dragged (its preview).\n\t */\n\t& .ck-widget:-webkit-drag {\n\t\t& > .ck-widget__selection-handle {\n\t\t\tdisplay: none;\n\t\t}\n\n\t\t& > .ck-widget__type-around {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n}\n',
-              '/*\n * Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-clipboard-drop-target-dot-width: 12px;\n\t--ck-clipboard-drop-target-dot-height: 8px;\n\t--ck-clipboard-drop-target-color: var(--ck-color-focus-border)\n}\n\n.ck.ck-editor__editable {\n\t/*\n\t * Vertical drop target (in text).\n\t */\n\t& .ck.ck-clipboard-drop-target-position {\n\t\t& span {\n\t\t\tbottom: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));\n\t\t\ttop: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));\n\t\t\tborder: 1px solid var(--ck-clipboard-drop-target-color);\n\t\t\tbackground: var(--ck-clipboard-drop-target-color);\n\t\t\tmargin-left: -1px;\n\n\t\t\t/* The triangle above the marker */\n\t\t\t&::after {\n\t\t\t\tcontent: "";\n\t\t\t\twidth: 0;\n\t\t\t\theight: 0;\n\n\t\t\t\tdisplay: block;\n\t\t\t\tposition: absolute;\n\t\t\t\tleft: 50%;\n\t\t\t\ttop: calc(var(--ck-clipboard-drop-target-dot-height) * -.5);\n\n\t\t\t\ttransform: translateX(-50%);\n\t\t\t\tborder-color: var(--ck-clipboard-drop-target-color) transparent transparent transparent;\n\t\t\t\tborder-width: calc(var(--ck-clipboard-drop-target-dot-height)) calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0 calc(.5 * var(--ck-clipboard-drop-target-dot-width));\n\t\t\t\tborder-style: solid;\n\t\t\t}\n\t\t}\n\t}\n\n\t/*\n\t// Horizontal drop target (between blocks).\n\t& .ck.ck-clipboard-drop-target-position {\n\t\tdisplay: block;\n\t\tposition: relative;\n\t\twidth: 100%;\n\t\theight: 0;\n\t\tmargin: 0;\n\t\ttext-align: initial;\n\n\t\t& .ck-clipboard-drop-target__line {\n\t\t\tposition: absolute;\n\t\t\twidth: 100%;\n\t\t\theight: 0;\n\t\t\tborder: 1px solid var(--ck-clipboard-drop-target-color);\n\t\t\tmargin-top: -1px;\n\n\t\t\t&::before {\n\t\t\t\tcontent: "";\n\t\t\t\twidth: 0;\n\t\t\t\theight: 0;\n\n\t\t\t\tdisplay: block;\n\t\t\t\tposition: absolute;\n\t\t\t\tleft: calc(-1 * var(--ck-clipboard-drop-target-dot-size));\n\t\t\t\ttop: 0;\n\n\t\t\t\ttransform: translateY(-50%);\n\t\t\t\tborder-color: transparent transparent transparent var(--ck-clipboard-drop-target-color);\n\t\t\t\tborder-width: var(--ck-clipboard-drop-target-dot-size) 0 var(--ck-clipboard-drop-target-dot-size) calc(2 * var(--ck-clipboard-drop-target-dot-size));\n\t\t\t\tborder-style: solid;\n\t\t\t}\n\n\t\t\t&::after {\n\t\t\t\tcontent: "";\n\t\t\t\twidth: 0;\n\t\t\t\theight: 0;\n\n\t\t\t\tdisplay: block;\n\t\t\t\tposition: absolute;\n\t\t\t\tright: calc(-1 * var(--ck-clipboard-drop-target-dot-size));\n\t\t\t\ttop: 0;\n\n\t\t\t\ttransform: translateY(-50%);\n\t\t\t\tborder-color: transparent var(--ck-clipboard-drop-target-color) transparent transparent;\n\t\t\t\tborder-width: var(--ck-clipboard-drop-target-dot-size) calc(2 * var(--ck-clipboard-drop-target-dot-size)) var(--ck-clipboard-drop-target-dot-size) 0;\n\t\t\t\tborder-style: solid;\n\t\t\t}\n\t\t}\n\t}\n\t*/\n\n\t/*\n\t * Styles of the widget that it a drop target.\n\t */\n\t& .ck-widget.ck-clipboard-drop-target-range {\n\t\toutline: var(--ck-widget-outline-thickness) solid var(--ck-clipboard-drop-target-color) !important;\n\t}\n\n\t/*\n\t * Styles of the widget being dragged (its preview).\n\t */\n\t& .ck-widget:-webkit-drag {\n\t\tzoom: 0.6;\n\t\toutline: none !important;\n\t}\n}\n',
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck.ck-editor__editable {\n\t/*\n\t * Vertical drop target (in text).\n\t */\n\t& .ck.ck-clipboard-drop-target-position {\n\t\tdisplay: inline;\n\t\tposition: relative;\n\t\tpointer-events: none;\n\n\t\t& span {\n\t\t\tposition: absolute;\n\t\t\twidth: 0;\n\t\t}\n\t}\n\n\t/*\n\t * Styles of the widget being dragged (its preview).\n\t */\n\t& .ck-widget:-webkit-drag {\n\t\t& > .ck-widget__selection-handle {\n\t\t\tdisplay: none;\n\t\t}\n\n\t\t& > .ck-widget__type-around {\n\t\t\tdisplay: none;\n\t\t}\n\t}\n}\n',
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-clipboard-drop-target-dot-width: 12px;\n\t--ck-clipboard-drop-target-dot-height: 8px;\n\t--ck-clipboard-drop-target-color: var(--ck-color-focus-border)\n}\n\n.ck.ck-editor__editable {\n\t/*\n\t * Vertical drop target (in text).\n\t */\n\t& .ck.ck-clipboard-drop-target-position {\n\t\t& span {\n\t\t\tbottom: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));\n\t\t\ttop: calc(-.5 * var(--ck-clipboard-drop-target-dot-height));\n\t\t\tborder: 1px solid var(--ck-clipboard-drop-target-color);\n\t\t\tbackground: var(--ck-clipboard-drop-target-color);\n\t\t\tmargin-left: -1px;\n\n\t\t\t/* The triangle above the marker */\n\t\t\t&::after {\n\t\t\t\tcontent: "";\n\t\t\t\twidth: 0;\n\t\t\t\theight: 0;\n\n\t\t\t\tdisplay: block;\n\t\t\t\tposition: absolute;\n\t\t\t\tleft: 50%;\n\t\t\t\ttop: calc(var(--ck-clipboard-drop-target-dot-height) * -.5);\n\n\t\t\t\ttransform: translateX(-50%);\n\t\t\t\tborder-color: var(--ck-clipboard-drop-target-color) transparent transparent transparent;\n\t\t\t\tborder-width: calc(var(--ck-clipboard-drop-target-dot-height)) calc(.5 * var(--ck-clipboard-drop-target-dot-width)) 0 calc(.5 * var(--ck-clipboard-drop-target-dot-width));\n\t\t\t\tborder-style: solid;\n\t\t\t}\n\t\t}\n\t}\n\n\t/*\n\t// Horizontal drop target (between blocks).\n\t& .ck.ck-clipboard-drop-target-position {\n\t\tdisplay: block;\n\t\tposition: relative;\n\t\twidth: 100%;\n\t\theight: 0;\n\t\tmargin: 0;\n\t\ttext-align: initial;\n\n\t\t& .ck-clipboard-drop-target__line {\n\t\t\tposition: absolute;\n\t\t\twidth: 100%;\n\t\t\theight: 0;\n\t\t\tborder: 1px solid var(--ck-clipboard-drop-target-color);\n\t\t\tmargin-top: -1px;\n\n\t\t\t&::before {\n\t\t\t\tcontent: "";\n\t\t\t\twidth: 0;\n\t\t\t\theight: 0;\n\n\t\t\t\tdisplay: block;\n\t\t\t\tposition: absolute;\n\t\t\t\tleft: calc(-1 * var(--ck-clipboard-drop-target-dot-size));\n\t\t\t\ttop: 0;\n\n\t\t\t\ttransform: translateY(-50%);\n\t\t\t\tborder-color: transparent transparent transparent var(--ck-clipboard-drop-target-color);\n\t\t\t\tborder-width: var(--ck-clipboard-drop-target-dot-size) 0 var(--ck-clipboard-drop-target-dot-size) calc(2 * var(--ck-clipboard-drop-target-dot-size));\n\t\t\t\tborder-style: solid;\n\t\t\t}\n\n\t\t\t&::after {\n\t\t\t\tcontent: "";\n\t\t\t\twidth: 0;\n\t\t\t\theight: 0;\n\n\t\t\t\tdisplay: block;\n\t\t\t\tposition: absolute;\n\t\t\t\tright: calc(-1 * var(--ck-clipboard-drop-target-dot-size));\n\t\t\t\ttop: 0;\n\n\t\t\t\ttransform: translateY(-50%);\n\t\t\t\tborder-color: transparent var(--ck-clipboard-drop-target-color) transparent transparent;\n\t\t\t\tborder-width: var(--ck-clipboard-drop-target-dot-size) calc(2 * var(--ck-clipboard-drop-target-dot-size)) var(--ck-clipboard-drop-target-dot-size) 0;\n\t\t\t\tborder-style: solid;\n\t\t\t}\n\t\t}\n\t}\n\t*/\n\n\t/*\n\t * Styles of the widget that it a drop target.\n\t */\n\t& .ck-widget.ck-clipboard-drop-target-range {\n\t\toutline: var(--ck-widget-outline-thickness) solid var(--ck-clipboard-drop-target-color) !important;\n\t}\n\n\t/*\n\t * Styles of the widget being dragged (its preview).\n\t */\n\t& .ck-widget:-webkit-drag {\n\t\tzoom: 0.6;\n\t\toutline: none !important;\n\t}\n}\n',
             ],
             sourceRoot: '',
           },
@@ -1414,6 +1449,33 @@
             mappings: 'AAUC,uBACC,cACD,CAEA,wBACC,eACD,CAEA,sBACC,eACD,CAEA,uBACC,eACD',
             sourcesContent: [
               '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n/* The values should be synchronized with the "FONT_SIZE_PRESET_UNITS" object in the "/src/fontsize/utils.js" file. */\n\n/* Styles should be prefixed with the `.ck-content` class.\nSee https://github.com/ckeditor/ckeditor5/issues/6636 */\n.ck-content {\n\t& .text-tiny {\n\t\tfont-size: .7em;\n\t}\n\n\t& .text-small {\n\t\tfont-size: .85em;\n\t}\n\n\t& .text-big {\n\t\tfont-size: 1.4em;\n\t}\n\n\t& .text-huge {\n\t\tfont-size: 1.8em;\n\t}\n}\n',
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
+          '.ck.ck-heading_heading1{font-size:20px}.ck.ck-heading_heading2{font-size:17px}.ck.ck-heading_heading3{font-size:14px}.ck[class*=ck-heading_heading]{font-weight:700}.ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label{width:8em}.ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__panel .ck-list__item{min-width:18em}',
+          '',
+          {
+            version: 3,
+            sources: [
+              'webpack://./node_modules/@ckeditor/ckeditor5-heading/theme/heading.css',
+              'webpack://./node_modules/@ckeditor/ckeditor5-theme-lark/theme/ckeditor5-heading/heading.css',
+            ],
+            names: [],
+            mappings: 'AAKA,wBACC,cACD,CAEA,wBACC,cACD,CAEA,wBACC,cACD,CAEA,+BACC,eACD,CCZC,2EACC,SACD,CAEA,uEACC,cACD',
+            sourcesContent: [
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck.ck-heading_heading1 {\n\tfont-size: 20px;\n}\n\n.ck.ck-heading_heading2 {\n\tfont-size: 17px;\n}\n\n.ck.ck-heading_heading3 {\n\tfont-size: 14px;\n}\n\n.ck[class*="ck-heading_heading"] {\n\tfont-weight: bold;\n}\n',
+              "/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n/* Resize dropdown's button label. */\n.ck.ck-dropdown.ck-heading-dropdown {\n\t& .ck-dropdown__button .ck-button__label {\n\t\twidth: 8em;\n\t}\n\n\t& .ck-dropdown__panel .ck-list__item {\n\t\tmin-width: 18em;\n\t}\n}\n",
             ],
             sourceRoot: '',
           },
@@ -1538,6 +1600,78 @@
           s = n.n(r)()(i.a);
         s.push([
           t.i,
+          '.ck-content .image>figcaption{display:table-caption;caption-side:bottom;word-break:break-word;color:#333;background-color:#f7f7f7;padding:.6em;font-size:.75em;outline-offset:-1px}',
+          '',
+          {
+            version: 3,
+            sources: ['webpack://./node_modules/@ckeditor/ckeditor5-image/theme/imagecaption.css'],
+            names: [],
+            mappings:
+              'AAKA,8BACC,qBAAsB,CACtB,mBAAoB,CACpB,qBAAsB,CACtB,UAAsB,CACtB,wBAAiC,CACjC,YAAa,CACb,eAAgB,CAChB,mBACD',
+            sourcesContent: [
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck-content .image > figcaption {\n\tdisplay: table-caption;\n\tcaption-side: bottom;\n\tword-break: break-word;\n\tcolor: hsl(0, 0%, 20%);\n\tbackground-color: hsl(0, 0%, 97%);\n\tpadding: .6em;\n\tfont-size: .75em;\n\toutline-offset: -1px;\n}\n',
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
+          '.ck-content .image.image_resized{max-width:100%;display:block;box-sizing:border-box}.ck-content .image.image_resized img{width:100%}.ck-content .image.image_resized>figcaption{display:block}[dir=ltr] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon{margin-right:var(--ck-spacing-standard)}[dir=rtl] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon{margin-left:var(--ck-spacing-standard)}.ck.ck-dropdown .ck-button.ck-resize-image-button .ck-button__label{width:4em}',
+          '',
+          {
+            version: 3,
+            sources: ['webpack://./node_modules/@ckeditor/ckeditor5-image/theme/imageresize.css'],
+            names: [],
+            mappings:
+              'AAKA,iCACC,cAAe,CAMf,aAAc,CACd,qBAWD,CATC,qCAEC,UACD,CAEA,4CAEC,aACD,CAGD,oFACC,uCACD,CAEA,oFACC,sCACD,CAEA,oEACC,SACD',
+            sourcesContent: [
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck-content .image.image_resized {\n\tmax-width: 100%;\n\t/*\n\tThe `<figure>` element for resized images must not use `display:table` as browsers do not support `max-width` for it well.\n\tSee https://stackoverflow.com/questions/4019604/chrome-safari-ignoring-max-width-in-table/14420691#14420691 for more.\n\tFortunately, since we control the width, there is no risk that the image will look bad.\n\t*/\n\tdisplay: block;\n\tbox-sizing: border-box;\n\n\t& img {\n\t\t/* For resized images it is the `<figure>` element that determines the image width. */\n\t\twidth: 100%;\n\t}\n\n\t& > figcaption {\n\t\t/* The `<figure>` element uses `display:block`, so `<figcaption>` also has to. */\n\t\tdisplay: block;\n\t}\n}\n\n[dir="ltr"] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon {\n\tmargin-right: var(--ck-spacing-standard);\n}\n\n[dir="rtl"] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon {\n\tmargin-left: var(--ck-spacing-standard);\n}\n\n.ck.ck-dropdown .ck-button.ck-resize-image-button .ck-button__label {\n\twidth: 4em;\n}\n',
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
+          ':root{--ck-image-style-spacing:1.5em}.ck-content .image-style-side{float:right;margin-left:var(--ck-image-style-spacing);max-width:50%}.ck-content .image-style-align-left{float:left;margin-right:var(--ck-image-style-spacing)}.ck-content .image-style-align-center{margin-left:auto;margin-right:auto}.ck-content .image-style-align-right{float:right;margin-left:var(--ck-image-style-spacing)}',
+          '',
+          {
+            version: 3,
+            sources: ['webpack://./node_modules/@ckeditor/ckeditor5-image/theme/imagestyle.css'],
+            names: [],
+            mappings:
+              'AAKA,MACC,8BACD,CAGC,8BACC,WAAY,CACZ,yCAA0C,CAC1C,aACD,CAEA,oCACC,UAAW,CACX,0CACD,CAEA,sCACC,gBAAiB,CACjB,iBACD,CAEA,qCACC,WAAY,CACZ,yCACD',
+            sourcesContent: [
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-image-style-spacing: 1.5em;\n}\n\n.ck-content {\n\t& .image-style-side {\n\t\tfloat: right;\n\t\tmargin-left: var(--ck-image-style-spacing);\n\t\tmax-width: 50%;\n\t}\n\n\t& .image-style-align-left {\n\t\tfloat: left;\n\t\tmargin-right: var(--ck-image-style-spacing);\n\t}\n\n\t& .image-style-align-center {\n\t\tmargin-left: auto;\n\t\tmargin-right: auto;\n\t}\n\n\t& .image-style-align-right {\n\t\tfloat: right;\n\t\tmargin-left: var(--ck-image-style-spacing);\n\t}\n}\n',
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
           '.ck.ck-editor__editable .image{position:relative}.ck.ck-editor__editable .image .ck-progress-bar{position:absolute;top:0;left:0}.ck.ck-editor__editable .image.ck-appear{animation:fadeIn .7s}.ck.ck-editor__editable .image .ck-progress-bar{height:2px;width:0;background:var(--ck-color-upload-bar-background);transition:width .1s}@keyframes fadeIn{0%{opacity:0}to{opacity:1}}',
           '',
           {
@@ -1608,54 +1742,6 @@
             sourcesContent: [
               "/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck .ck-upload-placeholder-loader {\n\tposition: absolute;\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\ttop: 0;\n\tleft: 0;\n\n\t&::before {\n\t\tcontent: '';\n\t\tposition: relative;\n\t}\n}\n",
               '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-color-upload-placeholder-loader: hsl(0, 0%, 70%);\n\t--ck-upload-placeholder-loader-size: 32px;\n}\n\n.ck .ck-image-upload-placeholder {\n\t/* We need to control the full width of the SVG gray background. */\n\twidth: 100%;\n\tmargin: 0;\n}\n\n.ck .ck-upload-placeholder-loader {\n\twidth: 100%;\n\theight: 100%;\n\n\t&::before {\n\t\twidth: var(--ck-upload-placeholder-loader-size);\n\t\theight: var(--ck-upload-placeholder-loader-size);\n\t\tborder-radius: 50%;\n\t\tborder-top: 3px solid var(--ck-color-upload-placeholder-loader);\n\t\tborder-right: 2px solid transparent;\n\t\tanimation: ck-upload-placeholder-loader 1s linear infinite;\n\t}\n}\n\n@keyframes ck-upload-placeholder-loader {\n\tto {\n\t\ttransform: rotate( 360deg );\n\t}\n}\n',
-            ],
-            sourceRoot: '',
-          },
-        ]),
-          (e.a = s);
-      },
-      function (t, e, n) {
-        'use strict';
-        var o = n(2),
-          i = n.n(o),
-          r = n(3),
-          s = n.n(r)()(i.a);
-        s.push([
-          t.i,
-          '.ck-content .image>figcaption{display:table-caption;caption-side:bottom;word-break:break-word;color:#333;background-color:#f7f7f7;padding:.6em;font-size:.75em;outline-offset:-1px}',
-          '',
-          {
-            version: 3,
-            sources: ['webpack://./node_modules/@ckeditor/ckeditor5-image/theme/imagecaption.css'],
-            names: [],
-            mappings:
-              'AAKA,8BACC,qBAAsB,CACtB,mBAAoB,CACpB,qBAAsB,CACtB,UAAsB,CACtB,wBAAiC,CACjC,YAAa,CACb,eAAgB,CAChB,mBACD',
-            sourcesContent: [
-              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck-content .image > figcaption {\n\tdisplay: table-caption;\n\tcaption-side: bottom;\n\tword-break: break-word;\n\tcolor: hsl(0, 0%, 20%);\n\tbackground-color: hsl(0, 0%, 97%);\n\tpadding: .6em;\n\tfont-size: .75em;\n\toutline-offset: -1px;\n}\n',
-            ],
-            sourceRoot: '',
-          },
-        ]),
-          (e.a = s);
-      },
-      function (t, e, n) {
-        'use strict';
-        var o = n(2),
-          i = n.n(o),
-          r = n(3),
-          s = n.n(r)()(i.a);
-        s.push([
-          t.i,
-          '.ck-content .image.image_resized{max-width:100%;display:block;box-sizing:border-box}.ck-content .image.image_resized img{width:100%}.ck-content .image.image_resized>figcaption{display:block}[dir=ltr] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon{margin-right:var(--ck-spacing-standard)}[dir=rtl] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon{margin-left:var(--ck-spacing-standard)}.ck.ck-dropdown .ck-button.ck-resize-image-button .ck-button__label{width:4em}',
-          '',
-          {
-            version: 3,
-            sources: ['webpack://./node_modules/@ckeditor/ckeditor5-image/theme/imageresize.css'],
-            names: [],
-            mappings:
-              'AAKA,iCACC,cAAe,CAMf,aAAc,CACd,qBAWD,CATC,qCAEC,UACD,CAEA,4CAEC,aACD,CAGD,oFACC,uCACD,CAEA,oFACC,sCACD,CAEA,oEACC,SACD',
-            sourcesContent: [
-              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck-content .image.image_resized {\n\tmax-width: 100%;\n\t/*\n\tThe `<figure>` element for resized images must not use `display:table` as browsers do not support `max-width` for it well.\n\tSee https://stackoverflow.com/questions/4019604/chrome-safari-ignoring-max-width-in-table/14420691#14420691 for more.\n\tFortunately, since we control the width, there is no risk that the image will look bad.\n\t*/\n\tdisplay: block;\n\tbox-sizing: border-box;\n\n\t& img {\n\t\t/* For resized images it is the `<figure>` element that determines the image width. */\n\t\twidth: 100%;\n\t}\n\n\t& > figcaption {\n\t\t/* The `<figure>` element uses `display:block`, so `<figcaption>` also has to. */\n\t\tdisplay: block;\n\t}\n}\n\n[dir="ltr"] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon {\n\tmargin-right: var(--ck-spacing-standard);\n}\n\n[dir="rtl"] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon {\n\tmargin-left: var(--ck-spacing-standard);\n}\n\n.ck.ck-dropdown .ck-button.ck-resize-image-button .ck-button__label {\n\twidth: 4em;\n}\n',
             ],
             sourceRoot: '',
           },
@@ -1767,6 +1853,107 @@
             sourcesContent: [
               '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck.ck-list-styles-dropdown > .ck-dropdown__panel > .ck-toolbar > .ck-toolbar__items {\n\t/*\n\t * Use the benefits of the toolbar (e.g. out-of-the-box keyboard navigation) but make it look\n\t * like a panel with thumbnails (previews).\n\t */\n\tdisplay: grid;\n}\n',
               '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-list-style-button-size: 44px;\n}\n\n.ck.ck-list-styles-dropdown > .ck-dropdown__panel > .ck-toolbar {\n\tbackground: none;\n\tpadding: 0;\n\n\t& > .ck-toolbar__items {\n\t\tgrid-template-columns: repeat( 3, auto );\n\t\trow-gap: var(--ck-spacing-medium);\n\t\tcolumn-gap: var(--ck-spacing-medium);\n\t\tpadding: var(--ck-spacing-medium);\n\n\t\t& .ck-button {\n\t\t\t/* Make the button look like a thumbnail (the icon "takes it all"). */\n\t\t\twidth: var(--ck-list-style-button-size);\n\t\t\theight: var(--ck-list-style-button-size);\n\t\t\tpadding: 0;\n\n\t\t\t/*\n\t\t\t * Buttons are aligned by the grid so disable default button margins to not collide with the\n\t\t\t * gaps in the grid.\n\t\t\t */\n\t\t\tmargin: 0;\n\n\t\t\t/*\n\t\t\t * Make sure the button border (which is displayed on focus, BTW) does not steal pixels\n\t\t\t * from the button dimensions and, as a result, decrease the size of the icon\n\t\t\t * (which becomes blurry as it scales down).\n\t\t\t */\n\t\t\tbox-sizing: content-box;\n\n\t\t\t& .ck-icon {\n\t\t\t\twidth: var(--ck-list-style-button-size);\n\t\t\t\theight: var(--ck-list-style-button-size);\n\t\t\t}\n\t\t}\n\t}\n}\n',
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
+          ':root{--ck-color-table-focused-cell-background:rgba(158,207,250,0.3)}.ck-widget.table td.ck-editor__nested-editable.ck-editor__nested-editable_focused,.ck-widget.table td.ck-editor__nested-editable:focus,.ck-widget.table th.ck-editor__nested-editable.ck-editor__nested-editable_focused,.ck-widget.table th.ck-editor__nested-editable:focus{background:var(--ck-color-table-focused-cell-background);border-style:none;outline:1px solid var(--ck-color-focus-border);outline-offset:-1px}',
+          '',
+          {
+            version: 3,
+            sources: ['webpack://./node_modules/@ckeditor/ckeditor5-theme-lark/theme/ckeditor5-table/tableediting.css'],
+            names: [],
+            mappings: 'AAKA,MACC,8DACD,CAKE,8QAGC,wDAAyD,CAKzD,iBAAkB,CAClB,8CAA+C,CAC/C,mBACD',
+            sourcesContent: [
+              "/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-color-table-focused-cell-background: hsla(208, 90%, 80%, .3);\n}\n\n.ck-widget.table {\n\t& td,\n\t& th {\n\t\t&.ck-editor__nested-editable.ck-editor__nested-editable_focused,\n\t\t&.ck-editor__nested-editable:focus {\n\t\t\t/* A very slight background to highlight the focused cell */\n\t\t\tbackground: var(--ck-color-table-focused-cell-background);\n\n\t\t\t/* Fixes the problem where surrounding cells cover the focused cell's border.\n\t\t\tIt does not fix the problem in all places but the UX is improved.\n\t\t\tSee https://github.com/ckeditor/ckeditor5-table/issues/29. */\n\t\t\tborder-style: none;\n\t\t\toutline: 1px solid var(--ck-color-focus-border);\n\t\t\toutline-offset: -1px; /* progressive enhancement - no IE support */\n\t\t}\n\t}\n}\n",
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
+          '.ck .ck-insert-table-dropdown__grid{display:flex;flex-direction:row;flex-wrap:wrap}:root{--ck-insert-table-dropdown-padding:10px;--ck-insert-table-dropdown-box-height:11px;--ck-insert-table-dropdown-box-width:12px;--ck-insert-table-dropdown-box-margin:1px}.ck .ck-insert-table-dropdown__grid{width:calc(var(--ck-insert-table-dropdown-box-width)*10 + var(--ck-insert-table-dropdown-box-margin)*20 + var(--ck-insert-table-dropdown-padding)*2);padding:var(--ck-insert-table-dropdown-padding) var(--ck-insert-table-dropdown-padding) 0}.ck .ck-insert-table-dropdown__label{text-align:center}.ck .ck-insert-table-dropdown-grid-box{width:var(--ck-insert-table-dropdown-box-width);height:var(--ck-insert-table-dropdown-box-height);margin:var(--ck-insert-table-dropdown-box-margin);border:1px solid var(--ck-color-base-border);border-radius:1px}.ck .ck-insert-table-dropdown-grid-box.ck-on{border-color:var(--ck-color-focus-border);background:var(--ck-color-focus-outer-shadow)}',
+          '',
+          {
+            version: 3,
+            sources: [
+              'webpack://./node_modules/@ckeditor/ckeditor5-table/theme/inserttable.css',
+              'webpack://./node_modules/@ckeditor/ckeditor5-theme-lark/theme/ckeditor5-table/inserttable.css',
+            ],
+            names: [],
+            mappings:
+              'AAKA,oCACC,YAAa,CACb,kBAAmB,CACnB,cACD,CCJA,MACC,uCAAwC,CACxC,0CAA2C,CAC3C,yCAA0C,CAC1C,yCACD,CAEA,oCAEC,oJAA2J,CAC3J,yFACD,CAEA,qCACC,iBACD,CAEA,uCACC,+CAAgD,CAChD,iDAAkD,CAClD,iDAAkD,CAClD,4CAA6C,CAC7C,iBAMD,CAJC,6CACC,yCAA0C,CAC1C,6CACD',
+            sourcesContent: [
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck .ck-insert-table-dropdown__grid {\n\tdisplay: flex;\n\tflex-direction: row;\n\tflex-wrap: wrap;\n}\n',
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-insert-table-dropdown-padding: 10px;\n\t--ck-insert-table-dropdown-box-height: 11px;\n\t--ck-insert-table-dropdown-box-width: 12px;\n\t--ck-insert-table-dropdown-box-margin: 1px;\n}\n\n.ck .ck-insert-table-dropdown__grid {\n\t/* The width of a container should match 10 items in a row so there will be a 10x10 grid. */\n\twidth: calc(var(--ck-insert-table-dropdown-box-width) * 10 + var(--ck-insert-table-dropdown-box-margin) * 20 + var(--ck-insert-table-dropdown-padding) * 2);\n\tpadding: var(--ck-insert-table-dropdown-padding) var(--ck-insert-table-dropdown-padding) 0;\n}\n\n.ck .ck-insert-table-dropdown__label {\n\ttext-align: center;\n}\n\n.ck .ck-insert-table-dropdown-grid-box {\n\twidth: var(--ck-insert-table-dropdown-box-width);\n\theight: var(--ck-insert-table-dropdown-box-height);\n\tmargin: var(--ck-insert-table-dropdown-box-margin);\n\tborder: 1px solid var(--ck-color-base-border);\n\tborder-radius: 1px;\n\n\t&.ck-on {\n\t\tborder-color: var(--ck-color-focus-border);\n\t\tbackground: var(--ck-color-focus-outer-shadow);\n\t}\n}\n\n',
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
+          ':root{--ck-table-selected-cell-background:rgba(158,207,250,0.3)}.ck.ck-editor__editable .table table td.ck-editor__editable_selected,.ck.ck-editor__editable .table table th.ck-editor__editable_selected{position:relative;caret-color:transparent;outline:unset;box-shadow:unset}.ck.ck-editor__editable .table table td.ck-editor__editable_selected:after,.ck.ck-editor__editable .table table th.ck-editor__editable_selected:after{content:"";pointer-events:none;background-color:var(--ck-table-selected-cell-background);position:absolute;top:0;left:0;right:0;bottom:0}.ck.ck-editor__editable .table table td.ck-editor__editable_selected ::selection,.ck.ck-editor__editable .table table td.ck-editor__editable_selected:focus,.ck.ck-editor__editable .table table th.ck-editor__editable_selected ::selection,.ck.ck-editor__editable .table table th.ck-editor__editable_selected:focus{background-color:transparent}.ck.ck-editor__editable .table table td.ck-editor__editable_selected .ck-widget_selected,.ck.ck-editor__editable .table table th.ck-editor__editable_selected .ck-widget_selected{outline:unset}',
+          '',
+          {
+            version: 3,
+            sources: [
+              'webpack://./node_modules/@ckeditor/ckeditor5-theme-lark/theme/ckeditor5-table/tableselection.css',
+            ],
+            names: [],
+            mappings:
+              'AAKA,MACC,yDACD,CAGC,0IAEC,iBAAkB,CAClB,uBAAwB,CACxB,aAAc,CACd,gBAsBD,CAnBC,sJACC,UAAW,CACX,mBAAoB,CACpB,yDAA0D,CAC1D,iBAAkB,CAClB,KAAM,CACN,MAAO,CACP,OAAQ,CACR,QACD,CAEA,wTAEC,4BACD,CAEA,kLACC,aACD',
+            sourcesContent: [
+              "/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n:root {\n\t--ck-table-selected-cell-background: hsla(208, 90%, 80%, .3);\n}\n\n.ck.ck-editor__editable .table table {\n\t& td.ck-editor__editable_selected,\n\t& th.ck-editor__editable_selected {\n\t\tposition: relative;\n\t\tcaret-color: transparent;\n\t\toutline: unset;\n\t\tbox-shadow: unset;\n\n\t\t/* https://github.com/ckeditor/ckeditor5/issues/6446 */\n\t\t&:after {\n\t\t\tcontent: '';\n\t\t\tpointer-events: none;\n\t\t\tbackground-color: var(--ck-table-selected-cell-background);\n\t\t\tposition: absolute;\n\t\t\ttop: 0;\n\t\t\tleft: 0;\n\t\t\tright: 0;\n\t\t\tbottom: 0;\n\t\t}\n\n\t\t& ::selection,\n\t\t&:focus {\n\t\t\tbackground-color: transparent;\n\t\t}\n\n\t\t& .ck-widget_selected {\n\t\t\toutline: unset;\n\t\t}\n\t}\n}\n",
+            ],
+            sourceRoot: '',
+          },
+        ]),
+          (e.a = s);
+      },
+      function (t, e, n) {
+        'use strict';
+        var o = n(2),
+          i = n.n(o),
+          r = n(3),
+          s = n.n(r)()(i.a);
+        s.push([
+          t.i,
+          '.ck-content .table{margin:1em auto;display:table}.ck-content .table table{border-collapse:collapse;border-spacing:0;width:100%;height:100%;border:1px double #b3b3b3}.ck-content .table table td,.ck-content .table table th{min-width:2em;padding:.4em;border:1px solid #bfbfbf}.ck-content .table table th{font-weight:700;background:hsla(0,0%,0%,5%)}.ck-content[dir=rtl] .table th{text-align:right}.ck-content[dir=ltr] .table th{text-align:left}',
+          '',
+          {
+            version: 3,
+            sources: ['webpack://./node_modules/@ckeditor/ckeditor5-table/theme/table.css'],
+            names: [],
+            mappings:
+              'AAKA,mBAEC,eAAgB,CAChB,aAgCD,CA9BC,yBAEC,wBAAyB,CACzB,gBAAiB,CAIjB,UAAW,CACX,WAAY,CAIZ,yBAiBD,CAfC,wDAEC,aAAc,CACd,YAAa,CAKb,wBACD,CAEA,4BACC,eAAiB,CACjB,2BACD,CAMF,+BACC,gBACD,CAEA,+BACC,eACD',
+            sourcesContent: [
+              '/*\n * Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.\n * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license\n */\n\n.ck-content .table {\n\t/* Give the table widget some air and center it horizontally */\n\tmargin: 1em auto;\n\tdisplay: table;\n\n\t& table {\n\t\t/* The table cells should have slight borders */\n\t\tborder-collapse: collapse;\n\t\tborder-spacing: 0;\n\n\t\t/* Table width and height are set on the parent <figure>. Make sure the table inside stretches\n\t\tto the full dimensions of the container (https://github.com/ckeditor/ckeditor5/issues/6186). */\n\t\twidth: 100%;\n\t\theight: 100%;\n\n\t\t/* The outer border of the table should be slightly darker than the inner lines.\n\t\tAlso see https://github.com/ckeditor/ckeditor5-table/issues/50. */\n\t\tborder: 1px double hsl(0, 0%, 70%);\n\n\t\t& td,\n\t\t& th {\n\t\t\tmin-width: 2em;\n\t\t\tpadding: .4em;\n\n\t\t\t/* The border is inherited from .ck-editor__nested-editable styles, so theoretically it\'s not necessary here.\n\t\t\tHowever, the border is a content style, so it should use .ck-content (so it works outside the editor).\n\t\t\tHence, the duplication. See https://github.com/ckeditor/ckeditor5/issues/6314 */\n\t\t\tborder: 1px solid hsl(0, 0%, 75%);\n\t\t}\n\n\t\t& th {\n\t\t\tfont-weight: bold;\n\t\t\tbackground: hsla(0, 0%, 0%, 5%);\n\t\t}\n\t}\n}\n\n/* Text alignment of the table header should match the editor settings and override the native browser styling,\nwhen content is available outside the ediitor. See https://github.com/ckeditor/ckeditor5/issues/6638 */\n.ck-content[dir="rtl"] .table th {\n\ttext-align: right;\n}\n\n.ck-content[dir="ltr"] .table th {\n\ttext-align: left;\n}\n',
             ],
             sourceRoot: '',
           },
@@ -2042,12 +2229,12 @@
             var e = typeof t;
             return null != t && ('object' == e || 'function' == e);
           },
-          _ = n(5),
-          A = _.a.Symbol,
+          A = n(5),
+          _ = A.a.Symbol,
           C = Object.prototype,
           v = C.hasOwnProperty,
           y = C.toString,
-          x = A ? A.toStringTag : void 0;
+          x = _ ? _.toStringTag : void 0;
         var E = function (t) {
             var e = v.call(t, x),
               n = t[x];
@@ -2062,7 +2249,7 @@
         var S = function (t) {
             return D.call(t);
           },
-          B = A ? A.toStringTag : void 0;
+          B = _ ? _.toStringTag : void 0;
         var T = function (t) {
           return null == t
             ? void 0 === t
@@ -2083,7 +2270,7 @@
               '[object Proxy]' == e
             );
           },
-          z = _.a['__core-js_shared__'],
+          z = A.a['__core-js_shared__'],
           F = (P = /[^.]+$/.exec((z && z.keys && z.keys.IE_PROTO) || '')) ? 'Symbol(src)_1.' + P : '';
         var R = function (t) {
             return !!F && F in t;
@@ -2103,12 +2290,11 @@
           N = /^\[object .+?Constructor\]$/,
           V = Function.prototype,
           L = Object.prototype,
-          q = V.toString,
-          K = L.hasOwnProperty,
+          K = V.toString,
+          q = L.hasOwnProperty,
           H = RegExp(
             '^' +
-              q
-                .call(K)
+              K.call(q)
                 .replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
                 .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') +
               '$',
@@ -2116,16 +2302,16 @@
         var j = function (t) {
           return !(!w(t) || R(t)) && (I(t) ? H : N).test(M(t));
         };
-        var G = function (t, e) {
+        var $ = function (t, e) {
           return null == t ? void 0 : t[e];
         };
-        var $ = function (t, e) {
-            var n = G(t, e);
+        var G = function (t, e) {
+            var n = $(t, e);
             return j(n) ? n : void 0;
           },
           W = (function () {
             try {
-              var t = $(Object, 'defineProperty');
+              var t = G(Object, 'defineProperty');
               return t({}, '', {}), t;
             } catch (t) {}
           })();
@@ -2258,7 +2444,7 @@
           kt = Object.prototype,
           bt = kt.hasOwnProperty,
           wt = kt.propertyIsEnumerable,
-          _t = ft(
+          At = ft(
             (function () {
               return arguments;
             })(),
@@ -2267,7 +2453,7 @@
             : function (t) {
                 return gt(t) && bt.call(t, 'callee') && !wt.call(t, 'callee');
               },
-          At = Array.isArray,
+          _t = Array.isArray,
           Ct = n(6),
           vt = {};
         (vt['[object Float32Array]'] =
@@ -2309,8 +2495,8 @@
           St = Dt ? xt(Dt) : yt,
           Bt = Object.prototype.hasOwnProperty;
         var Tt = function (t, e) {
-            var n = At(t),
-              o = !n && _t(t),
+            var n = _t(t),
+              o = !n && At(t),
               i = !n && !o && Object(Ct.a)(t),
               r = !n && !o && !i && St(t),
               s = n || o || i || r,
@@ -2353,15 +2539,15 @@
         const Nt = Symbol('observableProperties'),
           Vt = Symbol('boundObservables'),
           Lt = Symbol('boundProperties'),
-          qt = Symbol('decoratedMethods'),
-          Kt = Symbol('decoratedOriginal'),
+          Kt = Symbol('decoratedMethods'),
+          qt = Symbol('decoratedOriginal'),
           Ht = {
             set(t, e) {
               if (w(t))
                 return void Object.keys(t).forEach(e => {
                   this.set(e, t[e]);
                 }, this);
-              Gt(this);
+              $t(this);
               const n = this[Nt];
               if (t in this && !n.has(t)) throw new c.a('observable-set-cannot-override', this);
               Object.defineProperty(this, t, {
@@ -2379,7 +2565,7 @@
             bind(...t) {
               if (!t.length || !Ut(t)) throw new c.a('observable-bind-wrong-properties', this);
               if (new Set(t).size !== t.length) throw new c.a('observable-bind-duplicate-properties', this);
-              Gt(this);
+              $t(this);
               const e = this[Lt];
               t.forEach(t => {
                 if (e.has(t)) throw new c.a('observable-bind-rebind', this);
@@ -2390,7 +2576,7 @@
                   const o = { property: t, to: [] };
                   e.set(t, o), n.set(t, o);
                 }),
-                { to: $t, toMany: Wt, _observable: this, _bindProperties: t, _to: [], _bindings: n }
+                { to: Gt, toMany: Wt, _observable: this, _bindProperties: t, _to: [], _bindings: n }
               );
             },
             unbind(...t) {
@@ -2430,27 +2616,27 @@
                 (this[t] = function (...e) {
                   return this.fire(t, e);
                 }),
-                (this[t][Kt] = e),
-                this[qt] || (this[qt] = []),
-                this[qt].push(t);
+                (this[t][qt] = e),
+                this[Kt] || (this[Kt] = []),
+                this[Kt].push(t);
             },
           };
         Mt(Ht, h),
           (Ht.stopListening = function (t, e, n) {
-            if (!t && this[qt]) {
-              for (const t of this[qt]) this[t] = this[t][Kt];
-              delete this[qt];
+            if (!t && this[Kt]) {
+              for (const t of this[Kt]) this[t] = this[t][qt];
+              delete this[Kt];
             }
             h.stopListening.call(this, t, e, n);
           });
         var jt = Ht;
-        function Gt(t) {
+        function $t(t) {
           t[Nt] ||
             (Object.defineProperty(t, Nt, { value: new Map() }),
             Object.defineProperty(t, Vt, { value: new Map() }),
             Object.defineProperty(t, Lt, { value: new Map() }));
         }
-        function $t(...t) {
+        function Gt(...t) {
           const e = (function (...t) {
               if (!t.length) throw new c.a('observable-bind-to-parse-error', null);
               const e = { to: [] };
@@ -2693,19 +2879,19 @@
         var we = function () {
           (this.__data__ = new be()), (this.size = 0);
         };
-        var _e = function (t) {
+        var Ae = function (t) {
           var e = this.__data__,
             n = e.delete(t);
           return (this.size = e.size), n;
         };
-        var Ae = function (t) {
+        var _e = function (t) {
           return this.__data__.get(t);
         };
         var Ce = function (t) {
             return this.__data__.has(t);
           },
-          ve = $(_.a, 'Map'),
-          ye = $(Object, 'create');
+          ve = G(A.a, 'Map'),
+          ye = G(Object, 'create');
         var xe = function () {
           (this.__data__ = ye ? ye(null) : {}), (this.size = 0);
         };
@@ -2773,7 +2959,7 @@
             o = n.size;
           return n.set(t, e), (this.size += n.size == o ? 0 : 1), this;
         };
-        function qe(t) {
+        function Ke(t) {
           var e = -1,
             n = null == t ? 0 : t.length;
           for (this.clear(); ++e < n; ) {
@@ -2781,18 +2967,18 @@
             this.set(o[0], o[1]);
           }
         }
-        (qe.prototype.clear = Fe),
-          (qe.prototype.delete = Me),
-          (qe.prototype.get = Ne),
-          (qe.prototype.has = Ve),
-          (qe.prototype.set = Le);
-        var Ke = qe;
+        (Ke.prototype.clear = Fe),
+          (Ke.prototype.delete = Me),
+          (Ke.prototype.get = Ne),
+          (Ke.prototype.has = Ve),
+          (Ke.prototype.set = Le);
+        var qe = Ke;
         var He = function (t, e) {
           var n = this.__data__;
           if (n instanceof be) {
             var o = n.__data__;
             if (!ve || o.length < 199) return o.push([t, e]), (this.size = ++n.size), this;
-            n = this.__data__ = new Ke(o);
+            n = this.__data__ = new qe(o);
           }
           return n.set(t, e), (this.size = n.size), this;
         };
@@ -2801,12 +2987,12 @@
           this.size = e.size;
         }
         (je.prototype.clear = we),
-          (je.prototype.delete = _e),
-          (je.prototype.get = Ae),
+          (je.prototype.delete = Ae),
+          (je.prototype.get = _e),
           (je.prototype.has = Ce),
           (je.prototype.set = He);
-        var Ge = je;
-        var $e = function (t, e) {
+        var $e = je;
+        var Ge = function (t, e) {
             for (var n = -1, o = null == t ? 0 : t.length; ++n < o && !1 !== e(t[n], n, t); );
             return t;
           },
@@ -2874,7 +3060,7 @@
         };
         var hn = function (t, e, n) {
           var o = e(t);
-          return At(t) ? o : cn(o, n(t));
+          return _t(t) ? o : cn(o, n(t));
         };
         var un = function (t) {
           return hn(t, Ye, sn);
@@ -2882,14 +3068,14 @@
         var pn = function (t) {
             return hn(t, Ot, ln);
           },
-          mn = $(_.a, 'DataView'),
-          gn = $(_.a, 'Promise'),
-          fn = $(_.a, 'Set'),
-          kn = $(_.a, 'WeakMap'),
+          mn = G(A.a, 'DataView'),
+          gn = G(A.a, 'Promise'),
+          fn = G(A.a, 'Set'),
+          kn = G(A.a, 'WeakMap'),
           bn = '[object Map]',
           wn = '[object Promise]',
-          _n = '[object Set]',
-          An = '[object WeakMap]',
+          An = '[object Set]',
+          _n = '[object WeakMap]',
           Cn = '[object DataView]',
           vn = M(mn),
           yn = M(ve),
@@ -2900,8 +3086,8 @@
         ((mn && Sn(new mn(new ArrayBuffer(1))) != Cn) ||
           (ve && Sn(new ve()) != bn) ||
           (gn && Sn(gn.resolve()) != wn) ||
-          (fn && Sn(new fn()) != _n) ||
-          (kn && Sn(new kn()) != An)) &&
+          (fn && Sn(new fn()) != An) ||
+          (kn && Sn(new kn()) != _n)) &&
           (Sn = function (t) {
             var e = T(t),
               n = '[object Object]' == e ? t.constructor : void 0,
@@ -2915,9 +3101,9 @@
                 case xn:
                   return wn;
                 case En:
-                  return _n;
-                case Dn:
                   return An;
+                case Dn:
+                  return _n;
               }
             return e;
           });
@@ -2928,7 +3114,7 @@
               n = new t.constructor(e);
             return e && 'string' == typeof t[0] && Tn.call(t, 'index') && ((n.index = t.index), (n.input = t.input)), n;
           },
-          In = _.a.Uint8Array;
+          In = A.a.Uint8Array;
         var zn = function (t) {
           var e = new t.constructor(t.byteLength);
           return new In(e).set(new In(t)), e;
@@ -2942,7 +3128,7 @@
             var e = new t.constructor(t.source, Rn.exec(t));
             return (e.lastIndex = t.lastIndex), e;
           },
-          Mn = A ? A.prototype : void 0,
+          Mn = _ ? _.prototype : void 0,
           Nn = Mn ? Mn.valueOf : void 0;
         var Vn = function (t) {
           return Nn ? Object(Nn.call(t)) : {};
@@ -2951,7 +3137,7 @@
           var n = e ? zn(t.buffer) : t.buffer;
           return new t.constructor(n, t.byteOffset, t.length);
         };
-        var qn = function (t, e, n) {
+        var Kn = function (t, e, n) {
             var o = t.constructor;
             switch (e) {
               case '[object ArrayBuffer]':
@@ -2984,12 +3170,12 @@
                 return Vn(t);
             }
           },
-          Kn = Object.create,
+          qn = Object.create,
           Hn = (function () {
             function t() {}
             return function (e) {
               if (!w(e)) return {};
-              if (Kn) return Kn(e);
+              if (qn) return qn(e);
               t.prototype = e;
               var n = new t();
               return (t.prototype = void 0), n;
@@ -2998,11 +3184,11 @@
         var jn = function (t) {
           return 'function' != typeof t.constructor || It(t) ? {} : Hn(oe(t));
         };
-        var Gn = function (t) {
+        var $n = function (t) {
             return gt(t) && '[object Map]' == Bn(t);
           },
-          $n = Et.a && Et.a.isMap,
-          Wn = $n ? xt($n) : Gn;
+          Gn = Et.a && Et.a.isMap,
+          Wn = Gn ? xt(Gn) : $n;
         var Un = function (t) {
             return gt(t) && '[object Set]' == Bn(t);
           },
@@ -3043,7 +3229,7 @@
             d = 4 & n;
           if ((o && (a = r ? o(e, i, r, s) : o(e)), void 0 !== a)) return a;
           if (!w(e)) return e;
-          var h = At(e);
+          var h = _t(e);
           if (h) {
             if (((a = Pn(e)), !c)) return tn(e, a);
           } else {
@@ -3054,10 +3240,10 @@
               if (((a = l || p ? {} : jn(e)), !c)) return l ? dn(e, Xe(a, e)) : an(e, Qe(a, e));
             } else {
               if (!to[u]) return r ? e : {};
-              a = qn(e, u, c);
+              a = Kn(e, u, c);
             }
           }
-          s || (s = new Ge());
+          s || (s = new $e());
           var m = s.get(e);
           if (m) return m;
           s.set(e, a),
@@ -3071,7 +3257,7 @@
                 });
           var g = h ? void 0 : (d ? (l ? pn : un) : l ? Ot : Ye)(e);
           return (
-            $e(g || e, function (i, r) {
+            Ge(g || e, function (i, r) {
               g && (i = e[(r = i)]), Q(a, r, t(i, n, o, r, e, s));
             }),
             a
@@ -3556,7 +3742,7 @@
         var wo = function (t) {
           return eo(t, 4);
         };
-        class _o {
+        class Ao {
           constructor(t) {
             (this.document = t), (this.parent = null);
           }
@@ -3633,8 +3819,8 @@
             return 'node' === t || 'view:node' === t;
           }
         }
-        Yt(_o, h);
-        class Ao extends _o {
+        Yt(Ao, h);
+        class _o extends Ao {
           constructor(t, e) {
             super(t), (this._textData = e);
           }
@@ -3658,10 +3844,10 @@
             this._fireChange('text', this), (this._textData = t);
           }
           isSimilar(t) {
-            return t instanceof Ao && (this === t || this.data === t.data);
+            return t instanceof _o && (this === t || this.data === t.data);
           }
           _clone() {
-            return new Ao(this.document, this.data);
+            return new _o(this.document, this.data);
           }
         }
         class Co {
@@ -3817,7 +4003,7 @@
           Do = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
           So = /^\w*$/;
         var Bo = function (t, e) {
-          if (At(t)) return !1;
+          if (_t(t)) return !1;
           var n = typeof t;
           return (
             !('number' != n && 'symbol' != n && 'boolean' != n && null != t && !Eo(t)) ||
@@ -3837,9 +4023,9 @@
             var s = t.apply(this, o);
             return (n.cache = r.set(i, s) || r), s;
           };
-          return (n.cache = new (To.Cache || Ke)()), n;
+          return (n.cache = new (To.Cache || qe)()), n;
         }
-        To.Cache = Ke;
+        To.Cache = qe;
         var Po = To;
         var Io = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g,
           zo = /\\(\\)?/g,
@@ -3863,11 +4049,11 @@
             for (var n = -1, o = null == t ? 0 : t.length, i = Array(o); ++n < o; ) i[n] = e(t[n], n, t);
             return i;
           },
-          Oo = A ? A.prototype : void 0,
+          Oo = _ ? _.prototype : void 0,
           Mo = Oo ? Oo.toString : void 0;
         var No = function t(e) {
           if ('string' == typeof e) return e;
-          if (At(e)) return Ro(e, t) + '';
+          if (_t(e)) return Ro(e, t) + '';
           if (Eo(e)) return Mo ? Mo.call(e) : '';
           var n = e + '';
           return '0' == n && 1 / e == -Infinity ? '-0' : n;
@@ -3876,19 +4062,19 @@
           return null == t ? '' : No(t);
         };
         var Lo = function (t, e) {
-          return At(t) ? t : Bo(t, e) ? [t] : Fo(Vo(t));
+          return _t(t) ? t : Bo(t, e) ? [t] : Fo(Vo(t));
         };
-        var qo = function (t) {
+        var Ko = function (t) {
           var e = null == t ? 0 : t.length;
           return e ? t[e - 1] : void 0;
         };
-        var Ko = function (t) {
+        var qo = function (t) {
           if ('string' == typeof t || Eo(t)) return t;
           var e = t + '';
           return '0' == e && 1 / t == -Infinity ? '-0' : e;
         };
         var Ho = function (t, e) {
-          for (var n = 0, o = (e = Lo(e, t)).length; null != t && n < o; ) t = t[Ko(e[n++])];
+          for (var n = 0, o = (e = Lo(e, t)).length; null != t && n < o; ) t = t[qo(e[n++])];
           return n && n == o ? t : void 0;
         };
         var jo = function (t, e, n) {
@@ -3901,14 +4087,14 @@
           for (var r = Array(i); ++o < i; ) r[o] = t[o + e];
           return r;
         };
-        var Go = function (t, e) {
+        var $o = function (t, e) {
           return e.length < 2 ? t : Ho(t, jo(e, 0, -1));
         };
-        var $o = function (t, e) {
-          return (e = Lo(e, t)), null == (t = Go(t, e)) || delete t[Ko(qo(e))];
+        var Go = function (t, e) {
+          return (e = Lo(e, t)), null == (t = $o(t, e)) || delete t[qo(Ko(e))];
         };
         var Wo = function (t, e) {
-          return null == t || $o(t, e);
+          return null == t || Go(t, e);
         };
         var Uo = function (t, e, n) {
           var o = null == t ? void 0 : Ho(t, e);
@@ -3944,12 +4130,12 @@
             var d = r ? r(a, c, n + '', t, e, s) : void 0,
               h = void 0 === d;
             if (h) {
-              var u = At(c),
+              var u = _t(c),
                 p = !u && Object(Ct.a)(c),
                 m = !u && !p && St(c);
               (d = c),
                 u || p || m
-                  ? At(a)
+                  ? _t(a)
                     ? (d = a)
                     : Qo(a)
                     ? (d = tn(a))
@@ -3958,8 +4144,8 @@
                     : m
                     ? ((h = !1), (d = Ln(c, !0)))
                     : (d = [])
-                  : le(c) || _t(c)
-                  ? ((d = a), _t(a) ? (d = Zo(a)) : (w(a) && !I(a)) || (d = jn(c)))
+                  : le(c) || At(c)
+                  ? ((d = a), At(a) ? (d = Zo(a)) : (w(a) && !I(a)) || (d = jn(c)))
                   : (h = !1);
             }
             h && (s.set(c, d), i(d, c, o, r, s), s.delete(c)), Jo(t, n, d);
@@ -3970,7 +4156,7 @@
               Yo(
                 n,
                 function (s, a) {
-                  if ((r || (r = new Ge()), w(s))) ti(e, n, a, o, t, i, r);
+                  if ((r || (r = new $e()), w(s))) ti(e, n, a, o, t, i, r);
                   else {
                     var c = i ? i(Xo(e, a), s, a + '', e, n, r) : void 0;
                     void 0 === c && (c = s), Jo(e, a, c);
@@ -3985,7 +4171,7 @@
         var oi = function (t, e, n, o) {
           if (!w(t)) return t;
           for (var i = -1, r = (e = Lo(e, t)).length, s = r - 1, a = t; null != a && ++i < r; ) {
-            var c = Ko(e[i]),
+            var c = qo(e[i]),
               l = n;
             if ('__proto__' === c || 'constructor' === c || 'prototype' === c) return t;
             if (i != s) {
@@ -4158,7 +4344,7 @@
           let o = n;
           w(n) && (o = ni({}, Uo(t, e), n)), ii(t, e, o);
         }
-        class li extends _o {
+        class li extends Ao {
           constructor(t, e, n, o) {
             if (
               (super(t),
@@ -4306,10 +4492,10 @@
             this._fireChange('children', this);
             let n = 0;
             const o = (function (t, e) {
-              if ('string' == typeof e) return [new Ao(t, e)];
+              if ('string' == typeof e) return [new _o(t, e)];
               ao(e) || (e = [e]);
               return Array.from(e).map(e =>
-                'string' == typeof e ? new Ao(t, e) : e instanceof Co ? new Ao(t, e.data) : e,
+                'string' == typeof e ? new _o(t, e) : e instanceof Co ? new _o(t, e.data) : e,
               );
             })(this.document, e);
             for (const e of o)
@@ -4497,7 +4683,7 @@
             if (null === n.parent && t.offset === n.childCount) return { done: !0 };
             if (n === this._boundaryEndParent && t.offset == this.boundaries.end.offset) return { done: !0 };
             let o;
-            if (n instanceof Ao) {
+            if (n instanceof _o) {
               if (t.isAtEnd) return (this.position = ki._createAfter(n)), this._next();
               o = n.data[t.offset];
             } else o = n.getChild(t.offset);
@@ -4507,7 +4693,7 @@
                 (this.position = t),
                 this._formatReturnValue('elementStart', o, e, t, 1)
               );
-            if (o instanceof Ao) {
+            if (o instanceof _o) {
               if (this.singleCharacters) return (t = new ki(o, 0)), (this.position = t), this._next();
               {
                 let n,
@@ -4543,7 +4729,7 @@
             if (null === n.parent && 0 === t.offset) return { done: !0 };
             if (n == this._boundaryStartParent && t.offset == this.boundaries.start.offset) return { done: !0 };
             let o;
-            if (n instanceof Ao) {
+            if (n instanceof _o) {
               if (t.isAtStart) return (this.position = ki._createBefore(n)), this._previous();
               o = n.data[t.offset - 1];
             } else o = n.getChild(t.offset - 1);
@@ -4553,7 +4739,7 @@
                 : ((t = new ki(o, o.childCount)),
                   (this.position = t),
                   this.ignoreElementEnd ? this._previous() : this._formatReturnValue('elementEnd', o, e, t));
-            if (o instanceof Ao) {
+            if (o instanceof _o) {
               if (this.singleCharacters) return (t = new ki(o, o.data.length)), (this.position = t), this._previous();
               {
                 let n,
@@ -4831,12 +5017,12 @@
         function wi(t) {
           return !(!t.item.is('attributeElement') && !t.item.is('uiElement'));
         }
-        function _i(t) {
+        function Ai(t) {
           let e = 0;
           for (const n of t) e++;
           return e;
         }
-        class Ai {
+        class _i {
           constructor(t = null, e, n) {
             (this._ranges = []),
               (this._lastRangeBackward = !1),
@@ -4912,8 +5098,8 @@
           }
           isSimilar(t) {
             if (this.isBackward != t.isBackward) return !1;
-            const e = _i(this.getRanges());
-            if (e != _i(t.getRanges())) return !1;
+            const e = Ai(this.getRanges());
+            if (e != Ai(t.getRanges())) return !1;
             if (0 == e) return !0;
             for (let e of this.getRanges()) {
               e = e.getTrimmed();
@@ -4932,12 +5118,12 @@
           }
           setTo(t, e, n) {
             if (null === t) this._setRanges([]), this._setFakeOptions(e);
-            else if (t instanceof Ai || t instanceof Ci)
+            else if (t instanceof _i || t instanceof Ci)
               this._setRanges(t.getRanges(), t.isBackward),
                 this._setFakeOptions({ fake: t.isFake, label: t.fakeSelectionLabel });
             else if (t instanceof bi) this._setRanges([t], e && e.backward), this._setFakeOptions(e);
             else if (t instanceof ki) this._setRanges([new bi(t)]), this._setFakeOptions(e);
-            else if (t instanceof _o) {
+            else if (t instanceof Ao) {
               const o = !!n && !!n.backward;
               let i;
               if (void 0 === e) throw new c.a('view-selection-setto-required-second-parameter', this);
@@ -4981,10 +5167,10 @@
             this._ranges.push(new bi(t.start, t.end));
           }
         }
-        Yt(Ai, h);
+        Yt(_i, h);
         class Ci {
           constructor(t = null, e, n) {
-            (this._selection = new Ai()), this._selection.delegate('change').to(this), this._selection.setTo(t, e, n);
+            (this._selection = new _i()), this._selection.delegate('change').to(this), this._selection.setTo(t, e, n);
           }
           get isFake() {
             return this._selection.isFake;
@@ -5220,7 +5406,7 @@
                   'view:node' === t;
           }
           _insertChild(t, e) {
-            if (e && (e instanceof _o || Array.from(e).length > 0))
+            if (e && (e instanceof Ao || Array.from(e).length > 0))
               throw new c.a('view-emptyelement-cannot-add', [this, e]);
           }
         }
@@ -5281,8 +5467,8 @@
             for (let e = 112; e <= 123; e++) t['f' + (e - 111)] = e;
             return t;
           })(),
-          qi = Object.fromEntries(Object.entries(Li).map(([t, e]) => [e, t.charAt(0).toUpperCase() + t.slice(1)]));
-        function Ki(t) {
+          Ki = Object.fromEntries(Object.entries(Li).map(([t, e]) => [e, t.charAt(0).toUpperCase() + t.slice(1)]));
+        function qi(t) {
           let e;
           if ('string' == typeof t) {
             if (((e = Li[t.toLowerCase()]), !e)) throw new c.a('keyboard-unknown-key', null, { key: t });
@@ -5305,8 +5491,8 @@
               .map(t =>
                 'string' == typeof t
                   ? (function (t) {
-                      if (t.endsWith('!')) return Ki(t.slice(0, -1));
-                      const e = Ki(t);
+                      if (t.endsWith('!')) return qi(t.slice(0, -1));
+                      const e = qi(t);
                       return Mi.isMac && e == Li.ctrl ? Li.cmd : e;
                     })(t)
                   : t,
@@ -5320,10 +5506,10 @@
             Object.entries(Mi.isMac ? Ni : Vi).reduce(
               (t, [n, o]) => (0 != (e & Li[n]) && ((e &= ~Li[n]), (t += o)), t),
               '',
-            ) + (e ? qi[e] : '')
+            ) + (e ? Ki[e] : '')
           );
         }
-        function Gi(t, e) {
+        function $i(t, e) {
           const n = 'ltr' === e;
           switch (t) {
             case Li.arrowleft:
@@ -5336,8 +5522,8 @@
               return 'down';
           }
         }
-        function $i(t, e) {
-          const n = Gi(t, e);
+        function Gi(t, e) {
+          const n = $i(t, e);
           return 'down' === n || 'right' === n;
         }
         class Wi extends li {
@@ -5356,7 +5542,7 @@
                   'view:node' === t;
           }
           _insertChild(t, e) {
-            if (e && (e instanceof _o || Array.from(e).length > 0)) throw new c.a('view-uielement-cannot-add', this);
+            if (e && (e instanceof Ao || Array.from(e).length > 0)) throw new c.a('view-uielement-cannot-add', this);
           }
           render(t) {
             return this.toDomElement(t);
@@ -5417,7 +5603,7 @@
                   'view:node' === t;
           }
           _insertChild(t, e) {
-            if (e && (e instanceof _o || Array.from(e).length > 0))
+            if (e && (e instanceof Ao || Array.from(e).length > 0))
               throw new c.a('view-rawelement-cannot-add', [this, e]);
           }
         }
@@ -5462,10 +5648,10 @@
             this._fireChange('children', this);
             let n = 0;
             const o = (function (t, e) {
-              if ('string' == typeof e) return [new Ao(t, e)];
+              if ('string' == typeof e) return [new _o(t, e)];
               ao(e) || (e = [e]);
               return Array.from(e).map(e =>
-                'string' == typeof e ? new Ao(t, e) : e instanceof Co ? new Ao(t, e.data) : e,
+                'string' == typeof e ? new _o(t, e) : e instanceof Co ? new _o(t, e.data) : e,
               );
             })(this.document, e);
             for (const e of o)
@@ -5496,11 +5682,11 @@
             return new Xi(this.document, t);
           }
           createText(t) {
-            return new Ao(this.document, t);
+            return new _o(this.document, t);
           }
           createAttributeElement(t, e, n = {}) {
             const o = new Pi(this.document, t, e);
-            return n.priority && (o._priority = n.priority), n.id && (o._id = n.id), o;
+            return 'number' == typeof n.priority && (o._priority = n.priority), n.id && (o._id = n.id), o;
           }
           createContainerElement(t, e, n = {}) {
             const o = new hi(this.document, t, e);
@@ -5611,7 +5797,7 @@
             if (!(e && n && e.is('containerElement') && n.is('containerElement')))
               throw new c.a('view-writer-merge-containers-invalid-position', this.document);
             const o = e.getChild(e.childCount - 1),
-              i = o instanceof Ao ? ki._createAt(o, 'end') : ki._createAt(e, 'end');
+              i = o instanceof _o ? ki._createAt(o, 'end') : ki._createAt(e, 'end');
             return this.move(bi._createIn(n), ki._createAt(e, 'end')), this.remove(bi._createOn(n)), i;
           }
           insert(t, e) {
@@ -5722,7 +5908,7 @@
             return bi._createIn(t);
           }
           createSelection(t, e, n) {
-            return new Ai(t, e, n);
+            return new _i(t, e, n);
           }
           _insertNodes(t, e, n) {
             let o, i;
@@ -5811,7 +5997,7 @@
             n._remove();
             const r = i.nodeBefore,
               s = i.nodeAfter;
-            return r instanceof Ao && s instanceof Ao ? ir(r, s) : nr(i);
+            return r instanceof _o && s instanceof _o ? ir(r, s) : nr(i);
           }
           _wrapAttributeElement(t, e) {
             if (!lr(t, e)) return !1;
@@ -5918,7 +6104,7 @@
           const e = t.parent.data.slice(t.offset);
           return (
             (t.parent._data = t.parent.data.slice(0, t.offset)),
-            t.parent.parent._insertChild(t.parent.index + 1, new Ao(t.root.document, e)),
+            t.parent.parent._insertChild(t.parent.index + 1, new _o(t.root.document, e)),
             new ki(t.parent.parent, t.parent.index + 1)
           );
         }
@@ -5932,7 +6118,7 @@
             n.is('$text') || rr(n.getChildren(), e);
           }
         }
-        const sr = [Ao, Pi, hi, Fi, Yi, Wi];
+        const sr = [_o, Pi, hi, Fi, Yi, Wi];
         function ar(t) {
           return t && (t.is('containerElement') || t.is('documentFragment'));
         }
@@ -5985,11 +6171,11 @@
             Array.isArray(t) || (t = Array.prototype.slice.call(t)),
             Array.isArray(e) || (e = Array.prototype.slice.call(e));
           const i = (function (t, e, n) {
-            const o = _r(t, e, n);
+            const o = Ar(t, e, n);
             if (-1 === o) return { firstIndex: -1, lastIndexOld: -1, lastIndexNew: -1 };
-            const i = Ar(t, o),
-              r = Ar(e, o),
-              s = _r(i, r, n),
+            const i = _r(t, o),
+              r = _r(e, o),
+              s = Ar(i, r, n),
               a = t.length - s,
               c = e.length - s;
             return { firstIndex: o, lastIndexOld: a, lastIndexNew: c };
@@ -6013,12 +6199,12 @@
                 return n;
               })(e, i);
         }
-        function _r(t, e, n) {
+        function Ar(t, e, n) {
           for (let o = 0; o < Math.max(t.length, e.length); o++)
             if (void 0 === t[o] || void 0 === e[o] || !n(t[o], e[o])) return o;
           return -1;
         }
-        function Ar(t, e) {
+        function _r(t, e) {
           return t.slice(e).reverse();
         }
         function Cr(t, e, n) {
@@ -6125,7 +6311,7 @@
           _updateChildrenMappings(t) {
             const e = this.domConverter.mapViewToDom(t);
             if (!e) return;
-            const n = this.domConverter.mapViewToDom(t).childNodes,
+            const n = Array.from(this.domConverter.mapViewToDom(t).childNodes),
               o = Array.from(this.domConverter.viewChildrenToDom(t, e.ownerDocument, { withChildren: !1 })),
               i = this._diffNodeLists(n, o),
               r = this._findReplaceActions(i, n, o);
@@ -6181,7 +6367,7 @@
             if (n === e.getFillerOffset()) return !1;
             const o = t.nodeBefore,
               i = t.nodeAfter;
-            return !(o instanceof Ao || i instanceof Ao);
+            return !(o instanceof _o || i instanceof _o);
           }
           _updateText(t, e) {
             const n = this.domConverter.findCorrespondingDomText(t),
@@ -6403,7 +6589,7 @@
               (this._encounteredRawContentDomNodes = new WeakSet());
           }
           bindFakeSelection(t, e) {
-            this._fakeSelectionMapping.set(t, new Ai(e));
+            this._fakeSelectionMapping.set(t, new _i(e));
           }
           fakeSelectionToView(t) {
             return this._fakeSelectionMapping.get(t);
@@ -6488,7 +6674,7 @@
               if (fr(t)) return null;
               {
                 const e = this._processDataFromDomText(t);
-                return '' === e ? null : new Ao(this.document, e);
+                return '' === e ? null : new _o(this.document, e);
               }
             }
             if (this.isComment(t)) return null;
@@ -6531,7 +6717,7 @@
                 i = this.domRangeToView(o);
               i && n.push(i);
             }
-            return new Ai(n, { backward: e });
+            return new _i(n, { backward: e });
           }
           domRangeToView(t) {
             const e = this.domPositionToView(t.startContainer, t.startOffset),
@@ -6570,13 +6756,13 @@
               if (!this.isElement(n)) return null;
               const t = this.mapDomToView(n);
               if (t) {
-                return t.nextSibling instanceof Ao ? t.nextSibling : null;
+                return t.nextSibling instanceof _o ? t.nextSibling : null;
               }
             } else {
               const e = this.mapDomToView(t.parentNode);
               if (e) {
                 const t = e.getChild(0);
-                return t instanceof Ao ? t : null;
+                return t instanceof _o ? t : null;
               }
             }
             return null;
@@ -6766,10 +6952,10 @@
           const e = Object.prototype.toString.apply(t);
           return '[object Window]' == e || '[object global]' == e;
         }
-        var qr = Mt({}, h, {
+        var Kr = Mt({}, h, {
           listenTo(t, ...e) {
             if (xr(t) || Lr(t)) {
-              const n = this._getProxyEmitter(t) || new Kr(t);
+              const n = this._getProxyEmitter(t) || new qr(t);
               n.attach(...e), (t = n);
             }
             h.listenTo.call(this, t, ...e);
@@ -6780,14 +6966,14 @@
               if (!e) return;
               t = e;
             }
-            h.stopListening.call(this, t, e, n), t instanceof Kr && t.detach(e);
+            h.stopListening.call(this, t, e, n), t instanceof qr && t.detach(e);
           },
           _getProxyEmitter(t) {
             return (e = this), (n = Hr(t)), e[l] && e[l][n] ? e[l][n].emitter : null;
             var e, n;
           },
         });
-        class Kr {
+        class qr {
           constructor(t) {
             u(this, Hr(t)), (this._domNode = t);
           }
@@ -6795,7 +6981,7 @@
         function Hr(t) {
           return t['data-ck-expando'] || (t['data-ck-expando'] = s());
         }
-        Mt(Kr.prototype, h, {
+        Mt(qr.prototype, h, {
           attach(t, e, n = {}) {
             if (this._domListeners && this._domListeners[t]) return;
             const o = { capture: !!n.useCapture, passive: !!n.usePassive },
@@ -6842,19 +7028,19 @@
             );
           }
         }
-        Yt(jr, qr);
-        var Gr = function (t) {
+        Yt(jr, Kr);
+        var $r = function (t) {
           return this.__data__.set(t, '__lodash_hash_undefined__'), this;
         };
-        var $r = function (t) {
+        var Gr = function (t) {
           return this.__data__.has(t);
         };
         function Wr(t) {
           var e = -1,
             n = null == t ? 0 : t.length;
-          for (this.__data__ = new Ke(); ++e < n; ) this.add(t[e]);
+          for (this.__data__ = new qe(); ++e < n; ) this.add(t[e]);
         }
-        (Wr.prototype.add = Wr.prototype.push = Gr), (Wr.prototype.has = $r);
+        (Wr.prototype.add = Wr.prototype.push = $r), (Wr.prototype.has = Gr);
         var Ur = Wr;
         var Jr = function (t, e) {
           for (var n = -1, o = null == t ? 0 : t.length; ++n < o; ) if (e(t[n], n, t)) return !0;
@@ -6919,7 +7105,7 @@
               n
             );
           },
-          ts = A ? A.prototype : void 0,
+          ts = _ ? _.prototype : void 0,
           es = ts ? ts.valueOf : void 0;
         var ns = function (t, e, n, o, i, r, s) {
             switch (n) {
@@ -6993,8 +7179,8 @@
           as = '[object Object]',
           cs = Object.prototype.hasOwnProperty;
         var ls = function (t, e, n, o, i, r) {
-          var s = At(t),
-            a = At(e),
+          var s = _t(t),
+            a = _t(e),
             c = s ? ss : Bn(t),
             l = a ? ss : Bn(e),
             d = (c = c == rs ? as : c) == as,
@@ -7004,17 +7190,17 @@
             if (!Object(Ct.a)(e)) return !1;
             (s = !0), (d = !1);
           }
-          if (u && !d) return r || (r = new Ge()), s || St(t) ? Qr(t, e, n, o, i, r) : ns(t, e, c, n, o, i, r);
+          if (u && !d) return r || (r = new $e()), s || St(t) ? Qr(t, e, n, o, i, r) : ns(t, e, c, n, o, i, r);
           if (!(1 & n)) {
             var p = d && cs.call(t, '__wrapped__'),
               m = h && cs.call(e, '__wrapped__');
             if (p || m) {
               var g = p ? t.value() : t,
                 f = m ? e.value() : e;
-              return r || (r = new Ge()), i(g, f, n, o, r);
+              return r || (r = new $e()), i(g, f, n, o, r);
             }
           }
-          return !!u && (r || (r = new Ge()), is(t, e, n, o, i, r));
+          return !!u && (r || (r = new $e()), is(t, e, n, o, i, r));
         };
         var ds = function t(e, n, o, i, r) {
           return e === n || (null == e || null == n || (!gt(e) && !gt(n)) ? e != e && n != n : ls(e, n, o, i, t, r));
@@ -7083,7 +7269,7 @@
             if (r && r.anchorNode) {
               const t = e.domPositionToView(r.anchorNode, r.anchorOffset),
                 n = e.domPositionToView(r.focusNode, r.focusOffset);
-              t && n && ((s = new Ai(t)), s.setFocus(n));
+              t && n && ((s = new _i(t)), s.setFocus(n));
             }
             function a(t, e) {
               if (!Array.isArray(t)) return t === e || (!(!t.is('$text') || !e.is('$text')) && t.data === e.data);
@@ -7151,13 +7337,13 @@
               shiftKey: t.shiftKey,
               metaKey: t.metaKey,
               get keystroke() {
-                return Ki(this);
+                return qi(this);
               },
             });
           }
         }
         var fs = function () {
-            return _.a.Date.now();
+            return A.a.Date.now();
           },
           ks = /\s/;
         var bs = function (t) {
@@ -7165,10 +7351,10 @@
             return e;
           },
           ws = /^\s+/;
-        var _s = function (t) {
+        var As = function (t) {
             return t ? t.slice(0, bs(t) + 1).replace(ws, '') : t;
           },
-          As = /^[-+]0x[0-9a-f]+$/i,
+          _s = /^[-+]0x[0-9a-f]+$/i,
           Cs = /^0b[01]+$/i,
           vs = /^0o[0-7]+$/i,
           ys = parseInt;
@@ -7180,9 +7366,9 @@
               t = w(e) ? e + '' : e;
             }
             if ('string' != typeof t) return 0 === t ? t : +t;
-            t = _s(t);
+            t = As(t);
             var n = Cs.test(t);
-            return n || vs.test(t) ? ys(t.slice(2), n ? 2 : 8) : As.test(t) ? NaN : +t;
+            return n || vs.test(t) ? ys(t.slice(2), n ? 2 : 8) : _s.test(t) ? NaN : +t;
           },
           Es = Math.max,
           Ds = Math.min;
@@ -7275,7 +7461,7 @@
           }
           _handleSelectionMove(t) {
             const e = this.document.selection,
-              n = new Ai(e.getRanges(), { backward: e.isBackward, fake: !1 });
+              n = new _i(e.getRanges(), { backward: e.isBackward, fake: !1 });
             (t != Li.arrowleft && t != Li.arrowup) || n.setTo(n.getFirstPosition()),
               (t != Li.arrowright && t != Li.arrowdown) || n.setTo(n.getLastPosition());
             const o = { oldSelection: e, newSelection: n, domSelection: null };
@@ -7374,7 +7560,7 @@
           }
         }
         var Fs = function (t) {
-          return 'string' == typeof t || (!At(t) && gt(t) && '[object String]' == T(t));
+          return 'string' == typeof t || (!_t(t) && gt(t) && '[object String]' == T(t));
         };
         function Rs(t, e, n = {}, o = []) {
           const i = n && n.xmlns,
@@ -7447,9 +7633,9 @@
           getVisible() {
             const t = this._source;
             let e = this.clone();
-            if (!qs(t)) {
+            if (!Ks(t)) {
               let n = t.parentNode || t.commonAncestorContainer;
-              for (; n && !qs(n); ) {
+              for (; n && !Ks(n); ) {
                 const t = new Vs(n),
                   o = e.getIntersection(t);
                 if (!o) return null;
@@ -7525,47 +7711,47 @@
         function Ls(t, e) {
           for (const n of Ns) t[n] = e[n];
         }
-        function qs(t) {
+        function Ks(t) {
           return !!oo(t) && t === t.ownerDocument.body;
         }
-        class Ks {
+        class qs {
           constructor(t, e) {
-            Ks._observerInstance || Ks._createObserver(),
+            qs._observerInstance || qs._createObserver(),
               (this._element = t),
               (this._callback = e),
-              Ks._addElementCallback(t, e),
-              Ks._observerInstance.observe(t);
+              qs._addElementCallback(t, e),
+              qs._observerInstance.observe(t);
           }
           destroy() {
-            Ks._deleteElementCallback(this._element, this._callback);
+            qs._deleteElementCallback(this._element, this._callback);
           }
           static _addElementCallback(t, e) {
-            Ks._elementCallbacks || (Ks._elementCallbacks = new Map());
-            let n = Ks._elementCallbacks.get(t);
-            n || ((n = new Set()), Ks._elementCallbacks.set(t, n)), n.add(e);
+            qs._elementCallbacks || (qs._elementCallbacks = new Map());
+            let n = qs._elementCallbacks.get(t);
+            n || ((n = new Set()), qs._elementCallbacks.set(t, n)), n.add(e);
           }
           static _deleteElementCallback(t, e) {
-            const n = Ks._getElementCallbacks(t);
-            n && (n.delete(e), n.size || (Ks._elementCallbacks.delete(t), Ks._observerInstance.unobserve(t))),
-              Ks._elementCallbacks &&
-                !Ks._elementCallbacks.size &&
-                ((Ks._observerInstance = null), (Ks._elementCallbacks = null));
+            const n = qs._getElementCallbacks(t);
+            n && (n.delete(e), n.size || (qs._elementCallbacks.delete(t), qs._observerInstance.unobserve(t))),
+              qs._elementCallbacks &&
+                !qs._elementCallbacks.size &&
+                ((qs._observerInstance = null), (qs._elementCallbacks = null));
           }
           static _getElementCallbacks(t) {
-            return Ks._elementCallbacks ? Ks._elementCallbacks.get(t) : null;
+            return qs._elementCallbacks ? qs._elementCallbacks.get(t) : null;
           }
           static _createObserver() {
             let t;
             (t = 'function' == typeof Tr.window.ResizeObserver ? Tr.window.ResizeObserver : Hs),
-              (Ks._observerInstance = new t(t => {
+              (qs._observerInstance = new t(t => {
                 for (const e of t) {
-                  const t = Ks._getElementCallbacks(e.target);
+                  const t = qs._getElementCallbacks(e.target);
                   if (t) for (const n of t) n(e);
                 }
               }));
           }
         }
-        (Ks._observerInstance = null), (Ks._elementCallbacks = null);
+        (qs._observerInstance = null), (qs._elementCallbacks = null);
         class Hs {
           constructor(t) {
             (this._callback = t),
@@ -7610,14 +7796,14 @@
         function js(t, e) {
           t instanceof HTMLTextAreaElement && (t.value = e), (t.innerHTML = e);
         }
-        function Gs(t) {
+        function $s(t) {
           return e => e + t;
         }
-        function $s(t) {
+        function Gs(t) {
           const e = t.next();
           return e.done ? null : e.value;
         }
-        Yt(Hs, qr);
+        Yt(Hs, Kr);
         class Ws {
           constructor() {
             this.set('isFocused', !1),
@@ -7648,14 +7834,14 @@
               }, 0));
           }
         }
-        Yt(Ws, qr), Yt(Ws, jt);
+        Yt(Ws, Kr), Yt(Ws, jt);
         class Us {
           constructor() {
-            this._listener = Object.create(qr);
+            this._listener = Object.create(Kr);
           }
           listenTo(t) {
             this._listener.listenTo(t, 'keydown', (t, e) => {
-              this._listener.fire('_keydown:' + Ki(e), e);
+              this._listener.fire('_keydown:' + qi(e), e);
             });
           }
           set(t, e, n = {}) {
@@ -7674,7 +7860,7 @@
             );
           }
           press(t) {
-            return !!this._listener.fire('_keydown:' + Ki(t), t);
+            return !!this._listener.fire('_keydown:' + qi(t), t);
           }
           destroy() {
             this._listener.stopListening();
@@ -7918,7 +8104,7 @@
             return bi._createIn(t);
           }
           createSelection(t, e, n) {
-            return new Ai(t, e, n);
+            return new _i(t, e, n);
           }
           _disableRendering(t) {
             (this._renderingDisabled = t), 0 == t && this.change(() => {});
@@ -9055,36 +9241,36 @@
           _moveViewPositionToTextNode(t) {
             const e = t.nodeBefore,
               n = t.nodeAfter;
-            return e instanceof Ao ? new ki(e, e.data.length) : n instanceof Ao ? new ki(n, 0) : t;
+            return e instanceof _o ? new ki(e, e.data.length) : n instanceof _o ? new ki(n, 0) : t;
           }
         }
         Yt(wa, h);
-        class _a {
+        class Aa {
           constructor() {
             (this._consumable = new Map()), (this._textProxyRegistry = new Map());
           }
           add(t, e) {
-            (e = Aa(e)),
+            (e = _a(e)),
               t instanceof la && (t = this._getSymbolForTextProxy(t)),
               this._consumable.has(t) || this._consumable.set(t, new Map()),
               this._consumable.get(t).set(e, !0);
           }
           consume(t, e) {
             return (
-              (e = Aa(e)),
+              (e = _a(e)),
               t instanceof la && (t = this._getSymbolForTextProxy(t)),
               !!this.test(t, e) && (this._consumable.get(t).set(e, !1), !0)
             );
           }
           test(t, e) {
-            (e = Aa(e)), t instanceof la && (t = this._getSymbolForTextProxy(t));
+            (e = _a(e)), t instanceof la && (t = this._getSymbolForTextProxy(t));
             const n = this._consumable.get(t);
             if (void 0 === n) return null;
             const o = n.get(e);
             return void 0 === o ? null : o;
           }
           revert(t, e) {
-            (e = Aa(e)), t instanceof la && (t = this._getSymbolForTextProxy(t));
+            (e = _a(e)), t instanceof la && (t = this._getSymbolForTextProxy(t));
             const n = this.test(t, e);
             return !1 === n ? (this._consumable.get(t).set(e, !0), !0) : !0 !== n && null;
           }
@@ -9110,7 +9296,7 @@
             );
           }
         }
-        function Aa(t) {
+        function _a(t) {
           const e = t.split(':');
           return e.length > 1 ? e[0] + ':' + e[1] : e[0];
         }
@@ -9210,7 +9396,7 @@
             if ('$graveyard' == e.root.rootName) return;
             this.conversionApi.writer = n;
             const o = 'addMarker:' + t,
-              i = new _a();
+              i = new Aa();
             if (
               (i.add(e, o),
               (this.conversionApi.consumable = i),
@@ -9236,7 +9422,7 @@
             this._reconversionEventsMapping.set(e, t);
           }
           _createInsertConsumable(t) {
-            const e = new _a();
+            const e = new Aa();
             for (const n of t) {
               const t = n.item;
               e.add(t, 'insert');
@@ -9245,12 +9431,12 @@
             return e;
           }
           _createConsumableForRange(t, e) {
-            const n = new _a();
+            const n = new Aa();
             for (const o of t.getItems()) n.add(o, e);
             return n;
           }
           _createSelectionConsumable(t, e) {
-            const n = new _a();
+            const n = new Aa();
             n.add(t, 'selection');
             for (const o of e) n.add(t, 'addMarker:' + o.name);
             for (const e of t.getAttributeKeys()) n.add(t, 'attribute:' + e);
@@ -10031,8 +10217,8 @@
                 t = Va(t);
                 let e = 'attribute:' + (t.model.key ? t.model.key : t.model);
                 t.model.name && (e += ':' + t.model.name);
-                if (t.model.values) for (const e of t.model.values) t.view[e] = Ga(t.view[e]);
-                else t.view = Ga(t.view);
+                if (t.model.values) for (const e of t.model.values) t.view[e] = $a(t.view[e]);
+                else t.view = $a(t.view);
                 const n = ja(t);
                 return o => {
                   var i;
@@ -10129,11 +10315,11 @@
                     (t, e, o) => {
                       if (!e.item) return;
                       if (!(e.item instanceof Ea || e.item instanceof Ra || e.item.is('$textProxy'))) return;
-                      const i = $a(n, e, o);
+                      const i = Ga(n, e, o);
                       if (!i) return;
                       if (!o.consumable.consume(e.item, t.name)) return;
                       const r = o.writer,
-                        s = qa(r, i),
+                        s = Ka(r, i),
                         a = r.document.selection;
                       if (e.item instanceof Ea || e.item instanceof Ra) r.wrap(a.getFirstRange(), s, a);
                       else {
@@ -10154,7 +10340,7 @@
                         return (e, n, o) => {
                           if (!n.item) return;
                           if (!(n.item instanceof ha)) return;
-                          const i = $a(t, n, o);
+                          const i = Ga(t, n, o);
                           if (!i) return;
                           if (!o.consumable.test(n.item, e.name)) return;
                           const r = o.mapper.toViewElement(n.item);
@@ -10173,9 +10359,9 @@
                       (function (t) {
                         return (e, n, o) => {
                           if (n.markerRange.isCollapsed) return;
-                          const i = $a(t, n, o);
+                          const i = Ga(t, n, o);
                           if (!i) return;
-                          const r = qa(o.writer, i),
+                          const r = Ka(o.writer, i),
                             s = o.mapper.markerNameToElements(n.markerName);
                           if (s) {
                             for (const t of s)
@@ -10207,7 +10393,7 @@
                       const i = o(e.markerName, n);
                       if (!i) return;
                       const r = e.markerRange;
-                      n.consumable.consume(r, t.name) && (Ka(r, !1, n, e, i), Ka(r, !0, n, e, i), t.stop());
+                      n.consumable.consume(r, t.name) && (qa(r, !1, n, e, i), qa(r, !0, n, e, i), t.stop());
                     }),
                     { priority: t.converterPriority || 'normal' },
                   ),
@@ -10247,32 +10433,38 @@
             );
           }
         }
-        function qa(t, e) {
+        function Ka(t, e) {
           const n = t.createAttributeElement('span', e.attributes);
-          return e.classes && n._addClass(e.classes), e.priority && (n._priority = e.priority), (n._id = e.id), n;
+          return (
+            e.classes && n._addClass(e.classes),
+            'number' == typeof e.priority && (n._priority = e.priority),
+            (n._id = e.id),
+            n
+          );
         }
-        function Ka(t, e, n, o, i) {
-          const r = e ? t.start : t.end;
-          if (n.schema.checkChild(r, '$text')) {
-            !(function (t, e, n, o, i) {
-              const r = `${i.group}-${e ? 'start' : 'end'}`,
-                s = i.name ? { name: i.name } : null,
-                a = n.writer.createUIElement(r, s);
-              n.writer.insert(t, a), n.mapper.bindElementToMarker(a, o.markerName);
-            })(n.mapper.toViewPosition(r), e, n, o, i);
-          } else {
-            let t, s;
-            (e && r.nodeAfter) || (!e && !r.nodeBefore)
-              ? ((t = r.nodeAfter), (s = !0))
-              : ((t = r.nodeBefore), (s = !1));
-            !(function (t, e, n, o, i, r) {
-              const s = `data-${r.group}-${e ? 'start' : 'end'}-${n ? 'before' : 'after'}`,
-                a = t.hasAttribute(s) ? t.getAttribute(s).split(',') : [];
-              a.unshift(r.name),
-                o.writer.setAttribute(s, a.join(','), t),
-                o.mapper.bindElementToMarker(t, i.markerName);
-            })(n.mapper.toViewElement(t), e, s, n, o, i);
+        function qa(t, e, n, o, i) {
+          const r = e ? t.start : t.end,
+            s = r.nodeAfter && r.nodeAfter.is('element') ? r.nodeAfter : null,
+            a = r.nodeBefore && r.nodeBefore.is('element') ? r.nodeBefore : null;
+          if (s || a) {
+            let t, r;
+            (e && s) || (!e && !a) ? ((t = s), (r = !0)) : ((t = a), (r = !1));
+            const c = n.mapper.toViewElement(t);
+            if (c)
+              return void (function (t, e, n, o, i, r) {
+                const s = `data-${r.group}-${e ? 'start' : 'end'}-${n ? 'before' : 'after'}`,
+                  a = t.hasAttribute(s) ? t.getAttribute(s).split(',') : [];
+                a.unshift(r.name),
+                  o.writer.setAttribute(s, a.join(','), t),
+                  o.mapper.bindElementToMarker(t, i.markerName);
+              })(c, e, r, n, o, i);
           }
+          !(function (t, e, n, o, i) {
+            const r = `${i.group}-${e ? 'start' : 'end'}`,
+              s = i.name ? { name: i.name } : null,
+              a = n.writer.createUIElement(r, s);
+            n.writer.insert(t, a), n.mapper.bindElementToMarker(a, o.markerName);
+          })(n.mapper.toViewPosition(r), e, n, o, i);
         }
         function Ha(t, e) {
           return 'function' == typeof t
@@ -10308,7 +10500,7 @@
               }
             : t.view;
         }
-        function Ga(t) {
+        function $a(t) {
           return 'string' == typeof t
             ? e => ({ key: t, value: e })
             : 'object' == typeof t
@@ -10317,7 +10509,7 @@
               : e => ({ key: t.key, value: e })
             : t;
         }
-        function $a(t, e, n) {
+        function Ga(t, e, n) {
           const o = 'function' == typeof t ? t(e, n) : t;
           return o ? (o.priority || (o.priority = 10), o.id || (o.id = e.markerName), o) : null;
         }
@@ -10428,7 +10620,11 @@
                               (n.modelRange = n.modelRange._getTransformedByInsertion(e, 1)[0]);
                           }
                         }
-                        n.modelRange || (n = Object.assign(n, o.convertChildren(n.viewItem, n.modelCursor))),
+                        (o.consumable.test(n.viewItem, { attributes: i + '-end-after' }) ||
+                          o.consumable.test(n.viewItem, { attributes: i + '-start-after' }) ||
+                          o.consumable.test(n.viewItem, { attributes: i + '-end-before' }) ||
+                          o.consumable.test(n.viewItem, { attributes: i + '-start-before' })) &&
+                          (n.modelRange || Object.assign(n, o.convertChildren(n.viewItem, n.modelCursor)),
                           o.consumable.consume(n.viewItem, { attributes: i + '-end-after' }) &&
                             r(n.modelRange.end, n.viewItem.getAttribute(i + '-end-after').split(',')),
                           o.consumable.consume(n.viewItem, { attributes: i + '-start-after' }) &&
@@ -10436,7 +10632,7 @@
                           o.consumable.consume(n.viewItem, { attributes: i + '-end-before' }) &&
                             r(n.modelRange.start, n.viewItem.getAttribute(i + '-end-before').split(',')),
                           o.consumable.consume(n.viewItem, { attributes: i + '-start-before' }) &&
-                            r(n.modelRange.start, n.viewItem.getAttribute(i + '-start-before').split(','));
+                            r(n.modelRange.start, n.viewItem.getAttribute(i + '-start-before').split(',')));
                       };
                     })(t),
                     { priority: i + s },
@@ -10483,9 +10679,6 @@
           return (o, i, r) => {
             const s = n.match(i.viewItem);
             if (!s) return;
-            const a = t.model.key,
-              c = 'function' == typeof t.model.value ? t.model.value(i.viewItem, r) : t.model.value;
-            if (null === c) return;
             if (
               (!(function (t, e) {
                 const n = 'function' == typeof t ? t(e) : t;
@@ -10497,7 +10690,10 @@
               !r.consumable.test(i.viewItem, s.match))
             )
               return;
-            i.modelRange || (i = Object.assign(i, r.convertChildren(i.viewItem, i.modelCursor)));
+            const a = t.model.key,
+              c = 'function' == typeof t.model.value ? t.model.value(i.viewItem, r) : t.model.value;
+            if (null === c) return;
+            i.modelRange || Object.assign(i, r.convertChildren(i.viewItem, i.modelCursor));
             (function (t, e, n, o) {
               let i = !1;
               for (const r of Array.from(t.getItems({ shallow: n })))
@@ -10748,7 +10944,7 @@
             for (const e in this._consumables) e in t && this._revert(e, t[e]);
           }
           _add(t, e) {
-            const n = At(e) ? e : [e],
+            const n = _t(e) ? e : [e],
               o = this._consumables[t];
             for (const e of n) {
               if ('attributes' === t && ('class' === e || 'style' === e))
@@ -10758,7 +10954,7 @@
             }
           }
           _test(t, e) {
-            const n = At(e) ? e : [e],
+            const n = _t(e) ? e : [e],
               o = this._consumables[t];
             for (const e of n)
               if ('attributes' !== t || ('class' !== e && 'style' !== e)) {
@@ -10773,7 +10969,7 @@
             return !0;
           }
           _consume(t, e) {
-            const n = At(e) ? e : [e],
+            const n = _t(e) ? e : [e],
               o = this._consumables[t];
             for (const e of n)
               if ('attributes' !== t || ('class' !== e && 'style' !== e)) {
@@ -10785,7 +10981,7 @@
               }
           }
           _revert(t, e) {
-            const n = At(e) ? e : [e],
+            const n = _t(e) ? e : [e],
               o = this._consumables[t];
             for (const e of n)
               if ('attributes' !== t || ('class' !== e && 'style' !== e)) {
@@ -10978,11 +11174,11 @@
           }
           removeDisallowedAttributes(t, e) {
             for (const n of t)
-              if (n.is('$text')) wc(this, n, e);
+              if (n.is('$text')) _c(this, n, e);
               else {
                 const t = ba._createIn(n).getPositions();
                 for (const n of t) {
-                  wc(this, n.nodeBefore || n.parent, e);
+                  _c(this, n.nodeBefore || n.parent, e);
                 }
               }
           }
@@ -10999,8 +11195,9 @@
             for (const o of n) t[o] = lc(e[o], o);
             for (const e of n) dc(t, e);
             for (const e of n) hc(t, e);
-            for (const e of n) uc(t, e), pc(t, e);
-            for (const e of n) mc(t, e), gc(t, e);
+            for (const e of n) uc(t, e);
+            for (const e of n) pc(t, e), mc(t, e);
+            for (const e of n) gc(t, e), fc(t, e), kc(t, e);
             this._compiledDefinitions = t;
           }
           _checkContextMatch(t, e, n = e.length - 1) {
@@ -11029,7 +11226,7 @@
           constructor(t) {
             if (t instanceof cc) return t;
             'string' == typeof t ? (t = [t]) : Array.isArray(t) || (t = t.getAncestors({ includeSelf: !0 })),
-              (this._items = t.map(bc));
+              (this._items = t.map(Ac));
           }
           get length() {
             return this._items.length;
@@ -11065,6 +11262,7 @@
             allowWhere: [],
             allowAttributes: [],
             allowAttributesOf: [],
+            allowChildren: [],
             inheritTypesFrom: [],
           };
           return (
@@ -11074,12 +11272,13 @@
                 for (const o of t) e[o] = n[o];
               }
             })(t, n),
-            fc(t, n, 'allowIn'),
-            fc(t, n, 'allowContentOf'),
-            fc(t, n, 'allowWhere'),
-            fc(t, n, 'allowAttributes'),
-            fc(t, n, 'allowAttributesOf'),
-            fc(t, n, 'inheritTypesFrom'),
+            bc(t, n, 'allowIn'),
+            bc(t, n, 'allowContentOf'),
+            bc(t, n, 'allowWhere'),
+            bc(t, n, 'allowAttributes'),
+            bc(t, n, 'allowAttributesOf'),
+            bc(t, n, 'allowChildren'),
+            bc(t, n, 'inheritTypesFrom'),
             (function (t, e) {
               for (const n of t) {
                 const t = n.inheritAllFrom;
@@ -11094,15 +11293,23 @@
           );
         }
         function dc(t, e) {
+          const n = t[e];
+          for (const o of n.allowChildren) {
+            const n = t[o];
+            n && n.allowIn.push(e);
+          }
+          n.allowChildren.length = 0;
+        }
+        function hc(t, e) {
           for (const n of t[e].allowContentOf)
             if (t[n]) {
-              kc(t, n).forEach(t => {
+              wc(t, n).forEach(t => {
                 t.allowIn.push(e);
               });
             }
           delete t[e].allowContentOf;
         }
-        function hc(t, e) {
+        function uc(t, e) {
           for (const n of t[e].allowWhere) {
             const o = t[n];
             if (o) {
@@ -11112,7 +11319,7 @@
           }
           delete t[e].allowWhere;
         }
-        function uc(t, e) {
+        function pc(t, e) {
           for (const n of t[e].allowAttributesOf) {
             const o = t[n];
             if (o) {
@@ -11122,7 +11329,7 @@
           }
           delete t[e].allowAttributesOf;
         }
-        function pc(t, e) {
+        function mc(t, e) {
           const n = t[e];
           for (const e of n.inheritTypesFrom) {
             const o = t[e];
@@ -11133,24 +11340,30 @@
           }
           delete n.inheritTypesFrom;
         }
-        function mc(t, e) {
+        function gc(t, e) {
           const n = t[e],
             o = n.allowIn.filter(e => t[e]);
           n.allowIn = Array.from(new Set(o));
         }
-        function gc(t, e) {
+        function fc(t, e) {
+          const n = t[e];
+          for (const o of n.allowIn) {
+            t[o].allowChildren.push(e);
+          }
+        }
+        function kc(t, e) {
           const n = t[e];
           n.allowAttributes = Array.from(new Set(n.allowAttributes));
         }
-        function fc(t, e, n) {
+        function bc(t, e, n) {
           for (const o of t) 'string' == typeof o[n] ? e[n].push(o[n]) : Array.isArray(o[n]) && e[n].push(...o[n]);
         }
-        function kc(t, e) {
+        function wc(t, e) {
           const n = t[e];
           return ((o = t), Object.keys(o).map(t => o[t])).filter(t => t.allowIn.includes(n.name));
           var o;
         }
-        function bc(t) {
+        function Ac(t) {
           return 'string' == typeof t || t.is('documentFragment')
             ? { name: 'string' == typeof t ? t : '$documentFragment', *getAttributeKeys() {}, getAttribute() {} }
             : {
@@ -11161,10 +11374,10 @@
                 getAttribute: e => t.getAttribute(e),
               };
         }
-        function wc(t, e, n) {
+        function _c(t, e, n) {
           for (const o of e.getAttributeKeys()) t.checkAttribute(e, o) || n.removeAttribute(o, e);
         }
-        class _c {
+        class Cc {
           constructor(t = {}) {
             (this._splitParts = new Map()),
               (this._cursorParents = new Map()),
@@ -11289,18 +11502,18 @@
             t && this._removeEmptyElements();
           }
         }
-        Yt(_c, h);
-        class Ac {
+        Yt(Cc, h);
+        class vc {
           getHtml(t) {
             const e = document.implementation.createHTMLDocument('').createElement('div');
             return e.appendChild(t), e.innerHTML;
           }
         }
-        class Cc {
+        class yc {
           constructor(t) {
             (this._domParser = new DOMParser()),
               (this._domConverter = new Or(t, { blockFillerMode: 'nbsp' })),
-              (this._htmlWriter = new Ac());
+              (this._htmlWriter = new vc());
           }
           toData(t) {
             const e = this._domConverter.viewToDom(t, document);
@@ -11324,7 +11537,7 @@
             return n;
           }
         }
-        class vc {
+        class xc {
           constructor(t, e) {
             (this.model = t),
               (this.mapper = new wa()),
@@ -11340,10 +11553,10 @@
                 },
                 { priority: 'lowest' },
               ),
-              (this.upcastDispatcher = new _c({ schema: t.schema })),
+              (this.upcastDispatcher = new Cc({ schema: t.schema })),
               (this.viewDocument = new Ti(e)),
               (this.stylesProcessor = e),
-              (this.htmlProcessor = new Cc(this.viewDocument)),
+              (this.htmlProcessor = new yc(this.viewDocument)),
               (this.processor = this.htmlProcessor),
               (this._viewWriter = new Zi(this.viewDocument)),
               this.upcastDispatcher.on(
@@ -11484,8 +11697,8 @@
             return !0;
           }
         }
-        Yt(vc, jt);
-        class yc {
+        Yt(xc, jt);
+        class Ec {
           constructor(t, e) {
             (this._helpers = new Map()),
               (this._downcast = ho(t)),
@@ -11504,17 +11717,17 @@
           }
           elementToElement(t) {
             this.for('downcast').elementToElement(t);
-            for (const { model: e, view: n } of xc(t))
+            for (const { model: e, view: n } of Dc(t))
               this.for('upcast').elementToElement({ model: e, view: n, converterPriority: t.converterPriority });
           }
           attributeToElement(t) {
             this.for('downcast').attributeToElement(t);
-            for (const { model: e, view: n } of xc(t))
+            for (const { model: e, view: n } of Dc(t))
               this.for('upcast').elementToAttribute({ view: n, model: e, converterPriority: t.converterPriority });
           }
           attributeToAttribute(t) {
             this.for('downcast').attributeToAttribute(t);
-            for (const { model: e, view: n } of xc(t)) this.for('upcast').attributeToAttribute({ view: n, model: e });
+            for (const { model: e, view: n } of Dc(t)) this.for('upcast').attributeToAttribute({ view: n, model: e });
           }
           _createConversionHelpers({ name: t, dispatchers: e, isDowncast: n }) {
             if (this._helpers.has(t)) throw new c.a('conversion-group-exists', this);
@@ -11522,20 +11735,20 @@
             this._helpers.set(t, o);
           }
         }
-        function* xc(t) {
+        function* Dc(t) {
           if (t.model.values)
             for (const e of t.model.values) {
               const n = { key: t.model.key, value: e },
                 o = t.view[e],
                 i = t.upcastAlso ? t.upcastAlso[e] : void 0;
-              yield* Ec(n, o, i);
+              yield* Sc(n, o, i);
             }
-          else yield* Ec(t.model, t.view, t.upcastAlso);
+          else yield* Sc(t.model, t.view, t.upcastAlso);
         }
-        function* Ec(t, e, n) {
+        function* Sc(t, e, n) {
           if ((yield { model: t, view: e }, n)) for (const e of ho(n)) yield { model: t, view: e };
         }
-        class Dc {
+        class Bc {
           constructor(t = 'default') {
             (this.operations = []), (this.type = t);
           }
@@ -11547,7 +11760,7 @@
             return (t.batch = this), this.operations.push(t), t;
           }
         }
-        class Sc {
+        class Tc {
           constructor(t) {
             (this.baseVersion = t), (this.isDocumentOperation = null !== this.baseVersion), (this.batch = null);
           }
@@ -11563,7 +11776,7 @@
             return new this(t.baseVersion);
           }
         }
-        class Bc {
+        class Pc {
           constructor(t) {
             (this.markers = new Map()), (this._children = new da()), t && this._insertChild(0, t);
           }
@@ -11619,7 +11832,7 @@
           static fromJSON(t) {
             const e = [];
             for (const n of t) n.name ? e.push(ha.fromJSON(n)) : e.push(ca.fromJSON(n));
-            return new Bc(e);
+            return new Pc(e);
           }
           _appendChild(t) {
             this._insertChild(this.childCount, t);
@@ -11641,52 +11854,52 @@
             return n;
           }
         }
-        function Tc(t, e) {
-          const n = (e = zc(e)).reduce((t, e) => t + e.offsetSize, 0),
-            o = t.parent;
-          Rc(t);
-          const i = t.index;
-          return o._insertChild(i, e), Fc(o, i + e.length), Fc(o, i), new ba(t, t.getShiftedBy(n));
-        }
-        function Pc(t) {
-          if (!t.isFlat) throw new c.a('operation-utils-remove-range-not-flat', this);
-          const e = t.start.parent;
-          Rc(t.start), Rc(t.end);
-          const n = e._removeChildren(t.start.index, t.end.index - t.start.index);
-          return Fc(e, t.start.index), n;
-        }
         function Ic(t, e) {
-          if (!t.isFlat) throw new c.a('operation-utils-move-range-not-flat', this);
-          const n = Pc(t);
-          return Tc((e = e._getTransformedByDeletion(t.start, t.end.offset - t.start.offset)), n);
+          const n = (e = Rc(e)).reduce((t, e) => t + e.offsetSize, 0),
+            o = t.parent;
+          Mc(t);
+          const i = t.index;
+          return o._insertChild(i, e), Oc(o, i + e.length), Oc(o, i), new ba(t, t.getShiftedBy(n));
         }
         function zc(t) {
+          if (!t.isFlat) throw new c.a('operation-utils-remove-range-not-flat', this);
+          const e = t.start.parent;
+          Mc(t.start), Mc(t.end);
+          const n = e._removeChildren(t.start.index, t.end.index - t.start.index);
+          return Oc(e, t.start.index), n;
+        }
+        function Fc(t, e) {
+          if (!t.isFlat) throw new c.a('operation-utils-move-range-not-flat', this);
+          const n = zc(t);
+          return Ic((e = e._getTransformedByDeletion(t.start, t.end.offset - t.start.offset)), n);
+        }
+        function Rc(t) {
           const e = [];
           t instanceof Array || (t = [t]);
           for (let n = 0; n < t.length; n++)
             if ('string' == typeof t[n]) e.push(new ca(t[n]));
             else if (t[n] instanceof la) e.push(new ca(t[n].data, t[n].getAttributes()));
-            else if (t[n] instanceof Bc || t[n] instanceof da) for (const o of t[n]) e.push(o);
+            else if (t[n] instanceof Pc || t[n] instanceof da) for (const o of t[n]) e.push(o);
             else t[n] instanceof aa && e.push(t[n]);
           for (let t = 1; t < e.length; t++) {
             const n = e[t],
               o = e[t - 1];
             n instanceof ca &&
               o instanceof ca &&
-              Oc(n, o) &&
+              Nc(n, o) &&
               (e.splice(t - 1, 2, new ca(o.data + n.data, o.getAttributes())), t--);
           }
           return e;
         }
-        function Fc(t, e) {
+        function Oc(t, e) {
           const n = t.getChild(e - 1),
             o = t.getChild(e);
-          if (n && o && n.is('$text') && o.is('$text') && Oc(n, o)) {
+          if (n && o && n.is('$text') && o.is('$text') && Nc(n, o)) {
             const i = new ca(n.data + o.data, n.getAttributes());
             t._removeChildren(e - 1, 2), t._insertChild(e - 1, i);
           }
         }
-        function Rc(t) {
+        function Mc(t) {
           const e = t.textNode,
             n = t.parent;
           if (e) {
@@ -11698,7 +11911,7 @@
             n._insertChild(i, [r, s]);
           }
         }
-        function Oc(t, e) {
+        function Nc(t, e) {
           const n = t.getAttributes(),
             o = e.getAttributes();
           for (const t of n) {
@@ -11707,10 +11920,10 @@
           }
           return o.next().done;
         }
-        var Mc = function (t, e) {
+        var Vc = function (t, e) {
           return ds(t, e);
         };
-        class Nc extends Sc {
+        class Lc extends Tc {
           constructor(t, e, n, o, i) {
             super(i),
               (this.range = t.clone()),
@@ -11726,10 +11939,10 @@
               : 'changeAttribute';
           }
           clone() {
-            return new Nc(this.range, this.key, this.oldValue, this.newValue, this.baseVersion);
+            return new Lc(this.range, this.key, this.oldValue, this.newValue, this.baseVersion);
           }
           getReversed() {
-            return new Nc(this.range, this.key, this.newValue, this.oldValue, this.baseVersion + 1);
+            return new Lc(this.range, this.key, this.newValue, this.oldValue, this.baseVersion + 1);
           }
           toJSON() {
             const t = super.toJSON();
@@ -11738,7 +11951,7 @@
           _validate() {
             if (!this.range.isFlat) throw new c.a('attribute-operation-range-not-flat', this);
             for (const t of this.range.getItems({ shallow: !0 })) {
-              if (null !== this.oldValue && !Mc(t.getAttribute(this.key), this.oldValue))
+              if (null !== this.oldValue && !Vc(t.getAttribute(this.key), this.oldValue))
                 throw new c.a('attribute-operation-wrong-old-value', this, {
                   item: t,
                   key: this.key,
@@ -11749,24 +11962,24 @@
             }
           }
           _execute() {
-            Mc(this.oldValue, this.newValue) ||
+            Vc(this.oldValue, this.newValue) ||
               (function (t, e, n) {
-                Rc(t.start), Rc(t.end);
+                Mc(t.start), Mc(t.end);
                 for (const o of t.getItems({ shallow: !0 })) {
                   const t = o.is('$textProxy') ? o.textNode : o;
-                  null !== n ? t._setAttribute(e, n) : t._removeAttribute(e), Fc(t.parent, t.index);
+                  null !== n ? t._setAttribute(e, n) : t._removeAttribute(e), Oc(t.parent, t.index);
                 }
-                Fc(t.end.parent, t.end.index);
+                Oc(t.end.parent, t.end.index);
               })(this.range, this.key, this.newValue);
           }
           static get className() {
             return 'AttributeOperation';
           }
           static fromJSON(t, e) {
-            return new Nc(ba.fromJSON(t.range, e), t.key, t.oldValue, t.newValue, t.baseVersion);
+            return new Lc(ba.fromJSON(t.range, e), t.key, t.oldValue, t.newValue, t.baseVersion);
           }
         }
-        class Vc extends Sc {
+        class Kc extends Tc {
           constructor(t, e) {
             super(null), (this.sourcePosition = t.clone()), (this.howMany = e);
           }
@@ -11781,13 +11994,13 @@
             if (this.sourcePosition.root.document) throw new c.a('detach-operation-on-document-node', this);
           }
           _execute() {
-            Pc(ba._createFromPositionAndShift(this.sourcePosition, this.howMany));
+            zc(ba._createFromPositionAndShift(this.sourcePosition, this.howMany));
           }
           static get className() {
             return 'DetachOperation';
           }
         }
-        class Lc extends Sc {
+        class qc extends Tc {
           constructor(t, e, n, o) {
             super(o),
               (this.sourcePosition = t.clone()),
@@ -11830,7 +12043,7 @@
             }
           }
           _execute() {
-            Ic(ba._createFromPositionAndShift(this.sourcePosition, this.howMany), this.targetPosition);
+            Fc(ba._createFromPositionAndShift(this.sourcePosition, this.howMany), this.targetPosition);
           }
           toJSON() {
             const t = super.toJSON();
@@ -11847,12 +12060,12 @@
             return new this(n, t.howMany, o, t.baseVersion);
           }
         }
-        class qc extends Sc {
+        class Hc extends Tc {
           constructor(t, e, n) {
             super(n),
               (this.position = t.clone()),
               (this.position.stickiness = 'toNone'),
-              (this.nodes = new da(zc(e))),
+              (this.nodes = new da(Rc(e))),
               (this.shouldReceiveAttributes = !1);
           }
           get type() {
@@ -11863,13 +12076,13 @@
           }
           clone() {
             const t = new da([...this.nodes].map(t => t._clone(!0))),
-              e = new qc(this.position, t, this.baseVersion);
+              e = new Hc(this.position, t, this.baseVersion);
             return (e.shouldReceiveAttributes = this.shouldReceiveAttributes), e;
           }
           getReversed() {
             const t = this.position.root.document.graveyard,
               e = new ma(t, [0]);
-            return new Lc(this.position, this.nodes.maxOffset, e, this.baseVersion + 1);
+            return new qc(this.position, this.nodes.maxOffset, e, this.baseVersion + 1);
           }
           _validate() {
             const t = this.position.parent;
@@ -11877,7 +12090,7 @@
           }
           _execute() {
             const t = this.nodes;
-            (this.nodes = new da([...t].map(t => t._clone(!0)))), Tc(this.position, t);
+            (this.nodes = new da([...t].map(t => t._clone(!0)))), Ic(this.position, t);
           }
           toJSON() {
             const t = super.toJSON();
@@ -11889,11 +12102,11 @@
           static fromJSON(t, e) {
             const n = [];
             for (const e of t.nodes) e.name ? n.push(ha.fromJSON(e)) : n.push(ca.fromJSON(e));
-            const o = new qc(ma.fromJSON(t.position, e), n, t.baseVersion);
+            const o = new Hc(ma.fromJSON(t.position, e), n, t.baseVersion);
             return (o.shouldReceiveAttributes = t.shouldReceiveAttributes), o;
           }
         }
-        class Kc extends Sc {
+        class jc extends Tc {
           constructor(t, e, n, o, i, r) {
             super(r),
               (this.name = t),
@@ -11906,10 +12119,10 @@
             return 'marker';
           }
           clone() {
-            return new Kc(this.name, this.oldRange, this.newRange, this._markers, this.affectsData, this.baseVersion);
+            return new jc(this.name, this.oldRange, this.newRange, this._markers, this.affectsData, this.baseVersion);
           }
           getReversed() {
-            return new Kc(
+            return new jc(
               this.name,
               this.newRange,
               this.oldRange,
@@ -11935,7 +12148,7 @@
             return 'MarkerOperation';
           }
           static fromJSON(t, e) {
-            return new Kc(
+            return new jc(
               t.name,
               t.oldRange ? ba.fromJSON(t.oldRange, e) : null,
               t.newRange ? ba.fromJSON(t.newRange, e) : null,
@@ -11945,7 +12158,7 @@
             );
           }
         }
-        class Hc extends Sc {
+        class $c extends Tc {
           constructor(t, e, n, o) {
             super(o),
               (this.position = t),
@@ -11957,10 +12170,10 @@
             return 'rename';
           }
           clone() {
-            return new Hc(this.position.clone(), this.oldName, this.newName, this.baseVersion);
+            return new $c(this.position.clone(), this.oldName, this.newName, this.baseVersion);
           }
           getReversed() {
-            return new Hc(this.position.clone(), this.newName, this.oldName, this.baseVersion + 1);
+            return new $c(this.position.clone(), this.newName, this.oldName, this.baseVersion + 1);
           }
           _validate() {
             const t = this.position.nodeAfter;
@@ -11978,10 +12191,10 @@
             return 'RenameOperation';
           }
           static fromJSON(t, e) {
-            return new Hc(ma.fromJSON(t.position, e), t.oldName, t.newName, t.baseVersion);
+            return new $c(ma.fromJSON(t.position, e), t.oldName, t.newName, t.baseVersion);
           }
         }
-        class jc extends Sc {
+        class Gc extends Tc {
           constructor(t, e, n, o, i) {
             super(i), (this.root = t), (this.key = e), (this.oldValue = n), (this.newValue = o);
           }
@@ -11993,10 +12206,10 @@
               : 'changeRootAttribute';
           }
           clone() {
-            return new jc(this.root, this.key, this.oldValue, this.newValue, this.baseVersion);
+            return new Gc(this.root, this.key, this.oldValue, this.newValue, this.baseVersion);
           }
           getReversed() {
-            return new jc(this.root, this.key, this.newValue, this.oldValue, this.baseVersion + 1);
+            return new Gc(this.root, this.key, this.newValue, this.oldValue, this.baseVersion + 1);
           }
           _validate() {
             if (this.root != this.root.root || this.root.is('documentFragment'))
@@ -12021,10 +12234,10 @@
           static fromJSON(t, e) {
             if (!e.getRoot(t.root))
               throw new c.a('rootattribute-operation-fromjson-no-root', this, { rootName: t.root });
-            return new jc(e.getRoot(t.root), t.key, t.oldValue, t.newValue, t.baseVersion);
+            return new Gc(e.getRoot(t.root), t.key, t.oldValue, t.newValue, t.baseVersion);
           }
         }
-        class Gc extends Sc {
+        class Wc extends Tc {
           constructor(t, e, n, o, i) {
             super(i),
               (this.sourcePosition = t.clone()),
@@ -12057,7 +12270,7 @@
             const t = this.targetPosition._getTransformedByMergeOperation(this),
               e = this.sourcePosition.path.slice(0, -1),
               n = new ma(this.sourcePosition.root, e)._getTransformedByMergeOperation(this);
-            return new $c(t, this.howMany, n, this.graveyardPosition, this.baseVersion + 1);
+            return new Uc(t, this.howMany, n, this.graveyardPosition, this.baseVersion + 1);
           }
           _validate() {
             const t = this.sourcePosition.parent,
@@ -12068,7 +12281,7 @@
           }
           _execute() {
             const t = this.sourcePosition.parent;
-            Ic(ba._createIn(t), this.targetPosition), Ic(ba._createOn(t), this.graveyardPosition);
+            Fc(ba._createIn(t), this.targetPosition), Fc(ba._createOn(t), this.graveyardPosition);
           }
           toJSON() {
             const t = super.toJSON();
@@ -12089,7 +12302,7 @@
             return new this(n, t.howMany, o, i, t.baseVersion);
           }
         }
-        class $c extends Sc {
+        class Uc extends Tc {
           constructor(t, e, n, o, i) {
             super(i),
               (this.splitPosition = t.clone()),
@@ -12122,7 +12335,7 @@
           getReversed() {
             const t = this.splitPosition.root.document.graveyard,
               e = new ma(t, [0]);
-            return new Gc(this.moveTargetPosition, this.howMany, this.splitPosition, e, this.baseVersion + 1);
+            return new Wc(this.moveTargetPosition, this.howMany, this.splitPosition, e, this.baseVersion + 1);
           }
           _validate() {
             const t = this.splitPosition.parent,
@@ -12137,12 +12350,12 @@
           _execute() {
             const t = this.splitPosition.parent;
             if (this.graveyardPosition)
-              Ic(ba._createFromPositionAndShift(this.graveyardPosition, 1), this.insertionPosition);
+              Fc(ba._createFromPositionAndShift(this.graveyardPosition, 1), this.insertionPosition);
             else {
               const e = t._clone();
-              Tc(this.insertionPosition, e);
+              Ic(this.insertionPosition, e);
             }
-            Ic(
+            Fc(
               new ba(ma._createAt(t, this.splitPosition.offset), ma._createAt(t, t.maxOffset)),
               this.moveTargetPosition,
             );
@@ -12170,7 +12383,7 @@
             return new this(n, t.howMany, o, i, t.baseVersion);
           }
         }
-        class Wc extends ha {
+        class Jc extends ha {
           constructor(t, e, n = 'main') {
             super(e), (this._document = t), (this.rootName = n);
           }
@@ -12192,7 +12405,7 @@
             return this.rootName;
           }
         }
-        class Uc {
+        class Yc {
           constructor(t, e) {
             (this.model = t), (this.batch = e);
           }
@@ -12203,7 +12416,7 @@
             return new ha(t, e);
           }
           createDocumentFragment() {
-            return new Bc();
+            return new Pc();
           }
           cloneElement(t, e = !0) {
             return t._clone(e);
@@ -12212,17 +12425,17 @@
             if ((this._assertWriterUsedCorrectly(), t instanceof ca && '' == t.data)) return;
             const o = ma._createAt(e, n);
             if (t.parent) {
-              if (Zc(t.root, o.root)) return void this.move(ba._createOn(t), o);
+              if (el(t.root, o.root)) return void this.move(ba._createOn(t), o);
               if (t.root.document) throw new c.a('model-writer-insert-forbidden-move', this);
               this.remove(t);
             }
             const i = o.root.document ? o.root.document.version : null,
-              r = new qc(o, t, i);
+              r = new Hc(o, t, i);
             if (
               (t instanceof ca && (r.shouldReceiveAttributes = !0),
               this.batch.addOperation(r),
               this.model.applyOperation(r),
-              t instanceof Bc)
+              t instanceof Pc)
             )
               for (const [e, n] of t.markers) {
                 const t = ma._createAt(n.root, 0),
@@ -12235,12 +12448,12 @@
               }
           }
           insertText(t, e, n, o) {
-            e instanceof Bc || e instanceof ha || e instanceof ma
+            e instanceof Pc || e instanceof ha || e instanceof ma
               ? this.insert(this.createText(t), e, n)
               : this.insert(this.createText(t, e), n, o);
           }
           insertElement(t, e, n, o) {
-            e instanceof Bc || e instanceof ha || e instanceof ma
+            e instanceof Pc || e instanceof ha || e instanceof ma
               ? this.insert(this.createElement(t), e, n)
               : this.insert(this.createElement(t, e), n, o);
           }
@@ -12248,20 +12461,20 @@
             this.insert(t, e, 'end');
           }
           appendText(t, e, n) {
-            e instanceof Bc || e instanceof ha
+            e instanceof Pc || e instanceof ha
               ? this.insert(this.createText(t), e, 'end')
               : this.insert(this.createText(t, e), n, 'end');
           }
           appendElement(t, e, n) {
-            e instanceof Bc || e instanceof ha
+            e instanceof Pc || e instanceof ha
               ? this.insert(this.createElement(t), e, 'end')
               : this.insert(this.createElement(t, e), n, 'end');
           }
           setAttribute(t, e, n) {
             if ((this._assertWriterUsedCorrectly(), n instanceof ba)) {
               const o = n.getMinimalFlatRanges();
-              for (const n of o) Jc(this, t, e, n);
-            } else Yc(this, t, e, n);
+              for (const n of o) Qc(this, t, e, n);
+            } else Xc(this, t, e, n);
           }
           setAttributes(t, e) {
             for (const [n, o] of vo(t)) this.setAttribute(n, o, e);
@@ -12269,8 +12482,8 @@
           removeAttribute(t, e) {
             if ((this._assertWriterUsedCorrectly(), e instanceof ba)) {
               const n = e.getMinimalFlatRanges();
-              for (const e of n) Jc(this, t, null, e);
-            } else Yc(this, t, null, e);
+              for (const e of n) Qc(this, t, null, e);
+            } else Xc(this, t, null, e);
           }
           clearAttributes(t) {
             this._assertWriterUsedCorrectly();
@@ -12286,10 +12499,10 @@
             if (!t.isFlat) throw new c.a('writer-move-range-not-flat', this);
             const o = ma._createAt(e, n);
             if (o.isEqual(t.start)) return;
-            if ((this._addOperationForAffectedMarkers('move', t), !Zc(t.root, o.root)))
+            if ((this._addOperationForAffectedMarkers('move', t), !el(t.root, o.root)))
               throw new c.a('writer-move-different-document', this);
             const i = t.root.document ? t.root.document.version : null,
-              r = new Lc(t.start, t.end.offset - t.start.offset, o, i);
+              r = new qc(t.start, t.end.offset - t.start.offset, o, i);
             this.batch.addOperation(r), this.model.applyOperation(r);
           }
           remove(t) {
@@ -12297,7 +12510,7 @@
             const e = (t instanceof ba ? t : ba._createOn(t)).getMinimalFlatRanges().reverse();
             for (const t of e)
               this._addOperationForAffectedMarkers('move', t),
-                Xc(t.start, t.end.offset - t.start.offset, this.batch, this.model);
+                tl(t.start, t.end.offset - t.start.offset, this.batch, this.model);
           }
           merge(t) {
             this._assertWriterUsedCorrectly();
@@ -12343,14 +12556,14 @@
               o = t.root.document.graveyard,
               i = new ma(o, [0]),
               r = t.root.document.version,
-              s = new Gc(n, t.nodeAfter.maxOffset, e, i, r);
+              s = new Wc(n, t.nodeAfter.maxOffset, e, i, r);
             this.batch.addOperation(s), this.model.applyOperation(s);
           }
           rename(t, e) {
             if ((this._assertWriterUsedCorrectly(), !(t instanceof ha)))
               throw new c.a('writer-rename-not-element-instance', this);
             const n = t.root.document ? t.root.document.version : null,
-              o = new Hc(ma._createBefore(t), t.name, e, n);
+              o = new $c(ma._createBefore(t), t.name, e, n);
             this.batch.addOperation(o), this.model.applyOperation(o);
           }
           split(t, e) {
@@ -12364,8 +12577,8 @@
             do {
               const e = i.root.document ? i.root.document.version : null,
                 r = i.maxOffset - t.offset,
-                s = $c.getInsertionPosition(t),
-                a = new $c(t, r, s, null, e);
+                s = Uc.getInsertionPosition(t),
+                a = new Uc(t, r, s, null, e);
               this.batch.addOperation(a),
                 this.model.applyOperation(a),
                 n || o || ((n = i), (o = t.parent.nextSibling)),
@@ -12395,7 +12608,7 @@
               i = void 0 !== e.affectsData && e.affectsData;
             if (this.model.markers.has(t)) throw new c.a('writer-addmarker-marker-exists', this);
             if (!o) throw new c.a('writer-addmarker-no-range', this);
-            return n ? (Qc(this, t, null, o, i), this.model.markers.get(t)) : this.model.markers._set(t, o, n, i);
+            return n ? (Zc(this, t, null, o, i), this.model.markers.get(t)) : this.model.markers._set(t, o, n, i);
           }
           updateMarker(t, e) {
             this._assertWriterUsedCorrectly();
@@ -12411,10 +12624,10 @@
               l = e.range ? e.range : a;
             i && e.usingOperation !== o.managedUsingOperations
               ? e.usingOperation
-                ? Qc(this, n, null, l, s)
-                : (Qc(this, n, a, null, s), this.model.markers._set(n, l, void 0, s))
+                ? Zc(this, n, null, l, s)
+                : (Zc(this, n, a, null, s), this.model.markers._set(n, l, void 0, s))
               : o.managedUsingOperations
-              ? Qc(this, n, a, l, s)
+              ? Zc(this, n, a, l, s)
               : this.model.markers._set(n, l, void 0, s);
           }
           removeMarker(t) {
@@ -12423,7 +12636,7 @@
             if (!this.model.markers.has(e)) throw new c.a('writer-removemarker-no-marker', this);
             const n = this.model.markers.get(e);
             if (!n.managedUsingOperations) return void this.model.markers._remove(e);
-            Qc(this, e, n.getRange(), null, n.affectsData);
+            Zc(this, e, n.getRange(), null, n.affectsData);
           }
           setSelection(t, e, n) {
             this._assertWriterUsedCorrectly(), this.model.document.selection._setTo(t, e, n);
@@ -12488,7 +12701,7 @@
             }
           }
         }
-        function Jc(t, e, n, o) {
+        function Qc(t, e, n, o) {
           const i = t.model,
             r = i.document;
           let s,
@@ -12500,12 +12713,12 @@
           function d() {
             const o = new ba(l, s),
               c = o.root.document ? r.version : null,
-              d = new Nc(o, e, a, n, c);
+              d = new Lc(o, e, a, n, c);
             t.batch.addOperation(d), i.applyOperation(d);
           }
           s instanceof ma && s != l && a != n && d();
         }
-        function Yc(t, e, n, o) {
+        function Xc(t, e, n, o) {
           const i = t.model,
             r = i.document,
             s = o.getAttribute(e);
@@ -12513,34 +12726,34 @@
           if (s != n) {
             if (o.root === o) {
               const t = o.document ? r.version : null;
-              c = new jc(o, e, s, n, t);
+              c = new Gc(o, e, s, n, t);
             } else {
               a = new ba(ma._createBefore(o), t.createPositionAfter(o));
               const i = a.root.document ? r.version : null;
-              c = new Nc(a, e, s, n, i);
+              c = new Lc(a, e, s, n, i);
             }
             t.batch.addOperation(c), i.applyOperation(c);
           }
         }
-        function Qc(t, e, n, o, i) {
+        function Zc(t, e, n, o, i) {
           const r = t.model,
             s = r.document,
-            a = new Kc(e, n, o, r.markers, i, s.version);
+            a = new jc(e, n, o, r.markers, i, s.version);
           t.batch.addOperation(a), r.applyOperation(a);
         }
-        function Xc(t, e, n, o) {
+        function tl(t, e, n, o) {
           let i;
           if (t.root.document) {
             const n = o.document,
               r = new ma(n.graveyard, [0]);
-            i = new Lc(t, e, r, n.version);
-          } else i = new Vc(t, e);
+            i = new qc(t, e, r, n.version);
+          } else i = new Kc(t, e);
           n.addOperation(i), o.applyOperation(i);
         }
-        function Zc(t, e) {
-          return t === e || (t instanceof Wc && e instanceof Wc);
+        function el(t, e) {
+          return t === e || (t instanceof Jc && e instanceof Jc);
         }
-        class tl {
+        class nl {
           constructor(t) {
             (this._markerCollection = t),
               (this._changesInElement = new Map()),
@@ -12670,8 +12883,8 @@
                       : 1,
                   ),
                 o = this._elementSnapshots.get(t),
-                i = el(t.getChildren()),
-                r = nl(o.length, n);
+                i = ol(t.getChildren()),
+                r = il(o.length, n);
               let s = 0,
                 a = 0;
               for (const n of r)
@@ -12733,7 +12946,7 @@
             return (
               (this._changeCount = 0),
               (this._cachedChangesWithGraveyard = e.slice()),
-              (this._cachedChanges = e.filter(ol)),
+              (this._cachedChanges = e.filter(rl)),
               t.includeChangesInGraveyard ? this._cachedChangesWithGraveyard : this._cachedChanges
             );
           }
@@ -12771,7 +12984,7 @@
             );
           }
           _makeSnapshot(t) {
-            this._elementSnapshots.has(t) || this._elementSnapshots.set(t, el(t.getChildren()));
+            this._elementSnapshots.has(t) || this._elementSnapshots.set(t, ol(t.getChildren()));
           }
           _handleChange(t, e) {
             t.nodesToHandle = t.howMany;
@@ -12918,7 +13131,7 @@
                 this._removeAllNestedChanges(t, 0, t.maxOffset));
           }
         }
-        function el(t) {
+        function ol(t) {
           const e = [];
           for (const n of t)
             if (n.is('$text'))
@@ -12926,7 +13139,7 @@
             else e.push({ name: n.name, attributes: new Map(n.getAttributes()) });
           return e;
         }
-        function nl(t, e) {
+        function il(t, e) {
           const n = [];
           let o = 0,
             i = 0;
@@ -12946,12 +13159,12 @@
           if (i < t) for (let e = 0; e < t - i - o; e++) n.push('e');
           return n;
         }
-        function ol(t) {
+        function rl(t) {
           const e = t.position && '$graveyard' == t.position.root.rootName,
             n = t.range && '$graveyard' == t.range.root.rootName;
           return !e && !n;
         }
-        class il {
+        class sl {
           constructor() {
             (this._operations = []), (this._undoPairs = new Map()), (this._undoneOperations = new Set());
           }
@@ -12979,7 +13192,7 @@
             return this._undoPairs.get(t);
           }
         }
-        function rl(t, e) {
+        function al(t, e) {
           return (
             !!(n = t.charAt(e - 1)) &&
             1 == n.length &&
@@ -12990,7 +13203,7 @@
           );
           var n;
         }
-        function sl(t, e) {
+        function cl(t, e) {
           return (
             !!(n = t.charAt(e)) &&
             1 == n.length &&
@@ -12998,18 +13211,18 @@
           );
           var n;
         }
-        const al = '$graveyard';
-        class cl {
+        const ll = '$graveyard';
+        class dl {
           constructor(t) {
             (this.model = t),
               (this.version = 0),
-              (this.history = new il(this)),
+              (this.history = new sl(this)),
               (this.selection = new Ra(this)),
               (this.roots = new co({ idProperty: 'rootName' })),
-              (this.differ = new tl(t.markers)),
+              (this.differ = new nl(t.markers)),
               (this._postFixers = new Set()),
               (this._hasSelectionChangedFromTheLastChangeBlock = !1),
-              this.createRoot('$root', al),
+              this.createRoot('$root', ll),
               this.listenTo(
                 t,
                 'applyOperation',
@@ -13050,11 +13263,11 @@
               });
           }
           get graveyard() {
-            return this.getRoot(al);
+            return this.getRoot(ll);
           }
           createRoot(t = '$root', e = 'main') {
             if (this.roots.get(e)) throw new c.a('model-document-createroot-name-exists', this, { name: e });
-            const n = new Wc(this, t, e);
+            const n = new Jc(this, t, e);
             return this.roots.add(n), n;
           }
           destroy() {
@@ -13064,7 +13277,7 @@
             return this.roots.get(t);
           }
           getRootNames() {
-            return Array.from(this.roots, t => t.rootName).filter(t => t != al);
+            return Array.from(this.roots, t => t.rootName).filter(t => t != ll);
           }
           registerPostFixer(t) {
             this._postFixers.add(t);
@@ -13097,7 +13310,7 @@
             return n.getNearestSelectionRange(o) || e.createRange(o);
           }
           _validateSelectionRange(t) {
-            return ll(t.start) && ll(t.end);
+            return hl(t.start) && hl(t.end);
           }
           _callPostFixers(t) {
             let e = !1;
@@ -13106,17 +13319,17 @@
             } while (e);
           }
         }
-        function ll(t) {
+        function hl(t) {
           const e = t.textNode;
           if (e) {
             const n = e.data,
               o = t.offset - e.startOffset;
-            return !rl(n, o) && !sl(n, o);
+            return !al(n, o) && !cl(n, o);
           }
           return !0;
         }
-        Yt(cl, h);
-        class dl {
+        Yt(dl, h);
+        class ul {
           constructor() {
             this._markers = new Map();
           }
@@ -13130,7 +13343,7 @@
             return this._markers.get(t) || null;
           }
           _set(t, e, n = !1, o = !1) {
-            const i = t instanceof hl ? t.name : t;
+            const i = t instanceof pl ? t.name : t;
             if (i.includes(',')) throw new c.a('markercollection-incorrect-marker-name', this);
             const r = this._markers.get(i);
             if (r) {
@@ -13145,11 +13358,11 @@
               );
             }
             const s = Pa.fromRange(e),
-              a = new hl(i, s, n, o);
+              a = new pl(i, s, n, o);
             return this._markers.set(i, a), this.fire('update:' + i, a, null, e), a;
           }
           _remove(t) {
-            const e = t instanceof hl ? t.name : t,
+            const e = t instanceof pl ? t.name : t,
               n = this._markers.get(e);
             return (
               !!n &&
@@ -13157,7 +13370,7 @@
             );
           }
           _refresh(t) {
-            const e = t instanceof hl ? t.name : t,
+            const e = t instanceof pl ? t.name : t,
               n = this._markers.get(e);
             if (!n) throw new c.a('markercollection-refresh-marker-not-exists', this);
             const o = n.getRange();
@@ -13180,8 +13393,8 @@
             t.stopListening(), t._detachLiveRange();
           }
         }
-        Yt(dl, h);
-        class hl {
+        Yt(ul, h);
+        class pl {
           constructor(t, e, n, o) {
             (this.name = t),
               (this._liveRange = this._attachLiveRange(e)),
@@ -13227,38 +13440,38 @@
               (this._liveRange = null);
           }
         }
-        Yt(hl, h);
-        class ul extends Sc {
+        Yt(pl, h);
+        class ml extends Tc {
           get type() {
             return 'noop';
           }
           clone() {
-            return new ul(this.baseVersion);
+            return new ml(this.baseVersion);
           }
           getReversed() {
-            return new ul(this.baseVersion + 1);
+            return new ml(this.baseVersion + 1);
           }
           _execute() {}
           static get className() {
             return 'NoOperation';
           }
         }
-        const pl = {};
-        (pl[Nc.className] = Nc),
-          (pl[qc.className] = qc),
-          (pl[Kc.className] = Kc),
-          (pl[Lc.className] = Lc),
-          (pl[ul.className] = ul),
-          (pl[Sc.className] = Sc),
-          (pl[Hc.className] = Hc),
-          (pl[jc.className] = jc),
-          (pl[$c.className] = $c),
-          (pl[Gc.className] = Gc);
-        class ml extends ma {
+        const gl = {};
+        (gl[Lc.className] = Lc),
+          (gl[Hc.className] = Hc),
+          (gl[jc.className] = jc),
+          (gl[qc.className] = qc),
+          (gl[ml.className] = ml),
+          (gl[Tc.className] = Tc),
+          (gl[$c.className] = $c),
+          (gl[Gc.className] = Gc),
+          (gl[Uc.className] = Uc),
+          (gl[Wc.className] = Wc);
+        class fl extends ma {
           constructor(t, e, n = 'toNone') {
             if ((super(t, e, n), !this.root.is('rootElement')))
               throw new c.a('model-liveposition-root-not-rootelement', t);
-            gl.call(this);
+            kl.call(this);
           }
           detach() {
             this.stopListening();
@@ -13273,26 +13486,26 @@
             return new this(t.root, t.path.slice(), e || t.stickiness);
           }
         }
-        function gl() {
+        function kl() {
           this.listenTo(
             this.root.document.model,
             'applyOperation',
             (t, e) => {
               const n = e[0];
-              n.isDocumentOperation && fl.call(this, n);
+              n.isDocumentOperation && bl.call(this, n);
             },
             { priority: 'low' },
           );
         }
-        function fl(t) {
+        function bl(t) {
           const e = this.getTransformedByOperation(t);
           if (!this.isEqual(e)) {
             const t = this.toPosition();
             (this.path = e.path), (this.root = e.root), this.fire('change', t);
           }
         }
-        Yt(ml, h);
-        class kl {
+        Yt(fl, h);
+        class wl {
           constructor(t, e, n) {
             (this.model = t),
               (this.writer = e),
@@ -13345,7 +13558,7 @@
           }
           _insertPartialFragment() {
             if (this._documentFragment.isEmpty) return;
-            const t = ml.fromPosition(this.position, 'toNext');
+            const t = fl.fromPosition(this.position, 'toNext');
             this._setAffectedBoundaries(this.position),
               this._documentFragment.getChild(0) == this._firstNode &&
                 (this.writer.insert(this._firstNode, this.position),
@@ -13373,24 +13586,24 @@
               this._filterAttributesOf.push(t);
           }
           _setAffectedBoundaries(t) {
-            this._affectedStart || (this._affectedStart = ml.fromPosition(t, 'toPrevious')),
+            this._affectedStart || (this._affectedStart = fl.fromPosition(t, 'toPrevious')),
               (this._affectedEnd && !this._affectedEnd.isBefore(t)) ||
-                (this._affectedEnd && this._affectedEnd.detach(), (this._affectedEnd = ml.fromPosition(t, 'toNext')));
+                (this._affectedEnd && this._affectedEnd.detach(), (this._affectedEnd = fl.fromPosition(t, 'toNext')));
           }
           _mergeOnLeft() {
             const t = this._firstNode;
             if (!(t instanceof ha)) return;
             if (!this._canMergeLeft(t)) return;
-            const e = ml._createBefore(t);
+            const e = fl._createBefore(t);
             e.stickiness = 'toNext';
-            const n = ml.fromPosition(this.position, 'toNext');
+            const n = fl.fromPosition(this.position, 'toNext');
             this._affectedStart.isEqual(e) &&
-              (this._affectedStart.detach(), (this._affectedStart = ml._createAt(e.nodeBefore, 'end', 'toPrevious'))),
+              (this._affectedStart.detach(), (this._affectedStart = fl._createAt(e.nodeBefore, 'end', 'toPrevious'))),
               this._firstNode === this._lastNode && ((this._firstNode = e.nodeBefore), (this._lastNode = e.nodeBefore)),
               this.writer.merge(e),
               e.isEqual(this._affectedEnd) &&
                 this._firstNode === this._lastNode &&
-                (this._affectedEnd.detach(), (this._affectedEnd = ml._createAt(e.nodeBefore, 'end', 'toNext'))),
+                (this._affectedEnd.detach(), (this._affectedEnd = fl._createAt(e.nodeBefore, 'end', 'toNext'))),
               (this.position = n.toPosition()),
               n.detach(),
               this._filterAttributesOf.push(this.position.parent),
@@ -13400,18 +13613,18 @@
             const t = this._lastNode;
             if (!(t instanceof ha)) return;
             if (!this._canMergeRight(t)) return;
-            const e = ml._createAfter(t);
+            const e = fl._createAfter(t);
             if (((e.stickiness = 'toNext'), !this.position.isEqual(e)))
               throw new c.a('insertcontent-invalid-insertion-position', this);
             this.position = ma._createAt(e.nodeBefore, 'end');
-            const n = ml.fromPosition(this.position, 'toPrevious');
+            const n = fl.fromPosition(this.position, 'toPrevious');
             this._affectedEnd.isEqual(e) &&
-              (this._affectedEnd.detach(), (this._affectedEnd = ml._createAt(e.nodeBefore, 'end', 'toNext'))),
+              (this._affectedEnd.detach(), (this._affectedEnd = fl._createAt(e.nodeBefore, 'end', 'toNext'))),
               this._firstNode === this._lastNode && ((this._firstNode = e.nodeBefore), (this._lastNode = e.nodeBefore)),
               this.writer.merge(e),
               e.getShiftedBy(-1).isEqual(this._affectedStart) &&
                 this._firstNode === this._lastNode &&
-                (this._affectedStart.detach(), (this._affectedStart = ml._createAt(e.nodeBefore, 0, 'toPrevious'))),
+                (this._affectedStart.detach(), (this._affectedStart = fl._createAt(e.nodeBefore, 0, 'toPrevious'))),
               (this.position = n.toPosition()),
               n.detach(),
               this._filterAttributesOf.push(this.position.parent),
@@ -13469,7 +13682,7 @@
             return this.schema.checkChild(e, t) ? e : e.parent ? this._getAllowedIn(t, e.parent) : null;
           }
         }
-        function bl(t, e, n = {}) {
+        function Al(t, e, n = {}) {
           if (e.isCollapsed) return;
           const o = e.getFirstRange();
           if ('$graveyard' == o.root.rootName) return;
@@ -13487,7 +13700,7 @@
             )
               return void (function (t, e) {
                 const n = t.model.schema.getLimitElement(e);
-                t.remove(t.createRangeIn(n)), Cl(t, t.createPositionAt(n, 0), e);
+                t.remove(t.createRangeIn(n)), yl(t, t.createPositionAt(n, 0), e);
               })(t, e);
             const [r, s] = (function (t) {
               const e = t.root.document.model,
@@ -13505,16 +13718,19 @@
                 })(o);
                 if (n && o.isTouching(e.createPositionAt(n, 0))) {
                   const n = e.createSelection(t);
-                  e.modifySelection(n, { direction: 'backward' }), (o = n.getLastPosition());
+                  e.modifySelection(n, { direction: 'backward' });
+                  const i = n.getLastPosition(),
+                    r = e.createRange(i, o);
+                  e.hasContent(r, { ignoreMarkers: !0 }) || (o = i);
                 }
               }
-              return [ml.fromPosition(n, 'toPrevious'), ml.fromPosition(o, 'toNext')];
+              return [fl.fromPosition(n, 'toPrevious'), fl.fromPosition(o, 'toNext')];
             })(o);
             r.isTouching(s) || t.remove(t.createRange(r, s)),
               n.leaveUnmerged ||
                 (!(function (t, e, n) {
                   const o = t.model;
-                  if (!Al(t.model.schema, e, n)) return;
+                  if (!vl(t.model.schema, e, n)) return;
                   const [i, r] = (function (t, e) {
                     const n = t.getAncestors(),
                       o = e.getAncestors();
@@ -13524,23 +13740,23 @@
                   })(e, n);
                   if (!i || !r) return;
                   !o.hasContent(i, { ignoreMarkers: !0 }) && o.hasContent(r, { ignoreMarkers: !0 })
-                    ? _l(t, e, n, i.parent)
-                    : wl(t, e, n, i.parent);
+                    ? Cl(t, e, n, i.parent)
+                    : _l(t, e, n, i.parent);
                 })(t, r, s),
                 i.removeDisallowedAttributes(r.parent.getChildren(), t)),
-              vl(t, e, r),
+              xl(t, e, r),
               !n.doNotAutoparagraph &&
                 (function (t, e) {
                   const n = t.checkChild(e, '$text'),
                     o = t.checkChild(e, 'paragraph');
                   return !n && o;
                 })(i, r) &&
-                Cl(t, r, e),
+                yl(t, r, e),
               r.detach(),
               s.detach();
           });
         }
-        function wl(t, e, n, o) {
+        function _l(t, e, n, o) {
           const i = e.parent,
             r = n.parent;
           if (i != o && r != o) {
@@ -13552,10 +13768,10 @@
               const e = n.parent;
               (n = t.createPositionBefore(e)), t.remove(e);
             }
-            Al(t.model.schema, e, n) && wl(t, e, n, o);
+            vl(t.model.schema, e, n) && _l(t, e, n, o);
           }
         }
-        function _l(t, e, n, o) {
+        function Cl(t, e, n, o) {
           const i = e.parent,
             r = n.parent;
           if (i != o && r != o) {
@@ -13574,10 +13790,10 @@
                 n.name != o.name && t.rename(n, o.name);
                 t.clearAttributes(n), t.setAttributes(Object.fromEntries(o.getAttributes()), n), t.merge(e);
               })(t, n),
-              Al(t.model.schema, e, n) && _l(t, e, n, o);
+              vl(t.model.schema, e, n) && Cl(t, e, n, o);
           }
         }
-        function Al(t, e, n) {
+        function vl(t, e, n) {
           const o = e.parent,
             i = n.parent;
           return (
@@ -13591,15 +13807,15 @@
             })(e, n, t)
           );
         }
-        function Cl(t, e, n) {
+        function yl(t, e, n) {
           const o = t.createElement('paragraph');
-          t.insert(o, e), vl(t, n, t.createPositionAt(o, 0));
+          t.insert(o, e), xl(t, n, t.createPositionAt(o, 0));
         }
-        function vl(t, e, n) {
+        function xl(t, e, n) {
           e instanceof Ra ? t.setSelection(n) : e.setTo(n);
         }
-        const yl = ' ,.?!:;"-()';
-        function xl(t, e) {
+        const El = ' ,.?!:;"-()';
+        function Dl(t, e) {
           const { isForward: n, walker: o, unit: i, schema: r } = t,
             { type: s, item: a, nextPosition: c } = e;
           if ('text' == s)
@@ -13608,12 +13824,12 @@
                   let n = t.position.textNode;
                   if (n) {
                     let o = t.position.offset - n.startOffset;
-                    for (; !Dl(n.data, o, e) && !Sl(n, o, e); ) {
+                    for (; !Bl(n.data, o, e) && !Tl(n, o, e); ) {
                       t.next();
                       const i = e ? t.position.nodeAfter : t.position.nodeBefore;
                       if (i && i.is('$text')) {
                         const o = i.data.charAt(e ? 0 : i.data.length - 1);
-                        yl.includes(o) || (t.next(), (n = t.position.textNode));
+                        El.includes(o) || (t.next(), (n = t.position.textNode));
                       }
                       o = t.position.offset - n.startOffset;
                     }
@@ -13625,7 +13841,7 @@
                   if (n) {
                     const o = n.data;
                     let i = t.position.offset - n.startOffset;
-                    for (; rl(o, i) || ('character' == e && sl(o, i)); )
+                    for (; al(o, i) || ('character' == e && cl(o, i)); )
                       t.next(), (i = t.position.offset - n.startOffset);
                   }
                   return t.position;
@@ -13638,19 +13854,19 @@
             if (r.checkChild(c, '$text')) return c;
           }
         }
-        function El(t, e) {
+        function Sl(t, e) {
           const n = t.root,
             o = ma._createAt(n, e ? 'end' : 0);
           return e ? new ba(t, o) : new ba(o, t);
         }
-        function Dl(t, e, n) {
+        function Bl(t, e, n) {
           const o = e + (n ? 0 : -1);
-          return yl.includes(t.charAt(o));
+          return El.includes(t.charAt(o));
         }
-        function Sl(t, e, n) {
+        function Tl(t, e, n) {
           return e === (n ? t.endOffset : 0);
         }
-        function Bl(t, e) {
+        function Pl(t, e) {
           const n = [];
           Array.from(t.getItems({ direction: 'backward' }))
             .map(t => e.createRangeOn(t))
@@ -13670,7 +13886,7 @@
               }
             });
         }
-        function Tl(t) {
+        function Il(t) {
           t.document.registerPostFixer(e =>
             (function (t, e) {
               const n = e.document.selection,
@@ -13678,7 +13894,7 @@
                 i = [];
               let r = !1;
               for (const t of n.getRanges()) {
-                const e = Pl(t, o);
+                const e = zl(t, o);
                 e && !e.isEqual(t) ? (i.push(e), (r = !0)) : i.push(t);
               }
               r &&
@@ -13703,7 +13919,7 @@
             })(e, t),
           );
         }
-        function Pl(t, e) {
+        function zl(t, e) {
           return t.isCollapsed
             ? (function (t, e) {
                 const n = t.start,
@@ -13742,28 +13958,28 @@
                   l = a && !a.is('rootElement');
                 if (c || l) {
                   const t = n.nodeAfter && o.nodeBefore && n.nodeAfter.parent === o.nodeBefore.parent,
-                    i = c && (!t || !zl(n.nodeAfter, e)),
-                    r = l && (!t || !zl(o.nodeBefore, e));
+                    i = c && (!t || !Rl(n.nodeAfter, e)),
+                    r = l && (!t || !Rl(o.nodeBefore, e));
                   let d = n,
                     h = o;
-                  return i && (d = ma._createBefore(Il(s, e))), r && (h = ma._createAfter(Il(a, e))), new ba(d, h);
+                  return i && (d = ma._createBefore(Fl(s, e))), r && (h = ma._createAfter(Fl(a, e))), new ba(d, h);
                 }
                 return null;
               })(t, e);
         }
-        function Il(t, e) {
+        function Fl(t, e) {
           let n = t,
             o = n;
           for (; e.isLimit(o) && o.parent; ) (n = o), (o = o.parent);
           return n;
         }
-        function zl(t, e) {
+        function Rl(t, e) {
           return t && e.isSelectable(t);
         }
-        class Fl {
+        class Ol {
           constructor() {
-            (this.markers = new dl()),
-              (this.document = new cl(this)),
+            (this.markers = new ul()),
+              (this.document = new dl(this)),
               (this.schema = new ac()),
               (this._pendingChanges = []),
               (this._currentWriter = null),
@@ -13780,21 +13996,27 @@
               this.schema.register('$root', { isLimit: !0 }),
               this.schema.register('$block', { allowIn: '$root', isBlock: !0 }),
               this.schema.register('$text', { allowIn: '$block', isInline: !0, isContent: !0 }),
-              this.schema.register('$clipboardHolder', { allowContentOf: '$root', isLimit: !0 }),
-              this.schema.extend('$text', { allowIn: '$clipboardHolder' }),
-              this.schema.register('$documentFragment', { allowContentOf: '$root', isLimit: !0 }),
-              this.schema.extend('$text', { allowIn: '$documentFragment' }),
+              this.schema.register('$clipboardHolder', {
+                allowContentOf: '$root',
+                allowChildren: '$text',
+                isLimit: !0,
+              }),
+              this.schema.register('$documentFragment', {
+                allowContentOf: '$root',
+                allowChildren: '$text',
+                isLimit: !0,
+              }),
               this.schema.register('$marker'),
               this.schema.addChildCheck((t, e) => {
                 if ('$marker' === e.name) return !0;
               }),
-              Tl(this),
+              Il(this),
               this.document.registerPostFixer(Wa);
           }
           change(t) {
             try {
               return 0 === this._pendingChanges.length
-                ? (this._pendingChanges.push({ batch: new Dc(), callback: t }), this._runPendingChanges()[0])
+                ? (this._pendingChanges.push({ batch: new Bc(), callback: t }), this._runPendingChanges()[0])
                 : t(this._currentWriter);
             } catch (t) {
               c.a.rethrowUnexpectedError(t, this);
@@ -13802,7 +14024,7 @@
           }
           enqueueChange(t, e) {
             try {
-              'string' == typeof t ? (t = new Dc(t)) : 'function' == typeof t && ((e = t), (t = new Dc())),
+              'string' == typeof t ? (t = new Bc(t)) : 'function' == typeof t && ((e = t), (t = new Bc())),
                 this._pendingChanges.push({ batch: t, callback: e }),
                 1 == this._pendingChanges.length && this._runPendingChanges();
             } catch (t) {
@@ -13818,7 +14040,7 @@
                 let r;
                 (r = n ? (n instanceof Ea || n instanceof Ra ? n : i.createSelection(n, o)) : t.document.selection),
                   r.isCollapsed || t.deleteContent(r, { doNotAutoparagraph: !0 });
-                const s = new kl(t, i, r.anchor);
+                const s = new wl(t, i, r.anchor);
                 let a;
                 (a = e.is('documentFragment') ? e.getChildren() : [e]), s.handleNodes(a);
                 const c = s.getSelectionRange();
@@ -13829,7 +14051,7 @@
             })(this, t, e, n);
           }
           deleteContent(t, e) {
-            bl(this, t, e);
+            Al(this, t, e);
           }
           modifySelection(t, e) {
             !(function (t, e, n = {}) {
@@ -13837,12 +14059,12 @@
                 i = 'backward' != n.direction,
                 r = n.unit ? n.unit : 'character',
                 s = e.focus,
-                a = new ua({ boundaries: El(s, i), singleCharacters: !0, direction: i ? 'forward' : 'backward' }),
+                a = new ua({ boundaries: Sl(s, i), singleCharacters: !0, direction: i ? 'forward' : 'backward' }),
                 c = { walker: a, schema: o, isForward: i, unit: r };
               let l;
               for (; (l = a.next()); ) {
                 if (l.done) return;
-                const n = xl(c, l.value);
+                const n = Dl(c, l.value);
                 if (n)
                   return void (e instanceof Ra
                     ? t.change(t => {
@@ -13875,7 +14097,7 @@
                 if (a != o) {
                   const e = o._getTransformedByMove(a.start, t.createPositionAt(n, 0), c)[0],
                     i = t.createRange(t.createPositionAt(n, 0), e.start);
-                  Bl(t.createRange(e.end, t.createPositionAt(n, 'end')), t), Bl(i, t);
+                  Pl(t.createRange(e.end, t.createPositionAt(n, 'end')), t), Pl(i, t);
                 }
                 return n;
               });
@@ -13919,12 +14141,12 @@
             return new Ea(t, e, n);
           }
           createBatch(t) {
-            return new Dc(t);
+            return new Bc(t);
           }
           createOperationFromJSON(t) {
             return class {
               static fromJSON(t, e) {
-                return pl[t.__className].fromJSON(t, e);
+                return gl[t.__className].fromJSON(t, e);
               }
             }.fromJSON(t, this.document);
           }
@@ -13935,7 +14157,7 @@
             const t = [];
             for (this.fire('_beforeChanges'); this._pendingChanges.length; ) {
               const e = this._pendingChanges[0].batch;
-              this._currentWriter = new Uc(this, e);
+              this._currentWriter = new Yc(this, e);
               const n = this._pendingChanges[0].callback(this._currentWriter);
               t.push(n),
                 this.document._handleChangeBlock(this._currentWriter),
@@ -13945,8 +14167,8 @@
             return this.fire('_afterChanges'), t;
           }
         }
-        Yt(Fl, jt);
-        class Rl extends Us {
+        Yt(Ol, jt);
+        class Ml extends Us {
           constructor(t) {
             super(), (this.editor = t);
           }
@@ -13960,7 +14182,7 @@
             super.set(t, e, n);
           }
         }
-        class Ol {
+        class Nl {
           constructor(t = {}) {
             (this._context = t.context || new fo({ language: t.language })), this._context._addEditor(this, !t.context);
             const e = Array.from(this.constructor.builtinPlugins || []);
@@ -13975,18 +14197,18 @@
               this.once('ready', () => (this.state = 'ready'), { priority: 'high' }),
               this.once('destroy', () => (this.state = 'destroyed'), { priority: 'high' }),
               this.set('isReadOnly', !1),
-              (this.model = new Fl());
+              (this.model = new Ol());
             const n = new si();
-            (this.data = new vc(this.model, n)),
+            (this.data = new xc(this.model, n)),
               (this.editing = new oc(this.model, n)),
               this.editing.view.document.bind('isReadOnly').to(this),
-              (this.conversion = new yc(
+              (this.conversion = new Ec(
                 [this.editing.downcastDispatcher, this.data.downcastDispatcher],
                 this.data.upcastDispatcher,
               )),
               this.conversion.addAlias('dataDowncast', this.data.downcastDispatcher),
               this.conversion.addAlias('editingDowncast', this.editing.downcastDispatcher),
-              (this.keystrokes = new Rl(this)),
+              (this.keystrokes = new Ml(this)),
               this.keystrokes.listenTo(this.editing.view.document);
           }
           initPlugins() {
@@ -14023,8 +14245,8 @@
             this.editing.view.focus();
           }
         }
-        Yt(Ol, jt);
-        class Ml {
+        Yt(Nl, jt);
+        class Vl {
           constructor(t) {
             (this.editor = t), (this._components = new Map());
           }
@@ -14032,23 +14254,23 @@
             for (const t of this._components.values()) yield t.originalName;
           }
           add(t, e) {
-            this._components.set(Nl(t), { callback: e, originalName: t });
+            this._components.set(Ll(t), { callback: e, originalName: t });
           }
           create(t) {
             if (!this.has(t)) throw new c.a('componentfactory-item-missing', this, { name: t });
-            return this._components.get(Nl(t)).callback(this.editor.locale);
+            return this._components.get(Ll(t)).callback(this.editor.locale);
           }
           has(t) {
-            return this._components.has(Nl(t));
+            return this._components.has(Ll(t));
           }
         }
-        function Nl(t) {
+        function Ll(t) {
           return String(t).toLowerCase();
         }
-        class Vl {
+        class Kl {
           constructor(t) {
             (this.editor = t),
-              (this.componentFactory = new Ml(t)),
+              (this.componentFactory = new Vl(t)),
               (this.focusTracker = new Ws()),
               (this._editableElementsMap = new Map()),
               this.listenTo(t.editing.view.document, 'layoutChanged', () => this.update());
@@ -14083,8 +14305,8 @@
             );
           }
         }
-        Yt(Vl, h);
-        var Ll = {
+        Yt(Kl, h);
+        var ql = {
           setData(t) {
             this.data.set(t);
           },
@@ -14092,7 +14314,7 @@
             return this.data.get(t);
           },
         };
-        class ql extends ko {
+        class Hl extends ko {
           static get pluginName() {
             return 'PendingActions';
           }
@@ -14116,39 +14338,39 @@
             return this._actions[Symbol.iterator]();
           }
         }
-        const Kl =
+        const jl =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m11.591 10.177 4.243 4.242a1 1 0 0 1-1.415 1.415l-4.242-4.243-4.243 4.243a1 1 0 0 1-1.414-1.415l4.243-4.242L4.52 5.934A1 1 0 0 1 5.934 4.52l4.243 4.243 4.242-4.243a1 1 0 1 1 1.415 1.414l-4.243 4.243z"/></svg>',
-          Hl =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.972 16.615a.997.997 0 0 1-.744-.292l-4.596-4.596a1 1 0 1 1 1.414-1.414l3.926 3.926 9.937-9.937a1 1 0 0 1 1.414 1.415L7.717 16.323a.997.997 0 0 1-.745.292z"/></svg>',
-          jl =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m8.636 9.531-2.758 3.94a.5.5 0 0 0 .122.696l3.224 2.284h1.314l2.636-3.736L8.636 9.53zm.288 8.451L5.14 15.396a2 2 0 0 1-.491-2.786l6.673-9.53a2 2 0 0 1 2.785-.49l3.742 2.62a2 2 0 0 1 .491 2.785l-7.269 10.053-2.147-.066z"/><path d="M4 18h5.523v-1H4zm-2 0h1v-1H2z"/></svg>',
-          Gl =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5.085 6.22 2.943 4.078a.75.75 0 1 1 1.06-1.06l2.592 2.59A11.094 11.094 0 0 1 10 5.068c4.738 0 8.578 3.101 8.578 5.083 0 1.197-1.401 2.803-3.555 3.887l1.714 1.713a.75.75 0 0 1-.09 1.138.488.488 0 0 1-.15.084.75.75 0 0 1-.821-.16L6.17 7.304c-.258.11-.51.233-.757.365l6.239 6.24-.006.005.78.78c-.388.094-.78.166-1.174.215l-1.11-1.11h.011L4.55 8.197a7.2 7.2 0 0 0-.665.514l-.112.098 4.897 4.897-.005.006 1.276 1.276a10.164 10.164 0 0 1-1.477-.117l-.479-.479-.009.009-4.863-4.863-.022.031a2.563 2.563 0 0 0-.124.2c-.043.077-.08.158-.108.241a.534.534 0 0 0-.028.133.29.29 0 0 0 .008.072.927.927 0 0 0 .082.226c.067.133.145.26.234.379l3.242 3.365.025.01.59.623c-3.265-.918-5.59-3.155-5.59-4.668 0-1.194 1.448-2.838 3.663-3.93zm7.07.531a4.632 4.632 0 0 1 1.108 5.992l.345.344.046-.018a9.313 9.313 0 0 0 2-1.112c.256-.187.5-.392.727-.613.137-.134.27-.277.392-.431.072-.091.141-.185.203-.286.057-.093.107-.19.148-.292a.72.72 0 0 0 .036-.12.29.29 0 0 0 .008-.072.492.492 0 0 0-.028-.133.999.999 0 0 0-.036-.096 2.165 2.165 0 0 0-.071-.145 2.917 2.917 0 0 0-.125-.2 3.592 3.592 0 0 0-.263-.335 5.444 5.444 0 0 0-.53-.523 7.955 7.955 0 0 0-1.054-.768 9.766 9.766 0 0 0-1.879-.891c-.337-.118-.68-.219-1.027-.301zm-2.85.21-.069.002a.508.508 0 0 0-.254.097.496.496 0 0 0-.104.679.498.498 0 0 0 .326.199l.045.005c.091.003.181.003.272.012a2.45 2.45 0 0 1 2.017 1.513c.024.061.043.125.069.185a.494.494 0 0 0 .45.287h.008a.496.496 0 0 0 .35-.158.482.482 0 0 0 .13-.335.638.638 0 0 0-.048-.219 3.379 3.379 0 0 0-.36-.723 3.438 3.438 0 0 0-2.791-1.543l-.028-.001h-.013z"/></svg>',
           $l =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.91 10.54c.26-.23.64-.21.88.03l3.36 3.14 2.23-2.06a.64.64 0 0 1 .87 0l2.52 2.97V4.5H3.2v10.12l3.71-4.08zm10.27-7.51c.6 0 1.09.47 1.09 1.05v11.84c0 .59-.49 1.06-1.09 1.06H2.79c-.6 0-1.09-.47-1.09-1.06V4.08c0-.58.49-1.05 1.1-1.05h14.38zm-5.22 5.56a1.96 1.96 0 1 1 3.4-1.96 1.96 1.96 0 0 1-3.4 1.96z"/></svg>',
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.972 16.615a.997.997 0 0 1-.744-.292l-4.596-4.596a1 1 0 1 1 1.414-1.414l3.926 3.926 9.937-9.937a1 1 0 0 1 1.414 1.415L7.717 16.323a.997.997 0 0 1-.745.292z"/></svg>',
+          Gl =
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m8.636 9.531-2.758 3.94a.5.5 0 0 0 .122.696l3.224 2.284h1.314l2.636-3.736L8.636 9.53zm.288 8.451L5.14 15.396a2 2 0 0 1-.491-2.786l6.673-9.53a2 2 0 0 1 2.785-.49l3.742 2.62a2 2 0 0 1 .491 2.785l-7.269 10.053-2.147-.066z"/><path d="M4 18h5.523v-1H4zm-2 0h1v-1H2z"/></svg>',
           Wl =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 4c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75z"/></svg>',
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5.085 6.22 2.943 4.078a.75.75 0 1 1 1.06-1.06l2.592 2.59A11.094 11.094 0 0 1 10 5.068c4.738 0 8.578 3.101 8.578 5.083 0 1.197-1.401 2.803-3.555 3.887l1.714 1.713a.75.75 0 0 1-.09 1.138.488.488 0 0 1-.15.084.75.75 0 0 1-.821-.16L6.17 7.304c-.258.11-.51.233-.757.365l6.239 6.24-.006.005.78.78c-.388.094-.78.166-1.174.215l-1.11-1.11h.011L4.55 8.197a7.2 7.2 0 0 0-.665.514l-.112.098 4.897 4.897-.005.006 1.276 1.276a10.164 10.164 0 0 1-1.477-.117l-.479-.479-.009.009-4.863-4.863-.022.031a2.563 2.563 0 0 0-.124.2c-.043.077-.08.158-.108.241a.534.534 0 0 0-.028.133.29.29 0 0 0 .008.072.927.927 0 0 0 .082.226c.067.133.145.26.234.379l3.242 3.365.025.01.59.623c-3.265-.918-5.59-3.155-5.59-4.668 0-1.194 1.448-2.838 3.663-3.93zm7.07.531a4.632 4.632 0 0 1 1.108 5.992l.345.344.046-.018a9.313 9.313 0 0 0 2-1.112c.256-.187.5-.392.727-.613.137-.134.27-.277.392-.431.072-.091.141-.185.203-.286.057-.093.107-.19.148-.292a.72.72 0 0 0 .036-.12.29.29 0 0 0 .008-.072.492.492 0 0 0-.028-.133.999.999 0 0 0-.036-.096 2.165 2.165 0 0 0-.071-.145 2.917 2.917 0 0 0-.125-.2 3.592 3.592 0 0 0-.263-.335 5.444 5.444 0 0 0-.53-.523 7.955 7.955 0 0 0-1.054-.768 9.766 9.766 0 0 0-1.879-.891c-.337-.118-.68-.219-1.027-.301zm-2.85.21-.069.002a.508.508 0 0 0-.254.097.496.496 0 0 0-.104.679.498.498 0 0 0 .326.199l.045.005c.091.003.181.003.272.012a2.45 2.45 0 0 1 2.017 1.513c.024.061.043.125.069.185a.494.494 0 0 0 .45.287h.008a.496.496 0 0 0 .35-.158.482.482 0 0 0 .13-.335.638.638 0 0 0-.048-.219 3.379 3.379 0 0 0-.36-.723 3.438 3.438 0 0 0-2.791-1.543l-.028-.001h-.013z"/></svg>',
           Ul =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm2.286 4c0 .414.336.75.75.75h9.928a.75.75 0 1 0 0-1.5H5.036a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h9.928a.75.75 0 1 0 0-1.5H5.036a.75.75 0 0 0-.75.75z"/></svg>',
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6.91 10.54c.26-.23.64-.21.88.03l3.36 3.14 2.23-2.06a.64.64 0 0 1 .87 0l2.52 2.97V4.5H3.2v10.12l3.71-4.08zm10.27-7.51c.6 0 1.09.47 1.09 1.05v11.84c0 .59-.49 1.06-1.09 1.06H2.79c-.6 0-1.09-.47-1.09-1.06V4.08c0-.58.49-1.05 1.1-1.05h14.38zm-5.22 5.56a1.96 1.96 0 1 1 3.4-1.96 1.96 1.96 0 0 1-3.4 1.96z"/></svg>',
           Jl =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 3.75a.75.75 0 0 1-.75.75H2.75a.75.75 0 1 1 0-1.5h14.5a.75.75 0 0 1 .75.75zm0 8a.75.75 0 0 1-.75.75H2.75a.75.75 0 1 1 0-1.5h14.5a.75.75 0 0 1 .75.75zm0 4a.75.75 0 0 1-.75.75H7.321a.75.75 0 1 1 0-1.5h9.929a.75.75 0 0 1 .75.75zm0-8a.75.75 0 0 1-.75.75H7.321a.75.75 0 1 1 0-1.5h9.929a.75.75 0 0 1 .75.75z"/></svg>',
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 4c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75z"/></svg>',
           Yl =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 4c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75z"/></svg>',
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm2.286 4c0 .414.336.75.75.75h9.928a.75.75 0 1 0 0-1.5H5.036a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h9.928a.75.75 0 1 0 0-1.5H5.036a.75.75 0 0 0-.75.75z"/></svg>',
           Ql =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M18.095 2H1.905C.853 2 0 2.895 0 4v12c0 1.105.853 2 1.905 2h16.19C19.147 18 20 17.105 20 16V4c0-1.105-.853-2-1.905-2zm0 1.5c.263 0 .476.224.476.5v12c0 .276-.213.5-.476.5H1.905a.489.489 0 0 1-.476-.5V4c0-.276.213-.5.476-.5h16.19z"/></svg>',
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 3.75a.75.75 0 0 1-.75.75H2.75a.75.75 0 1 1 0-1.5h14.5a.75.75 0 0 1 .75.75zm0 8a.75.75 0 0 1-.75.75H2.75a.75.75 0 1 1 0-1.5h14.5a.75.75 0 0 1 .75.75zm0 4a.75.75 0 0 1-.75.75H7.321a.75.75 0 1 1 0-1.5h9.929a.75.75 0 0 1 .75.75zm0-8a.75.75 0 0 1-.75.75H7.321a.75.75 0 1 1 0-1.5h9.929a.75.75 0 0 1 .75.75z"/></svg>',
           Xl =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M13 6H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V8a.5.5 0 0 1 .5-.5h11z"/></svg>',
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0 4c0 .414.336.75.75.75h9.929a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm0-8c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75z"/></svg>',
           Zl =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M7 10H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h5z"/></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M18.095 2H1.905C.853 2 0 2.895 0 4v12c0 1.105.853 2 1.905 2h16.19C19.147 18 20 17.105 20 16V4c0-1.105-.853-2-1.905-2zm0 1.5c.263 0 .476.224.476.5v12c0 .276-.213.5-.476.5H1.905a.489.489 0 0 1-.476-.5V4c0-.276.213-.5.476-.5h16.19z"/></svg>',
           td =
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M10 8H2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h8z"/></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M13 6H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5V8a.5.5 0 0 1 .5-.5h11z"/></svg>',
           ed =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m7.3 17.37-.061.088a1.518 1.518 0 0 1-.934.535l-4.178.663-.806-4.153a1.495 1.495 0 0 1 .187-1.058l.056-.086L8.77 2.639c.958-1.351 2.803-1.076 4.296-.03 1.497 1.047 2.387 2.693 1.433 4.055L7.3 17.37zM9.14 4.728l-5.545 8.346 3.277 2.294 5.544-8.346L9.14 4.728zM6.07 16.512l-3.276-2.295.53 2.73 2.746-.435zM9.994 3.506 13.271 5.8c.316-.452-.16-1.333-1.065-1.966-.905-.634-1.895-.78-2.212-.328zM8 18.5 9.375 17H19v1.5H8z"/></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M7 10H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5h5z"/></svg>',
           nd =
-            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 10.423a6.5 6.5 0 0 1 6.056-6.408l.038.67C6.448 5.423 5.354 7.663 5.22 10H9c.552 0 .5.432.5.986v4.511c0 .554-.448.503-1 .503h-5c-.552 0-.5-.449-.5-1.003v-4.574zm8 0a6.5 6.5 0 0 1 6.056-6.408l.038.67c-2.646.739-3.74 2.979-3.873 5.315H17c.552 0 .5.432.5.986v4.511c0 .554-.448.503-1 .503h-5c-.552 0-.5-.449-.5-1.003v-4.574z"/></svg>',
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.5 17v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zm2 0v1h-1v-1h1zM1 15.5v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm-19-2v1H0v-1h1zm19 0v1h-1v-1h1zm0-2v1h-1v-1h1zm-19 0v1H0v-1h1zM14.5 2v1h-1V2h1zm2 0v1h-1V2h1zm2 0v1h-1V2h1zm-8 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm-2 0v1h-1V2h1zm8 0v1h-1V2h1zm-10 0v1h-1V2h1z"/><path d="M10 8H2a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2zm0 1.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-6a.5.5 0 0 1 .5-.5h8z"/></svg>',
           od =
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m7.3 17.37-.061.088a1.518 1.518 0 0 1-.934.535l-4.178.663-.806-4.153a1.495 1.495 0 0 1 .187-1.058l.056-.086L8.77 2.639c.958-1.351 2.803-1.076 4.296-.03 1.497 1.047 2.387 2.693 1.433 4.055L7.3 17.37zM9.14 4.728l-5.545 8.346 3.277 2.294 5.544-8.346L9.14 4.728zM6.07 16.512l-3.276-2.295.53 2.73 2.746-.435zM9.994 3.506 13.271 5.8c.316-.452-.16-1.333-1.065-1.966-.905-.634-1.895-.78-2.212-.328zM8 18.5 9.375 17H19v1.5H8z"/></svg>',
+          id =
+            '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M3 10.423a6.5 6.5 0 0 1 6.056-6.408l.038.67C6.448 5.423 5.354 7.663 5.22 10H9c.552 0 .5.432.5.986v4.511c0 .554-.448.503-1 .503h-5c-.552 0-.5-.449-.5-1.003v-4.574zm8 0a6.5 6.5 0 0 1 6.056-6.408l.038.67c-2.646.739-3.74 2.979-3.873 5.315H17c.552 0 .5.432.5.986v4.511c0 .554-.448.503-1 .503h-5c-.552 0-.5-.449-.5-1.003v-4.574z"/></svg>',
+          rd =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="9.5" cy="4.5" r="1.5"/><circle cx="9.5" cy="10.5" r="1.5"/><circle cx="9.5" cy="16.5" r="1.5"/></svg>';
-        function id({ emitter: t, activator: e, callback: n, contextElements: o }) {
+        function sd({ emitter: t, activator: e, callback: n, contextElements: o }) {
           t.listenTo(document, 'mousedown', (t, i) => {
             if (!e()) return;
             const r = 'function' == typeof i.composedPath ? i.composedPath() : [];
@@ -14156,7 +14378,7 @@
             n();
           });
         }
-        function rd(t) {
+        function ad(t) {
           t.set('_isCssTransitionsDisabled', !1),
             (t.disableCssTransitions = () => {
               t._isCssTransitionsDisabled = !0;
@@ -14168,7 +14390,7 @@
               attributes: { class: [t.bindTemplate.if('_isCssTransitionsDisabled', 'ck-transitions-disabled')] },
             });
         }
-        function sd({ view: t }) {
+        function cd({ view: t }) {
           t.listenTo(
             t.element,
             'submit',
@@ -14178,7 +14400,7 @@
             { useCapture: !0 },
           );
         }
-        class ad extends co {
+        class ld extends co {
           constructor(t = []) {
             super(t, { idProperty: 'viewUid' }),
               this.on('add', (t, e, n) => {
@@ -14218,12 +14440,12 @@
                 this._parentElement.insertBefore(t.element, this._parentElement.children[e]);
           }
         }
-        var cd = n(1),
-          ld = n.n(cd),
-          dd = n(12),
-          hd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(dd.a, hd), dd.a.locals;
-        class ud {
+        var dd = n(1),
+          hd = n.n(dd),
+          ud = n(12),
+          pd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(ud.a, pd), ud.a.locals;
+        class md {
           constructor(t) {
             (this.element = null),
               (this.isRendered = !1),
@@ -14237,10 +14459,10 @@
               this.decorate('render');
           }
           get bindTemplate() {
-            return this._bindTemplate ? this._bindTemplate : (this._bindTemplate = pd.bind(this, this));
+            return this._bindTemplate ? this._bindTemplate : (this._bindTemplate = gd.bind(this, this));
           }
           createCollection(t) {
-            const e = new ad(t);
+            const e = new ld(t);
             return this._viewCollections.add(e), e;
           }
           registerChild(t) {
@@ -14252,10 +14474,10 @@
             for (const e of t) this._unboundChildren.remove(e);
           }
           setTemplate(t) {
-            this.template = new pd(t);
+            this.template = new gd(t);
           }
           extendTemplate(t) {
-            pd.extend(this.template, t);
+            gd.extend(this.template, t);
           }
           render() {
             if (this.isRendered) throw new c.a('ui-view-render-already-rendered', this);
@@ -14268,10 +14490,10 @@
               this.template && this.template._revertData && this.template.revert(this.element);
           }
         }
-        Yt(ud, qr), Yt(ud, jt);
-        class pd {
+        Yt(md, Kr), Yt(md, jt);
+        class gd {
           constructor(t) {
-            Object.assign(this, vd(Cd(t))), (this._isRendered = !1), (this._revertData = null);
+            Object.assign(this, xd(yd(t))), (this._isRendered = !1), (this._revertData = null);
           }
           render() {
             const t = this._renderNode({ intoFragment: !0 });
@@ -14290,18 +14512,18 @@
           }
           *getViews() {
             yield* (function* t(e) {
-              if (e.children) for (const n of e.children) Bd(n) ? yield n : Td(n) && (yield* t(n));
+              if (e.children) for (const n of e.children) Pd(n) ? yield n : Id(n) && (yield* t(n));
             })(this);
           }
           static bind(t, e) {
             return {
-              to: (n, o) => new gd({ eventNameOrFunction: n, attribute: n, observable: t, emitter: e, callback: o }),
-              if: (n, o, i) => new fd({ observable: t, emitter: e, attribute: n, valueIfTrue: o, callback: i }),
+              to: (n, o) => new kd({ eventNameOrFunction: n, attribute: n, observable: t, emitter: e, callback: o }),
+              if: (n, o, i) => new bd({ observable: t, emitter: e, attribute: n, valueIfTrue: o, callback: i }),
             };
           }
           static extend(t, e) {
             if (t._isRendered) throw new c.a('template-extend-render', [this, t]);
-            Dd(t, vd(Cd(e)));
+            Bd(t, xd(yd(e)));
           }
           _renderNode(t) {
             let e;
@@ -14323,8 +14545,8 @@
             let e = t.node;
             return (
               e ? (t.revertData.text = e.textContent) : (e = t.node = document.createTextNode('')),
-              kd(this.text)
-                ? this._bindToObservable({ schema: this.text, updater: wd(e), data: t })
+              wd(this.text)
+                ? this._bindToObservable({ schema: this.text, updater: _d(e), data: t })
                 : (e.textContent = this.text.join('')),
               e
             );
@@ -14340,25 +14562,25 @@
                 (n = this.attributes[e]),
                 s && (s.attributes[e] = o),
                 (i = w(n[0]) && n[0].ns ? n[0].ns : null),
-                kd(n))
+                wd(n))
               ) {
                 const a = i ? n[0].value : n;
-                s && Id(e) && a.unshift(o), this._bindToObservable({ schema: a, updater: _d(r, e, i), data: t });
+                s && Fd(e) && a.unshift(o), this._bindToObservable({ schema: a, updater: Cd(r, e, i), data: t });
               } else
                 'style' == e && 'string' != typeof n[0]
                   ? this._renderStyleAttribute(n[0], t)
-                  : (s && o && Id(e) && n.unshift(o),
+                  : (s && o && Fd(e) && n.unshift(o),
                     (n = n
                       .map(t => (t && t.value) || t)
                       .reduce((t, e) => t.concat(e), [])
-                      .reduce(xd, '')),
-                    Sd(n) || r.setAttributeNS(i, e, n));
+                      .reduce(Dd, '')),
+                    Td(n) || r.setAttributeNS(i, e, n));
           }
           _renderStyleAttribute(t, e) {
             const n = e.node;
             for (const o in t) {
               const i = t[o];
-              kd(i) ? this._bindToObservable({ schema: [i], updater: Ad(n, o), data: e }) : (n.style[o] = i);
+              wd(i) ? this._bindToObservable({ schema: [i], updater: vd(n, o), data: e }) : (n.style[o] = i);
             }
           }
           _renderElementChildren(t) {
@@ -14367,12 +14589,12 @@
               o = t.isApplying;
             let i = 0;
             for (const r of this.children)
-              if (Pd(r)) {
+              if (zd(r)) {
                 if (!o) {
                   r.setParent(e);
                   for (const t of r) n.appendChild(t.element);
                 }
-              } else if (Bd(r)) o || (r.isRendered || r.render(), n.appendChild(r.element));
+              } else if (Pd(r)) o || (r.isRendered || r.render(), n.appendChild(r.element));
               else if (xr(r)) n.appendChild(r);
               else if (o) {
                 const e = { children: [], bindings: [], attributes: {} };
@@ -14393,9 +14615,9 @@
           }
           _bindToObservable({ schema: t, updater: e, data: n }) {
             const o = n.revertData;
-            bd(t, e, n);
+            Ad(t, e, n);
             const i = t
-              .filter(t => !Sd(t))
+              .filter(t => !Td(t))
               .filter(t => t.observable)
               .map(o => o.activateAttributeListener(t, e, n));
             o && o.bindings.push(i);
@@ -14412,8 +14634,8 @@
             }
           }
         }
-        Yt(pd, h);
-        class md {
+        Yt(gd, h);
+        class fd {
           constructor(t) {
             Object.assign(this, t);
           }
@@ -14422,7 +14644,7 @@
             return this.callback ? this.callback(e, t) : e;
           }
           activateAttributeListener(t, e, n) {
-            const o = () => bd(t, e, n);
+            const o = () => Ad(t, e, n);
             return (
               this.emitter.listenTo(this.observable, 'change:' + this.attribute, o),
               () => {
@@ -14431,7 +14653,7 @@
             );
           }
         }
-        class gd extends md {
+        class kd extends fd {
           activateDomEventListener(t, e, n) {
             const o = (t, n) => {
               (e && !n.target.matches(e)) ||
@@ -14447,21 +14669,21 @@
             );
           }
         }
-        class fd extends md {
+        class bd extends fd {
           getValue(t) {
-            return !Sd(super.getValue(t)) && (this.valueIfTrue || !0);
+            return !Td(super.getValue(t)) && (this.valueIfTrue || !0);
           }
         }
-        function kd(t) {
-          return !!t && (t.value && (t = t.value), Array.isArray(t) ? t.some(kd) : t instanceof md);
-        }
-        function bd(t, e, { node: n }) {
-          let o = (function (t, e) {
-            return t.map(t => (t instanceof md ? t.getValue(e) : t));
-          })(t, n);
-          (o = 1 == t.length && t[0] instanceof fd ? o[0] : o.reduce(xd, '')), Sd(o) ? e.remove() : e.set(o);
-        }
         function wd(t) {
+          return !!t && (t.value && (t = t.value), Array.isArray(t) ? t.some(wd) : t instanceof fd);
+        }
+        function Ad(t, e, { node: n }) {
+          let o = (function (t, e) {
+            return t.map(t => (t instanceof fd ? t.getValue(e) : t));
+          })(t, n);
+          (o = 1 == t.length && t[0] instanceof bd ? o[0] : o.reduce(Dd, '')), Td(o) ? e.remove() : e.set(o);
+        }
+        function _d(t) {
           return {
             set(e) {
               t.textContent = e;
@@ -14471,7 +14693,7 @@
             },
           };
         }
-        function _d(t, e, n) {
+        function Cd(t, e, n) {
           return {
             set(o) {
               t.setAttributeNS(n, e, o);
@@ -14481,7 +14703,7 @@
             },
           };
         }
-        function Ad(t, e) {
+        function vd(t, e) {
           return {
             set(n) {
               t.style[e] = n;
@@ -14491,12 +14713,12 @@
             },
           };
         }
-        function Cd(t) {
+        function yd(t) {
           return no(t, t => {
-            if (t && (t instanceof md || Td(t) || Bd(t) || Pd(t))) return t;
+            if (t && (t instanceof fd || Id(t) || Pd(t) || zd(t))) return t;
           });
         }
-        function vd(t) {
+        function xd(t) {
           if (
             ('string' == typeof t
               ? (t = (function (t) {
@@ -14508,7 +14730,7 @@
                 })(t),
             t.on &&
               ((t.eventListeners = (function (t) {
-                for (const e in t) yd(t, e);
+                for (const e in t) Ed(t, e);
                 return t;
               })(t.on)),
               delete t.on),
@@ -14516,58 +14738,58 @@
           ) {
             t.attributes &&
               (function (t) {
-                for (const e in t) t[e].value && (t[e].value = ho(t[e].value)), yd(t, e);
+                for (const e in t) t[e].value && (t[e].value = ho(t[e].value)), Ed(t, e);
               })(t.attributes);
             const e = [];
             if (t.children)
-              if (Pd(t.children)) e.push(t.children);
-              else for (const n of t.children) Td(n) || Bd(n) || xr(n) ? e.push(n) : e.push(new pd(n));
+              if (zd(t.children)) e.push(t.children);
+              else for (const n of t.children) Id(n) || Pd(n) || xr(n) ? e.push(n) : e.push(new gd(n));
             t.children = e;
           }
           return t;
         }
-        function yd(t, e) {
+        function Ed(t, e) {
           t[e] = ho(t[e]);
         }
-        function xd(t, e) {
-          return Sd(e) ? t : Sd(t) ? e : `${t} ${e}`;
+        function Dd(t, e) {
+          return Td(e) ? t : Td(t) ? e : `${t} ${e}`;
         }
-        function Ed(t, e) {
+        function Sd(t, e) {
           for (const n in e) t[n] ? t[n].push(...e[n]) : (t[n] = e[n]);
         }
-        function Dd(t, e) {
+        function Bd(t, e) {
           if (
-            (e.attributes && (t.attributes || (t.attributes = {}), Ed(t.attributes, e.attributes)),
-            e.eventListeners && (t.eventListeners || (t.eventListeners = {}), Ed(t.eventListeners, e.eventListeners)),
+            (e.attributes && (t.attributes || (t.attributes = {}), Sd(t.attributes, e.attributes)),
+            e.eventListeners && (t.eventListeners || (t.eventListeners = {}), Sd(t.eventListeners, e.eventListeners)),
             e.text && t.text.push(...e.text),
             e.children && e.children.length)
           ) {
             if (t.children.length != e.children.length) throw new c.a('ui-template-extend-children-mismatch', t);
             let n = 0;
-            for (const o of e.children) Dd(t.children[n++], o);
+            for (const o of e.children) Bd(t.children[n++], o);
           }
         }
-        function Sd(t) {
+        function Td(t) {
           return !t && 0 !== t;
         }
-        function Bd(t) {
-          return t instanceof ud;
-        }
-        function Td(t) {
-          return t instanceof pd;
-        }
         function Pd(t) {
-          return t instanceof ad;
+          return t instanceof md;
         }
         function Id(t) {
+          return t instanceof gd;
+        }
+        function zd(t) {
+          return t instanceof ld;
+        }
+        function Fd(t) {
           return 'class' == t || 'style' == t;
         }
-        class zd extends ad {
+        class Rd extends ld {
           constructor(t, e = []) {
             super(e), (this.locale = t);
           }
           attachToDom() {
-            this._bodyCollectionContainer = new pd({
+            this._bodyCollectionContainer = new gd({
               tag: 'div',
               attributes: {
                 class: ['ck', 'ck-reset_all', 'ck-body', 'ck-rounded-corners'],
@@ -14585,10 +14807,10 @@
             t && 0 == t.childElementCount && t.remove();
           }
         }
-        var Fd = n(13),
-          Rd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Fd.a, Rd), Fd.a.locals;
-        class Od extends ud {
+        var Od = n(13),
+          Md = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Od.a, Md), Od.a.locals;
+        class Nd extends md {
           constructor() {
             super();
             const t = this.bindTemplate;
@@ -14627,10 +14849,10 @@
               });
           }
         }
-        var Md = n(14),
-          Nd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Md.a, Nd), Md.a.locals;
-        class Vd extends ud {
+        var Vd = n(14),
+          Ld = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Vd.a, Ld), Vd.a.locals;
+        class Kd extends md {
           constructor(t) {
             super(t), this.set('text', ''), this.set('position', 's');
             const e = this.bindTemplate;
@@ -14650,10 +14872,10 @@
             });
           }
         }
-        var Ld = n(15),
-          qd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Ld.a, qd), Ld.a.locals;
-        class Kd extends ud {
+        var qd = n(15),
+          Hd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(qd.a, Hd), qd.a.locals;
+        class jd extends md {
           constructor(t) {
             super(t);
             const e = this.bindTemplate,
@@ -14676,7 +14898,7 @@
               (this.children = this.createCollection()),
               (this.tooltipView = this._createTooltipView()),
               (this.labelView = this._createLabelView(n)),
-              (this.iconView = new Od()),
+              (this.iconView = new Nd()),
               this.iconView.extendTemplate({ attributes: { class: 'ck-button__icon' } }),
               (this.keystrokeView = this._createKeystrokeView()),
               this.bind('_tooltipString').to(
@@ -14729,11 +14951,11 @@
             this.element.focus();
           }
           _createTooltipView() {
-            const t = new Vd();
+            const t = new Kd();
             return t.bind('text').to(this, '_tooltipString'), t.bind('position').to(this, 'tooltipPosition'), t;
           }
           _createLabelView(t) {
-            const e = new ud(),
+            const e = new md(),
               n = this.bindTemplate;
             return (
               e.setTemplate({
@@ -14749,7 +14971,7 @@
             );
           }
           _createKeystrokeView() {
-            const t = new ud();
+            const t = new md();
             return (
               t.setTemplate({
                 tag: 'span',
@@ -14767,10 +14989,10 @@
               : '';
           }
         }
-        var Hd = n(16),
-          jd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Hd.a, jd), Hd.a.locals;
-        class Gd extends Kd {
+        var $d = n(16),
+          Gd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()($d.a, Gd), $d.a.locals;
+        class Wd extends jd {
           constructor(t) {
             super(t),
               (this.isToggleable = !0),
@@ -14781,7 +15003,7 @@
             super.render(), this.children.add(this.toggleSwitchView);
           }
           _createToggleView() {
-            const t = new ud();
+            const t = new md();
             return (
               t.setTemplate({
                 tag: 'span',
@@ -14792,7 +15014,7 @@
             );
           }
         }
-        function $d(t) {
+        function Ud(t) {
           return 'string' == typeof t
             ? { model: t, label: t, hasBorder: !1, view: { name: 'span', styles: { color: t } } }
             : {
@@ -14802,7 +15024,7 @@
                 view: { name: 'span', styles: { color: `${t.color}` } },
               };
         }
-        class Wd extends Kd {
+        class Jd extends jd {
           constructor(t) {
             super(t);
             const e = this.bindTemplate;
@@ -14821,7 +15043,7 @@
             super.render(), (this.iconView.fillColor = 'hsl(0, 0%, 100%)');
           }
         }
-        class Ud {
+        class Yd {
           constructor(t) {
             if ((Object.assign(this, t), t.actions && t.keystrokeHandler))
               for (const e in t.actions) {
@@ -14834,10 +15056,10 @@
               }
           }
           get first() {
-            return this.focusables.find(Jd) || null;
+            return this.focusables.find(Qd) || null;
           }
           get last() {
-            return this.focusables.filter(Jd).slice(-1)[0] || null;
+            return this.focusables.filter(Qd).slice(-1)[0] || null;
           }
           get next() {
             return this._getFocusableItem(1);
@@ -14878,19 +15100,19 @@
             let o = (e + n + t) % n;
             do {
               const e = this.focusables.get(o);
-              if (Jd(e)) return e;
+              if (Qd(e)) return e;
               o = (o + n + t) % n;
             } while (o !== e);
             return null;
           }
         }
-        function Jd(t) {
+        function Qd(t) {
           return !(!t.focus || 'none' == Tr.window.getComputedStyle(t.element).display);
         }
-        var Yd = n(17),
-          Qd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Yd.a, Qd), Yd.a.locals;
-        class Xd extends ud {
+        var Xd = n(17),
+          Zd = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Xd.a, Zd), Xd.a.locals;
+        class th extends md {
           constructor(t, e) {
             super(t);
             const n = (e && e.colorDefinitions) || [],
@@ -14900,7 +15122,7 @@
               (this.items = this.createCollection()),
               (this.focusTracker = new Ws()),
               (this.keystrokes = new Us()),
-              (this._focusCycler = new Ud({
+              (this._focusCycler = new Yd({
                 focusables: this.items,
                 focusTracker: this.focusTracker,
                 keystrokeHandler: this.keystrokes,
@@ -14910,7 +15132,7 @@
                 e.isOn = e.color === this.selectedColor;
               }),
               n.forEach(t => {
-                const e = new Wd();
+                const e = new Jd();
                 e.set({ color: t.color, label: t.label, tooltip: !0, hasBorder: t.options.hasBorder }),
                   e.on('execute', () => {
                     this.fire('execute', { value: t.color, hasBorder: t.options.hasBorder, label: t.label });
@@ -14944,9 +15166,9 @@
               this.keystrokes.listenTo(this.element);
           }
         }
-        var Zd =
+        var eh =
           '<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M.941 4.523a.75.75 0 1 1 1.06-1.06l3.006 3.005 3.005-3.005a.75.75 0 1 1 1.06 1.06l-3.549 3.55a.75.75 0 0 1-1.168-.136L.941 4.523z"/></svg>';
-        class th extends Kd {
+        class nh extends jd {
           constructor(t) {
             super(t),
               (this.arrowView = this._createArrowView()),
@@ -14957,14 +15179,14 @@
             super.render(), this.children.add(this.arrowView);
           }
           _createArrowView() {
-            const t = new Od();
-            return (t.content = Zd), t.extendTemplate({ attributes: { class: 'ck-dropdown__arrow' } }), t;
+            const t = new Nd();
+            return (t.content = eh), t.extendTemplate({ attributes: { class: 'ck-dropdown__arrow' } }), t;
           }
         }
-        var eh = n(18),
-          nh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(eh.a, nh), eh.a.locals;
-        class oh extends ud {
+        var oh = n(18),
+          ih = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(oh.a, ih), oh.a.locals;
+        class rh extends md {
           constructor(t) {
             super(t);
             const e = this.bindTemplate;
@@ -15016,7 +15238,7 @@
             this.actionView.focus();
           }
           _createActionView() {
-            const t = new Kd();
+            const t = new jd();
             return (
               t
                 .bind(
@@ -15039,10 +15261,10 @@
             );
           }
           _createArrowView() {
-            const t = new Kd(),
+            const t = new jd(),
               e = t.bindTemplate;
             return (
-              (t.icon = Zd),
+              (t.icon = eh),
               t.extendTemplate({
                 attributes: {
                   class: 'ck-splitbutton__arrow',
@@ -15056,7 +15278,7 @@
             );
           }
         }
-        class ih extends ud {
+        class sh extends md {
           constructor(t) {
             super(t);
             const e = this.bindTemplate;
@@ -15088,10 +15310,10 @@
             }
           }
         }
-        var rh = n(19),
-          sh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(rh.a, sh), rh.a.locals;
-        function ah({ element: t, target: e, positions: n, limiter: o, fitInViewport: i }) {
+        var ah = n(19),
+          ch = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(ah.a, ch), ah.a.locals;
+        function lh({ element: t, target: e, positions: n, limiter: o, fitInViewport: i }) {
           I(e) && (e = e()), I(o) && (o = o());
           const r = (function (t) {
               return t && t.parentNode ? (t.offsetParent === Tr.document.body ? null : t.offsetParent) : null;
@@ -15107,7 +15329,7 @@
                   const r = [],
                     s = n.getArea();
                   for (const a of t) {
-                    const t = ch(a, e, n);
+                    const t = dh(a, e, n);
                     if (!t) continue;
                     const [c, l] = t;
                     let d = 0,
@@ -15125,26 +15347,26 @@
                   return r;
                 })(t, e);
               if (o) {
-                const t = lh(
+                const t = hh(
                   r.filter(({ viewportIntersectArea: t }) => t === i),
                   i,
                 );
                 if (t) return t;
               }
-              return lh(r, i);
+              return hh(r, i);
             })(n, {
               targetRect: a,
               elementRect: s,
               limiterRect: o && new Vs(o).getVisible(),
               viewportRect: i && new Vs(Tr.window),
             });
-            [l, c] = t || ch(n[0], a, s);
-          } else [l, c] = ch(n[0], a, s);
-          let d = dh(c);
+            [l, c] = t || dh(n[0], a, s);
+          } else [l, c] = dh(n[0], a, s);
+          let d = uh(c);
           return (
             r &&
               (d = (function ({ left: t, top: e }, n) {
-                const o = dh(new Vs(n)),
+                const o = uh(new Vs(n)),
                   i = Ms(n);
                 return (
                   (t -= o.left),
@@ -15159,13 +15381,13 @@
             { left: d.left, top: d.top, name: l }
           );
         }
-        function ch(t, e, n) {
+        function dh(t, e, n) {
           const o = t(e, n);
           if (!o) return null;
           const { left: i, top: r, name: s } = o;
           return [s, n.clone().moveTo(i, r)];
         }
-        function lh(t, e) {
+        function hh(t, e) {
           let n,
             o,
             i = 0;
@@ -15176,11 +15398,11 @@
           }
           return n ? [o, n] : null;
         }
-        function dh({ left: t, top: e }) {
+        function uh({ left: t, top: e }) {
           const { scrollX: n, scrollY: o } = Tr.window;
           return { left: t + n, top: e + o };
         }
-        class hh extends ud {
+        class ph extends md {
           constructor(t, e, n) {
             super(t);
             const o = this.bindTemplate;
@@ -15212,7 +15434,7 @@
               this.on('change:isOpen', () => {
                 this.isOpen &&
                   ('auto' === this.panelPosition
-                    ? (this.panelView.position = hh._getOptimalPosition({
+                    ? (this.panelView.position = ph._getOptimalPosition({
                         element: this.panelView.element,
                         target: this.buttonView.element,
                         fitInViewport: !0,
@@ -15248,13 +15470,13 @@
               southMiddleWest: a,
               northMiddleEast: c,
               northMiddleWest: l,
-            } = hh.defaultPanelPositions;
+            } = ph.defaultPanelPositions;
             return 'rtl' !== this.locale.uiLanguageDirection
               ? [n, o, s, a, t, i, r, c, l, e]
               : [o, n, a, s, t, r, i, l, c, e];
           }
         }
-        (hh.defaultPanelPositions = {
+        (ph.defaultPanelPositions = {
           south: (t, e) => ({ top: t.bottom, left: t.left - (e.width - t.width) / 2, name: 's' }),
           southEast: t => ({ top: t.bottom, left: t.left, name: 'se' }),
           southWest: (t, e) => ({ top: t.bottom, left: t.left - e.width + t.width, name: 'sw' }),
@@ -15270,28 +15492,28 @@
             name: 'nmw',
           }),
         }),
-          (hh._getOptimalPosition = ah);
-        class uh extends ud {
+          (ph._getOptimalPosition = lh);
+        class mh extends md {
           constructor(t) {
             super(t), this.setTemplate({ tag: 'span', attributes: { class: ['ck', 'ck-toolbar__separator'] } });
           }
         }
-        class ph extends ud {
+        class gh extends md {
           constructor(t) {
             super(t), this.setTemplate({ tag: 'span', attributes: { class: ['ck', 'ck-toolbar__line-break'] } });
           }
         }
-        function mh(t) {
+        function fh(t) {
           return Array.isArray(t)
             ? { items: t, removeItems: [] }
             : t
             ? Object.assign({ items: [], removeItems: [] }, t)
             : { items: [], removeItems: [] };
         }
-        var gh = n(20),
-          fh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(gh.a, fh), gh.a.locals;
-        class kh extends ud {
+        var kh = n(20),
+          bh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(kh.a, bh), kh.a.locals;
+        class wh extends md {
           constructor(t, e) {
             super(t);
             const n = this.bindTemplate,
@@ -15304,23 +15526,27 @@
               (this.keystrokes = new Us()),
               this.set('class'),
               this.set('isCompact', !1),
-              (this.itemsView = new bh(t)),
+              (this.itemsView = new Ah(t)),
               (this.children = this.createCollection()),
               this.children.add(this.itemsView),
-              (this.focusables = this.createCollection()),
-              (this._focusCycler = new Ud({
-                focusables: this.focusables,
-                focusTracker: this.focusTracker,
-                keystrokeHandler: this.keystrokes,
-                actions: { focusPrevious: ['arrowleft', 'arrowup'], focusNext: ['arrowright', 'arrowdown'] },
-              }));
-            const i = ['ck', 'ck-toolbar', n.to('class'), n.if('isCompact', 'ck-toolbar_compact')];
-            var r;
-            this.options.shouldGroupWhenFull && this.options.isFloating && i.push('ck-toolbar_floating'),
+              (this.focusables = this.createCollection());
+            const i = 'rtl' === t.uiLanguageDirection;
+            this._focusCycler = new Yd({
+              focusables: this.focusables,
+              focusTracker: this.focusTracker,
+              keystrokeHandler: this.keystrokes,
+              actions: {
+                focusPrevious: [i ? 'arrowright' : 'arrowleft', 'arrowup'],
+                focusNext: [i ? 'arrowleft' : 'arrowright', 'arrowdown'],
+              },
+            });
+            const r = ['ck', 'ck-toolbar', n.to('class'), n.if('isCompact', 'ck-toolbar_compact')];
+            var s;
+            this.options.shouldGroupWhenFull && this.options.isFloating && r.push('ck-toolbar_floating'),
               this.setTemplate({
                 tag: 'div',
                 attributes: {
-                  class: i,
+                  class: r,
                   role: 'toolbar',
                   'aria-label': n.to('ariaLabel'),
                   style: { maxWidth: n.to('maxWidth') },
@@ -15328,13 +15554,13 @@
                 children: this.children,
                 on: {
                   mousedown:
-                    ((r = this),
-                    r.bindTemplate.to(t => {
-                      t.target === r.element && t.preventDefault();
+                    ((s = this),
+                    s.bindTemplate.to(t => {
+                      t.target === s.element && t.preventDefault();
                     })),
                 },
               }),
-              (this._behavior = this.options.shouldGroupWhenFull ? new _h(this) : new wh(this));
+              (this._behavior = this.options.shouldGroupWhenFull ? new Ch(this) : new _h(this));
           }
           render() {
             super.render();
@@ -15358,7 +15584,7 @@
             this._focusCycler.focusLast();
           }
           fillFromConfig(t, e) {
-            const n = mh(t),
+            const n = fh(t),
               o = n.items.filter(
                 (t, o, i) =>
                   '|' === t ||
@@ -15368,7 +15594,7 @@
                         (Object(c.b)('toolbarview-line-break-ignored-when-grouping-items', i), !1)
                       : !!e.has(t) || (Object(c.b)('toolbarview-item-unavailable', { name: t }), !1))),
               ),
-              i = this._cleanSeparators(o).map(t => ('|' === t ? new uh() : '-' === t ? new ph() : e.create(t)));
+              i = this._cleanSeparators(o).map(t => ('|' === t ? new mh() : '-' === t ? new gh() : e.create(t)));
             this.items.addMany(i);
           }
           _cleanSeparators(t) {
@@ -15382,7 +15608,7 @@
             });
           }
         }
-        class bh extends ud {
+        class Ah extends md {
           constructor(t) {
             super(t),
               (this.children = this.createCollection()),
@@ -15393,7 +15619,7 @@
               });
           }
         }
-        class wh {
+        class _h {
           constructor(t) {
             const e = t.bindTemplate;
             t.set('isVertical', !1),
@@ -15404,7 +15630,7 @@
           render() {}
           destroy() {}
         }
-        class _h {
+        class Ch {
           constructor(t) {
             (this.view = t),
               (this.viewChildren = t.children),
@@ -15470,7 +15696,7 @@
           }
           _enableGroupingOnResize() {
             let t;
-            (this.resizeObserver = new Ks(this.viewElement, e => {
+            (this.resizeObserver = new qs(this.viewElement, e => {
               (t && t === e.contentRect.width && !this.shouldUpdateGroupingOnNextResize) ||
                 ((this.shouldUpdateGroupingOnNextResize = !1), this._updateGrouping(), (t = e.contentRect.width));
             })),
@@ -15483,7 +15709,7 @@
           }
           _groupLastItem() {
             this.groupedItems.length ||
-              (this.viewChildren.add(new uh()),
+              (this.viewChildren.add(new mh()),
               this.viewChildren.add(this.groupedItemsDropdown),
               this.viewFocusTracker.add(this.groupedItemsDropdown.element)),
               this.groupedItems.add(this.ungroupedItems.remove(this.ungroupedItems.last), 0);
@@ -15498,16 +15724,16 @@
           _createGroupedItemsDropdown() {
             const t = this.viewLocale,
               e = t.t,
-              n = Th(t);
+              n = Ih(t);
             return (
               (n.class = 'ck-toolbar__grouped-dropdown'),
               (n.panelPosition = 'ltr' === t.uiLanguageDirection ? 'sw' : 'se'),
-              Ph(n, []),
+              zh(n, []),
               n.buttonView.set({
                 label: e('Show more items'),
                 tooltip: !0,
                 tooltipPosition: 'rtl' === t.uiLanguageDirection ? 'se' : 'sw',
-                icon: od,
+                icon: rd,
               }),
               n.toolbarView.items.bindTo(this.groupedItems).using(t => t),
               n
@@ -15521,16 +15747,16 @@
               this.groupedItems.length && this.viewFocusables.add(this.groupedItemsDropdown);
           }
         }
-        var Ah = n(21),
-          Ch = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Ah.a, Ch), Ah.a.locals;
-        class vh extends ud {
+        var vh = n(21),
+          yh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(vh.a, yh), vh.a.locals;
+        class xh extends md {
           constructor() {
             super(),
               (this.items = this.createCollection()),
               (this.focusTracker = new Ws()),
               (this.keystrokes = new Us()),
-              (this._focusCycler = new Ud({
+              (this._focusCycler = new Yd({
                 focusables: this.items,
                 focusTracker: this.focusTracker,
                 keystrokeHandler: this.keystrokes,
@@ -15560,7 +15786,7 @@
             this._focusCycler.focusLast();
           }
         }
-        class yh extends ud {
+        class Eh extends md {
           constructor(t) {
             super(t),
               (this.children = this.createCollection()),
@@ -15570,27 +15796,27 @@
             this.children.first.focus();
           }
         }
-        class xh extends ud {
+        class Dh extends md {
           constructor(t) {
             super(t), this.setTemplate({ tag: 'li', attributes: { class: ['ck', 'ck-list__separator'] } });
           }
         }
-        var Eh = n(22),
-          Dh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
-          Sh = (ld()(Eh.a, Dh), Eh.a.locals, n(23)),
-          Bh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Sh.a, Bh), Sh.a.locals;
-        function Th(t, e = th) {
+        var Sh = n(22),
+          Bh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
+          Th = (hd()(Sh.a, Bh), Sh.a.locals, n(23)),
+          Ph = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Th.a, Ph), Th.a.locals;
+        function Ih(t, e = nh) {
           const n = new e(t),
-            o = new ih(t),
-            i = new hh(t, n, o);
+            o = new sh(t),
+            i = new ph(t, n, o);
           return (
             n.bind('isEnabled').to(i),
-            n instanceof th ? n.bind('isOn').to(i, 'isOpen') : n.arrowView.bind('isOn').to(i, 'isOpen'),
+            n instanceof nh ? n.bind('isOn').to(i, 'isOpen') : n.arrowView.bind('isOn').to(i, 'isOpen'),
             (function (t) {
               (function (t) {
                 t.on('render', () => {
-                  id({
+                  sd({
                     emitter: t,
                     activator: () => t.isOpen,
                     callback: () => {
@@ -15602,7 +15828,7 @@
               })(t),
                 (function (t) {
                   t.on('execute', e => {
-                    e.source instanceof Gd || (t.isOpen = !1);
+                    e.source instanceof Wd || (t.isOpen = !1);
                   });
                 })(t),
                 (function (t) {
@@ -15617,26 +15843,26 @@
             i
           );
         }
-        function Ph(t, e) {
+        function zh(t, e) {
           const n = t.locale,
             o = n.t,
-            i = (t.toolbarView = new kh(n));
+            i = (t.toolbarView = new wh(n));
           i.set('ariaLabel', o('Dropdown toolbar')),
             t.extendTemplate({ attributes: { class: ['ck-toolbar-dropdown'] } }),
             e.map(t => i.items.add(t)),
             t.panelView.children.add(i),
             i.items.delegate('execute').to(t);
         }
-        function Ih(t, e) {
+        function Fh(t, e) {
           const n = t.locale,
-            o = (t.listView = new vh(n));
+            o = (t.listView = new xh(n));
           o.items.bindTo(e).using(({ type: t, model: e }) => {
-            if ('separator' === t) return new xh(n);
+            if ('separator' === t) return new Dh(n);
             if ('button' === t || 'switchbutton' === t) {
-              const o = new yh(n);
+              const o = new Eh(n);
               let i;
               return (
-                (i = 'button' === t ? new Kd(n) : new Gd(n)),
+                (i = 'button' === t ? new jd(n) : new Wd(n)),
                 i.bind(...Object.keys(e)).to(e),
                 i.delegate('execute').to(o),
                 o.children.add(i),
@@ -15647,12 +15873,12 @@
             t.panelView.children.add(o),
             o.items.delegate('execute').to(t);
         }
-        var zh = n(24),
-          Fh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(zh.a, Fh), zh.a.locals;
-        class Rh extends ud {
+        var Rh = n(24),
+          Oh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Rh.a, Oh), Rh.a.locals;
+        class Mh extends md {
           constructor(t) {
-            super(t), (this.body = new zd(t));
+            super(t), (this.body = new Rd(t));
           }
           render() {
             super.render(), this.body.attachToDom();
@@ -15661,10 +15887,10 @@
             return this.body.detachFromDom(), super.destroy();
           }
         }
-        var Oh = n(25),
-          Mh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Oh.a, Mh), Oh.a.locals;
-        class Nh extends ud {
+        var Nh = n(25),
+          Vh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Nh.a, Vh), Nh.a.locals;
+        class Lh extends md {
           constructor(t) {
             super(t), this.set('text'), this.set('for'), (this.id = `ck-editor__label_${s()}`);
             const e = this.bindTemplate;
@@ -15675,7 +15901,7 @@
             });
           }
         }
-        class Vh extends ud {
+        class Kh extends md {
           constructor(t, e, n) {
             super(t),
               this.setTemplate({
@@ -15721,7 +15947,7 @@
               : e(this);
           }
         }
-        class Lh extends Vh {
+        class qh extends Kh {
           constructor(t, e, n) {
             super(t, e, n),
               this.extendTemplate({ attributes: { role: 'textbox', class: 'ck-editor__editable_inline' } });
@@ -15736,13 +15962,13 @@
             });
           }
         }
-        var qh = n(26),
-          Kh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(qh.a, Kh), qh.a.locals;
-        var Hh = n(27),
+        var Hh = n(26),
           jh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Hh.a, jh), Hh.a.locals;
-        class Gh extends ud {
+        hd()(Hh.a, jh), Hh.a.locals;
+        var $h = n(27),
+          Gh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()($h.a, Gh), $h.a.locals;
+        class Wh extends md {
           constructor(t) {
             super(t),
               this.set('value'),
@@ -15798,10 +16024,10 @@
             this.element.value = t || 0 === t ? t : '';
           }
         }
-        var $h = n(28),
-          Wh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()($h.a, Wh), $h.a.locals;
-        class Uh extends ud {
+        var Uh = n(28),
+          Jh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Uh.a, Jh), Uh.a.locals;
+        class Yh extends md {
           constructor(t, e) {
             super(t);
             const n = `ck-labeled-field-view-${s()}`,
@@ -15844,11 +16070,11 @@
             });
           }
           _createLabelView(t) {
-            const e = new Nh(this.locale);
+            const e = new Lh(this.locale);
             return (e.for = t), e.bind('text').to(this, 'label'), e;
           }
           _createStatusView(t) {
-            const e = new ud(this.locale),
+            const e = new md(this.locale),
               n = this.bindTemplate;
             return (
               e.setTemplate({
@@ -15872,8 +16098,8 @@
             this.fieldView.focus();
           }
         }
-        function Jh(t, e, n) {
-          const o = new Gh(t.locale);
+        function Qh(t, e, n) {
+          const o = new Wh(t.locale);
           return (
             o.set({ id: e, ariaDescribedById: n }),
             o.bind('isReadOnly').to(t, 'isEnabled', t => !t),
@@ -15885,7 +16111,7 @@
             o
           );
         }
-        class Yh extends ko {
+        class Xh extends ko {
           static get pluginName() {
             return 'Notification';
           }
@@ -15912,18 +16138,18 @@
             this.fire(e, { message: t.message, type: t.type, title: t.title || '' });
           }
         }
-        class Qh {
+        class Zh {
           constructor(t, e) {
             e && Mt(this, e), t && this.set(t);
           }
         }
-        Yt(Qh, jt);
-        var Xh = n(29),
-          Zh = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Xh.a, Zh), Xh.a.locals;
-        const tu = Gs('px'),
-          eu = Tr.document.body;
-        class nu extends ud {
+        Yt(Zh, jt);
+        var tu = n(29),
+          eu = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(tu.a, eu), tu.a.locals;
+        const nu = $s('px'),
+          ou = Tr.document.body;
+        class iu extends md {
           constructor(t) {
             super(t);
             const e = this.bindTemplate;
@@ -15945,7 +16171,7 @@
                     e.if('withArrow', 'ck-balloon-panel_with-arrow'),
                     e.to('class'),
                   ],
-                  style: { top: e.to('top', tu), left: e.to('left', tu) },
+                  style: { top: e.to('top', nu), left: e.to('left', nu) },
                 },
                 children: this.content,
               });
@@ -15958,7 +16184,7 @@
           }
           attachTo(t) {
             this.show();
-            const e = nu.defaultPositions,
+            const e = iu.defaultPositions,
               n = Object.assign(
                 {},
                 {
@@ -15975,12 +16201,12 @@
                     e.northArrowSouthWest,
                     e.northArrowSouthEast,
                   ],
-                  limiter: eu,
+                  limiter: ou,
                   fitInViewport: !0,
                 },
                 t,
               ),
-              o = nu._getOptimalPosition(n),
+              o = iu._getOptimalPosition(n),
               i = parseInt(o.left),
               r = parseInt(o.top),
               s = o.name;
@@ -16003,8 +16229,8 @@
           }
           _startPinning(t) {
             this.attachTo(t);
-            const e = ou(t.target),
-              n = t.limiter ? ou(t.limiter) : eu;
+            const e = ru(t.target),
+              n = t.limiter ? ru(t.limiter) : ou;
             this.listenTo(
               Tr.document,
               'scroll',
@@ -16024,153 +16250,153 @@
             this.stopListening(Tr.document, 'scroll'), this.stopListening(Tr.window, 'resize');
           }
         }
-        function ou(t) {
-          return oo(t) ? t : Os(t) ? t.commonAncestorContainer : 'function' == typeof t ? ou(t()) : null;
-        }
-        function iu(t, e) {
-          return t.top - e.height - nu.arrowVerticalOffset;
-        }
         function ru(t) {
-          return t.bottom + nu.arrowVerticalOffset;
+          return oo(t) ? t : Os(t) ? t.commonAncestorContainer : 'function' == typeof t ? ru(t()) : null;
         }
-        (nu.arrowHorizontalOffset = 25),
-          (nu.arrowVerticalOffset = 10),
-          (nu._getOptimalPosition = ah),
-          (nu.defaultPositions = {
+        function su(t, e) {
+          return t.top - e.height - iu.arrowVerticalOffset;
+        }
+        function au(t) {
+          return t.bottom + iu.arrowVerticalOffset;
+        }
+        (iu.arrowHorizontalOffset = 25),
+          (iu.arrowVerticalOffset = 10),
+          (iu._getOptimalPosition = lh),
+          (iu.defaultPositions = {
             northWestArrowSouthWest: (t, e) => ({
-              top: iu(t, e),
-              left: t.left - nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left - iu.arrowHorizontalOffset,
               name: 'arrow_sw',
             }),
             northWestArrowSouthMiddleWest: (t, e) => ({
-              top: iu(t, e),
-              left: t.left - 0.25 * e.width - nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left - 0.25 * e.width - iu.arrowHorizontalOffset,
               name: 'arrow_smw',
             }),
-            northWestArrowSouth: (t, e) => ({ top: iu(t, e), left: t.left - e.width / 2, name: 'arrow_s' }),
+            northWestArrowSouth: (t, e) => ({ top: su(t, e), left: t.left - e.width / 2, name: 'arrow_s' }),
             northWestArrowSouthMiddleEast: (t, e) => ({
-              top: iu(t, e),
-              left: t.left - 0.75 * e.width + nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left - 0.75 * e.width + iu.arrowHorizontalOffset,
               name: 'arrow_sme',
             }),
             northWestArrowSouthEast: (t, e) => ({
-              top: iu(t, e),
-              left: t.left - e.width + nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left - e.width + iu.arrowHorizontalOffset,
               name: 'arrow_se',
             }),
             northArrowSouthWest: (t, e) => ({
-              top: iu(t, e),
-              left: t.left + t.width / 2 - nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left + t.width / 2 - iu.arrowHorizontalOffset,
               name: 'arrow_sw',
             }),
             northArrowSouthMiddleWest: (t, e) => ({
-              top: iu(t, e),
-              left: t.left + t.width / 2 - 0.25 * e.width - nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left + t.width / 2 - 0.25 * e.width - iu.arrowHorizontalOffset,
               name: 'arrow_smw',
             }),
-            northArrowSouth: (t, e) => ({ top: iu(t, e), left: t.left + t.width / 2 - e.width / 2, name: 'arrow_s' }),
+            northArrowSouth: (t, e) => ({ top: su(t, e), left: t.left + t.width / 2 - e.width / 2, name: 'arrow_s' }),
             northArrowSouthMiddleEast: (t, e) => ({
-              top: iu(t, e),
-              left: t.left + t.width / 2 - 0.75 * e.width + nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left + t.width / 2 - 0.75 * e.width + iu.arrowHorizontalOffset,
               name: 'arrow_sme',
             }),
             northArrowSouthEast: (t, e) => ({
-              top: iu(t, e),
-              left: t.left + t.width / 2 - e.width + nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.left + t.width / 2 - e.width + iu.arrowHorizontalOffset,
               name: 'arrow_se',
             }),
             northEastArrowSouthWest: (t, e) => ({
-              top: iu(t, e),
-              left: t.right - nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.right - iu.arrowHorizontalOffset,
               name: 'arrow_sw',
             }),
             northEastArrowSouthMiddleWest: (t, e) => ({
-              top: iu(t, e),
-              left: t.right - 0.25 * e.width - nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.right - 0.25 * e.width - iu.arrowHorizontalOffset,
               name: 'arrow_smw',
             }),
-            northEastArrowSouth: (t, e) => ({ top: iu(t, e), left: t.right - e.width / 2, name: 'arrow_s' }),
+            northEastArrowSouth: (t, e) => ({ top: su(t, e), left: t.right - e.width / 2, name: 'arrow_s' }),
             northEastArrowSouthMiddleEast: (t, e) => ({
-              top: iu(t, e),
-              left: t.right - 0.75 * e.width + nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.right - 0.75 * e.width + iu.arrowHorizontalOffset,
               name: 'arrow_sme',
             }),
             northEastArrowSouthEast: (t, e) => ({
-              top: iu(t, e),
-              left: t.right - e.width + nu.arrowHorizontalOffset,
+              top: su(t, e),
+              left: t.right - e.width + iu.arrowHorizontalOffset,
               name: 'arrow_se',
             }),
             southWestArrowNorthWest: (t, e) => ({
-              top: ru(t),
-              left: t.left - nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left - iu.arrowHorizontalOffset,
               name: 'arrow_nw',
             }),
             southWestArrowNorthMiddleWest: (t, e) => ({
-              top: ru(t),
-              left: t.left - 0.25 * e.width - nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left - 0.25 * e.width - iu.arrowHorizontalOffset,
               name: 'arrow_nmw',
             }),
-            southWestArrowNorth: (t, e) => ({ top: ru(t), left: t.left - e.width / 2, name: 'arrow_n' }),
+            southWestArrowNorth: (t, e) => ({ top: au(t), left: t.left - e.width / 2, name: 'arrow_n' }),
             southWestArrowNorthMiddleEast: (t, e) => ({
-              top: ru(t),
-              left: t.left - 0.75 * e.width + nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left - 0.75 * e.width + iu.arrowHorizontalOffset,
               name: 'arrow_nme',
             }),
             southWestArrowNorthEast: (t, e) => ({
-              top: ru(t),
-              left: t.left - e.width + nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left - e.width + iu.arrowHorizontalOffset,
               name: 'arrow_ne',
             }),
             southArrowNorthWest: (t, e) => ({
-              top: ru(t),
-              left: t.left + t.width / 2 - nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left + t.width / 2 - iu.arrowHorizontalOffset,
               name: 'arrow_nw',
             }),
             southArrowNorthMiddleWest: (t, e) => ({
-              top: ru(t),
-              left: t.left + t.width / 2 - 0.25 * e.width - nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left + t.width / 2 - 0.25 * e.width - iu.arrowHorizontalOffset,
               name: 'arrow_nmw',
             }),
-            southArrowNorth: (t, e) => ({ top: ru(t), left: t.left + t.width / 2 - e.width / 2, name: 'arrow_n' }),
+            southArrowNorth: (t, e) => ({ top: au(t), left: t.left + t.width / 2 - e.width / 2, name: 'arrow_n' }),
             southArrowNorthMiddleEast: (t, e) => ({
-              top: ru(t),
-              left: t.left + t.width / 2 - 0.75 * e.width + nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left + t.width / 2 - 0.75 * e.width + iu.arrowHorizontalOffset,
               name: 'arrow_nme',
             }),
             southArrowNorthEast: (t, e) => ({
-              top: ru(t),
-              left: t.left + t.width / 2 - e.width + nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.left + t.width / 2 - e.width + iu.arrowHorizontalOffset,
               name: 'arrow_ne',
             }),
             southEastArrowNorthWest: (t, e) => ({
-              top: ru(t),
-              left: t.right - nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.right - iu.arrowHorizontalOffset,
               name: 'arrow_nw',
             }),
             southEastArrowNorthMiddleWest: (t, e) => ({
-              top: ru(t),
-              left: t.right - 0.25 * e.width - nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.right - 0.25 * e.width - iu.arrowHorizontalOffset,
               name: 'arrow_nmw',
             }),
-            southEastArrowNorth: (t, e) => ({ top: ru(t), left: t.right - e.width / 2, name: 'arrow_n' }),
+            southEastArrowNorth: (t, e) => ({ top: au(t), left: t.right - e.width / 2, name: 'arrow_n' }),
             southEastArrowNorthMiddleEast: (t, e) => ({
-              top: ru(t),
-              left: t.right - 0.75 * e.width + nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.right - 0.75 * e.width + iu.arrowHorizontalOffset,
               name: 'arrow_nme',
             }),
             southEastArrowNorthEast: (t, e) => ({
-              top: ru(t),
-              left: t.right - e.width + nu.arrowHorizontalOffset,
+              top: au(t),
+              left: t.right - e.width + iu.arrowHorizontalOffset,
               name: 'arrow_ne',
             }),
           });
-        var su = n(30),
-          au = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
-          cu = (ld()(su.a, au), su.a.locals, n(31)),
-          lu = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(cu.a, lu), cu.a.locals;
-        const du = Gs('px');
-        class hu extends Qt {
+        var cu = n(30),
+          lu = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
+          du = (hd()(cu.a, lu), cu.a.locals, n(31)),
+          hu = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(du.a, hu), du.a.locals;
+        const uu = $s('px');
+        class pu extends Qt {
           static get pluginName() {
             return 'ContextualBalloon';
           }
@@ -16182,7 +16408,7 @@
                 return e ? t.domConverter.mapViewToDom(e.root) : null;
               }),
               this.set('visibleView', null),
-              (this.view = new nu(t.locale)),
+              (this.view = new iu(t.locale)),
               t.ui.view.body.add(this.view),
               t.ui.focusTracker.add(this.view.element),
               (this._viewToStack = new Map()),
@@ -16254,7 +16480,7 @@
             t[e] || (e = t.length - 1), this.showStack(this._getStackId(t[e]));
           }
           _createRotatorView() {
-            const t = new uu(this.editor.locale),
+            const t = new mu(this.editor.locale),
               e = this.editor.locale.t;
             return (
               this.view.content.add(t),
@@ -16275,7 +16501,7 @@
             );
           }
           _createFakePanelsView() {
-            const t = new pu(this.editor.locale, this.view);
+            const t = new gu(this.editor.locale, this.view);
             return (
               t
                 .bind('numberOfPanels')
@@ -16302,7 +16528,7 @@
             return t && !t.limiter && (t = Object.assign({}, t, { limiter: this.positionLimiter })), t;
           }
         }
-        class uu extends ud {
+        class mu extends md {
           constructor(t) {
             super(t);
             const e = t.t,
@@ -16354,11 +16580,11 @@
             this.content.clear();
           }
           _createButtonView(t, e) {
-            const n = new Kd(this.locale);
+            const n = new jd(this.locale);
             return n.set({ label: t, icon: e, tooltip: !0 }), n;
           }
         }
-        class pu extends ud {
+        class gu extends md {
           constructor(t, e) {
             super(t);
             const n = this.bindTemplate;
@@ -16374,10 +16600,10 @@
                 attributes: {
                   class: ['ck-fake-panel', n.to('numberOfPanels', t => (t ? '' : 'ck-hidden'))],
                   style: {
-                    top: n.to('top', du),
-                    left: n.to('left', du),
-                    width: n.to('width', du),
-                    height: n.to('height', du),
+                    top: n.to('top', uu),
+                    left: n.to('left', uu),
+                    width: n.to('width', uu),
+                    height: n.to('height', uu),
                   },
                 },
                 children: this.content,
@@ -16388,7 +16614,7 @@
           }
           _addPanels(t) {
             for (; t--; ) {
-              const t = new ud();
+              const t = new md();
               t.setTemplate({ tag: 'div' }), this.content.add(t), this.registerChild(t);
             }
           }
@@ -16406,43 +16632,43 @@
             }
           }
         }
-        var mu = n(32),
-          gu = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(mu.a, gu), mu.a.locals;
-        Gs('px');
-        Gs('px');
-        var fu = n(33),
+        var fu = n(32),
           ku = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(fu.a, ku), fu.a.locals;
-        Gs('px');
-        Gs('px');
-        var bu = n(34),
+        hd()(fu.a, ku), fu.a.locals;
+        $s('px');
+        $s('px');
+        var bu = n(33),
           wu = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(bu.a, wu), bu.a.locals;
-        const _u = new WeakMap();
-        function Au(t) {
+        hd()(bu.a, wu), bu.a.locals;
+        $s('px');
+        $s('px');
+        var Au = n(34),
+          _u = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Au.a, _u), Au.a.locals;
+        const Cu = new WeakMap();
+        function vu(t) {
           const { view: e, element: n, text: o, isDirectHost: i = !0, keepOnFocus: r = !1 } = t,
             s = e.document;
-          _u.has(s) || (_u.set(s, new Map()), s.registerPostFixer(t => vu(s, t))),
-            _u.get(s).set(n, { text: o, isDirectHost: i, keepOnFocus: r, hostElement: i ? n : null }),
-            e.change(t => vu(s, t));
+          Cu.has(s) || (Cu.set(s, new Map()), s.registerPostFixer(t => xu(s, t))),
+            Cu.get(s).set(n, { text: o, isDirectHost: i, keepOnFocus: r, hostElement: i ? n : null }),
+            e.change(t => xu(s, t));
         }
-        function Cu(t, e) {
+        function yu(t, e) {
           return !!e.hasClass('ck-placeholder') && (t.removeClass('ck-placeholder', e), !0);
         }
-        function vu(t, e) {
-          const n = _u.get(t),
+        function xu(t, e) {
+          const n = Cu.get(t),
             o = [];
           let i = !1;
-          for (const [t, r] of n) r.isDirectHost && (o.push(t), yu(e, t, r) && (i = !0));
+          for (const [t, r] of n) r.isDirectHost && (o.push(t), Eu(e, t, r) && (i = !0));
           for (const [t, r] of n) {
             if (r.isDirectHost) continue;
-            const n = xu(t);
-            n && (o.includes(n) || ((r.hostElement = n), yu(e, t, r) && (i = !0)));
+            const n = Du(t);
+            n && (o.includes(n) || ((r.hostElement = n), Eu(e, t, r) && (i = !0)));
           }
           return i;
         }
-        function yu(t, e, n) {
+        function Eu(t, e, n) {
           const { text: o, isDirectHost: i, hostElement: r } = n;
           let s = !1;
           r.getAttribute('data-placeholder') !== o && (t.setAttribute('data-placeholder', o, r), (s = !0));
@@ -16460,29 +16686,29 @@
               ? (function (t, e) {
                   return !e.hasClass('ck-placeholder') && (t.addClass('ck-placeholder', e), !0);
                 })(t, r) && (s = !0)
-              : Cu(t, r) && (s = !0),
+              : yu(t, r) && (s = !0),
             s
           );
         }
-        function xu(t) {
+        function Du(t) {
           if (t.childCount) {
             const e = t.getChild(0);
             if (e.is('element') && !e.is('uiElement')) return e;
           }
           return null;
         }
-        const Eu = new Map();
-        function Du(t, e, n) {
-          let o = Eu.get(t);
-          o || ((o = new Map()), Eu.set(t, o)), o.set(e, n);
+        const Su = new Map();
+        function Bu(t, e, n) {
+          let o = Su.get(t);
+          o || ((o = new Map()), Su.set(t, o)), o.set(e, n);
         }
-        function Su(t) {
+        function Tu(t) {
           return [t];
         }
-        function Bu(t, e, n = {}) {
+        function Pu(t, e, n = {}) {
           const o = (function (t, e) {
-            const n = Eu.get(t);
-            return n && n.has(e) ? n.get(e) : Su;
+            const n = Su.get(t);
+            return n && n.has(e) ? n.get(e) : Tu;
           })(t.constructor, e.constructor);
           try {
             return o((t = t.clone()), e, n);
@@ -16490,9 +16716,9 @@
             throw t;
           }
         }
-        function Tu(t, e, n) {
+        function Iu(t, e, n) {
           (t = t.slice()), (e = e.slice());
-          const o = new Pu(n.document, n.useRelations, n.forceWeakRemove);
+          const o = new zu(n.document, n.useRelations, n.forceWeakRemove);
           o.setOriginalOperations(t), o.setOriginalOperations(e);
           const i = o.originalOperations;
           if (0 == t.length || 0 == e.length) return { operationsA: t, operationsB: e, originalOperations: i };
@@ -16513,8 +16739,8 @@
               continue;
             }
             const s = e[i],
-              c = Bu(n, s, o.getContext(n, s, !0)),
-              l = Bu(s, n, o.getContext(s, n, !1));
+              c = Pu(n, s, o.getContext(n, s, !0)),
+              l = Pu(s, n, o.getContext(s, n, !1));
             o.updateRelation(n, s), o.setOriginalOperations(c, n), o.setOriginalOperations(l, s);
             for (const t of c) r.set(t, i + l.length);
             t.splice(a, 1, ...c), e.splice(i, 1, ...l);
@@ -16522,15 +16748,15 @@
           if (n.padWithNoOps) {
             const n = t.length - s.originalOperationsACount,
               o = e.length - s.originalOperationsBCount;
-            zu(t, o - n), zu(e, n - o);
+            Ru(t, o - n), Ru(e, n - o);
           }
           return (
-            Iu(t, s.nextBaseVersionB),
-            Iu(e, s.nextBaseVersionA),
+            Fu(t, s.nextBaseVersionB),
+            Fu(e, s.nextBaseVersionA),
             { operationsA: t, operationsB: e, originalOperations: i }
           );
         }
-        class Pu {
+        class zu {
           constructor(t, e, n = !1) {
             (this.originalOperations = new Map()),
               (this._history = t.history),
@@ -16544,27 +16770,27 @@
           }
           updateRelation(t, e) {
             switch (t.constructor) {
-              case Lc:
+              case qc:
                 switch (e.constructor) {
-                  case Gc:
+                  case Wc:
                     t.targetPosition.isEqual(e.sourcePosition) || e.movedRange.containsPosition(t.targetPosition)
                       ? this._setRelation(t, e, 'insertAtSource')
                       : t.targetPosition.isEqual(e.deletionPosition)
                       ? this._setRelation(t, e, 'insertBetween')
                       : t.targetPosition.isAfter(e.sourcePosition) && this._setRelation(t, e, 'moveTargetAfter');
                     break;
-                  case Lc:
+                  case qc:
                     t.targetPosition.isEqual(e.sourcePosition) || t.targetPosition.isBefore(e.sourcePosition)
                       ? this._setRelation(t, e, 'insertBefore')
                       : this._setRelation(t, e, 'insertAfter');
                 }
                 break;
-              case $c:
+              case Uc:
                 switch (e.constructor) {
-                  case Gc:
+                  case Wc:
                     t.splitPosition.isBefore(e.sourcePosition) && this._setRelation(t, e, 'splitBefore');
                     break;
-                  case Lc:
+                  case qc:
                     if (t.splitPosition.isEqual(e.sourcePosition) || t.splitPosition.isBefore(e.sourcePosition))
                       this._setRelation(t, e, 'splitBefore');
                     else {
@@ -16577,22 +16803,22 @@
                     }
                 }
                 break;
-              case Gc:
+              case Wc:
                 switch (e.constructor) {
-                  case Gc:
+                  case Wc:
                     t.targetPosition.isEqual(e.sourcePosition) || this._setRelation(t, e, 'mergeTargetNotMoved'),
                       t.sourcePosition.isEqual(e.targetPosition) && this._setRelation(t, e, 'mergeSourceNotMoved'),
                       t.sourcePosition.isEqual(e.sourcePosition) && this._setRelation(t, e, 'mergeSameElement');
                     break;
-                  case $c:
+                  case Uc:
                     t.sourcePosition.isEqual(e.splitPosition) && this._setRelation(t, e, 'splitAtSource');
                 }
                 break;
-              case Kc: {
+              case jc: {
                 const n = t.newRange;
                 if (!n) return;
                 switch (e.constructor) {
-                  case Lc: {
+                  case qc: {
                     const o = ba._createFromPositionAndShift(e.sourcePosition, e.howMany),
                       i = o.containsPosition(n.start) || o.start.isEqual(n.start),
                       r = o.containsPosition(n.end) || o.end.isEqual(n.end);
@@ -16604,7 +16830,7 @@
                       });
                     break;
                   }
-                  case Gc: {
+                  case Wc: {
                     const o = n.start.isEqual(e.targetPosition),
                       i = n.start.isEqual(e.deletionPosition),
                       r = n.end.isEqual(e.deletionPosition),
@@ -16652,26 +16878,26 @@
             r || ((r = new Map()), this._relations.set(o, r)), r.set(i, n);
           }
         }
-        function Iu(t, e) {
+        function Fu(t, e) {
           for (const n of t) n.baseVersion = e++;
         }
-        function zu(t, e) {
-          for (let n = 0; n < e; n++) t.push(new ul(0));
+        function Ru(t, e) {
+          for (let n = 0; n < e; n++) t.push(new ml(0));
         }
-        function Fu(t, e, n) {
+        function Ou(t, e, n) {
           const o = t.nodes.getNode(0).getAttribute(e);
           if (o == n) return null;
           const i = new ba(t.position, t.position.getShiftedBy(t.howMany));
-          return new Nc(i, e, o, n, 0);
+          return new Lc(i, e, o, n, 0);
         }
-        function Ru(t, e) {
+        function Mu(t, e) {
           return null === t.targetPosition._getTransformedByDeletion(e.sourcePosition, e.howMany);
         }
-        function Ou(t, e) {
+        function Nu(t, e) {
           const n = [];
           for (let o = 0; o < t.length; o++) {
             const i = t[o],
-              r = new Lc(i.start, i.end.offset - i.start.offset, e, 0);
+              r = new qc(i.start, i.end.offset - i.start.offset, e, 0);
             n.push(r);
             for (let e = o + 1; e < t.length; e++)
               t[e] = t[e]._getTransformedByMove(r.sourcePosition, r.targetPosition, r.howMany)[0];
@@ -16679,38 +16905,38 @@
           }
           return n;
         }
-        Du(Nc, Nc, (t, e, n) => {
+        Bu(Lc, Lc, (t, e, n) => {
           if (t.key === e.key && t.range.start.hasSameParentAs(e.range.start)) {
-            const o = t.range.getDifference(e.range).map(e => new Nc(e, t.key, t.oldValue, t.newValue, 0)),
+            const o = t.range.getDifference(e.range).map(e => new Lc(e, t.key, t.oldValue, t.newValue, 0)),
               i = t.range.getIntersection(e.range);
             return (
-              i && n.aIsStrong && o.push(new Nc(i, e.key, e.newValue, t.newValue, 0)), 0 == o.length ? [new ul(0)] : o
+              i && n.aIsStrong && o.push(new Lc(i, e.key, e.newValue, t.newValue, 0)), 0 == o.length ? [new ml(0)] : o
             );
           }
           return [t];
         }),
-          Du(Nc, qc, (t, e) => {
+          Bu(Lc, Hc, (t, e) => {
             if (t.range.start.hasSameParentAs(e.position) && t.range.containsPosition(e.position)) {
               const n = t.range
                 ._getTransformedByInsertion(e.position, e.howMany, !e.shouldReceiveAttributes)
-                .map(e => new Nc(e, t.key, t.oldValue, t.newValue, t.baseVersion));
+                .map(e => new Lc(e, t.key, t.oldValue, t.newValue, t.baseVersion));
               if (e.shouldReceiveAttributes) {
-                const o = Fu(e, t.key, t.oldValue);
+                const o = Ou(e, t.key, t.oldValue);
                 o && n.unshift(o);
               }
               return n;
             }
             return (t.range = t.range._getTransformedByInsertion(e.position, e.howMany, !1)[0]), [t];
           }),
-          Du(Nc, Gc, (t, e) => {
+          Bu(Lc, Wc, (t, e) => {
             const n = [];
             t.range.start.hasSameParentAs(e.deletionPosition) &&
               (t.range.containsPosition(e.deletionPosition) || t.range.start.isEqual(e.deletionPosition)) &&
               n.push(ba._createFromPositionAndShift(e.graveyardPosition, 1));
             const o = t.range._getTransformedByMergeOperation(e);
-            return o.isCollapsed || n.push(o), n.map(e => new Nc(e, t.key, t.oldValue, t.newValue, t.baseVersion));
+            return o.isCollapsed || n.push(o), n.map(e => new Lc(e, t.key, t.oldValue, t.newValue, t.baseVersion));
           }),
-          Du(Nc, Lc, (t, e) =>
+          Bu(Lc, qc, (t, e) =>
             (function (t, e) {
               const n = ba._createFromPositionAndShift(e.sourcePosition, e.howMany);
               let o = null,
@@ -16729,9 +16955,9 @@
               }
               o && r.push(o._getTransformedByMove(e.sourcePosition, e.targetPosition, e.howMany, !1)[0]);
               return r;
-            })(t.range, e).map(e => new Nc(e, t.key, t.oldValue, t.newValue, t.baseVersion)),
+            })(t.range, e).map(e => new Lc(e, t.key, t.oldValue, t.newValue, t.baseVersion)),
           ),
-          Du(Nc, $c, (t, e) => {
+          Bu(Lc, Uc, (t, e) => {
             if (t.range.end.isEqual(e.insertionPosition)) return e.graveyardPosition || t.range.end.offset++, [t];
             if (t.range.start.hasSameParentAs(e.splitPosition) && t.range.containsPosition(e.splitPosition)) {
               const n = t.clone();
@@ -16747,56 +16973,56 @@
             }
             return (t.range = t.range._getTransformedBySplitOperation(e)), [t];
           }),
-          Du(qc, Nc, (t, e) => {
+          Bu(Hc, Lc, (t, e) => {
             const n = [t];
             if (
               t.shouldReceiveAttributes &&
               t.position.hasSameParentAs(e.range.start) &&
               e.range.containsPosition(t.position)
             ) {
-              const o = Fu(t, e.key, e.newValue);
+              const o = Ou(t, e.key, e.newValue);
               o && n.push(o);
             }
             return n;
           }),
-          Du(
-            qc,
-            qc,
+          Bu(
+            Hc,
+            Hc,
             (t, e, n) => (
               (t.position.isEqual(e.position) && n.aIsStrong) ||
                 (t.position = t.position._getTransformedByInsertOperation(e)),
               [t]
             ),
           ),
-          Du(qc, Lc, (t, e) => ((t.position = t.position._getTransformedByMoveOperation(e)), [t])),
-          Du(qc, $c, (t, e) => ((t.position = t.position._getTransformedBySplitOperation(e)), [t])),
-          Du(qc, Gc, (t, e) => ((t.position = t.position._getTransformedByMergeOperation(e)), [t])),
-          Du(
-            Kc,
-            qc,
+          Bu(Hc, qc, (t, e) => ((t.position = t.position._getTransformedByMoveOperation(e)), [t])),
+          Bu(Hc, Uc, (t, e) => ((t.position = t.position._getTransformedBySplitOperation(e)), [t])),
+          Bu(Hc, Wc, (t, e) => ((t.position = t.position._getTransformedByMergeOperation(e)), [t])),
+          Bu(
+            jc,
+            Hc,
             (t, e) => (
               t.oldRange && (t.oldRange = t.oldRange._getTransformedByInsertOperation(e)[0]),
               t.newRange && (t.newRange = t.newRange._getTransformedByInsertOperation(e)[0]),
               [t]
             ),
           ),
-          Du(Kc, Kc, (t, e, n) => {
+          Bu(jc, jc, (t, e, n) => {
             if (t.name == e.name) {
-              if (!n.aIsStrong) return [new ul(0)];
+              if (!n.aIsStrong) return [new ml(0)];
               t.oldRange = e.newRange ? e.newRange.clone() : null;
             }
             return [t];
           }),
-          Du(
-            Kc,
-            Gc,
+          Bu(
+            jc,
+            Wc,
             (t, e) => (
               t.oldRange && (t.oldRange = t.oldRange._getTransformedByMergeOperation(e)),
               t.newRange && (t.newRange = t.newRange._getTransformedByMergeOperation(e)),
               [t]
             ),
           ),
-          Du(Kc, Lc, (t, e, n) => {
+          Bu(jc, qc, (t, e, n) => {
             if (
               (t.oldRange && (t.oldRange = ba._createFromRanges(t.oldRange._getTransformedByMoveOperation(e))),
               t.newRange)
@@ -16812,7 +17038,7 @@
             }
             return [t];
           }),
-          Du(Kc, $c, (t, e, n) => {
+          Bu(jc, Uc, (t, e, n) => {
             if ((t.oldRange && (t.oldRange = t.oldRange._getTransformedBySplitOperation(e)), t.newRange)) {
               if (n.abRelation) {
                 const o = t.newRange._getTransformedBySplitOperation(e);
@@ -16834,9 +17060,9 @@
             }
             return [t];
           }),
-          Du(
-            Gc,
-            qc,
+          Bu(
+            Wc,
+            Hc,
             (t, e) => (
               t.sourcePosition.hasSameParentAs(e.position) && (t.howMany += e.howMany),
               (t.sourcePosition = t.sourcePosition._getTransformedByInsertOperation(e)),
@@ -16844,13 +17070,13 @@
               [t]
             ),
           ),
-          Du(Gc, Gc, (t, e, n) => {
+          Bu(Wc, Wc, (t, e, n) => {
             if (t.sourcePosition.isEqual(e.sourcePosition) && t.targetPosition.isEqual(e.targetPosition)) {
               if (n.bWasUndone) {
                 const n = e.graveyardPosition.path.slice();
                 return n.push(0), (t.sourcePosition = new ma(e.graveyardPosition.root, n)), (t.howMany = 0), [t];
               }
-              return [new ul(0)];
+              return [new ml(0)];
             }
             if (
               t.sourcePosition.isEqual(e.sourcePosition) &&
@@ -16864,9 +17090,9 @@
               if ((i && !o) || (!r && n.aIsStrong)) {
                 const n = e.targetPosition._getTransformedByMergeOperation(e),
                   o = t.targetPosition._getTransformedByMergeOperation(e);
-                return [new Lc(n, t.howMany, o, 0)];
+                return [new qc(n, t.howMany, o, 0)];
               }
-              return [new ul(0)];
+              return [new ml(0)];
             }
             return (
               t.sourcePosition.hasSameParentAs(e.targetPosition) && (t.howMany += e.howMany),
@@ -16877,14 +17103,14 @@
               [t]
             );
           }),
-          Du(Gc, Lc, (t, e, n) => {
+          Bu(Wc, qc, (t, e, n) => {
             const o = ba._createFromPositionAndShift(e.sourcePosition, e.howMany);
             return 'remove' == e.type &&
               !n.bWasUndone &&
               !n.forceWeakRemove &&
               t.deletionPosition.hasSameParentAs(e.sourcePosition) &&
               o.containsPosition(t.sourcePosition)
-              ? [new ul(0)]
+              ? [new ml(0)]
               : (t.sourcePosition.hasSameParentAs(e.targetPosition) && (t.howMany += e.howMany),
                 t.sourcePosition.hasSameParentAs(e.sourcePosition) && (t.howMany -= e.howMany),
                 (t.sourcePosition = t.sourcePosition._getTransformedByMoveOperation(e)),
@@ -16893,7 +17119,7 @@
                   (t.graveyardPosition = t.graveyardPosition._getTransformedByMoveOperation(e)),
                 [t]);
           }),
-          Du(Gc, $c, (t, e, n) => {
+          Bu(Wc, Uc, (t, e, n) => {
             if (
               (e.graveyardPosition &&
                 ((t.graveyardPosition = t.graveyardPosition._getTransformedByDeletion(e.graveyardPosition, 1)),
@@ -16922,7 +17148,7 @@
               [t]
             );
           }),
-          Du(Lc, qc, (t, e) => {
+          Bu(qc, Hc, (t, e) => {
             const n = ba
               ._createFromPositionAndShift(t.sourcePosition, t.howMany)
               ._getTransformedByInsertOperation(e, !1)[0];
@@ -16934,7 +17160,7 @@
               [t]
             );
           }),
-          Du(Lc, Lc, (t, e, n) => {
+          Bu(qc, qc, (t, e, n) => {
             const o = ba._createFromPositionAndShift(t.sourcePosition, t.howMany),
               i = ba._createFromPositionAndShift(e.sourcePosition, e.howMany);
             let r,
@@ -16948,27 +17174,27 @@
                 t.targetPosition.isEqual(e.targetPosition) && a
                   ? t.targetPosition._getTransformedByDeletion(e.sourcePosition, e.howMany)
                   : t.targetPosition._getTransformedByMove(e.sourcePosition, e.targetPosition, e.howMany)),
-              Ru(t, e) && Ru(e, t))
+              Mu(t, e) && Mu(e, t))
             )
               return [e.getReversed()];
             if (o.containsPosition(e.targetPosition) && o.containsRange(i, !0))
               return (
                 (o.start = o.start._getTransformedByMove(e.sourcePosition, e.targetPosition, e.howMany)),
                 (o.end = o.end._getTransformedByMove(e.sourcePosition, e.targetPosition, e.howMany)),
-                Ou([o], r)
+                Nu([o], r)
               );
             if (i.containsPosition(t.targetPosition) && i.containsRange(o, !0))
               return (
                 (o.start = o.start._getCombined(e.sourcePosition, e.getMovedRangeStart())),
                 (o.end = o.end._getCombined(e.sourcePosition, e.getMovedRangeStart())),
-                Ou([o], r)
+                Nu([o], r)
               );
             const c = bo(t.sourcePosition.getParentPath(), e.sourcePosition.getParentPath());
             if ('prefix' == c || 'extension' == c)
               return (
                 (o.start = o.start._getTransformedByMove(e.sourcePosition, e.targetPosition, e.howMany)),
                 (o.end = o.end._getTransformedByMove(e.sourcePosition, e.targetPosition, e.howMany)),
-                Ou([o], r)
+                Nu([o], r)
               );
             'remove' != t.type || 'remove' == e.type || n.aWasUndone || n.forceWeakRemove
               ? 'remove' == t.type || 'remove' != e.type || n.bWasUndone || n.forceWeakRemove || (s = !1)
@@ -16995,10 +17221,10 @@
                     ? l.unshift(h)
                     : l.push(h)
                   : l.splice(1, 0, h)),
-              0 === l.length ? [new ul(t.baseVersion)] : Ou(l, r)
+              0 === l.length ? [new ml(t.baseVersion)] : Nu(l, r)
             );
           }),
-          Du(Lc, $c, (t, e, n) => {
+          Bu(qc, Uc, (t, e, n) => {
             let o = t.targetPosition.clone();
             (t.targetPosition.isEqual(e.insertionPosition) &&
               e.graveyardPosition &&
@@ -17010,7 +17236,7 @@
             if (i.start.hasSameParentAs(e.splitPosition) && i.containsPosition(e.splitPosition)) {
               let t = new ba(e.splitPosition, i.end);
               t = t._getTransformedBySplitOperation(e);
-              return Ou([new ba(i.start, e.splitPosition), t], o);
+              return Nu([new ba(i.start, e.splitPosition), t], o);
             }
             t.targetPosition.isEqual(e.splitPosition) && 'insertAtSource' == n.abRelation && (o = e.moveTargetPosition),
               t.targetPosition.isEqual(e.insertionPosition) &&
@@ -17021,9 +17247,9 @@
               const o = i.start.isEqual(e.graveyardPosition) || i.containsPosition(e.graveyardPosition);
               t.howMany > 1 && o && !n.aWasUndone && r.push(ba._createFromPositionAndShift(e.insertionPosition, 1));
             }
-            return Ou(r, o);
+            return Nu(r, o);
           }),
-          Du(Lc, Gc, (t, e, n) => {
+          Bu(qc, Wc, (t, e, n) => {
             const o = ba._createFromPositionAndShift(t.sourcePosition, t.howMany);
             if (e.deletionPosition.hasSameParentAs(t.sourcePosition) && o.containsPosition(e.sourcePosition))
               if ('remove' != t.type || n.forceWeakRemove) {
@@ -17032,22 +17258,22 @@
                     ? ((t.sourcePosition = e.graveyardPosition.clone()),
                       (t.targetPosition = t.targetPosition._getTransformedByMergeOperation(e)),
                       [t])
-                    : [new ul(0)];
+                    : [new ml(0)];
               } else if (!n.aWasUndone) {
                 const n = [];
                 let o = e.graveyardPosition.clone(),
                   i = e.targetPosition._getTransformedByMergeOperation(e);
                 t.howMany > 1 &&
-                  (n.push(new Lc(t.sourcePosition, t.howMany - 1, t.targetPosition, 0)),
+                  (n.push(new qc(t.sourcePosition, t.howMany - 1, t.targetPosition, 0)),
                   (o = o._getTransformedByMove(t.sourcePosition, t.targetPosition, t.howMany - 1)),
                   (i = i._getTransformedByMove(t.sourcePosition, t.targetPosition, t.howMany - 1)));
                 const r = e.deletionPosition._getCombined(t.sourcePosition, t.targetPosition),
-                  s = new Lc(o, 1, r, 0),
+                  s = new qc(o, 1, r, 0),
                   a = s.getMovedRangeStart().path.slice();
                 a.push(0);
                 const c = new ma(s.targetPosition.root, a);
                 i = i._getTransformedByMove(o, r, 1);
-                const l = new Lc(i, e.howMany, c, 0);
+                const l = new qc(i, e.howMany, c, 0);
                 return n.push(s), n.push(l), n;
               }
             const i = ba._createFromPositionAndShift(t.sourcePosition, t.howMany)._getTransformedByMergeOperation(e);
@@ -17058,37 +17284,37 @@
               [t]
             );
           }),
-          Du(Hc, qc, (t, e) => ((t.position = t.position._getTransformedByInsertOperation(e)), [t])),
-          Du(Hc, Gc, (t, e) =>
+          Bu($c, Hc, (t, e) => ((t.position = t.position._getTransformedByInsertOperation(e)), [t])),
+          Bu($c, Wc, (t, e) =>
             t.position.isEqual(e.deletionPosition)
               ? ((t.position = e.graveyardPosition.clone()), (t.position.stickiness = 'toNext'), [t])
               : ((t.position = t.position._getTransformedByMergeOperation(e)), [t]),
           ),
-          Du(Hc, Lc, (t, e) => ((t.position = t.position._getTransformedByMoveOperation(e)), [t])),
-          Du(Hc, Hc, (t, e, n) => {
+          Bu($c, qc, (t, e) => ((t.position = t.position._getTransformedByMoveOperation(e)), [t])),
+          Bu($c, $c, (t, e, n) => {
             if (t.position.isEqual(e.position)) {
-              if (!n.aIsStrong) return [new ul(0)];
+              if (!n.aIsStrong) return [new ml(0)];
               t.oldName = e.newName;
             }
             return [t];
           }),
-          Du(Hc, $c, (t, e) => {
+          Bu($c, Uc, (t, e) => {
             if ('same' == bo(t.position.path, e.splitPosition.getParentPath()) && !e.graveyardPosition) {
-              const e = new Hc(t.position.getShiftedBy(1), t.oldName, t.newName, 0);
+              const e = new $c(t.position.getShiftedBy(1), t.oldName, t.newName, 0);
               return [t, e];
             }
             return (t.position = t.position._getTransformedBySplitOperation(e)), [t];
           }),
-          Du(jc, jc, (t, e, n) => {
+          Bu(Gc, Gc, (t, e, n) => {
             if (t.root === e.root && t.key === e.key) {
-              if (!n.aIsStrong || t.newValue === e.newValue) return [new ul(0)];
+              if (!n.aIsStrong || t.newValue === e.newValue) return [new ml(0)];
               t.oldValue = e.newValue;
             }
             return [t];
           }),
-          Du(
-            $c,
-            qc,
+          Bu(
+            Uc,
+            Hc,
             (t, e) => (
               t.splitPosition.hasSameParentAs(e.position) &&
                 t.splitPosition.offset < e.position.offset &&
@@ -17098,16 +17324,16 @@
               [t]
             ),
           ),
-          Du($c, Gc, (t, e, n) => {
+          Bu(Uc, Wc, (t, e, n) => {
             if (!t.graveyardPosition && !n.bWasUndone && t.splitPosition.hasSameParentAs(e.sourcePosition)) {
               const n = e.graveyardPosition.path.slice();
               n.push(0);
               const o = new ma(e.graveyardPosition.root, n),
-                i = $c.getInsertionPosition(new ma(e.graveyardPosition.root, n)),
-                r = new $c(o, 0, i, null, 0);
+                i = Uc.getInsertionPosition(new ma(e.graveyardPosition.root, n)),
+                r = new Uc(o, 0, i, null, 0);
               return (
                 (t.splitPosition = t.splitPosition._getTransformedByMergeOperation(e)),
-                (t.insertionPosition = $c.getInsertionPosition(t.splitPosition)),
+                (t.insertionPosition = Uc.getInsertionPosition(t.splitPosition)),
                 (t.graveyardPosition = r.insertionPosition.clone()),
                 (t.graveyardPosition.stickiness = 'toNext'),
                 [r, t]
@@ -17119,12 +17345,12 @@
                 t.howMany--,
               t.splitPosition.hasSameParentAs(e.targetPosition) && (t.howMany += e.howMany),
               (t.splitPosition = t.splitPosition._getTransformedByMergeOperation(e)),
-              (t.insertionPosition = $c.getInsertionPosition(t.splitPosition)),
+              (t.insertionPosition = Uc.getInsertionPosition(t.splitPosition)),
               t.graveyardPosition && (t.graveyardPosition = t.graveyardPosition._getTransformedByMergeOperation(e)),
               [t]
             );
           }),
-          Du($c, Lc, (t, e, n) => {
+          Bu(Uc, qc, (t, e, n) => {
             const o = ba._createFromPositionAndShift(e.sourcePosition, e.howMany);
             if (t.graveyardPosition) {
               const i = o.start.isEqual(t.graveyardPosition) || o.containsPosition(t.graveyardPosition);
@@ -17134,7 +17360,7 @@
                   i = o.path.slice();
                 i.push(0);
                 const r = new ma(o.root, i);
-                return [new Lc(n, t.howMany, r, 0)];
+                return [new qc(n, t.howMany, r, 0)];
               }
               t.graveyardPosition = t.graveyardPosition._getTransformedByMoveOperation(e);
             }
@@ -17143,7 +17369,7 @@
               return (
                 (t.howMany += e.howMany),
                 (t.splitPosition = t.splitPosition._getTransformedByDeletion(e.sourcePosition, e.howMany)),
-                (t.insertionPosition = $c.getInsertionPosition(t.splitPosition)),
+                (t.insertionPosition = Uc.getInsertionPosition(t.splitPosition)),
                 [t]
               );
             if (i && n.abRelation && n.abRelation.howMany) {
@@ -17158,7 +17384,7 @@
                   t.splitPosition.offset < e.targetPosition.offset &&
                   (t.howMany += e.howMany),
                 (t.splitPosition = e.sourcePosition.clone()),
-                (t.insertionPosition = $c.getInsertionPosition(t.splitPosition)),
+                (t.insertionPosition = Uc.getInsertionPosition(t.splitPosition)),
                 [t]
               );
             }
@@ -17175,15 +17401,15 @@
               (t.splitPosition.stickiness = 'toNext'),
               t.graveyardPosition
                 ? (t.insertionPosition = t.insertionPosition._getTransformedByMoveOperation(e))
-                : (t.insertionPosition = $c.getInsertionPosition(t.splitPosition)),
+                : (t.insertionPosition = Uc.getInsertionPosition(t.splitPosition)),
               [t]
             );
           }),
-          Du($c, $c, (t, e, n) => {
+          Bu(Uc, Uc, (t, e, n) => {
             if (t.splitPosition.isEqual(e.splitPosition)) {
-              if (!t.graveyardPosition && !e.graveyardPosition) return [new ul(0)];
+              if (!t.graveyardPosition && !e.graveyardPosition) return [new ml(0)];
               if (t.graveyardPosition && e.graveyardPosition && t.graveyardPosition.isEqual(e.graveyardPosition))
-                return [new ul(0)];
+                return [new ml(0)];
               if ('splitBefore' == n.abRelation)
                 return (
                   (t.howMany = 0), (t.graveyardPosition = t.graveyardPosition._getTransformedBySplitOperation(e)), [t]
@@ -17196,12 +17422,12 @@
               if ((i && !o) || (!r && n.aIsStrong)) {
                 const n = [];
                 return (
-                  e.howMany && n.push(new Lc(e.moveTargetPosition, e.howMany, e.splitPosition, 0)),
-                  t.howMany && n.push(new Lc(t.splitPosition, t.howMany, t.moveTargetPosition, 0)),
+                  e.howMany && n.push(new qc(e.moveTargetPosition, e.howMany, e.splitPosition, 0)),
+                  t.howMany && n.push(new qc(t.splitPosition, t.howMany, t.moveTargetPosition, 0)),
                   n
                 );
               }
-              return [new ul(0)];
+              return [new ml(0)];
             }
             if (
               (t.graveyardPosition && (t.graveyardPosition = t.graveyardPosition._getTransformedBySplitOperation(e)),
@@ -17212,18 +17438,18 @@
               const n = e.insertionPosition.path.slice();
               n.push(0);
               const o = new ma(e.insertionPosition.root, n);
-              return [t, new Lc(t.insertionPosition, 1, o, 0)];
+              return [t, new qc(t.insertionPosition, 1, o, 0)];
             }
             return (
               t.splitPosition.hasSameParentAs(e.splitPosition) &&
                 t.splitPosition.offset < e.splitPosition.offset &&
                 (t.howMany -= e.howMany),
               (t.splitPosition = t.splitPosition._getTransformedBySplitOperation(e)),
-              (t.insertionPosition = $c.getInsertionPosition(t.splitPosition)),
+              (t.insertionPosition = Uc.getInsertionPosition(t.splitPosition)),
               [t]
             );
           });
-        class Mu extends ms {
+        class Vu extends ms {
           constructor(t) {
             super(t), (this.domEventType = 'click');
           }
@@ -17231,15 +17457,15 @@
             this.fire(t.type, t);
           }
         }
-        class Nu extends ms {
+        class Lu extends ms {
           constructor(t) {
-            super(t), (this.domEventType = ['mousedown', 'mouseup']);
+            super(t), (this.domEventType = ['mousedown', 'mouseup', 'mouseover', 'mouseout']);
           }
           onDomEvent(t) {
             this.fire(t.type, t);
           }
         }
-        class Vu {
+        class Ku {
           constructor(t) {
             this.document = t;
           }
@@ -17250,7 +17476,7 @@
             return new li(this.document, t, e, n);
           }
           createText(t) {
-            return new Ao(this.document, t);
+            return new _o(this.document, t);
           }
           clone(t, e = !1) {
             return t._clone(e);
@@ -17330,15 +17556,15 @@
             return bi._createIn(t);
           }
           createSelection(t, e, n) {
-            return new Ai(t, e, n);
+            return new _i(t, e, n);
           }
         }
-        const Lu = /^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i,
-          qu = /^rgb\([ ]?([0-9]{1,3}[ %]?,[ ]?){2,3}[0-9]{1,3}[ %]?\)$/i,
-          Ku = /^rgba\([ ]?([0-9]{1,3}[ %]?,[ ]?){3}(1|[0-9]+%|[0]?\.?[0-9]+)\)$/i,
-          Hu = /^hsl\([ ]?([0-9]{1,3}[ %]?[,]?[ ]*){3}(1|[0-9]+%|[0]?\.?[0-9]+)?\)$/i,
-          ju = /^hsla\([ ]?([0-9]{1,3}[ %]?,[ ]?){2,3}(1|[0-9]+%|[0]?\.?[0-9]+)\)$/i,
-          Gu = new Set([
+        const qu = /^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i,
+          Hu = /^rgb\([ ]?([0-9]{1,3}[ %]?,[ ]?){2,3}[0-9]{1,3}[ %]?\)$/i,
+          ju = /^rgba\([ ]?([0-9]{1,3}[ %]?,[ ]?){3}(1|[0-9]+%|[0]?\.?[0-9]+)\)$/i,
+          $u = /^hsl\([ ]?([0-9]{1,3}[ %]?[,]?[ ]*){3}(1|[0-9]+%|[0]?\.?[0-9]+)?\)$/i,
+          Gu = /^hsla\([ ]?([0-9]{1,3}[ %]?,[ ]?){2,3}(1|[0-9]+%|[0]?\.?[0-9]+)\)$/i,
+          Wu = new Set([
             'black',
             'silver',
             'gray',
@@ -17490,48 +17716,48 @@
             'currentcolor',
             'transparent',
           ]);
-        function $u(t) {
-          return t.startsWith('#')
-            ? Lu.test(t)
-            : t.startsWith('rgb')
-            ? qu.test(t) || Ku.test(t)
-            : t.startsWith('hsl')
-            ? Hu.test(t) || ju.test(t)
-            : Gu.has(t.toLowerCase());
-        }
-        const Wu = /^([+-]?[0-9]*([.][0-9]+)?(px|cm|mm|in|pc|pt|ch|em|ex|rem|vh|vw|vmin|vmax)|0)$/;
         function Uu(t) {
-          return Wu.test(t);
+          return t.startsWith('#')
+            ? qu.test(t)
+            : t.startsWith('rgb')
+            ? Hu.test(t) || ju.test(t)
+            : t.startsWith('hsl')
+            ? $u.test(t) || Gu.test(t)
+            : Wu.has(t.toLowerCase());
         }
-        const Ju = /^[+-]?[0-9]*([.][0-9]+)?%$/;
-        const Yu = ['repeat-x', 'repeat-y', 'repeat', 'space', 'round', 'no-repeat'];
-        const Qu = ['center', 'top', 'bottom', 'left', 'right'];
-        function Xu(t) {
-          return Qu.includes(t);
+        const Ju = /^([+-]?[0-9]*([.][0-9]+)?(px|cm|mm|in|pc|pt|ch|em|ex|rem|vh|vw|vmin|vmax)|0)$/;
+        function Yu(t) {
+          return Ju.test(t);
         }
-        const Zu = ['fixed', 'scroll', 'local'];
+        const Qu = /^[+-]?[0-9]*([.][0-9]+)?%$/;
+        const Xu = ['repeat-x', 'repeat-y', 'repeat', 'space', 'round', 'no-repeat'];
+        const Zu = ['center', 'top', 'bottom', 'left', 'right'];
         function tp(t) {
           return Zu.includes(t);
         }
-        const ep = /^url\(/;
+        const ep = ['fixed', 'scroll', 'local'];
         function np(t) {
-          return ep.test(t);
+          return ep.includes(t);
         }
-        function op(t = '') {
+        const op = /^url\(/;
+        function ip(t) {
+          return op.test(t);
+        }
+        function rp(t = '') {
           if ('' === t) return { top: void 0, right: void 0, bottom: void 0, left: void 0 };
-          const e = ap(t),
+          const e = lp(t),
             n = e[0],
             o = e[2] || n,
             i = e[1] || n;
           return { top: n, bottom: o, right: i, left: e[3] || i };
         }
-        function ip(t) {
+        function sp(t) {
           return e => {
             const { top: n, right: o, bottom: i, left: r } = e,
               s = [];
             return (
               [n, o, r, i].every(t => !!t)
-                ? s.push([t, rp(e)])
+                ? s.push([t, ap(e)])
                 : (n && s.push([t + '-top', n]),
                   o && s.push([t + '-right', o]),
                   i && s.push([t + '-bottom', i]),
@@ -17540,56 +17766,56 @@
             );
           };
         }
-        function rp({ top: t, right: e, bottom: n, left: o }) {
+        function ap({ top: t, right: e, bottom: n, left: o }) {
           const i = [];
           return (
             o !== e ? i.push(t, e, n, o) : n !== t ? i.push(t, e, n) : e !== t ? i.push(t, e) : i.push(t), i.join(' ')
           );
         }
-        function sp(t) {
-          return e => ({ path: t, value: op(e) });
+        function cp(t) {
+          return e => ({ path: t, value: rp(e) });
         }
-        function ap(t) {
+        function lp(t) {
           return t
             .replace(/, /g, ',')
             .split(' ')
             .map(t => t.replace(/,/g, ', '));
         }
-        function cp(t) {
-          t.setNormalizer('background', lp),
+        function dp(t) {
+          t.setNormalizer('background', hp),
             t.setNormalizer('background-color', t => ({ path: 'background.color', value: t })),
             t.setReducer('background', t => {
               const e = [];
               return e.push(['background-color', t.color]), e;
             });
         }
-        function lp(t) {
+        function hp(t) {
           const e = {},
-            n = ap(t);
+            n = lp(t);
           for (const t of n)
             (o = t),
-              Yu.includes(o)
+              Xu.includes(o)
                 ? ((e.repeat = e.repeat || []), e.repeat.push(t))
-                : Xu(t)
-                ? ((e.position = e.position || []), e.position.push(t))
                 : tp(t)
+                ? ((e.position = e.position || []), e.position.push(t))
+                : np(t)
                 ? (e.attachment = t)
-                : $u(t)
+                : Uu(t)
                 ? (e.color = t)
-                : np(t) && (e.image = t);
+                : ip(t) && (e.image = t);
           var o;
           return { path: 'background', value: e };
         }
-        function dp(t) {
-          t.setNormalizer('margin', sp('margin')),
+        function up(t) {
+          t.setNormalizer('margin', cp('margin')),
             t.setNormalizer('margin-top', t => ({ path: 'margin.top', value: t })),
             t.setNormalizer('margin-right', t => ({ path: 'margin.right', value: t })),
             t.setNormalizer('margin-bottom', t => ({ path: 'margin.bottom', value: t })),
             t.setNormalizer('margin-left', t => ({ path: 'margin.left', value: t })),
-            t.setReducer('margin', ip('margin')),
+            t.setReducer('margin', sp('margin')),
             t.setStyleRelation('margin', ['margin-top', 'margin-right', 'margin-bottom', 'margin-left']);
         }
-        class hp extends Vl {
+        class pp extends Kl {
           constructor(t, e) {
             super(t), (this.view = e);
           }
@@ -17647,14 +17873,14 @@
               i =
                 t.config.get('placeholder') ||
                 (o && 'textarea' === o.tagName.toLowerCase() && o.getAttribute('placeholder'));
-            i && Au({ view: e, element: n, text: i, isDirectHost: !1, keepOnFocus: !0 });
+            i && vu({ view: e, element: n, text: i, isDirectHost: !1, keepOnFocus: !0 });
           }
         }
-        class up extends Rh {
+        class mp extends Mh {
           constructor(t, e, n = {}) {
             super(t),
-              (this.toolbar = new kh(t, { shouldGroupWhenFull: n.shouldToolbarGroupWhenFull })),
-              (this.editable = new Lh(t, e, n.editableElement)),
+              (this.toolbar = new wh(t, { shouldGroupWhenFull: n.shouldToolbarGroupWhenFull })),
+              (this.editable = new qh(t, e, n.editableElement)),
               this.toolbar.extendTemplate({
                 attributes: { class: ['ck-reset_all', 'ck-rounded-corners'], dir: t.uiLanguageDirection },
               });
@@ -17663,7 +17889,7 @@
             super.render(), this.registerChild([this.toolbar, this.editable]);
           }
         }
-        class pp extends Ol {
+        class gp extends Nl {
           constructor(t, e) {
             super(e),
               oo(t) &&
@@ -17680,11 +17906,11 @@
                 })(this)),
               this.model.document.createRoot();
             const n = !this.config.get('toolbar.shouldNotGroupWhenFull'),
-              o = new up(this.locale, this.editing.view, {
+              o = new mp(this.locale, this.editing.view, {
                 editableElement: this.sourceElement,
                 shouldToolbarGroupWhenFull: n,
               });
-            this.ui = new hp(this, o);
+            this.ui = new pp(this, o);
           }
           destroy() {
             const t = this.getData();
@@ -17723,22 +17949,22 @@
             });
           }
         }
-        Yt(pp, Ll);
-        const mp = ['left', 'right', 'center', 'justify'];
-        function gp(t) {
-          return mp.includes(t);
+        Yt(gp, ql);
+        const fp = ['left', 'right', 'center', 'justify'];
+        function kp(t) {
+          return fp.includes(t);
         }
-        function fp(t, e) {
+        function bp(t, e) {
           return 'rtl' == e.contentLanguageDirection ? 'right' === t : 'left' === t;
         }
-        function kp(t) {
+        function wp(t) {
           const e = t
               .map(t => {
                 let e;
                 return (e = 'string' == typeof t ? { name: t } : t), e;
               })
               .filter(t => {
-                const e = !!mp.includes(t.name);
+                const e = !!fp.includes(t.name);
                 return e || Object(c.b)('alignment-config-name-not-recognized', { option: t }), e;
               }),
             n = e.filter(t => !!t.className).length;
@@ -17756,11 +17982,11 @@
             e
           );
         }
-        const bp = 'alignment';
-        class wp extends Zt {
+        const Ap = 'alignment';
+        class _p extends Zt {
           refresh() {
             const t = this.editor.locale,
-              e = $s(this.editor.model.document.selection.getSelectedBlocks());
+              e = Gs(this.editor.model.document.selection.getSelectedBlocks());
             (this.isEnabled = !!e && this._canBeAligned(e)),
               this.isEnabled && e.hasAttribute('alignment')
                 ? (this.value = e.getAttribute('alignment'))
@@ -17775,31 +18001,31 @@
             o.change(t => {
               const e = Array.from(i.selection.getSelectedBlocks()).filter(t => this._canBeAligned(t)),
                 o = e[0].getAttribute('alignment');
-              fp(r, n) || o === r || !r
+              bp(r, n) || o === r || !r
                 ? (function (t, e) {
-                    for (const n of t) e.removeAttribute(bp, n);
+                    for (const n of t) e.removeAttribute(Ap, n);
                   })(e, t)
                 : (function (t, e, n) {
-                    for (const o of t) e.setAttribute(bp, n, o);
+                    for (const o of t) e.setAttribute(Ap, n, o);
                   })(e, t, r);
             });
           }
           _canBeAligned(t) {
-            return this.editor.model.schema.checkAttribute(t, bp);
+            return this.editor.model.schema.checkAttribute(t, Ap);
           }
         }
-        class _p extends Qt {
+        class Cp extends Qt {
           static get pluginName() {
             return 'AlignmentEditing';
           }
           constructor(t) {
-            super(t), t.config.define('alignment', { options: [...mp.map(t => ({ name: t }))] });
+            super(t), t.config.define('alignment', { options: [...fp.map(t => ({ name: t }))] });
           }
           init() {
             const t = this.editor,
               e = t.locale,
               n = t.model.schema,
-              o = kp(t.config.get('alignment.options')).filter(t => gp(t.name) && !fp(t.name, e)),
+              o = wp(t.config.get('alignment.options')).filter(t => kp(t.name) && !bp(t.name, e)),
               i = o.some(t => !!t.className);
             n.extend('$block', { allowAttributes: 'alignment' }),
               t.model.schema.setAttributeProperties('alignment', { isFormatting: !0 }),
@@ -17832,16 +18058,16 @@
               return e;
             })(o);
             for (const e of s) t.conversion.for('upcast').attributeToAttribute(e);
-            t.commands.add('alignment', new wp(t));
+            t.commands.add('alignment', new _p(t));
           }
         }
-        const Ap = new Map([
-          ['left', Wl],
-          ['right', Jl],
-          ['center', Ul],
-          ['justify', Yl],
+        const vp = new Map([
+          ['left', Jl],
+          ['right', Ql],
+          ['center', Yl],
+          ['justify', Xl],
         ]);
-        class Cp extends Qt {
+        class yp extends Qt {
           get localizedOptionTitles() {
             const t = this.editor.t;
             return { left: t('Align left'), right: t('Align right'), center: t('Align center'), justify: t('Justify') };
@@ -17853,20 +18079,20 @@
             const t = this.editor,
               e = t.ui.componentFactory,
               n = t.t,
-              o = kp(t.config.get('alignment.options'));
+              o = wp(t.config.get('alignment.options'));
             o
               .map(t => t.name)
-              .filter(gp)
+              .filter(kp)
               .forEach(t => this._addButton(t)),
               e.add('alignment', t => {
-                const i = Th(t),
+                const i = Ih(t),
                   r = o.map(t => e.create(`alignment:${t.name}`));
-                Ph(i, r),
+                zh(i, r),
                   i.buttonView.set({ label: n('Text alignment'), tooltip: !0 }),
                   (i.toolbarView.isVertical = !0),
                   (i.toolbarView.ariaLabel = n('Text alignment toolbar')),
                   i.extendTemplate({ attributes: { class: 'ck-alignment-dropdown' } });
-                const s = 'rtl' === t.contentLanguageDirection ? Ap.get('right') : Ap.get('left');
+                const s = 'rtl' === t.contentLanguageDirection ? vp.get('right') : vp.get('left');
                 return (
                   i.buttonView.bind('icon').toMany(r, 'isOn', (...t) => {
                     const e = t.findIndex(t => t);
@@ -17881,9 +18107,9 @@
             const e = this.editor;
             e.ui.componentFactory.add(`alignment:${t}`, n => {
               const o = e.commands.get('alignment'),
-                i = new Kd(n);
+                i = new jd(n);
               return (
-                i.set({ label: this.localizedOptionTitles[t], icon: Ap.get(t), tooltip: !0, isToggleable: !0 }),
+                i.set({ label: this.localizedOptionTitles[t], icon: vp.get(t), tooltip: !0, isToggleable: !0 }),
                 i.bind('isEnabled').to(o),
                 i.bind('isOn').to(o, 'value', e => e === t),
                 this.listenTo(i, 'execute', () => {
@@ -17894,7 +18120,7 @@
             });
           }
         }
-        function vp(t, e, n, o) {
+        function xp(t, e, n, o) {
           let i,
             r = null;
           'function' == typeof o
@@ -17905,7 +18131,7 @@
               })),
             t.model.document.on('change:data', (s, a) => {
               if ((r && !r.isEnabled) || !e.isEnabled) return;
-              const c = $s(t.model.document.selection.getRanges());
+              const c = Gs(t.model.document.selection.getRanges());
               if (!c.isCollapsed) return;
               if ('transparent' == a.type) return;
               const l = Array.from(t.model.document.differ.getChanges()),
@@ -17939,7 +18165,7 @@
                 });
             });
         }
-        function yp(t, e, n, o) {
+        function Ep(t, e, n, o) {
           let i, r;
           n instanceof RegExp ? (i = n) : (r = n),
             (r =
@@ -17982,8 +18208,8 @@
                   };
                 })(s.createRange(s.createPositionAt(h, 0), d), s),
                 m = r(u),
-                g = xp(p.start, m.format, s),
-                f = xp(p.start, m.remove, s);
+                g = Dp(p.start, m.format, s),
+                f = Dp(p.start, m.remove, s);
               g.length &&
                 f.length &&
                 s.enqueueChange(t => {
@@ -17991,12 +18217,12 @@
                 });
             });
         }
-        function xp(t, e, n) {
+        function Dp(t, e, n) {
           return e
             .filter(t => void 0 !== t[0] && void 0 !== t[1])
             .map(e => n.createRange(t.getShiftedBy(e[0]), t.getShiftedBy(e[1])));
         }
-        function Ep(t, e) {
+        function Sp(t, e) {
           return (n, o) => {
             if (!t.commands.get(e).isEnabled) return !1;
             const i = t.model.schema.getValidRanges(o, e);
@@ -18004,10 +18230,225 @@
             n.removeSelectionAttribute(e);
           };
         }
-        function* Dp(t, e) {
+        class Bp {
+          constructor() {
+            const t = new window.FileReader();
+            (this._reader = t),
+              (this._data = void 0),
+              this.set('loaded', 0),
+              (t.onprogress = t => {
+                this.loaded = t.loaded;
+              });
+          }
+          get error() {
+            return this._reader.error;
+          }
+          get data() {
+            return this._data;
+          }
+          read(t) {
+            const e = this._reader;
+            return (
+              (this.total = t.size),
+              new Promise((n, o) => {
+                (e.onload = () => {
+                  const t = e.result;
+                  (this._data = t), n(t);
+                }),
+                  (e.onerror = () => {
+                    o('error');
+                  }),
+                  (e.onabort = () => {
+                    o('aborted');
+                  }),
+                  this._reader.readAsDataURL(t);
+              })
+            );
+          }
+          abort() {
+            this._reader.abort();
+          }
+        }
+        Yt(Bp, jt);
+        class Tp extends Qt {
+          static get pluginName() {
+            return 'FileRepository';
+          }
+          static get requires() {
+            return [Hl];
+          }
+          init() {
+            (this.loaders = new co()),
+              this.loaders.on('add', () => this._updatePendingAction()),
+              this.loaders.on('remove', () => this._updatePendingAction()),
+              (this._loadersMap = new Map()),
+              (this._pendingAction = null),
+              this.set('uploaded', 0),
+              this.set('uploadTotal', null),
+              this.bind('uploadedPercent').to(this, 'uploaded', this, 'uploadTotal', (t, e) => (e ? (t / e) * 100 : 0));
+          }
+          getLoader(t) {
+            return this._loadersMap.get(t) || null;
+          }
+          createLoader(t) {
+            if (!this.createUploadAdapter) return Object(c.b)('filerepository-no-upload-adapter'), null;
+            const e = new Pp(Promise.resolve(t), this.createUploadAdapter);
+            return (
+              this.loaders.add(e),
+              this._loadersMap.set(t, e),
+              t instanceof Promise &&
+                e.file
+                  .then(t => {
+                    this._loadersMap.set(t, e);
+                  })
+                  .catch(() => {}),
+              e.on('change:uploaded', () => {
+                let t = 0;
+                for (const e of this.loaders) t += e.uploaded;
+                this.uploaded = t;
+              }),
+              e.on('change:uploadTotal', () => {
+                let t = 0;
+                for (const e of this.loaders) e.uploadTotal && (t += e.uploadTotal);
+                this.uploadTotal = t;
+              }),
+              e
+            );
+          }
+          destroyLoader(t) {
+            const e = t instanceof Pp ? t : this.getLoader(t);
+            e._destroy(),
+              this.loaders.remove(e),
+              this._loadersMap.forEach((t, n) => {
+                t === e && this._loadersMap.delete(n);
+              });
+          }
+          _updatePendingAction() {
+            const t = this.editor.plugins.get(Hl);
+            if (this.loaders.length) {
+              if (!this._pendingAction) {
+                const e = this.editor.t,
+                  n = t => `${e('Upload in progress')} ${parseInt(t)}%.`;
+                (this._pendingAction = t.add(n(this.uploadedPercent))),
+                  this._pendingAction.bind('message').to(this, 'uploadedPercent', n);
+              }
+            } else t.remove(this._pendingAction), (this._pendingAction = null);
+          }
+        }
+        Yt(Tp, jt);
+        class Pp {
+          constructor(t, e) {
+            (this.id = s()),
+              (this._filePromiseWrapper = this._createFilePromiseWrapper(t)),
+              (this._adapter = e(this)),
+              (this._reader = new Bp()),
+              this.set('status', 'idle'),
+              this.set('uploaded', 0),
+              this.set('uploadTotal', null),
+              this.bind('uploadedPercent').to(this, 'uploaded', this, 'uploadTotal', (t, e) => (e ? (t / e) * 100 : 0)),
+              this.set('uploadResponse', null);
+          }
+          get file() {
+            return this._filePromiseWrapper
+              ? this._filePromiseWrapper.promise.then(t => (this._filePromiseWrapper ? t : null))
+              : Promise.resolve(null);
+          }
+          get data() {
+            return this._reader.data;
+          }
+          read() {
+            if ('idle' != this.status) throw new c.a('filerepository-read-wrong-status', this);
+            return (
+              (this.status = 'reading'),
+              this.file
+                .then(t => this._reader.read(t))
+                .then(t => {
+                  if ('reading' !== this.status) throw this.status;
+                  return (this.status = 'idle'), t;
+                })
+                .catch(t => {
+                  if ('aborted' === t) throw ((this.status = 'aborted'), 'aborted');
+                  throw ((this.status = 'error'), this._reader.error ? this._reader.error : t);
+                })
+            );
+          }
+          upload() {
+            if ('idle' != this.status) throw new c.a('filerepository-upload-wrong-status', this);
+            return (
+              (this.status = 'uploading'),
+              this.file
+                .then(() => this._adapter.upload())
+                .then(t => ((this.uploadResponse = t), (this.status = 'idle'), t))
+                .catch(t => {
+                  if ('aborted' === this.status) throw 'aborted';
+                  throw ((this.status = 'error'), t);
+                })
+            );
+          }
+          abort() {
+            const t = this.status;
+            (this.status = 'aborted'),
+              this._filePromiseWrapper.isFulfilled
+                ? 'reading' == t
+                  ? this._reader.abort()
+                  : 'uploading' == t && this._adapter.abort && this._adapter.abort()
+                : (this._filePromiseWrapper.promise.catch(() => {}), this._filePromiseWrapper.rejecter('aborted')),
+              this._destroy();
+          }
+          _destroy() {
+            (this._filePromiseWrapper = void 0),
+              (this._reader = void 0),
+              (this._adapter = void 0),
+              (this.uploadResponse = void 0);
+          }
+          _createFilePromiseWrapper(t) {
+            const e = {};
+            return (
+              (e.promise = new Promise((n, o) => {
+                (e.rejecter = o),
+                  (e.isFulfilled = !1),
+                  t
+                    .then(t => {
+                      (e.isFulfilled = !0), n(t);
+                    })
+                    .catch(t => {
+                      (e.isFulfilled = !0), o(t);
+                    });
+              })),
+              e
+            );
+          }
+        }
+        Yt(Pp, jt);
+        class Ip {
+          constructor(t) {
+            this.loader = t;
+          }
+          upload() {
+            return new Promise((t, e) => {
+              const n = (this.reader = new window.FileReader());
+              n.addEventListener('load', () => {
+                t({ default: n.result });
+              }),
+                n.addEventListener('error', t => {
+                  e(t);
+                }),
+                n.addEventListener('abort', () => {
+                  e();
+                }),
+                this.loader.file.then(t => {
+                  n.readAsDataURL(t);
+                });
+            });
+          }
+          abort() {
+            this.reader.abort();
+          }
+        }
+        function* zp(t, e) {
           for (const n of e) n && t.getAttributeProperties(n[0]).copyOnEnter && (yield n);
         }
-        class Sp extends Zt {
+        class Fp extends Zt {
           execute() {
             const t = this.editor.model,
               e = t.document;
@@ -18019,22 +18460,22 @@
                   a = r.end.parent;
                 if (o.isLimit(s) || o.isLimit(a)) return void (i || s != a || t.deleteContent(n));
                 if (i) {
-                  const t = Dp(e.model.schema, n.getAttributes());
-                  Bp(e, r.start), e.setSelectionAttribute(t);
+                  const t = zp(e.model.schema, n.getAttributes());
+                  Rp(e, r.start), e.setSelectionAttribute(t);
                 } else {
                   const o = !(r.start.isAtStart && r.end.isAtEnd),
                     i = s == a;
-                  t.deleteContent(n, { leaveUnmerged: o }), o && (i ? Bp(e, n.focus) : e.setSelection(a, 0));
+                  t.deleteContent(n, { leaveUnmerged: o }), o && (i ? Rp(e, n.focus) : e.setSelection(a, 0));
                 }
               })(this.editor.model, n, e.selection, t.schema),
                 this.fire('afterExecute', { writer: n });
             });
           }
         }
-        function Bp(t, e) {
+        function Rp(t, e) {
           t.split(e), t.setSelection(e.parent.nextSibling, 0);
         }
-        class Tp extends jr {
+        class Op extends jr {
           constructor(t) {
             super(t);
             const e = this.document;
@@ -18047,7 +18488,7 @@
           }
           observe() {}
         }
-        class Pp extends Qt {
+        class Mp extends Qt {
           static get pluginName() {
             return 'Enter';
           }
@@ -18055,8 +18496,8 @@
             const t = this.editor,
               e = t.editing.view,
               n = e.document;
-            e.addObserver(Tp),
-              t.commands.add('enter', new Sp(t)),
+            e.addObserver(Op),
+              t.commands.add('enter', new Fp(t)),
               this.listenTo(
                 n,
                 'enter',
@@ -18067,7 +18508,7 @@
               );
           }
         }
-        class Ip extends Zt {
+        class Np extends Zt {
           execute() {
             const t = this.editor.model,
               e = t.document;
@@ -18079,11 +18520,11 @@
                   s = i.end.parent,
                   a = r == s;
                 if (o) {
-                  const o = Dp(t.schema, n.getAttributes());
-                  zp(t, e, i.end), e.removeSelectionAttribute(n.getAttributeKeys()), e.setSelectionAttribute(o);
+                  const o = zp(t.schema, n.getAttributes());
+                  Vp(t, e, i.end), e.removeSelectionAttribute(n.getAttributeKeys()), e.setSelectionAttribute(o);
                 } else {
                   const o = !(i.start.isAtStart && i.end.isAtEnd);
-                  t.deleteContent(n, { leaveUnmerged: o }), a ? zp(t, e, n.focus) : o && e.setSelection(s, 0);
+                  t.deleteContent(n, { leaveUnmerged: o }), a ? Vp(t, e, n.focus) : o && e.setSelection(s, 0);
                 }
               })(t, n, e.selection),
                 this.fire('afterExecute', { writer: n });
@@ -18099,19 +18540,19 @@
               const o = e.getFirstRange(),
                 i = o.start.parent,
                 r = o.end.parent;
-              if ((Fp(i, t) || Fp(r, t)) && i !== r) return !1;
+              if ((Lp(i, t) || Lp(r, t)) && i !== r) return !1;
               return !0;
             })(t.schema, e.selection);
           }
         }
-        function zp(t, e, n) {
+        function Vp(t, e, n) {
           const o = e.createElement('softBreak');
           t.insertContent(o, n), e.setSelection(o, 'after');
         }
-        function Fp(t, e) {
-          return !t.is('rootElement') && (e.isLimit(t) || Fp(t.parent, e));
+        function Lp(t, e) {
+          return !t.is('rootElement') && (e.isLimit(t) || Lp(t.parent, e));
         }
-        class Rp extends Qt {
+        class Kp extends Qt {
           static get pluginName() {
             return 'ShiftEnter';
           }
@@ -18126,8 +18567,8 @@
               n
                 .for('downcast')
                 .elementToElement({ model: 'softBreak', view: (t, { writer: e }) => e.createEmptyElement('br') }),
-              o.addObserver(Tp),
-              t.commands.add('shiftEnter', new Ip(t)),
+              o.addObserver(Op),
+              t.commands.add('shiftEnter', new Np(t)),
               this.listenTo(
                 i,
                 'enter',
@@ -18138,7 +18579,7 @@
               );
           }
         }
-        class Op {
+        class qp {
           constructor(t, e = 20) {
             (this.model = t),
               (this.size = 0),
@@ -18175,9 +18616,9 @@
             (this.isLocked && !t) || ((this._batch = null), (this.size = 0));
           }
         }
-        class Mp extends Zt {
+        class Hp extends Zt {
           constructor(t, e) {
-            super(t), (this._buffer = new Op(t.model, e)), (this._batches = new WeakSet());
+            super(t), (this._buffer = new qp(t.model, e)), (this._batches = new WeakSet());
           }
           get buffer() {
             return this._buffer;
@@ -18203,11 +18644,11 @@
             });
           }
         }
-        const Np = [
-          Ki('arrowUp'),
-          Ki('arrowRight'),
-          Ki('arrowDown'),
-          Ki('arrowLeft'),
+        const jp = [
+          qi('arrowUp'),
+          qi('arrowRight'),
+          qi('arrowDown'),
+          qi('arrowLeft'),
           9,
           16,
           17,
@@ -18233,11 +18674,11 @@
           179,
           255,
         ];
-        for (let t = 112; t <= 135; t++) Np.push(t);
-        function Vp(t) {
-          return !(!t.ctrlKey && !t.metaKey) || Np.includes(t.keyCode);
+        for (let t = 112; t <= 135; t++) jp.push(t);
+        function $p(t) {
+          return !(!t.ctrlKey && !t.metaKey) || jp.includes(t.keyCode);
         }
-        function Lp(t) {
+        function Gp(t) {
           if (t.newChildren.length - t.oldChildren.length != 1) return;
           const e = (function (t, e) {
             const n = [];
@@ -18262,15 +18703,15 @@
             function s(t) {
               return o && o.type == t;
             }
-          })(Cr(t.oldChildren, t.newChildren, qp), t.newChildren);
+          })(Cr(t.oldChildren, t.newChildren, Wp), t.newChildren);
           if (e.length > 1) return;
           const n = e[0];
           return n.values[0] && n.values[0].is('$text') ? n : void 0;
         }
-        function qp(t, e) {
+        function Wp(t, e) {
           return t && t.is('$text') && e && e.is('$text') ? t.data === e.data : t === e;
         }
-        class Kp {
+        class Up {
           constructor(t) {
             (this.editor = t), (this.editing = this.editor.editing);
           }
@@ -18278,7 +18719,7 @@
             if (
               (function (t) {
                 if (0 == t.length) return !1;
-                for (const e of t) if ('children' === e.type && !Lp(e)) return !0;
+                for (const e of t) if ('children' === e.type && !Gp(e)) return !0;
                 return !1;
               })(t)
             )
@@ -18307,7 +18748,7 @@
               u = d && !d.is('element', 'softBreak');
             h && u && a.pop();
             const p = this.editor.model.schema;
-            if (!Hp(a, p) || !Hp(c, p)) return;
+            if (!Jp(a, p) || !Jp(c, p)) return;
             const m = a
                 .map(t => (t.is('$text') ? t.data : '@'))
                 .join('')
@@ -18318,15 +18759,15 @@
                 .replace(/\u00A0/g, ' ');
             if (g === m) return;
             const f = Cr(g, m),
-              { firstChangeAt: k, insertions: b, deletions: w } = jp(f);
-            let _ = null;
-            e && (_ = this.editing.mapper.toModelRange(e.getFirstRange()));
-            const A = m.substr(k, b),
+              { firstChangeAt: k, insertions: b, deletions: w } = Yp(f);
+            let A = null;
+            e && (A = this.editing.mapper.toModelRange(e.getFirstRange()));
+            const _ = m.substr(k, b),
               C = this.editor.model.createRange(
                 this.editor.model.createPositionAt(s, k),
                 this.editor.model.createPositionAt(s, k + w),
               );
-            this.editor.execute('input', { text: A, range: C, resultRange: _ });
+            this.editor.execute('input', { text: _, range: C, resultRange: A });
           }
           _handleTextMutation(t, e) {
             if ('text' != t.type) return;
@@ -18334,7 +18775,7 @@
               o = t.oldText.replace(/\u00A0/g, ' ');
             if (o === n) return;
             const i = Cr(o, n),
-              { firstChangeAt: r, insertions: s, deletions: a } = jp(i);
+              { firstChangeAt: r, insertions: s, deletions: a } = Yp(i);
             let c = null;
             e && (c = this.editing.mapper.toModelRange(e.getFirstRange()));
             const l = this.editing.view.createPositionAt(t.node, r),
@@ -18345,17 +18786,17 @@
           }
           _handleTextNodeInsertion(t) {
             if ('children' != t.type) return;
-            const e = Lp(t),
+            const e = Gp(t),
               n = this.editing.view.createPositionAt(t.node, e.index),
               o = this.editing.mapper.toModelPosition(n),
               i = e.values[0].data;
             this.editor.execute('input', { text: i.replace(/\u00A0/g, ' '), range: this.editor.model.createRange(o) });
           }
         }
-        function Hp(t, e) {
+        function Jp(t, e) {
           return t.every(t => e.isInline(t));
         }
-        function jp(t) {
+        function Yp(t) {
           let e = null,
             n = null;
           for (let o = 0; o < t.length; o++) {
@@ -18366,13 +18807,13 @@
           for (let r = e; r <= n; r++) 'insert' != t[r] && o++, 'delete' != t[r] && i++;
           return { insertions: i, deletions: o, firstChangeAt: e };
         }
-        class Gp extends Qt {
+        class Qp extends Qt {
           static get pluginName() {
             return 'Input';
           }
           init() {
             const t = this.editor,
-              e = new Mp(t, t.config.get('typing.undoStep') || 20);
+              e = new Hp(t, t.config.get('typing.undoStep') || 20);
             t.commands.add('input', e),
               (function (t) {
                 let e = null;
@@ -18385,7 +18826,7 @@
                     c = e && e.isEqual(r.selection);
                   (e = null),
                     i.isEnabled &&
-                      (Vp(t) ||
+                      ($p(t) ||
                         r.selection.isCollapsed ||
                         (a && 229 === t.keyCode) ||
                         (!a && 229 === t.keyCode && c) ||
@@ -18423,7 +18864,7 @@
               })(t),
               (function (t) {
                 t.editing.view.document.on('mutations', (e, n, o) => {
-                  new Kp(t).handle(n, o);
+                  new Up(t).handle(n, o);
                 });
               })(t);
           }
@@ -18431,9 +18872,9 @@
             return this.editor.commands.get('input')._batches.has(t);
           }
         }
-        class $p extends Zt {
+        class Xp extends Zt {
           constructor(t, e) {
-            super(t), (this.direction = e), (this._buffer = new Op(t.model, t.config.get('typing.undoStep')));
+            super(t), (this.direction = e), (this._buffer = new qp(t.model, t.config.get('typing.undoStep')));
           }
           get buffer() {
             return this._buffer;
@@ -18459,7 +18900,7 @@
                 .getFirstRange()
                 .getMinimalFlatRanges()
                 .forEach(t => {
-                  a += _i(t.getWalker({ singleCharacters: !0, ignoreElementEnd: !0, shallow: !0 }));
+                  a += Ai(t.getWalker({ singleCharacters: !0, ignoreElementEnd: !0, shallow: !0 }));
                 }),
                 e.deleteContent(i, { doNotResetEntireContent: s, direction: this.direction }),
                 this._buffer.input(a),
@@ -18499,7 +18940,7 @@
             );
           }
         }
-        class Wp extends jr {
+        class Zp extends jr {
           constructor(t) {
             super(t);
             const e = t.document;
@@ -18534,7 +18975,7 @@
           }
           observe() {}
         }
-        class Up extends Qt {
+        class tm extends Qt {
           static get pluginName() {
             return 'Delete';
           }
@@ -18542,12 +18983,12 @@
             const t = this.editor,
               e = t.editing.view,
               n = e.document;
-            e.addObserver(Wp);
-            const o = new $p(t, 'forward');
+            e.addObserver(Zp);
+            const o = new Xp(t, 'forward');
             if (
               (t.commands.add('deleteForward', o),
               t.commands.add('forwardDelete', o),
-              t.commands.add('delete', new $p(t, 'backward')),
+              t.commands.add('delete', new Xp(t, 'backward')),
               this.listenTo(
                 n,
                 'delete',
@@ -18591,15 +19032,15 @@
             }
           }
         }
-        class Jp extends Qt {
+        class em extends Qt {
           static get requires() {
-            return [Gp, Up];
+            return [Qp, tm];
           }
           static get pluginName() {
             return 'Typing';
           }
         }
-        function Yp(t, e) {
+        function nm(t, e) {
           let n = t.start;
           return {
             text: Array.from(t.getItems()).reduce(
@@ -18609,7 +19050,7 @@
             range: e.createRange(n, t.end),
           };
         }
-        class Qp {
+        class om {
           constructor(t, e) {
             (this.model = t),
               (this.testCallback = e),
@@ -18638,7 +19079,7 @@
             const n = this.model,
               o = n.document.selection,
               i = n.createRange(n.createPositionAt(o.focus.parent, 0), o.focus),
-              { text: r, range: s } = Yp(i, n),
+              { text: r, range: s } = nm(i, n),
               a = this.testCallback(r);
             if ((!a && this.hasMatch && this.fire('unmatched'), (this.hasMatch = !!a), a)) {
               const n = Object.assign(e, { text: r, range: s });
@@ -18646,8 +19087,8 @@
             }
           }
         }
-        Yt(Qp, jt);
-        class Xp extends Qt {
+        Yt(om, jt);
+        class im extends Qt {
           static get pluginName() {
             return 'TwoStepCaretMovement';
           }
@@ -18684,7 +19125,7 @@
                 this._isNextGravityRestorationSkipped
                   ? (this._isNextGravityRestorationSkipped = !1)
                   : this._isGravityOverridden &&
-                    ((!e.directChange && nm(i.getFirstPosition(), this.attributes)) || this._restoreGravity());
+                    ((!e.directChange && cm(i.getFirstPosition(), this.attributes)) || this._restoreGravity());
               });
           }
           registerAttribute(t) {
@@ -18696,8 +19137,8 @@
               o = n.getFirstPosition();
             return (
               !this._isGravityOverridden &&
-              (!o.isAtStart || !Zp(n, e)) &&
-              (nm(o, e) ? (em(t), this._overrideGravity(), !0) : void 0)
+              (!o.isAtStart || !rm(n, e)) &&
+              (cm(o, e) ? (am(t), this._overrideGravity(), !0) : void 0)
             );
           }
           _handleBackwardMovement(t) {
@@ -18706,14 +19147,14 @@
               o = n.document.selection,
               i = o.getFirstPosition();
             return this._isGravityOverridden
-              ? (em(t), this._restoreGravity(), tm(n, e, i), !0)
+              ? (am(t), this._restoreGravity(), sm(n, e, i), !0)
               : i.isAtStart
-              ? !!Zp(o, e) && (em(t), tm(n, e, i), !0)
+              ? !!rm(o, e) && (am(t), sm(n, e, i), !0)
               : (function (t, e) {
-                  return nm(t.getShiftedBy(-1), e);
+                  return cm(t.getShiftedBy(-1), e);
                 })(i, e)
-              ? i.isAtEnd && !Zp(o, e) && nm(i, e)
-                ? (em(t), tm(n, e, i), !0)
+              ? i.isAtEnd && !rm(o, e) && cm(i, e)
+                ? (am(t), sm(n, e, i), !0)
                 : ((this._isNextGravityRestorationSkipped = !0), this._overrideGravity(), !1)
               : void 0;
           }
@@ -18729,20 +19170,20 @@
             });
           }
         }
-        function Zp(t, e) {
+        function rm(t, e) {
           for (const n of e) if (t.hasAttribute(n)) return !0;
           return !1;
         }
-        function tm(t, e, n) {
+        function sm(t, e, n) {
           const o = n.nodeBefore;
           t.change(t => {
             o ? t.setSelectionAttribute(o.getAttributes()) : t.removeSelectionAttribute(e);
           });
         }
-        function em(t) {
+        function am(t) {
           t.preventDefault();
         }
-        function nm(t, e) {
+        function cm(t, e) {
           const { nodeBefore: n, nodeAfter: o } = t;
           for (const t of e) {
             const e = n ? n.getAttribute(t) : void 0;
@@ -18750,12 +19191,12 @@
           }
           return !1;
         }
-        var om = /[\\^$.*+?()[\]{}|]/g,
-          im = RegExp(om.source);
-        var rm = function (t) {
-          return (t = Vo(t)) && im.test(t) ? t.replace(om, '\\$&') : t;
+        var lm = /[\\^$.*+?()[\]{}|]/g,
+          dm = RegExp(lm.source);
+        var hm = function (t) {
+          return (t = Vo(t)) && dm.test(t) ? t.replace(lm, '\\$&') : t;
         };
-        const sm = {
+        const um = {
             copyright: { from: '(c)', to: '©' },
             registeredTrademark: { from: '(r)', to: '®' },
             trademark: { from: '(tm)', to: '™' },
@@ -18772,14 +19213,14 @@
             horizontalEllipsis: { from: '...', to: '…' },
             enDash: { from: /(^| )(--)( )$/, to: [null, '–', null] },
             emDash: { from: /(^| )(---)( )$/, to: [null, '—', null] },
-            quotesPrimary: { from: um('"'), to: [null, '“', null, '”'] },
-            quotesSecondary: { from: um("'"), to: [null, '‘', null, '’'] },
-            quotesPrimaryEnGb: { from: um("'"), to: [null, '‘', null, '’'] },
-            quotesSecondaryEnGb: { from: um('"'), to: [null, '“', null, '”'] },
-            quotesPrimaryPl: { from: um('"'), to: [null, '„', null, '”'] },
-            quotesSecondaryPl: { from: um("'"), to: [null, '‚', null, '’'] },
+            quotesPrimary: { from: bm('"'), to: [null, '“', null, '”'] },
+            quotesSecondary: { from: bm("'"), to: [null, '‘', null, '’'] },
+            quotesPrimaryEnGb: { from: bm("'"), to: [null, '‘', null, '’'] },
+            quotesSecondaryEnGb: { from: bm('"'), to: [null, '“', null, '”'] },
+            quotesPrimaryPl: { from: bm('"'), to: [null, '„', null, '”'] },
+            quotesSecondaryPl: { from: bm("'"), to: [null, '‚', null, '’'] },
           },
-          am = {
+          pm = {
             symbols: ['copyright', 'registeredTrademark', 'trademark'],
             mathematical: [
               'oneHalf',
@@ -18796,29 +19237,29 @@
             typography: ['horizontalEllipsis', 'enDash', 'emDash'],
             quotes: ['quotesPrimary', 'quotesSecondary'],
           },
-          cm = ['symbols', 'mathematical', 'typography', 'quotes'];
-        function lm(t) {
-          return 'string' == typeof t ? new RegExp(`(${rm(t)})$`) : t;
+          mm = ['symbols', 'mathematical', 'typography', 'quotes'];
+        function gm(t) {
+          return 'string' == typeof t ? new RegExp(`(${hm(t)})$`) : t;
         }
-        function dm(t) {
+        function fm(t) {
           return 'string' == typeof t ? () => [t] : t instanceof Array ? () => t : t;
         }
-        function hm(t) {
+        function km(t) {
           return (t.textNode ? t.textNode : t.nodeAfter).getAttributes();
         }
-        function um(t) {
+        function bm(t) {
           return new RegExp(`(^|\\s)(${t})([^${t}]*)(${t})$`);
         }
-        function pm(t, e, n, o) {
-          return o.createRange(mm(t, e, n, !0, o), mm(t, e, n, !1, o));
+        function wm(t, e, n, o) {
+          return o.createRange(Am(t, e, n, !0, o), Am(t, e, n, !1, o));
         }
-        function mm(t, e, n, o, i) {
+        function Am(t, e, n, o, i) {
           let r = t.textNode || (o ? t.nodeBefore : t.nodeAfter),
             s = null;
           for (; r && r.getAttribute(e) == n; ) (s = r), (r = o ? r.previousSibling : r.nextSibling);
           return s ? i.createPositionAt(s, o ? 'before' : 'after') : t;
         }
-        class gm extends Zt {
+        class _m extends Zt {
           refresh() {
             (this.value = this._getValue()), (this.isEnabled = this._checkEnabled());
           }
@@ -18830,24 +19271,24 @@
               r = void 0 === t.forceValue ? !this.value : t.forceValue;
             e.change(t => {
               if (r) {
-                const e = i.filter(t => fm(t) || bm(n, t));
+                const e = i.filter(t => Cm(t) || ym(n, t));
                 this._applyQuote(t, e);
-              } else this._removeQuote(t, i.filter(fm));
+              } else this._removeQuote(t, i.filter(Cm));
             });
           }
           _getValue() {
-            const t = $s(this.editor.model.document.selection.getSelectedBlocks());
-            return !(!t || !fm(t));
+            const t = Gs(this.editor.model.document.selection.getSelectedBlocks());
+            return !(!t || !Cm(t));
           }
           _checkEnabled() {
             if (this.value) return !0;
             const t = this.editor.model.document.selection,
               e = this.editor.model.schema,
-              n = $s(t.getSelectedBlocks());
-            return !!n && bm(e, n);
+              n = Gs(t.getSelectedBlocks());
+            return !!n && ym(e, n);
           }
           _removeQuote(t, e) {
-            km(t, e)
+            vm(t, e)
               .reverse()
               .forEach(e => {
                 if (e.start.isAtStart && e.end.isAtEnd) return void t.unwrap(e.start.parent);
@@ -18862,19 +19303,19 @@
           }
           _applyQuote(t, e) {
             const n = [];
-            km(t, e)
+            vm(t, e)
               .reverse()
               .forEach(e => {
-                let o = fm(e.start);
+                let o = Cm(e.start);
                 o || ((o = t.createElement('blockQuote')), t.wrap(e, o)), n.push(o);
               }),
               n.reverse().reduce((e, n) => (e.nextSibling == n ? (t.merge(t.createPositionAfter(e)), e) : n));
           }
         }
-        function fm(t) {
+        function Cm(t) {
           return 'blockQuote' == t.parent.name ? t.parent : null;
         }
-        function km(t, e) {
+        function vm(t, e) {
           let n,
             o = 0;
           const i = [];
@@ -18887,22 +19328,22 @@
           }
           return i;
         }
-        function bm(t, e) {
+        function ym(t, e) {
           const n = t.checkChild(e.parent, 'blockQuote'),
             o = t.checkChild(['$root', 'blockQuote'], e);
           return n && o;
         }
-        class wm extends Qt {
+        class xm extends Qt {
           static get pluginName() {
             return 'BlockQuoteEditing';
           }
           static get requires() {
-            return [Pp, Up];
+            return [Mp, tm];
           }
           init() {
             const t = this.editor,
               e = t.model.schema;
-            t.commands.add('blockQuote', new gm(t)),
+            t.commands.add('blockQuote', new _m(t)),
               e.register('blockQuote', { allowWhere: '$block', allowContentOf: '$root' }),
               t.conversion.elementToElement({ model: 'blockQuote', view: 'blockquote' }),
               t.model.document.registerPostFixer(n => {
@@ -18952,10 +19393,10 @@
               );
           }
         }
-        var _m = n(35),
-          Am = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(_m.a, Am), _m.a.locals;
-        class Cm extends Qt {
+        var Em = n(35),
+          Dm = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Em.a, Dm), Em.a.locals;
+        class Sm extends Qt {
           static get pluginName() {
             return 'BlockQuoteUI';
           }
@@ -18964,9 +19405,9 @@
               e = t.t;
             t.ui.componentFactory.add('blockQuote', n => {
               const o = t.commands.get('blockQuote'),
-                i = new Kd(n);
+                i = new jd(n);
               return (
-                i.set({ label: e('Block quote'), icon: nd, tooltip: !0, isToggleable: !0 }),
+                i.set({ label: e('Block quote'), icon: id, tooltip: !0, isToggleable: !0 }),
                 i.bind('isOn', 'isEnabled').to(o, 'value', 'isEnabled'),
                 this.listenTo(i, 'execute', () => {
                   t.execute('blockQuote'), t.editing.view.focus();
@@ -18976,7 +19417,7 @@
             });
           }
         }
-        class vm extends Zt {
+        class Bm extends Zt {
           constructor(t, e) {
             super(t), (this.attributeKey = e);
           }
@@ -19011,17 +19452,17 @@
             return !1;
           }
         }
-        const ym = 'bold';
-        class xm extends Qt {
+        const Tm = 'bold';
+        class Pm extends Qt {
           static get pluginName() {
             return 'BoldEditing';
           }
           init() {
             const t = this.editor;
-            t.model.schema.extend('$text', { allowAttributes: ym }),
-              t.model.schema.setAttributeProperties(ym, { isFormatting: !0, copyOnEnter: !0 }),
+            t.model.schema.extend('$text', { allowAttributes: Tm }),
+              t.model.schema.setAttributeProperties(Tm, { isFormatting: !0, copyOnEnter: !0 }),
               t.conversion.attributeToElement({
-                model: ym,
+                model: Tm,
                 view: 'strong',
                 upcastAlso: [
                   'b',
@@ -19035,21 +19476,21 @@
                   },
                 ],
               }),
-              t.commands.add(ym, new vm(t, ym)),
-              t.keystrokes.set('CTRL+B', ym);
+              t.commands.add(Tm, new Bm(t, Tm)),
+              t.keystrokes.set('CTRL+B', Tm);
           }
         }
-        const Em = 'bold';
-        class Dm extends Qt {
+        const Im = 'bold';
+        class zm extends Qt {
           static get pluginName() {
             return 'BoldUI';
           }
           init() {
             const t = this.editor,
               e = t.t;
-            t.ui.componentFactory.add(Em, n => {
-              const o = t.commands.get(Em),
-                i = new Kd(n);
+            t.ui.componentFactory.add(Im, n => {
+              const o = t.commands.get(Im),
+                i = new jd(n);
               return (
                 i.set({
                   label: e('Bold'),
@@ -19060,14 +19501,14 @@
                 }),
                 i.bind('isOn', 'isEnabled').to(o, 'value', 'isEnabled'),
                 this.listenTo(i, 'execute', () => {
-                  t.execute(Em), t.editing.view.focus();
+                  t.execute(Im), t.editing.view.focus();
                 }),
                 i
               );
             });
           }
         }
-        class Sm {
+        class Fm {
           constructor(t) {
             (this.files = (function (t) {
               const e = t.files ? Array.from(t.files) : [],
@@ -19102,7 +19543,7 @@
             return 'none' == this._native.dropEffect || !!this._native.mozUserCancelled;
           }
         }
-        class Bm extends ms {
+        class Rm extends ms {
           constructor(t) {
             super(t);
             const e = this.document;
@@ -19131,7 +19572,7 @@
               this.listenTo(e, 'dragover', n('dragging'), { priority: 'low' });
           }
           onDomEvent(t) {
-            const e = { dataTransfer: new Sm(t.clipboardData ? t.clipboardData : t.dataTransfer) };
+            const e = { dataTransfer: new Fm(t.clipboardData ? t.clipboardData : t.dataTransfer) };
             ('drop' != t.type && 'dragover' != t.type) ||
               (e.dropRange = (function (t, e) {
                 const n = e.target.ownerDocument,
@@ -19147,8 +19588,8 @@
               this.fire(t.type, t, e);
           }
         }
-        const Tm = ['figcaption', 'li'];
-        function Pm(t) {
+        const Om = ['figcaption', 'li'];
+        function Mm(t) {
           let e = '';
           if (t.is('$text') || t.is('$textProxy')) e = t.data;
           else if (t.is('element', 'img') && t.hasAttribute('alt')) e = t.getAttribute('alt');
@@ -19156,22 +19597,22 @@
           else {
             let n = null;
             for (const o of t.getChildren()) {
-              const t = Pm(o);
+              const t = Mm(o);
               n &&
                 (n.is('containerElement') || o.is('containerElement')) &&
-                (Tm.includes(n.name) || Tm.includes(o.name) ? (e += '\n') : (e += '\n\n')),
+                (Om.includes(n.name) || Om.includes(o.name) ? (e += '\n') : (e += '\n\n')),
                 (e += t),
                 (n = o);
             }
           }
           return e;
         }
-        class Im extends Qt {
+        class Nm extends Qt {
           static get pluginName() {
             return 'ClipboardPipeline';
           }
           init() {
-            this.editor.editing.view.addObserver(Bm), this._setupPasteDrop(), this._setupCopyCut();
+            this.editor.editing.view.addObserver(Rm), this._setupPasteDrop(), this._setupCopyCut();
           }
           _setupPasteDrop() {
             const t = this.editor,
@@ -19273,14 +19714,14 @@
                 (n, o) => {
                   o.content.isEmpty ||
                     (o.dataTransfer.setData('text/html', this.editor.data.htmlProcessor.toData(o.content)),
-                    o.dataTransfer.setData('text/plain', Pm(o.content))),
+                    o.dataTransfer.setData('text/plain', Mm(o.content))),
                     'cut' == o.method && t.model.deleteContent(e.selection);
                 },
                 { priority: 'low' },
               );
           }
         }
-        class zm {
+        class Vm {
           constructor() {
             this._stack = [];
           }
@@ -19289,22 +19730,22 @@
               o = n[0];
             this._insertDescriptor(t);
             const i = n[0];
-            o === i || Fm(o, i) || this.fire('change:top', { oldDescriptor: o, newDescriptor: i, writer: e });
+            o === i || Lm(o, i) || this.fire('change:top', { oldDescriptor: o, newDescriptor: i, writer: e });
           }
           remove(t, e) {
             const n = this._stack,
               o = n[0];
             this._removeDescriptor(t);
             const i = n[0];
-            o === i || Fm(o, i) || this.fire('change:top', { oldDescriptor: o, newDescriptor: i, writer: e });
+            o === i || Lm(o, i) || this.fire('change:top', { oldDescriptor: o, newDescriptor: i, writer: e });
           }
           _insertDescriptor(t) {
             const e = this._stack,
               n = e.findIndex(e => e.id === t.id);
-            if (Fm(t, e[n])) return;
+            if (Lm(t, e[n])) return;
             n > -1 && e.splice(n, 1);
             let o = 0;
-            for (; e[o] && Rm(e[o], t); ) o++;
+            for (; e[o] && Km(e[o], t); ) o++;
             e.splice(o, 0, t);
           }
           _removeDescriptor(t) {
@@ -19313,29 +19754,29 @@
             n > -1 && e.splice(n, 1);
           }
         }
-        function Fm(t, e) {
-          return t && e && t.priority == e.priority && Om(t.classes) == Om(e.classes);
+        function Lm(t, e) {
+          return t && e && t.priority == e.priority && qm(t.classes) == qm(e.classes);
         }
-        function Rm(t, e) {
-          return t.priority > e.priority || (!(t.priority < e.priority) && Om(t.classes) > Om(e.classes));
+        function Km(t, e) {
+          return t.priority > e.priority || (!(t.priority < e.priority) && qm(t.classes) > qm(e.classes));
         }
-        function Om(t) {
+        function qm(t) {
           return Array.isArray(t) ? t.sort().join(',') : t;
         }
-        Yt(zm, h);
-        var Mm =
+        Yt(Vm, h);
+        var Hm =
           '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M4 0v1H1v3H0V.5A.5.5 0 0 1 .5 0H4zm8 0h3.5a.5.5 0 0 1 .5.5V4h-1V1h-3V0zM4 16H.5a.5.5 0 0 1-.5-.5V12h1v3h3v1zm8 0v-1h3v-3h1v3.5a.5.5 0 0 1-.5.5H12z"/><path fill-opacity=".256" d="M1 1h14v14H1z"/><g class="ck-icon__selected-indicator"><path d="M7 0h2v1H7V0zM0 7h1v2H0V7zm15 0h1v2h-1V7zm-8 8h2v1H7v-1z"/><path fill-opacity=".254" d="M1 1h14v14H1z"/></g></svg>';
-        const Nm = 'ck-widget_selected';
-        function Vm(t) {
+        const jm = 'ck-widget_selected';
+        function $m(t) {
           return !!t.is('element') && !!t.getCustomProperty('widget');
         }
-        function Lm(t, e, n = {}) {
+        function Gm(t, e, n = {}) {
           if (!t.is('containerElement')) throw new c.a('widget-to-widget-wrong-element-type', null, { element: t });
           return (
             e.setAttribute('contenteditable', 'false', t),
             e.addClass('ck-widget', t),
             e.setCustomProperty('widget', !0, t),
-            (t.getFillerOffset = Gm),
+            (t.getFillerOffset = tg),
             n.label &&
               (function (t, e, n) {
                 n.setCustomProperty('widgetLabel', e, t);
@@ -19344,38 +19785,54 @@
               (function (t, e) {
                 const n = e.createUIElement('div', { class: 'ck ck-widget__selection-handle' }, function (t) {
                   const e = this.toDomElement(t),
-                    n = new Od();
-                  return n.set('content', Mm), n.render(), e.appendChild(n.element), e;
+                    n = new Nd();
+                  return n.set('content', Hm), n.render(), e.appendChild(n.element), e;
                 });
                 e.insert(e.createPositionAt(t, 0), n), e.addClass(['ck-widget_with-selection-handle'], t);
               })(t, e),
-            (function (t, e, n, o) {
-              const i = new zm();
-              i.on('change:top', (e, i) => {
-                i.oldDescriptor && o(t, i.oldDescriptor, i.writer), i.newDescriptor && n(t, i.newDescriptor, i.writer);
-              }),
-                e.setCustomProperty('addHighlight', (t, e, n) => i.add(e, n), t),
-                e.setCustomProperty('removeHighlight', (t, e, n) => i.remove(e, n), t);
-            })(t, e, qm, Km),
+            Jm(t, e, Wm, Um),
             t
           );
         }
-        function qm(t, e, n) {
+        function Wm(t, e, n) {
           if ((e.classes && n.addClass(ho(e.classes), t), e.attributes))
             for (const o in e.attributes) n.setAttribute(o, e.attributes[o], t);
         }
-        function Km(t, e, n) {
+        function Um(t, e, n) {
           if ((e.classes && n.removeClass(ho(e.classes), t), e.attributes))
             for (const o in e.attributes) n.removeAttribute(o, t);
         }
-        function Hm(t) {
+        function Jm(t, e, n, o) {
+          const i = new Vm();
+          i.on('change:top', (e, i) => {
+            i.oldDescriptor && o(t, i.oldDescriptor, i.writer), i.newDescriptor && n(t, i.newDescriptor, i.writer);
+          }),
+            e.setCustomProperty('addHighlight', (t, e, n) => i.add(e, n), t),
+            e.setCustomProperty('removeHighlight', (t, e, n) => i.remove(e, n), t);
+        }
+        function Ym(t) {
           const e = t.getCustomProperty('widgetLabel');
           return e ? ('function' == typeof e ? e() : e) : '';
         }
-        function jm(t, e) {
+        function Qm(t, e) {
+          return (
+            e.addClass(['ck-editor__editable', 'ck-editor__nested-editable'], t),
+            e.setAttribute('contenteditable', t.isReadOnly ? 'false' : 'true', t),
+            t.on('change:isReadOnly', (n, o, i) => {
+              e.setAttribute('contenteditable', i ? 'false' : 'true', t);
+            }),
+            t.on('change:isFocused', (n, o, i) => {
+              i
+                ? e.addClass('ck-editor__nested-editable_focused', t)
+                : e.removeClass('ck-editor__nested-editable_focused', t);
+            }),
+            t
+          );
+        }
+        function Xm(t, e) {
           const n = t.getSelectedElement();
           if (n) {
-            const o = Um(t);
+            const o = og(t);
             if (o) return e.createPositionAt(n, o);
             if (e.schema.isBlock(n)) return e.createPositionAfter(n);
           }
@@ -19387,31 +19844,35 @@
           }
           return t.focus;
         }
-        function Gm() {
+        function Zm(t, e) {
+          const n = t.getSelectedElement();
+          return !!n && e.isObject(n);
+        }
+        function tg() {
           return null;
         }
-        const $m = 'widget-type-around';
-        function Wm(t, e, n) {
-          return t && Vm(t) && !n.isInline(e);
+        const eg = 'widget-type-around';
+        function ng(t, e, n) {
+          return t && $m(t) && !n.isInline(e);
         }
-        function Um(t) {
-          return t.getAttribute($m);
+        function og(t) {
+          return t.getAttribute(eg);
         }
-        var Jm = n(36),
-          Ym = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Jm.a, Ym), Jm.a.locals;
-        const Qm = ['before', 'after'],
-          Xm = new DOMParser().parseFromString(
+        var ig = n(36),
+          rg = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(ig.a, rg), ig.a.locals;
+        const sg = ['before', 'after'],
+          ag = new DOMParser().parseFromString(
             '<svg viewBox="0 0 10 8" xmlns="http://www.w3.org/2000/svg"><path d="M9.055.263v3.972h-6.77M1 4.216l2-2.038m-2 2 2 2.038"/></svg>',
             'image/svg+xml',
           ).firstChild,
-          Zm = 'ck-widget__type-around_disabled';
-        class tg extends Qt {
+          cg = 'ck-widget__type-around_disabled';
+        class lg extends Qt {
           static get pluginName() {
             return 'WidgetTypeAround';
           }
           static get requires() {
-            return [Pp, Up];
+            return [Mp, tm];
           }
           constructor(t) {
             super(t), (this._currentFakeCaretModelElement = null);
@@ -19421,11 +19882,11 @@
               e = t.editing.view;
             this.on('change:isEnabled', (n, o, i) => {
               e.change(t => {
-                for (const n of e.document.roots) i ? t.removeClass(Zm, n) : t.addClass(Zm, n);
+                for (const n of e.document.roots) i ? t.removeClass(cg, n) : t.addClass(cg, n);
               }),
                 i ||
                   t.model.change(t => {
-                    t.removeSelectionAttribute($m);
+                    t.removeSelectionAttribute(eg);
                   });
             }),
               this._enableTypeAroundUIInjection(),
@@ -19434,7 +19895,8 @@
               this._enableInsertingParagraphsOnTypingKeystroke(),
               this._enableTypeAroundFakeCaretActivationUsingKeyboardArrows(),
               this._enableDeleteIntegration(),
-              this._enableInsertContentIntegration();
+              this._enableInsertContentIntegration(),
+              this._enableDeleteContentIntegration();
           }
           destroy() {
             this._currentFakeCaretModelElement = null;
@@ -19458,7 +19920,7 @@
           }
           _insertParagraphAccordingToFakeCaretPosition() {
             const t = this.editor.model.document.selection,
-              e = Um(t);
+              e = og(t);
             if (!e) return !1;
             const n = t.getSelectedElement();
             return this._insertParagraph(n, e), !0;
@@ -19472,7 +19934,7 @@
               'insert',
               (t, n, i) => {
                 const r = i.mapper.toViewElement(n.item);
-                Wm(r, n.item, e) &&
+                ng(r, n.item, e) &&
                   (function (t, e, n) {
                     const o = t.createUIElement(
                       'div',
@@ -19481,8 +19943,8 @@
                         const n = this.toDomElement(t);
                         return (
                           (function (t, e) {
-                            for (const n of Qm) {
-                              const o = new pd({
+                            for (const n of sg) {
+                              const o = new gd({
                                 tag: 'div',
                                 attributes: {
                                   class: [
@@ -19492,13 +19954,13 @@
                                   ],
                                   title: e[n],
                                 },
-                                children: [t.ownerDocument.importNode(Xm, !0)],
+                                children: [t.ownerDocument.importNode(ag, !0)],
                               });
                               t.appendChild(o.render());
                             }
                           })(n, e),
                           (function (t) {
-                            const e = new pd({
+                            const e = new gd({
                               tag: 'div',
                               attributes: { class: ['ck', 'ck-widget__type-around__fake-caret'] },
                             });
@@ -19529,40 +19991,40 @@
               (t, e) => {
                 this._handleArrowKeyPress(t, e);
               },
-              { context: [Vm, '$text'], priority: 'high' },
+              { context: [$m, '$text'], priority: 'high' },
             ),
               this._listenToIfEnabled(n, 'change:range', (e, n) => {
                 n.directChange &&
                   t.model.change(t => {
-                    t.removeSelectionAttribute($m);
+                    t.removeSelectionAttribute(eg);
                   });
               }),
               this._listenToIfEnabled(e.document, 'change:data', () => {
                 const e = n.getSelectedElement();
                 if (e) {
-                  if (Wm(t.editing.mapper.toViewElement(e), e, o)) return;
+                  if (ng(t.editing.mapper.toViewElement(e), e, o)) return;
                 }
                 t.model.change(t => {
-                  t.removeSelectionAttribute($m);
+                  t.removeSelectionAttribute(eg);
                 });
               }),
               this._listenToIfEnabled(t.editing.downcastDispatcher, 'selection', (t, e, n) => {
                 const i = n.writer;
                 if (this._currentFakeCaretModelElement) {
                   const t = n.mapper.toViewElement(this._currentFakeCaretModelElement);
-                  t && (i.removeClass(Qm.map(r), t), (this._currentFakeCaretModelElement = null));
+                  t && (i.removeClass(sg.map(r), t), (this._currentFakeCaretModelElement = null));
                 }
                 const s = e.selection.getSelectedElement();
                 if (!s) return;
                 const a = n.mapper.toViewElement(s);
-                if (!Wm(a, s, o)) return;
-                const c = Um(e.selection);
+                if (!ng(a, s, o)) return;
+                const c = og(e.selection);
                 c && (i.addClass(r(c), a), (this._currentFakeCaretModelElement = s));
               }),
               this._listenToIfEnabled(t.ui.focusTracker, 'change:isFocused', (e, n, o) => {
                 o ||
                   t.model.change(t => {
-                    t.removeSelectionAttribute($m);
+                    t.removeSelectionAttribute(eg);
                   });
               });
           }
@@ -19572,20 +20034,20 @@
               i = o.document.selection,
               r = o.schema,
               s = n.editing.view,
-              a = $i(e.keyCode, n.locale.contentLanguageDirection),
+              a = Gi(e.keyCode, n.locale.contentLanguageDirection),
               c = s.document.selection.getSelectedElement();
             let l;
-            Wm(c, n.editing.mapper.toModelElement(c), r)
+            ng(c, n.editing.mapper.toModelElement(c), r)
               ? (l = this._handleArrowKeyPressOnSelectedWidget(a))
               : i.isCollapsed && (l = this._handleArrowKeyPressWhenSelectionNextToAWidget(a)),
               l && (e.preventDefault(), t.stop());
           }
           _handleArrowKeyPressOnSelectedWidget(t) {
             const e = this.editor.model,
-              n = Um(e.document.selection);
+              n = og(e.document.selection);
             return e.change(e => {
-              if (!n) return e.setSelectionAttribute($m, t ? 'after' : 'before'), !0;
-              if (!(n === (t ? 'after' : 'before'))) return e.removeSelectionAttribute($m), !0;
+              if (!n) return e.setSelectionAttribute(eg, t ? 'after' : 'before'), !0;
+              if (!(n === (t ? 'after' : 'before'))) return e.removeSelectionAttribute(eg), !0;
               return !1;
             });
           }
@@ -19596,9 +20058,9 @@
               i = e.plugins.get('Widget'),
               r = i._getObjectElementNextToSelection(t);
             return (
-              !!Wm(e.editing.mapper.toViewElement(r), r, o) &&
+              !!ng(e.editing.mapper.toViewElement(r), r, o) &&
               (n.change(e => {
-                i._setSelectionOverElement(r), e.setSelectionAttribute($m, t ? 'before' : 'after');
+                i._setSelectionOverElement(r), e.setSelectionAttribute(eg, t ? 'before' : 'after');
               }),
               !0)
             );
@@ -19635,10 +20097,10 @@
                 let a;
                 this._insertParagraphAccordingToFakeCaretPosition()
                   ? (a = !0)
-                  : Wm(r, i, s) && (this._insertParagraph(i, o.isSoft ? 'before' : 'after'), (a = !0)),
+                  : ng(r, i, s) && (this._insertParagraph(i, o.isSoft ? 'before' : 'after'), (a = !0)),
                   a && (o.preventDefault(), n.stop());
               },
-              { context: Vm },
+              { context: $m },
             );
           }
           _enableInsertingParagraphsOnTypingKeystroke() {
@@ -19648,7 +20110,7 @@
               t.document,
               'keydown',
               (t, n) => {
-                e.includes(n.keyCode) || Vp(n) || this._insertParagraphAccordingToFakeCaretPosition();
+                e.includes(n.keyCode) || $p(n) || this._insertParagraphAccordingToFakeCaretPosition();
               },
               { priority: 'high' },
             );
@@ -19663,7 +20125,7 @@
               'delete',
               (e, i) => {
                 if ('atTarget' != e.eventPhase) return;
-                const r = Um(n.document.selection);
+                const r = og(n.document.selection);
                 if (!r) return;
                 const s = i.direction,
                   a = n.document.selection.getSelectedElement(),
@@ -19695,7 +20157,7 @@
                 }
                 i.preventDefault(), e.stop();
               },
-              { context: Vm },
+              { context: $m },
             );
           }
           _enableInsertContentIntegration() {
@@ -19707,7 +20169,7 @@
               'insertContent',
               (t, [o, i]) => {
                 if (i && !i.is('documentSelection')) return;
-                const r = Um(n);
+                const r = og(n);
                 return r
                   ? (t.stop(),
                     e.change(t => {
@@ -19722,11 +20184,24 @@
               { priority: 'high' },
             );
           }
+          _enableDeleteContentIntegration() {
+            const t = this.editor,
+              e = this.editor.model.document.selection;
+            this._listenToIfEnabled(
+              t.model,
+              'deleteContent',
+              (t, [n]) => {
+                if (n && !n.is('documentSelection')) return;
+                og(e) && t.stop();
+              },
+              { priority: 'high' },
+            );
+          }
         }
-        var eg = n(37),
-          ng = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(eg.a, ng), eg.a.locals;
-        function og(t) {
+        var dg = n(37),
+          hg = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(dg.a, hg), dg.a.locals;
+        function ug(t) {
           const e = t.model;
           return (n, o) => {
             const i = o.keyCode == Li.arrowup,
@@ -19746,18 +20221,18 @@
               const o = t.model;
               if (n) {
                 const t = e.isCollapsed ? e.focus : e.getLastPosition(),
-                  n = ig(o, t, 'forward');
+                  n = pg(o, t, 'forward');
                 if (!n) return null;
                 const i = o.createRange(t, n),
-                  r = rg(o.schema, i, 'backward');
+                  r = mg(o.schema, i, 'backward');
                 return r && t.isBefore(r) ? o.createRange(t, r) : null;
               }
               {
                 const t = e.isCollapsed ? e.focus : e.getFirstPosition(),
-                  n = ig(o, t, 'backward');
+                  n = pg(o, t, 'backward');
                 if (!n) return null;
                 const i = o.createRange(n, t),
-                  r = rg(o.schema, i, 'forward');
+                  r = mg(o.schema, i, 'forward');
                 return r && t.isAfter(r) ? o.createRange(r, t) : null;
               }
             })(t, a, c);
@@ -19794,7 +20269,7 @@
               o.stopPropagation());
           };
         }
-        function ig(t, e, n) {
+        function pg(t, e, n) {
           const o = t.schema,
             i = t.createRangeIn(e.root),
             r = 'forward' == n ? 'elementStart' : 'elementEnd';
@@ -19804,17 +20279,17 @@
           }
           return null;
         }
-        function rg(t, e, n) {
+        function mg(t, e, n) {
           const o = 'backward' == n ? e.end : e.start;
           if (t.checkChild(o, '$text')) return o;
           for (const { nextPosition: o } of e.getWalker({ direction: n })) if (t.checkChild(o, '$text')) return o;
         }
-        class sg extends Qt {
+        class gg extends Qt {
           static get pluginName() {
             return 'Widget';
           }
           static get requires() {
-            return [tg, Up];
+            return [lg, tm];
           }
           init() {
             const t = this.editor.editing.view,
@@ -19831,17 +20306,17 @@
                   for (const t of i.getRanges())
                     for (const e of t) {
                       const t = e.item;
-                      Vm(t) &&
-                        !ag(t, s) &&
-                        (o.addClass(Nm, t),
+                      $m(t) &&
+                        !fg(t, s) &&
+                        (o.addClass(jm, t),
                         this._previouslySelected.add(t),
                         (s = t),
-                        t == r && o.setSelection(i.getRanges(), { fake: !0, label: Hm(r) }));
+                        t == r && o.setSelection(i.getRanges(), { fake: !0, label: Ym(r) }));
                     }
                 },
                 { priority: 'low' },
               ),
-              t.addObserver(Nu),
+              t.addObserver(Lu),
               this.listenTo(e, 'mousedown', (...t) => this._onMousedown(...t)),
               this.listenTo(
                 e,
@@ -19849,7 +20324,7 @@
                 (...t) => {
                   this._handleSelectionChangeOnArrowKeyPress(...t);
                 },
-                { context: [Vm, '$text'] },
+                { context: [$m, '$text'] },
               ),
               this.listenTo(
                 e,
@@ -19859,7 +20334,7 @@
                 },
                 { context: '$root' },
               ),
-              this.listenTo(e, 'arrowKey', og(this.editor.editing), { context: '$text' }),
+              this.listenTo(e, 'arrowKey', ug(this.editor.editing), { context: '$text' }),
               this.listenTo(
                 e,
                 'delete',
@@ -19878,7 +20353,7 @@
               (function (t) {
                 for (; t; ) {
                   if (t.is('editableElement') && !t.is('rootElement')) return !0;
-                  if (Vm(t)) return !1;
+                  if ($m(t)) return !1;
                   t = t.parent;
                 }
                 return !1;
@@ -19895,7 +20370,7 @@
               }
               return;
             }
-            if (!Vm(r) && ((r = r.findAncestor(Vm)), !r)) return;
+            if (!$m(r) && ((r = r.findAncestor($m)), !r)) return;
             Mi.isAndroid && e.preventDefault(), i.isFocused || o.focus();
             const s = n.editing.mapper.toModelElement(r);
             this._setSelectionOverElement(s);
@@ -19906,7 +20381,7 @@
               i = o.schema,
               r = o.document.selection,
               s = r.getSelectedElement(),
-              a = $i(n, this.editor.locale.contentLanguageDirection);
+              a = Gi(n, this.editor.locale.contentLanguageDirection);
             if (s && i.isObject(s)) {
               const n = a ? r.getLastPosition() : r.getFirstPosition(),
                 s = i.getNearestSelectionRange(n, a ? 'forward' : 'backward');
@@ -19961,14 +20436,14 @@
             return r && n.isObject(r) ? r : null;
           }
           _clearPreviouslySelectedWidgets(t) {
-            for (const e of this._previouslySelected) t.removeClass(Nm, e);
+            for (const e of this._previouslySelected) t.removeClass(jm, e);
             this._previouslySelected.clear();
           }
         }
-        function ag(t, e) {
+        function fg(t, e) {
           return !!e && Array.from(t.getAncestors()).includes(e);
         }
-        var cg = function (t, e, n) {
+        var kg = function (t, e, n) {
             var o = !0,
               i = !0;
             if ('function' != typeof t) throw new TypeError('Expected a function');
@@ -19977,15 +20452,15 @@
               Ss(t, e, { leading: o, maxWait: e, trailing: i })
             );
           },
-          lg = n(38),
-          dg = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(lg.a, dg), lg.a.locals;
-        class hg extends Qt {
+          bg = n(38),
+          wg = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(bg.a, wg), bg.a.locals;
+        class Ag extends Qt {
           static get pluginName() {
             return 'DragDrop';
           }
           static get requires() {
-            return [Im, sg];
+            return [Nm, gg];
           }
           init() {
             const t = this.editor,
@@ -19993,11 +20468,11 @@
             (this._draggedRange = null),
               (this._draggingUid = ''),
               (this._draggableElement = null),
-              (this._updateDropMarkerThrottled = cg(t => this._updateDropMarker(t), 40)),
-              (this._removeDropMarkerDelayed = mg(() => this._removeDropMarker(), 40)),
-              (this._clearDraggableAttributesDelayed = mg(() => this._clearDraggableAttributes(), 40)),
-              e.addObserver(Bm),
-              e.addObserver(Nu),
+              (this._updateDropMarkerThrottled = kg(t => this._updateDropMarker(t), 40)),
+              (this._removeDropMarkerDelayed = vg(() => this._removeDropMarker(), 40)),
+              (this._clearDraggableAttributesDelayed = vg(() => this._clearDraggableAttributes(), 40)),
+              e.addObserver(Rm),
+              e.addObserver(Lu),
               this._setupDragging(),
               this._setupContentInsertionIntegration(),
               this._setupClipboardInputIntegration(),
@@ -20032,13 +20507,13 @@
               (o, r) => {
                 const a = n.selection;
                 if (r.target && r.target.is('editableElement')) return void r.preventDefault();
-                const c = r.target ? gg(r.target) : null;
+                const c = r.target ? yg(r.target) : null;
                 if (c) {
                   const n = t.editing.mapper.toModelElement(c);
                   this._draggedRange = Pa.fromRange(e.createRangeOn(n));
                 } else if (!i.selection.isCollapsed) {
                   const t = i.selection.getSelectedElement();
-                  (t && Vm(t)) || (this._draggedRange = Pa.fromRange(a.getFirstRange()));
+                  (t && $m(t)) || (this._draggedRange = Pa.fromRange(a.getFirstRange()));
                 }
                 if (!this._draggedRange) return void r.preventDefault();
                 (this._draggingUid = s()),
@@ -20072,7 +20547,7 @@
                 (e, n) => {
                   if (!this.isEnabled) return void (n.dataTransfer.dropEffect = 'none');
                   this._removeDropMarkerDelayed.cancel();
-                  const o = ug(t, n.targetRanges, n.target);
+                  const o = _g(t, n.targetRanges, n.target);
                   this._draggedRange || (n.dataTransfer.dropEffect = 'copy'),
                     Mi.isGecko ||
                       ('copy' == n.dataTransfer.effectAllowed
@@ -20092,12 +20567,12 @@
               'clipboardInput',
               (e, n) => {
                 if ('drop' != n.method) return;
-                const o = ug(t, n.targetRanges, n.target);
+                const o = _g(t, n.targetRanges, n.target);
                 if ((this._removeDropMarker(), !o)) return this._finalizeDragging(!1), void e.stop();
                 this._draggedRange &&
                   this._draggingUid != n.dataTransfer.getData('application/ckeditor5-dragging-uid') &&
                   (this._draggedRange.detach(), (this._draggedRange = null), (this._draggingUid = ''));
-                if ('move' == pg(n.dataTransfer) && this._draggedRange && this._draggedRange.containsRange(o, !0))
+                if ('move' == Cg(n.dataTransfer) && this._draggedRange && this._draggedRange.containsRange(o, !0))
                   return this._finalizeDragging(!1), void e.stop();
                 n.targetRanges = [t.editing.mapper.toViewRange(o)];
               },
@@ -20105,7 +20580,7 @@
             );
           }
           _setupContentInsertionIntegration() {
-            const t = this.editor.plugins.get(Im);
+            const t = this.editor.plugins.get(Nm);
             t.on(
               'contentInsertion',
               (t, e) => {
@@ -20119,7 +20594,7 @@
                 'contentInsertion',
                 (t, e) => {
                   if (!this.isEnabled || 'drop' !== e.method) return;
-                  const n = 'move' == pg(e.dataTransfer),
+                  const n = 'move' == Cg(e.dataTransfer),
                     o = !e.resultRange || !e.resultRange.isCollapsed;
                   this._finalizeDragging(o && n);
                 },
@@ -20133,10 +20608,10 @@
             this.listenTo(n, 'mousedown', (o, i) => {
               if (Mi.isAndroid || !i) return;
               this._clearDraggableAttributesDelayed.cancel();
-              let r = gg(i.target);
+              let r = yg(i.target);
               if (Mi.isBlink && !t.isReadOnly && !r && !n.selection.isCollapsed) {
                 const t = n.selection.getSelectedElement();
-                (t && Vm(t)) || (r = n.selection.editableElement);
+                (t && $m(t)) || (r = n.selection.editableElement);
               }
               r &&
                 (e.change(t => {
@@ -20204,7 +20679,7 @@
                 (this._draggedRange = null));
           }
         }
-        function ug(t, e, n) {
+        function _g(t, e, n) {
           const o = t.model,
             i = t.editing.mapper;
           let r = null;
@@ -20214,10 +20689,10 @@
             (r = (function (t, e) {
               const n = t.model,
                 o = t.editing.mapper;
-              if (Vm(e)) return n.createRangeOn(o.toModelElement(e));
+              if ($m(e)) return n.createRangeOn(o.toModelElement(e));
               if (!e.is('editableElement')) {
-                const t = e.findAncestor(t => Vm(t) || t.is('editableElement'));
-                if (Vm(t)) return n.createRangeOn(o.toModelElement(t));
+                const t = e.findAncestor(t => $m(t) || t.is('editableElement'));
+                if ($m(t)) return n.createRangeOn(o.toModelElement(t));
               }
               return null;
             })(t, n)),
@@ -20261,10 +20736,10 @@
                 return o.getNearestSelectionRange(i, 'forward');
               })(t, a);
         }
-        function pg(t) {
+        function Cg(t) {
           return Mi.isGecko ? t.dropEffect : ['all', 'copyMove'].includes(t.effectAllowed) ? 'move' : 'copy';
         }
-        function mg(t, e) {
+        function vg(t, e) {
           let n;
           function o(...i) {
             o.cancel(), (n = setTimeout(() => t(...i), e));
@@ -20276,19 +20751,19 @@
             o
           );
         }
-        function gg(t) {
+        function yg(t) {
           if (t.is('editableElement')) return null;
-          if (t.hasClass('ck-widget__selection-handle')) return t.findAncestor(Vm);
-          if (Vm(t)) return t;
-          const e = t.findAncestor(t => Vm(t) || t.is('editableElement'));
-          return Vm(e) ? e : null;
+          if (t.hasClass('ck-widget__selection-handle')) return t.findAncestor($m);
+          if ($m(t)) return t;
+          const e = t.findAncestor(t => $m(t) || t.is('editableElement'));
+          return $m(e) ? e : null;
         }
-        class fg extends Qt {
+        class xg extends Qt {
           static get pluginName() {
             return 'PastePlainText';
           }
           static get requires() {
-            return [Im];
+            return [Nm];
           }
           init() {
             const t = this.editor,
@@ -20297,11 +20772,11 @@
               o = n.document,
               i = e.document.selection;
             let r = !1;
-            n.addObserver(Bm),
+            n.addObserver(Rm),
               this.listenTo(o, 'keydown', (t, e) => {
                 r = e.shiftKey;
               }),
-              t.plugins.get(Im).on('contentInsertion', (t, n) => {
+              t.plugins.get(Nm).on('contentInsertion', (t, n) => {
                 (r ||
                   (function (t, e) {
                     if (t.childCount > 1) return !1;
@@ -20320,46 +20795,46 @@
               });
           }
         }
-        class kg extends Qt {
+        class Eg extends Qt {
           static get pluginName() {
             return 'Clipboard';
           }
           static get requires() {
-            return [Im, hg, fg];
+            return [Nm, Ag, xg];
           }
         }
-        class bg extends Zt {
+        class Dg extends Zt {
           execute() {
             const t = this.editor.model,
               e = t.document.selection;
             let n = t.schema.getLimitElement(e);
-            if (e.containsEntireContent(n) || !wg(t.schema, n))
+            if (e.containsEntireContent(n) || !Sg(t.schema, n))
               do {
                 if (((n = n.parent), !n)) return;
-              } while (!wg(t.schema, n));
+              } while (!Sg(t.schema, n));
             t.change(t => {
               t.setSelection(n, 'in');
             });
           }
         }
-        function wg(t, e) {
+        function Sg(t, e) {
           return t.isLimit(e) && (t.checkChild(e, '$text') || t.checkChild(e, 'paragraph'));
         }
-        const _g = Hi('Ctrl+A');
-        class Ag extends Qt {
+        const Bg = Hi('Ctrl+A');
+        class Tg extends Qt {
           static get pluginName() {
             return 'SelectAllEditing';
           }
           init() {
             const t = this.editor,
               e = t.editing.view.document;
-            t.commands.add('selectAll', new bg(t)),
+            t.commands.add('selectAll', new Dg(t)),
               this.listenTo(e, 'keydown', (e, n) => {
-                Ki(n) === _g && (t.execute('selectAll'), n.preventDefault());
+                qi(n) === Bg && (t.execute('selectAll'), n.preventDefault());
               });
           }
         }
-        class Cg extends Qt {
+        class Pg extends Qt {
           static get pluginName() {
             return 'SelectAllUI';
           }
@@ -20367,7 +20842,7 @@
             const t = this.editor;
             t.ui.componentFactory.add('selectAll', e => {
               const n = t.commands.get('selectAll'),
-                o = new Kd(e),
+                o = new jd(e),
                 i = e.t;
               return (
                 o.set({
@@ -20385,15 +20860,15 @@
             });
           }
         }
-        class vg extends Qt {
+        class Ig extends Qt {
           static get requires() {
-            return [Ag, Cg];
+            return [Tg, Pg];
           }
           static get pluginName() {
             return 'SelectAll';
           }
         }
-        class yg extends Zt {
+        class zg extends Zt {
           constructor(t) {
             super(t),
               (this._stack = []),
@@ -20419,8 +20894,8 @@
               s = t.map(t => t.getTransformedByOperations(n)),
               a = s.flat();
             for (const t of s) {
-              const e = t.filter(t => t.root != i.graveyard).filter(t => !Eg(t, a));
-              e.length && (xg(e), r.push(e[0]));
+              const e = t.filter(t => t.root != i.graveyard).filter(t => !Rg(t, a));
+              e.length && (Fg(e), r.push(e[0]));
             }
             r.length &&
               o.change(t => {
@@ -20436,7 +20911,7 @@
             for (const t of i) {
               const i = t.baseVersion + 1,
                 r = Array.from(o.history.getOperations(i)),
-                s = Tu([t.getReversed()], r, {
+                s = Iu([t.getReversed()], r, {
                   useRelations: !0,
                   document: this.editor.model.document,
                   padWithNoOps: !1,
@@ -20446,17 +20921,17 @@
             }
           }
         }
-        function xg(t) {
+        function Fg(t) {
           t.sort((t, e) => (t.start.isBefore(e.start) ? -1 : 1));
           for (let e = 1; e < t.length; e++) {
             const n = t[e - 1].getJoined(t[e], !0);
             n && (e--, t.splice(e, 2, n));
           }
         }
-        function Eg(t, e) {
+        function Rg(t, e) {
           return e.some(e => e !== t && e.containsRange(t, !0));
         }
-        class Dg extends yg {
+        class Og extends zg {
           execute(t = null) {
             const e = t ? this._stack.findIndex(e => e.batch == t) : this._stack.length - 1,
               n = this._stack.splice(e, 1)[0],
@@ -20469,7 +20944,7 @@
               this.refresh();
           }
         }
-        class Sg extends yg {
+        class Mg extends zg {
           execute() {
             const t = this._stack.pop(),
               e = this.editor.model.createBatch('transparent');
@@ -20481,7 +20956,7 @@
               this.refresh();
           }
         }
-        class Bg extends Qt {
+        class Ng extends Qt {
           static get pluginName() {
             return 'UndoEditing';
           }
@@ -20490,8 +20965,8 @@
           }
           init() {
             const t = this.editor;
-            (this._undoCommand = new Dg(t)),
-              (this._redoCommand = new Sg(t)),
+            (this._undoCommand = new Og(t)),
+              (this._redoCommand = new Mg(t)),
               t.commands.add('undo', this._undoCommand),
               t.commands.add('redo', this._redoCommand),
               this.listenTo(
@@ -20520,11 +20995,11 @@
               t.keystrokes.set('CTRL+SHIFT+Z', 'redo');
           }
         }
-        var Tg =
+        var Vg =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m5.042 9.367 2.189 1.837a.75.75 0 0 1-.965 1.149l-3.788-3.18a.747.747 0 0 1-.21-.284.75.75 0 0 1 .17-.945L6.23 4.762a.75.75 0 1 1 .964 1.15L4.863 7.866h8.917A.75.75 0 0 1 14 7.9a4 4 0 1 1-1.477 7.718l.344-1.489a2.5 2.5 0 1 0 1.094-4.73l.008-.032H5.042z"/></svg>',
-          Pg =
+          Lg =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m14.958 9.367-2.189 1.837a.75.75 0 0 0 .965 1.149l3.788-3.18a.747.747 0 0 0 .21-.284.75.75 0 0 0-.17-.945L13.77 4.762a.75.75 0 1 0-.964 1.15l2.331 1.955H6.22A.75.75 0 0 0 6 7.9a4 4 0 1 0 1.477 7.718l-.344-1.489A2.5 2.5 0 1 1 6.039 9.4l-.008-.032h8.927z"/></svg>';
-        class Ig extends Qt {
+        class Kg extends Qt {
           static get pluginName() {
             return 'UndoUI';
           }
@@ -20532,15 +21007,15 @@
             const t = this.editor,
               e = t.locale,
               n = t.t,
-              o = 'ltr' == e.uiLanguageDirection ? Tg : Pg,
-              i = 'ltr' == e.uiLanguageDirection ? Pg : Tg;
+              o = 'ltr' == e.uiLanguageDirection ? Vg : Lg,
+              i = 'ltr' == e.uiLanguageDirection ? Lg : Vg;
             this._addButton('undo', n('Undo'), 'CTRL+Z', o), this._addButton('redo', n('Redo'), 'CTRL+Y', i);
           }
           _addButton(t, e, n, o) {
             const i = this.editor;
             i.ui.componentFactory.add(t, r => {
               const s = i.commands.get(t),
-                a = new Kd(r);
+                a = new jd(r);
               return (
                 a.set({ label: e, icon: o, keystroke: n, tooltip: !0 }),
                 a.bind('isEnabled').to(s, 'isEnabled'),
@@ -20552,15 +21027,15 @@
             });
           }
         }
-        class zg extends Qt {
+        class qg extends Qt {
           static get requires() {
-            return [Bg, Ig];
+            return [Ng, Kg];
           }
           static get pluginName() {
             return 'Undo';
           }
         }
-        class Fg extends Zt {
+        class Hg extends Zt {
           constructor(t, e) {
             super(t), (this.attributeKey = e);
           }
@@ -20585,7 +21060,7 @@
             });
           }
         }
-        class Rg extends co {
+        class jg extends co {
           constructor(t) {
             super(t),
               this.set('isEmpty', !0),
@@ -20600,11 +21075,11 @@
             return !!this.find(e => e.color === t);
           }
         }
-        Yt(Rg, jt);
-        var Og = n(39),
-          Mg = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Og.a, Mg), Og.a.locals;
-        class Ng extends ud {
+        Yt(jg, jt);
+        var $g = n(39),
+          Gg = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()($g.a, Gg), $g.a.locals;
+        class Wg extends md {
           constructor(
             t,
             { colors: e, columns: n, removeButtonLabel: o, documentColorsLabel: i, documentColorsCount: r },
@@ -20617,9 +21092,9 @@
               this.set('selectedColor'),
               (this.removeButtonLabel = o),
               (this.columns = n),
-              (this.documentColors = new Rg()),
+              (this.documentColors = new jg()),
               (this.documentColorsCount = r),
-              (this._focusCycler = new Ud({
+              (this._focusCycler = new Yd({
                 focusables: this.items,
                 focusTracker: this.focusTracker,
                 keystrokeHandler: this.keystrokes,
@@ -20663,8 +21138,8 @@
               this.items.add(this.staticColorsGrid),
               this.documentColorsCount)
             ) {
-              const t = pd.bind(this.documentColors, this.documentColors),
-                e = new Nh(this.locale);
+              const t = gd.bind(this.documentColors, this.documentColors),
+                e = new Lh(this.locale);
               (e.text = this._documentColorsLabel),
                 e.extendTemplate({
                   attributes: { class: ['ck', 'ck-color-grid__label', t.if('isEmpty', 'ck-hidden')] },
@@ -20681,9 +21156,9 @@
             this._focusCycler.focusLast();
           }
           _removeColorButton() {
-            const t = new Kd();
+            const t = new jd();
             return (
-              t.set({ withText: !0, icon: jl, tooltip: !0, label: this.removeButtonLabel }),
+              t.set({ withText: !0, icon: Gl, tooltip: !0, label: this.removeButtonLabel }),
               (t.class = 'ck-color-table__remove-color'),
               t.on('execute', () => {
                 this.fire('execute', { value: null });
@@ -20692,17 +21167,17 @@
             );
           }
           _createStaticColorsGrid() {
-            const t = new Xd(this.locale, { colorDefinitions: this.colorDefinitions, columns: this.columns });
+            const t = new th(this.locale, { colorDefinitions: this.colorDefinitions, columns: this.columns });
             return t.delegate('execute').to(this), t;
           }
           _createDocumentColorsGrid() {
-            const t = pd.bind(this.documentColors, this.documentColors),
-              e = new Xd(this.locale, { columns: this.columns });
+            const t = gd.bind(this.documentColors, this.documentColors),
+              e = new th(this.locale, { columns: this.columns });
             return (
               e.delegate('execute').to(this),
               e.extendTemplate({ attributes: { class: t.if('isEmpty', 'ck-hidden') } }),
               e.items.bindTo(this.documentColors).using(t => {
-                const e = new Wd();
+                const e = new Jd();
                 return (
                   e.set({ color: t.color, hasBorder: t.options && t.options.hasBorder }),
                   t.label && e.set({ label: t.label, tooltip: !0 }),
@@ -20725,11 +21200,11 @@
               : this.documentColors.add({ color: t, label: t, options: { hasBorder: !1 } });
           }
         }
-        const Vg = 'fontSize',
-          Lg = 'fontFamily',
-          qg = 'fontColor',
-          Kg = 'fontBackgroundColor';
-        function Hg(t, e) {
+        const Ug = 'fontSize',
+          Jg = 'fontFamily',
+          Yg = 'fontColor',
+          Qg = 'fontBackgroundColor';
+        function Xg(t, e) {
           const n = { model: { key: t, values: [] }, view: {}, upcastAlso: {} };
           for (const t of e)
             n.model.values.push(t.model),
@@ -20737,24 +21212,24 @@
               t.upcastAlso && (n.upcastAlso[t.model] = t.upcastAlso);
           return n;
         }
-        function jg(t) {
+        function Zg(t) {
           return e => e.getStyle(t).replace(/\s/g, '');
         }
-        function Gg(t) {
+        function tf(t) {
           return (e, { writer: n }) => n.createAttributeElement('span', { style: `${t}:${e}` }, { priority: 7 });
         }
-        class $g extends Fg {
+        class ef extends Hg {
           constructor(t) {
-            super(t, Kg);
+            super(t, Qg);
           }
         }
-        class Wg extends Qt {
+        class nf extends Qt {
           static get pluginName() {
             return 'FontBackgroundColorEditing';
           }
           constructor(t) {
             super(t),
-              t.config.define(Kg, {
+              t.config.define(Qg, {
                 colors: [
                   { color: 'hsl(0, 0%, 0%)', label: 'Black' },
                   { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
@@ -20774,18 +21249,18 @@
                 ],
                 columns: 5,
               }),
-              t.data.addStyleProcessorRules(cp),
+              t.data.addStyleProcessorRules(dp),
               t.conversion.for('upcast').elementToAttribute({
                 view: { name: 'span', styles: { 'background-color': /[\s\S]+/ } },
-                model: { key: Kg, value: jg('background-color') },
+                model: { key: Qg, value: Zg('background-color') },
               }),
-              t.conversion.for('downcast').attributeToElement({ model: Kg, view: Gg('background-color') }),
-              t.commands.add(Kg, new $g(t)),
-              t.model.schema.extend('$text', { allowAttributes: Kg }),
-              t.model.schema.setAttributeProperties(Kg, { isFormatting: !0, copyOnEnter: !0 });
+              t.conversion.for('downcast').attributeToElement({ model: Qg, view: tf('background-color') }),
+              t.commands.add(Qg, new ef(t)),
+              t.model.schema.extend('$text', { allowAttributes: Qg }),
+              t.model.schema.setAttributeProperties(Qg, { isFormatting: !0, copyOnEnter: !0 });
           }
         }
-        class Ug extends Qt {
+        class of extends Qt {
           constructor(t, { commandName: e, icon: n, componentName: o, dropdownLabel: i }) {
             super(t),
               (this.commandName = e),
@@ -20827,12 +21302,12 @@
                 e,
                 t.config
                   .get(this.componentName)
-                  .colors.map($d)
+                  .colors.map(Ud)
                   .filter(t => !!t),
               ),
               r = t.config.get(`${this.componentName}.documentColors`);
             t.ui.componentFactory.add(this.componentName, e => {
-              const s = Th(e);
+              const s = Ih(e);
               return (
                 (this.colorTableView = (function ({
                   dropdownView: t,
@@ -20843,7 +21318,7 @@
                   documentColorsCount: r,
                 }) {
                   const s = t.locale,
-                    a = new Ng(s, {
+                    a = new Wg(s, {
                       colors: e,
                       columns: n,
                       removeButtonLabel: o,
@@ -20877,12 +21352,12 @@
             });
           }
         }
-        class Jg extends Ug {
+        class rf extends of {
           constructor(t) {
             const e = t.locale.t;
             super(t, {
-              commandName: Kg,
-              componentName: Kg,
+              commandName: Qg,
+              componentName: Qg,
               icon: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8.38 9.262H7.62L10 5.506l2.38 5.756zm.532 1.285L14.34 16h1.426L10.804 4H9.196L4.234 16H5.66l1.428-3.453h5.824z"/></svg>',
               dropdownLabel: e('Font Background Color'),
             });
@@ -20891,18 +21366,18 @@
             return 'FontBackgroundColorUI';
           }
         }
-        class Yg extends Fg {
+        class sf extends Hg {
           constructor(t) {
-            super(t, qg);
+            super(t, Yg);
           }
         }
-        class Qg extends Qt {
+        class af extends Qt {
           static get pluginName() {
             return 'FontColorEditing';
           }
           constructor(t) {
             super(t),
-              t.config.define(qg, {
+              t.config.define(Yg, {
                 colors: [
                   { color: 'hsl(0, 0%, 0%)', label: 'Black' },
                   { color: 'hsl(0, 0%, 30%)', label: 'Dim grey' },
@@ -20924,24 +21399,24 @@
               }),
               t.conversion.for('upcast').elementToAttribute({
                 view: { name: 'span', styles: { color: /[\s\S]+/ } },
-                model: { key: qg, value: jg('color') },
+                model: { key: Yg, value: Zg('color') },
               }),
               t.conversion.for('upcast').elementToAttribute({
                 view: { name: 'font', attributes: { color: /^#?\w+$/ } },
-                model: { key: qg, value: t => t.getAttribute('color') },
+                model: { key: Yg, value: t => t.getAttribute('color') },
               }),
-              t.conversion.for('downcast').attributeToElement({ model: qg, view: Gg('color') }),
-              t.commands.add(qg, new Yg(t)),
-              t.model.schema.extend('$text', { allowAttributes: qg }),
-              t.model.schema.setAttributeProperties(qg, { isFormatting: !0, copyOnEnter: !0 });
+              t.conversion.for('downcast').attributeToElement({ model: Yg, view: tf('color') }),
+              t.commands.add(Yg, new sf(t)),
+              t.model.schema.extend('$text', { allowAttributes: Yg }),
+              t.model.schema.setAttributeProperties(Yg, { isFormatting: !0, copyOnEnter: !0 });
           }
         }
-        class Xg extends Ug {
+        class cf extends of {
           constructor(t) {
             const e = t.locale.t;
             super(t, {
-              commandName: qg,
-              componentName: qg,
+              commandName: Yg,
+              componentName: Yg,
               icon: '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M12.4 10.3 10 4.5l-2.4 5.8h4.8zm.5 1.2H7.1L5.7 15H4.2l5-12h1.6l5 12h-1.5L13 11.5zm3.1 7H4a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2z"/></svg>',
               dropdownLabel: e('Font Color'),
             });
@@ -20950,15 +21425,15 @@
             return 'FontColorUI';
           }
         }
-        class Zg extends Fg {
+        class lf extends Hg {
           constructor(t) {
-            super(t, Lg);
+            super(t, Jg);
           }
         }
-        function tf(t) {
-          return t.map(ef).filter(t => !!t);
+        function df(t) {
+          return t.map(hf).filter(t => !!t);
         }
-        function ef(t) {
+        function hf(t) {
           return 'object' == typeof t
             ? t
             : 'default' === t
@@ -20967,21 +21442,21 @@
             ? (function (t) {
                 const e = t.replace(/"|'/g, '').split(','),
                   n = e[0],
-                  o = e.map(nf).join(', ');
+                  o = e.map(uf).join(', ');
                 return { title: n, model: o, view: { name: 'span', styles: { 'font-family': o }, priority: 7 } };
               })(t)
             : void 0;
         }
-        function nf(t) {
+        function uf(t) {
           return (t = t.trim()).indexOf(' ') > 0 && (t = `'${t}'`), t;
         }
-        class of extends Qt {
+        class pf extends Qt {
           static get pluginName() {
             return 'FontFamilyEditing';
           }
           constructor(t) {
             super(t),
-              t.config.define(Lg, {
+              t.config.define(Jg, {
                 options: [
                   'default',
                   'Arial, Helvetica, sans-serif',
@@ -20998,35 +21473,35 @@
           }
           init() {
             const t = this.editor;
-            t.model.schema.extend('$text', { allowAttributes: Lg }),
-              t.model.schema.setAttributeProperties(Lg, { isFormatting: !0, copyOnEnter: !0 });
-            const e = tf(t.config.get('fontFamily.options')).filter(t => t.model),
-              n = Hg(Lg, e);
+            t.model.schema.extend('$text', { allowAttributes: Jg }),
+              t.model.schema.setAttributeProperties(Jg, { isFormatting: !0, copyOnEnter: !0 });
+            const e = df(t.config.get('fontFamily.options')).filter(t => t.model),
+              n = Xg(Jg, e);
             t.config.get('fontFamily.supportAllValues')
               ? (this._prepareAnyValueConverters(), this._prepareCompatibilityConverter())
               : t.conversion.attributeToElement(n),
-              t.commands.add(Lg, new Zg(t));
+              t.commands.add(Jg, new lf(t));
           }
           _prepareAnyValueConverters() {
             const t = this.editor;
             t.conversion.for('downcast').attributeToElement({
-              model: Lg,
+              model: Jg,
               view: (t, { writer: e }) =>
                 e.createAttributeElement('span', { style: 'font-family:' + t }, { priority: 7 }),
             }),
               t.conversion.for('upcast').elementToAttribute({
-                model: { key: Lg, value: t => t.getStyle('font-family') },
+                model: { key: Jg, value: t => t.getStyle('font-family') },
                 view: { name: 'span', styles: { 'font-family': /.*/ } },
               });
           }
           _prepareCompatibilityConverter() {
             this.editor.conversion.for('upcast').elementToAttribute({
               view: { name: 'font', attributes: { face: /.*/ } },
-              model: { key: Lg, value: t => t.getAttribute('face') },
+              model: { key: Jg, value: t => t.getAttribute('face') },
             });
           }
         }
-        class rf extends Qt {
+        class mf extends Qt {
           static get pluginName() {
             return 'FontFamilyUI';
           }
@@ -21034,18 +21509,18 @@
             const t = this.editor,
               e = t.t,
               n = this._getLocalizedOptions(),
-              o = t.commands.get(Lg);
-            t.ui.componentFactory.add(Lg, i => {
-              const r = Th(i);
+              o = t.commands.get(Jg);
+            t.ui.componentFactory.add(Jg, i => {
+              const r = Ih(i);
               return (
-                Ih(
+                Fh(
                   r,
                   (function (t, e) {
                     const n = new co();
                     for (const o of t) {
                       const t = {
                         type: 'button',
-                        model: new Qh({ commandName: Lg, commandParam: o.model, label: o.title, withText: !0 }),
+                        model: new Zh({ commandName: Jg, commandParam: o.model, label: o.title, withText: !0 }),
                       };
                       t.model
                         .bind('isOn')
@@ -21082,24 +21557,24 @@
           _getLocalizedOptions() {
             const t = this.editor,
               e = t.t;
-            return tf(t.config.get(Lg).options).map(t => ('Default' === t.title && (t.title = e('Default')), t));
+            return df(t.config.get(Jg).options).map(t => ('Default' === t.title && (t.title = e('Default')), t));
           }
         }
-        class sf extends Fg {
+        class gf extends Hg {
           constructor(t) {
-            super(t, Vg);
+            super(t, Ug);
           }
         }
-        function af(t) {
+        function ff(t) {
           return t
             .map(t =>
               (function (t) {
-                if (((e = t), 'object' == typeof e && e.title && e.model && e.view)) return lf(t);
+                if (((e = t), 'object' == typeof e && e.title && e.model && e.view)) return bf(t);
                 var e;
                 const n = (function (t) {
-                  return cf[t] || cf[t.model];
+                  return kf[t] || kf[t.model];
                 })(t);
-                if (n) return lf(n);
+                if (n) return bf(n);
                 if ('default' === t) return { model: void 0, title: 'Default' };
                 if (
                   (function (t) {
@@ -21115,13 +21590,13 @@
                 return (function (t) {
                   ('number' != typeof t && 'string' != typeof t) ||
                     (t = { title: String(t), model: `${parseFloat(t)}px` });
-                  return (t.view = { name: 'span', styles: { 'font-size': t.model } }), lf(t);
+                  return (t.view = { name: 'span', styles: { 'font-size': t.model } }), bf(t);
                 })(t);
               })(t),
             )
             .filter(t => !!t);
         }
-        const cf = {
+        const kf = {
           get tiny() {
             return { title: 'Tiny', model: 'tiny', view: { name: 'span', classes: 'text-tiny', priority: 7 } };
           },
@@ -21135,45 +21610,45 @@
             return { title: 'Huge', model: 'huge', view: { name: 'span', classes: 'text-huge', priority: 7 } };
           },
         };
-        function lf(t) {
+        function bf(t) {
           return t.view.priority || (t.view.priority = 7), t;
         }
-        const df = ['x-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large', 'xxx-large'];
-        class hf extends Qt {
+        const wf = ['x-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large', 'xxx-large'];
+        class Af extends Qt {
           static get pluginName() {
             return 'FontSizeEditing';
           }
           constructor(t) {
             super(t),
-              t.config.define(Vg, { options: ['tiny', 'small', 'default', 'big', 'huge'], supportAllValues: !1 });
+              t.config.define(Ug, { options: ['tiny', 'small', 'default', 'big', 'huge'], supportAllValues: !1 });
           }
           init() {
             const t = this.editor;
-            t.model.schema.extend('$text', { allowAttributes: Vg }),
-              t.model.schema.setAttributeProperties(Vg, { isFormatting: !0, copyOnEnter: !0 });
+            t.model.schema.extend('$text', { allowAttributes: Ug }),
+              t.model.schema.setAttributeProperties(Ug, { isFormatting: !0, copyOnEnter: !0 });
             const e = t.config.get('fontSize.supportAllValues'),
-              n = af(this.editor.config.get('fontSize.options')).filter(t => t.model),
-              o = Hg(Vg, n);
+              n = ff(this.editor.config.get('fontSize.options')).filter(t => t.model),
+              o = Xg(Ug, n);
             e
               ? (this._prepareAnyValueConverters(o), this._prepareCompatibilityConverter())
               : t.conversion.attributeToElement(o),
-              t.commands.add(Vg, new sf(t));
+              t.commands.add(Ug, new gf(t));
           }
           _prepareAnyValueConverters(t) {
             const e = this.editor,
               n = t.model.values.filter(t => {
-                return !Uu(String(t)) && ((e = String(t)), !Ju.test(e));
+                return !Yu(String(t)) && ((e = String(t)), !Qu.test(e));
                 var e;
               });
             if (n.length) throw new c.a('font-size-invalid-use-of-named-presets', null, { presets: n });
             e.conversion.for('downcast').attributeToElement({
-              model: Vg,
+              model: Ug,
               view: (t, { writer: e }) => {
                 if (t) return e.createAttributeElement('span', { style: 'font-size:' + t }, { priority: 7 });
               },
             }),
               e.conversion.for('upcast').elementToAttribute({
-                model: { key: Vg, value: t => t.getStyle('font-size') },
+                model: { key: Ug, value: t => t.getStyle('font-size') },
                 view: { name: 'span', styles: { 'font-size': /.*/ } },
               });
           }
@@ -21181,24 +21656,24 @@
             this.editor.conversion.for('upcast').elementToAttribute({
               view: { name: 'font', attributes: { size: /^[+-]?\d{1,3}$/ } },
               model: {
-                key: Vg,
+                key: Ug,
                 value: t => {
                   const e = t.getAttribute('size'),
                     n = '-' === e[0] || '+' === e[0];
                   let o = parseInt(e, 10);
                   n && (o = 3 + o);
-                  const i = df.length - 1,
+                  const i = wf.length - 1,
                     r = Math.min(Math.max(o, 0), i);
-                  return df[r];
+                  return wf[r];
                 },
               },
             });
           }
         }
-        var uf = n(40),
-          pf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(uf.a, pf), uf.a.locals;
-        class mf extends Qt {
+        var _f = n(40),
+          Cf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(_f.a, Cf), _f.a.locals;
+        class vf extends Qt {
           static get pluginName() {
             return 'FontSizeUI';
           }
@@ -21206,19 +21681,19 @@
             const t = this.editor,
               e = t.t,
               n = this._getLocalizedOptions(),
-              o = t.commands.get(Vg);
-            t.ui.componentFactory.add(Vg, i => {
-              const r = Th(i);
+              o = t.commands.get(Ug);
+            t.ui.componentFactory.add(Ug, i => {
+              const r = Ih(i);
               return (
-                Ih(
+                Fh(
                   r,
                   (function (t, e) {
                     const n = new co();
                     for (const o of t) {
                       const t = {
                         type: 'button',
-                        model: new Qh({
-                          commandName: Vg,
+                        model: new Zh({
+                          commandName: Ug,
                           commandParam: o.model,
                           label: o.title,
                           class: 'ck-fontsize-option',
@@ -21251,13 +21726,84 @@
             const t = this.editor,
               e = t.t,
               n = { Default: e('Default'), Tiny: e('Tiny'), Small: e('Small'), Big: e('Big'), Huge: e('Huge') };
-            return af(t.config.get(Vg).options).map(t => {
+            return ff(t.config.get(Ug).options).map(t => {
               const e = n[t.title];
               return e && e != t.title && (t = Object.assign({}, t, { title: e })), t;
             });
           }
         }
-        class gf {
+        class yf extends Zt {
+          refresh() {
+            const t = this.editor.model,
+              e = Gs(t.document.selection.getSelectedBlocks());
+            (this.value = !!e && e.is('element', 'paragraph')), (this.isEnabled = !!e && xf(e, t.schema));
+          }
+          execute(t = {}) {
+            const e = this.editor.model,
+              n = e.document;
+            e.change(o => {
+              const i = (t.selection || n.selection).getSelectedBlocks();
+              for (const t of i) !t.is('element', 'paragraph') && xf(t, e.schema) && o.rename(t, 'paragraph');
+            });
+          }
+        }
+        function xf(t, e) {
+          return e.checkChild(t.parent, 'paragraph') && !e.isObject(t);
+        }
+        class Ef extends Zt {
+          execute(t) {
+            const e = this.editor.model;
+            let n = t.position;
+            e.change(t => {
+              const o = t.createElement('paragraph');
+              if (!e.schema.checkChild(n.parent, o)) {
+                const i = e.schema.findAllowedParent(n, o);
+                if (!i) return;
+                n = t.split(n, i).position;
+              }
+              e.insertContent(o, n), t.setSelection(o, 'in');
+            });
+          }
+        }
+        class Df extends Qt {
+          static get pluginName() {
+            return 'Paragraph';
+          }
+          init() {
+            const t = this.editor,
+              e = t.model;
+            t.commands.add('paragraph', new yf(t)),
+              t.commands.add('insertParagraph', new Ef(t)),
+              e.schema.register('paragraph', { inheritAllFrom: '$block' }),
+              t.conversion.elementToElement({ model: 'paragraph', view: 'p' }),
+              t.conversion.for('upcast').elementToElement({
+                model: (t, { writer: e }) =>
+                  Df.paragraphLikeElements.has(t.name) ? (t.isEmpty ? null : e.createElement('paragraph')) : null,
+                view: /.+/,
+                converterPriority: 'low',
+              });
+          }
+        }
+        Df.paragraphLikeElements = new Set([
+          'blockquote',
+          'dd',
+          'div',
+          'dt',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'li',
+          'p',
+          'td',
+          'th',
+        ]);
+        var Sf = n(41),
+          Bf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Sf.a, Bf), Sf.a.locals;
+        class Tf {
           constructor(t) {
             this.set('activeHandlePosition', null),
               this.set('proposedWidthPercents', null),
@@ -21272,7 +21818,7 @@
             const o = new Vs(e);
             (this.activeHandlePosition = (function (t) {
               const e = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
-              for (const n of e) if (t.classList.contains(ff(n))) return n;
+              for (const n of e) if (t.classList.contains(Pf(n))) return n;
             })(t)),
               (this._referenceCoordinates = (function (t, e) {
                 const n = new Vs(t),
@@ -21307,11 +21853,11 @@
               (this.proposedHandleHostHeight = t.handleHostHeight);
           }
         }
-        function ff(t) {
+        function Pf(t) {
           return `ck-widget__resizer__handle-${t}`;
         }
-        Yt(gf, jt);
-        class kf {
+        Yt(Tf, jt);
+        class If {
           constructor(t) {
             (this._options = t),
               (this._domResizerWrapper = null),
@@ -21355,7 +21901,7 @@
             });
           }
           begin(t) {
-            (this.state = new gf(this._options)),
+            (this.state = new Tf(this._options)),
               this._sizeUI.bindToState(this._options, this.state),
               (this._initialViewWidth = this._options.viewElement.getStyle('width')),
               this.state.begin(t, this._getHandleHost(), this._getResizeHost());
@@ -21456,7 +22002,7 @@
             const e = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
             for (const o of e)
               t.appendChild(
-                new pd({
+                new gd({
                   tag: 'div',
                   attributes: { class: 'ck-widget__resizer__handle ' + ((n = o), `ck-widget__resizer__handle-${n}`) },
                 }).render(),
@@ -21464,12 +22010,12 @@
             var n;
           }
           _appendSizeUI(t) {
-            const e = new bf();
+            const e = new zf();
             e.render(), (this._sizeUI = e), t.appendChild(e.element);
           }
         }
-        Yt(kf, jt);
-        class bf extends ud {
+        Yt(If, jt);
+        class zf extends md {
           constructor() {
             super();
             const t = this.bindTemplate;
@@ -21499,10 +22045,10 @@
             this.unbind(), (this.isVisible = !1);
           }
         }
-        var wf = n(41),
-          _f = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(wf.a, _f), wf.a.locals;
-        class Af extends Qt {
+        var Ff = n(42),
+          Rf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Ff.a, Rf), Ff.a.locals;
+        class Of extends Qt {
           static get pluginName() {
             return 'WidgetResize';
           }
@@ -21510,32 +22056,33 @@
             this.set('visibleResizer', null), this.set('_activeResizer', null), (this._resizers = new Map());
             const t = Tr.window.document;
             this.editor.model.schema.setAttributeProperties('width', { isFormatting: !0 }),
-              this.editor.editing.view.addObserver(Nu),
-              (this._observer = Object.create(qr)),
+              this.editor.editing.view.addObserver(Lu),
+              (this._observer = Object.create(Kr)),
               this.listenTo(this.editor.editing.view.document, 'mousedown', this._mouseDownListener.bind(this), {
                 priority: 'high',
               }),
               this._observer.listenTo(t, 'mousemove', this._mouseMoveListener.bind(this)),
               this._observer.listenTo(t, 'mouseup', this._mouseUpListener.bind(this));
             const e = () => {
-                this.visibleResizer && this.visibleResizer.redraw();
-              },
-              n = cg(e, 200);
-            this.on('change:visibleResizer', e),
-              this.editor.ui.on('update', n),
-              this._observer.listenTo(Tr.window, 'resize', n);
-            const o = this.editor.editing.view.document.selection;
-            o.on('change', () => {
-              const t = o.getSelectedElement();
+              this.visibleResizer && this.visibleResizer.redraw();
+            };
+            (this._redrawFocusedResizerThrottled = kg(e, 200)),
+              this.on('change:visibleResizer', e),
+              this.editor.ui.on('update', this._redrawFocusedResizerThrottled),
+              this._observer.listenTo(Tr.window, 'resize', this._redrawFocusedResizerThrottled);
+            const n = this.editor.editing.view.document.selection;
+            n.on('change', () => {
+              const t = n.getSelectedElement();
               this.visibleResizer = this.getResizerByViewElement(t) || null;
             });
           }
           destroy() {
             this._observer.stopListening();
             for (const t of this._resizers.values()) t.destroy();
+            this._redrawFocusedResizerThrottled.cancel();
           }
           attachTo(t) {
-            const e = new kf(t),
+            const e = new If(t),
               n = this.editor.plugins;
             if ((e.attach(), n.has('WidgetToolbarRepository'))) {
               const t = n.get('WidgetToolbarRepository');
@@ -21573,7 +22120,7 @@
           }
           _mouseDownListener(t, e) {
             const n = e.domTarget;
-            kf.isResizeHandle(n) &&
+            If.isResizeHandle(n) &&
               ((this._activeResizer = this._getResizerByHandle(n)),
               this._activeResizer && (this._activeResizer.begin(n), t.stop(), e.preventDefault()));
           }
@@ -21584,8 +22131,8 @@
             this._activeResizer && (this._activeResizer.commit(), (this._activeResizer = null));
           }
         }
-        Yt(Af, jt);
-        class Cf extends jr {
+        Yt(Of, jt);
+        class Mf extends jr {
           observe(t) {
             this.listenTo(
               t,
@@ -21601,70 +22148,67 @@
             this.isEnabled && (this.document.fire('layoutChanged'), this.document.fire('imageLoaded', t));
           }
         }
-        function vf(t) {
-          return !!t.getCustomProperty('image') && Vm(t);
+        function Nf(t) {
+          return !!t.getCustomProperty('image') && $m(t);
         }
-        function yf(t) {
+        function Vf(t) {
           const e = t.getSelectedElement();
-          return e && vf(e) ? e : null;
+          return e && Nf(e) ? e : null;
         }
-        function xf(t) {
+        function Lf(t) {
           return !!t && t.is('element', 'image');
         }
-        function Ef(t, e = {}, n = null) {
+        function Kf(t, e = {}, n = null) {
           t.change(o => {
             const i = o.createElement('image', e),
-              r = n || jm(t.document.selection, t);
+              r = n || Xm(t.document.selection, t);
             t.insertContent(i, r), i.parent && o.setSelection(i, 'on');
           });
         }
-        function Df(t) {
+        function qf(t) {
           const e = t.schema,
             n = t.document.selection;
           return (
             (function (t, e, n) {
               const o = (function (t, e) {
-                const n = jm(t, e).parent;
+                const n = Xm(t, e).parent;
                 if (n.isEmpty && !n.is('element', '$root')) return n.parent;
                 return n;
               })(t, n);
               return e.checkChild(o, 'image');
             })(n, e, t) &&
-            !(function (t, e) {
-              const n = t.getSelectedElement();
-              return !!n && e.isObject(n);
-            })(n, e) &&
+            !Zm(n, e) &&
             (function (t) {
               return [...t.focus.getAncestors()].every(t => !t.is('element', 'image'));
             })(n)
           );
         }
-        function Sf(t) {
+        function Hf(t) {
           const e = [];
           for (const n of t.getChildren()) e.push(n), n.is('element') && e.push(...n.getChildren());
           return e.find(t => t.is('element', 'img'));
         }
-        function Bf(t) {
+        function jf(t) {
           return n => {
             n.on(`attribute:${t}:image`, e);
           };
           function e(t, e, n) {
             if (!n.consumable.consume(e.item, t.name)) return;
             const o = n.writer,
-              i = Sf(n.mapper.toViewElement(e.item));
+              i = Hf(n.mapper.toViewElement(e.item));
             o.setAttribute(e.attributeKey, e.attributeNewValue || '', i);
           }
         }
-        class Tf extends Zt {
+        class $f extends Zt {
           refresh() {
-            this.isEnabled = Df(this.editor.model);
+            this.isEnabled = qf(this.editor.model);
           }
           execute(t) {
             const e = this.editor.model;
-            for (const n of ho(t.source)) Ef(e, { src: n });
+            for (const n of ho(t.source)) Kf(e, { src: n });
           }
         }
-        class Pf extends Qt {
+        class Gf extends Qt {
           static get pluginName() {
             return 'ImageEditing';
           }
@@ -21673,33 +22217,33 @@
               e = t.model.schema,
               n = t.t,
               o = t.conversion;
-            t.editing.view.addObserver(Cf),
+            t.editing.view.addObserver(Mf),
               e.register('image', {
                 isObject: !0,
                 isBlock: !0,
                 allowWhere: '$block',
                 allowAttributes: ['alt', 'src', 'srcset'],
               }),
-              o.for('dataDowncast').elementToElement({ model: 'image', view: (t, { writer: e }) => If(e) }),
+              o.for('dataDowncast').elementToElement({ model: 'image', view: (t, { writer: e }) => Wf(e) }),
               o.for('editingDowncast').elementToElement({
                 model: 'image',
                 view: (t, { writer: e }) =>
                   (function (t, e, n) {
                     return (
                       e.setCustomProperty('image', !0, t),
-                      Lm(t, e, {
+                      Gm(t, e, {
                         label: function () {
-                          const e = Sf(t).getAttribute('alt');
+                          const e = Hf(t).getAttribute('alt');
                           return e ? `${e} ${n}` : n;
                         },
                       })
                     );
-                  })(If(e), e, n('image widget')),
+                  })(Wf(e), e, n('image widget')),
               }),
               o
                 .for('downcast')
-                .add(Bf('src'))
-                .add(Bf('alt'))
+                .add(jf('src'))
+                .add(jf('alt'))
                 .add(
                   (function () {
                     return e => {
@@ -21708,7 +22252,7 @@
                     function t(t, e, n) {
                       if (!n.consumable.consume(e.item, t.name)) return;
                       const o = n.writer,
-                        i = Sf(n.mapper.toViewElement(e.item));
+                        i = Hf(n.mapper.toViewElement(e.item));
                       if (null === e.attributeNewValue) {
                         const t = e.attributeOldValue;
                         t.data &&
@@ -21749,27 +22293,27 @@
                     };
                     function t(t, e, n) {
                       if (!n.consumable.test(e.viewItem, { name: !0, classes: 'image' })) return;
-                      const o = Sf(e.viewItem);
+                      const o = Hf(e.viewItem);
                       if (!o || !o.hasAttribute('src') || !n.consumable.test(o, { name: !0 })) return;
-                      const i = $s(n.convertItem(o, e.modelCursor).modelRange.getItems());
+                      const i = Gs(n.convertItem(o, e.modelCursor).modelRange.getItems());
                       i && (n.convertChildren(e.viewItem, i), n.updateConversionResult(i, e));
                     }
                   })(),
                 );
-            const i = new Tf(t);
+            const i = new $f(t);
             t.commands.add('insertImage', i), t.commands.add('imageInsert', i);
           }
         }
-        function If(t) {
+        function Wf(t) {
           const e = t.createEmptyElement('img'),
             n = t.createContainerElement('figure', { class: 'image' });
           return t.insert(t.createPositionAt(n, 0), e), n;
         }
-        class zf extends Zt {
+        class Uf extends Zt {
           refresh() {
             const t = this.editor.model.document.selection.getSelectedElement();
-            (this.isEnabled = xf(t)),
-              xf(t) && t.hasAttribute('alt') ? (this.value = t.getAttribute('alt')) : (this.value = !1);
+            (this.isEnabled = Lf(t)),
+              Lf(t) && t.hasAttribute('alt') ? (this.value = t.getAttribute('alt')) : (this.value = !1);
           }
           execute(t) {
             const e = this.editor.model,
@@ -21779,31 +22323,31 @@
             });
           }
         }
-        class Ff extends Qt {
+        class Jf extends Qt {
           static get pluginName() {
             return 'ImageTextAlternativeEditing';
           }
           init() {
-            this.editor.commands.add('imageTextAlternative', new zf(this.editor));
+            this.editor.commands.add('imageTextAlternative', new Uf(this.editor));
           }
         }
-        var Rf = n(42),
-          Of = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
-          Mf = (ld()(Rf.a, Of), Rf.a.locals, n(43)),
-          Nf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Mf.a, Nf), Mf.a.locals;
-        class Vf extends ud {
+        var Yf = n(43),
+          Qf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
+          Xf = (hd()(Yf.a, Qf), Yf.a.locals, n(44)),
+          Zf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Xf.a, Zf), Xf.a.locals;
+        class tk extends md {
           constructor(t) {
             super(t);
             const e = this.locale.t;
             (this.focusTracker = new Ws()),
               (this.keystrokes = new Us()),
               (this.labeledInput = this._createLabeledInputView()),
-              (this.saveButtonView = this._createButton(e('Save'), Hl, 'ck-button-save')),
+              (this.saveButtonView = this._createButton(e('Save'), $l, 'ck-button-save')),
               (this.saveButtonView.type = 'submit'),
-              (this.cancelButtonView = this._createButton(e('Cancel'), Kl, 'ck-button-cancel', 'cancel')),
-              (this._focusables = new ad()),
-              (this._focusCycler = new Ud({
+              (this.cancelButtonView = this._createButton(e('Cancel'), jl, 'ck-button-cancel', 'cancel')),
+              (this._focusables = new ld()),
+              (this._focusCycler = new Yd({
                 focusables: this._focusables,
                 focusTracker: this.focusTracker,
                 keystrokeHandler: this.keystrokes,
@@ -21814,18 +22358,18 @@
                 attributes: { class: ['ck', 'ck-text-alternative-form', 'ck-responsive-form'], tabindex: '-1' },
                 children: [this.labeledInput, this.saveButtonView, this.cancelButtonView],
               }),
-              rd(this);
+              ad(this);
           }
           render() {
             super.render(),
               this.keystrokes.listenTo(this.element),
-              sd({ view: this }),
+              cd({ view: this }),
               [this.labeledInput, this.saveButtonView, this.cancelButtonView].forEach(t => {
                 this._focusables.add(t), this.focusTracker.add(t.element);
               });
           }
           _createButton(t, e, n, o) {
-            const i = new Kd(this.locale);
+            const i = new jd(this.locale);
             return (
               i.set({ label: t, icon: e, tooltip: !0 }),
               i.extendTemplate({ attributes: { class: n } }),
@@ -21835,13 +22379,13 @@
           }
           _createLabeledInputView() {
             const t = this.locale.t,
-              e = new Uh(this.locale, Jh);
+              e = new Yh(this.locale, Qh);
             return (e.label = t('Text alternative')), e;
           }
         }
-        function Lf(t) {
+        function ek(t) {
           const e = t.editing.view,
-            n = nu.defaultPositions;
+            n = iu.defaultPositions;
           return {
             target: e.domConverter.viewToDom(e.document.selection.getSelectedElement()),
             positions: [
@@ -21854,9 +22398,9 @@
             ],
           };
         }
-        class qf extends Qt {
+        class nk extends Qt {
           static get requires() {
-            return [hu];
+            return [pu];
           }
           static get pluginName() {
             return 'ImageTextAlternativeUI';
@@ -21872,9 +22416,9 @@
               e = t.t;
             t.ui.componentFactory.add('imageTextAlternative', n => {
               const o = t.commands.get('imageTextAlternative'),
-                i = new Kd(n);
+                i = new jd(n);
               return (
-                i.set({ label: e('Change image text alternative'), icon: Gl, tooltip: !0 }),
+                i.set({ label: e('Change image text alternative'), icon: Wl, tooltip: !0 }),
                 i.bind('isEnabled').to(o, 'isEnabled'),
                 this.listenTo(i, 'execute', () => {
                   this._showForm();
@@ -21887,7 +22431,7 @@
             const t = this.editor,
               e = t.editing.view.document;
             (this._balloon = this.editor.plugins.get('ContextualBalloon')),
-              (this._form = new Vf(t.locale)),
+              (this._form = new tk(t.locale)),
               this._form.render(),
               this.listenTo(this._form, 'submit', () => {
                 t.execute('imageTextAlternative', { newValue: this._form.labeledInput.fieldView.element.value }),
@@ -21900,18 +22444,18 @@
                 this._hideForm(!0), e();
               }),
               this.listenTo(t.ui, 'update', () => {
-                yf(e.selection)
+                Vf(e.selection)
                   ? this._isVisible &&
                     (function (t) {
                       const e = t.plugins.get('ContextualBalloon');
-                      if (yf(t.editing.view.document.selection)) {
-                        const n = Lf(t);
+                      if (Vf(t.editing.view.document.selection)) {
+                        const n = ek(t);
                         e.updatePosition(n);
                       }
                     })(t)
                   : this._hideForm(!0);
               }),
-              id({
+              sd({
                 emitter: this._form,
                 activator: () => this._isVisible,
                 contextElements: [this._balloon.view.element],
@@ -21924,7 +22468,7 @@
               e = t.commands.get('imageTextAlternative'),
               n = this._form.labeledInput;
             this._form.disableCssTransitions(),
-              this._isInBalloon || this._balloon.add({ view: this._form, position: Lf(t) }),
+              this._isInBalloon || this._balloon.add({ view: this._form, position: ek(t) }),
               (n.fieldView.value = n.fieldView.element.value = e.value || ''),
               this._form.labeledInput.fieldView.select(),
               this._form.enableCssTransitions();
@@ -21942,212 +22486,366 @@
             return this._balloon.hasView(this._form);
           }
         }
-        class Kf extends Qt {
+        class ok extends Qt {
           static get requires() {
-            return [Ff, qf];
+            return [Jf, nk];
           }
           static get pluginName() {
             return 'ImageTextAlternative';
           }
         }
-        var Hf = n(44),
-          jf = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Hf.a, jf), Hf.a.locals;
-        class Gf {
-          constructor() {
-            const t = new window.FileReader();
-            (this._reader = t),
-              (this._data = void 0),
-              this.set('loaded', 0),
-              (t.onprogress = t => {
-                this.loaded = t.loaded;
-              });
-          }
-          get error() {
-            return this._reader.error;
-          }
-          get data() {
-            return this._data;
-          }
-          read(t) {
-            const e = this._reader;
-            return (
-              (this.total = t.size),
-              new Promise((n, o) => {
-                (e.onload = () => {
-                  const t = e.result;
-                  (this._data = t), n(t);
-                }),
-                  (e.onerror = () => {
-                    o('error');
-                  }),
-                  (e.onabort = () => {
-                    o('aborted');
-                  }),
-                  this._reader.readAsDataURL(t);
-              })
-            );
-          }
-          abort() {
-            this._reader.abort();
-          }
+        var ik = n(45),
+          rk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(ik.a, rk), ik.a.locals;
+        function sk(t) {
+          for (const e of t.getChildren()) if (e && e.is('element', 'caption')) return e;
+          return null;
         }
-        Yt(Gf, jt);
-        class $f extends Qt {
+        function ak(t) {
+          const e = t.parent;
+          return 'figcaption' == t.name && e && 'figure' == e.name && e.hasClass('image') ? { name: !0 } : null;
+        }
+        class ck extends Qt {
           static get pluginName() {
-            return 'FileRepository';
-          }
-          static get requires() {
-            return [ql];
+            return 'ImageCaptionEditing';
           }
           init() {
-            (this.loaders = new co()),
-              this.loaders.on('add', () => this._updatePendingAction()),
-              this.loaders.on('remove', () => this._updatePendingAction()),
-              (this._loadersMap = new Map()),
-              (this._pendingAction = null),
-              this.set('uploaded', 0),
-              this.set('uploadTotal', null),
-              this.bind('uploadedPercent').to(this, 'uploaded', this, 'uploadTotal', (t, e) => (e ? (t / e) * 100 : 0));
-          }
-          getLoader(t) {
-            return this._loadersMap.get(t) || null;
-          }
-          createLoader(t) {
-            if (!this.createUploadAdapter) return Object(c.b)('filerepository-no-upload-adapter'), null;
-            const e = new Wf(Promise.resolve(t), this.createUploadAdapter);
-            return (
-              this.loaders.add(e),
-              this._loadersMap.set(t, e),
-              t instanceof Promise &&
-                e.file
-                  .then(t => {
-                    this._loadersMap.set(t, e);
-                  })
-                  .catch(() => {}),
-              e.on('change:uploaded', () => {
-                let t = 0;
-                for (const e of this.loaders) t += e.uploaded;
-                this.uploaded = t;
-              }),
-              e.on('change:uploadTotal', () => {
-                let t = 0;
-                for (const e of this.loaders) e.uploadTotal && (t += e.uploadTotal);
-                this.uploadTotal = t;
-              }),
-              e
+            const t = this.editor,
+              e = t.editing.view,
+              n = t.model.schema,
+              o = t.data,
+              i = t.editing,
+              r = t.t;
+            n.isRegistered('caption')
+              ? n.extend('caption', { allowIn: 'image' })
+              : n.register('caption', { allowIn: 'image', allowContentOf: '$block', isLimit: !0 }),
+              t.model.document.registerPostFixer(t => this._insertMissingModelCaptionElement(t)),
+              t.conversion.for('upcast').elementToElement({ view: ak, model: 'caption' });
+            o.downcastDispatcher.on(
+              'insert:caption',
+              lk(t => t.createContainerElement('figcaption'), !1),
             );
+            const s = (function (t, e) {
+              return n => {
+                const o = n.createEditableElement('figcaption');
+                return n.setCustomProperty('imageCaption', !0, o), vu({ view: t, element: o, text: e }), Qm(o, n);
+              };
+            })(e, r('Enter image caption'));
+            i.downcastDispatcher.on('insert:caption', lk(s)),
+              i.downcastDispatcher.on(
+                'insert',
+                this._fixCaptionVisibility(t => t.item),
+                { priority: 'high' },
+              ),
+              i.downcastDispatcher.on(
+                'remove',
+                this._fixCaptionVisibility(t => t.position.parent),
+                { priority: 'high' },
+              ),
+              e.document.registerPostFixer(t => this._updateCaptionVisibility(t));
           }
-          destroyLoader(t) {
-            const e = t instanceof Wf ? t : this.getLoader(t);
-            e._destroy(),
-              this.loaders.remove(e),
-              this._loadersMap.forEach((t, n) => {
-                t === e && this._loadersMap.delete(n);
-              });
+          _updateCaptionVisibility(t) {
+            const e = this.editor.editing.mapper,
+              n = this._lastSelectedCaption;
+            let o;
+            const i = this.editor.model.document.selection,
+              r = i.getSelectedElement();
+            if (r && r.is('element', 'image')) {
+              const t = sk(r);
+              o = e.toViewElement(t);
+            }
+            const s = dk(i.getFirstPosition().parent);
+            if ((s && (o = e.toViewElement(s)), o && !this.editor.isReadOnly))
+              return n
+                ? (n === o || (hk(n, t), (this._lastSelectedCaption = o)), uk(o, t))
+                : ((this._lastSelectedCaption = o), uk(o, t));
+            if (n) {
+              const e = hk(n, t);
+              return (this._lastSelectedCaption = null), e;
+            }
+            return !1;
           }
-          _updatePendingAction() {
-            const t = this.editor.plugins.get(ql);
-            if (this.loaders.length) {
-              if (!this._pendingAction) {
-                const e = this.editor.t,
-                  n = t => `${e('Upload in progress')} ${parseInt(t)}%.`;
-                (this._pendingAction = t.add(n(this.uploadedPercent))),
-                  this._pendingAction.bind('message').to(this, 'uploadedPercent', n);
+          _fixCaptionVisibility(t) {
+            return (e, n, o) => {
+              const i = dk(t(n)),
+                r = this.editor.editing.mapper,
+                s = o.writer;
+              if (i) {
+                const t = r.toViewElement(i);
+                t && (i.childCount ? s.removeClass('ck-hidden', t) : s.addClass('ck-hidden', t));
               }
-            } else t.remove(this._pendingAction), (this._pendingAction = null);
+            };
+          }
+          _insertMissingModelCaptionElement(t) {
+            const e = this.editor.model,
+              n = e.document.differ.getChanges(),
+              o = [];
+            for (const t of n)
+              if ('insert' == t.type && '$text' != t.name) {
+                const n = t.position.nodeAfter;
+                if ((n.is('element', 'image') && !sk(n) && o.push(n), !n.is('element', 'image') && n.childCount))
+                  for (const t of e.createRangeIn(n).getItems()) t.is('element', 'image') && !sk(t) && o.push(t);
+              }
+            for (const e of o) t.appendElement('caption', e);
+            return !!o.length;
           }
         }
-        Yt($f, jt);
-        class Wf {
-          constructor(t, e) {
-            (this.id = s()),
-              (this._filePromiseWrapper = this._createFilePromiseWrapper(t)),
-              (this._adapter = e(this)),
-              (this._reader = new Gf()),
-              this.set('status', 'idle'),
-              this.set('uploaded', 0),
-              this.set('uploadTotal', null),
-              this.bind('uploadedPercent').to(this, 'uploaded', this, 'uploadTotal', (t, e) => (e ? (t / e) * 100 : 0)),
-              this.set('uploadResponse', null);
+        function lk(t, e = !0) {
+          return (n, o, i) => {
+            const r = o.item;
+            if ((r.childCount || e) && Lf(r.parent)) {
+              if (!i.consumable.consume(o.item, 'insert')) return;
+              const e = i.mapper.toViewElement(o.range.start.parent),
+                n = t(i.writer),
+                s = i.writer;
+              r.childCount || s.addClass('ck-hidden', n),
+                (function (t, e, n, o) {
+                  const i = o.writer.createPositionAt(n, 'end');
+                  o.writer.insert(i, t), o.mapper.bindElements(e, t);
+                })(n, o.item, e, i);
+            }
+          };
+        }
+        function dk(t) {
+          const e = t.getAncestors({ includeSelf: !0 }).find(t => 'caption' == t.name);
+          return e && e.parent && 'image' == e.parent.name ? e : null;
+        }
+        function hk(t, e) {
+          return !t.childCount && !t.hasClass('ck-hidden') && (e.addClass('ck-hidden', t), !0);
+        }
+        function uk(t, e) {
+          return !!t.hasClass('ck-hidden') && (e.removeClass('ck-hidden', t), !0);
+        }
+        var pk = n(46),
+          mk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(pk.a, mk), pk.a.locals;
+        class gk extends Zt {
+          refresh() {
+            const t = this.editor.model.document.selection.getSelectedElement();
+            (this.isEnabled = Lf(t)),
+              t && t.hasAttribute('width')
+                ? (this.value = { width: t.getAttribute('width'), height: null })
+                : (this.value = null);
           }
-          get file() {
-            return this._filePromiseWrapper
-              ? this._filePromiseWrapper.promise.then(t => (this._filePromiseWrapper ? t : null))
-              : Promise.resolve(null);
-          }
-          get data() {
-            return this._reader.data;
-          }
-          read() {
-            if ('idle' != this.status) throw new c.a('filerepository-read-wrong-status', this);
-            return (
-              (this.status = 'reading'),
-              this.file
-                .then(t => this._reader.read(t))
-                .then(t => {
-                  if ('reading' !== this.status) throw this.status;
-                  return (this.status = 'idle'), t;
-                })
-                .catch(t => {
-                  if ('aborted' === t) throw ((this.status = 'aborted'), 'aborted');
-                  throw ((this.status = 'error'), this._reader.error ? this._reader.error : t);
-                })
-            );
-          }
-          upload() {
-            if ('idle' != this.status) throw new c.a('filerepository-upload-wrong-status', this);
-            return (
-              (this.status = 'uploading'),
-              this.file
-                .then(() => this._adapter.upload())
-                .then(t => ((this.uploadResponse = t), (this.status = 'idle'), t))
-                .catch(t => {
-                  if ('aborted' === this.status) throw 'aborted';
-                  throw ((this.status = 'error'), t);
-                })
-            );
-          }
-          abort() {
-            const t = this.status;
-            (this.status = 'aborted'),
-              this._filePromiseWrapper.isFulfilled
-                ? 'reading' == t
-                  ? this._reader.abort()
-                  : 'uploading' == t && this._adapter.abort && this._adapter.abort()
-                : (this._filePromiseWrapper.promise.catch(() => {}), this._filePromiseWrapper.rejecter('aborted')),
-              this._destroy();
-          }
-          _destroy() {
-            (this._filePromiseWrapper = void 0),
-              (this._reader = void 0),
-              (this._adapter = void 0),
-              (this.uploadResponse = void 0);
-          }
-          _createFilePromiseWrapper(t) {
-            const e = {};
-            return (
-              (e.promise = new Promise((n, o) => {
-                (e.rejecter = o),
-                  (e.isFulfilled = !1),
-                  t
-                    .then(t => {
-                      (e.isFulfilled = !0), n(t);
-                    })
-                    .catch(t => {
-                      (e.isFulfilled = !0), o(t);
-                    });
-              })),
-              e
-            );
+          execute(t) {
+            const e = this.editor.model,
+              n = e.document.selection.getSelectedElement();
+            (this.value = { width: t.width, height: null }),
+              n &&
+                e.change(e => {
+                  e.setAttribute('width', t.width, n);
+                });
           }
         }
-        Yt(Wf, jt);
-        class Uf extends ud {
+        class fk extends Qt {
+          static get pluginName() {
+            return 'ImageResizeEditing';
+          }
           constructor(t) {
             super(t),
-              (this.buttonView = new Kd(t)),
-              (this._fileInputView = new Jf(t)),
+              t.config.define('image', {
+                resizeUnit: '%',
+                resizeOptions: [
+                  { name: 'resizeImage:original', value: null, icon: 'original' },
+                  { name: 'resizeImage:25', value: '25', icon: 'small' },
+                  { name: 'resizeImage:50', value: '50', icon: 'medium' },
+                  { name: 'resizeImage:75', value: '75', icon: 'large' },
+                ],
+              });
+          }
+          init() {
+            const t = this.editor,
+              e = new gk(t);
+            this._registerSchema(),
+              this._registerConverters(),
+              t.commands.add('resizeImage', e),
+              t.commands.add('imageResize', e);
+          }
+          _registerSchema() {
+            this.editor.model.schema.extend('image', { allowAttributes: 'width' }),
+              this.editor.model.schema.setAttributeProperties('width', { isFormatting: !0 });
+          }
+          _registerConverters() {
+            const t = this.editor;
+            t.conversion.for('downcast').add(t =>
+              t.on('attribute:width:image', (t, e, n) => {
+                if (!n.consumable.consume(e.item, t.name)) return;
+                const o = n.writer,
+                  i = n.mapper.toViewElement(e.item);
+                null !== e.attributeNewValue
+                  ? (o.setStyle('width', e.attributeNewValue, i), o.addClass('image_resized', i))
+                  : (o.removeStyle('width', i), o.removeClass('image_resized', i));
+              }),
+            ),
+              t.conversion.for('upcast').attributeToAttribute({
+                view: { name: 'figure', styles: { width: /.+/ } },
+                model: { key: 'width', value: t => t.getStyle('width') },
+              });
+          }
+        }
+        const kk = { small: ed, medium: nd, large: td, original: Zl };
+        class bk extends Qt {
+          static get requires() {
+            return [fk];
+          }
+          static get pluginName() {
+            return 'ImageResizeButtons';
+          }
+          constructor(t) {
+            super(t), (this._resizeUnit = t.config.get('image.resizeUnit'));
+          }
+          init() {
+            const t = this.editor,
+              e = t.config.get('image.resizeOptions'),
+              n = t.commands.get('resizeImage');
+            this.bind('isEnabled').to(n);
+            for (const t of e) this._registerImageResizeButton(t);
+            this._registerImageResizeDropdown(e);
+          }
+          _registerImageResizeButton(t) {
+            const e = this.editor,
+              { name: n, value: o, icon: i } = t,
+              r = o ? o + this._resizeUnit : null;
+            e.ui.componentFactory.add(n, n => {
+              const o = new jd(n),
+                s = e.commands.get('resizeImage'),
+                a = this._getOptionLabelValue(t, !0);
+              if (!kk[i]) throw new c.a('imageresizebuttons-missing-icon', e, t);
+              return (
+                o.set({ label: a, icon: kk[i], tooltip: a, isToggleable: !0 }),
+                o.bind('isEnabled').to(this),
+                o.bind('isOn').to(s, 'value', wk(r)),
+                this.listenTo(o, 'execute', () => {
+                  e.execute('resizeImage', { width: r });
+                }),
+                o
+              );
+            });
+          }
+          _registerImageResizeDropdown(t) {
+            const e = this.editor,
+              n = e.t,
+              o = t.find(t => !t.value),
+              i = i => {
+                const r = e.commands.get('resizeImage'),
+                  s = Ih(i, nh),
+                  a = s.buttonView;
+                return (
+                  a.set({
+                    tooltip: n('Resize image'),
+                    commandValue: o.value,
+                    icon: kk.medium,
+                    isToggleable: !0,
+                    label: this._getOptionLabelValue(o),
+                    withText: !0,
+                    class: 'ck-resize-image-button',
+                  }),
+                  a.bind('label').to(r, 'value', t => (t && t.width ? t.width : this._getOptionLabelValue(o))),
+                  s.bind('isOn').to(r),
+                  s.bind('isEnabled').to(this),
+                  Fh(s, this._getResizeDropdownListItemDefinitions(t, r)),
+                  (s.listView.ariaLabel = n('Image resize list')),
+                  this.listenTo(s, 'execute', t => {
+                    e.execute(t.source.commandName, { width: t.source.commandValue }), e.editing.view.focus();
+                  }),
+                  s
+                );
+              };
+            e.ui.componentFactory.add('resizeImage', i), e.ui.componentFactory.add('imageResize', i);
+          }
+          _getOptionLabelValue(t, e) {
+            const n = this.editor.t;
+            return t.label
+              ? t.label
+              : e
+              ? t.value
+                ? n('Resize image to %0', t.value + this._resizeUnit)
+                : n('Resize image to the original size')
+              : t.value
+              ? t.value + this._resizeUnit
+              : n('Original');
+          }
+          _getResizeDropdownListItemDefinitions(t, e) {
+            const n = new co();
+            return (
+              t.map(t => {
+                const o = t.value ? t.value + this._resizeUnit : null,
+                  i = {
+                    type: 'button',
+                    model: new Zh({
+                      commandName: 'resizeImage',
+                      commandValue: o,
+                      label: this._getOptionLabelValue(t),
+                      withText: !0,
+                      icon: null,
+                    }),
+                  };
+                i.model.bind('isOn').to(e, 'value', wk(o)), n.add(i);
+              }),
+              n
+            );
+          }
+        }
+        function wk(t) {
+          return e => (null === t && e === t) || (e && e.width === t);
+        }
+        class Ak extends Qt {
+          static get requires() {
+            return [Of];
+          }
+          static get pluginName() {
+            return 'ImageResizeHandles';
+          }
+          init() {
+            const t = this.editor.commands.get('resizeImage');
+            this.bind('isEnabled').to(t), this._setupResizerCreator();
+          }
+          _setupResizerCreator() {
+            const t = this.editor,
+              e = t.editing.view;
+            e.addObserver(Mf),
+              this.listenTo(e.document, 'imageLoaded', (n, o) => {
+                if (!o.target.matches('figure.image.ck-widget > img, figure.image.ck-widget > a > img')) return;
+                const i = t.editing.view.domConverter.domToView(o.target).findAncestor('figure');
+                let r = this.editor.plugins.get(Of).getResizerByViewElement(i);
+                if (r) return void r.redraw();
+                const s = t.editing.mapper.toModelElement(i);
+                (r = t.plugins.get(Of).attachTo({
+                  unit: t.config.get('image.resizeUnit'),
+                  modelElement: s,
+                  viewElement: i,
+                  editor: t,
+                  getHandleHost: t => t.querySelector('img'),
+                  getResizeHost: t => t,
+                  isCentered() {
+                    const t = s.getAttribute('imageStyle');
+                    return !t || 'full' == t || 'alignCenter' == t;
+                  },
+                  onCommit(e) {
+                    t.execute('resizeImage', { width: e });
+                  },
+                })),
+                  r.on('updateSize', () => {
+                    i.hasClass('image_resized') ||
+                      e.change(t => {
+                        t.addClass('image_resized', i);
+                      });
+                  }),
+                  r.bind('isEnabled').to(this);
+              });
+          }
+        }
+        var _k = n(47),
+          Ck = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(_k.a, Ck), _k.a.locals;
+        var vk = n(48),
+          yk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(vk.a, yk), vk.a.locals;
+        class xk extends md {
+          constructor(t) {
+            super(t),
+              (this.buttonView = new jd(t)),
+              (this._fileInputView = new Ek(t)),
               this._fileInputView.bind('acceptedType').to(this),
               this._fileInputView.bind('allowMultipleFiles').to(this),
               this._fileInputView.delegate('done').to(this),
@@ -22164,7 +22862,7 @@
             this.buttonView.focus();
           }
         }
-        class Jf extends ud {
+        class Ek extends md {
           constructor(t) {
             super(t), this.set('acceptedType'), this.set('allowMultipleFiles', !1);
             const e = this.bindTemplate;
@@ -22192,42 +22890,17 @@
             this.element.click();
           }
         }
-        class Yf {
-          constructor(t) {
-            this.loader = t;
-          }
-          upload() {
-            return new Promise((t, e) => {
-              const n = (this.reader = new window.FileReader());
-              n.addEventListener('load', () => {
-                t({ default: n.result });
-              }),
-                n.addEventListener('error', t => {
-                  e(t);
-                }),
-                n.addEventListener('abort', () => {
-                  e();
-                }),
-                this.loader.file.then(t => {
-                  n.readAsDataURL(t);
-                });
-            });
-          }
-          abort() {
-            this.reader.abort();
-          }
-        }
-        function Qf(t) {
+        function Dk(t) {
           const e = t.map(t => t.replace('+', '\\+'));
           return new RegExp(`^image\\/(${e.join('|')})$`);
         }
-        function Xf(t) {
+        function Sk(t) {
           return new Promise((e, n) => {
             const o = t.getAttribute('src');
             fetch(o)
               .then(t => t.blob())
               .then(t => {
-                const n = Zf(t, o),
+                const n = Bk(t, o),
                   i = n.replace('image/', ''),
                   r = new File([t], `image.${i}`, { type: n });
                 e(r);
@@ -22247,7 +22920,7 @@
                             (o.src = t);
                         });
                       })(t).then(e => {
-                        const n = Zf(e, t),
+                        const n = Bk(e, t),
                           o = n.replace('image/', '');
                         return new File([e], `image.${o}`, { type: n });
                       });
@@ -22258,14 +22931,14 @@
               );
           });
         }
-        function Zf(t, e) {
+        function Bk(t, e) {
           return t.type
             ? t.type
             : e.match(/data:(image\/\w+);base64/)
             ? e.match(/data:(image\/\w+);base64/)[1].toLowerCase()
             : 'image/jpeg';
         }
-        class tk extends Qt {
+        class Tk extends Qt {
           static get pluginName() {
             return 'ImageUploadUI';
           }
@@ -22273,13 +22946,13 @@
             const t = this.editor,
               e = t.t,
               n = n => {
-                const o = new Uf(n),
+                const o = new xk(n),
                   i = t.commands.get('uploadImage'),
                   r = t.config.get('image.upload.types'),
-                  s = Qf(r);
+                  s = Dk(r);
                 return (
                   o.set({ acceptedType: r.map(t => `image/${t}`).join(','), allowMultipleFiles: !0 }),
-                  o.buttonView.set({ label: e('Insert image'), icon: $l, tooltip: !0 }),
+                  o.buttonView.set({ label: e('Insert image'), icon: Ul, tooltip: !0 }),
                   o.buttonView.bind('isEnabled').to(i),
                   o.on('done', (e, n) => {
                     const o = Array.from(n).filter(t => s.test(t.type));
@@ -22291,14 +22964,14 @@
             t.ui.componentFactory.add('uploadImage', n), t.ui.componentFactory.add('imageUpload', n);
           }
         }
-        var ek = n(45),
-          nk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
-          ok = (ld()(ek.a, nk), ek.a.locals, n(46)),
-          ik = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
-          rk = (ld()(ok.a, ik), ok.a.locals, n(47)),
-          sk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(rk.a, sk), rk.a.locals;
-        class ak extends Qt {
+        var Pk = n(49),
+          Ik = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
+          zk = (hd()(Pk.a, Ik), Pk.a.locals, n(50)),
+          Fk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 },
+          Rk = (hd()(zk.a, Fk), zk.a.locals, n(51)),
+          Ok = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Rk.a, Ok), Rk.a.locals;
+        class Mk extends Qt {
           static get pluginName() {
             return 'ImageUploadProgress';
           }
@@ -22320,18 +22993,18 @@
               i = e.item,
               r = i.getAttribute('uploadId');
             if (!n.consumable.consume(e.item, t.name)) return;
-            const s = o.plugins.get($f),
+            const s = o.plugins.get(Tp),
               a = r ? e.attributeNewValue : null,
               c = this.placeholder,
               l = o.editing.mapper.toViewElement(i),
               d = n.writer;
-            if ('reading' == a) return ck(l, d), void lk(c, l, d);
+            if ('reading' == a) return Nk(l, d), void Vk(c, l, d);
             if ('uploading' == a) {
               const t = s.loaders.get(r);
               return (
-                ck(l, d),
+                Nk(l, d),
                 void (t
-                  ? (dk(l, d),
+                  ? (Lk(l, d),
                     (function (t, e, n, o) {
                       const i = (function (t) {
                         const e = t.createUIElement('div', { class: 'ck-progress-bar' });
@@ -22346,11 +23019,11 @@
                     })(l, d, t, o.editing.view),
                     (function (t, e, n) {
                       if (n.data) {
-                        const o = Sf(t);
+                        const o = Hf(t);
                         e.setAttribute('src', n.data, o);
                       }
                     })(l, d, t))
-                  : lk(c, l, d))
+                  : Vk(c, l, d))
               );
             }
             'complete' == a &&
@@ -22363,22 +23036,22 @@
                   }, 3e3);
               })(l, d, o.editing.view),
               (function (t, e) {
-                uk(t, e, 'progressBar');
+                qk(t, e, 'progressBar');
               })(l, d),
-              dk(l, d),
+              Lk(l, d),
               (function (t, e) {
                 e.removeClass('ck-appear', t);
               })(l, d);
           }
         }
-        function ck(t, e) {
+        function Nk(t, e) {
           t.hasClass('ck-appear') || e.addClass('ck-appear', t);
         }
-        function lk(t, e, n) {
+        function Vk(t, e, n) {
           e.hasClass('ck-image-upload-placeholder') || n.addClass('ck-image-upload-placeholder', e);
-          const o = Sf(e);
+          const o = Hf(e);
           o.getAttribute('src') !== t && n.setAttribute('src', t, o),
-            hk(e, 'placeholder') ||
+            Kk(e, 'placeholder') ||
               n.insert(
                 n.createPositionAfter(o),
                 (function (t) {
@@ -22387,37 +23060,37 @@
                 })(n),
               );
         }
-        function dk(t, e) {
+        function Lk(t, e) {
           t.hasClass('ck-image-upload-placeholder') && e.removeClass('ck-image-upload-placeholder', t),
-            uk(t, e, 'placeholder');
+            qk(t, e, 'placeholder');
         }
-        function hk(t, e) {
+        function Kk(t, e) {
           for (const n of t.getChildren()) if (n.getCustomProperty(e)) return n;
         }
-        function uk(t, e, n) {
-          const o = hk(t, n);
+        function qk(t, e, n) {
+          const o = Kk(t, n);
           o && e.remove(e.createRangeOn(o));
         }
-        class pk extends Zt {
+        class Hk extends Zt {
           refresh() {
             const t = this.editor.model.document.selection.getSelectedElement(),
               e = (t && 'image' === t.name) || !1;
-            this.isEnabled = Df(this.editor.model) || e;
+            this.isEnabled = qf(this.editor.model) || e;
           }
           execute(t) {
             const e = this.editor,
               n = e.model,
-              o = e.plugins.get($f);
-            for (const e of ho(t.file)) mk(n, o, e);
+              o = e.plugins.get(Tp);
+            for (const e of ho(t.file)) jk(n, o, e);
           }
         }
-        function mk(t, e, n) {
+        function jk(t, e, n) {
           const o = e.createLoader(n);
-          o && Ef(t, { uploadId: o.id });
+          o && Kf(t, { uploadId: o.id });
         }
-        class gk extends Qt {
+        class $k extends Qt {
           static get requires() {
-            return [$f, Yh, Im];
+            return [Tp, Xh, Nm];
           }
           static get pluginName() {
             return 'ImageUploadEditing';
@@ -22430,10 +23103,10 @@
               e = t.model.document,
               n = t.model.schema,
               o = t.conversion,
-              i = t.plugins.get($f),
-              r = Qf(t.config.get('image.upload.types'));
+              i = t.plugins.get(Tp),
+              r = Dk(t.config.get('image.upload.types'));
             n.extend('image', { allowAttributes: ['uploadId', 'uploadStatus'] });
-            const s = new pk(t);
+            const s = new Hk(t);
             t.commands.add('uploadImage', s),
               t.commands.add('imageUpload', s),
               o.for('upcast').attributeToAttribute({ view: { name: 'img', key: 'uploadId' }, model: 'uploadId' }),
@@ -22462,9 +23135,9 @@
                     );
                     var e;
                   })
-                  .map(t => ({ promise: Xf(t.item), imageElement: t.item }));
+                  .map(t => ({ promise: Sk(t.item), imageElement: t.item }));
                 if (!o.length) return;
-                const r = new Vu(t.editing.view.document);
+                const r = new Ku(t.editing.view.document);
                 for (const t of o) {
                   r.setAttribute('uploadProcessed', !0, t.imageElement);
                   const e = i.createLoader(t.promise);
@@ -22480,7 +23153,7 @@
                   if ('insert' == e.type && '$text' != e.name) {
                     const n = e.position.nodeAfter,
                       o = '$graveyard' == e.position.root.rootName;
-                    for (const e of fk(t, n)) {
+                    for (const e of Gk(t, n)) {
                       const t = e.getAttribute('uploadId');
                       if (!t) continue;
                       const n = i.loaders.get(t);
@@ -22503,8 +23176,8 @@
             const n = this.editor,
               o = n.model,
               i = n.locale.t,
-              r = n.plugins.get($f),
-              s = n.plugins.get(Yh);
+              r = n.plugins.get(Tp),
+              s = n.plugins.get(Xh);
             return (
               o.enqueueChange('transparent', t => {
                 t.setAttribute('uploadStatus', 'reading', e);
@@ -22514,7 +23187,7 @@
                 .then(() => {
                   const i = t.upload();
                   if (Mi.isSafari) {
-                    const t = Sf(n.editing.mapper.toViewElement(e));
+                    const t = Hf(n.editing.mapper.toViewElement(e));
                     n.editing.view.once('render', () => {
                       if (!t.parent) return;
                       const e = n.editing.view.domConverter.mapViewToDom(t.parent);
@@ -22565,369 +23238,12 @@
             '' != i && n.setAttribute('srcset', { data: i, width: o }, e);
           }
         }
-        function fk(t, e) {
+        function Gk(t, e) {
           return Array.from(t.model.createRangeOn(e))
             .filter(t => t.item.is('element', 'image'))
             .map(t => t.item);
         }
-        function kk(t) {
-          for (const e of t.getChildren()) if (e && e.is('element', 'caption')) return e;
-          return null;
-        }
-        function bk(t) {
-          const e = t.parent;
-          return 'figcaption' == t.name && e && 'figure' == e.name && e.hasClass('image') ? { name: !0 } : null;
-        }
-        class wk extends Qt {
-          static get pluginName() {
-            return 'ImageCaptionEditing';
-          }
-          init() {
-            const t = this.editor,
-              e = t.editing.view,
-              n = t.model.schema,
-              o = t.data,
-              i = t.editing,
-              r = t.t;
-            n.register('caption', { allowIn: 'image', allowContentOf: '$block', isLimit: !0 }),
-              t.model.document.registerPostFixer(t => this._insertMissingModelCaptionElement(t)),
-              t.conversion.for('upcast').elementToElement({ view: bk, model: 'caption' });
-            o.downcastDispatcher.on(
-              'insert:caption',
-              _k(t => t.createContainerElement('figcaption'), !1),
-            );
-            const s = (function (t, e) {
-              return n => {
-                const o = n.createEditableElement('figcaption');
-                return (
-                  n.setCustomProperty('imageCaption', !0, o),
-                  Au({ view: t, element: o, text: e }),
-                  (function (t, e) {
-                    return (
-                      e.addClass(['ck-editor__editable', 'ck-editor__nested-editable'], t),
-                      e.setAttribute('contenteditable', t.isReadOnly ? 'false' : 'true', t),
-                      t.on('change:isReadOnly', (n, o, i) => {
-                        e.setAttribute('contenteditable', i ? 'false' : 'true', t);
-                      }),
-                      t.on('change:isFocused', (n, o, i) => {
-                        i
-                          ? e.addClass('ck-editor__nested-editable_focused', t)
-                          : e.removeClass('ck-editor__nested-editable_focused', t);
-                      }),
-                      t
-                    );
-                  })(o, n)
-                );
-              };
-            })(e, r('Enter image caption'));
-            i.downcastDispatcher.on('insert:caption', _k(s)),
-              i.downcastDispatcher.on(
-                'insert',
-                this._fixCaptionVisibility(t => t.item),
-                { priority: 'high' },
-              ),
-              i.downcastDispatcher.on(
-                'remove',
-                this._fixCaptionVisibility(t => t.position.parent),
-                { priority: 'high' },
-              ),
-              e.document.registerPostFixer(t => this._updateCaptionVisibility(t));
-          }
-          _updateCaptionVisibility(t) {
-            const e = this.editor.editing.mapper,
-              n = this._lastSelectedCaption;
-            let o;
-            const i = this.editor.model.document.selection,
-              r = i.getSelectedElement();
-            if (r && r.is('element', 'image')) {
-              const t = kk(r);
-              o = e.toViewElement(t);
-            }
-            const s = Ak(i.getFirstPosition().parent);
-            if ((s && (o = e.toViewElement(s)), o && !this.editor.isReadOnly))
-              return n
-                ? (n === o || (Ck(n, t), (this._lastSelectedCaption = o)), vk(o, t))
-                : ((this._lastSelectedCaption = o), vk(o, t));
-            if (n) {
-              const e = Ck(n, t);
-              return (this._lastSelectedCaption = null), e;
-            }
-            return !1;
-          }
-          _fixCaptionVisibility(t) {
-            return (e, n, o) => {
-              const i = Ak(t(n)),
-                r = this.editor.editing.mapper,
-                s = o.writer;
-              if (i) {
-                const t = r.toViewElement(i);
-                t && (i.childCount ? s.removeClass('ck-hidden', t) : s.addClass('ck-hidden', t));
-              }
-            };
-          }
-          _insertMissingModelCaptionElement(t) {
-            const e = this.editor.model,
-              n = e.document.differ.getChanges(),
-              o = [];
-            for (const t of n)
-              if ('insert' == t.type && '$text' != t.name) {
-                const n = t.position.nodeAfter;
-                if ((n.is('element', 'image') && !kk(n) && o.push(n), !n.is('element', 'image') && n.childCount))
-                  for (const t of e.createRangeIn(n).getItems()) t.is('element', 'image') && !kk(t) && o.push(t);
-              }
-            for (const e of o) t.appendElement('caption', e);
-            return !!o.length;
-          }
-        }
-        function _k(t, e = !0) {
-          return (n, o, i) => {
-            const r = o.item;
-            if ((r.childCount || e) && xf(r.parent)) {
-              if (!i.consumable.consume(o.item, 'insert')) return;
-              const e = i.mapper.toViewElement(o.range.start.parent),
-                n = t(i.writer),
-                s = i.writer;
-              r.childCount || s.addClass('ck-hidden', n),
-                (function (t, e, n, o) {
-                  const i = o.writer.createPositionAt(n, 'end');
-                  o.writer.insert(i, t), o.mapper.bindElements(e, t);
-                })(n, o.item, e, i);
-            }
-          };
-        }
-        function Ak(t) {
-          const e = t.getAncestors({ includeSelf: !0 }).find(t => 'caption' == t.name);
-          return e && e.parent && 'image' == e.parent.name ? e : null;
-        }
-        function Ck(t, e) {
-          return !t.childCount && !t.hasClass('ck-hidden') && (e.addClass('ck-hidden', t), !0);
-        }
-        function vk(t, e) {
-          return !!t.hasClass('ck-hidden') && (e.removeClass('ck-hidden', t), !0);
-        }
-        var yk = n(48),
-          xk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(yk.a, xk), yk.a.locals;
-        class Ek extends Zt {
-          refresh() {
-            const t = this.editor.model.document.selection.getSelectedElement();
-            (this.isEnabled = xf(t)),
-              t && t.hasAttribute('width')
-                ? (this.value = { width: t.getAttribute('width'), height: null })
-                : (this.value = null);
-          }
-          execute(t) {
-            const e = this.editor.model,
-              n = e.document.selection.getSelectedElement();
-            (this.value = { width: t.width, height: null }),
-              n &&
-                e.change(e => {
-                  e.setAttribute('width', t.width, n);
-                });
-          }
-        }
-        class Dk extends Qt {
-          static get pluginName() {
-            return 'ImageResizeEditing';
-          }
-          constructor(t) {
-            super(t),
-              t.config.define('image', {
-                resizeUnit: '%',
-                resizeOptions: [
-                  { name: 'resizeImage:original', value: null, icon: 'original' },
-                  { name: 'resizeImage:25', value: '25', icon: 'small' },
-                  { name: 'resizeImage:50', value: '50', icon: 'medium' },
-                  { name: 'resizeImage:75', value: '75', icon: 'large' },
-                ],
-              });
-          }
-          init() {
-            const t = this.editor,
-              e = new Ek(t);
-            this._registerSchema(),
-              this._registerConverters(),
-              t.commands.add('resizeImage', e),
-              t.commands.add('imageResize', e);
-          }
-          _registerSchema() {
-            this.editor.model.schema.extend('image', { allowAttributes: 'width' }),
-              this.editor.model.schema.setAttributeProperties('width', { isFormatting: !0 });
-          }
-          _registerConverters() {
-            const t = this.editor;
-            t.conversion.for('downcast').add(t =>
-              t.on('attribute:width:image', (t, e, n) => {
-                if (!n.consumable.consume(e.item, t.name)) return;
-                const o = n.writer,
-                  i = n.mapper.toViewElement(e.item);
-                null !== e.attributeNewValue
-                  ? (o.setStyle('width', e.attributeNewValue, i), o.addClass('image_resized', i))
-                  : (o.removeStyle('width', i), o.removeClass('image_resized', i));
-              }),
-            ),
-              t.conversion.for('upcast').attributeToAttribute({
-                view: { name: 'figure', styles: { width: /.+/ } },
-                model: { key: 'width', value: t => t.getStyle('width') },
-              });
-          }
-        }
-        const Sk = { small: Zl, medium: td, large: Xl, original: Ql };
-        class Bk extends Qt {
-          static get requires() {
-            return [Dk];
-          }
-          static get pluginName() {
-            return 'ImageResizeButtons';
-          }
-          constructor(t) {
-            super(t), (this._resizeUnit = t.config.get('image.resizeUnit'));
-          }
-          init() {
-            const t = this.editor,
-              e = t.config.get('image.resizeOptions'),
-              n = t.commands.get('resizeImage');
-            this.bind('isEnabled').to(n);
-            for (const t of e) this._registerImageResizeButton(t);
-            this._registerImageResizeDropdown(e);
-          }
-          _registerImageResizeButton(t) {
-            const e = this.editor,
-              { name: n, value: o, icon: i } = t,
-              r = o ? o + this._resizeUnit : null;
-            e.ui.componentFactory.add(n, n => {
-              const o = new Kd(n),
-                s = e.commands.get('resizeImage'),
-                a = this._getOptionLabelValue(t, !0);
-              if (!Sk[i]) throw new c.a('imageresizebuttons-missing-icon', e, t);
-              return (
-                o.set({ label: a, icon: Sk[i], tooltip: a, isToggleable: !0 }),
-                o.bind('isEnabled').to(this),
-                o.bind('isOn').to(s, 'value', Tk(r)),
-                this.listenTo(o, 'execute', () => {
-                  e.execute('resizeImage', { width: r });
-                }),
-                o
-              );
-            });
-          }
-          _registerImageResizeDropdown(t) {
-            const e = this.editor,
-              n = e.t,
-              o = t.find(t => !t.value),
-              i = i => {
-                const r = e.commands.get('resizeImage'),
-                  s = Th(i, th),
-                  a = s.buttonView;
-                return (
-                  a.set({
-                    tooltip: n('Resize image'),
-                    commandValue: o.value,
-                    icon: Sk.medium,
-                    isToggleable: !0,
-                    label: this._getOptionLabelValue(o),
-                    withText: !0,
-                    class: 'ck-resize-image-button',
-                  }),
-                  a.bind('label').to(r, 'value', t => (t && t.width ? t.width : this._getOptionLabelValue(o))),
-                  s.bind('isOn').to(r),
-                  s.bind('isEnabled').to(this),
-                  Ih(s, this._getResizeDropdownListItemDefinitions(t, r)),
-                  (s.listView.ariaLabel = n('Image resize list')),
-                  this.listenTo(s, 'execute', t => {
-                    e.execute(t.source.commandName, { width: t.source.commandValue }), e.editing.view.focus();
-                  }),
-                  s
-                );
-              };
-            e.ui.componentFactory.add('resizeImage', i), e.ui.componentFactory.add('imageResize', i);
-          }
-          _getOptionLabelValue(t, e) {
-            const n = this.editor.t;
-            return t.label
-              ? t.label
-              : e
-              ? t.value
-                ? n('Resize image to %0', t.value + this._resizeUnit)
-                : n('Resize image to the original size')
-              : t.value
-              ? t.value + this._resizeUnit
-              : n('Original');
-          }
-          _getResizeDropdownListItemDefinitions(t, e) {
-            const n = new co();
-            return (
-              t.map(t => {
-                const o = t.value ? t.value + this._resizeUnit : null,
-                  i = {
-                    type: 'button',
-                    model: new Qh({
-                      commandName: 'resizeImage',
-                      commandValue: o,
-                      label: this._getOptionLabelValue(t),
-                      withText: !0,
-                      icon: null,
-                    }),
-                  };
-                i.model.bind('isOn').to(e, 'value', Tk(o)), n.add(i);
-              }),
-              n
-            );
-          }
-        }
-        function Tk(t) {
-          return e => (null === t && e === t) || (e && e.width === t);
-        }
-        class Pk extends Qt {
-          static get requires() {
-            return [Af];
-          }
-          static get pluginName() {
-            return 'ImageResizeHandles';
-          }
-          init() {
-            const t = this.editor.commands.get('resizeImage');
-            this.bind('isEnabled').to(t), this._setupResizerCreator();
-          }
-          _setupResizerCreator() {
-            const t = this.editor,
-              e = t.editing.view;
-            e.addObserver(Cf),
-              this.listenTo(e.document, 'imageLoaded', (n, o) => {
-                if (!o.target.matches('figure.image.ck-widget > img, figure.image.ck-widget > a > img')) return;
-                const i = t.editing.view.domConverter.domToView(o.target).findAncestor('figure');
-                let r = this.editor.plugins.get(Af).getResizerByViewElement(i);
-                if (r) return void r.redraw();
-                const s = t.editing.mapper.toModelElement(i);
-                (r = t.plugins.get(Af).attachTo({
-                  unit: t.config.get('image.resizeUnit'),
-                  modelElement: s,
-                  viewElement: i,
-                  editor: t,
-                  getHandleHost: t => t.querySelector('img'),
-                  getResizeHost: t => t,
-                  isCentered() {
-                    const t = s.getAttribute('imageStyle');
-                    return !t || 'full' == t || 'alignCenter' == t;
-                  },
-                  onCommit(e) {
-                    t.execute('resizeImage', { width: e });
-                  },
-                })),
-                  r.on('updateSize', () => {
-                    i.hasClass('image_resized') ||
-                      e.change(t => {
-                        t.addClass('image_resized', i);
-                      });
-                  }),
-                  r.bind('isEnabled').to(this);
-              });
-          }
-        }
-        var Ik = n(49),
-          zk = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Ik.a, zk), Ik.a.locals;
-        class Fk extends Qt {
+        class Wk extends Qt {
           static get pluginName() {
             return 'IndentEditing';
           }
@@ -22936,11 +23252,11 @@
             t.commands.add('indent', new ee(t)), t.commands.add('outdent', new ee(t));
           }
         }
-        var Rk =
+        var Uk =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm5 6c0 .414.336.75.75.75h9.5a.75.75 0 1 0 0-1.5h-9.5a.75.75 0 0 0-.75.75zM2.75 16.5h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 1 0 0 1.5zM1.632 6.95 5.02 9.358a.4.4 0 0 1-.013.661l-3.39 2.207A.4.4 0 0 1 1 11.892V7.275a.4.4 0 0 1 .632-.326z"/></svg>',
-          Ok =
+          Jk =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 3.75c0 .414.336.75.75.75h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 0 0-.75.75zm5 6c0 .414.336.75.75.75h9.5a.75.75 0 1 0 0-1.5h-9.5a.75.75 0 0 0-.75.75zM2.75 16.5h14.5a.75.75 0 1 0 0-1.5H2.75a.75.75 0 1 0 0 1.5zm1.618-9.55L.98 9.358a.4.4 0 0 0 .013.661l3.39 2.207A.4.4 0 0 0 5 11.892V7.275a.4.4 0 0 0-.632-.326z"/></svg>';
-        class Mk extends Qt {
+        class Yk extends Qt {
           static get pluginName() {
             return 'IndentUI';
           }
@@ -22948,8 +23264,8 @@
             const t = this.editor,
               e = t.locale,
               n = t.t,
-              o = 'ltr' == e.uiLanguageDirection ? Rk : Ok,
-              i = 'ltr' == e.uiLanguageDirection ? Ok : Rk;
+              o = 'ltr' == e.uiLanguageDirection ? Uk : Jk,
+              i = 'ltr' == e.uiLanguageDirection ? Jk : Uk;
             this._defineButton('indent', n('Increase indent'), o),
               this._defineButton('outdent', n('Decrease indent'), i);
           }
@@ -22957,7 +23273,7 @@
             const o = this.editor;
             o.ui.componentFactory.add(t, i => {
               const r = o.commands.get(t),
-                s = new Kd(i);
+                s = new jd(i);
               return (
                 s.set({ label: e, icon: n, tooltip: !0 }),
                 s.bind('isOn', 'isEnabled').to(r, 'value', 'isEnabled'),
@@ -22969,13 +23285,13 @@
             });
           }
         }
-        class Nk extends Zt {
+        class Qk extends Zt {
           constructor(t, e) {
             super(t), (this._indentBehavior = e);
           }
           refresh() {
             const t = this.editor.model,
-              e = $s(t.document.selection.getSelectedBlocks());
+              e = Gs(t.document.selection.getSelectedBlocks());
             e && t.schema.checkAttribute(e, 'blockIndent')
               ? (this.isEnabled = this._indentBehavior.checkEnabled(e.getAttribute('blockIndent')))
               : (this.isEnabled = !1);
@@ -22996,7 +23312,7 @@
             });
           }
         }
-        class Vk {
+        class Xk {
           constructor(t) {
             (this.isForward = 'forward' === t.direction), (this.offset = t.offset), (this.unit = t.unit);
           }
@@ -23011,7 +23327,7 @@
             return n > 0 ? n + this.unit : void 0;
           }
         }
-        class Lk {
+        class Zk {
           constructor(t) {
             (this.isForward = 'forward' === t.direction), (this.classes = t.classes);
           }
@@ -23025,36 +23341,36 @@
             return this.classes[e + n];
           }
         }
-        const qk = ['paragraph', 'heading1', 'heading2', 'heading3', 'heading4', 'heading5', 'heading6'];
-        const Kk = 'italic';
-        class Hk extends Qt {
+        const tb = ['paragraph', 'heading1', 'heading2', 'heading3', 'heading4', 'heading5', 'heading6'];
+        const eb = 'italic';
+        class nb extends Qt {
           static get pluginName() {
             return 'ItalicEditing';
           }
           init() {
             const t = this.editor;
-            t.model.schema.extend('$text', { allowAttributes: Kk }),
-              t.model.schema.setAttributeProperties(Kk, { isFormatting: !0, copyOnEnter: !0 }),
+            t.model.schema.extend('$text', { allowAttributes: eb }),
+              t.model.schema.setAttributeProperties(eb, { isFormatting: !0, copyOnEnter: !0 }),
               t.conversion.attributeToElement({
-                model: Kk,
+                model: eb,
                 view: 'i',
                 upcastAlso: ['em', { styles: { 'font-style': 'italic' } }],
               }),
-              t.commands.add(Kk, new vm(t, Kk)),
-              t.keystrokes.set('CTRL+I', Kk);
+              t.commands.add(eb, new Bm(t, eb)),
+              t.keystrokes.set('CTRL+I', eb);
           }
         }
-        const jk = 'italic';
-        class Gk extends Qt {
+        const ob = 'italic';
+        class ib extends Qt {
           static get pluginName() {
             return 'ItalicUI';
           }
           init() {
             const t = this.editor,
               e = t.t;
-            t.ui.componentFactory.add(jk, n => {
-              const o = t.commands.get(jk),
-                i = new Kd(n);
+            t.ui.componentFactory.add(ob, n => {
+              const o = t.commands.get(ob),
+                i = new jd(n);
               return (
                 i.set({
                   label: e('Italic'),
@@ -23065,14 +23381,14 @@
                 }),
                 i.bind('isOn', 'isEnabled').to(o, 'value', 'isEnabled'),
                 this.listenTo(i, 'execute', () => {
-                  t.execute(jk), t.editing.view.focus();
+                  t.execute(ob), t.editing.view.focus();
                 }),
                 i
               );
             });
           }
         }
-        class $k {
+        class rb {
           constructor() {
             this._definitions = new Set();
           }
@@ -23120,71 +23436,71 @@
             };
           }
         }
-        var Wk = function (t, e, n) {
+        var sb = function (t, e, n) {
             var o = t.length;
             return (n = void 0 === n ? o : n), !e && n >= o ? t : jo(t, e, n);
           },
-          Uk = RegExp('[\\u200d\\ud800-\\udfff\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff\\ufe0e\\ufe0f]');
-        var Jk = function (t) {
-          return Uk.test(t);
-        };
-        var Yk = function (t) {
-            return t.split('');
-          },
-          Qk = '[\\ud800-\\udfff]',
-          Xk = '[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]',
-          Zk = '\\ud83c[\\udffb-\\udfff]',
-          tb = '[^\\ud800-\\udfff]',
-          eb = '(?:\\ud83c[\\udde6-\\uddff]){2}',
-          nb = '[\\ud800-\\udbff][\\udc00-\\udfff]',
-          ob = '(?:' + Xk + '|' + Zk + ')' + '?',
-          ib = '[\\ufe0e\\ufe0f]?',
-          rb = ib + ob + ('(?:\\u200d(?:' + [tb, eb, nb].join('|') + ')' + ib + ob + ')*'),
-          sb = '(?:' + [tb + Xk + '?', Xk, eb, nb, Qk].join('|') + ')',
-          ab = RegExp(Zk + '(?=' + Zk + ')|' + sb + rb, 'g');
+          ab = RegExp('[\\u200d\\ud800-\\udfff\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff\\ufe0e\\ufe0f]');
         var cb = function (t) {
-          return t.match(ab) || [];
+          return ab.test(t);
         };
         var lb = function (t) {
-          return Jk(t) ? cb(t) : Yk(t);
+            return t.split('');
+          },
+          db = '[\\ud800-\\udfff]',
+          hb = '[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff]',
+          ub = '\\ud83c[\\udffb-\\udfff]',
+          pb = '[^\\ud800-\\udfff]',
+          mb = '(?:\\ud83c[\\udde6-\\uddff]){2}',
+          gb = '[\\ud800-\\udbff][\\udc00-\\udfff]',
+          fb = '(?:' + hb + '|' + ub + ')' + '?',
+          kb = '[\\ufe0e\\ufe0f]?',
+          bb = kb + fb + ('(?:\\u200d(?:' + [pb, mb, gb].join('|') + ')' + kb + fb + ')*'),
+          wb = '(?:' + [pb + hb + '?', hb, mb, gb, db].join('|') + ')',
+          Ab = RegExp(ub + '(?=' + ub + ')|' + wb + bb, 'g');
+        var _b = function (t) {
+          return t.match(Ab) || [];
         };
-        var db = (function (t) {
+        var Cb = function (t) {
+          return cb(t) ? _b(t) : lb(t);
+        };
+        var vb = (function (t) {
           return function (e) {
             e = Vo(e);
-            var n = Jk(e) ? lb(e) : void 0,
+            var n = cb(e) ? Cb(e) : void 0,
               o = n ? n[0] : e.charAt(0),
-              i = n ? Wk(n, 1).join('') : e.slice(1);
+              i = n ? sb(n, 1).join('') : e.slice(1);
             return o[t]() + i;
           };
         })('toUpperCase');
-        const hb = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205f\u3000]/g,
-          ub = /^(?:(?:https?|ftps?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.:-]|$))/i,
-          pb = /^[\S]+@((?![-_])(?:[-\w\u00a1-\uffff]{0,63}[^-_]\.))+(?:[a-z\u00a1-\uffff]{2,})$/i,
-          mb = /^((\w+:(\/{2,})?)|(\W))/i,
-          gb = 'Ctrl+K';
-        function fb(t, { writer: e }) {
+        const yb = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205f\u3000]/g,
+          xb = /^(?:(?:https?|ftps?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.:-]|$))/i,
+          Eb = /^[\S]+@((?![-_])(?:[-\w\u00a1-\uffff]{0,63}[^-_]\.))+(?:[a-z\u00a1-\uffff]{2,})$/i,
+          Db = /^((\w+:(\/{2,})?)|(\W))/i,
+          Sb = 'Ctrl+K';
+        function Bb(t, { writer: e }) {
           const n = e.createAttributeElement('a', { href: t }, { priority: 5 });
           return e.setCustomProperty('link', !0, n), n;
         }
-        function kb(t) {
+        function Tb(t) {
           return (function (t) {
-            return t.replace(hb, '').match(ub);
+            return t.replace(yb, '').match(xb);
           })((t = String(t)))
             ? t
             : '#';
         }
-        function bb(t, e) {
+        function Pb(t, e) {
           return !!t && t.is('element', 'image') && e.checkAttribute('image', 'linkHref');
         }
-        function wb(t, e) {
-          const n = ((o = t), pb.test(o) ? 'mailto:' : e);
+        function Ib(t, e) {
+          const n = ((o = t), Eb.test(o) ? 'mailto:' : e);
           var o;
-          const i = !!n && !mb.test(t);
+          const i = !!n && !Db.test(t);
           return t && i ? n + t : t;
         }
-        class _b extends Zt {
+        class zb extends Zt {
           constructor(t) {
-            super(t), (this.manualDecorators = new co()), (this.automaticDecorators = new $k());
+            super(t), (this.manualDecorators = new co()), (this.automaticDecorators = new rb());
           }
           restoreManualDecoratorStates() {
             for (const t of this.manualDecorators) t.value = this._getDecoratorStateFromModel(t.id);
@@ -23192,8 +23508,8 @@
           refresh() {
             const t = this.editor.model,
               e = t.document,
-              n = $s(e.selection.getSelectedBlocks());
-            bb(n, t.schema)
+              n = Gs(e.selection.getSelectedBlocks());
+            Pb(n, t.schema)
               ? ((this.value = n.getAttribute('linkHref')), (this.isEnabled = t.schema.checkAttribute(n, 'linkHref')))
               : ((this.value = e.selection.getAttribute('linkHref')),
                 (this.isEnabled = t.schema.checkAttributeInSelection(e.selection, 'linkHref')));
@@ -23209,7 +23525,7 @@
               if (o.isCollapsed) {
                 const s = o.getFirstPosition();
                 if (o.hasAttribute('linkHref')) {
-                  const a = pm(s, 'linkHref', o.getAttribute('linkHref'), n);
+                  const a = wm(s, 'linkHref', o.getAttribute('linkHref'), n);
                   e.setAttribute('linkHref', t, a),
                     i.forEach(t => {
                       e.setAttribute(t, !0, a);
@@ -23251,20 +23567,20 @@
           _getDecoratorStateFromModel(t) {
             const e = this.editor.model,
               n = e.document,
-              o = $s(n.selection.getSelectedBlocks());
-            return bb(o, e.schema) ? o.getAttribute(t) : n.selection.getAttribute(t);
+              o = Gs(n.selection.getSelectedBlocks());
+            return Pb(o, e.schema) ? o.getAttribute(t) : n.selection.getAttribute(t);
           }
           _isRangeToUpdate(t, e) {
             for (const n of e) if (n.containsRange(t)) return !1;
             return !0;
           }
         }
-        class Ab extends Zt {
+        class Fb extends Zt {
           refresh() {
             const t = this.editor.model,
               e = t.document,
-              n = $s(e.selection.getSelectedBlocks());
-            bb(n, t.schema)
+              n = Gs(e.selection.getSelectedBlocks());
+            Pb(n, t.schema)
               ? (this.isEnabled = t.schema.checkAttribute(n, 'linkHref'))
               : (this.isEnabled = t.schema.checkAttributeInSelection(e.selection, 'linkHref'));
           }
@@ -23275,7 +23591,7 @@
               o = t.commands.get('link');
             e.change(t => {
               const i = n.isCollapsed
-                ? [pm(n.getFirstPosition(), 'linkHref', n.getAttribute('linkHref'), e)]
+                ? [wm(n.getFirstPosition(), 'linkHref', n.getAttribute('linkHref'), e)]
                 : e.schema.getValidRanges(n.getRanges(), 'linkHref');
               for (const e of i)
                 if ((t.removeAttribute('linkHref', e), o))
@@ -23283,23 +23599,23 @@
             });
           }
         }
-        class Cb {
+        class Rb {
           constructor({ id: t, label: e, attributes: n, defaultValue: o }) {
             (this.id = t), this.set('value'), (this.defaultValue = o), (this.label = e), (this.attributes = n);
           }
         }
-        Yt(Cb, jt);
-        var vb = n(50),
-          yb = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(vb.a, yb), vb.a.locals;
-        const xb = 'automatic',
-          Eb = /^(https?:)?\/\//;
-        class Db extends Qt {
+        Yt(Rb, jt);
+        var Ob = n(52),
+          Mb = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Ob.a, Mb), Ob.a.locals;
+        const Nb = 'automatic',
+          Vb = /^(https?:)?\/\//;
+        class Lb extends Qt {
           static get pluginName() {
             return 'LinkEditing';
           }
           static get requires() {
-            return [Xp, Gp, Im];
+            return [im, Qp, Nm];
           }
           constructor(t) {
             super(t), t.config.define('link', { addTargetToExternalLinks: !1 });
@@ -23307,16 +23623,16 @@
           init() {
             const t = this.editor;
             t.model.schema.extend('$text', { allowAttributes: 'linkHref' }),
-              t.conversion.for('dataDowncast').attributeToElement({ model: 'linkHref', view: fb }),
+              t.conversion.for('dataDowncast').attributeToElement({ model: 'linkHref', view: Bb }),
               t.conversion
                 .for('editingDowncast')
-                .attributeToElement({ model: 'linkHref', view: (t, e) => fb(kb(t), e) }),
+                .attributeToElement({ model: 'linkHref', view: (t, e) => Bb(Tb(t), e) }),
               t.conversion.for('upcast').elementToAttribute({
                 view: { name: 'a', attributes: { href: !0 } },
                 model: { key: 'linkHref', value: t => t.getAttribute('href') },
               }),
-              t.commands.add('link', new _b(t)),
-              t.commands.add('unlink', new Ab(t));
+              t.commands.add('link', new zb(t)),
+              t.commands.add('unlink', new Fb(t));
             const e = (function (t, e) {
               const n = { 'Open in a new tab': t('Open in a new tab'), Downloadable: t('Downloadable') };
               return e.forEach(t => (t.label && n[t.label] && (t.label = n[t.label]), t)), e;
@@ -23326,15 +23642,15 @@
                 const e = [];
                 if (t)
                   for (const [n, o] of Object.entries(t)) {
-                    const t = Object.assign({}, o, { id: `link${db(n)}` });
+                    const t = Object.assign({}, o, { id: `link${vb(n)}` });
                     e.push(t);
                   }
                 return e;
               })(t.config.get('link.decorators')),
             );
-            this._enableAutomaticDecorators(e.filter(t => t.mode === xb)),
+            this._enableAutomaticDecorators(e.filter(t => t.mode === Nb)),
               this._enableManualDecorators(e.filter(t => 'manual' === t.mode));
-            t.plugins.get(Xp).registerAttribute('linkHref'),
+            t.plugins.get(im).registerAttribute('linkHref'),
               (function (t, e, n, o) {
                 const i = t.editing.view,
                   r = new Set();
@@ -23342,7 +23658,7 @@
                   const s = t.model.document.selection;
                   let a = !1;
                   if (s.hasAttribute(e)) {
-                    const c = pm(s.getFirstPosition(), e, s.getAttribute(e), t.model),
+                    const c = wm(s.getFirstPosition(), e, s.getAttribute(e), t.model),
                       l = t.editing.mapper.toViewRange(c);
                     for (const t of l.getItems())
                       t.is('element', n) && !t.hasClass(o) && (i.addClass(o, t), r.add(t), (a = !0));
@@ -23372,8 +23688,8 @@
             e.config.get('link.addTargetToExternalLinks') &&
               n.add({
                 id: 'linkIsExternal',
-                mode: xb,
-                callback: t => Eb.test(t),
+                mode: Nb,
+                callback: t => Vb.test(t),
                 attributes: { target: '_blank', rel: 'noopener noreferrer' },
               }),
               n.add(t),
@@ -23385,7 +23701,7 @@
               n = e.commands.get('link').manualDecorators;
             t.forEach(t => {
               e.model.schema.extend('$text', { allowAttributes: t.id }),
-                n.add(new Cb(t)),
+                n.add(new Rb(t)),
                 e.conversion.for('downcast').attributeToElement({
                   model: t.id,
                   view: (e, { writer: o }) => {
@@ -23403,22 +23719,20 @@
             });
           }
           _enableInsertContentSelectionAttributesFixer() {
-            const t = this.editor,
-              e = t.model,
-              n = e.document.selection,
-              o = t.commands.get('link');
+            const t = this.editor.model,
+              e = t.document.selection;
             this.listenTo(
-              e,
+              t,
               'insertContent',
               () => {
-                const t = n.anchor.nodeBefore,
-                  i = n.anchor.nodeAfter;
-                n.hasAttribute('linkHref') &&
-                  t &&
-                  t.hasAttribute('linkHref') &&
-                  ((i && i.hasAttribute('linkHref')) ||
-                    e.change(t => {
-                      Sb(t, o.manualDecorators);
+                const n = e.anchor.nodeBefore,
+                  o = e.anchor.nodeAfter;
+                e.hasAttribute('linkHref') &&
+                  n &&
+                  n.hasAttribute('linkHref') &&
+                  ((o && o.hasAttribute('linkHref')) ||
+                    t.change(e => {
+                      Kb(e, Hb(t.schema));
                     }));
               },
               { priority: 'low' },
@@ -23426,8 +23740,8 @@
           }
           _enableClickingAfterLink() {
             const t = this.editor,
-              e = t.commands.get('link');
-            t.editing.view.addObserver(Nu);
+              e = t.model;
+            t.editing.view.addObserver(Lu);
             let n = !1;
             this.listenTo(t.editing.view.document, 'mousedown', () => {
               n = !0;
@@ -23435,14 +23749,14 @@
               this.listenTo(t.editing.view.document, 'selectionChange', () => {
                 if (!n) return;
                 n = !1;
-                const o = t.model.document.selection;
-                if (!o.isCollapsed) return;
-                if (!o.hasAttribute('linkHref')) return;
-                const i = o.getFirstPosition(),
-                  r = pm(i, 'linkHref', o.getAttribute('linkHref'), t.model);
-                (i.isTouching(r.start) || i.isTouching(r.end)) &&
-                  t.model.change(t => {
-                    Sb(t, e.manualDecorators);
+                const t = e.document.selection;
+                if (!t.isCollapsed) return;
+                if (!t.hasAttribute('linkHref')) return;
+                const o = t.getFirstPosition(),
+                  i = wm(o, 'linkHref', t.getAttribute('linkHref'), e);
+                (o.isTouching(i.start) || o.isTouching(i.end)) &&
+                  e.change(t => {
+                    Kb(t, Hb(e.schema));
                   });
               });
           }
@@ -23466,7 +23780,7 @@
                   e.isCollapsed ||
                     (o
                       ? (o = !1)
-                      : Bb(t) &&
+                      : qb(t) &&
                         (function (t) {
                           const e = t.document.selection,
                             n = e.getFirstPosition(),
@@ -23477,7 +23791,7 @@
                           if (!i.hasAttribute('linkHref')) return !1;
                           const r = o.textNode || o.nodeBefore;
                           if (i === r) return !0;
-                          return pm(n, 'linkHref', i.getAttribute('linkHref'), t).containsRange(
+                          return wm(n, 'linkHref', i.getAttribute('linkHref'), t).containsRange(
                             t.createRange(n, o),
                             !0,
                           );
@@ -23491,7 +23805,7 @@
                 'insertContent',
                 (e, [i]) => {
                   (o = !1),
-                    Bb(t) &&
+                    qb(t) &&
                       n &&
                       (t.model.change(t => {
                         for (const [e, o] of n) t.setAttribute(e, o, i);
@@ -23505,15 +23819,14 @@
             const t = this.editor,
               e = t.model,
               n = e.document.selection,
-              o = t.editing.view,
-              i = t.commands.get('link');
-            let r = !1,
-              s = !1;
+              o = t.editing.view;
+            let i = !1,
+              r = !1;
             this.listenTo(
               o.document,
               'delete',
               (t, e) => {
-                s = e.domEvent.keyCode === Li.backspace;
+                r = e.domEvent.keyCode === Li.backspace;
               },
               { priority: 'high' },
             ),
@@ -23521,12 +23834,12 @@
                 e,
                 'deleteContent',
                 () => {
-                  r = !1;
+                  i = !1;
                   const t = n.getFirstPosition(),
                     o = n.getAttribute('linkHref');
                   if (!o) return;
-                  const i = pm(t, 'linkHref', o, e);
-                  r = i.containsPosition(t) || i.end.isEqual(t);
+                  const r = wm(t, 'linkHref', o, e);
+                  i = r.containsPosition(t) || r.end.isEqual(t);
                 },
                 { priority: 'high' },
               ),
@@ -23534,41 +23847,44 @@
                 e,
                 'deleteContent',
                 () => {
-                  s &&
-                    ((s = !1),
-                    r ||
+                  r &&
+                    ((r = !1),
+                    i ||
                       t.model.enqueueChange(t => {
-                        Sb(t, i.manualDecorators);
+                        Kb(t, Hb(e.schema));
                       }));
                 },
                 { priority: 'low' },
               );
           }
         }
-        function Sb(t, e) {
+        function Kb(t, e) {
           t.removeSelectionAttribute('linkHref');
-          for (const n of e) t.removeSelectionAttribute(n.id);
+          for (const n of e) t.removeSelectionAttribute(n);
         }
-        function Bb(t) {
+        function qb(t) {
           return t.plugins.get('Input').isInput(t.model.change(t => t.batch));
         }
-        var Tb = n(51),
-          Pb = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Tb.a, Pb), Tb.a.locals;
-        class Ib extends ud {
+        function Hb(t) {
+          return t.getDefinition('$text').allowAttributes.filter(t => t.startsWith('link'));
+        }
+        var jb = n(53),
+          $b = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(jb.a, $b), jb.a.locals;
+        class Gb extends md {
           constructor(t, e) {
             super(t);
             const n = t.t;
             (this.focusTracker = new Ws()),
               (this.keystrokes = new Us()),
               (this.urlInputView = this._createUrlInput()),
-              (this.saveButtonView = this._createButton(n('Save'), Hl, 'ck-button-save')),
+              (this.saveButtonView = this._createButton(n('Save'), $l, 'ck-button-save')),
               (this.saveButtonView.type = 'submit'),
-              (this.cancelButtonView = this._createButton(n('Cancel'), Kl, 'ck-button-cancel', 'cancel')),
+              (this.cancelButtonView = this._createButton(n('Cancel'), jl, 'ck-button-cancel', 'cancel')),
               (this._manualDecoratorSwitches = this._createManualDecoratorSwitches(e)),
               (this.children = this._createFormChildren(e.manualDecorators)),
-              (this._focusables = new ad()),
-              (this._focusCycler = new Ud({
+              (this._focusables = new ld()),
+              (this._focusCycler = new Yd({
                 focusables: this._focusables,
                 focusTracker: this.focusTracker,
                 keystrokeHandler: this.keystrokes,
@@ -23577,13 +23893,13 @@
             const o = ['ck', 'ck-link-form', 'ck-responsive-form'];
             e.manualDecorators.length && o.push('ck-link-form_layout-vertical', 'ck-vertical-form'),
               this.setTemplate({ tag: 'form', attributes: { class: o, tabindex: '-1' }, children: this.children }),
-              rd(this);
+              ad(this);
           }
           getDecoratorSwitchesState() {
             return Array.from(this._manualDecoratorSwitches).reduce((t, e) => ((t[e.name] = e.isOn), t), {});
           }
           render() {
-            super.render(), sd({ view: this });
+            super.render(), cd({ view: this });
             [this.urlInputView, ...this._manualDecoratorSwitches, this.saveButtonView, this.cancelButtonView].forEach(
               t => {
                 this._focusables.add(t), this.focusTracker.add(t.element);
@@ -23596,11 +23912,11 @@
           }
           _createUrlInput() {
             const t = this.locale.t,
-              e = new Uh(this.locale, Jh);
+              e = new Yh(this.locale, Qh);
             return (e.label = t('Link URL')), e;
           }
           _createButton(t, e, n, o) {
-            const i = new Kd(this.locale);
+            const i = new jd(this.locale);
             return (
               i.set({ label: t, icon: e, tooltip: !0 }),
               i.extendTemplate({ attributes: { class: n } }),
@@ -23611,7 +23927,7 @@
           _createManualDecoratorSwitches(t) {
             const e = this.createCollection();
             for (const n of t.manualDecorators) {
-              const o = new Gd(this.locale);
+              const o = new Wd(this.locale);
               o.set({ name: n.id, label: n.label, withText: !0 }),
                 o.bind('isOn').toMany([n, t], 'value', (t, e) => (void 0 === e && void 0 === t ? n.defaultValue : t)),
                 o.on('execute', () => {
@@ -23624,7 +23940,7 @@
           _createFormChildren(t) {
             const e = this.createCollection();
             if ((e.add(this.urlInputView), t.length)) {
-              const t = new ud();
+              const t = new md();
               t.setTemplate({
                 tag: 'ul',
                 children: this._manualDecoratorSwitches.map(t => ({
@@ -23639,10 +23955,10 @@
             return e.add(this.saveButtonView), e.add(this.cancelButtonView), e;
           }
         }
-        var zb = n(52),
-          Fb = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(zb.a, Fb), zb.a.locals;
-        class Rb extends ud {
+        var Wb = n(54),
+          Ub = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Wb.a, Ub), Wb.a.locals;
+        class Jb extends md {
           constructor(t) {
             super(t);
             const e = t.t;
@@ -23654,10 +23970,10 @@
                 '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m11.077 15 .991-1.416a.75.75 0 1 1 1.229.86l-1.148 1.64a.748.748 0 0 1-.217.206 5.251 5.251 0 0 1-8.503-5.955.741.741 0 0 1 .12-.274l1.147-1.639a.75.75 0 1 1 1.228.86L4.933 10.7l.006.003a3.75 3.75 0 0 0 6.132 4.294l.006.004zm5.494-5.335a.748.748 0 0 1-.12.274l-1.147 1.639a.75.75 0 1 1-1.228-.86l.86-1.23a3.75 3.75 0 0 0-6.144-4.301l-.86 1.229a.75.75 0 0 1-1.229-.86l1.148-1.64a.748.748 0 0 1 .217-.206 5.251 5.251 0 0 1 8.503 5.955zm-4.563-2.532a.75.75 0 0 1 .184 1.045l-3.155 4.505a.75.75 0 1 1-1.229-.86l3.155-4.506a.75.75 0 0 1 1.045-.184zm4.919 10.562-1.414 1.414a.75.75 0 1 1-1.06-1.06l1.414-1.415-1.415-1.414a.75.75 0 0 1 1.061-1.06l1.414 1.414 1.414-1.415a.75.75 0 0 1 1.061 1.061l-1.414 1.414 1.414 1.415a.75.75 0 0 1-1.06 1.06l-1.415-1.414z"/></svg>',
                 'unlink',
               )),
-              (this.editButtonView = this._createButton(e('Edit link'), ed, 'edit')),
+              (this.editButtonView = this._createButton(e('Edit link'), od, 'edit')),
               this.set('href'),
-              (this._focusables = new ad()),
-              (this._focusCycler = new Ud({
+              (this._focusables = new ld()),
+              (this._focusCycler = new Yd({
                 focusables: this._focusables,
                 focusTracker: this.focusTracker,
                 keystrokeHandler: this.keystrokes,
@@ -23680,11 +23996,11 @@
             this._focusCycler.focusFirst();
           }
           _createButton(t, e, n) {
-            const o = new Kd(this.locale);
+            const o = new jd(this.locale);
             return o.set({ label: t, icon: e, tooltip: !0 }), o.delegate('execute').to(this, n), o;
           }
           _createPreviewButton() {
-            const t = new Kd(this.locale),
+            const t = new jd(this.locale),
               e = this.bindTemplate,
               n = this.t;
             return (
@@ -23692,7 +24008,7 @@
               t.extendTemplate({
                 attributes: {
                   class: ['ck', 'ck-link-actions__preview'],
-                  href: e.to('href', t => t && kb(t)),
+                  href: e.to('href', t => t && Tb(t)),
                   target: '_blank',
                   rel: 'noopener noreferrer',
                 },
@@ -23705,27 +24021,27 @@
             );
           }
         }
-        const Ob = 'link-ui';
-        class Mb extends Qt {
+        const Yb = 'link-ui';
+        class Qb extends Qt {
           static get requires() {
-            return [hu];
+            return [pu];
           }
           static get pluginName() {
             return 'LinkUI';
           }
           init() {
             const t = this.editor;
-            t.editing.view.addObserver(Mu),
+            t.editing.view.addObserver(Vu),
               (this.actionsView = this._createActionsView()),
               (this.formView = this._createFormView()),
-              (this._balloon = t.plugins.get(hu)),
+              (this._balloon = t.plugins.get(pu)),
               this._createToolbarLinkButton(),
               this._enableUserBalloonInteractions(),
               t.conversion
                 .for('editingDowncast')
-                .markerToHighlight({ model: Ob, view: { classes: ['ck-fake-link-selection'] } }),
+                .markerToHighlight({ model: Yb, view: { classes: ['ck-fake-link-selection'] } }),
               t.conversion.for('editingDowncast').markerToElement({
-                model: Ob,
+                model: Yb,
                 view: { name: 'span', classes: ['ck-fake-link-selection', 'ck-fake-link-selection_collapsed'] },
               });
           }
@@ -23734,7 +24050,7 @@
           }
           _createActionsView() {
             const t = this.editor,
-              e = new Rb(t.locale),
+              e = new Jb(t.locale),
               n = t.commands.get('link'),
               o = t.commands.get('unlink');
             return (
@@ -23750,7 +24066,7 @@
               e.keystrokes.set('Esc', (t, e) => {
                 this._hideUI(), e();
               }),
-              e.keystrokes.set(gb, (t, e) => {
+              e.keystrokes.set(Sb, (t, e) => {
                 this._addFormView(), e();
               }),
               e
@@ -23760,14 +24076,14 @@
             const t = this.editor,
               e = t.commands.get('link'),
               n = t.config.get('link.defaultProtocol'),
-              o = new Ib(t.locale, e);
+              o = new Gb(t.locale, e);
             return (
               o.urlInputView.fieldView.bind('value').to(e, 'value'),
               o.urlInputView.bind('isReadOnly').to(e, 'isEnabled', t => !t),
               o.saveButtonView.bind('isEnabled').to(e),
               this.listenTo(o, 'submit', () => {
                 const { value: e } = o.urlInputView.fieldView.element,
-                  i = wb(e, n);
+                  i = Ib(e, n);
                 t.execute('link', i, o.getDecoratorSwitchesState()), this._closeFormView();
               }),
               this.listenTo(o, 'cancel', () => {
@@ -23783,17 +24099,17 @@
             const t = this.editor,
               e = t.commands.get('link'),
               n = t.t;
-            t.keystrokes.set(gb, (t, n) => {
+            t.keystrokes.set(Sb, (t, n) => {
               n(), e.isEnabled && this._showUI(!0);
             }),
               t.ui.componentFactory.add('link', t => {
-                const o = new Kd(t);
+                const o = new jd(t);
                 return (
                   (o.isEnabled = !0),
                   (o.label = n('Link')),
                   (o.icon =
                     '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m11.077 15 .991-1.416a.75.75 0 1 1 1.229.86l-1.148 1.64a.748.748 0 0 1-.217.206 5.251 5.251 0 0 1-8.503-5.955.741.741 0 0 1 .12-.274l1.147-1.639a.75.75 0 1 1 1.228.86L4.933 10.7l.006.003a3.75 3.75 0 0 0 6.132 4.294l.006.004zm5.494-5.335a.748.748 0 0 1-.12.274l-1.147 1.639a.75.75 0 1 1-1.228-.86l.86-1.23a3.75 3.75 0 0 0-6.144-4.301l-.86 1.229a.75.75 0 0 1-1.229-.86l1.148-1.64a.748.748 0 0 1 .217-.206 5.251 5.251 0 0 1 8.503 5.955zm-4.563-2.532a.75.75 0 0 1 .184 1.045l-3.155 4.505a.75.75 0 1 1-1.229-.86l3.155-4.506a.75.75 0 0 1 1.045-.184z"/></svg>'),
-                  (o.keystroke = gb),
+                  (o.keystroke = Sb),
                   (o.tooltip = !0),
                   (o.isToggleable = !0),
                   o.bind('isEnabled').to(e, 'isEnabled'),
@@ -23820,7 +24136,7 @@
               this.editor.keystrokes.set('Esc', (t, e) => {
                 this._isUIVisible && (this._hideUI(), e());
               }),
-              id({
+              sd({
                 emitter: this.formView,
                 activator: () => this._isUIInPanel,
                 contextElements: [this._balloon.view.element],
@@ -23913,8 +24229,8 @@
               e = this.editor.model,
               n = t.document;
             let o = null;
-            if (e.markers.has(Ob)) {
-              const e = Array.from(this.editor.editing.mapper.markerNameToElements(Ob)),
+            if (e.markers.has(Yb)) {
+              const e = Array.from(this.editor.editing.mapper.markerNameToElements(Yb)),
                 n = t.createRange(t.createPositionBefore(e[0]), t.createPositionAfter(e[e.length - 1]));
               o = t.domConverter.viewRangeToDom(n);
             } else {
@@ -23927,11 +24243,11 @@
           _getSelectedLinkElement() {
             const t = this.editor.editing.view,
               e = t.document.selection;
-            if (e.isCollapsed) return Nb(e.getFirstPosition());
+            if (e.isCollapsed) return Xb(e.getFirstPosition());
             {
               const n = e.getFirstRange().getTrimmed(),
-                o = Nb(n.start),
-                i = Nb(n.end);
+                o = Xb(n.start),
+                i = Xb(n.end);
               return o && o == i && t.createRangeIn(o).getTrimmed().isEqual(n) ? o : null;
             }
           }
@@ -23939,32 +24255,32 @@
             const t = this.editor.model;
             t.change(e => {
               const n = t.document.selection.getFirstRange();
-              if (t.markers.has(Ob)) e.updateMarker(Ob, { range: n });
+              if (t.markers.has(Yb)) e.updateMarker(Yb, { range: n });
               else if (n.start.isAtEnd) {
                 const o = n.start.getLastMatchingPosition(({ item: e }) => !t.schema.isContent(e), { boundaries: n });
-                e.addMarker(Ob, { usingOperation: !1, affectsData: !1, range: e.createRange(o, n.end) });
-              } else e.addMarker(Ob, { usingOperation: !1, affectsData: !1, range: n });
+                e.addMarker(Yb, { usingOperation: !1, affectsData: !1, range: e.createRange(o, n.end) });
+              } else e.addMarker(Yb, { usingOperation: !1, affectsData: !1, range: n });
             });
           }
           _hideFakeVisualSelection() {
             const t = this.editor.model;
-            t.markers.has(Ob) &&
+            t.markers.has(Yb) &&
               t.change(t => {
-                t.removeMarker(Ob);
+                t.removeMarker(Yb);
               });
           }
         }
-        function Nb(t) {
+        function Xb(t) {
           return t.getAncestors().find(t => {
             return (e = t).is('attributeElement') && !!e.getCustomProperty('link');
             var e;
           });
         }
-        const Vb = new RegExp(
+        const Zb = new RegExp(
           '(^|\\s)(((?:(?:(?:https?|ftp):)?\\/\\/)(?:\\S+(?::\\S*)?@)?(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(((?!www\\.)|(www\\.))(?![-_])(?:[-_a-z0-9\\u00a1-\\uffff]{1,63}\\.)+(?:[a-z\\u00a1-\\uffff]{2,63})))(?::\\d{2,5})?(?:[/?#]\\S*)?)|((www.|(\\S+@))((?![-_])(?:[-_a-z0-9\\u00a1-\\uffff]{1,63}\\.))+(?:[a-z\\u00a1-\\uffff]{2,63})))$',
           'i',
         );
-        class Lb extends Qt {
+        class tw extends Qt {
           static get pluginName() {
             return 'AutoLink';
           }
@@ -23980,14 +24296,14 @@
           }
           _enableTypingHandling() {
             const t = this.editor,
-              e = new Qp(t.model, t => {
+              e = new om(t.model, t => {
                 if (
                   !(function (t) {
                     return t.length > 4 && ' ' === t[t.length - 1] && ' ' !== t[t.length - 2];
                   })(t)
                 )
                   return;
-                const e = qb(t.substr(0, t.length - 1));
+                const e = ew(t.substr(0, t.length - 1));
                 return e ? { url: e } : void 0;
               }),
               n = t.plugins.get('Input');
@@ -24026,8 +24342,8 @@
           }
           _checkAndApplyAutoLinkOnRange(t) {
             const e = this.editor.model,
-              { text: n, range: o } = Yp(t, e),
-              i = qb(n);
+              { text: n, range: o } = nm(t, e),
+              i = ew(n);
             if (i) {
               const t = e.createRange(o.end.getShiftedBy(-i.length), o.end);
               this._applyAutoLink(i, t);
@@ -24041,16 +24357,16 @@
               })(e, n) &&
               n.enqueueChange(n => {
                 const o = this.editor.config.get('link.defaultProtocol'),
-                  i = wb(t, o);
+                  i = Ib(t, o);
                 n.setAttribute('linkHref', i, e);
               });
           }
         }
-        function qb(t) {
-          const e = Vb.exec(t);
+        function ew(t) {
+          const e = Zb.exec(t);
           return e ? e[2] : null;
         }
-        class Kb extends Zt {
+        class nw extends Zt {
           constructor(t, e) {
             super(t), (this.type = e);
           }
@@ -24060,7 +24376,7 @@
           execute(t = {}) {
             const e = this.editor.model,
               n = e.document,
-              o = Array.from(n.selection.getSelectedBlocks()).filter(t => jb(t, e.schema)),
+              o = Array.from(n.selection.getSelectedBlocks()).filter(t => iw(t, e.schema)),
               i = void 0 !== t.forceValue ? !t.forceValue : this.value;
             e.change(t => {
               if (i) {
@@ -24080,7 +24396,7 @@
                 let t = Number.POSITIVE_INFINITY;
                 for (const e of o)
                   e.is('element', 'listItem') && e.getAttribute('listIndent') < t && (t = e.getAttribute('listIndent'));
-                (t = 0 === t ? 1 : t), Hb(o, !0, t), Hb(o, !1, t);
+                (t = 0 === t ? 1 : t), ow(o, !0, t), ow(o, !1, t);
               }
               for (const e of o.reverse())
                 i && 'listItem' == e.name
@@ -24095,18 +24411,18 @@
             });
           }
           _getValue() {
-            const t = $s(this.editor.model.document.selection.getSelectedBlocks());
+            const t = Gs(this.editor.model.document.selection.getSelectedBlocks());
             return !!t && t.is('element', 'listItem') && t.getAttribute('listType') == this.type;
           }
           _checkEnabled() {
             if (this.value) return !0;
             const t = this.editor.model.document.selection,
               e = this.editor.model.schema,
-              n = $s(t.getSelectedBlocks());
-            return !!n && jb(n, e);
+              n = Gs(t.getSelectedBlocks());
+            return !!n && iw(n, e);
           }
         }
-        function Hb(t, e, n) {
+        function ow(t, e, n) {
           const o = e ? t[0] : t[t.length - 1];
           if (o.is('element', 'listItem')) {
             let i = o[e ? 'previousSibling' : 'nextSibling'],
@@ -24117,10 +24433,10 @@
                 (i = i[e ? 'previousSibling' : 'nextSibling']);
           }
         }
-        function jb(t, e) {
+        function iw(t, e) {
           return e.checkChild(t.parent, 'listItem') && !e.isObject(t);
         }
-        class Gb extends Zt {
+        class rw extends Zt {
           constructor(t, e) {
             super(t), (this._indentBy = 'forward' == e ? 1 : -1);
           }
@@ -24145,7 +24461,7 @@
             });
           }
           _checkEnabled() {
-            const t = $s(this.editor.model.document.selection.getSelectedBlocks());
+            const t = Gs(this.editor.model.document.selection.getSelectedBlocks());
             if (!t || !t.is('element', 'listItem')) return !1;
             if (this._indentBy > 0) {
               const e = t.getAttribute('listIndent'),
@@ -24160,23 +24476,23 @@
             return !0;
           }
         }
-        function $b(t, e) {
+        function sw(t, e) {
           const n = e.mapper,
             o = e.writer,
             i = 'numbered' == t.getAttribute('listType') ? 'ol' : 'ul',
             r = (function (t) {
               const e = t.createContainerElement('li');
-              return (e.getFillerOffset = tw), e;
+              return (e.getFillerOffset = mw), e;
             })(o),
             s = o.createContainerElement(i, null);
           return o.insert(o.createPositionAt(s, 0), r), n.bindElements(t, r), r;
         }
-        function Wb(t, e, n, o) {
+        function aw(t, e, n, o) {
           const i = e.parent,
             r = n.mapper,
             s = n.writer;
           let a = r.toViewPosition(o.createPositionBefore(t));
-          const c = Yb(t.previousSibling, {
+          const c = dw(t.previousSibling, {
               sameIndent: !0,
               smallerIndent: !0,
               listIndent: t.getAttribute('listIndent'),
@@ -24188,10 +24504,10 @@
           } else if (l && 'listItem' == l.name) {
             a = r.toViewPosition(o.createPositionAt(l, 'end'));
             const t = r.findMappedViewAncestor(a),
-              e = Xb(t);
+              e = uw(t);
             a = e ? s.createPositionBefore(e) : s.createPositionAt(t, 'end');
           } else a = r.toViewPosition(o.createPositionBefore(t));
-          if (((a = Jb(a)), s.insert(a, i), l && 'listItem' == l.name)) {
+          if (((a = lw(a)), s.insert(a, i), l && 'listItem' == l.name)) {
             const t = r.toViewElement(l),
               n = s.createRange(s.createPositionAt(t, 0), a).getWalker({ ignoreElementEnd: !0 });
             for (const t of n)
@@ -24199,7 +24515,7 @@
                 const o = s.breakContainer(s.createPositionBefore(t.item)),
                   i = t.item.parent,
                   r = s.createPositionAt(e, 'end');
-                Ub(s, r.nodeBefore, r.nodeAfter), s.move(s.createRangeOn(i), r), (n.position = o);
+                cw(s, r.nodeBefore, r.nodeAfter), s.move(s.createRangeOn(i), r), (n.position = o);
               }
           } else {
             const n = i.nextSibling;
@@ -24215,9 +24531,9 @@
                 s.move(s.createRangeOn(o.parent), s.createPositionAt(e, 'end')));
             }
           }
-          Ub(s, i, i.nextSibling), Ub(s, i.previousSibling, i);
+          cw(s, i, i.nextSibling), cw(s, i.previousSibling, i);
         }
-        function Ub(t, e, n) {
+        function cw(t, e, n) {
           return !e ||
             !n ||
             ('ul' != e.name && 'ol' != e.name) ||
@@ -24226,10 +24542,10 @@
             ? null
             : t.mergeContainers(t.createPositionAfter(e));
         }
-        function Jb(t) {
+        function lw(t) {
           return t.getLastMatchingPosition(t => t.item.is('uiElement'));
         }
-        function Yb(t, e) {
+        function dw(t, e) {
           const n = !!e.sameIndent,
             o = !!e.smallerIndent,
             i = e.listIndent;
@@ -24241,10 +24557,10 @@
           }
           return null;
         }
-        function Qb(t, e, n, o) {
+        function hw(t, e, n, o) {
           t.ui.componentFactory.add(e, i => {
             const r = t.commands.get(e),
-              s = new Kd(i);
+              s = new jd(i);
             return (
               s.set({ label: n, icon: o, tooltip: !0, isToggleable: !0 }),
               s.bind('isOn', 'isEnabled').to(r, 'value', 'isEnabled'),
@@ -24255,11 +24571,11 @@
             );
           });
         }
-        function Xb(t) {
+        function uw(t) {
           for (const e of t.getChildren()) if ('ul' == e.name || 'ol' == e.name) return e;
           return null;
         }
-        function Zb(t, e) {
+        function pw(t, e) {
           const n = [],
             o = t.parent,
             i = { ignoreElementEnd: !0, startPosition: t, shallow: !0, direction: e },
@@ -24276,11 +24592,11 @@
           }
           return n;
         }
-        function tw() {
+        function mw() {
           const t = !this.isEmpty && ('ul' == this.getChild(0).name || 'ol' == this.getChild(0).name);
           return this.isEmpty || t ? 0 : ui.call(this);
         }
-        function ew(t) {
+        function gw(t) {
           return (e, n, o) => {
             const i = o.consumable;
             if (
@@ -24293,10 +24609,10 @@
               i.consume(n.item, 'attribute:listType'),
               i.consume(n.item, 'attribute:listIndent');
             const r = n.item;
-            Wb(r, $b(r, o), o, t);
+            aw(r, sw(r, o), o, t);
           };
         }
-        function nw(t, e, n) {
+        function fw(t, e, n) {
           if (!n.consumable.consume(e.item, 'attribute:listType')) return;
           const o = n.mapper.toViewElement(e.item),
             i = n.writer;
@@ -24305,13 +24621,13 @@
             s = 'numbered' == e.attributeNewValue ? 'ol' : 'ul';
           i.rename(s, r);
         }
-        function ow(t, e, n) {
+        function kw(t, e, n) {
           const o = n.mapper.toViewElement(e.item).parent,
             i = n.writer;
-          Ub(i, o, o.nextSibling), Ub(i, o.previousSibling, o);
+          cw(i, o, o.nextSibling), cw(i, o.previousSibling, o);
           for (const t of e.item.getChildren()) n.consumable.consume(t, 'insert');
         }
-        function iw(t, e, n) {
+        function bw(t, e, n) {
           if ('listItem' != e.item.name) {
             let t = n.mapper.toViewPosition(e.range.start);
             const o = n.writer,
@@ -24333,21 +24649,21 @@
               for (let e = 0; e < i.length; e++) {
                 const n = t.nodeBefore;
                 if (((t = o.insert(t, i[e]).end), e > 0)) {
-                  const e = Ub(o, n, n.nextSibling);
+                  const e = cw(o, n, n.nextSibling);
                   e && e.parent == n && t.offset--;
                 }
               }
-              Ub(o, t.nodeBefore, t.nodeAfter);
+              cw(o, t.nodeBefore, t.nodeAfter);
             }
           }
         }
-        function rw(t, e, n) {
+        function ww(t, e, n) {
           const o = n.mapper.toViewPosition(e.position),
             i = o.nodeBefore,
             r = o.nodeAfter;
-          Ub(n.writer, i, r);
+          cw(n.writer, i, r);
         }
-        function sw(t, e, n) {
+        function Aw(t, e, n) {
           if (n.consumable.consume(e.viewItem, { name: !0 })) {
             const t = n.writer,
               o = t.createElement('listItem'),
@@ -24378,7 +24694,7 @@
                   a &&
                     a.is('element') &&
                     !i.checkChild(t, a.name) &&
-                    ((t = e.modelCursor.parent.is('element', 'listItem') ? e.modelCursor.parent : hw(e.modelCursor)),
+                    ((t = e.modelCursor.parent.is('element', 'listItem') ? e.modelCursor.parent : xw(e.modelCursor)),
                     (r = o.createPositionAfter(t)));
                 }
               return r;
@@ -24386,36 +24702,36 @@
             (e.modelRange = t.createRange(e.modelCursor, s)), n.updateConversionResult(o, e);
           }
         }
-        function aw(t, e, n) {
+        function _w(t, e, n) {
           if (n.consumable.test(e.viewItem, { name: !0 })) {
             const t = Array.from(e.viewItem.getChildren());
             for (const e of t) {
-              !(e.is('element', 'li') || pw(e)) && e._remove();
+              !(e.is('element', 'li') || Dw(e)) && e._remove();
             }
           }
         }
-        function cw(t, e, n) {
+        function Cw(t, e, n) {
           if (n.consumable.test(e.viewItem, { name: !0 })) {
             if (0 === e.viewItem.childCount) return;
             const t = [...e.viewItem.getChildren()];
             let n = !1,
               o = !0;
             for (const e of t)
-              n && !pw(e) && e._remove(),
+              n && !Dw(e) && e._remove(),
                 e.is('$text')
                   ? (o && (e._data = e.data.trimStart()),
-                    (e.nextSibling && !pw(e.nextSibling)) || (e._data = e.data.trimEnd()))
-                  : pw(e) && (n = !0),
+                    (e.nextSibling && !Dw(e.nextSibling)) || (e._data = e.data.trimEnd()))
+                  : Dw(e) && (n = !0),
                 (o = !1);
           }
         }
-        function lw(t) {
+        function vw(t) {
           return (e, n) => {
             if (n.isPhantom) return;
             const o = n.modelPosition.nodeBefore;
             if (o && o.is('element', 'listItem')) {
               const e = n.mapper.toViewElement(o),
-                i = e.getAncestors().find(pw),
+                i = e.getAncestors().find(Dw),
                 r = t.createPositionAt(e, 0).getWalker();
               for (const t of r) {
                 if ('elementStart' == t.type && t.item.is('element', 'li')) {
@@ -24430,7 +24746,7 @@
             }
           };
         }
-        function dw(t, [e, n]) {
+        function yw(t, [e, n]) {
           let o,
             i = e.is('documentFragment') ? e.getChild(0) : e;
           if (((o = n ? this.createSelection(n) : this.document.selection), i && i.is('element', 'listItem'))) {
@@ -24449,7 +24765,7 @@
             }
           }
         }
-        function hw(t) {
+        function xw(t) {
           const e = new ua({ startPosition: t });
           let n;
           do {
@@ -24457,8 +24773,8 @@
           } while (!n.value.item.is('element', 'listItem'));
           return n.value.item;
         }
-        function uw(t, e, n, o, i, r) {
-          const s = Yb(e.nodeBefore, { sameIndent: !0, smallerIndent: !0, listIndent: t, foo: 'b' }),
+        function Ew(t, e, n, o, i, r) {
+          const s = dw(e.nodeBefore, { sameIndent: !0, smallerIndent: !0, listIndent: t, foo: 'b' }),
             a = i.mapper,
             c = i.writer,
             l = s ? s.getAttribute('listIndent') : null;
@@ -24472,19 +24788,19 @@
               d = a.toViewPosition(t);
             }
           else d = n;
-          d = Jb(d);
+          d = lw(d);
           for (const t of [...o.getChildren()])
-            pw(t) && ((d = c.move(c.createRangeOn(t), d).end), Ub(c, t, t.nextSibling), Ub(c, t.previousSibling, t));
+            Dw(t) && ((d = c.move(c.createRangeOn(t), d).end), cw(c, t, t.nextSibling), cw(c, t.previousSibling, t));
         }
-        function pw(t) {
+        function Dw(t) {
           return t.is('element', 'ol') || t.is('element', 'ul');
         }
-        class mw extends Qt {
+        class Sw extends Qt {
           static get pluginName() {
             return 'ListEditing';
           }
           static get requires() {
-            return [Pp, Up];
+            return [Mp, tm];
           }
           init() {
             const t = this.editor;
@@ -24562,9 +24878,9 @@
                 }
               })(t.model, e),
             ),
-              n.mapper.registerViewToModelLength('li', gw),
-              e.mapper.registerViewToModelLength('li', gw),
-              n.mapper.on('modelToViewPosition', lw(n.view)),
+              n.mapper.registerViewToModelLength('li', Bw),
+              e.mapper.registerViewToModelLength('li', Bw),
+              n.mapper.on('modelToViewPosition', vw(n.view)),
               n.mapper.on(
                 'viewToModelPosition',
                 ((o = t.model),
@@ -24590,17 +24906,17 @@
                     const s = r.toModelElement(i);
                     let a = 1,
                       c = n.nodeBefore;
-                    for (; c && pw(c); ) (a += r.getModelLength(c)), (c = c.previousSibling);
+                    for (; c && Dw(c); ) (a += r.getModelLength(c)), (c = c.previousSibling);
                     (e.modelPosition = o.createPositionBefore(s).getShiftedBy(a)), t.stop();
                   }
                 }),
               ),
-              e.mapper.on('modelToViewPosition', lw(n.view)),
+              e.mapper.on('modelToViewPosition', vw(n.view)),
               t.conversion.for('editingDowncast').add(e => {
-                e.on('insert', iw, { priority: 'high' }),
-                  e.on('insert:listItem', ew(t.model)),
-                  e.on('attribute:listType:listItem', nw, { priority: 'high' }),
-                  e.on('attribute:listType:listItem', ow, { priority: 'low' }),
+                e.on('insert', bw, { priority: 'high' }),
+                  e.on('insert:listItem', gw(t.model)),
+                  e.on('attribute:listType:listItem', fw, { priority: 'high' }),
+                  e.on('attribute:listType:listItem', kw, { priority: 'low' }),
                   e.on(
                     'attribute:listIndent:listItem',
                     (function (t) {
@@ -24613,9 +24929,9 @@
                           a = s.previousSibling,
                           c = r.createRangeOn(s);
                         r.remove(c),
-                          a && a.nextSibling && Ub(r, a, a.nextSibling),
-                          uw(n.attributeOldValue + 1, n.range.start, c.start, i, o, t),
-                          Wb(n.item, i, o, t);
+                          a && a.nextSibling && cw(r, a, a.nextSibling),
+                          Ew(n.attributeOldValue + 1, n.range.start, c.start, i, o, t),
+                          aw(n.item, i, o, t);
                         for (const t of n.item.getChildren()) o.consumable.consume(t, 'insert');
                       };
                     })(t.model),
@@ -24633,29 +24949,29 @@
                           a = s.previousSibling,
                           c = r.createRangeOn(s),
                           l = r.remove(c);
-                        a && a.nextSibling && Ub(r, a, a.nextSibling),
-                          uw(o.mapper.toModelElement(i).getAttribute('listIndent') + 1, n.position, c.start, i, o, t);
+                        a && a.nextSibling && cw(r, a, a.nextSibling),
+                          Ew(o.mapper.toModelElement(i).getAttribute('listIndent') + 1, n.position, c.start, i, o, t);
                         for (const t of r.createRangeIn(l).getItems()) o.mapper.unbindViewElement(t);
                         e.stop();
                       };
                     })(t.model),
                   ),
-                  e.on('remove', rw, { priority: 'low' });
+                  e.on('remove', ww, { priority: 'low' });
               }),
               t.conversion.for('dataDowncast').add(e => {
-                e.on('insert', iw, { priority: 'high' }), e.on('insert:listItem', ew(t.model));
+                e.on('insert', bw, { priority: 'high' }), e.on('insert:listItem', gw(t.model));
               }),
               t.conversion.for('upcast').add(t => {
-                t.on('element:ul', aw, { priority: 'high' }),
-                  t.on('element:ol', aw, { priority: 'high' }),
-                  t.on('element:li', cw, { priority: 'high' }),
-                  t.on('element:li', sw);
+                t.on('element:ul', _w, { priority: 'high' }),
+                  t.on('element:ol', _w, { priority: 'high' }),
+                  t.on('element:li', Cw, { priority: 'high' }),
+                  t.on('element:li', Aw);
               }),
-              t.model.on('insertContent', dw, { priority: 'high' }),
-              t.commands.add('numberedList', new Kb(t, 'numbered')),
-              t.commands.add('bulletedList', new Kb(t, 'bulleted')),
-              t.commands.add('indentList', new Gb(t, 'forward')),
-              t.commands.add('outdentList', new Gb(t, 'backward'));
+              t.model.on('insertContent', yw, { priority: 'high' }),
+              t.commands.add('numberedList', new nw(t, 'numbered')),
+              t.commands.add('bulletedList', new nw(t, 'bulleted')),
+              t.commands.add('indentList', new rw(t, 'forward')),
+              t.commands.add('outdentList', new rw(t, 'backward'));
             const i = n.view.document;
             this.listenTo(
               i,
@@ -24698,27 +25014,27 @@
             e && e.registerChildCommand(t.get('indentList')), n && n.registerChildCommand(t.get('outdentList'));
           }
         }
-        function gw(t) {
+        function Bw(t) {
           let e = 1;
           for (const n of t.getChildren())
-            if ('ul' == n.name || 'ol' == n.name) for (const t of n.getChildren()) e += gw(t);
+            if ('ul' == n.name || 'ol' == n.name) for (const t of n.getChildren()) e += Bw(t);
           return e;
         }
-        var fw =
+        var Tw =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 5.75c0 .414.336.75.75.75h9.5a.75.75 0 1 0 0-1.5h-9.5a.75.75 0 0 0-.75.75zM3.5 3v5H2V3.7H1v-1h2.5V3zM.343 17.857l2.59-3.257H2.92a.6.6 0 1 0-1.04 0H.302a2 2 0 1 1 3.995 0h-.001c-.048.405-.16.734-.333.988-.175.254-.59.692-1.244 1.312H4.3v1h-4l.043-.043zM7 14.75a.75.75 0 0 1 .75-.75h9.5a.75.75 0 1 1 0 1.5h-9.5a.75.75 0 0 1-.75-.75z"/></svg>',
-          kw =
+          Pw =
             '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 5.75c0 .414.336.75.75.75h9.5a.75.75 0 1 0 0-1.5h-9.5a.75.75 0 0 0-.75.75zm-6 0C1 4.784 1.777 4 2.75 4c.966 0 1.75.777 1.75 1.75 0 .966-.777 1.75-1.75 1.75C1.784 7.5 1 6.723 1 5.75zm6 9c0 .414.336.75.75.75h9.5a.75.75 0 1 0 0-1.5h-9.5a.75.75 0 0 0-.75.75zm-6 0c0-.966.777-1.75 1.75-1.75.966 0 1.75.777 1.75 1.75 0 .966-.777 1.75-1.75 1.75-.966 0-1.75-.777-1.75-1.75z"/></svg>';
-        class bw extends Qt {
+        class Iw extends Qt {
           static get pluginName() {
             return 'ListUI';
           }
           init() {
             const t = this.editor.t;
-            Qb(this.editor, 'numberedList', t('Numbered List'), fw),
-              Qb(this.editor, 'bulletedList', t('Bulleted List'), kw);
+            hw(this.editor, 'numberedList', t('Numbered List'), Tw),
+              hw(this.editor, 'bulletedList', t('Bulleted List'), Pw);
           }
         }
-        class ww extends Zt {
+        class zw extends Zt {
           constructor(t, e) {
             super(t), (this._defaultType = e);
           }
@@ -24731,7 +25047,7 @@
               .filter(t => t.is('element', 'listItem'))
               .map(t => {
                 const n = e.change(e => e.createPositionAt(t, 0));
-                return [...Zb(n, 'backward'), ...Zb(n, 'forward')];
+                return [...pw(n, 'backward'), ...pw(n, 'forward')];
               })
               .flat();
             (n = [...new Set(n)]),
@@ -24751,10 +25067,10 @@
             return e.isEnabled || n.isEnabled;
           }
         }
-        const _w = 'default';
-        class Aw extends Qt {
+        const Fw = 'default';
+        class Rw extends Qt {
           static get requires() {
-            return [mw];
+            return [Sw];
           }
           static get pluginName() {
             return 'ListStyleEditing';
@@ -24763,7 +25079,7 @@
             const t = this.editor,
               e = t.model;
             e.schema.extend('listItem', { allowAttributes: ['listStyle'] }),
-              t.commands.add('listStyle', new ww(t, _w)),
+              t.commands.add('listStyle', new zw(t, Fw)),
               this.listenTo(
                 t.commands.get('indentList'),
                 '_executeCleanup',
@@ -24773,9 +25089,9 @@
                     const i = n[0],
                       r = i.getAttribute('listIndent'),
                       s = n.filter(t => t.getAttribute('listIndent') === r);
-                    if (i.previousSibling.getAttribute('listIndent') + 1 === r) o = _w;
+                    if (i.previousSibling.getAttribute('listIndent') + 1 === r) o = Fw;
                     else {
-                      const t = Yb(i.previousSibling, { sameIndent: !0, direction: 'backward', listIndent: r });
+                      const t = dw(i.previousSibling, { sameIndent: !0, direction: 'backward', listIndent: r });
                       o = t.getAttribute('listStyle');
                     }
                     t.model.change(t => {
@@ -24806,13 +25122,13 @@
                   };
                 })(t),
               ),
-              this.listenTo(t.commands.get('bulletedList'), '_executeCleanup', yw(t)),
-              this.listenTo(t.commands.get('numberedList'), '_executeCleanup', yw(t)),
+              this.listenTo(t.commands.get('bulletedList'), '_executeCleanup', Nw(t)),
+              this.listenTo(t.commands.get('numberedList'), '_executeCleanup', Nw(t)),
               e.document.registerPostFixer(
                 (function (t) {
                   return e => {
                     let n = !1;
-                    const o = xw(t.model.document.differ.getChanges()).filter(
+                    const o = Vw(t.model.document.differ.getChanges()).filter(
                       t => 'todo' !== t.getAttribute('listType'),
                     );
                     if (!o.length) return n;
@@ -24830,11 +25146,11 @@
                     for (const t of o)
                       if (t.hasAttribute('listStyle')) {
                         const o = t.previousSibling;
-                        vw(o, t) && (e.setAttribute('listStyle', o.getAttribute('listStyle'), t), (n = !0));
+                        Mw(o, t) && (e.setAttribute('listStyle', o.getAttribute('listStyle'), t), (n = !0));
                       } else
-                        Cw(i, t)
+                        Ow(i, t)
                           ? e.setAttribute('listStyle', i.getAttribute('listStyle'), t)
-                          : e.setAttribute('listStyle', _w, t),
+                          : e.setAttribute('listStyle', Fw, t),
                           (n = !0);
                     return n;
                   };
@@ -24844,9 +25160,11 @@
                 t.on(
                   'element:li',
                   (t, e, n) => {
-                    const o = e.viewItem.parent.getStyle('list-style-type') || _w,
-                      i = e.modelRange.start.nodeAfter || e.modelRange.end.nodeBefore;
-                    n.writer.setAttribute('listStyle', o, i);
+                    const o = e.viewItem.parent;
+                    if (!o) return;
+                    const i = o.getStyle('list-style-type') || Fw,
+                      r = e.modelRange.start.nodeAfter || e.modelRange.end.nodeBefore;
+                    n.writer.setAttribute('listStyle', i, r);
                   },
                   { priority: 'low' },
                 );
@@ -24859,7 +25177,7 @@
                       (n, o, i) => {
                         const r = i.writer,
                           s = o.item,
-                          a = Yb(s.previousSibling, {
+                          a = dw(s.previousSibling, {
                             sameIndent: !0,
                             listIndent: s.getAttribute('listIndent'),
                             direction: 'backward',
@@ -24879,7 +25197,7 @@
                     );
                   }
                   function e(t, e, n) {
-                    e && e !== _w ? t.setStyle('list-style-type', e, n) : t.removeStyle('list-style-type', n);
+                    e && e !== Fw ? t.setStyle('list-style-type', e, n) : t.removeStyle('list-style-type', n);
                   }
                 })(),
               ),
@@ -24891,7 +25209,7 @@
               t.model.document.registerPostFixer(
                 (function (t) {
                   return e => {
-                    const n = xw(t.model.document.differ.getChanges()).filter(
+                    const n = Vw(t.model.document.differ.getChanges()).filter(
                       t => 'todo' === t.getAttribute('listType') && t.hasAttribute('listStyle'),
                     );
                     if (!n.length) return !1;
@@ -24914,7 +25232,7 @@
                 if (!o.parent.is('element', 'listItem')) return;
                 const r = i.parent.nextSibling;
                 if (!r || !r.is('element', 'listItem')) return;
-                const s = Yb(o.parent, { sameIndent: !0, listIndent: r.getAttribute('listIndent') });
+                const s = dw(o.parent, { sameIndent: !0, listIndent: r.getAttribute('listIndent') });
                 s && s.getAttribute('listType') === r.getAttribute('listType') && (e = s);
               },
               { priority: 'high' },
@@ -24925,12 +25243,12 @@
                 () => {
                   e &&
                     (t.change(t => {
-                      const n = Yb(e.nextSibling, {
+                      const n = dw(e.nextSibling, {
                           sameIndent: !0,
                           listIndent: e.getAttribute('listIndent'),
                           direction: 'forward',
                         }),
-                        o = [n, ...Zb(t.createPositionAt(n, 0), 'forward')];
+                        o = [n, ...pw(t.createPositionAt(n, 0), 'forward')];
                       for (const n of o) t.setAttribute('listStyle', e.getAttribute('listStyle'), n);
                     }),
                     (e = null));
@@ -24939,12 +25257,12 @@
               );
           }
         }
-        function Cw(t, e) {
+        function Ow(t, e) {
           if (!t) return !1;
           const n = t.getAttribute('listStyle');
-          return !!n && n !== _w && t.getAttribute('listType') === e.getAttribute('listType');
+          return !!n && n !== Fw && t.getAttribute('listType') === e.getAttribute('listType');
         }
-        function vw(t, e) {
+        function Mw(t, e) {
           if (!t || !t.is('element', 'listItem')) return !1;
           if (e.getAttribute('listType') !== t.getAttribute('listType')) return !1;
           const n = t.getAttribute('listIndent');
@@ -24952,7 +25270,7 @@
           const o = t.getAttribute('listStyle');
           return !(!o || o === e.getAttribute('listStyle'));
         }
-        function yw(t) {
+        function Nw(t) {
           return (e, n) => {
             (n = n.filter(t => t.is('element', 'listItem'))),
               t.model.change(t => {
@@ -24960,21 +25278,21 @@
               });
           };
         }
-        function xw(t) {
+        function Vw(t) {
           const e = [];
           for (const n of t) {
-            const t = Ew(n);
+            const t = Lw(n);
             t && t.is('element', 'listItem') && e.push(t);
           }
           return e;
         }
-        function Ew(t) {
+        function Lw(t) {
           return 'attribute' === t.type ? t.range.start.nodeAfter : 'insert' === t.type ? t.position.nodeAfter : null;
         }
-        var Dw = n(53),
-          Sw = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Dw.a, Sw), Dw.a.locals;
-        class Bw extends Qt {
+        var Kw = n(55),
+          qw = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Kw.a, qw), Kw.a.locals;
+        class Hw extends Qt {
           static get pluginName() {
             return 'ListStyleUI';
           }
@@ -24983,11 +25301,11 @@
               e = t.locale.t;
             t.ui.componentFactory.add(
               'bulletedList',
-              Tw({
+              jw({
                 editor: t,
                 parentCommandName: 'bulletedList',
                 buttonLabel: e('Bulleted List'),
-                buttonIcon: kw,
+                buttonIcon: Pw,
                 toolbarAriaLabel: e('Bulleted list styles toolbar'),
                 styleDefinitions: [
                   {
@@ -25013,11 +25331,11 @@
             ),
               t.ui.componentFactory.add(
                 'numberedList',
-                Tw({
+                jw({
                   editor: t,
                   parentCommandName: 'numberedList',
                   buttonLabel: e('Numbered List'),
-                  buttonIcon: fw,
+                  buttonIcon: Tw,
                   toolbarAriaLabel: e('Numbered list styles toolbar'),
                   styleDefinitions: [
                     {
@@ -25061,7 +25379,7 @@
               );
           }
         }
-        function Tw({
+        function jw({
           editor: t,
           parentCommandName: e,
           buttonLabel: n,
@@ -25072,13 +25390,13 @@
           const s = t.commands.get(e),
             a = t.commands.get('listStyle');
           return c => {
-            const l = Th(c, oh),
+            const l = Ih(c, rh),
               d = l.buttonView,
               h = (function ({ editor: t, listStyleCommand: e, parentCommandName: n }) {
                 const o = t.locale,
                   i = t.commands.get(n);
                 return ({ label: r, type: s, icon: a, tooltip: c }) => {
-                  const l = new Kd(o);
+                  const l = new jd(o);
                   return (
                     l.set({ label: r, icon: a, tooltip: c }),
                     e.on('change:value', () => {
@@ -25099,7 +25417,7 @@
                 };
               })({ editor: t, parentCommandName: e, listStyleCommand: a });
             return (
-              Ph(l, r.map(h)),
+              zh(l, r.map(h)),
               l.bind('isEnabled').to(s),
               (l.toolbarView.ariaLabel = i),
               (l.class = 'ck-list-styles-dropdown'),
@@ -25112,85 +25430,17 @@
             );
           };
         }
-        class Pw extends Zt {
-          refresh() {
-            const t = this.editor.model,
-              e = $s(t.document.selection.getSelectedBlocks());
-            (this.value = !!e && e.is('element', 'paragraph')), (this.isEnabled = !!e && Iw(e, t.schema));
-          }
-          execute(t = {}) {
-            const e = this.editor.model,
-              n = e.document;
-            e.change(o => {
-              const i = (t.selection || n.selection).getSelectedBlocks();
-              for (const t of i) !t.is('element', 'paragraph') && Iw(t, e.schema) && o.rename(t, 'paragraph');
-            });
-          }
-        }
-        function Iw(t, e) {
-          return e.checkChild(t.parent, 'paragraph') && !e.isObject(t);
-        }
-        class zw extends Zt {
-          execute(t) {
-            const e = this.editor.model;
-            let n = t.position;
-            e.change(t => {
-              const o = t.createElement('paragraph');
-              if (!e.schema.checkChild(n.parent, o)) {
-                const i = e.schema.findAllowedParent(n, o);
-                if (!i) return;
-                n = t.split(n, i).position;
-              }
-              e.insertContent(o, n), t.setSelection(o, 'in');
-            });
-          }
-        }
-        class Fw extends Qt {
-          static get pluginName() {
-            return 'Paragraph';
-          }
-          init() {
-            const t = this.editor,
-              e = t.model;
-            t.commands.add('paragraph', new Pw(t)),
-              t.commands.add('insertParagraph', new zw(t)),
-              e.schema.register('paragraph', { inheritAllFrom: '$block' }),
-              t.conversion.elementToElement({ model: 'paragraph', view: 'p' }),
-              t.conversion.for('upcast').elementToElement({
-                model: (t, { writer: e }) =>
-                  Fw.paragraphLikeElements.has(t.name) ? (t.isEmpty ? null : e.createElement('paragraph')) : null,
-                view: /.+/,
-                converterPriority: 'low',
-              });
-          }
-        }
-        Fw.paragraphLikeElements = new Set([
-          'blockquote',
-          'dd',
-          'div',
-          'dt',
-          'h1',
-          'h2',
-          'h3',
-          'h4',
-          'h5',
-          'h6',
-          'li',
-          'p',
-          'td',
-          'th',
-        ]);
-        const Rw = 'removeFormat';
-        class Ow extends Qt {
+        const $w = 'removeFormat';
+        class Gw extends Qt {
           static get pluginName() {
             return 'RemoveFormatUI';
           }
           init() {
             const t = this.editor,
               e = t.t;
-            t.ui.componentFactory.add(Rw, n => {
-              const o = t.commands.get(Rw),
-                i = new Kd(n);
+            t.ui.componentFactory.add($w, n => {
+              const o = t.commands.get($w),
+                i = new jd(n);
               return (
                 i.set({
                   label: e('Remove Format'),
@@ -25199,17 +25449,17 @@
                 }),
                 i.bind('isOn', 'isEnabled').to(o, 'value', 'isEnabled'),
                 this.listenTo(i, 'execute', () => {
-                  t.execute(Rw), t.editing.view.focus();
+                  t.execute($w), t.editing.view.focus();
                 }),
                 i
               );
             });
           }
         }
-        class Mw extends Zt {
+        class Ww extends Zt {
           refresh() {
             const t = this.editor.model;
-            this.isEnabled = !!$s(this._getFormattingItems(t.document.selection, t.schema));
+            this.isEnabled = !!Gs(this._getFormattingItems(t.document.selection, t.schema));
           }
           execute() {
             const t = this.editor.model,
@@ -25225,7 +25475,7 @@
             });
           }
           *_getFormattingItems(t, e) {
-            const n = t => !!$s(this._getFormattingAttributes(t, e));
+            const n = t => !!Gs(this._getFormattingAttributes(t, e));
             for (const o of t.getRanges()) for (const t of o.getItems()) !e.isBlock(t) && n(t) && (yield t);
             for (const e of t.getSelectedBlocks()) n(e) && (yield e);
             n(t) && (yield t);
@@ -25237,17 +25487,30 @@
             }
           }
         }
-        class Nw extends Qt {
+        class Uw extends Qt {
           static get pluginName() {
             return 'RemoveFormatEditing';
           }
           init() {
             const t = this.editor;
-            t.commands.add('removeFormat', new Mw(t));
+            t.commands.add('removeFormat', new Ww(t));
           }
         }
-        const Vw = 'todoListChecked';
-        class Lw extends Zt {
+        Symbol.iterator;
+        var Jw = n(56),
+          Yw = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Jw.a, Yw), Jw.a.locals;
+        var Qw = n(57),
+          Xw = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Qw.a, Xw), Qw.a.locals;
+        var Zw = n(58),
+          tA = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(Zw.a, tA), Zw.a.locals;
+        var eA = n(59),
+          nA = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(eA.a, nA), eA.a.locals;
+        const oA = 'todoListChecked';
+        class iA extends Zt {
           constructor(t) {
             super(t),
               (this._selectedElements = []),
@@ -25270,21 +25533,21 @@
               n = t.document.selection.getFirstRange(),
               o = n.start.parent,
               i = [];
-            e.checkAttribute(o, Vw) && i.push(o);
-            for (const t of n.getItems()) e.checkAttribute(t, Vw) && !i.includes(t) && i.push(t);
+            e.checkAttribute(o, oA) && i.push(o);
+            for (const t of n.getItems()) e.checkAttribute(t, oA) && !i.includes(t) && i.push(t);
             return i;
           }
           execute(t = {}) {
             this.editor.model.change(e => {
               for (const n of this._selectedElements) {
                 (void 0 === t.forceValue ? !this.value : t.forceValue)
-                  ? e.setAttribute(Vw, !0, n)
-                  : e.removeAttribute(Vw, n);
+                  ? e.setAttribute(oA, !0, n)
+                  : e.removeAttribute(oA, n);
               }
             });
           }
         }
-        function qw(t, e, n) {
+        function rA(t, e, n) {
           const o = e.modelCursor,
             i = o.parent,
             r = e.viewItem;
@@ -25295,16 +25558,16 @@
             e.viewItem.hasAttribute('checked') && s.setAttribute('todoListChecked', !0, i),
             (e.modelRange = s.createRange(o));
         }
-        function Kw(t) {
+        function sA(t) {
           return (e, n) => {
             const o = n.modelPosition,
               i = o.parent;
             if (!i.is('element', 'listItem') || 'todo' != i.getAttribute('listType')) return;
-            const r = jw(n.mapper.toViewElement(i), t);
+            const r = cA(n.mapper.toViewElement(i), t);
             r && (n.viewPosition = n.mapper.findPositionIn(r, o.offset));
           };
         }
-        function Hw(t, e, n, o) {
+        function aA(t, e, n, o) {
           return e.createUIElement('label', { class: 'todo-list__label', contenteditable: !1 }, function (e) {
             const i = Rs(document, 'input', { type: 'checkbox' });
             n && i.setAttribute('checked', 'checked'), i.addEventListener('change', () => o(t));
@@ -25312,19 +25575,19 @@
             return r.appendChild(i), r;
           });
         }
-        function jw(t, e) {
+        function cA(t, e) {
           const n = e.createRangeIn(t);
           for (const t of n)
             if (t.item.is('containerElement', 'span') && t.item.hasClass('todo-list__label__description'))
               return t.item;
         }
-        const Gw = Hi('Ctrl+Enter');
-        class $w extends Qt {
+        const lA = Hi('Ctrl+Enter');
+        class dA extends Qt {
           static get pluginName() {
             return 'TodoListEditing';
           }
           static get requires() {
-            return [mw];
+            return [Sw];
           }
           init() {
             const t = this.editor,
@@ -25334,8 +25597,8 @@
                 const n = t.last;
                 if ('todoListChecked' == e && 'listItem' == n.name && 'todo' != n.getAttribute('listType')) return !1;
               }),
-              t.commands.add('todoList', new Kb(t, 'todo'));
-            const i = new Lw(t);
+              t.commands.add('todoList', new nw(t, 'todo'));
+            const i = new iA(t);
             var r, s;
             t.commands.add('checkTodoList', i),
               t.commands.add('todoListCheck', i),
@@ -25357,7 +25620,7 @@
                       i.consume(r, 'attribute:listIndent'),
                       i.consume(r, 'attribute:todoListChecked');
                     const s = o.writer,
-                      a = $b(r, o);
+                      a = sw(r, o);
                     s.addClass('todo-list', a.parent);
                     const c = s.createContainerElement('label', { class: 'todo-list__label' }),
                       l = s.createEmptyElement('input', { type: 'checkbox', disabled: 'disabled' }),
@@ -25366,12 +25629,12 @@
                       s.insert(s.createPositionAt(a, 0), c),
                       s.insert(s.createPositionAt(c, 0), l),
                       s.insert(s.createPositionAfter(l), d),
-                      Wb(r, a, o, t);
+                      aw(r, a, o, t);
                   };
                 })(o),
                 { priority: 'high' },
               ),
-              n.upcastDispatcher.on('element:input', qw, { priority: 'high' }),
+              n.upcastDispatcher.on('element:input', rA, { priority: 'high' }),
               e.downcastDispatcher.on(
                 'insert:listItem',
                 (function (t, e) {
@@ -25390,14 +25653,14 @@
                       r.consume(s, 'attribute:listIndent'),
                       r.consume(s, 'attribute:todoListChecked');
                     const a = i.writer,
-                      c = $b(s, i),
+                      c = sw(s, i),
                       l = !!s.getAttribute('todoListChecked'),
-                      d = Hw(s, a, l, e),
+                      d = aA(s, a, l, e),
                       h = a.createContainerElement('span', { class: 'todo-list__label__description' });
                     a.addClass('todo-list', c.parent),
                       a.insert(a.createPositionAt(c, 0), d),
                       a.insert(a.createPositionAfter(d), h),
-                      Wb(s, c, i, t);
+                      aw(s, c, i, t);
                   };
                 })(o, t => this._handleCheckmarkChange(t)),
                 { priority: 'high' },
@@ -25415,11 +25678,11 @@
                     })(o, s);
                   if ('todo' == e.attributeNewValue) {
                     const t = !!e.item.getAttribute('todoListChecked'),
-                      n = Hw(e.item, i, t, r),
+                      n = aA(e.item, i, t, r),
                       s = i.createContainerElement('span', { class: 'todo-list__label__description' }),
                       a = i.createRangeIn(o),
-                      c = Xb(o),
-                      l = Jb(a.start),
+                      c = uw(o),
+                      l = lw(a.start),
                       d = c ? i.createPositionBefore(c) : a.end,
                       h = i.createRange(l, d);
                     i.addClass('todo-list', o.parent),
@@ -25427,7 +25690,7 @@
                       i.insert(i.createPositionAt(o, 0), n),
                       i.insert(i.createPositionAfter(n), s);
                   } else if ('todo' == e.attributeOldValue) {
-                    const t = jw(o, s);
+                    const t = cA(o, s);
                     i.removeClass('todo-list', o.parent),
                       i.remove(a),
                       i.move(i.createRangeIn(t), i.createPositionBefore(t)),
@@ -25444,19 +25707,19 @@
                     const { mapper: i, writer: r } = o,
                       s = !!n.item.getAttribute('todoListChecked'),
                       a = i.toViewElement(n.item).getChild(0),
-                      c = Hw(n.item, r, s, t);
+                      c = aA(n.item, r, s, t);
                     r.insert(r.createPositionAfter(a), c), r.remove(a);
                   };
                 })(t => this._handleCheckmarkChange(t)),
               ),
-              e.mapper.on('modelToViewPosition', Kw(e.view)),
-              n.mapper.on('modelToViewPosition', Kw(e.view)),
+              e.mapper.on('modelToViewPosition', sA(e.view)),
+              n.mapper.on('modelToViewPosition', sA(e.view)),
               this.listenTo(
                 e.view.document,
                 'arrowKey',
                 (function (t, e) {
                   return (n, o) => {
-                    if ('left' != Gi(o.keyCode, e.contentLanguageDirection)) return;
+                    if ('left' != $i(o.keyCode, e.contentLanguageDirection)) return;
                     const i = t.schema,
                       r = t.document.selection;
                     if (!r.isCollapsed) return;
@@ -25474,7 +25737,7 @@
                 e.view.document,
                 'keydown',
                 (e, n) => {
-                  Ki(n) === Gw && (t.execute('checkTodoList'), e.stop());
+                  qi(n) === lA && (t.execute('checkTodoList'), e.stop());
                 },
                 { priority: 'high' },
               );
@@ -25503,13 +25766,13 @@
             });
           }
         }
-        class Ww extends Qt {
+        class hA extends Qt {
           static get pluginName() {
             return 'TodoListUI';
           }
           init() {
             const t = this.editor.t;
-            Qb(
+            hw(
               this.editor,
               'todoList',
               t('To-do List'),
@@ -25517,38 +25780,38 @@
             );
           }
         }
-        var Uw = n(54),
-          Jw = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
-        ld()(Uw.a, Jw), Uw.a.locals;
-        const Yw = 'underline';
-        class Qw extends Qt {
+        var uA = n(60),
+          pA = { injectType: 'singletonStyleTag', attributes: { 'data-cke': !0 }, insert: 'head', singleton: !0 };
+        hd()(uA.a, pA), uA.a.locals;
+        const mA = 'underline';
+        class gA extends Qt {
           static get pluginName() {
             return 'UnderlineEditing';
           }
           init() {
             const t = this.editor;
-            t.model.schema.extend('$text', { allowAttributes: Yw }),
-              t.model.schema.setAttributeProperties(Yw, { isFormatting: !0, copyOnEnter: !0 }),
+            t.model.schema.extend('$text', { allowAttributes: mA }),
+              t.model.schema.setAttributeProperties(mA, { isFormatting: !0, copyOnEnter: !0 }),
               t.conversion.attributeToElement({
-                model: Yw,
+                model: mA,
                 view: 'u',
                 upcastAlso: { styles: { 'text-decoration': 'underline' } },
               }),
-              t.commands.add(Yw, new vm(t, Yw)),
+              t.commands.add(mA, new Bm(t, mA)),
               t.keystrokes.set('CTRL+U', 'underline');
           }
         }
-        const Xw = 'underline';
-        class Zw extends Qt {
+        const fA = 'underline';
+        class kA extends Qt {
           static get pluginName() {
             return 'UnderlineUI';
           }
           init() {
             const t = this.editor,
               e = t.t;
-            t.ui.componentFactory.add(Xw, n => {
-              const o = t.commands.get(Xw),
-                i = new Kd(n);
+            t.ui.componentFactory.add(fA, n => {
+              const o = t.commands.get(fA),
+                i = new jd(n);
               return (
                 i.set({
                   label: e('Underline'),
@@ -25559,18 +25822,18 @@
                 }),
                 i.bind('isOn', 'isEnabled').to(o, 'value', 'isEnabled'),
                 this.listenTo(i, 'execute', () => {
-                  t.execute(Xw), t.editing.view.focus();
+                  t.execute(fA), t.editing.view.focus();
                 }),
                 i
               );
             });
           }
         }
-        class t_ extends pp {}
-        t_.builtinPlugins = [
+        class bA extends gp {}
+        bA.builtinPlugins = [
           class extends Qt {
             static get requires() {
-              return [_p, Cp];
+              return [Cp, yp];
             }
             static get pluginName() {
               return 'Alignment';
@@ -25590,33 +25853,33 @@
             }
             _addListAutoformats() {
               const t = this.editor.commands;
-              t.get('bulletedList') && vp(this.editor, this, /^[*-]\s$/, 'bulletedList'),
-                t.get('numberedList') && vp(this.editor, this, /^1[.|)]\s$/, 'numberedList'),
-                t.get('todoList') && vp(this.editor, this, /^\[\s?\]\s$/, 'todoList'),
+              t.get('bulletedList') && xp(this.editor, this, /^[*-]\s$/, 'bulletedList'),
+                t.get('numberedList') && xp(this.editor, this, /^1[.|)]\s$/, 'numberedList'),
+                t.get('todoList') && xp(this.editor, this, /^\[\s?\]\s$/, 'todoList'),
                 t.get('checkTodoList') &&
-                  vp(this.editor, this, /^\[\s?x\s?\]\s$/, () => {
+                  xp(this.editor, this, /^\[\s?x\s?\]\s$/, () => {
                     this.editor.execute('todoList'), this.editor.execute('checkTodoList');
                   });
             }
             _addBasicStylesAutoformats() {
               const t = this.editor.commands;
               if (t.get('bold')) {
-                const t = Ep(this.editor, 'bold');
-                yp(this.editor, this, /(?:^|\s)(\*\*)([^*]+)(\*\*)$/g, t),
-                  yp(this.editor, this, /(?:^|\s)(__)([^_]+)(__)$/g, t);
+                const t = Sp(this.editor, 'bold');
+                Ep(this.editor, this, /(?:^|\s)(\*\*)([^*]+)(\*\*)$/g, t),
+                  Ep(this.editor, this, /(?:^|\s)(__)([^_]+)(__)$/g, t);
               }
               if (t.get('italic')) {
-                const t = Ep(this.editor, 'italic');
-                yp(this.editor, this, /(?:^|\s)(\*)([^*_]+)(\*)$/g, t),
-                  yp(this.editor, this, /(?:^|\s)(_)([^_]+)(_)$/g, t);
+                const t = Sp(this.editor, 'italic');
+                Ep(this.editor, this, /(?:^|\s)(\*)([^*_]+)(\*)$/g, t),
+                  Ep(this.editor, this, /(?:^|\s)(_)([^_]+)(_)$/g, t);
               }
               if (t.get('code')) {
-                const t = Ep(this.editor, 'code');
-                yp(this.editor, this, /(`)([^`]+)(`)$/g, t);
+                const t = Sp(this.editor, 'code');
+                Ep(this.editor, this, /(`)([^`]+)(`)$/g, t);
               }
               if (t.get('strikethrough')) {
-                const t = Ep(this.editor, 'strikethrough');
-                yp(this.editor, this, /(~~)([^~]+)(~~)$/g, t);
+                const t = Sp(this.editor, 'strikethrough');
+                Ep(this.editor, this, /(~~)([^~]+)(~~)$/g, t);
               }
             }
             _addHeadingAutoformats() {
@@ -25627,25 +25890,25 @@
                   .forEach(e => {
                     const n = e[7],
                       o = new RegExp(`^(#{${n}})\\s$`);
-                    vp(this.editor, this, o, () => {
+                    xp(this.editor, this, o, () => {
                       if (!t.isEnabled || t.value === e) return !1;
                       this.editor.execute('heading', { value: e });
                     });
                   });
             }
             _addBlockQuoteAutoformats() {
-              this.editor.commands.get('blockQuote') && vp(this.editor, this, /^>\s$/, 'blockQuote');
+              this.editor.commands.get('blockQuote') && xp(this.editor, this, /^>\s$/, 'blockQuote');
             }
             _addCodeBlockAutoformats() {
-              this.editor.commands.get('codeBlock') && vp(this.editor, this, /^```$/, 'codeBlock');
+              this.editor.commands.get('codeBlock') && xp(this.editor, this, /^```$/, 'codeBlock');
             }
             _addHorizontalLineAutoformats() {
-              this.editor.commands.get('horizontalLine') && vp(this.editor, this, /^---$/, 'horizontalLine');
+              this.editor.commands.get('horizontalLine') && xp(this.editor, this, /^---$/, 'horizontalLine');
             }
           },
           class extends Qt {
             static get requires() {
-              return [wm, Cm];
+              return [xm, Sm];
             }
             static get pluginName() {
               return 'BlockQuote';
@@ -25653,7 +25916,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [xm, Dm];
+              return [Pm, zm];
             }
             static get pluginName() {
               return 'Bold';
@@ -25661,7 +25924,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [kg, Pp, vg, Rp, Jp, zg];
+              return [Eg, Mp, Ig, Kp, em, qg];
             }
             static get pluginName() {
               return 'Essentials';
@@ -25669,7 +25932,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [Wg, Jg];
+              return [nf, rf];
             }
             static get pluginName() {
               return 'FontBackgroundColor';
@@ -25677,7 +25940,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [Qg, Xg];
+              return [af, cf];
             }
             static get pluginName() {
               return 'FontColor';
@@ -25685,7 +25948,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [of, rf];
+              return [pf, mf];
             }
             static get pluginName() {
               return 'FontFamily';
@@ -25693,7 +25956,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [hf, mf];
+              return [Af, vf];
             }
             static get pluginName() {
               return 'FontSize';
@@ -25701,24 +25964,24 @@
           },
           class extends Qt {
             static get requires() {
-              return [$f];
+              return [Tp];
             }
             static get pluginName() {
               return 'Base64UploadAdapter';
             }
             init() {
-              this.editor.plugins.get($f).createUploadAdapter = t => new Yf(t);
+              this.editor.plugins.get(Tp).createUploadAdapter = t => new Ip(t);
             }
           },
           class extends Qt {
             static get requires() {
-              return [Pf, sg, Kf];
+              return [Gf, gg, ok];
             }
             static get pluginName() {
               return 'Image';
             }
             isImageWidget(t) {
-              return vf(t);
+              return Nf(t);
             }
           },
           class extends Qt {
@@ -25726,12 +25989,12 @@
               return 'ImageUpload';
             }
             static get requires() {
-              return [gk, tk, ak];
+              return [$k, Tk, Mk];
             }
           },
           class extends Qt {
             static get requires() {
-              return [wk];
+              return [ck];
             }
             static get pluginName() {
               return 'ImageCaption';
@@ -25739,7 +26002,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [Dk, Pk, Bk];
+              return [fk, Ak, bk];
             }
             static get pluginName() {
               return 'ImageResize';
@@ -25750,7 +26013,7 @@
               return 'Indent';
             }
             static get requires() {
-              return [Fk, Mk];
+              return [Wk, Yk];
             }
           },
           class extends Qt {
@@ -25767,13 +26030,13 @@
                 o = Object.assign({ direction: 'forward' }, e),
                 i = Object.assign({ direction: 'backward' }, e);
               n
-                ? (t.data.addStyleProcessorRules(dp),
+                ? (t.data.addStyleProcessorRules(up),
                   this._setupConversionUsingOffset(t.conversion),
-                  t.commands.add('indentBlock', new Nk(t, new Vk(o))),
-                  t.commands.add('outdentBlock', new Nk(t, new Vk(i))))
+                  t.commands.add('indentBlock', new Qk(t, new Xk(o))),
+                  t.commands.add('outdentBlock', new Qk(t, new Xk(i))))
                 : (this._setupConversionUsingClasses(e.classes),
-                  t.commands.add('indentBlock', new Nk(t, new Lk(o))),
-                  t.commands.add('outdentBlock', new Nk(t, new Lk(i))));
+                  t.commands.add('indentBlock', new Qk(t, new Zk(o))),
+                  t.commands.add('outdentBlock', new Qk(t, new Zk(i))));
             }
             afterInit() {
               const t = this.editor,
@@ -25781,7 +26044,7 @@
                 n = t.commands.get('indent'),
                 o = t.commands.get('outdent'),
                 i = t.config.get('heading.options');
-              ((i && i.map(t => t.model)) || qk).forEach(t => {
+              ((i && i.map(t => t.model)) || tb).forEach(t => {
                 e.isRegistered(t) && e.extend(t, { allowAttributes: 'blockIndent' });
               }),
                 e.setAttributeProperties('blockIndent', { isFormatting: !0 }),
@@ -25807,7 +26070,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [Hk, Gk];
+              return [nb, ib];
             }
             static get pluginName() {
               return 'Italic';
@@ -25815,7 +26078,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [Db, Mb, Lb];
+              return [Lb, Qb, tw];
             }
             static get pluginName() {
               return 'Link';
@@ -25823,7 +26086,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [mw, bw];
+              return [Sw, Iw];
             }
             static get pluginName() {
               return 'List';
@@ -25831,16 +26094,16 @@
           },
           class extends Qt {
             static get requires() {
-              return [Aw, Bw];
+              return [Rw, Hw];
             }
             static get pluginName() {
               return 'ListStyle';
             }
           },
-          Fw,
+          Df,
           class extends Qt {
             static get requires() {
-              return [Nw, Ow];
+              return [Uw, Gw];
             }
             static get pluginName() {
               return 'RemoveFormat';
@@ -25851,7 +26114,7 @@
               return 'TextTransformation';
             }
             constructor(t) {
-              super(t), t.config.define('typing', { transformations: { include: cm } });
+              super(t), t.config.define('typing', { transformations: { include: mm } });
             }
             init() {
               const t = this.editor.model.document.selection;
@@ -25871,15 +26134,15 @@
                   return (function (t) {
                     const e = new Set();
                     for (const n of t)
-                      if (am[n]) for (const t of am[n]) e.add(t);
+                      if (pm[n]) for (const t of pm[n]) e.add(t);
                       else e.add(n);
                     return Array.from(e);
                   })(t.include.concat(e).filter(o))
                     .filter(o)
-                    .map(t => sm[t] || t)
-                    .map(t => ({ from: lm(t.from), to: dm(t.to) }));
+                    .map(t => um[t] || t)
+                    .map(t => ({ from: gm(t.from), to: fm(t.to) }));
                 })(t.config.get('typing.transformations')),
-                i = new Qp(t.model, t => {
+                i = new om(t.model, t => {
                   for (const e of o) {
                     if (e.from.test(t)) return { normalizedTransformation: e };
                   }
@@ -25901,7 +26164,7 @@
                     }
                     const r = c.start.getShiftedBy(l),
                       d = e.createRange(r, r.getShiftedBy(o.length)),
-                      h = hm(r);
+                      h = km(r);
                     e.insertContent(t.createText(i, h), d), (l += i.length);
                   }
                 });
@@ -25911,7 +26174,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [$w, Ww];
+              return [dA, hA];
             }
             static get pluginName() {
               return 'TodoList';
@@ -25919,7 +26182,7 @@
           },
           class extends Qt {
             static get requires() {
-              return [Qw, Zw];
+              return [gA, kA];
             }
             static get pluginName() {
               return 'Underline';
@@ -25948,10 +26211,76 @@
           function (t) {
             t.model.schema.register('div', { allowWhere: '$block', allowContentOf: '$root' }),
               t.conversion.for('upcast').elementToElement({ view: 'div', model: 'div' }),
-              t.conversion.for('downcast').elementToElement({ model: 'div', view: 'div' });
+              t.conversion.for('downcast').elementToElement({ model: 'div', view: 'div' }),
+              t.model.schema.extend('div', { allowAttributes: '__style' }),
+              t.conversion
+                .for('upcast')
+                .attributeToAttribute({ model: { key: '__style', name: 'div' }, view: 'style' }),
+              t.conversion.for('downcast').add(t => {
+                t.on('attribute:__style:div', (t, e, n) => {
+                  const o = n.mapper.toViewElement(e.item);
+                  n.writer.setAttribute('style', e.attributeNewValue, o);
+                });
+              });
+          },
+          function (t) {
+            t.model.schema.register('table', { allowWhere: '$block', allowContentOf: '$root' }),
+              t.conversion.for('upcast').elementToElement({ view: 'table', model: 'table' }),
+              t.conversion.for('downcast').elementToElement({ model: 'table', view: 'table' }),
+              t.model.schema.extend('table', { allowAttributes: '__style' }),
+              t.conversion
+                .for('upcast')
+                .attributeToAttribute({ model: { key: '__style', name: 'table' }, view: 'style' }),
+              t.conversion.for('downcast').add(t => {
+                t.on('attribute:__style:table', (t, e, n) => {
+                  const o = n.mapper.toViewElement(e.item);
+                  n.writer.setAttribute('style', e.attributeNewValue, o);
+                });
+              });
+          },
+          function (t) {
+            t.model.schema.register('tr', { allowWhere: '$block', allowContentOf: '$root' }),
+              t.conversion.for('upcast').elementToElement({ view: 'tr', model: 'tr' }),
+              t.conversion.for('downcast').elementToElement({ model: 'tr', view: 'tr' }),
+              t.model.schema.extend('tr', { allowAttributes: '__style' }),
+              t.conversion.for('upcast').attributeToAttribute({ model: { key: '__style', name: 'tr' }, view: 'style' }),
+              t.conversion.for('downcast').add(t => {
+                t.on('attribute:__style:tr', (t, e, n) => {
+                  const o = n.mapper.toViewElement(e.item);
+                  n.writer.setAttribute('style', e.attributeNewValue, o);
+                });
+              });
+          },
+          function (t) {
+            t.model.schema.register('td', { allowWhere: '$block', allowContentOf: '$root' }),
+              t.conversion.for('upcast').elementToElement({ view: 'td', model: 'td' }),
+              t.conversion.for('downcast').elementToElement({ model: 'td', view: 'td' }),
+              t.model.schema.extend('td', { allowAttributes: '__style' }),
+              t.conversion.for('upcast').attributeToAttribute({ model: { key: '__style', name: 'td' }, view: 'style' }),
+              t.conversion.for('downcast').add(t => {
+                t.on('attribute:__style:td', (t, e, n) => {
+                  const o = n.mapper.toViewElement(e.item);
+                  n.writer.setAttribute('style', e.attributeNewValue, o);
+                });
+              });
+          },
+          function (t) {
+            t.model.schema.register('tbody', { allowWhere: '$block', allowContentOf: '$root' }),
+              t.conversion.for('upcast').elementToElement({ view: 'tbody', model: 'tbody' }),
+              t.conversion.for('downcast').elementToElement({ model: 'tbody', view: 'tbody' }),
+              t.model.schema.extend('tbody', { allowAttributes: '__style' }),
+              t.conversion
+                .for('upcast')
+                .attributeToAttribute({ model: { key: '__style', name: 'tbody' }, view: 'style' }),
+              t.conversion.for('downcast').add(t => {
+                t.on('attribute:__style:tbody', (t, e, n) => {
+                  const o = n.mapper.toViewElement(e.item);
+                  n.writer.setAttribute('style', e.attributeNewValue, o);
+                });
+              });
           },
         ];
-        const e_ = {
+        const wA = {
           fontSize: {
             options: [
               { title: 'Tiny', model: '10px' },
@@ -25990,8 +26319,8 @@
             shouldNotGroupWhenFull: !0,
           },
         };
-        t_.defaultConfig = e_;
-        e.default = t_;
+        bA.defaultConfig = wA;
+        e.default = bA;
       },
     ]).default;
   });
