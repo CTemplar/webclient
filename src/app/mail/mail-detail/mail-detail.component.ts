@@ -9,7 +9,7 @@ import * as parseEmail from 'email-addresses';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { PRIMARY_WEBSITE } from '../../shared/config';
+import { getWindowConfig, PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
@@ -596,7 +596,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   viewEmailInLightMode() {
-    const win = window.open(`${document.location.href}?lightMode=true`, '_blank');
+    let link = `${document.location.href}?lightMode=true`;
+    if (this.electronService.isElectron) {
+      const index = link.indexOf('/mail/');
+      if (index >= 0) {
+        const linkParameter = link.slice(index);
+        const { host, protocol } = getWindowConfig();
+        link = `${protocol}//${host}${linkParameter}`;
+      }
+    }
+    const win = window.open(link, '_blank');
     win.focus();
   }
 
