@@ -112,6 +112,8 @@ export class UserState {
 
   isPrime?: boolean;
 
+  isLifetimePrime?: boolean;
+
   joinedDate?: string;
 
   inProgress?: boolean;
