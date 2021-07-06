@@ -242,8 +242,9 @@
                                       id="enableRecurringBilling"
                                       name="recurringBilling"
                                       type="radio"
+                                      [disabled]="isLifeTimePrime"
                                       (click)="updateSettings('recurrence_billing', true)"
-                                      [checked]="settings.recurrence_billing"
+                                      [checked]="settings.recurrence_billing && !isLifeTimePrime"
                                     />
                                     <label for="enableRecurringBilling" [translate]="'common.yes'">Yes</label>
                                   </div>
@@ -255,8 +256,9 @@
                                       id="disableRecurringBilling"
                                       name="recurringBilling"
                                       type="radio"
+                                      [disabled]="isLifeTimePrime"
                                       (click)="updateSettings('recurrence_billing', false)"
-                                      [checked]="!settings.recurrence_billing"
+                                      [checked]="!settings.recurrence_billing || isLifeTimePrime"
                                     />
                                     <label for="disableRecurringBilling" [translate]="'common.no'">No</label>
                                   </div>
