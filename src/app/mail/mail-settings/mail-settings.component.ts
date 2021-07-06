@@ -142,6 +142,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   invoices: Invoice[];
 
+  isLifeTimePrime = false;
+
   currentPlan: PricingPlan;
 
   isAddNewCard = false;
@@ -206,6 +208,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
         this.payment = user.payment_transaction;
         this.cards = user.cards;
+        this.isLifeTimePrime = user.isLifeTimePrime;
         this.invoices = user.invoices;
         this.userPlanType = user.settings.plan_type || PlanType.FREE;
         if (SharedService.PRICING_PLANS && user.settings.plan_type) {

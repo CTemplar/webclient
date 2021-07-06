@@ -178,6 +178,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         id: action.payload.id,
         username: action.payload.username,
         isPrime: action.payload.is_prime,
+        isLifeTimePrime: action.payload.is_lifetime_prime,
         joinedDate: action.payload.joined_date,
         settings: action.payload.settings,
         mailboxes: action.payload.mailboxes.map((item: any, index: number) => {

@@ -156,7 +156,7 @@
                         <li class="info-list-item">
                           <div class="info-list-item-row">
                             <div class="info-list-text info-list-label">
-                              <span class="info-list-label-text" [translate]="'settings.plans'">Plan</span>
+                              <span class="info-list-label-text" [translate]="'settings.plans'">Plans</span>
                             </div>
                             <div class="info-list-text info-list-val">{{ userPlanType }}</div>
                           </div>
@@ -167,7 +167,7 @@
                               Billing
                             </div>
                             <div class="info-list-text info-list-val">
-                              {{ payment.payment_type }}
+                              {{ isLifeTimePrime ? 'Lifetime' : payment.payment_type }}
                             </div>
                           </li>
                           <li class="info-list-item">
@@ -212,10 +212,10 @@
                               Billing Cycle End
                             </div>
                             <div class="info-list-text info-list-val">
-                              <span>{{ payment.billing_cycle_ends | momentDate: 'mediumDate' }}</span>
+                              <span>{{ isLifeTimePrime ? 'Never' : payment.billing_cycle_ends | momentDate: 'mediumDate' }}</span>
                               <a
                                 *ngIf="
-                                  !settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin
+                                  !isLifeTimePrime && (!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin)
                                 "
                                 [ngbTooltip]="'settings.extend_billing_cycle' | translate"
                                 class="float-right"
@@ -368,6 +368,7 @@
             blockGapsZero="true"
             [showCurrentPlan]="true"
             [userPlanType]="userPlanType"
+            [isLifetimePrime]="isLifeTimePrime"
             [selectedCurrency]="payment.currency"
             [paymentType]="payment.payment_type"
             [paymentMethod]="

@@ -27,6 +27,8 @@ export class PricingPlansComponent implements OnInit {
 
   @Input() userPlanType: PlanType = null;
 
+  @Input() isLifetimePrime = false;
+
   @Input() openBillingInfoInModal: boolean;
 
   @Input() selectedCurrency: string;
