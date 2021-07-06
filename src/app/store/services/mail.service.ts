@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as Sentry from '@sentry/browser';
-import { query } from '@angular/animations';
 
 import { apiUrl } from '../../shared/config';
 import { MailboxKey } from '../datatypes';
