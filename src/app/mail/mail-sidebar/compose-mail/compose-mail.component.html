@@ -59,8 +59,7 @@
           [(inputText)]="inputTextValue"
           (onAdd)="onAddingReceiver($event, mailData.receiver)"
           (onRemove)="handleRemoveRecipient('receiver')"
-          (onTextChange)="handlePasteRecipient($event, 'receiver')"
-          (paste)="isPasted = true"
+          [addOnPaste]="true"
           (onTagEdited)="onTagEdited($event)"
           (click)="onClick()"
           #input
@@ -124,8 +123,7 @@
           [(inputText)]="ccInputTextValue"
           (onAdd)="onAddingReceiver($event, mailData.cc)"
           (onRemove)="handleRemoveRecipient('ccReceiver')"
-          (onTextChange)="handlePasteRecipient($event, 'ccReceiver')"
-          (paste)="ccIsPasted = true"
+          [addOnPaste]="true"
           (onTagEdited)="ccOnTagEdited($event)"
           (click)="onCcClick()"
           #ccInput
@@ -183,8 +181,7 @@
           [(inputText)]="bccInputTextValue"
           (onAdd)="onAddingReceiver($event, mailData.bcc)"
           (onRemove)="handleRemoveRecipient('bccReceiver')"
-          (onTextChange)="handlePasteRecipient($event, 'bccReceiver')"
-          (paste)="bccIsPasted = true"
+          [addOnPaste]="true"
           (onTagEdited)="bccOnTagEdited($event)"
           (click)="onBccClick()"
           #bccInput

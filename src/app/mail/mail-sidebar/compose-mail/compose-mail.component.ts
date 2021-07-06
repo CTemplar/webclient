@@ -897,54 +897,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.analyzeUsersKeysWithContact();
   }
 
-  handlePasteRecipient(value: string, recipientType: string) {
-    if (this.validateEmail(value)) {
-      let isNeedProcess = false;
-      if (recipientType === 'receiver' && this.isPasted) {
-        this.mailData.receiver.push({
-          display: value,
-          value,
-          email: value,
-        });
-        this.inputTextValue = '';
-        this.isPasted = false;
-        isNeedProcess = true;
-      } else if (recipientType === 'ccReceiver' && this.ccIsPasted) {
-        this.mailData.cc.push({
-          display: value,
-          value,
-          email: value,
-        });
-        this.ccInputTextValue = '';
-        this.ccIsPasted = false;
-        isNeedProcess = true;
-      } else if (recipientType === 'bccReceiver' && this.bccIsPasted) {
-        this.mailData.bcc.push({
-          display: value,
-          value,
-          email: value,
-        });
-        this.bccInputTextValue = '';
-        this.bccIsPasted = false;
-        isNeedProcess = true;
-      }
-      if (isNeedProcess) {
-        if (
-          !this.usersKeys.has(value.toLowerCase()) ||
-          (!this.usersKeys.get(value.toLowerCase()).key && !this.usersKeys.get(value.toLowerCase()).isFetching)
-        ) {
-          this.store.dispatch(
-            new GetUsersKeys({
-              emails: [value.toLowerCase()],
-            }),
-          );
-        } else {
-          this.analyzeUsersKeysWithContact();
-        }
-      }
-    }
-  }
-
   validateEmail(email: string) {
     const re =
       /^(([^\s"(),.:;<>@[\\\]]+(\.[^\s"(),.:;<>@[\\\]]+)*)|(".+"))@((\[(?:\d{1,3}\.){3}\d{1,3}])|(([\dA-Za-z-]+\.)+[A-Za-z]{2,}))$/;
@@ -1986,24 +1938,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           item.name = item.value;
         }
       }
-    }
-    if (tag.value && tag.value.split(',').length > 1) {
-      const emails: any[] = [];
-      for (const item of data) {
-        if (item.value === tag.value) {
-          const tokens = tag.value.split(',');
-          emails.push(
-            ...tokens.map((token: string) => {
-              token = token.trim();
-              return { value: token, display: token, email: token, name: token };
-            }),
-          );
-        } else {
-          emails.push(item);
-        }
-      }
-      data.splice(0, this.mailData.receiver.length);
-      data.push(...emails);
     }
     const receiversForKey = data
       .filter(
