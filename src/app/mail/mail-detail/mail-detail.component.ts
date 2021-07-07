@@ -9,7 +9,7 @@ import * as parseEmail from 'email-addresses';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { getWindowConfig, PRIMARY_WEBSITE } from '../../shared/config';
+import { PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
