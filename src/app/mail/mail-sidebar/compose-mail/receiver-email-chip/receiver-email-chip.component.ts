@@ -129,7 +129,7 @@ export class ReceiverEmailChipComponent {
   }
 
   onClickBody(popOver: any) {
-    if (popOver.isOpen) {
+    if (popOver.isOpen()) {
       popOver.close();
     } else {
       popOver.open();
