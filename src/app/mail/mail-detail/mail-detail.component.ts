@@ -38,6 +38,7 @@ import {
   NumberStringMappedType,
   PGPEncryptionType,
   SecureContent,
+  Settings,
   StringBooleanMappedType,
   UserState,
 } from '../../store/datatypes';
@@ -52,6 +53,7 @@ import {
 } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { MailSettingsService } from '../../store/services/mail-settings.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
@@ -205,6 +207,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   unsubscribeMailTo = '';
 
+  settings: Settings = new Settings();
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -219,6 +223,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
     private translate: TranslateService,
+    private settingsService: MailSettingsService,
   ) {}
 
   ngOnInit() {
@@ -454,6 +459,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         }
         this.userState = user;
+        this.settings = user.settings;
         this.isDarkMode = this.userState.settings.is_night_mode;
         this.isConversationView = this.userState.settings.is_conversation_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
@@ -596,17 +602,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   viewEmailInLightMode() {
-    let link = `${document.location.href}?lightMode=true`;
     if (this.electronService.isElectron) {
-      const index = link.indexOf('/mail/');
-      if (index >= 0) {
-        const linkParameter = link.slice(index);
-        const { host, protocol } = getWindowConfig();
-        link = `${protocol}//${host}${linkParameter}`;
-      }
+      this.settingsService.updateSettings(this.settings, 'is_night_mode', false);
+    } else {
+      const link = `${document.location.href}?lightMode=true`;
+      const win = window.open(link, '_blank');
+      win.focus();
     }
-    const win = window.open(link, '_blank');
-    win.focus();
   }
 
   isNeedRemoveStar(mail: Mail): boolean {
