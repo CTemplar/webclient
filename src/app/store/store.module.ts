@@ -69,7 +69,7 @@ export function rehydrateMetaReducer(reducer: ActionReducer<any>): ActionReducer
   };
 }
 
-const metaReducers: Array<MetaReducer<any, any>> = [rehydrateMetaReducer, localStorageSyncReducer, logoutReducer];
+const metaReducers: MetaReducer<any>[] = [logoutReducer, rehydrateMetaReducer, localStorageSyncReducer];
 @NgModule({
   imports: [
     EffectsModule.forRoot(effects),
@@ -80,7 +80,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [rehydrateMetaReducer, localS
         strictActionImmutability: false,
       },
     }),
-    StoreDevtoolsModule.instrument({ maxAge: 100, logOnly: AppConfig.production }),
+    // StoreDevtoolsModule.instrument({ maxAge: 100, logOnly: AppConfig.production }),
     StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
