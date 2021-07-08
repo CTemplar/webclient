@@ -20,8 +20,8 @@ import {
   GetMails,
   GetUnreadMailsCount,
   MoveMail,
-  RevertMailsMoved,
   ReadMail,
+  RevertMailsMoved,
   SetCurrentFolder,
   StarMail,
 } from '../../../../store';
@@ -182,29 +182,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       });
     // Search by search text
     if (this.mailFolder === MailFolderType.SEARCH) {
-      this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(parameters => {
-        if (parameters.search) {
-          this.advancedSearchQuery.q = parameters.q;
-          this.advancedSearchQuery.folder = parameters.folder;
-          this.advancedSearchQuery.start_date = parameters.start_date;
-          this.advancedSearchQuery.end_date = parameters.end_date;
-          this.advancedSearchQuery.sender = parameters.sender;
-          this.advancedSearchQuery.receiver = parameters.receiver;
-          this.advancedSearchQuery.size = parameters.size;
-          this.advancedSearchQuery.size_operator = parameters.size_operator;
-          this.advancedSearchQuery.exact = parameters.exact;
-          this.store.dispatch(
-            new GetMails({
-              forceReload: true,
-              search: true,
-              searchData: this.advancedSearchQuery,
-              limit: this.LIMIT,
-              offset: this.OFFSET,
-              folder: this.mailFolder,
-            }),
-          );
-        }
-      });
+      this.makeSearchRequest();
     }
     /**
      * Activated router management
@@ -245,16 +223,46 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  makeSearchRequest() {
+    this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(parameters => {
+      if (parameters.search) {
+        this.advancedSearchQuery.q = parameters.q;
+        this.advancedSearchQuery.folder = parameters.folder;
+        this.advancedSearchQuery.start_date = parameters.start_date;
+        this.advancedSearchQuery.end_date = parameters.end_date;
+        this.advancedSearchQuery.sender = parameters.sender;
+        this.advancedSearchQuery.receiver = parameters.receiver;
+        this.advancedSearchQuery.size = parameters.size;
+        this.advancedSearchQuery.size_operator = parameters.size_operator;
+        this.advancedSearchQuery.exact = parameters.exact;
+        this.store.dispatch(
+          new GetMails({
+            forceReload: true,
+            search: true,
+            searchData: this.advancedSearchQuery,
+            limit: this.LIMIT,
+            offset: this.OFFSET,
+            folder: this.mailFolder,
+          }),
+        );
+      }
+    });
+  }
+
   refresh() {
-    this.store.dispatch(
-      new GetMails({
-        forceReload: true,
-        limit: this.LIMIT,
-        offset: this.OFFSET,
-        folder: this.mailFolder,
-        searchText: this.searchText,
-      }),
-    );
+    if (this.mailFolder === MailFolderType.SEARCH) {
+      this.makeSearchRequest();
+    } else {
+      this.store.dispatch(
+        new GetMails({
+          forceReload: true,
+          limit: this.LIMIT,
+          offset: this.OFFSET,
+          folder: this.mailFolder,
+          searchText: this.searchText,
+        }),
+      );
+    }
     this.store.dispatch(new GetUnreadMailsCount());
   }
 
