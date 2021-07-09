@@ -38,7 +38,6 @@ import {
   NumberStringMappedType,
   PGPEncryptionType,
   SecureContent,
-  Settings,
   StringBooleanMappedType,
   UserState,
 } from '../../store/datatypes';
@@ -53,7 +52,6 @@ import {
 } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
-import { MailSettingsService } from '../../store/services/mail-settings.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
@@ -207,7 +205,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   unsubscribeMailTo = '';
 
-  settings: Settings = new Settings();
+  isElectron = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -223,11 +221,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
     private translate: TranslateService,
-    private settingsService: MailSettingsService,
   ) {}
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
+    this.isElectron = this.electronService.isElectron;
     /**
      * Check getting mail is succeeded
      */
@@ -459,7 +457,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         }
         this.userState = user;
-        this.settings = user.settings;
         this.isDarkMode = this.userState.settings.is_night_mode;
         this.isConversationView = this.userState.settings.is_conversation_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
@@ -602,13 +599,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   viewEmailInLightMode() {
-    if (this.electronService.isElectron) {
-      this.settingsService.updateSettings(this.settings, 'is_night_mode', false);
-    } else {
-      const link = `${document.location.href}?lightMode=true`;
-      const win = window.open(link, '_blank');
-      win.focus();
-    }
+    const link = `${document.location.href}?lightMode=true`;
+    const win = window.open(link, '_blank');
+    win.focus();
   }
 
   isNeedRemoveStar(mail: Mail): boolean {
