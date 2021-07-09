@@ -138,7 +138,7 @@
             <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">
               {{ errorMessage }}
             </div>
-            <div class="login-form__failed l-alert l-alert-warning my-2">
+            <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-warning my-2">
               <small>
                 Please, contact with <b>support@ctemplar.com</b> if you have trouble accessing into your account.
               </small>
