@@ -11,9 +11,9 @@
 */
 
 // == DEFINING PATH REALTED VARIABLES TO ACCESS THE RESOURCES
-$assets: '/assets/';
-$images: '/assets/images/';
-$fonts: '/assets/fonts/';
+$assets: '^assets/';
+$images: '^assets/images/';
+$fonts: '^assets/fonts/';
 
 // == Set font awesome path
 $fa-font-path: $fonts;

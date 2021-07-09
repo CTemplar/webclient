@@ -133,7 +133,14 @@ export class MailEffects {
     map((action: DeleteMail) => action.payload),
     switchMap(payload => {
       return this.mailService.deleteMails(payload.ids, payload.folder, payload.parent_only).pipe(
-        switchMap(() => of(new DeleteMailSuccess(payload))),
+        switchMap(() => {
+          const updateFolderActions = [];
+          updateFolderActions.push(new DeleteMailSuccess(payload));
+          if (payload.folder === MailFolderType.DRAFT) {
+            updateFolderActions.push(new GetUnreadMailsCount());
+          }
+          return of(...updateFolderActions);
+        }),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to delete mail.' }))),
       );
     }),

@@ -103,7 +103,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
-        whiteList: [...state.whiteList, ...action.payload],
+        whiteList: [...state.whiteList, action.payload],
         inProgress: false,
         isError: false,
         error: '',
@@ -116,7 +116,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       }
       return {
         ...state,
-        blackList: [...state.blackList, ...action.payload],
+        blackList: [...state.blackList, action.payload],
         inProgress: false,
         isError: false,
       };
@@ -178,6 +178,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         id: action.payload.id,
         username: action.payload.username,
         isPrime: action.payload.is_prime,
+        isLifeTimePrime: action.payload.is_lifetime_prime,
         joinedDate: action.payload.joined_date,
         settings: action.payload.settings,
         mailboxes: action.payload.mailboxes.map((item: any, index: number) => {
@@ -395,11 +396,10 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     }
 
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
-      const domain: Domain = action.payload.res;
       let isError = false;
       let { step } = action.payload;
       const { gotoNextStep, reverify, res } = action.payload;
-      if (domain.is_domain_verified) {
+      if (res?.is_domain_verified) {
         if (gotoNextStep) {
           step += 1;
         }
@@ -410,8 +410,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         customDomains: reverify
           ? state.customDomains.map(item => {
-              if (item.id === domain.id) {
-                return domain;
+              if (item.id === res?.id) {
+                return res;
               }
               return item;
             })

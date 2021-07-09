@@ -1,11 +1,15 @@
 <div class="mailbox-sub-content" #settingsContent>
-  <ngb-tabset #tabSet="ngbTabset" (tabChange)="navigateToTab($event); scrollTop(settingsContent)">
+  <div
+    ngbNav
+    #navSet="ngbNav"
+    class="nav-tabs"
+    [(activeId)]="selectedTabQueryParams"
+    (navChange)="navigateToTab($event)"
+  >
     <!-- Dashboard and Plans -->
-    <ngb-tab id="dashboard-and-plans">
-      <ng-template ngbTabTitle>
-        <span [translate]="'settings.dashboard_plans'"> Dashboard & Plans </span>
-      </ng-template>
-      <ng-template ngbTabContent>
+    <div class="nav" [ngbNavItem]="'dashboard-and-plans'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.dashboard_plans'"> Dashboard & Plans </a>
+      <ng-template ngbNavContent>
         <!-- Overview Section -->
         <section class="mailbox-section mt-4">
           <div class="mailbox-section-body pt-0">
@@ -152,7 +156,7 @@
                         <li class="info-list-item">
                           <div class="info-list-item-row">
                             <div class="info-list-text info-list-label">
-                              <span class="info-list-label-text" [translate]="'settings.plans'">Plan</span>
+                              <span class="info-list-label-text" [translate]="'settings.plans'">Plans</span>
                             </div>
                             <div class="info-list-text info-list-val">{{ userPlanType }}</div>
                           </div>
@@ -163,7 +167,7 @@
                               Billing
                             </div>
                             <div class="info-list-text info-list-val">
-                              {{ payment.payment_type }}
+                              {{ isLifeTimePrime ? 'Lifetime' : payment.payment_type }}
                             </div>
                           </li>
                           <li class="info-list-item">
@@ -208,10 +212,13 @@
                               Billing Cycle End
                             </div>
                             <div class="info-list-text info-list-val">
-                              <span>{{ payment.billing_cycle_ends | momentDate: 'mediumDate' }}</span>
+                              <span>{{
+                                isLifeTimePrime ? 'Never' : (payment.billing_cycle_ends | momentDate: 'mediumDate')
+                              }}</span>
                               <a
                                 *ngIf="
-                                  !settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin
+                                  !isLifeTimePrime &&
+                                  (!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin)
                                 "
                                 [ngbTooltip]="'settings.extend_billing_cycle' | translate"
                                 class="float-right"
@@ -238,8 +245,9 @@
                                       id="enableRecurringBilling"
                                       name="recurringBilling"
                                       type="radio"
+                                      [disabled]="isLifeTimePrime"
                                       (click)="updateSettings('recurrence_billing', true)"
-                                      [checked]="settings.recurrence_billing"
+                                      [checked]="settings.recurrence_billing && !isLifeTimePrime"
                                     />
                                     <label for="enableRecurringBilling" [translate]="'common.yes'">Yes</label>
                                   </div>
@@ -251,8 +259,9 @@
                                       id="disableRecurringBilling"
                                       name="recurringBilling"
                                       type="radio"
+                                      [disabled]="isLifeTimePrime"
                                       (click)="updateSettings('recurrence_billing', false)"
-                                      [checked]="!settings.recurrence_billing"
+                                      [checked]="!settings.recurrence_billing || isLifeTimePrime"
                                     />
                                     <label for="disableRecurringBilling" [translate]="'common.no'">No</label>
                                   </div>
@@ -364,6 +373,7 @@
             blockGapsZero="true"
             [showCurrentPlan]="true"
             [userPlanType]="userPlanType"
+            [isLifetimePrime]="isLifeTimePrime"
             [selectedCurrency]="payment.currency"
             [paymentType]="payment.payment_type"
             [paymentMethod]="
@@ -378,14 +388,12 @@
           </app-pricing-plans>
         </section>
       </ng-template>
-    </ngb-tab>
+    </div>
 
     <!-- General -->
-    <ngb-tab id="general">
-      <ng-template ngbTabTitle>
-        <span [translate]="'settings.general'">General</span>
-      </ng-template>
-      <ng-template ngbTabContent>
+    <div class="nav" [ngbNavItem]="'general'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.general'">General</a>
+      <ng-template ngbNavContent>
         <!-- General Settings -->
         <section class="mailbox-section">
           <header class="ui-header ui-header-bordered">
@@ -682,45 +690,6 @@
                   </div>
                 </div>
               </div>
-              <div class="form-content-row">
-                <div class="row align-items-center">
-                  <div class="col-sm-3">
-                    <label class="form-label mb-0" [translate]="'settings.plain_text_hard_wrap'"
-                      >Plain text hard wrap</label
-                    >
-                  </div>
-                  <div class="col-sm-7 col-md-5">
-                    <div class="row row-sm">
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="hardWrapMode1"
-                            name="[hardWrapMode]"
-                            type="radio"
-                            (click)="updateSettings('is_hard_wrap', true)"
-                            [checked]="settings.is_hard_wrap"
-                          />
-                          <label for="hardWrapMode1" [translate]="'common.enabled'">Enabled</label>
-                        </div>
-                      </div>
-                      <div class="col-6 flex-auto-col">
-                        <div class="fancy-field-group">
-                          <input
-                            class="d-none fancy-field-control fancy-field-control-sm"
-                            id="hardWrapMode2"
-                            name="[hardWrapMode]"
-                            type="radio"
-                            (click)="updateSettings('is_hard_wrap', false)"
-                            [checked]="!settings.is_hard_wrap"
-                          />
-                          <label for="hardWrapMode2" [translate]="'common.disabled'">Disabled</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -1008,6 +977,50 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.plain_text_hard_wrap'"
+                      >Plain text hard wrap</label
+                    >
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="hardWrapMode1"
+                            name="[hardWrapMode]"
+                            type="radio"
+                            (click)="updateSettings('is_hard_wrap', true)"
+                            [checked]="settings.is_hard_wrap"
+                          />
+                          <label for="hardWrapMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="hardWrapMode2"
+                            name="[hardWrapMode]"
+                            type="radio"
+                            (click)="updateSettings('is_hard_wrap', false)"
+                            [checked]="!settings.is_hard_wrap"
+                          />
+                          <label for="hardWrapMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="info-card mt-2 mx-3 full-width">
+                    <p [translate]="'settings.plain_text_hard_wrap_desc'">
+                      Email contents will be hard wrapped when you send plain text email.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -1191,7 +1204,7 @@
                       name="customCss"
                       [(ngModel)]="settings.custom_css"
                       [ngModelOptions]="{ updateOn: 'blur' }"
-                      (change)="updateSettings('custom_css', $event.target.value)"
+                      (change)="updateSettings('custom_css', $event.target?.value)"
                       rows="6"
                     >
                     </textarea>
@@ -1241,7 +1254,7 @@
                       autocomplete="off"
                       [(ngModel)]="notificationEmail"
                       [ngModelOptions]="{ updateOn: 'blur' }"
-                      (change)="updateSettings('notification_email', $event.target.value)"
+                      (change)="updateSettings('notification_email', $event.target?.value)"
                       placeholder="notify@example.com"
                       onfocus="(this.placeholder='')"
                       onfocusout="(this.placeholder='notify@example.com')"
@@ -1352,14 +1365,12 @@
           </div>
         </section>
       </ng-template>
-    </ngb-tab>
+    </div>
 
     <!-- Filters and blocked addresses -->
-    <ngb-tab id="filters-and-blocked-addresses">
-      <ng-template ngbTabTitle>
-        <span [translate]="'settings.filters.title'">Filters & Blocked Addresses</span>
-      </ng-template>
-      <ng-template ngbTabContent>
+    <div class="nav" [ngbNavItem]="'filters-and-blocked-addresses'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.filters.title'">Filters & Blocked Addresses</a>
+      <ng-template ngbNavContent>
         <!-- Custom filters -->
         <app-mail-filters></app-mail-filters>
 
@@ -1535,60 +1546,50 @@
           </div>
         </section>
       </ng-template>
-    </ngb-tab>
+    </div>
 
     <!-- Addresses and Signatures -->
-    <ngb-tab id="addresses-and-signatures">
-      <ng-template ngbTabTitle
-        ><span [translate]="'settings.signs_and_aliases'">Signatures & Aliases</span>
-      </ng-template>
-      <ng-template ngbTabContent>
+    <div class="nav" [ngbNavItem]="'addresses-and-signatures'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.signs_and_aliases'">Signatures & Aliases</a>
+      <ng-template ngbNavContent>
         <app-addresses-signature></app-addresses-signature>
       </ng-template>
-    </ngb-tab>
+    </div>
 
     <!-- Folders -->
-    <ngb-tab id="folders">
-      <ng-template ngbTabTitle>
-        <div [translate]="'page_pricing.folders'">Folders</div>
-      </ng-template>
-      <ng-template ngbTabContent>
+    <div class="nav" [ngbNavItem]="'folders'">
+      <a ngbNavLink class="nav-link" [translate]="'page_pricing.folders'">Folders</a>
+      <ng-template ngbNavContent>
         <app-folders></app-folders>
       </ng-template>
-    </ngb-tab>
+    </div>
 
     <!-- Security -->
-    <ngb-tab id="security">
-      <ng-template ngbTabTitle>
-        <div [translate]="'home_header.security'">Security</div>
-      </ng-template>
-      <ng-template ngbTabContent>
+    <div class="nav" [ngbNavItem]="'security'">
+      <a ngbNavLink class="nav-link" [translate]="'home_header.security'">Security</a>
+      <ng-template ngbNavContent>
         <app-settings-security></app-settings-security>
       </ng-template>
-    </ngb-tab>
+    </div>
 
     <!-- Domains -->
-    <ngb-tab id="domains-and-users">
-      <ng-template ngbTabTitle>
-        <div [translate]="'settings.domains_and_users.title'">Domains & Users</div>
+    <div class="nav" [ngbNavItem]="'domains-and-users'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.domains_and_users.title'">Domains & Users</a>
+      <ng-template ngbNavContent>
+        <app-custom-domains (onGotoTab)="navSet.select($event)"></app-custom-domains>
       </ng-template>
-      <ng-template ngbTabContent>
-        <app-custom-domains (onGotoTab)="tabSet.select($event)"></app-custom-domains>
-      </ng-template>
-    </ngb-tab>
+    </div>
 
     <!-- Forwarding and auto responder -->
-    <ngb-tab id="forwarding-and-auto-responder">
-      <ng-template ngbTabTitle>
-        <div [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</div>
-      </ng-template>
-      <ng-template ngbTabContent>
+    <div class="nav" [ngbNavItem]="'forwarding-and-auto-responder'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</a>
+      <ng-template ngbNavContent>
         <app-mail-forwarding></app-mail-forwarding>
         <app-mail-autoresponder></app-mail-autoresponder>
       </ng-template>
-    </ngb-tab>
-  </ngb-tabset>
-
+    </div>
+  </div>
+  <div [ngbNavOutlet]="navSet"></div>
   <app-mail-footer></app-mail-footer>
 </div>
 

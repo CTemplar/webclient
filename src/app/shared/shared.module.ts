@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { TagInputModule } from 'ngx-chips';
@@ -12,11 +13,11 @@ import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-n
 import { UsersBillingInfoComponent } from './components/users-billing-info/users-billing-info.component';
 import { SpinnerComponent } from './spinner/components/spinner.component';
 import { SpinnerService } from './spinner/services/spinner.service';
-import { SpinnerImageComponent } from './spinner-image/spinner-image.component';
-import { LoadingComponent } from './loading/loading.component';
-import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { SpinnerImageComponent } from './components/spinner-image/spinner-image.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { SafePipe } from './pipes/safe.pipe';
-import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { DynamicScriptLoaderService } from './services/dynamic-script-loader.service';
 import { FilenamePipe } from './pipes/filename.pipe';
 import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.component';
@@ -35,9 +36,19 @@ import { EmailFormatPipe } from './pipes/email-formatting.pipe';
 import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinner.component';
 import { ThemeToggleService } from './services/theme-toggle-service';
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, TagInputModule, MatIconModule, NgbModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    TagInputModule,
+    MatIconModule,
+    NgbModule,
+    MatCheckboxModule,
+  ],
   declarations: [
     SpinnerComponent,
     SpinnerImageComponent,
@@ -63,6 +74,7 @@ import { ThemeToggleService } from './services/theme-toggle-service';
     LineBreakToBrTag,
     EmailFormatPipe,
     CircleBarSpinnerComponent,
+    AdvancedSearchComponent,
   ],
   exports: [
     TranslateModule,
@@ -91,6 +103,7 @@ import { ThemeToggleService } from './services/theme-toggle-service';
     LineBreakToBrTag,
     EmailFormatPipe,
     CircleBarSpinnerComponent,
+    AdvancedSearchComponent,
   ],
   providers: [
     SpinnerService,

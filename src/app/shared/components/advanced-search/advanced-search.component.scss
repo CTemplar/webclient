@@ -1,0 +1,91 @@
+.advanced-search-container {
+  padding: 30px 20px;
+  max-height: 700px;
+  overflow-y: auto;
+  height: 611px;
+
+  .advanced-search-row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .form-control {
+      height: 32px;
+      border-radius: 4px;
+    }
+
+    .advanced-search-date-picker {
+      margin: auto;
+    }
+
+    .date-toggle {
+      height: 32px;
+      color: #9e9e9e;
+      font-size: 14px;
+    }
+
+    .size-container {
+      position: relative;
+      .size-dropdown-container {
+        position: static;
+        .size-dropdown-toggle {
+          position: absolute;
+          width: 30px;
+          right: 0;
+          top: 0;
+          height: 30px;
+          border-radius: 0;
+        }
+      }
+    }
+
+    .btn.btn-outline {
+      height: 32px;
+      font-size: 12px;
+      color: var(--body-color);
+      border-bottom-right-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    tag-input {
+      padding-left: 5px;
+      line-height: 1.25;
+      color: var(--input-color);
+      background-color: var(--input-bg);
+      background-image: none;
+      background-clip: padding-box;
+      border: 1px solid var(--input-border-color);
+      border-radius: 4px;
+    }
+  }
+}
+
+.ng-datepicker {
+  .custom-select {
+    background-size: 0.75rem !important;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-family: 'Lato', Helvetica, Arial, sans-serif !important;
+    width: calc(50% - 0.375rem) !important;
+    color: var(--text-dark);
+
+    &:not(:last-of-type) {
+      margin-right: 0.375rem;
+    }
+
+    //&:focus {
+    //  border-color: $brand-secondary;
+    //  outline: 0;
+    //}
+  }
+}
+.delete-icon {
+  margin-top: 0;
+}
+
+span.tag-content {
+  font-size: 12px;
+}
+
+.search-btn {
+  width: 130px;
+}

@@ -238,7 +238,7 @@
                     <label
                       [ngClass]="paymentType === paymentTypeEnum.MONTHLY ? 'current-plan' : 'current-plan-upgrade'"
                       [translate]="'page_pricing.current_plan'"
-                      >Current plan</label
+                      >{{ isLifetimePrime ? 'Current plan is Lifetime' : 'Current plan' }}</label
                     >
                   </ng-template>
                 </div>

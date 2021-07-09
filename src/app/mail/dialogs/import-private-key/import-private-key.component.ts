@@ -141,12 +141,28 @@ export class ImportPrivateKeyComponent implements OnInit {
   }
 
   uploadImportedKey(keyData: any) {
-    const { data, algorithmInfo } = keyData;
+    const { data } = keyData;
     if (keyData && this.selectedMailbox) {
       data.mailbox = this.selectedMailbox.id;
       let keyType = '';
-      if (algorithmInfo) {
-        keyType = algorithmInfo.bits ? `RSA${algorithmInfo.bits}` : algorithmInfo.curve;
+      if (data?.algorithmInfo) {
+        keyType = data.algorithmInfo.bits
+          ? `RSA${data.algorithmInfo.bits}`
+          : data.algorithmInfo.curve
+          ? 'ECC'
+          : 'Unknown';
+      }
+      if (!data?.algorithmInfo || keyType === 'Unknown') {
+        this.store.dispatch(
+          new SnackErrorPush({
+            message: `Selected file is not a valid PGP Private Key`,
+          }),
+        );
+        this.inProgress = false;
+        this.currentFile = undefined;
+        this.currentFileContent = '';
+        this.cdr.detectChanges();
+        return;
       }
       data.key_type = keyType;
       delete data.algorithmInfo;

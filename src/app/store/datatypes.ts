@@ -112,6 +112,8 @@ export class UserState {
 
   isPrime?: boolean;
 
+  isLifeTimePrime?: boolean;
+
   joinedDate?: string;
 
   inProgress?: boolean;
@@ -303,6 +305,8 @@ export class Settings {
   is_hard_wrap?: boolean;
 
   plain_text_font?: string;
+
+  universal_spam_filter?: string;
 }
 
 export interface Invoice {
@@ -578,6 +582,7 @@ export interface Contact {
   autocrypt_timestamp?: string;
   last_seen?: string;
   starred?: boolean;
+  display?: string;
 }
 
 export interface AppState {
@@ -744,7 +749,6 @@ export enum PlanType {
   PRIME = 'PRIME',
   KNIGHT = 'KNIGHT',
   MARSHAL = 'MARSHALL',
-  PARAGON = 'PARAGON',
   CHAMPION = 'CHAMPION',
 }
 

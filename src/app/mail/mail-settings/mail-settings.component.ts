@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownConfig, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment-timezone';
@@ -76,13 +76,15 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   readonly planType = PlanType;
 
-  @ViewChild('tabSet') tabSet: any;
+  @ViewChild('navSet') navSet: any;
 
   @ViewChild('deleteAccountInfoModal') deleteAccountInfoModal: any;
 
   @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal: any;
 
   @ViewChild('billingInfoModal') billingInfoModal: any;
+
+  @ViewChild('settingsContent') settingsContent: any;
 
   selectedIndex = -1; // Assuming no element are selected initially
 
@@ -139,6 +141,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   selectedTabQueryParams = 'dashboard-and-plans';
 
   invoices: Invoice[];
+
+  isLifeTimePrime = false;
 
   currentPlan: PricingPlan;
 
@@ -204,6 +208,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
         this.cdr.detectChanges();
         this.payment = user.payment_transaction;
         this.cards = user.cards;
+        this.isLifeTimePrime = user.isLifeTimePrime;
         this.invoices = user.invoices;
         this.userPlanType = user.settings.plan_type || PlanType.FREE;
         if (SharedService.PRICING_PLANS && user.settings.plan_type) {
@@ -257,7 +262,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
           }
           this.selectedTabQueryParams = mailState.currentSettingsTab;
           this.changeUrlParams();
-          this.tabSet.select(this.selectedTabQueryParams);
+          this.navSet.select(this.selectedTabQueryParams);
           this.cdr.detectChanges();
         }
       });
@@ -289,16 +294,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.tabSet.select(this.selectedTabQueryParams);
+    this.navSet.select(this.selectedTabQueryParams);
     this.cdr.detectChanges();
   }
 
-  navigateToTab($event: any) {
-    const tabSelected = $event.nextId;
-    if (this.selectedTabQueryParams === tabSelected) {
-      return;
-    }
-    this.store.dispatch(new MoveTab(tabSelected));
+  navigateToTab(navId: NgbNavChangeEvent) {
+    if (navId.activeId === navId.nextId) return;
+    this.store.dispatch(new MoveTab(navId.nextId));
+    this.scrollTop(this.settingsContent.nativeElement);
   }
 
   changeUrlParams() {
