@@ -71,7 +71,7 @@ CTemplar uses [bcrypt.js](https://github.com/dcodeIO/bcrypt.js) and [OpenPGP.js]
 
 ### Bug Bounties
 
-Please, refer to our [official publication](https://ctemplar.com/security) regarding vulnerabilities diclosure and bug bounty questions.
+Please, refer to our [official publication](https://ctemplar.com/security) regarding vulnerabilities disclosure and bug bounty questions.
 
 ### Hash Password
 
