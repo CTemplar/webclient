@@ -5,14 +5,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
-import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store';
+import { ExpireSession, Logout, SaveDraftOnLogout, SetCurrentFolder } from '../../store';
 import { AppState, UserState } from '../../store/datatypes';
 import { LOADING_IMAGE, HttpCancelService } from '../../store/services';
+import { MailFolderType } from '../../store/models';
+import { ClearSearch } from '../../store/actions/search.action';
 
 @UntilDestroy()
 @Component({
@@ -60,6 +62,7 @@ export class MailHeaderComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private composeMailService: ComposeMailService,
     private httpCancelService: HttpCancelService,
+    private activatedRoute: ActivatedRoute,
   ) {
     config.autoClose = true;
   }
@@ -101,6 +104,24 @@ export class MailHeaderComponent implements OnInit {
       .subscribe(() => {
         this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });
       });
+
+    /**
+     * Activated router management
+     */
+    this.activatedRoute.paramMap.pipe(untilDestroyed(this)).subscribe((parametersMap: any) => {
+      const { params } = parametersMap;
+      if (params?.folder) {
+        if (params.folder === MailFolderType.SEARCH) {
+          this.searchInput.setValue('', {
+            emitEvent: false,
+            emitModelToViewChange: true,
+            emitViewToModelChange: false,
+          });
+        } else {
+          this.store.dispatch(new ClearSearch());
+        }
+      }
+    });
   }
 
   setSearchPlaceholder(url: string) {
