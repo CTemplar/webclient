@@ -323,6 +323,7 @@
                 <ng-template matStepperIcon="edit">
                   <i class="fa fa-check"></i>
                 </ng-template>
+                <!-- Domain Name -->
                 <mat-step [stepControl]="domainNameForm">
                   <form [formGroup]="domainNameForm">
                     <ng-template matStepLabel>
@@ -375,6 +376,7 @@
                     </div>
                   </form>
                 </mat-step>
+                <!-- Verify -->
                 <mat-step [stepControl]="verifyForm">
                   <form [formGroup]="verifyForm">
                     <ng-template matStepLabel>
@@ -472,6 +474,7 @@
                     </div>
                   </form>
                 </mat-step>
+                <!-- MX -->
                 <mat-step [stepControl]="mxForm">
                   <form [formGroup]="mxForm">
                     <ng-template matStepLabel>
@@ -577,6 +580,7 @@
                     </div>
                   </form>
                 </mat-step>
+                <!-- SPF -->
                 <mat-step [stepControl]="spfForm">
                   <form [formGroup]="spfForm">
                     <ng-template matStepLabel>
@@ -663,6 +667,7 @@
                     </div>
                   </form>
                 </mat-step>
+                <!-- DKIM -->
                 <mat-step [stepControl]="dkimForm">
                   <form [formGroup]="dkimForm">
                     <ng-template matStepLabel>
@@ -752,6 +757,7 @@
                     </div>
                   </form>
                 </mat-step>
+                <!-- DMARC -->
                 <mat-step [stepControl]="dmarcForm">
                   <form [formGroup]="dmarcForm">
                     <ng-template matStepLabel>
