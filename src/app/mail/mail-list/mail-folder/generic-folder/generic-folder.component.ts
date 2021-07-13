@@ -481,14 +481,23 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         isFullScreen: this.userState.settings.is_composer_full_screen,
       });
     } else {
-      this.store.dispatch(new GetMailDetailSuccess(mail));
       const queryParameters: any = {};
-      if (this.mailFolder === MailFolderType.SEARCH && this.searchText) {
-        queryParameters.search = this.searchText;
+      if (this.mailFolder === MailFolderType.SEARCH) {
+        if (this.searchText) {
+          queryParameters.search = this.searchText;
+        }
+        this.router.navigate(
+          [`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.parent ? mail.parent : mail.id],
+          {
+            queryParams: queryParameters,
+          },
+        );
+      } else {
+        this.store.dispatch(new GetMailDetailSuccess(mail));
+        this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
+          queryParams: queryParameters,
+        });
       }
-      this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
-        queryParams: queryParameters,
-      });
     }
   }
 
