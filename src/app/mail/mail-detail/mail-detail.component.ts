@@ -1129,12 +1129,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onPrint(mail: Mail) {
     if (this.decryptedContents[mail.id]) {
       let popupWin;
-      const subject = document.querySelector(`${this.mail.id}-mail-subject`).innerHTML;
-      const from = document.querySelector(`${mail.id}-mail-from`).innerHTML;
-      const to = document.querySelector(`${mail.id}-mail-to`).innerHTML;
-      const date = document.querySelector(`${mail.id}-mail-date`).innerHTML;
-      const content = document.querySelector(`${mail.id}-raw-mail-content`).innerHTML;
-      const hasCC = document.querySelector(`${mail.id}-mail-cc`);
+      const subject = document.querySelector(`[id='${this.mail.id}-mail-subject']`).innerHTML;
+      const from = document.querySelector(`[id='${mail.id}-mail-from']`).innerHTML;
+      const to = document.querySelector(`[id='${mail.id}-mail-to']`).innerHTML;
+      const date = document.querySelector(`[id='${mail.id}-mail-date']`).innerHTML;
+      const content = document.querySelector(`[id='${mail.id}-raw-mail-content']`).innerHTML;
+      const hasCC = document.querySelector(`[id='${mail.id}-mail-cc']`);
       let cc = '';
       if (hasCC) {
         cc = `<span class="text-muted">${hasCC.innerHTML}</span>`;
