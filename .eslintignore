@@ -28,6 +28,7 @@ dist/
 docs/
 e2e/
 .github/
+README.md
 
 # assets
 src/assets/
