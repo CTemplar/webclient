@@ -1,5 +1,5 @@
 import { UsersActionAll, UsersActionTypes } from '../actions';
-import { Domain, PromoCode, Settings, UserState } from '../datatypes';
+import { PromoCode, Settings, UserState } from '../datatypes';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 
 export const initialState: UserState = {
@@ -398,8 +398,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
     case UsersActionTypes.VERIFY_DOMAIN_SUCCESS: {
       let isError = false;
       let { step } = action.payload;
-      const { gotoNextStep, reverify, res } = action.payload;
-      if (res?.is_domain_verified) {
+      const { gotoNextStep, reverify, response } = action.payload;
+      if (response?.is_domain_verified) {
         if (gotoNextStep) {
           step += 1;
         }
@@ -410,15 +410,15 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         ...state,
         customDomains: reverify
           ? state.customDomains.map(item => {
-              if (item.id === res?.id) {
-                return res;
+              if (item.id === response?.id) {
+                return response;
               }
               return item;
             })
           : state.customDomains,
         isError,
         inProgress: false,
-        newCustomDomain: res,
+        newCustomDomain: response,
         currentCreationStep: step,
       };
     }

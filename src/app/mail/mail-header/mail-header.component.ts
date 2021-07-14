@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 import { ComposeMailService } from '../../store/services/compose-mail.service';
@@ -14,6 +14,8 @@ import { ExpireSession, Logout, SaveDraftOnLogout } from '../../store';
 import { AppState, UserState } from '../../store/datatypes';
 import { LOADING_IMAGE, HttpCancelService, ElectronService } from '../../store/services';
 import { ThemeToggleService } from '../../shared/services/theme-toggle-service';
+import { MailFolderType } from '../../store/models';
+import { ClearSearch } from '../../store/actions/search.action';
 
 @UntilDestroy()
 @Component({
@@ -69,6 +71,7 @@ export class MailHeaderComponent implements OnInit {
     private httpCancelService: HttpCancelService,
     private themeToggleService: ThemeToggleService,
     private electronService: ElectronService,
+    private activatedRoute: ActivatedRoute,
   ) {
     config.autoClose = true;
   }
@@ -114,6 +117,23 @@ export class MailHeaderComponent implements OnInit {
 
     this.isForceLightMode = this.themeToggleService.getIsForceLightMode();
     this.isElectron = this.electronService.isElectron;
+    /**
+     * Activated router management
+     */
+    this.activatedRoute.paramMap.pipe(untilDestroyed(this)).subscribe((parametersMap: any) => {
+      const { params } = parametersMap;
+      if (params?.folder) {
+        if (params.folder === MailFolderType.SEARCH) {
+          this.searchInput.setValue('', {
+            emitEvent: false,
+            emitModelToViewChange: true,
+            emitViewToModelChange: false,
+          });
+        } else {
+          this.store.dispatch(new ClearSearch());
+        }
+      }
+    });
   }
 
   setSearchPlaceholder(url: string) {
