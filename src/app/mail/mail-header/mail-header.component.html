@@ -71,7 +71,7 @@
           </a>
         </li>
 
-        <li class="" *ngIf="isDarkMode && isElectron">
+        <li class="" *ngIf="(isDarkMode$ | async)">
           <a
             *ngIf="!isForceLightMode; else darkIcon"
             placement="bottom"

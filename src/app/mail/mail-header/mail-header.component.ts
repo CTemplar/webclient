@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { Language, LANGUAGES, PRIMARY_WEBSITE } from '../../shared/config';
@@ -54,7 +55,7 @@ export class MailHeaderComponent implements OnInit {
 
   primaryWebsite = PRIMARY_WEBSITE;
 
-  isDarkMode: boolean;
+  isDarkMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   isForceLightMode: boolean;
 
@@ -84,7 +85,7 @@ export class MailHeaderComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.isDarkMode = user.settings.is_night_mode;
+        this.isDarkMode$.next(user.settings.is_night_mode);
         if (user.settings.language) {
           const language = this.languages.find(item => item.name === user.settings.language);
           if (this.selectedLanguage.name !== language.name || !this.isSetLanguage) {
