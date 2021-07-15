@@ -347,6 +347,7 @@
           <app-save-contact
             *ngIf="isNewContact"
             [selectedContact]="selectedContact"
+            (userSaved)="onSave()"
           ></app-save-contact>
         </div>
       </div>
