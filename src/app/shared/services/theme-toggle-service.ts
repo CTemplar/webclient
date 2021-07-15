@@ -57,13 +57,4 @@ export class ThemeToggleService {
     this.isForceLightMode = true;
     this.updateTheme(false);
   }
-
-  public forceDarkModeTheme() {
-    this.isForceLightMode = false;
-    this.updateTheme(true);
-  }
-
-  public getIsForceLightMode() {
-    return this.isForceLightMode;
-  }
 }

@@ -9,7 +9,7 @@ import { ParsedMailbox } from 'email-addresses';
 import { CreateFolderComponent } from '../../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
 import { Folder } from '../models';
-import { AppState, GlobalPublicKey, PricingPlan, UserState } from '../datatypes';
+import { AppState, GlobalPublicKey, PlanType, PricingPlan, UserState } from '../datatypes';
 
 import { NotificationService } from './notification.service';
 
