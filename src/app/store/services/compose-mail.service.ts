@@ -287,13 +287,23 @@ export class ComposeMailService {
 
   private getEncryptionTypeForExternal(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): PGPEncryptionType {
     if (draftMail.draft && draftMail.draft.receiver) {
-      const receivers: string[] = [
+      let receivers: string[] = [
         ...draftMail.draft.receiver.map(
           receiver => (parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox).address,
         ),
-        ...draftMail.draft.cc.map(cc => (parseEmail.parseOneAddress(cc) as parseEmail.ParsedMailbox).address),
-        ...draftMail.draft.bcc.map(bcc => (parseEmail.parseOneAddress(bcc) as parseEmail.ParsedMailbox).address),
       ];
+      if (draftMail.draft.cc) {
+        receivers = [
+          ...receivers,
+          ...draftMail.draft.cc.map(cc => (parseEmail.parseOneAddress(cc) as parseEmail.ParsedMailbox).address),
+        ];
+      }
+      if (draftMail.draft.bcc) {
+        receivers = [
+          ...receivers,
+          ...draftMail.draft.bcc.map(bcc => (parseEmail.parseOneAddress(bcc) as parseEmail.ParsedMailbox).address),
+        ];
+      }
       const isPGPInline = receivers.every(rec => {
         if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
           const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
