@@ -1,5 +1,5 @@
 import { UsersActionAll, UsersActionTypes } from '../actions';
-import { PromoCode, Settings, UserState } from '../datatypes';
+import { Domain, PromoCode, Settings, UserState } from '../datatypes';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 
 export const initialState: UserState = {

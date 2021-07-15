@@ -22,13 +22,11 @@ node-modules/
 # build
 .DS_Store
 release/
-dist/
 
 # others
 docs/
 e2e/
 .github/
-README.md
 
 # assets
 src/assets/

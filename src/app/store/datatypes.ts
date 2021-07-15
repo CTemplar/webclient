@@ -475,8 +475,6 @@ export interface Draft {
    * when would be decided after done to upload attachment (encrypted.asc): real composing process
    */
   isPGPMimeMessage?: boolean;
-
-  signContent?: string;
 }
 
 export interface DraftState {
@@ -839,11 +837,6 @@ export enum EmailContentType {
 
 export const PGP_MIME_DEFAULT_ATTACHMENT_FILE_NAME = 'encrypted.asc';
 export const PGP_MIME_DEFAULT_CONTENT = 'Version 1';
-export const SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME = 'signature.asc';
-
-export enum SignContentType {
-  BUILTIN = 'BUILTIN',
-}
 
 // eslint-disable-next-line no-shadow
 export enum ComposerEncryptionType {
