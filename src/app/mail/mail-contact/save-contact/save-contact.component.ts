@@ -130,7 +130,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
         if (this.inProgress && !contactsState.inProgress) {
           this.inProgress = false;
           if (!contactsState.isError && !this.advancedSettingsModalRef) {
-            this.userSaved.emit(true);
+            this.userSaved?.emit(true);
           }
         }
         this.advancedSettingInProgress = contactsState.advancedSettingInProgress;
