@@ -387,4 +387,6 @@ export class MailContactComponent implements OnInit, AfterViewInit {
       );
     }
   }
+
+  onSave() {}
 }
