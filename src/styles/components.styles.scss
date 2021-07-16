@@ -113,6 +113,7 @@ app-custom-domains {
     color: rgba(0, 0, 0, 0.87);
 
     &.mat-step-label-active {
+      color: var(--mat-step-active-color);
       &.mat-step-label-selected {
         color: #e74c3c;
       }
