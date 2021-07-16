@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { DefaultRouterStateSerializer, RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ActionReducer, INIT, MetaReducer, StoreModule } from '@ngrx/store';
 
+import { AppConfig } from '../../environments/environment';
 import { REMEMBER_ME, SYNC_DATA_WITH_STORE } from '../shared/config';
 
 import { logoutReducer } from './reducers/auth.reducers';

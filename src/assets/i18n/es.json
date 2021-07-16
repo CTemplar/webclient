@@ -466,7 +466,7 @@
     "refresh": "Refresh",
     "delete_messages": "Delete all messages",
     "delete_all": "Delete All",
-    "no_conversations": "There are no conversations with this label.",
+    "no_conversations": "No messages matched your search.",
     "remove_star": "Remove Star",
     "start_message": "Star Message"
   },

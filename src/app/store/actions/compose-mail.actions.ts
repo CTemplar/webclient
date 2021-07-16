@@ -11,7 +11,6 @@ export enum ComposeMailActionTypes {
   UPDATE_PGP_ENCRYPTED_CONTENT = '[PGP] UPDATE PGP ENCRYPTED CONTENT',
   UPDATE_PGP_MIME_ENCRYPTED = '[PGP] UPDATE PGP MIME ENCRYPTED',
   UPDATE_PGP_SSH_KEYS = '[PGP] UPDATE PGP SSH KEYS',
-  UPDATE_SIGN_CONTENT = 'UPDATE_SIGN_CONTENT',
   UPLOAD_ATTACHMENT = '[Attachment] UPLOAD_ATTACHMENT',
   UPLOAD_ATTACHMENT_PROGRESS = '[Attachment] UPLOAD_ATTACHMENT_PROGRESS',
   UPLOAD_ATTACHMENT_REQUEST = '[Attachment] UPLOAD_ATTACHMENT_REQUEST',
@@ -85,12 +84,6 @@ export class UpdatePGPMimeEncrytion implements Action {
 
 export class UpdatePGPSshKeys implements Action {
   readonly type = ComposeMailActionTypes.UPDATE_PGP_SSH_KEYS;
-
-  constructor(public payload?: any) {}
-}
-
-export class UpdateSignContent implements Action {
-  readonly type = ComposeMailActionTypes.UPDATE_SIGN_CONTENT;
 
   constructor(public payload?: any) {}
 }
@@ -195,7 +188,6 @@ export type ComposeMailActions =
   | SendMailFailure
   | UpdatePGPEncryptedContent
   | UpdatePGPSshKeys
-  | UpdateSignContent
   | UploadAttachment
   | UploadAttachmentProgress
   | UploadAttachmentRequest

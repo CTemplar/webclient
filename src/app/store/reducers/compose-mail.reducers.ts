@@ -36,7 +36,6 @@ function updateDraftMailForPGPMimeMessage(
   newDraftMail.encryptedContent = undefined;
   newDraftMail.pgpMimeContent = undefined;
   newDraftMail.isPGPMimeMessage = true;
-  newDraftMail.signContent = undefined;
   return newDraftMail;
 }
 
@@ -193,19 +192,6 @@ export function reducer(
             },
           };
         }
-      }
-      return {
-        ...state,
-        drafts: { ...state.drafts },
-      };
-    }
-
-    case ComposeMailActionTypes.UPDATE_SIGN_CONTENT: {
-      if (action.payload.draftId) {
-        state.drafts[action.payload.draftId] = {
-          ...state.drafts[action.payload.draftId],
-          signContent: action.payload.signContent,
-        };
       }
       return {
         ...state,

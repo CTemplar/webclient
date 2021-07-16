@@ -57,7 +57,6 @@ export interface Mail {
   encryption_type?: PGPEncryptionType;
   reply_to_display?: Array<EmailDisplay>;
   email_display_name_map?: any;
-  sign?: string;
 }
 
 export class EncryptionNonCTemplar {
@@ -94,7 +93,6 @@ export interface Mailbox {
   is_autocrypt_enabled?: boolean;
   prefer_encrypt?: string;
   is_attach_public_key?: boolean;
-  is_pgp_sign?: boolean;
 }
 
 export interface Folder {
