@@ -243,7 +243,7 @@
         <i class="icon icon-secured" [ngbTooltip]="'mail_detail.encrypted' | translate" placement="left"></i>
         <i
           class="icon icon-md icon-star-filled cursor-pointer"
-          (click)="ontoggleStarred($event, mail, true)"
+          (click)="onToggleStarred($event, mail, true)"
           [ngClass]="{
             'icon-star': isConversationView ? !mail.has_starred_children : !mail.starred,
             'text-info': isConversationView ? mail.has_starred_children : mail.starred
@@ -334,7 +334,7 @@
     (scrollToReplyAction)="scrollTo(replyActions)"
     (decryptWithPassword)="decryptWithPassword($event, mail)"
     (onClickHeader)="onClickParentHeader()"
-    (onToggleStarred)="onToggleStarred(mail, false)"
+    (onToggleStarred)="onToggleStarredForIndividual(mail, false)"
   ></app-mail-detail-body>
 
   <!-- Child Mail-->
@@ -371,7 +371,7 @@
       (scrollToReplyAction)="scrollTo(replyActions)"
       (decryptWithPassword)="decryptWithPassword($event, childMail)"
       (onClickHeader)="onClickChildHeader(childMail)"
-      (onToggleStarred)="onToggleStarred(childMail, false)"
+      (onToggleStarred)="onToggleStarredForIndividual(childMail, false)"
     ></app-mail-detail-body>
   </ng-container>
   <div class="ui-body ui-footer-sec" #replyActions>
