@@ -19,8 +19,6 @@ import {
   PublicKey,
   SecureContent,
   UserState,
-  SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
-  SignContentType,
 } from '../datatypes';
 import { ClearDraft, CreateMail, SendMail, SnackPush, UploadAttachment } from '../actions';
 import { Attachment } from '../models';
@@ -29,7 +27,7 @@ import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
 import { AutocryptProcessService } from './autocrypt.process.service';
-import { getCryptoRandom, SharedService } from './shared.service';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root',
@@ -70,56 +68,35 @@ export class ComposeMailService {
       .select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
         Object.keys(response.drafts).forEach((key: any) => {
-          const { usersKeys, drafts } = response;
-          const draftMail: Draft = drafts[key];
+          const draftMail: Draft = response.drafts[key];
+          const { usersKeys } = response;
           if (draftMail.draft) {
-            const signFlag = this.openPgpService.getMailboxSignFlag(draftMail.draft.mailbox);
-            const encryptionTypeForExternal = this.getEncryptionTypeForExternal(draftMail, usersKeys);
             if (
               draftMail.shouldSave &&
               this.drafts[key] &&
               this.drafts[key].isPGPInProgress &&
               !draftMail.isPGPInProgress
             ) {
-              if (!(encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE && signFlag)) {
-                this.setEncryptedContent(draftMail);
-              }
+              this.setEncryptedContent(draftMail);
               this.store.dispatch(new CreateMail({ ...draftMail }));
             } else if (draftMail.shouldSend && this.drafts[key]) {
               if (
                 (this.drafts[key].isPGPInProgress &&
                   !draftMail.isPGPInProgress &&
-                  !draftMail.isProcessingAttachments &&
-                  !draftMail.signContent) ||
+                  !draftMail.isProcessingAttachments) ||
                 (this.drafts[key].isProcessingAttachments &&
-                  !draftMail.isPGPInProgress &&
                   !draftMail.isProcessingAttachments &&
-                  !draftMail.signContent)
+                  !draftMail.isPGPInProgress)
               ) {
                 // PGP Encryption has been finished, don't need to set encryption data, if it is PGP/MIME message
-                if (
-                  !draftMail.isPGPMimeMessage &&
-                  !(encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE && signFlag)
-                ) {
+                if (!draftMail.isPGPMimeMessage) {
                   this.setEncryptedContent(draftMail);
                 }
                 if (!draftMail.isSaving) {
                   if (draftMail.draft && draftMail.draft.encryption && draftMail.draft.encryption.password) {
                     draftMail.draft.encryption.password = '';
                   }
-
-                  if (encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE && signFlag) {
-                    this.openPgpService.signPGPInlineMessage(
-                      draftMail.draft.mailbox,
-                      new SecureContent(draftMail.draft),
-                      draftMail.id,
-                    );
-                  } else {
-                    if (signFlag) {
-                      draftMail.draft.sign = SignContentType.BUILTIN;
-                    }
-                    this.store.dispatch(new SendMail({ ...draftMail }));
-                  }
+                  this.store.dispatch(new SendMail({ ...draftMail }));
                 } else {
                   this.store.dispatch(
                     new SnackPush({
@@ -145,6 +122,7 @@ export class ComposeMailService {
                   draftMail.draft.is_encrypted = true;
                   publicKeys = this.getPublicKeys(draftMail, usersKeys).map(item => item.public_key);
                 }
+                const encryptionTypeForExternal = this.getEncryptionTypeForExternal(draftMail, usersKeys);
                 if (encryptionTypeForExternal !== undefined && publicKeys.length > 0) {
                   draftMail.draft.is_encrypted = false;
                   draftMail.draft.is_subject_encrypted = false;
@@ -167,6 +145,7 @@ export class ComposeMailService {
                 } else if (publicKeys.length > 0) {
                   if (this.sharedService.checkRecipients(usersKeys, draftMail?.draft?.receiver || [])) {
                     // If all recipients are in CTemplar, not need to check autocrypt and ...
+
                     for (const attachment of draftMail.attachments) {
                       this.openPgpService.encryptAttachment(draftMail.draft.mailbox, attachment, publicKeys);
                     }
@@ -176,7 +155,6 @@ export class ComposeMailService {
                       new SecureContent(draftMail.draft),
                       publicKeys,
                       encryptionTypeForExternal,
-                      signFlag,
                     );
                   } else {
                     const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(
@@ -205,15 +183,7 @@ export class ComposeMailService {
                     }
                   }
                 } else if (!draftMail.isSaving) {
-                  if (signFlag) {
-                    this.openPgpService.signContents(
-                      draftMail.draft.mailbox,
-                      new SecureContent(draftMail.draft),
-                      draftMail.id,
-                    );
-                  } else {
-                    this.sendEmailWithDecryptedData(true, draftMail, publicKeys, encryptionTypeForExternal);
-                  }
+                  this.sendEmailWithDecryptedData(true, draftMail, publicKeys, encryptionTypeForExternal);
                 } else {
                   this.store.dispatch(
                     new SnackPush({
@@ -221,18 +191,7 @@ export class ComposeMailService {
                     }),
                   );
                 }
-              } else if (signFlag && draftMail.signContent) {
-                if (encryptionTypeForExternal === PGPEncryptionType.PGP_INLINE) {
-                  draftMail.draft.content = draftMail.signContent;
-                  this.store.dispatch(new SendMail({ ...draftMail }));
-                } else if (
-                  !draftMail.draft.attachments.some(a => a.name === SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME)
-                ) {
-                  const attachment = this.processSignContents(draftMail);
-                  draftMail.draft.attachments.push(attachment);
-                } else if (!draftMail.isProcessingAttachments) {
-                  this.sendEmailWithDecryptedData(true, draftMail, [], undefined);
-                }
+                // }
               }
             }
           }
@@ -287,13 +246,23 @@ export class ComposeMailService {
 
   private getEncryptionTypeForExternal(draftMail: Draft, usersKeys: Map<string, GlobalPublicKey>): PGPEncryptionType {
     if (draftMail.draft && draftMail.draft.receiver) {
-      const receivers: string[] = [
+      let receivers: string[] = [
         ...draftMail.draft.receiver.map(
           receiver => (parseEmail.parseOneAddress(receiver) as parseEmail.ParsedMailbox).address,
         ),
-        ...draftMail.draft.cc.map(cc => (parseEmail.parseOneAddress(cc) as parseEmail.ParsedMailbox).address),
-        ...draftMail.draft.bcc.map(bcc => (parseEmail.parseOneAddress(bcc) as parseEmail.ParsedMailbox).address),
       ];
+      if (draftMail.draft.cc) {
+        receivers = [
+          ...receivers,
+          ...draftMail.draft.cc.map(cc => (parseEmail.parseOneAddress(cc) as parseEmail.ParsedMailbox).address),
+        ];
+      }
+      if (draftMail.draft.bcc) {
+        receivers = [
+          ...receivers,
+          ...draftMail.draft.bcc.map(bcc => (parseEmail.parseOneAddress(bcc) as parseEmail.ParsedMailbox).address),
+        ];
+      }
       const isPGPInline = receivers.every(rec => {
         if (usersKeys.has(rec) && !usersKeys.get(rec).isFetching) {
           const contactInfo: Contact = this.contacts.find((contact: Contact) => contact.email === rec);
@@ -411,51 +380,6 @@ export class ComposeMailService {
         publicKeys,
       );
     }
-  }
-
-  private processSignContents(draftMail: Draft) {
-    const { signContent, id, draft } = draftMail;
-    const signFile = new File([signContent], SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME, {
-      type: '',
-    });
-    const signAttachmentToUpload: Attachment = {
-      draftId: id,
-      document: signFile,
-      decryptedDocument: signFile,
-      inProgress: false,
-      is_inline: false,
-      is_encrypted: false,
-      message: draft.id,
-      name: SIGN_MESSAGE_DEFAULT_ATTACHMENT_FILE_NAME,
-      size: signFile.size.toString(),
-      actual_size: signFile.size,
-      attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
-    };
-
-    const email = this.openPgpService.getMailboxEmail(draft.mailbox);
-    const publicKey = this.openPgpService.getMailboxPublicKey(draft.mailbox);
-    const publicKeyFileName = `publickey-${email}.asc`;
-    const publicKeyFile = new File([publicKey], publicKeyFileName, {
-      type: '',
-    });
-    const publicKeyAttachmentToUpload: Attachment = {
-      draftId: id,
-      document: publicKeyFile,
-      decryptedDocument: publicKeyFile,
-      inProgress: false,
-      is_inline: false,
-      is_encrypted: false,
-      message: draft.id,
-      name: publicKeyFileName,
-      size: publicKeyFile.size.toString(),
-      actual_size: publicKeyFile.size,
-      attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
-    };
-
-    this.store.dispatch(new UploadAttachment({ ...signAttachmentToUpload }));
-    this.store.dispatch(new UploadAttachment({ ...publicKeyAttachmentToUpload }));
-
-    return signAttachmentToUpload;
   }
 
   /**
