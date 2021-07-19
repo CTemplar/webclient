@@ -206,6 +206,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   unsubscribeMailTo = '';
 
+  isElectron = false;
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -225,6 +227,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
+    this.isElectron = this.electronService.isElectron;
     /**
      * Check getting mail is succeeded
      */
@@ -333,7 +336,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               // Mark mail as read
               if (!this.mail.read && !this.markedAsRead) {
                 this.markedAsRead = true;
-                this.markAsRead(this.mail.id);
+                this.markAsRead(this.mail.id, true);
               }
             }
           }
@@ -785,8 +788,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred, withChildren }));
   }
 
-  markAsRead(mailID: number, read = true) {
-    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
+  markAsRead(mailID: number, isLocalUpdate = false, read = true) {
+    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read, isLocalUpdate }));
     if (!read) {
       this.goBack();
     }
@@ -1127,12 +1130,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onPrint(mail: Mail) {
     if (this.decryptedContents[mail.id]) {
       let popupWin;
-      const subject = document.querySelector(`${this.mail.id}-mail-subject`).innerHTML;
-      const from = document.querySelector(`${mail.id}-mail-from`).innerHTML;
-      const to = document.querySelector(`${mail.id}-mail-to`).innerHTML;
-      const date = document.querySelector(`${mail.id}-mail-date`).innerHTML;
-      const content = document.querySelector(`${mail.id}-raw-mail-content`).innerHTML;
-      const hasCC = document.querySelector(`${mail.id}-mail-cc`);
+      const subject = document.querySelector(`[id='${this.mail.id}-mail-subject']`).innerHTML;
+      const from = document.querySelector(`[id='${mail.id}-mail-from']`).innerHTML;
+      const to = document.querySelector(`[id='${mail.id}-mail-to']`).innerHTML;
+      const date = document.querySelector(`[id='${mail.id}-mail-date']`).innerHTML;
+      const content = document.querySelector(`[id='${mail.id}-raw-mail-content']`).innerHTML;
+      const hasCC = document.querySelector(`[id='${mail.id}-mail-cc']`);
       let cc = '';
       if (hasCC) {
         cc = `<span class="text-muted">${hasCC.innerHTML}</span>`;
