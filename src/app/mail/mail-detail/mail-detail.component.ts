@@ -8,6 +8,7 @@ import * as xss from 'xss';
 import * as parseEmail from 'email-addresses';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -219,6 +220,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
     private translate: TranslateService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
@@ -790,10 +792,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch(new ClearMailDetail(this.mail || {}));
-  }
-
   showIncomingHeaders(mail: Mail) {
     this.selectedHeaders = this.decryptedHeaders[mail.id];
     this.modalService.open(this.incomingHeadersModal, {
@@ -1067,7 +1065,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(event: any, mail: Mail, withChildren = true) {
+  onToggleStarred(event: any, mail: Mail, withChildren = true) {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(
@@ -1079,7 +1077,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  onToggleStarred(mail: Mail, withChildren = true) {
+  onToggleStarredForIndividual(mail: Mail, withChildren = true) {
     this.store.dispatch(
       new StarMail({
         ids: mail.id.toString(),
@@ -1284,9 +1282,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           ? ''
           : mail.sender_display?.name;
       const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
-      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${
-        this.decryptedContents[mail.id]
-      }</blockquote>`;
+      // Getting current displaying email content
+      const newContent = SafePipe.sanitizeEmail(this.decryptedContents[mail.id], this.disableExternalImages);
+      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${newContent}</blockquote>`;
     }
     return content;
   }
@@ -1397,5 +1395,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
       this.unsubscribeConfirmModalRef = null;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 }
