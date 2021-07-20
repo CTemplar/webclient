@@ -295,7 +295,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             // If done to decrypt, or already existed decrypted content
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
               if (this.mail.is_html) {
-                const replacedContentWithAnchorTag = decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+                const replacedContentWithAnchorTag = decryptedContent.content.replace(
+                  /<a /g,
+                  '<a target="_blank" rel="noopener noreferrer" ',
+                );
                 if (this.decryptedContents[this.mail.id] !== replacedContentWithAnchorTag) {
                   this.decryptedContents[this.mail.id] = replacedContentWithAnchorTag;
                   if (!this.isExistExternalImage) {
@@ -663,7 +666,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
         if (child.is_html) {
-          const replacedChildContentWithAnchorTag = childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+          const replacedChildContentWithAnchorTag = childDecryptedContent.content.replace(
+            /<a /g,
+            '<a target="_blank" rel="noopener noreferrer" ',
+          );
           if (replacedChildContentWithAnchorTag !== this.decryptedContents[child.id]) {
             this.decryptedContents[child.id] = replacedChildContentWithAnchorTag;
             if (!this.isExistExternalImage) {
