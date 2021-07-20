@@ -207,6 +207,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   unsubscribeMailTo = '';
 
   isExistExternalImage = false;
+
   isElectron = false;
 
   constructor(
