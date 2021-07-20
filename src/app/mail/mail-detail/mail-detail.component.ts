@@ -8,6 +8,7 @@ import * as xss from 'xss';
 import * as parseEmail from 'email-addresses';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -206,6 +207,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   unsubscribeMailTo = '';
 
   isExistExternalImage = false;
+  isElectron = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -221,10 +223,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
     private translate: TranslateService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
+    this.isElectron = this.electronService.isElectron;
     /**
      * Check getting mail is succeeded
      */
@@ -336,7 +340,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               // Mark mail as read
               if (!this.mail.read && !this.markedAsRead) {
                 this.markedAsRead = true;
-                this.markAsRead(this.mail.id);
+                this.markAsRead(this.mail.id, true);
               }
             }
           }
@@ -795,15 +799,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred, withChildren }));
   }
 
-  markAsRead(mailID: number, read = true) {
-    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
+  markAsRead(mailID: number, isLocalUpdate = false, read = true) {
+    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read, isLocalUpdate }));
     if (!read) {
       this.goBack();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 
   showIncomingHeaders(mail: Mail) {
@@ -1079,7 +1079,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(event: any, mail: Mail, withChildren = true) {
+  onToggleStarred(event: any, mail: Mail, withChildren = true) {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(
@@ -1091,7 +1091,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  onToggleStarred(mail: Mail, withChildren = true) {
+  onToggleStarredForIndividual(mail: Mail, withChildren = true) {
     this.store.dispatch(
       new StarMail({
         ids: mail.id.toString(),
@@ -1141,12 +1141,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onPrint(mail: Mail) {
     if (this.decryptedContents[mail.id]) {
       let popupWin;
-      const subject = document.querySelector(`${this.mail.id}-mail-subject`).innerHTML;
-      const from = document.querySelector(`${mail.id}-mail-from`).innerHTML;
-      const to = document.querySelector(`${mail.id}-mail-to`).innerHTML;
-      const date = document.querySelector(`${mail.id}-mail-date`).innerHTML;
-      const content = document.querySelector(`${mail.id}-raw-mail-content`).innerHTML;
-      const hasCC = document.querySelector(`${mail.id}-mail-cc`);
+      const subject = document.querySelector(`[id='${this.mail.id}-mail-subject']`).innerHTML;
+      const from = document.querySelector(`[id='${mail.id}-mail-from']`).innerHTML;
+      const to = document.querySelector(`[id='${mail.id}-mail-to']`).innerHTML;
+      const date = document.querySelector(`[id='${mail.id}-mail-date']`).innerHTML;
+      const content = document.querySelector(`[id='${mail.id}-raw-mail-content']`).innerHTML;
+      const hasCC = document.querySelector(`[id='${mail.id}-mail-cc']`);
       let cc = '';
       if (hasCC) {
         cc = `<span class="text-muted">${hasCC.innerHTML}</span>`;
@@ -1296,9 +1296,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           ? ''
           : mail.sender_display?.name;
       const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
-      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${
-        this.decryptedContents[mail.id]
-      }</blockquote>`;
+      // Getting current displaying email content
+      const newContent = SafePipe.sanitizeEmail(this.decryptedContents[mail.id], this.disableExternalImages);
+      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${newContent}</blockquote>`;
     }
     return content;
   }
@@ -1409,5 +1409,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
       this.unsubscribeConfirmModalRef = null;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 }

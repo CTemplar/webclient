@@ -22,7 +22,7 @@
       (onUnsubscribe)="onUnsubscribe.emit($event)"
     ></app-mail-detail-header>
     <section id="ngb-collapse" [ngbCollapse]="!mailExpandedStatus">
-      <!-- Password Decryption Form -->
+      <!-- Password Decryption Form Start -->
       <app-mail-detail-password-decryption-panel
         [mail]="mail"
         [errorMessageForDecryptingWithPassword]="errorMessageForDecryptingWithPassword"
@@ -31,6 +31,9 @@
         [mailExpandedStatus]="mailExpandedStatus"
         (decryptWithPassword)="decryptWithPassword.emit($event)"
       ></app-mail-detail-password-decryption-panel>
+      <!-- Password Decyprtion Form End -->
+
+      <!-- Email Content start -->
       <div class="ui-body mail-content" *ngIf="decryptedContents">
         <!-- Action Dropdown starts -->
         <div
@@ -133,6 +136,7 @@
         </div>
         <!-- Actual Email Content ends -->
       </div>
+      <!-- Email Content end -->
 
       <!-- Decrypting Image starts -->
       <div

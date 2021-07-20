@@ -70,7 +70,7 @@
     "email": "Email",
     "phone": "Phone",
     "edit": "EDIT",
-    "search": "Search (We only support searching email addresses)",
+    "search": "Search messages",
     "search_contacts": "Search contacts",
     "upgrade_account": "Upgrade account",
     "terms_and_privacy": "Terms of Service",
@@ -87,7 +87,8 @@
     "logout": "Log out",
     "account_password": "Your account password",
     "continue_to_link": "Continue to link",
-    "dont_ask_use_local_cache": "Don't ask any more"
+    "dont_ask_use_local_cache": "Don't ask any more",
+    "sign_message": "Sign message"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -387,7 +388,9 @@
       "local_cache": "Local Cache",
       "attach_public_key": "Attach Public Key",
       "manage_mailbox": "Manage Mailbox",
-      "attach_public_key_tooltip": "Attach public key automatically adds your public key to each message you send. Recipients can use this to verify the authenticity of your messages and send encrypted messages to you."
+      "attach_public_key_tooltip": "Attach public key automatically adds your public key to each message you send. Recipients can use this to verify the authenticity of your messages and send encrypted messages to you.",
+      "sign_message": "Sign messages",
+      "sign_message_tooltip": "Sign messages automatically sign all your outgoing messages so users can verify the authenticity of your messages."
     },
     "signs_and_aliases": "Signatures & Aliases",
     "autocrypt": "Autocrypt",
@@ -596,7 +599,9 @@
     "undo": "Undo",
     "permanently_delete": "Permanently deleting data",
     "permanently_delete_all": "Permanently deleting all usage data  from your visit",
-    "verified_user": "Verified Sender"
+    "verified_user": "Verified Sender",
+    "view_email_light_mode": "View email in light mode if you are having issues to view email in dark mode",
+    "view_email_dark_mode": "View email in Dark mode if you are having issues to view email in light mode"
   },
   "mail_list": {
     "select_messages": "Select messages",
@@ -618,7 +623,7 @@
     "refresh": "Refresh",
     "delete_messages": "Delete all messages",
     "delete_all": "Delete all permanently",
-    "no_conversations": "There are no conversations with this label.",
+    "no_conversations": "No messages matched your search.",
     "remove_star": "Remove Star",
     "start_message": "Star Message",
     "4_Wall_Protection": "Protected by CTemplar 4-Wall technology",
