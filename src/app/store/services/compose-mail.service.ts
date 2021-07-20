@@ -120,7 +120,6 @@ export class ComposeMailService {
                     }
                     this.store.dispatch(new SendMail({ ...draftMail }));
                   }
-                  this.store.dispatch(new SendMail({ ...draftMail }));
                 } else {
                   this.store.dispatch(
                     new SnackPush({

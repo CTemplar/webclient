@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   DeleteMail,
@@ -26,7 +27,14 @@ import {
   StarMail,
 } from '../../../../store';
 import { AppState, MailState, SecureContent, UserState } from '../../../../store/datatypes';
-import { AdvancedSearchQueryParameters, EmailDisplay, Folder, Mail, MailFolderType } from '../../../../store/models';
+import {
+  AdvancedSearchQueryParameters,
+  EmailDisplay,
+  Folder,
+  getMailFolderName,
+  Mail,
+  MailFolderType,
+} from '../../../../store/models';
 import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
@@ -114,6 +122,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     private pgpService: OpenPgpService,
     private authService: UsersService,
     private modalService: NgbModal,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -209,7 +218,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       }
     });
     this.isMobile = window.innerWidth <= 768; // handle as mobile when window width is less than 768px
-    this.folderName = this.mailFolder.charAt(0).toUpperCase() + this.mailFolder.slice(1);
+    this.folderName = this.translate.instant(getMailFolderName(this.mailFolder));
 
     window.removeEventListener('beforeunload', this.authService.onBeforeLoader, true);
   }

@@ -177,3 +177,33 @@ export interface AdvancedSearchQueryParameters {
   size?: number;
   size_operator?: string;
 }
+
+export function getMailFolderName(folderType: MailFolderType) {
+  switch (folderType) {
+    case MailFolderType.ALL_EMAILS:
+      return 'mail_sidebar.all_emails';
+    case MailFolderType.UNREAD:
+      return 'mail_sidebar.unread';
+    case MailFolderType.INBOX:
+      return 'mail_sidebar.inbox';
+    case MailFolderType.SENT:
+      return 'mail_sidebar.sent';
+    case MailFolderType.DRAFT:
+      return 'mail_sidebar.draft';
+    case MailFolderType.STARRED:
+      return 'mail_sidebar.starred';
+    case MailFolderType.ARCHIVE:
+      return 'mail_sidebar.archive';
+    case MailFolderType.SPAM:
+      return 'mail_sidebar.spam';
+    case MailFolderType.TRASH:
+      return 'mail_sidebar.trash';
+    case MailFolderType.OUTBOX:
+      return 'mail_sidebar.outbox';
+    case MailFolderType.SEARCH:
+      return 'mail_header.search';
+    default: {
+      return 'mail_sidebar.inbox';
+    }
+  }
+}
