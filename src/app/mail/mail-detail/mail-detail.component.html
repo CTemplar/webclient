@@ -251,7 +251,7 @@
         ></i>
       </div>
     </div>
-    <div class="spam_reason row" *ngIf="xssPipe.hasExternalImages && disableExternalImages">
+    <div class="spam_reason row" *ngIf="isExistExternalImage && disableExternalImages">
       <div class="col pt-1">
         <span class="text-warning">Warning:</span>
         This email contains external images, which have been blocked.
@@ -259,7 +259,7 @@
       <div>
         <button
           class="mark_not_spam btn btn-outline-warning"
-          (click)="disableExternalImages = false; xssPipe.hasExternalImages = false"
+          (click)="disableExternalImages = false; isExistExternalImage= false"
           ngbTooltip="Load external images"
         >
           Load

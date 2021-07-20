@@ -251,6 +251,34 @@ export class SafePipe implements PipeTransform {
     return value;
   }
 
+  static getExternalImageStatus(value: string) {
+    let isExistExternalImage = false;
+    // @ts-ignore
+    value = xss(value, {
+      whiteList: SafePipe.allowedTags,
+      stripIgnoreTag: true,
+      stripIgnoreTagBody: ['script', 'style'],
+      // eslint-disable-next-line consistent-return
+      onIgnoreTagAttr: (tag: string, name: string, attribute: string) => {
+        if (name !== 'class') {
+          // get attr whitelist for specific tag
+          const attributeWhitelist = SafePipe.allowedAttributes[tag];
+          // if the current attr is whitelisted, should be added to tag
+          if (attributeWhitelist.includes(name)) {
+            if (
+              tag === 'img' &&
+              name === 'src' &&
+              !(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)
+            ) {
+              isExistExternalImage = true;
+            }
+          }
+        }
+      },
+    });
+    return isExistExternalImage;
+  }
+
   static createCssFilter(): any {
     const cssFilter = new cssfilter.FilterCSS({
       onIgnoreAttr: (styleName: any, styleValue: string) => {

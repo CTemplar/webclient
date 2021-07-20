@@ -205,6 +205,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   unsubscribeMailTo = '';
 
+  isExistExternalImage = false;
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -282,30 +284,30 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content === undefined))
             ) {
               this.isDecrypting[this.mail.id] = true;
-              // TODO - This If statement should be removed after integrated all of decryption logic to 'MesssageDecryptService
-              if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
-                this.messageDecryptService.decryptMessage(this.mail).subscribe(
-                  () => {},
-                  () => {
-                    this.decryptedContents[this.mail.id] = this.mail.content;
-                    this.isDecrypting[this.mail.id] = false;
-                  },
-                );
-              } else {
-                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail)).subscribe(
-                  () => {},
-                  () => {
-                    this.decryptedContents[this.mail.id] = this.mail.content;
-                    this.isDecrypting[this.mail.id] = false;
-                  },
-                );
-              }
+              this.messageDecryptService.decryptMessage(this.mail).subscribe(
+                () => {},
+                () => {
+                  this.decryptedContents[this.mail.id] = this.mail.content;
+                  this.isDecrypting[this.mail.id] = false;
+                },
+              );
             }
             // If done to decrypt, or already existed decrypted content
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
-              this.decryptedContents[this.mail.id] = this.mail.is_html
-                ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
-                : decryptedContent.content || decryptedContent.content_plain;
+              if (this.mail.is_html) {
+                const replacedContentWithAnchorTag = decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+                if (this.decryptedContents[this.mail.id] !== replacedContentWithAnchorTag) {
+                  this.decryptedContents[this.mail.id] = replacedContentWithAnchorTag;
+                  if (!this.isExistExternalImage) {
+                    this.isExistExternalImage = SafePipe.getExternalImageStatus(replacedContentWithAnchorTag);
+                  }
+                }
+              } else {
+                const plainContent = decryptedContent.content || decryptedContent.content_plain;
+                if (this.decryptedContents[this.mail.id] !== plainContent) {
+                  this.decryptedContents[this.mail.id] = plainContent;
+                }
+              }
               if (this.externalLinkChecked) {
                 this.confirmExternalLinks();
               }
@@ -379,23 +381,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
               ) {
                 this.isDecrypting[this.mail.id] = true;
-                if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
-                  this.messageDecryptService
-                    .decryptMessage(this.mail, false)
-                    .pipe(take(1))
-                    .subscribe(
-                      () => {},
-                      () => {},
-                    );
-                } else {
-                  this.pgpService
-                    .decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
-                    .pipe(take(1))
-                    .subscribe(
-                      () => {},
-                      () => {},
-                    );
-                }
+                this.messageDecryptService
+                  .decryptMessage(this.mail, false)
+                  .pipe(take(1))
+                  .subscribe(
+                    () => {},
+                    () => {},
+                  );
               }
             }, 1000);
           } else if (!this.mail.has_children && this.mailExpandedStatus[this.mail.id] === undefined)
@@ -670,6 +662,20 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
+        if (child.is_html) {
+          const replacedChildContentWithAnchorTag = childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+          if (replacedChildContentWithAnchorTag !== this.decryptedContents[child.id]) {
+            this.decryptedContents[child.id] = replacedChildContentWithAnchorTag;
+            if (!this.isExistExternalImage) {
+              this.isExistExternalImage = SafePipe.getExternalImageStatus(this.decryptedContents[child.id]);
+            }
+          }
+        } else {
+          const plainChildContent = childDecryptedContent.content_plain || childDecryptedContent.content;
+          if (plainChildContent !== this.decryptedContents[child.id]) {
+            this.decryptedContents[child.id] = plainChildContent;
+          }
+        }
         this.decryptedContents[child.id] = child.is_html
           ? childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
           : childDecryptedContent.content;
