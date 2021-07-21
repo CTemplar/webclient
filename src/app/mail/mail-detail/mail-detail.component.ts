@@ -207,6 +207,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   unsubscribeMailTo = '';
 
   isExistExternalImage = false;
+
   isElectron = false;
 
   constructor(
@@ -353,10 +354,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
            */
           if (this.mail.children && this.mail.children.length > 0) {
             if (this.mailExpandedStatus[this.mail.id] === undefined) {
-              this.mailExpandedStatus[this.mail.id] = false;
+              this.mailExpandedStatus[this.mail.id] = !this.mail.read;
             }
             for (const child of this.mail.children) {
               this.isPasswordEncrypted[child.id] = !!child.encryption;
+              if (this.mailExpandedStatus[child.id] === undefined && !child.read) {
+                this.mailExpandedStatus[child.id] = true;
+                this.decryptChildEmails(child);
+              }
             }
             // find the latest child with trash/non-trash folder and excluding Draft folder messages
             const filteredChildren =
@@ -367,7 +372,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   );
             if (filteredChildren.length > 0) {
               const lastFilteredChild = filteredChildren[filteredChildren.length - 1];
-              if (!this.isPasswordEncrypted[lastFilteredChild.id]) {
+              if (!this.isPasswordEncrypted[lastFilteredChild.id] && !this.mailExpandedStatus[lastFilteredChild.id]) {
                 this.decryptChildEmails(lastFilteredChild);
               }
 
