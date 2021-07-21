@@ -844,25 +844,57 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.reply_to && mail.reply_to.length > 0) {
       newMail.receiver = mail.reply_to;
     } else {
-      let lastSender = '';
-      let lastReceiver = '';
-      if (mail.children && mail.children.length > 0) {
-        // eslint-disable-next-line no-plusplus
-        for (let childIndex = mail.children.length; childIndex > 0; childIndex--) {
-          if (mail.children[childIndex - 1].folder !== 'trash') {
-            lastSender = mail.children[childIndex - 1].sender;
-            [lastReceiver] = mail.children[childIndex - 1].receiver;
-            break;
+      let newReceivers = undefined;
+      if (mainReply && mail.children?.length > 0) {
+        // set reciever with it with the reciever and sender of latest child that is not on Trash
+          if (this.isShowTrashRelatedChildren) {
+            // Detect it's sent email from this account
+            if (this.mailboxes.some(mailbox => mail.children[mail.children.length - 1].sender === mailbox.email)) {
+              // If it is sent email from this account, will set all of emails would be set on the reciever without itself
+              newReceivers = new Set([
+                ...mail.children[mail.children.length - 1].receiver,
+                mail.children[mail.children.length - 1].sender,
+                ...mail.children[mail.children.length - 1].cc,
+                ...mail.children[mail.children.length - 1].bcc
+              ]);
+              newReceivers.delete(this.currentMailbox?.email);
+            } else {
+              // If it is received email from the other, only sender would be set as receiver
+              newReceivers = [mail.children[mail.children.length - 1].sender];
+            }
+          } else {
+            for (let childIndex = mail.children.length; childIndex > 0; childIndex -= 1) {
+              if ((this.mailFolder === MailFolderType.TRASH && mail.children[childIndex - 1].folder === MailFolderType.TRASH) || (this.mailFolder !== MailFolderType.TRASH && mail.children[childIndex - 1].folder !== MailFolderType.TRASH)) {
+                if (this.mailboxes.some(mailbox => mail.children[childIndex - 1].sender === mailbox.email)) {
+                  newReceivers = new Set([
+                    ...mail.children[childIndex - 1].receiver,
+                    mail.children[childIndex - 1].sender,
+                    ...mail.children[childIndex - 1].cc,
+                    ...mail.children[childIndex - 1].bcc
+                  ]);
+                  newReceivers.delete(this.currentMailbox?.email);
+                  break;
+                } else {
+                  newReceivers = [mail.children[childIndex - 1].sender];
+                  break;
+                }
+              }
+            }  
           }
-        }
-        if (lastSender && lastReceiver) {
-          newMail.receiver = lastSender !== this.currentMailbox.email ? [lastSender] : [lastReceiver];
-        } else {
-          newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
-        }
       } else {
-        newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
+        if (this.mailboxes.some(mailbox => mail.sender === mailbox.email)) {
+          newReceivers = new Set([
+            ...mail.receiver,
+            mail.sender,
+            ...mail.cc,
+            ...mail.bcc
+          ]);
+          newReceivers.delete(this.currentMailbox?.email);
+        } else {
+          newReceivers = [mail.sender];
+        }
       }
+      newMail.receiver = newReceivers ? [...newReceivers] : [];
     }
     this.selectedMailToInclude = mail;
     newMail.last_action = MailAction.REPLY;
@@ -902,14 +934,43 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.content = this.getMessageHistory(previousMails);
     newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
-    if (mail.sender !== this.currentMailbox.email) {
-      newMail.receiver = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
+
+    let newReceivers = undefined;
+    if (mainReply && mail.children?.length > 0) {
+      // set reciever with it with the reciever and sender of latest child that is not on Trash
+        if (this.isShowTrashRelatedChildren) {
+          newReceivers = new Set([
+            ...mail.children[mail.children.length - 1].receiver,
+            mail.children[mail.children.length - 1].sender,
+            ...mail.children[mail.children.length - 1].cc,
+            ...mail.children[mail.children.length - 1].bcc
+          ]);
+          newReceivers.delete(this.currentMailbox?.email);
+        } else {
+          for (let childIndex = mail.children.length; childIndex > 0; childIndex -= 1) {
+            if ((this.mailFolder === MailFolderType.TRASH && mail.children[childIndex - 1].folder === MailFolderType.TRASH) || (this.mailFolder !== MailFolderType.TRASH && mail.children[childIndex - 1].folder !== MailFolderType.TRASH)) {
+              newReceivers = new Set([
+                ...mail.children[childIndex - 1].receiver,
+                mail.children[childIndex - 1].sender,
+                ...mail.children[childIndex - 1].cc,
+                ...mail.children[childIndex - 1].bcc
+              ]);
+              newReceivers.delete(this.currentMailbox?.email);
+              break;
+            }
+          }  
+        }
     } else {
-      newMail.receiver = Array.isArray(mail.receiver)
-        ? [...mail.receiver, ...mail.cc, ...mail.bcc]
-        : [mail.receiver, ...mail.cc, ...mail.bcc];
+      newReceivers = new Set([
+        ...mail.receiver,
+        mail.sender,
+        ...mail.cc,
+        ...mail.bcc
+      ]);
+      newReceivers.delete(this.currentMailbox?.email);
     }
-    newMail.receiver = newMail.receiver.filter((email: string) => email !== this.currentMailbox.email);
+    newMail.receiver = newReceivers ? [...newReceivers] : [];
+
     this.selectedMailToInclude = mail;
     newMail.last_action = MailAction.REPLY_ALL;
     newMail.is_html = mail.is_html;
