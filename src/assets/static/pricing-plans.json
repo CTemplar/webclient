@@ -116,7 +116,7 @@
     "unlimited_folders": true,
     "exclusive_access": false
   },
-  "MARSHALL": {
+  "MARSHAL": {
     "email_count": 60,
     "domain_count": 10,
     "storage": 20,
