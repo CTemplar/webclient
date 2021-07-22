@@ -330,11 +330,11 @@ onmessage = async function (event) {
     });
   } else if (event.data.signing) {
     signContent(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId], event.data.publicKeys).then(content => {
-      postMessage({ ...event.data, signContent: content ?? '' });
+      postMessage({ ...event.data, signContent: content || '' });
     });
   } else if (event.data.signingPGPInline) {
     signPGPInlineMessage(event.data.mailData.content, decryptedAllPrivKeys[event.data.mailboxId]).then(content => {
-      postMessage({ ...event.data, signContent: content ?? '' });
+      postMessage({ ...event.data, signContent: content || '' });
     });
   }
 };
