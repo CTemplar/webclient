@@ -41,6 +41,9 @@ import { ClearSearch } from '../../../../store/actions/search.action';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
+const KEY_LEFT_CONTROL = 'ControlLeft';
+const KEY_SHIFT = 'ShiftLeft';
+
 @UntilDestroy()
 @Component({
   selector: 'app-generic-folder',
@@ -111,6 +114,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
   isDeleteDraftClicked = false;
 
   isConversationView = true;
+
+  isKeyDownCtrlBtn = false;
+
+  isKeyDownShiftBtn = false;
 
   constructor(
     public store: Store<AppState>,
@@ -502,10 +509,14 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
           },
         );
       } else {
-        this.store.dispatch(new GetMailDetailSuccess(mail));
-        this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
-          queryParams: queryParameters,
-        });
+        if (this.isKeyDownCtrlBtn) {
+          window.open(`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`, '_blank');
+        } else {
+          this.store.dispatch(new GetMailDetailSuccess(mail));
+          this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
+            queryParams: queryParameters,
+          });
+        }
       }
     }
   }
@@ -640,6 +651,41 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   toggleEmailSelection(mail: any) {
     mail.marked = !mail.marked;
+    if (mail.marked && this.isKeyDownShiftBtn) {
+      let selectedMailIndex = -1;
+      const selectedMail = this.mails.find((mailList, index) => {
+        mailList.id === mail?.id ? (selectedMailIndex = index) : (selectedMailIndex = -1);
+        return mailList.id === mail?.id;
+      });
+
+      if (selectedMail) {
+        const closestIndex = this.mails.reduce((closestIndex: number, currentMail: Mail, index: number) => {
+          if (currentMail.id !== selectedMail.id && currentMail.marked) {
+            if (closestIndex === -1) {
+              return index;
+            } else if (Math.abs(closestIndex - selectedMailIndex) > Math.abs(index - selectedMailIndex)) {
+              return index;
+            }
+          }
+          return closestIndex;
+        }, -1);
+        if (closestIndex !== -1) {
+          if (closestIndex < selectedMailIndex) {
+            for (let i = closestIndex; i < selectedMailIndex + 1; i += 1) {
+              if (this.mails.length > i) {
+                this.mails[i].marked = true;
+              }
+            }
+          } else {
+            for (let i = closestIndex; i > selectedMailIndex; i -= 1) {
+              if (this.mails.length > i) {
+                this.mails[i].marked = true;
+              }
+            }
+          }
+        }
+      }
+    }
     this.noEmailSelected = mail.marked ? false : this.mails.filter(email => email.marked).length <= 0;
     this.setIsSelectAll();
   }
@@ -771,5 +817,27 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       }
     }
     return info;
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    event.preventDefault();
+    if (event.code === KEY_LEFT_CONTROL) {
+      this.isKeyDownCtrlBtn = true;
+    } else if (event.code === KEY_SHIFT) {
+      this.isKeyDownShiftBtn = true;
+    }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    event.preventDefault();
+    if (event.code === KEY_LEFT_CONTROL) {
+      this.isKeyDownCtrlBtn = false;
+    } else if (event.code === 'KeyA' && this.isKeyDownCtrlBtn) {
+      this.markAllMails(true);
+    } else if (event.code === KEY_SHIFT) {
+      this.isKeyDownShiftBtn = false;
+    }
   }
 }

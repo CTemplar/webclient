@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
@@ -52,6 +52,8 @@ export class AddressesSignatureComponent implements OnInit {
   @ViewChild('downloadPublicKeyRef') downloadPublicKeyRef: any;
 
   @ViewChild('manageMailboxModal') manageMailboxModal: any;
+
+  @ViewChild('signatureEditorElementRef', { read: ElementRef, static: false }) signatureEditorElementRef: any;
 
   private downloadKeyModalRef: NgbModalRef;
 
@@ -139,6 +141,8 @@ export class AddressesSignatureComponent implements OnInit {
   public DecoupledEditor = DecoupledEditor;
 
   public CKEDITOR_TOOLBAR_ITEMS = CKEDITOR_TOOLBAR_ITEMS;
+
+  signatureEditorInstance: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -249,7 +253,18 @@ export class AddressesSignatureComponent implements OnInit {
     this.handleUsernameAvailability();
   }
 
+  onChangeMailbox(mailbox: Mailbox) {
+    this.selectedMailboxForSignature = mailbox;
+    if (this.signatureEditorInstance) {
+      this.signatureEditorInstance.setData(this.selectedMailboxForSignature.signature || '');
+    }
+  }
+
   public onSignatureReady(editor: any) {
+    if (!this.signatureEditorInstance) {
+      this.signatureEditorInstance =
+        this.signatureEditorElementRef?.nativeElement?.querySelector('.ck-editor__editable')?.ckeditorInstance;
+    }
     const toolbarContainer = document.querySelector('.signature-editor-toolbar-container');
     toolbarContainer.append(editor.ui.view.toolbar.element);
   }

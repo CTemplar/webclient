@@ -113,7 +113,6 @@ export class SafePipe implements PipeTransform {
       case 'sanitize':
         // Move style from style tag to inline style
         value = juice(value);
-        value = SafePipe.removeTitle(value);
         // Sanitize Mail
         value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
@@ -263,14 +262,13 @@ export class SafePipe implements PipeTransform {
           // get attr whitelist for specific tag
           const attributeWhitelist = SafePipe.allowedAttributes[tag];
           // if the current attr is whitelisted, should be added to tag
-          if (attributeWhitelist.includes(name)) {
-            if (
-              tag === 'img' &&
-              name === 'src' &&
-              !(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)
-            ) {
-              isExistExternalImage = true;
-            }
+          if (
+            attributeWhitelist.includes(name) &&
+            tag === 'img' &&
+            name === 'src' &&
+            !(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)
+          ) {
+            isExistExternalImage = true;
           }
         }
       },
