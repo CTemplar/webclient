@@ -113,7 +113,7 @@ export class SafePipe implements PipeTransform {
       case 'sanitize':
         // Move style from style tag to inline style
         value = juice(value);
-        value = this.removeTitle(value);
+        value = SafePipe.removeTitle(value);
         // Sanitize Mail
         value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
@@ -127,7 +127,7 @@ export class SafePipe implements PipeTransform {
     const cssFilter = SafePipe.createCssFilter();
     let isAddedCollapseButton = false;
     // @ts-ignore
-    const returnValue = xss(value, {
+    return xss(value, {
       whiteList: SafePipe.allowedTags,
       stripIgnoreTag: true,
       stripIgnoreTagBody: ['script', 'style'],
@@ -218,7 +218,6 @@ export class SafePipe implements PipeTransform {
         }
       },
     });
-    return returnValue;
   }
 
   static processSanitization(value: string, disableExternalImages: boolean) {
@@ -249,6 +248,34 @@ export class SafePipe implements PipeTransform {
       },
     });
     return value;
+  }
+
+  static getExternalImageStatus(value: string) {
+    let isExistExternalImage = false;
+    // @ts-ignore
+    value = xss(value, {
+      whiteList: SafePipe.allowedTags,
+      stripIgnoreTag: true,
+      stripIgnoreTagBody: ['script', 'style'],
+      // eslint-disable-next-line consistent-return
+      onIgnoreTagAttr: (tag: string, name: string, attribute: string) => {
+        if (name !== 'class') {
+          // get attr whitelist for specific tag
+          const attributeWhitelist = SafePipe.allowedAttributes[tag];
+          // if the current attr is whitelisted, should be added to tag
+          if (attributeWhitelist.includes(name)) {
+            if (
+              tag === 'img' &&
+              name === 'src' &&
+              !(attribute.indexOf(`https://${PRIMARY_DOMAIN}`) === 0 || attribute.indexOf(apiUrl) === 0)
+            ) {
+              isExistExternalImage = true;
+            }
+          }
+        }
+      },
+    });
+    return isExistExternalImage;
   }
 
   static createCssFilter(): any {
@@ -305,13 +332,26 @@ export class SafePipe implements PipeTransform {
     return inputText;
   }
 
-  private removeTitle(value: string) {
+  static removeTitle(value: string) {
     const element = document.createElement('div');
     element.innerHTML = value;
     if (element.querySelectorAll('title').length > 0) {
       element.querySelectorAll('title')[0].textContent = '';
       return element.innerHTML;
     }
+    return value;
+  }
+
+  /**
+   * @name sanitizeEmail
+   * @description Will be used for santizing without pipe, after passed this function, should call DomSanitizer.bypassSecurityTrustHtml()
+   * @returns sanitized content
+   */
+  static sanitizeEmail(value: string, disableExternalImages: boolean) {
+    value = juice(value);
+    value = SafePipe.removeTitle(value);
+    // Sanitize Mail
+    value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
     return value;
   }
 }

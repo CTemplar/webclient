@@ -8,6 +8,7 @@ import * as xss from 'xss';
 import * as parseEmail from 'email-addresses';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
@@ -205,6 +206,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   unsubscribeMailTo = '';
 
+  isExistExternalImage = false;
+
+  isElectron = false;
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -219,10 +224,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
     private translate: TranslateService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
     SafePipe.hasExternalImages = false;
+    this.isElectron = this.electronService.isElectron;
     /**
      * Check getting mail is succeeded
      */
@@ -282,30 +289,33 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content === undefined))
             ) {
               this.isDecrypting[this.mail.id] = true;
-              // TODO - This If statement should be removed after integrated all of decryption logic to 'MesssageDecryptService
-              if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
-                this.messageDecryptService.decryptMessage(this.mail).subscribe(
-                  () => {},
-                  () => {
-                    this.decryptedContents[this.mail.id] = this.mail.content;
-                    this.isDecrypting[this.mail.id] = false;
-                  },
-                );
-              } else {
-                this.pgpService.decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail)).subscribe(
-                  () => {},
-                  () => {
-                    this.decryptedContents[this.mail.id] = this.mail.content;
-                    this.isDecrypting[this.mail.id] = false;
-                  },
-                );
-              }
+              this.messageDecryptService.decryptMessage(this.mail).subscribe(
+                () => {},
+                () => {
+                  this.decryptedContents[this.mail.id] = this.mail.content;
+                  this.isDecrypting[this.mail.id] = false;
+                },
+              );
             }
             // If done to decrypt, or already existed decrypted content
             if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
-              this.decryptedContents[this.mail.id] = this.mail.is_html
-                ? decryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
-                : decryptedContent.content || decryptedContent.content_plain;
+              if (this.mail.is_html) {
+                const replacedContentWithAnchorTag = decryptedContent.content.replace(
+                  /<a /g,
+                  '<a target="_blank" rel="noopener noreferrer" ',
+                );
+                if (this.decryptedContents[this.mail.id] !== replacedContentWithAnchorTag) {
+                  this.decryptedContents[this.mail.id] = replacedContentWithAnchorTag;
+                  if (!this.isExistExternalImage) {
+                    this.isExistExternalImage = SafePipe.getExternalImageStatus(replacedContentWithAnchorTag);
+                  }
+                }
+              } else {
+                const plainContent = decryptedContent.content || decryptedContent.content_plain;
+                if (this.decryptedContents[this.mail.id] !== plainContent) {
+                  this.decryptedContents[this.mail.id] = plainContent;
+                }
+              }
               if (this.externalLinkChecked) {
                 this.confirmExternalLinks();
               }
@@ -331,7 +341,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               // Mark mail as read
               if (!this.mail.read && !this.markedAsRead) {
                 this.markedAsRead = true;
-                this.markAsRead(this.mail.id);
+                this.markAsRead(this.mail.id, true);
               }
             }
           }
@@ -344,10 +354,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
            */
           if (this.mail.children && this.mail.children.length > 0) {
             if (this.mailExpandedStatus[this.mail.id] === undefined) {
-              this.mailExpandedStatus[this.mail.id] = false;
+              this.mailExpandedStatus[this.mail.id] = !this.mail.read;
             }
             for (const child of this.mail.children) {
               this.isPasswordEncrypted[child.id] = !!child.encryption;
+              if (this.mailExpandedStatus[child.id] === undefined && !child.read) {
+                this.mailExpandedStatus[child.id] = true;
+                this.decryptChildEmails(child);
+              }
             }
             // find the latest child with trash/non-trash folder and excluding Draft folder messages
             const filteredChildren =
@@ -358,7 +372,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   );
             if (filteredChildren.length > 0) {
               const lastFilteredChild = filteredChildren[filteredChildren.length - 1];
-              if (!this.isPasswordEncrypted[lastFilteredChild.id]) {
+              if (!this.isPasswordEncrypted[lastFilteredChild.id] && !this.mailExpandedStatus[lastFilteredChild.id]) {
                 this.decryptChildEmails(lastFilteredChild);
               }
 
@@ -379,23 +393,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
               ) {
                 this.isDecrypting[this.mail.id] = true;
-                if (this.mail.encryption_type === PGPEncryptionType.PGP_MIME) {
-                  this.messageDecryptService
-                    .decryptMessage(this.mail, false)
-                    .pipe(take(1))
-                    .subscribe(
-                      () => {},
-                      () => {},
-                    );
-                } else {
-                  this.pgpService
-                    .decrypt(this.mail.mailbox, this.mail.id, new SecureContent(this.mail))
-                    .pipe(take(1))
-                    .subscribe(
-                      () => {},
-                      () => {},
-                    );
-                }
+                this.messageDecryptService
+                  .decryptMessage(this.mail, false)
+                  .pipe(take(1))
+                  .subscribe(
+                    () => {},
+                    () => {},
+                  );
               }
             }, 1000);
           } else if (!this.mail.has_children && this.mailExpandedStatus[this.mail.id] === undefined)
@@ -670,6 +674,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
       if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
+        if (child.is_html) {
+          const replacedChildContentWithAnchorTag = childDecryptedContent.content.replace(
+            /<a /g,
+            '<a target="_blank" rel="noopener noreferrer" ',
+          );
+          if (replacedChildContentWithAnchorTag !== this.decryptedContents[child.id]) {
+            this.decryptedContents[child.id] = replacedChildContentWithAnchorTag;
+            if (!this.isExistExternalImage) {
+              this.isExistExternalImage = SafePipe.getExternalImageStatus(this.decryptedContents[child.id]);
+            }
+          }
+        } else {
+          const plainChildContent = childDecryptedContent.content_plain || childDecryptedContent.content;
+          if (plainChildContent !== this.decryptedContents[child.id]) {
+            this.decryptedContents[child.id] = plainChildContent;
+          }
+        }
         this.decryptedContents[child.id] = child.is_html
           ? childDecryptedContent.content.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
           : childDecryptedContent.content;
@@ -783,15 +804,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new StarMail({ ids: `${this.mail.id}`, starred, withChildren }));
   }
 
-  markAsRead(mailID: number, read = true) {
-    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read }));
+  markAsRead(mailID: number, isLocalUpdate = false, read = true) {
+    this.store.dispatch(new ReadMail({ ids: mailID.toString(), read, isLocalUpdate }));
     if (!read) {
       this.goBack();
     }
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 
   showIncomingHeaders(mail: Mail) {
@@ -832,25 +849,57 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.reply_to && mail.reply_to.length > 0) {
       newMail.receiver = mail.reply_to;
     } else {
-      let lastSender = '';
-      let lastReceiver = '';
-      if (mail.children && mail.children.length > 0) {
-        // eslint-disable-next-line no-plusplus
-        for (let childIndex = mail.children.length; childIndex > 0; childIndex--) {
-          if (mail.children[childIndex - 1].folder !== 'trash') {
-            lastSender = mail.children[childIndex - 1].sender;
-            [lastReceiver] = mail.children[childIndex - 1].receiver;
-            break;
+      let newReceivers = undefined;
+      if (mainReply && mail.children?.length > 0) {
+        // set reciever with it with the reciever and sender of latest child that is not on Trash
+        if (this.isShowTrashRelatedChildren) {
+          // Detect it's sent email from this account
+          if (this.mailboxes.some(mailbox => mail.children[mail.children.length - 1].sender === mailbox.email)) {
+            // If it is sent email from this account, will set all of emails would be set on the reciever without itself
+            newReceivers = new Set([
+              ...mail.children[mail.children.length - 1].receiver,
+              mail.children[mail.children.length - 1].sender,
+              ...mail.children[mail.children.length - 1].cc,
+              ...mail.children[mail.children.length - 1].bcc,
+            ]);
+            newReceivers.delete(this.currentMailbox?.email);
+          } else {
+            // If it is received email from the other, only sender would be set as receiver
+            newReceivers = [mail.children[mail.children.length - 1].sender];
+          }
+        } else {
+          for (let childIndex = mail.children.length; childIndex > 0; childIndex -= 1) {
+            if (
+              (this.mailFolder === MailFolderType.TRASH &&
+                mail.children[childIndex - 1].folder === MailFolderType.TRASH) ||
+              (this.mailFolder !== MailFolderType.TRASH &&
+                mail.children[childIndex - 1].folder !== MailFolderType.TRASH)
+            ) {
+              if (this.mailboxes.some(mailbox => mail.children[childIndex - 1].sender === mailbox.email)) {
+                newReceivers = new Set([
+                  ...mail.children[childIndex - 1].receiver,
+                  mail.children[childIndex - 1].sender,
+                  ...mail.children[childIndex - 1].cc,
+                  ...mail.children[childIndex - 1].bcc,
+                ]);
+                newReceivers.delete(this.currentMailbox?.email);
+                break;
+              } else {
+                newReceivers = [mail.children[childIndex - 1].sender];
+                break;
+              }
+            }
           }
         }
-        if (lastSender && lastReceiver) {
-          newMail.receiver = lastSender !== this.currentMailbox.email ? [lastSender] : [lastReceiver];
-        } else {
-          newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
-        }
       } else {
-        newMail.receiver = mail.sender !== this.currentMailbox.email ? [mail.sender] : this.mail.receiver;
+        if (this.mailboxes.some(mailbox => mail.sender === mailbox.email)) {
+          newReceivers = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
+          newReceivers.delete(this.currentMailbox?.email);
+        } else {
+          newReceivers = [mail.sender];
+        }
       }
+      newMail.receiver = newReceivers ? [...newReceivers] : [];
     }
     this.selectedMailToInclude = mail;
     newMail.last_action = MailAction.REPLY;
@@ -890,14 +939,42 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.content = this.getMessageHistory(previousMails);
     newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
-    if (mail.sender !== this.currentMailbox.email) {
-      newMail.receiver = [mail.sender, ...mail.receiver, ...mail.cc, ...mail.bcc];
+
+    let newReceivers = undefined;
+    if (mainReply && mail.children?.length > 0) {
+      // set reciever with it with the reciever and sender of latest child that is not on Trash
+      if (this.isShowTrashRelatedChildren) {
+        newReceivers = new Set([
+          ...mail.children[mail.children.length - 1].receiver,
+          mail.children[mail.children.length - 1].sender,
+          ...mail.children[mail.children.length - 1].cc,
+          ...mail.children[mail.children.length - 1].bcc,
+        ]);
+        newReceivers.delete(this.currentMailbox?.email);
+      } else {
+        for (let childIndex = mail.children.length; childIndex > 0; childIndex -= 1) {
+          if (
+            (this.mailFolder === MailFolderType.TRASH &&
+              mail.children[childIndex - 1].folder === MailFolderType.TRASH) ||
+            (this.mailFolder !== MailFolderType.TRASH && mail.children[childIndex - 1].folder !== MailFolderType.TRASH)
+          ) {
+            newReceivers = new Set([
+              ...mail.children[childIndex - 1].receiver,
+              mail.children[childIndex - 1].sender,
+              ...mail.children[childIndex - 1].cc,
+              ...mail.children[childIndex - 1].bcc,
+            ]);
+            newReceivers.delete(this.currentMailbox?.email);
+            break;
+          }
+        }
+      }
     } else {
-      newMail.receiver = Array.isArray(mail.receiver)
-        ? [...mail.receiver, ...mail.cc, ...mail.bcc]
-        : [mail.receiver, ...mail.cc, ...mail.bcc];
+      newReceivers = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
+      newReceivers.delete(this.currentMailbox?.email);
     }
-    newMail.receiver = newMail.receiver.filter((email: string) => email !== this.currentMailbox.email);
+    newMail.receiver = newReceivers ? [...newReceivers] : [];
+
     this.selectedMailToInclude = mail;
     newMail.last_action = MailAction.REPLY_ALL;
     newMail.is_html = mail.is_html;
@@ -1067,7 +1144,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.goBack();
   }
 
-  ontoggleStarred(event: any, mail: Mail, withChildren = true) {
+  onToggleStarred(event: any, mail: Mail, withChildren = true) {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(
@@ -1079,7 +1156,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  onToggleStarred(mail: Mail, withChildren = true) {
+  onToggleStarredForIndividual(mail: Mail, withChildren = true) {
     this.store.dispatch(
       new StarMail({
         ids: mail.id.toString(),
@@ -1129,12 +1206,12 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   onPrint(mail: Mail) {
     if (this.decryptedContents[mail.id]) {
       let popupWin;
-      const subject = document.querySelector(`${this.mail.id}-mail-subject`).innerHTML;
-      const from = document.querySelector(`${mail.id}-mail-from`).innerHTML;
-      const to = document.querySelector(`${mail.id}-mail-to`).innerHTML;
-      const date = document.querySelector(`${mail.id}-mail-date`).innerHTML;
-      const content = document.querySelector(`${mail.id}-raw-mail-content`).innerHTML;
-      const hasCC = document.querySelector(`${mail.id}-mail-cc`);
+      const subject = document.querySelector(`[id='${this.mail.id}-mail-subject']`).innerHTML;
+      const from = document.querySelector(`[id='${mail.id}-mail-from']`).innerHTML;
+      const to = document.querySelector(`[id='${mail.id}-mail-to']`).innerHTML;
+      const date = document.querySelector(`[id='${mail.id}-mail-date']`).innerHTML;
+      const content = document.querySelector(`[id='${mail.id}-raw-mail-content']`).innerHTML;
+      const hasCC = document.querySelector(`[id='${mail.id}-mail-cc']`);
       let cc = '';
       if (hasCC) {
         cc = `<span class="text-muted">${hasCC.innerHTML}</span>`;
@@ -1284,9 +1361,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           ? ''
           : mail.sender_display?.name;
       const senderEmail = senderName ? `${senderName}&lt;${mail.sender}&gt;` : mail.sender;
-      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${
-        this.decryptedContents[mail.id]
-      }</blockquote>`;
+      // Getting current displaying email content
+      const newContent = SafePipe.sanitizeEmail(this.decryptedContents[mail.id], this.disableExternalImages);
+      content += `<br>---------- Original Message ----------<br>On ${formattedDateTime},  ${senderEmail} wrote:<br><blockquote class="ctemplar_quote">${newContent}</blockquote>`;
     }
     return content;
   }
@@ -1397,5 +1474,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       }
       this.unsubscribeConfirmModalRef = null;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new ClearMailDetail(this.mail || {}));
   }
 }

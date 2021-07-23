@@ -54,9 +54,11 @@
               <span>
                 <i class="folder-color-box icon" [style.background]="folder.color"></i>
               </span>
-              <span class="folder-name">{{ folder.name }}</span>
-              <span class="folder-messages-counts">( {{ folder.counts }}</span>
-              <span [translate]="'settings.conversations'" *ngIf="folder.counts > 1; else elseConversation"
+              <span class="folder-name">{{ folder.name }}( </span>
+              <span *ngIf="folder.conversation_count" class="folder-messages-counts">{{
+                folder.conversation_count
+              }}</span>
+              <span [translate]="'settings.conversations'" *ngIf="folder.conversation_count > 1; else elseConversation"
                 >conversations )</span
               >
               <ng-template #elseConversation>
