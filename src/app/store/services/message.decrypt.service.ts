@@ -79,8 +79,30 @@ export class MessageDecryptService {
       } else {
         this.decryptPGPMessageProcess(subject, mail, isDecryptingAllSubjects);
       }
+    } else {
+      this.decryptGeneralMessageProcess(subject, mail, isDecryptingAllSubjects);
     }
     return subject.asObservable();
+  }
+
+  decryptGeneralMessageProcess(subject: Subject<any>, mail: Mail, isDecryptingAllSubjects: boolean) {
+    this.openpgpService
+      .decrypt(mail.mailbox, mail.id, new SecureContent(mail), isDecryptingAllSubjects, false)
+      .subscribe(
+        () => {},
+        error => {
+          this.store.dispatch(
+            new UpdatePGPDecryptedContent({
+              id: error.callerId,
+              isPGPInProgress: false,
+              decryptedContent: error.decryptedContent,
+              isDecryptingAllSubjects: error.isDecryptingAllSubjects,
+              decryptError: true,
+            }),
+          );
+          subject.error(error);
+        },
+      );
   }
 
   /**

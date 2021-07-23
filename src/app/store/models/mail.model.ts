@@ -57,6 +57,7 @@ export interface Mail {
   encryption_type?: PGPEncryptionType;
   reply_to_display?: Array<EmailDisplay>;
   email_display_name_map?: any;
+  sign?: string;
 }
 
 export class EncryptionNonCTemplar {
@@ -93,6 +94,7 @@ export interface Mailbox {
   is_autocrypt_enabled?: boolean;
   prefer_encrypt?: string;
   is_attach_public_key?: boolean;
+  is_pgp_sign?: boolean;
 }
 
 export interface Folder {
@@ -174,4 +176,34 @@ export interface AdvancedSearchQueryParameters {
   end_date?: string;
   size?: number;
   size_operator?: string;
+}
+
+export function getMailFolderName(folderType: MailFolderType) {
+  switch (folderType) {
+    case MailFolderType.ALL_EMAILS:
+      return 'mail_sidebar.all_emails';
+    case MailFolderType.UNREAD:
+      return 'mail_sidebar.unread';
+    case MailFolderType.INBOX:
+      return 'mail_sidebar.inbox';
+    case MailFolderType.SENT:
+      return 'mail_sidebar.sent';
+    case MailFolderType.DRAFT:
+      return 'mail_sidebar.draft';
+    case MailFolderType.STARRED:
+      return 'mail_sidebar.starred';
+    case MailFolderType.ARCHIVE:
+      return 'mail_sidebar.archive';
+    case MailFolderType.SPAM:
+      return 'mail_sidebar.spam';
+    case MailFolderType.TRASH:
+      return 'mail_sidebar.trash';
+    case MailFolderType.OUTBOX:
+      return 'mail_sidebar.outbox';
+    case MailFolderType.SEARCH:
+      return 'mail_header.search';
+    default: {
+      return 'mail_sidebar.inbox';
+    }
+  }
 }

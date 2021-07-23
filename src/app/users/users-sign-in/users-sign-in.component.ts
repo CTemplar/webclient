@@ -92,7 +92,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     private openPgpService: OpenPgpService,
   ) {
     document.querySelector('#main').classList.add('visible-signin');
-    document.querySelector('#app-outer-id').classList.add('visible-signin');
   }
 
   ngOnInit() {
@@ -158,7 +157,6 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnDestroy() {
     document.querySelector('#main').classList.remove('visible-signin');
-    document.querySelector('#app-outer-id').classList.remove('visible-signin');
     this.store.dispatch(new ClearAuthErrorMessage());
   }
 
