@@ -654,7 +654,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     if (mail.marked && this.isKeyDownShiftBtn) {
       let selectedMailIndex = -1;
       const selectedMail = this.mails.find((mailList, index) => {
-        mailList.id === mail?.id ? selectedMailIndex = index : selectedMailIndex = -1;
+        mailList.id === mail?.id ? (selectedMailIndex = index) : (selectedMailIndex = -1);
         return mailList.id === mail?.id;
       });
 
