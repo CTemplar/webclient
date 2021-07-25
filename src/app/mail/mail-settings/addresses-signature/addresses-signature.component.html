@@ -24,9 +24,12 @@
                   {{ selectedMailboxForSignature?.email }}
                 </button>
                 <div ngbDropdownMenu aria-labelledby="signatureEmailAddressDropdownMenuButton">
-                  <a class="dropdown-item" *ngFor="let mailbox of mailboxes" (click)="onChangeMailbox(mailbox)">{{
-                    mailbox.email
-                  }}</a>
+                  <a
+                    class="dropdown-item"
+                    *ngFor="let mailbox of mailboxes"
+                    (click)="selectedMailboxForSignature = mailbox"
+                    >{{ mailbox.email }}</a
+                  >
                 </div>
               </div>
             </div>
@@ -63,7 +66,6 @@
               <div class="signature-editor-toolbar-container mt-2"></div>
               <div class="custom-ckeditor-container">
                 <ckeditor
-                  #signatureEditorElementRef
                   [editor]="DecoupledEditor"
                   (ready)="onSignatureReady($event)"
                   [config]="{ toolbar: CKEDITOR_TOOLBAR_ITEMS, placeholder: 'Insert text here...' }"

@@ -978,7 +978,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.selectedMailbox = mailbox;
     this.oldMailbox = oldMailbox;
-    this.isSignatureAdded = false;
     this.updateSignature();
     this.valueChanged$.next(this.selectedMailbox);
     this.analyzeUsersKeysWithContact();
