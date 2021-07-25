@@ -140,7 +140,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   progressBar: boolean;
 
-  disableExternalImages = true;
+  disableExternalImages: boolean;
 
   includeOriginMessage: boolean;
 
