@@ -849,7 +849,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.reply_to && mail.reply_to.length > 0) {
       newMail.receiver = mail.reply_to;
     } else {
-      let newReceivers = undefined;
+      let newReceivers;
       if (mainReply && mail.children?.length > 0) {
         // set reciever with it with the reciever and sender of latest child that is not on Trash
         if (this.isShowTrashRelatedChildren) {
@@ -891,13 +891,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
             }
           }
         }
+      } else if (this.mailboxes.some(mailbox => mail.sender === mailbox.email)) {
+        newReceivers = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
+        newReceivers.delete(this.currentMailbox?.email);
       } else {
-        if (this.mailboxes.some(mailbox => mail.sender === mailbox.email)) {
-          newReceivers = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
-          newReceivers.delete(this.currentMailbox?.email);
-        } else {
-          newReceivers = [mail.sender];
-        }
+        newReceivers = [mail.sender];
       }
       newMail.receiver = newReceivers ? [...newReceivers] : [];
     }
@@ -940,7 +938,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
 
-    let newReceivers = undefined;
+    let newReceivers;
     if (mainReply && mail.children?.length > 0) {
       // set reciever with it with the reciever and sender of latest child that is not on Trash
       if (this.isShowTrashRelatedChildren) {
@@ -1454,23 +1452,25 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.unsubscribeConfirmModalRef.result.then(result => {
       if (result) {
         window.open(this.unsubscribeLink, '_blank');
-        const data: Unsubscribe = {
-          mailbox_id: this.currentMailbox.id,
-          mailto: this.unsubscribeMailTo,
-        };
-        this.mailService.unsubscribe(data).subscribe(
-          () => {
-            this.store.dispatch(
-              new SnackErrorPush({ message: this.translate.instant('mail-detail.success_unsubscribe') }),
-            );
-          },
-          (errorResponse: any) =>
-            this.store.dispatch(
-              new SnackErrorPush({
-                message: errorResponse.error || this.translate.instant('mail-detail.failed_unsubscribe'),
-              }),
-            ),
-        );
+        if (this.unsubscribeMailTo) {
+          const data: Unsubscribe = {
+            mailbox_id: this.currentMailbox.id,
+            mailto: this.unsubscribeMailTo,
+          };
+          this.mailService.unsubscribe(data).subscribe(
+            () => {
+              this.store.dispatch(
+                new SnackErrorPush({ message: this.translate.instant('mail-detail.success_unsubscribe') }),
+              );
+            },
+            (errorResponse: any) =>
+              this.store.dispatch(
+                new SnackErrorPush({
+                  message: errorResponse.error || this.translate.instant('mail-detail.failed_unsubscribe'),
+                }),
+              ),
+          );
+        }
       }
       this.unsubscribeConfirmModalRef = null;
     });
