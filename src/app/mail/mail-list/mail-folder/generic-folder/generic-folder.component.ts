@@ -821,7 +821,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    event.preventDefault();
     if (event.code === KEY_LEFT_CONTROL) {
       this.isKeyDownCtrlBtn = true;
     } else if (event.code === KEY_SHIFT) {
@@ -831,10 +830,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
-    event.preventDefault();
     if (event.code === KEY_LEFT_CONTROL) {
       this.isKeyDownCtrlBtn = false;
-    } else if (event.code === 'KeyA' && this.isKeyDownCtrlBtn) {
+    } else if (
+      event.code === 'KeyA' &&
+      this.isKeyDownCtrlBtn &&
+      (!this.composeMailService.componentRefList || this.composeMailService.componentRefList.length === 0)
+    ) {
       this.markAllMails(true);
     } else if (event.code === KEY_SHIFT) {
       this.isKeyDownShiftBtn = false;

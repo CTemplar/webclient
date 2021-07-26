@@ -39,7 +39,7 @@ export class ComposeMailService {
 
   private composeMailContainer: ViewContainerRef;
 
-  private componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
+  public componentRefList: Array<ComponentRef<ComposeMailDialogComponent>> = [];
 
   private userState: UserState;
 
