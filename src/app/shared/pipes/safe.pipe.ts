@@ -173,6 +173,20 @@ export class SafePipe implements PipeTransform {
               SafePipe.hasExternalImages = true;
               return `${attributeName}=""`;
             }
+            if (disableExternalImages && attributeName === 'style' && attributeValue.includes('url')) {
+              const startPoint = attributeValue.indexOf('url') + 4;
+              const endPoint = attributeValue.indexOf(');');
+              if (endPoint && startPoint && endPoint > startPoint) {
+                const externalLink = attributeValue.slice(startPoint, endPoint);
+                if (!(externalLink.indexOf(`https://${PRIMARY_DOMAIN}`) === 0) || externalLink.indexOf(apiUrl)) {
+                  const pureValues = attributeValue.split(externalLink);
+                  if (pureValues.length > 1) {
+                    // eslint-disable-next-line unicorn/prefer-spread
+                    attributeValue = pureValues[0].concat(pureValues[1]);
+                  }
+                }
+              }
+            }
             // Other Default Process
             // call `onTagAttr()`
             const attributeWhitelist = SafePipe.allowedAttributes[tag];
