@@ -95,6 +95,9 @@ $error-red: #e94e4c;
 .login-main {
   min-height: 600px;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logged-in-spinner {
