@@ -726,9 +726,9 @@ export class OpenPgpService {
           );
           if (this.subjects[event.data.subjectId]) {
             if (event.data.error) {
-              this.subjects[event.data.subjectId].error();
+              this.subjects[event.data.subjectId].error(event.data);
             } else {
-              this.subjects[event.data.subjectId].next();
+              this.subjects[event.data.subjectId].next(event.data);
               this.subjects[event.data.subjectId].complete();
             }
             delete this.subjects[event.data.subjectId];

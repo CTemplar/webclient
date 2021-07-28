@@ -93,10 +93,10 @@ export class MessageDecryptService {
         error => {
           this.store.dispatch(
             new UpdatePGPDecryptedContent({
-              id: error.callerId,
+              id: error?.callerId,
               isPGPInProgress: false,
-              decryptedContent: error.decryptedContent,
-              isDecryptingAllSubjects: error.isDecryptingAllSubjects,
+              decryptedContent: error?.decryptedContent,
+              isDecryptingAllSubjects: error?.isDecryptingAllSubjects,
               decryptError: true,
             }),
           );
