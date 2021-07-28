@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { AppState, AuthState } from '../store/datatypes';
 import { ExpireSession, Logout } from '../store';
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit {
   // Switch the footer call to action for this view.
   externalPageCallToAction = false;
 
-  isLoggedIn: boolean;
+  isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   selectedLanguage: Language = { name: 'English', locale: 'en' };
 
@@ -48,12 +49,12 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoggedIn = !!this.usersService.getUserKey();
+    this.isLoggedIn$.next(!!this.usersService.getUserKey());
     this.store
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((data: AuthState) => {
-        this.isLoggedIn = data.isAuthenticated;
+        this.isLoggedIn$.next(data.isAuthenticated);
       });
   }
 

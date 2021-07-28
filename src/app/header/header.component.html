@@ -118,7 +118,7 @@
               <li class="nav-item hidden-sm-up">
                 <a
                   routerLink="/signin"
-                  *ngIf="!isLoggedIn; else mobileDashboardLink"
+                  *ngIf="!(isLoggedIn$ | async); else mobileDashboardLink"
                   class="nav-link nav-action-link"
                   (click)="closeMenu()"
                   [translate]="'home_header.login'"
@@ -137,7 +137,7 @@
               <li class="nav-item hidden-sm-up" routerLinkActive="active" *showInIE="false">
                 <a
                   routerLink="/signup"
-                  *ngIf="!isLoggedIn; else mobileLogoutLink"
+                  *ngIf="!(isLoggedIn$ | async); else mobileLogoutLink"
                   class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn"
                   (click)="closeMenu()"
                   [translate]="'home_header.signup'"
@@ -164,7 +164,7 @@
               [ngClass]="{ 'hidden-xs-down': !externalPageCallToAction, 'is-external-page': externalPageCallToAction }"
             >
               <a
-                *ngIf="!isLoggedIn; else dashboardLink"
+                *ngIf="!(isLoggedIn$ | async); else dashboardLink"
                 routerLink="/signin"
                 class="user-actions-link"
                 [translate]="'home_header.login'"
@@ -180,7 +180,7 @@
               *showInIE="false"
             >
               <a
-                *ngIf="!isLoggedIn; else logoutLink"
+                *ngIf="!(isLoggedIn$ | async); else logoutLink"
                 routerLink="/signup"
                 class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
                 [translate]="'home_header.signup'"
