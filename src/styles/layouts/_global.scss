@@ -36,7 +36,8 @@ body {
     }
   }
   #main.visible-signin {
-    height: calc(100% - 439px);
+    height: calc(100vh - 520px);
+    min-height: 680px;
   }
 
   // == inner page app outer
