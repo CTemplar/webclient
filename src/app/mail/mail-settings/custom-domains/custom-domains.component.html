@@ -23,7 +23,7 @@
               </div>
               <div class="desc-card-body bg-faded domain-body">
                 <button
-                  class="btn btn-secondary btn-add-domain text-small"
+                  class="btn btn-sm btn-secondary btn-add-domain text-small"
                   *ngIf="userState?.isPrime && domains?.length > 0; else domainsEmpty"
                   (click)="startAddingNewDomain()"
                 >
@@ -31,7 +31,7 @@
                 </button>
                 <ng-template #domainsEmpty>
                   <button
-                    class="btn btn-secondary btn-create-domain text-small"
+                    class="btn btn-sm btn-secondary btn-create-domain text-small"
                     *ngIf="userState?.isPrime"
                     (click)="startAddingNewDomain()"
                   >
