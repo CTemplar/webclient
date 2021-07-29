@@ -1682,9 +1682,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.action) {
       this.draftMail.last_action = this.action;
-      this.draftMail.last_action_parent_id = this.action_parent;
     }
-
     if (this.forwardAttachmentsMessageId) {
       this.draftMail.forward_attachments_of_message = this.forwardAttachmentsMessageId;
       this.forwardAttachmentsMessageId = null;

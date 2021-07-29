@@ -902,14 +902,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.selectedMailToInclude = mail;
     newMail.last_action = MailAction.REPLY;
     newMail.is_html = mail.is_html;
-    if (!isChildMail && mainReply) {
-      newMail.last_action_parent_id =
-        this.mail.children && this.mail.children.length > 0
-          ? this.mail.children[this.mail.children.length - 1].id
-          : this.mail.id;
-    } else {
-      newMail.last_action_parent_id = mail.id;
-    }
+    newMail.last_action_parent_id = this.mail.parent ? this.mail.parent : this.mail.id;
     this.composeMailService.openComposeMailDialog({
       draft: { ...newMail },
       action: MailAction.REPLY,
@@ -1014,15 +1007,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.last_action = MailAction.FORWARD;
     newMail.is_html = mail.is_html;
     this.selectedMailToForward = mail;
-    // this.setActionParent(mail, isChildMail, mainReply);
-    if (!isChildMail && mainReply) {
-      newMail.last_action_parent_id =
-        this.mail.children && this.mail.children.length > 0
-          ? this.mail.children[this.mail.children.length - 1]?.id
-          : this.mail.id;
-    } else {
-      newMail.last_action_parent_id = mail.id;
-    }
+    newMail.last_action_parent_id = this.mail.parent ? this.mail.parent : this.mail.id;
     this.currentForwardingNewEmail = newMail;
     if (mail.attachments?.length > 0) {
       this.forwardAttachmentsModalRef = this.modalService.open(this.forwardAttachmentsModal, {
