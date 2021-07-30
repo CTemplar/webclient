@@ -18,7 +18,7 @@ import {
 import { SnackErrorPush } from '../../../store';
 import { OpenPgpService, SharedService, getCryptoRandom, UsersService } from '../../../store/services';
 import { PasswordValidation } from '../../../users/users-create-account/users-create-account.component';
-import { apiUrl, SYNC_DATA_WITH_STORE } from '../../../shared/config';
+import { apiUrl, SYNC_DATA_WITH_STORE, passwordRegex } from '../../../shared/config';
 
 // eslint-disable-next-line no-shadow
 enum ResetRecoveryKeyStep {
@@ -147,12 +147,7 @@ export class SecurityComponent implements OnInit {
         oldPassword: ['', [Validators.required]],
         password: [
           '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(128),
-            Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{1,128}$/),
-          ],
+          [Validators.required, Validators.minLength(8), Validators.maxLength(128), Validators.pattern(passwordRegex)],
         ],
         confirmPwd: ['', [Validators.required]],
       },

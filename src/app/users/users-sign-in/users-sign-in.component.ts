@@ -10,7 +10,7 @@ import { filter } from 'rxjs/operators';
 import { AppState, AuthState } from '../../store/datatypes';
 import { ClearAuthErrorMessage, FinalLoading, LogIn, RecoverPassword, ResetPassword } from '../../store/actions';
 import { LOADING_IMAGE, OpenPgpService, SharedService, UsersService } from '../../store/services';
-import { ESCAPE_KEYCODE } from '../../shared/config';
+import { ESCAPE_KEYCODE, passwordRegex } from '../../shared/config';
 import { PasswordValidation } from '../users-create-account/users-create-account.component';
 
 enum InputFields {
@@ -115,12 +115,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
         code: ['', [Validators.required]],
         password: [
           '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(128),
-            Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{1,128}$/),
-          ],
+          [Validators.required, Validators.minLength(8), Validators.maxLength(128), Validators.pattern(passwordRegex)],
         ],
         confirmPwd: ['', [Validators.required]],
         username: ['', [Validators.required]],
