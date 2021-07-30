@@ -13,7 +13,7 @@ import { AppState, AuthState, PaymentType, PlanType, SignupState } from '../../s
 import { CheckUsernameAvailability, FinalLoading, SignUp, UpdateSignupData } from '../../store/actions';
 import { OpenPgpService, SharedService, UsersService } from '../../store/services';
 import { NotificationService } from '../../store/services/notification.service';
-import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
+import { passwordRegex, PRIMARY_WEBSITE, VALID_EMAIL_REGEX, LANGUAGES } from '../../shared/config';
 import { UserAccountInitDialogComponent } from '../dialogs/user-account-init-dialog/user-account-init-dialog.component';
 
 export const PasswordValidation = {
@@ -98,12 +98,7 @@ export class UsersCreateAccountComponent implements OnInit {
         ],
         password: [
           '',
-          [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(128),
-            Validators.pattern(/^(?=\D*\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{1,128}$/),
-          ],
+          [Validators.required, Validators.minLength(8), Validators.maxLength(128), Validators.pattern(passwordRegex)],
         ],
         confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
         recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
