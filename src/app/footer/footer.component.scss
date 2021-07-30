@@ -124,14 +124,7 @@
 
 .footer-bottom-row {
   position: relative;
-  margin-top: 1.875rem;
-  padding-top: 1.875rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-
-  @include media('>sm') {
-    margin-top: 2.188rem;
-    padding-top: 2.188rem;
-  }
 }
 
 .footer-lang-list {
@@ -150,3 +143,9 @@
     }
   }
 }
+
+.footer-slogan {
+  margin-top: 55px;
+}
+
+
