@@ -164,6 +164,7 @@ export class SafePipe implements PipeTransform {
               return `${attributeName}="${xss.friendlyAttrValue(attributeValue)}"`;
             }
             // Disabling External Image
+            // Checking <img> tag
             if (
               disableExternalImages &&
               tag === 'img' &&
@@ -173,6 +174,8 @@ export class SafePipe implements PipeTransform {
               SafePipe.hasExternalImages = true;
               return `${attributeName}=""`;
             }
+            // Checking background image within style attribute
+            // e.g: <table style="background-image:url(...)"
             if (disableExternalImages && attributeName === 'style' && attributeValue.includes('url')) {
               const startPoint = attributeValue.indexOf('url') + 4;
               const endPoint = attributeValue.indexOf(');');
