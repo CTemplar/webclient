@@ -1406,7 +1406,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     if (mail.folder === MailFolderType.DRAFT) {
       if (!this.mailExpandedStatus[mail.id]) {
         const onHide$ = new Subject<boolean>();
-        onHide$.subscribe(isHide => {
+        onHide$.pipe(untilDestroyed(this)).subscribe(isHide => {
           if (isHide) {
             this.mailExpandedStatus[mail.id] = false;
           }
