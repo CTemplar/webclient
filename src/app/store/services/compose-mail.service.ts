@@ -603,6 +603,9 @@ export class ComposeMailService {
           oldComponentReference.instance.isMinimized = false;
           return;
         }
+        if (inputData.draft.send) {
+          return;
+        }
       }
       const factory = this.componentFactoryResolver.resolveComponentFactory(ComposeMailDialogComponent);
       const newComponentReference: ComponentRef<ComposeMailDialogComponent> =
