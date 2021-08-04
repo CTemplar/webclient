@@ -219,3 +219,5 @@ export const CKEDITOR_TOOLBAR_ITEMS = [
   '|',
   'removeformat',
 ];
+
+export const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})');
