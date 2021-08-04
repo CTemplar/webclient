@@ -632,6 +632,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  onSetSettingFont() {
+    if (this.settings) {
+      this.composerEditorInstance.execute('fontSize', { value: `${this.settings.default_size}px` });
+      this.composerEditorInstance.execute('fontColor', {
+        value: this.settings.default_color !== 'none' ? this.settings.default_color : 'black',
+      });
+      this.composerEditorInstance.execute('fontBackgroundColor', { value: this.settings.default_background });
+      this.composerEditorInstance.execute('fontFamily', { value: this.settings.default_font });
+    }
+  }
+
   initializeCKEditor() {
     // It's blank due to using custom build
     // All of configuration is done on build
@@ -1659,7 +1670,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (this.draft) this.draft.isSaving = shouldSave;
     this.draftMail.mailbox = this.selectedMailbox ? this.selectedMailbox.id : null;
-    this.draftMail.sender = this.selectedMailbox.email;
+    this.draftMail.sender = this.selectedMailbox?.email;
     this.draftMail.receiver = this.mailData.receiver.map((receiver: any) =>
       EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name),
     );
