@@ -739,8 +739,27 @@ button.ctemplar-blockquote-toggle ~ * {
 }
 
 .ckeditor-composer-toolbar-container {
+  position: relative;
   .ck-toolbar {
     width: 380px !important;
+  }
+  .reset-font-button-container {
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    position: absolute;
+    right: 27px;
+    bottom: 17px;
+    display: flex;
+    align-items: center;
+    button {
+      width: 100%;
+      height: 100%;
+      color: var(--ck-color-text);
+    } 
+  }
+  .reset-font-button-container:hover {
+    background: var(--ck-color-button-default-hover-background);
   }
 }
 
