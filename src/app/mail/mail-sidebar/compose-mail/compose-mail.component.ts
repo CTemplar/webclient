@@ -583,22 +583,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * Unless, just create content
    */
   initializeComposeMail() {
-    if (this.draftMail.is_html === null || this.draftMail.is_html) {
-      if (this.composerEditorElementRef) {
-        this.initializeCKEditor();
-      }
-    } else {
+    if (this.draftMail.is_html === false) {
       // display mail content and change from html to text if html version
-      let content = this.mailData.content ? this.mailData.content : '';
-      content = this.composerEditorInstance?.getData() || content;
+      let content = this.composerEditorInstance?.getData() || this.mailData.content || '';
       if (content) {
         content = this.getPlainText(content);
-      }
-      if (content) {
-        setTimeout(() => {
-          this.mailData.content = content;
-          this.updateSignature();
-        }, 300);
+        this.mailData.content = content;
+        this.updateSignature();
       }
     }
   }
@@ -619,14 +610,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Configure for default settings
     // This should be done after filled the data up
-    if (this.settings) {
-      editor.execute('fontSize', { value: `${this.settings.default_size}px` });
-      editor.execute('fontColor', {
-        value: this.settings.default_color !== 'none' ? this.settings.default_color : 'black',
-      });
-      editor.execute('fontBackgroundColor', { value: this.settings.default_background });
-      editor.execute('fontFamily', { value: this.settings.default_font });
-    }
+    this.onSetSettingFont();
     editor.model.document.on('change', () => {
       this.valueChanged$.next();
     });
@@ -641,11 +625,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.composerEditorInstance.execute('fontBackgroundColor', { value: this.settings.default_background });
       this.composerEditorInstance.execute('fontFamily', { value: this.settings.default_font });
     }
-  }
-
-  initializeCKEditor() {
-    // It's blank due to using custom build
-    // All of configuration is done on build
   }
 
   initializeAutoSave() {
