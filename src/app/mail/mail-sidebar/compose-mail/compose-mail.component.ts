@@ -611,8 +611,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // Configure for default settings
     // This should be done after filled the data up
     this.onSetSettingFont();
-    editor.model.document.on('change', ($event: any) => {
-      console.log($event)
+    editor.model.document.on('change', () => {
       this.valueChanged$.next();
     });
   }
