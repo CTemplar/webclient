@@ -358,7 +358,19 @@
                       #toolbar
                       id="toolbar"
                       class="mail-comopser-typo-actions-holder toolbar-container ckeditor-composer-toolbar-container"
-                    ></div>
+                    >
+                      <div class="reset-font-button-container">
+                        <button
+                          type="button"
+                          role="button"
+                          class="btn-link"
+                          ngbTooltip="Set setting's default fonts"
+                          (click)="onSetSettingFont()"
+                        >
+                          <i class="fas fa-sync-alt"></i>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </ng-template>
