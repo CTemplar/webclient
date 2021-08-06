@@ -83,6 +83,10 @@
     }
   }
 
+  .plan-item.last-plan {
+    border-right: 2px solid var(--settings-dashboard-plan-border-color);
+  }
+
   .plan-sub-item {
     background: var(--bg-faded);
     border: 1px solid var(--settings-dashboard-plan-border-color);
