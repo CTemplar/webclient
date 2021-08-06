@@ -194,8 +194,8 @@
         </div>
         <div class="col-9">
           <div class="row pricing-plans-list">
-            <div *ngFor="let plan of pricingPlans$ | async; let i=index" class="col-2 p-0">
-              <div class="plan-item" [ngClass]="{'last-plan': i === pricingPlans$.value?.length-1}">
+            <div *ngFor="let plan of pricingPlans$ | async; let i = index" class="col-2 p-0">
+              <div class="plan-item" [ngClass]="{ 'last-plan': i === pricingPlans$.value?.length - 1 }">
                 <div class="text-center">
                   <div class="bold mt-3">{{ plan.name }}</div>
                   <div class="plan-title-info" *ngIf="plan.name !== planType.FREE; else freePlan">
