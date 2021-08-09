@@ -125,3 +125,7 @@ textarea:disabled {
     }
   }
 }
+
+::ng-deep pre {
+  overflow: hidden !important;
+}
