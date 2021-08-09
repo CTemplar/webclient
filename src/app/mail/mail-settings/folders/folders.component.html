@@ -58,8 +58,8 @@
               <span *ngIf="folder.conversation_count" class="folder-messages-counts">{{
                 folder.conversation_count
               }}</span>
-              <span [translate]="'settings.conversations'" *ngIf="folder.conversation_count > 1; else elseConversation"
-                > conversations)</span
+              <span [translate]="'settings.conversations'" *ngIf="folder.conversation_count > 1; else elseConversation">
+                conversations)</span
               >
               <ng-template #elseConversation>
                 <span [translate]="'settings.conversation'"> conversation)</span>
