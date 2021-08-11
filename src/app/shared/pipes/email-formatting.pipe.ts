@@ -21,7 +21,6 @@ export class EmailFormatPipe implements PipeTransform {
     isTruncate = false,
   ): string {
     if (!email) return '';
-
     const formattedEmail = _isLowerCase ? email.toLowerCase().trim() : email.trim();
     if (!displayName || displayName === formattedEmail.split('@')[0]) {
       return isTruncate ? EmailFormatPipe.getTrucatedString(formattedEmail) : formattedEmail;
@@ -32,8 +31,8 @@ export class EmailFormatPipe implements PipeTransform {
         : `${displayName.trim()}&nbsp;&lt;${formattedEmail}&gt;`;
     }
     return isTruncate
-      ? EmailFormatPipe.getTrucatedString(`${displayName.trim()} <${formattedEmail}>`)
-      : `${displayName.trim()} <${formattedEmail}>`;
+      ? EmailFormatPipe.getTrucatedString(`${displayName.trim()} < ${formattedEmail} >`)
+      : `${displayName.trim()} < ${formattedEmail} >`;
   }
 
   transform(email: string, displayName = '', isHtmlFormat = false, isTruncate = false): string {
