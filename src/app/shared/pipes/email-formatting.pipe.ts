@@ -31,7 +31,7 @@ export class EmailFormatPipe implements PipeTransform {
         : `${displayName.trim()}&nbsp;&lt;${formattedEmail}&gt;`;
     }
     return isTruncate
-      ? EmailFormatPipe.getTrucatedString(`${displayName.trim()} < ${formattedEmail} >`)
+      ? EmailFormatPipe.getTrucatedString(`${displayName.trim()} <${formattedEmail}>`)
       : `${displayName.trim()} < ${formattedEmail} >`;
   }
 
