@@ -1358,7 +1358,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     const toHeaderString =
       mail.receiver_display?.length > 0
         ? mail.receiver_display
-            .map(receiver => EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true))
+            .map(receiver =>
+              EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true, mail.is_html !== false),
+            )
             .join(', ')
         : mail.receiver.join(', ');
     let content =
@@ -1367,6 +1369,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         mail.sender_display.email,
         xss.escapeHtml(mail.sender_display.name),
         true,
+        mail.is_html !== false,
       )}</br>` +
       `Date: ${
         mail.sent_at
