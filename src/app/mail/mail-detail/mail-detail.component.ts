@@ -1383,6 +1383,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
     }
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
+    content = SafePipe.sanitizeEmail(content, this.disableExternalImages);
     return content;
   }
 
