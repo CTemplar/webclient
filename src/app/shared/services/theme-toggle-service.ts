@@ -66,4 +66,8 @@ export class ThemeToggleService {
   public getIsForceLightMode() {
     return this.isForceLightMode;
   }
+
+  public handleCustomCss(customCss: string) {
+    document.querySelector('#ctemplar-custom-css').innerHTML = customCss;
+  }
 }
