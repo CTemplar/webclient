@@ -364,7 +364,6 @@ export class SafePipe implements PipeTransform {
    */
   static sanitizeEmail(value: string, disableExternalImages: boolean) {
     value = juice(value);
-    value = SafePipe.removeTitle(value);
     // Sanitize Mail
     value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
     return value;

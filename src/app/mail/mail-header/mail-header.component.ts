@@ -173,6 +173,7 @@ export class MailHeaderComponent implements OnInit {
       setTimeout(() => {
         this.store.dispatch(new Logout());
         modalReference.close();
+        this.themeToggleService.handleCustomCss('');
       }, 500);
     }, 2500);
   }
