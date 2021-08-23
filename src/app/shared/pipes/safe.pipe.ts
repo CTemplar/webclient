@@ -100,7 +100,7 @@ export class SafePipe implements PipeTransform {
     ul: ['dir', 'style'],
     i: ['style'],
     blockquote: ['style', 'class'],
-    pre: ['style', 'class']
+    pre: ['style', 'class'],
   };
 
   constructor(private sanitizer: DomSanitizer) {}
