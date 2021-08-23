@@ -41,6 +41,7 @@ export class SafePipe implements PipeTransform {
     ul: [],
     i: [],
     blockquote: [],
+    pre: [],
   };
 
   static headingAttributes = ['align', 'dir', 'id', 'style'];
@@ -99,6 +100,7 @@ export class SafePipe implements PipeTransform {
     ul: ['dir', 'style'],
     i: ['style'],
     blockquote: ['style', 'class'],
+    pre: ['style', 'class']
   };
 
   constructor(private sanitizer: DomSanitizer) {}
