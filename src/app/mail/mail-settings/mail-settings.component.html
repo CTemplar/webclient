@@ -1098,7 +1098,7 @@
                             id="darkMode1"
                             name="[darkMode]"
                             type="radio"
-                            (click)="updateSettings('is_night_mode', true)"
+                            (click)="onSetDarkMode(true)"
                             [checked]="settings.is_night_mode"
                           />
                           <label for="darkMode1" [translate]="'common.enabled'">Enabled</label>
@@ -1111,7 +1111,7 @@
                             id="darkMode2"
                             name="[darkMode]"
                             type="radio"
-                            (click)="updateSettings('is_night_mode', false)"
+                            (click)="onSetDarkMode(false)"
                             [checked]="!settings.is_night_mode"
                           />
                           <label for="darkMode2" [translate]="'common.disabled'">Disabled</label>
@@ -1185,6 +1185,36 @@
                             [ngStyle]="{ 'font-family': font }"
                           >
                             {{ font }}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label for="customCss" class="form-label mb-sm-0"> Themes </label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="btn-dropdown btn-dropdown-select">
+                      <div ngbDropdown class="dropdown-sm">
+                        <button
+                          ngbDropdownToggle
+                          class="text-capitalize"
+                          role="button"
+                          id="customThemeDropdownMenuButton"
+                        >
+                          {{ selectedThemeName || 'Please select theme' }}
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="defaultFontDropdownMenuButton">
+                          <a
+                            class="dropdown-item text-capitalize"
+                            *ngFor="let theme of themes"
+                            (click)="onSelectCustomTheme(theme)"
+                          >
+                            {{ theme.name }}
                           </a>
                         </div>
                       </div>
