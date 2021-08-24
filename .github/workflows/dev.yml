@@ -23,7 +23,6 @@ jobs:
       - name: Install and build Angular
         run: |
           npm install
-          npm run build:dev
 
       - name: Publish to dev-pages
         env:
@@ -33,6 +32,7 @@ jobs:
           git config --global user.email "support@ctemplar.com"
           git config --global user.name "CTemplar"
           git checkout -B dev-pages
+          ls -la assets
           git add -f dist
           git commit -am "Release v${version}"
           git filter-branch -f --prune-empty --subdirectory-filter dist
