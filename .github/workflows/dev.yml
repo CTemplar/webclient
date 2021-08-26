@@ -31,6 +31,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          ls -la src/assets/theme/
+          ls -la dist/assets/theme/
           version=$(node -p "require('./package.json').version")
           git config --global user.email "support@ctemplar.com"
           git config --global user.name "CTemplar"
