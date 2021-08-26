@@ -35,7 +35,7 @@ jobs:
           git config --global user.email "support@ctemplar.com"
           git config --global user.name "CTemplar"
           git checkout -B dev-pages
-          git add --recur -f dist
+          git add -f dist
           ls -la dist/assets/theme/
           git commit -am "Release v${version}"
           git filter-branch -f --prune-empty --subdirectory-filter dist
