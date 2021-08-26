@@ -31,13 +31,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ls -la src/assets/theme/
-          ls -la dist/assets/theme/
           version=$(node -p "require('./package.json').version")
           git config --global user.email "support@ctemplar.com"
           git config --global user.name "CTemplar"
           git checkout -B dev-pages
-          git add -f dist
+          ls -la src/assets/theme/
+          git add --recur -f dist
           git commit -am "Release v${version}"
           git filter-branch -f --prune-empty --subdirectory-filter dist
           git push -f origin dev-pages
