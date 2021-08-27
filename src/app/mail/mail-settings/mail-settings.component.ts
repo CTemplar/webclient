@@ -163,7 +163,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
-  selectedThemeName: string;
+  selectedThemeName: string = "default";
 
   constructor(
     private modalService: NgbModal,
@@ -676,26 +676,18 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.sharedService.copyToClipboard(value);
   }
 
-  onSelectCustomTheme(theme: any) {
+  onSelectCustomTheme(theme: { name: string, value: string }) {
     if (theme.value === 'default') {
       this.settingsService.updateSettings({
         ...this.settings,
-        custom_css: '',
         theme: '',
       });
     } else {
-      fetch(`assets/theme/${theme.value}.css`)
-        .then(response => response.text())
-        .then(data => {
-          if (data) {
-            this.settingsService.updateSettings({
-              ...this.settings,
-              is_night_mode: true,
-              custom_css: data,
-              theme: theme.value,
-            });
-          }
-        });
+      this.settingsService.updateSettings({
+        ...this.settings,
+        is_night_mode: true,
+        theme: theme.value,
+      });
     }
   }
 
@@ -704,7 +696,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       this.settingsService.updateSettings({
         ...this.settings,
         is_night_mode: isDarkMode,
-        custom_css: '',
         theme: '',
       });
     } else {
