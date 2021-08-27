@@ -163,7 +163,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
-  selectedThemeName: string = "default";
+  selectedThemeName: string = 'default';
 
   constructor(
     private modalService: NgbModal,
@@ -676,7 +676,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.sharedService.copyToClipboard(value);
   }
 
-  onSelectCustomTheme(theme: { name: string, value: string }) {
+  onSelectCustomTheme(theme: { name: string; value: string }) {
     if (theme.value === 'default') {
       this.settingsService.updateSettings({
         ...this.settings,
