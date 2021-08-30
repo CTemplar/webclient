@@ -83,12 +83,7 @@
     </div>
   </div>
   <div class="receiver-email-chip-popover-receiver-action" *ngIf="!isMyMailbox">
-    <a
-      class="mr-2"
-      *ngIf="!!selectedContact"
-      (click)="onEditContact(addUserContent)"
-      ngbTooltip="Edit Contact"
-    >
+    <a class="mr-2" *ngIf="!!selectedContact" (click)="onEditContact(addUserContent)" ngbTooltip="Edit Contact">
       <i class="fas fa-edit"></i>
     </a>
     <a class="mr-2" *ngIf="!selectedContact" (click)="onAddContact(addUserContent)" ngbTooltip="Add Contact">

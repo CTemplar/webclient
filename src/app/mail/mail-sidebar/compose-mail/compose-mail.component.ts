@@ -975,7 +975,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onImageSelectedFromInput($event: any) {
-    const target= $event.target as HTMLInputElement;
+    const target = $event.target as HTMLInputElement;
     this.onImagesSelected(target.files);
   }
 
@@ -1010,7 +1010,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onFileSelectedFromInput($event: any) {
-    const target= $event.target as HTMLInputElement;
+    const target = $event.target as HTMLInputElement;
     this.onFilesSelected(target.files);
   }
 

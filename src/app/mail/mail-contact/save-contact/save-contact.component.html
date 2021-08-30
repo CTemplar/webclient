@@ -57,11 +57,12 @@
             type="text"
             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
           />
-          <button *ngIf="!internalUser && !contactEmail.errors && newContactModel.id" (click)="onShowAdvancedSettings()" [disabled]="false">
-            <i
-              class="fas fa-cogs advanced-settings-icon cursor-pointer"
-              ngbTooltip="Advanced Settings"
-            ></i>
+          <button
+            *ngIf="!internalUser && !contactEmail.errors && newContactModel.id"
+            (click)="onShowAdvancedSettings()"
+            [disabled]="false"
+          >
+            <i class="fas fa-cogs advanced-settings-icon cursor-pointer" ngbTooltip="Advanced Settings"></i>
           </button>
         </div>
       </div>

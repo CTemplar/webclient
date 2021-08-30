@@ -87,7 +87,7 @@ export class ImportPrivateKeyComponent implements OnInit {
   }
 
   onSelectNewKeyFileFromInput($event: any) {
-    const target= $event.target as HTMLInputElement;
+    const target = $event.target as HTMLInputElement;
     this.onSelectNewKeyFile(target.files);
   }
 

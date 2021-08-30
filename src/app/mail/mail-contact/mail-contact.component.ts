@@ -346,7 +346,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
   }
 
   onContactsFileSelectedFromInput($event: any) {
-    const target= $event.target as HTMLInputElement;
+    const target = $event.target as HTMLInputElement;
     this.onContactsFileSelected(target.files);
   }
 

@@ -373,7 +373,7 @@ export class AddressesSignatureComponent implements OnInit {
   }
 
   onUpdateDisplayName(mailbox: any, displayName: string, $event: any) {
-    const target= $event.target as HTMLInputElement;
+    const target = $event.target as HTMLInputElement;
     this.updateMailboxSettings(mailbox, displayName, target?.value);
   }
 

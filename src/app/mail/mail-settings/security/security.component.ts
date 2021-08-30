@@ -160,7 +160,7 @@ export class SecurityComponent implements OnInit {
   }
 
   updateRecoveryEmail($event: any) {
-    const target= $event.target as HTMLInputElement;
+    const target = $event.target as HTMLInputElement;
     this.updateSettings('recovery_email', target.value);
   }
 
