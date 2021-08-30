@@ -11,7 +11,7 @@ const contextMenu = require('electron-context-menu');
 require('@electron/remote/main').initialize();
 
 contextMenu({
-  prepend: (defaultActions, parameters, browserWindow) => [],
+  prepend: [],
   showLookUpSelection: false,
   showSearchWithGoogle: false,
   showCopyImage: false,
@@ -20,7 +20,7 @@ contextMenu({
   showSaveImageAs: false,
   showSaveLinkAs: false,
   showServices: false,
-  shouldShowMenu: (event, parameters) => {
+  shouldShowMenu: (event: any, parameters: any) => {
     if (parameters.linkURL && parameters.linkURL.length > 0) {
       const regex =
         /(https?:\/\/(?:www\.|(?!www))[\da-z][\da-z-]+[\da-z]\.\S{2,}|www\.[\da-z][\da-z-]+[\da-z]\.\S{2,}|https?:\/\/(?:www\.|(?!www))[\da-z]+\.\S{2,}|[\da-z][\da-z-]+[\da-z]\.com|www\.[\da-z]+\.\S{2,})/gi;

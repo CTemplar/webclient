@@ -159,6 +159,11 @@ export class SecurityComponent implements OnInit {
     this.isUsingLocalStorage = localStorage.getItem(SYNC_DATA_WITH_STORE) === 'true';
   }
 
+  updateRecoveryEmail($event: any) {
+    const target= $event.target as HTMLInputElement;
+    this.updateSettings('recovery_email', target.value);
+  }
+
   updateSettings(key?: string, value?: any) {
     if (key === 'is_contacts_encrypted' && value === true) {
       this.isContactsEncrypted = true;

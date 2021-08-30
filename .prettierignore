@@ -1,2 +1,3 @@
 # Ignore Javascript Files
 src/assets/static/pgp-worker.js
+src/assets/js/ckeditor-build/ckeditor.js

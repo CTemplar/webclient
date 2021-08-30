@@ -90,7 +90,7 @@
               autocomplete="off"
               [(ngModel)]="settings$.value.recovery_email"
               [ngModelOptions]="{ updateOn: 'blur' }"
-              (change)="updateSettings('recovery_email', $event.target.value)"
+              (change)="updateRecoveryEmail($event)"
               placeholder="example@mail.com"
             />
           </form>

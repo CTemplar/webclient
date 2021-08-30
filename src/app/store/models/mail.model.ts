@@ -58,7 +58,7 @@ export interface Mail {
   reply_to_display?: Array<EmailDisplay>;
   email_display_name_map?: any;
   sign?: string;
-  children_delayed_delivery: any;
+  children_delayed_delivery?: any;
 }
 
 export class EncryptionNonCTemplar {
