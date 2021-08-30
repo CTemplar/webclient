@@ -76,7 +76,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   expiryMonth = 'Month';
 
-  expiryYear = 'Year';
+  expiryYear: string | number = 'Year';
 
   cvc: number;
 
@@ -262,7 +262,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     });
   }
 
-  private loadStripeScripts() {
+  public loadStripeScripts() {
     this.paymentMethod = PaymentMethod.STRIPE;
     this.getUpgradeAmount();
     if (this.btcTimer) {
@@ -537,7 +537,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     this.checkStripeValidation();
   }
 
-  selectYear(year: string) {
+  selectYear(year: number) {
     this.expiryYear = year;
     this.checkStripeValidation();
   }

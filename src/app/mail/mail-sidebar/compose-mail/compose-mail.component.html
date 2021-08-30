@@ -269,10 +269,10 @@
           #imageInput
           accept="image/*"
           multiple
-          (change)="onImagesSelected($event.target.files)"
+          (change)="onImageSelectedFromInput($event)"
           style="display: none"
         />
-        <input type="file" #fileInput multiple (change)="onFilesSelected($event.target.files)" style="display: none" />
+        <input type="file" #fileInput multiple (change)="onFileSelectedFromInput($event)" style="display: none" />
         <div class="attach-uploader-holder" *ngIf="attachments?.length > 0">
           <ng-container *ngFor="let file of attachments">
             <div class="attach-uploader" *ngIf="!file.isRemoved && !(file.is_inline && file.progress === 100)">

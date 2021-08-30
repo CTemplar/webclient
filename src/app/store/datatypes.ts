@@ -700,6 +700,7 @@ export interface PricingPlan {
   anonymized_ip: boolean;
   zero_knowledge_password: boolean;
   remote_encrypted_link: boolean;
+  encryption_in_transit: any;
 }
 
 // Key model for mailbox key
@@ -713,6 +714,7 @@ export interface MailboxKey {
   is_primary?: boolean;
   // Handling key update would need to represent password
   password?: string;
+  email?: string;
 }
 
 // Key model for contact public key

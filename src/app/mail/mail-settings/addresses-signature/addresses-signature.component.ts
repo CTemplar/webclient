@@ -107,6 +107,8 @@ export class AddressesSignatureComponent implements OnInit {
 
   selectedMailboxForAddNewKey: Mailbox;
 
+  PGPKeyType = PGPKeyType;
+
   selectedKeyTypeForAddNewKey: PGPKeyType;
 
   isGeneratingKeys = false;
@@ -368,6 +370,11 @@ export class AddressesSignatureComponent implements OnInit {
 
   onSignatureChange({ editor }: ChangeEvent) {
     this.signatureChanged.next(editor.getData());
+  }
+
+  onUpdateDisplayName(mailbox: any, displayName: string, $event: any) {
+    const target= $event.target as HTMLInputElement;
+    this.updateMailboxSettings(mailbox, displayName, target?.value);
   }
 
   updateMailboxSettings(selectedMailbox: any, key: string, value: any) {

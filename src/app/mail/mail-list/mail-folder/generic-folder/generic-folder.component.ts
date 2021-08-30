@@ -53,7 +53,7 @@ const KEY_SHIFT = 'ShiftLeft';
 export class GenericFolderComponent implements OnInit, AfterViewInit {
   @Input() mails: Mail[] = [];
 
-  @Input() mailFolder: MailFolderType;
+  @Input() mailFolder: MailFolderType | string;
 
   @Input() showProgress: boolean;
 

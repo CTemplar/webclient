@@ -385,10 +385,10 @@
                     <span [translate]="'mail_sidebar.draft'">Draft</span>
                   </ng-template>
                 </ng-container>
-                <ng-container #otherFodlers>
-                  <ng-conatiner *ngIf="mail.folder === mailFolderTypes.DRAFT; else nonDraftMail">
+                <ng-template #otherFolders>
+                  <ng-container *ngIf="mail.folder === mailFolderTypes.DRAFT; else nonDraftMail">
                     <span [translate]="'mail_sidebar.draft'" class="text-danger">Draft</span>
-                  </ng-conatiner>
+                  </ng-container>
                   <ng-template #nonDraftMail>
                     <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{
                       getMailSenderReceiverInfo(mail)
@@ -397,7 +397,7 @@
                   <span *ngIf="mail.thread_count > 1 && isConversationView" class="email-child-count">
                     ({{ mail.thread_count }})
                   </span>
-                </ng-container>
+                </ng-template>
                 <span class="position-relative" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
                   <i
                     *ngIf="mail.last_action_thread"
@@ -573,7 +573,7 @@
                   type="checkbox"
                   id="{{ mail.id }}"
                   [ngModel]="mail.marked"
-                  (ngModelChange)="toggleEmailSelection(mail, $event)"
+                  (ngModelChange)="toggleEmailSelection(mail)"
                 >
                 </mat-checkbox>
                 <label for="{{ mail.id }}" class="fancy-field-empty"></label>
@@ -591,10 +591,10 @@
                     <span [translate]="'mail_sidebar.draft'">Draft</span>
                   </ng-template>
                 </ng-container>
-                <ng-container #otherFodlers>
-                  <ng-conatiner *ngIf="mail.folder === mailFolderTypes.DRAFT; else nonDraftMail">
+                <ng-template #otherFolders>
+                  <ng-container *ngIf="mail.folder === mailFolderTypes.DRAFT; else nonDraftMail">
                     <span [translate]="'mail_sidebar.draft'" class="text-danger">Draft</span>
-                  </ng-conatiner>
+                  </ng-container>
                   <ng-template #nonDraftMail>
                     <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{
                       getMailSenderReceiverInfo(mail)
@@ -603,7 +603,7 @@
                   <span *ngIf="mail.thread_count > 1 && isConversationView" class="email-child-count">
                     ({{ mail.thread_count }})
                   </span>
-                </ng-container>
+                </ng-template>
                 <i *ngIf="mail.is_verified" class="fa fa-check-circle verified-sender"></i>
               </a>
               <span class="mail-inbox-message d-md-block">

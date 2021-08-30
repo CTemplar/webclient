@@ -69,29 +69,29 @@
     <div *ngIf="isValidEmail" class="receiver-email-chip-popover-receiver-name">
       <i class="fas fa-user-circle mr-1"></i>
       <ng-container *ngIf="isMyMailbox; else contactInfo">
-        {{ myDisplayName | emailFormat: '':false:false:true }}
+        {{ myDisplayName | emailFormat: '':false:false }}
       </ng-container>
       <ng-template #contactInfo>
-        {{ (selectedContact ? selectedContact.name : email) | emailFormat: '':false:false:true }}
+        {{ (selectedContact ? selectedContact.name : email) | emailFormat: '':false:false }}
       </ng-template>
     </div>
     <div class="error-message" *ngIf="!isValidEmail">
       {{ 'settings.compose.invalid_email_format' | translate }}
     </div>
     <div class="receiver-email-chip-popover-receiver-email">
-      {{ email | emailFormat: '':false:false:true }}
+      {{ email | emailFormat: '':false:false }}
     </div>
   </div>
   <div class="receiver-email-chip-popover-receiver-action" *ngIf="!isMyMailbox">
     <a
       class="mr-2"
       *ngIf="!!selectedContact"
-      (click)="onEditContact(popOver, addUserContent)"
+      (click)="onEditContact(addUserContent)"
       ngbTooltip="Edit Contact"
     >
       <i class="fas fa-edit"></i>
     </a>
-    <a class="mr-2" *ngIf="!selectedContact" (click)="onAddContact(popOver, addUserContent)" ngbTooltip="Add Contact">
+    <a class="mr-2" *ngIf="!selectedContact" (click)="onAddContact(addUserContent)" ngbTooltip="Add Contact">
       <i class="fas fa-plus-circle"></i>
     </a>
     <ng-container *ngIf="isBlacklisted; then moveWhitelist"></ng-container>

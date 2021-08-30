@@ -58,6 +58,7 @@ export interface Mail {
   reply_to_display?: Array<EmailDisplay>;
   email_display_name_map?: any;
   sign?: string;
+  children_delayed_delivery: any;
 }
 
 export class EncryptionNonCTemplar {
@@ -102,6 +103,7 @@ export interface Folder {
   name: string;
   color: string;
   sort_order?: number;
+  conversation_count?: number;
 }
 
 export enum MailFolderType {
@@ -178,7 +180,7 @@ export interface AdvancedSearchQueryParameters {
   size_operator?: string;
 }
 
-export function getMailFolderName(folderType: MailFolderType) {
+export function getMailFolderName(folderType: MailFolderType | string) {
   switch (folderType) {
     case MailFolderType.ALL_EMAILS:
       return 'mail_sidebar.all_emails';

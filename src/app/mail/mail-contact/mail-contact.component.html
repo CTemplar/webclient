@@ -421,7 +421,7 @@
         type="file"
         #importContactsInput
         accept=".csv"
-        (change)="onContactsFileSelected($event.target.files)"
+        (change)="onContactsFileSelectedFromInput($event)"
         style="display: none"
       />
       <div *ngIf="importContactsError" class="l-alert l-alert-danger mb-3">
@@ -470,7 +470,7 @@
           type="file"
           #importVcfContactsInput
           accept=".vcf"
-          (change)="onContactsFileSelected($event.target.files)"
+          (change)="onContactsFileSelectedFromInput($event)"
           style="display: none"
         />
         <button

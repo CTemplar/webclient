@@ -79,7 +79,7 @@ export class ReceiverEmailChipComponent {
     }
   }
 
-  onAddContact(popOver: any, addUserContent: TemplateRef<any>) {
+  onAddContact(addUserContent: TemplateRef<any>) {
     this.passingContact = {
       email: this.email,
       name: this.email,
@@ -93,7 +93,7 @@ export class ReceiverEmailChipComponent {
     });
   }
 
-  onEditContact(popOver: any, addUserContent: TemplateRef<any>) {
+  onEditContact(addUserContent: TemplateRef<any>) {
     this.passingContact = this.selectedContact;
     this.modalService.open(addUserContent, {
       centered: true,

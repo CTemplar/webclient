@@ -86,7 +86,12 @@ export class ImportPrivateKeyComponent implements OnInit {
     this.selectedMailbox = selectedMailbox;
   }
 
-  onSelectNewKeyFile(files: Array<File>) {
+  onSelectNewKeyFileFromInput($event: any) {
+    const target= $event.target as HTMLInputElement;
+    this.onSelectNewKeyFile(target.files);
+  }
+
+  onSelectNewKeyFile(files: FileList) {
     if (files.length > 1) return;
     if (files && files.length > 0) {
       const file = files[0];

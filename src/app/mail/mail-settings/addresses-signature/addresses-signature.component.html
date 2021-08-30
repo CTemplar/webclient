@@ -48,7 +48,7 @@
                 type="text"
                 maxlength="32"
                 [value]="selectedMailboxForSignature.display_name"
-                (change)="updateMailboxSettings(selectedMailboxForSignature, 'display_name', $event.target.value)"
+                (change)="onUpdateDisplayName(selectedMailboxForSignature, 'display_name', $event)"
                 [placeholder]="'settings.display_name' | translate"
               />
             </div>
@@ -672,7 +672,7 @@
               name="[1]"
               type="radio"
               [checked]="selectedKeyTypeForAddNewKey === 'ECC'"
-              (click)="selectedKeyTypeForAddNewKey = 'ECC'"
+              (click)="selectedKeyTypeForAddNewKey = PGPKeyType.ECC"
             />
             <label for="keyType2">ECC (Default)</label>
           </div>
@@ -685,7 +685,7 @@
               name="[1]"
               type="radio"
               [checked]="selectedKeyTypeForAddNewKey === 'RSA4096'"
-              (click)="selectedKeyTypeForAddNewKey = 'RSA4096'"
+              (click)="selectedKeyTypeForAddNewKey = PGPKeyType.RSA_4096"
             />
             <label for="keyType1">RSA4096</label>
           </div>

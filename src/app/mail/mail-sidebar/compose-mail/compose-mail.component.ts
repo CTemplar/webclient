@@ -974,6 +974,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.analyzeUsersKeysWithContact();
   }
 
+  onImageSelectedFromInput($event: any) {
+    const target= $event.target as HTMLInputElement;
+    this.onImagesSelected(target.files);
+  }
+
   onImagesSelected(files: FileList) {
     // if (!this.draftMail || !this.draftMail.id) {
     //   this.updateEmail();
@@ -1002,6 +1007,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         // TODO: add error notification for invalid file type here
       }
     }
+  }
+
+  onFileSelectedFromInput($event: any) {
+    const target= $event.target as HTMLInputElement;
+    this.onFilesSelected(target.files);
   }
 
   onFilesSelected(files: FileList) {

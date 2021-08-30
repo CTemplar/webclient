@@ -186,7 +186,12 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSelectNewKeyFile(files: Array<File>) {
+  onSelectNewKeyFileFromInput($event: any) {
+    const target= $event.target as HTMLInputElement;
+    this.onSelectNewKeyFile(target.files);
+  }
+
+  onSelectNewKeyFile(files: FileList) {
     if (files.length > 1) return;
     if (this.isImportingKey) return;
 
