@@ -208,7 +208,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
         }
-        this.themeToggleService.handleCustomCss(user.settings.custom_css);
+        this.themeToggleService.handleCustomCss(user.settings.theme);
         if (user.settings) {
           setTimeout(() => {
             this.isloading = false;
