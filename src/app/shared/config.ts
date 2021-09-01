@@ -163,6 +163,17 @@ export const LANGUAGES: Language[] = [
   { name: 'Ukrainian', locale: 'uk' },
 ];
 
+export const CUSTOM_THEMES = [
+  { name: 'Default', value: 'default' },
+  { name: 'Carbon Blue', value: 'carbon_blue' },
+  { name: 'Carbon Green', value: 'carbon_green' },
+  { name: 'Carbon Red', value: 'carbon_red' },
+  { name: 'Circuitry Blue', value: 'circuitry_blue' },
+  { name: 'Dark Pink', value: 'dark_pink' },
+  { name: 'Neon Pink', value: 'neon_pink' },
+  { name: 'Oled Grey', value: 'oled_grey' },
+];
+
 export interface Language {
   name: string;
   locale: string;

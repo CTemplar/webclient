@@ -208,7 +208,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
           this.LIMIT = this.customFolders.length;
         }
-        this.handleCustomCss(user.settings.custom_css);
+        this.themeToggleService.handleCustomCss(user.settings.theme);
         if (user.settings) {
           setTimeout(() => {
             this.isloading = false;
@@ -291,10 +291,6 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       return '';
     }
     return s.charAt(0).toUpperCase() + s.slice(1);
-  }
-
-  handleCustomCss(customCss: string) {
-    document.querySelector('#ctemplar-custom-css').innerHTML = customCss;
   }
 
   /**

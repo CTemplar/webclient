@@ -24,18 +24,6 @@ import {
 } from '../../store/actions';
 import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 import {
-  SENTRY_DSN,
-  FONTS,
-  Language,
-  LANGUAGES,
-  VALID_EMAIL_REGEX,
-  AUTOSAVE_DURATION,
-  COMPOSE_COLORS,
-  SIZES,
-  BACKGROUNDS,
-  DEFAULT_FONT_SIZE,
-} from '../../shared/config';
-import {
   AppState,
   AuthState,
   Invoice,
@@ -54,6 +42,19 @@ import {
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
+import {
+  CUSTOM_THEMES,
+  SENTRY_DSN,
+  FONTS,
+  Language,
+  LANGUAGES,
+  VALID_EMAIL_REGEX,
+  AUTOSAVE_DURATION,
+  COMPOSE_COLORS,
+  SIZES,
+  BACKGROUNDS,
+  DEFAULT_FONT_SIZE,
+} from '../../shared/config';
 
 @UntilDestroy()
 @Component({
@@ -62,6 +63,8 @@ import { PushNotificationOptions, PushNotificationService } from '../../shared/s
   styleUrls: ['./mail-settings.component.scss'],
 })
 export class MailSettingsComponent implements OnInit, AfterViewInit {
+  readonly themes = CUSTOM_THEMES;
+
   readonly fonts = FONTS;
 
   readonly colors = COMPOSE_COLORS;
@@ -160,6 +163,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
+  selectedThemeName: string = 'default';
+
   constructor(
     private modalService: NgbModal,
     config: NgbDropdownConfig,
@@ -225,6 +230,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
         } else {
           this.autosave_duration = 'none';
         }
+        // Custom Theme
+        this.selectedThemeName = CUSTOM_THEMES.find(t => t.value === this.settings.theme)?.name ?? '';
       });
 
     this.store
@@ -667,5 +674,32 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   copyToClipboard(value: string) {
     this.sharedService.copyToClipboard(value);
+  }
+
+  onSelectCustomTheme(theme: { name: string; value: string }) {
+    if (theme.value === 'default') {
+      this.settingsService.updateSettings({
+        ...this.settings,
+        theme: '',
+      });
+    } else {
+      this.settingsService.updateSettings({
+        ...this.settings,
+        is_night_mode: true,
+        theme: theme.value,
+      });
+    }
+  }
+
+  onSetDarkMode(isDarkMode: boolean) {
+    if (!isDarkMode && this.settings.theme) {
+      this.settingsService.updateSettings({
+        ...this.settings,
+        is_night_mode: isDarkMode,
+        theme: '',
+      });
+    } else {
+      this.updateSettings('is_night_mode', isDarkMode);
+    }
   }
 }

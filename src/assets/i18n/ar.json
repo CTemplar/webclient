@@ -332,7 +332,7 @@
     "autoresponder_active": "Autoresponder is active:"
   },
   "billing_info": {
-    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and thenupgrade your account once payment is made.",
+    "about_monero": "To complete your payment using Monero (XMR) please create a free account then email Support@ctemplar.com. Our Support team will send you instructions on how to complete the payment and then upgrade your account once payment is made.",
     "donation_amount": "Amount",
     "pay_to_proceed": "Please pay in order to proceed"
   },

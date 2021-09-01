@@ -41,6 +41,7 @@ export class SafePipe implements PipeTransform {
     ul: [],
     i: [],
     blockquote: [],
+    pre: [],
   };
 
   static headingAttributes = ['align', 'dir', 'id', 'style'];
@@ -99,6 +100,7 @@ export class SafePipe implements PipeTransform {
     ul: ['dir', 'style'],
     i: ['style'],
     blockquote: ['style', 'class'],
+    pre: ['style', 'class'],
   };
 
   constructor(private sanitizer: DomSanitizer) {}
@@ -364,7 +366,6 @@ export class SafePipe implements PipeTransform {
    */
   static sanitizeEmail(value: string, disableExternalImages: boolean) {
     value = juice(value);
-    value = SafePipe.removeTitle(value);
     // Sanitize Mail
     value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
     return value;

@@ -66,4 +66,18 @@ export class ThemeToggleService {
   public getIsForceLightMode() {
     return this.isForceLightMode;
   }
+
+  public handleCustomCss(theme: string) {
+    if (!theme || theme === 'default') {
+      document.querySelector('#ctemplar-custom-css').innerHTML = '';
+    } else {
+      fetch(`assets/theme/${theme}.css`)
+        .then(response => response.text())
+        .then(data => {
+          if (data) {
+            document.querySelector('#ctemplar-custom-css').innerHTML = data;
+          }
+        });
+    }
+  }
 }
