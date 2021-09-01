@@ -307,6 +307,8 @@ export class Settings {
   plain_text_font?: string;
 
   universal_spam_filter?: string;
+
+  theme?: string;
 }
 
 export interface Invoice {
