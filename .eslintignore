@@ -33,6 +33,8 @@ README.md
 # assets
 src/assets/
 src/styles/
+src/assets/js/ckeditor-build/ckeditor.js
+src/assets/js/ckeditor-build/ckeditor.js.map
 
 # others
 npm-debug.log*
