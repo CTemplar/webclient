@@ -6,7 +6,7 @@ describe('CustomDomainsComponent', () => {
   let component: CustomDomainsComponent;
   let fixture: ComponentFixture<CustomDomainsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [CustomDomainsComponent],
     }).compileComponents();

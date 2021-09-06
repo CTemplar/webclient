@@ -6,7 +6,7 @@ describe('OrganizationUsersComponent', () => {
   let component: OrganizationUsersComponent;
   let fixture: ComponentFixture<OrganizationUsersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [OrganizationUsersComponent],
     }).compileComponents();

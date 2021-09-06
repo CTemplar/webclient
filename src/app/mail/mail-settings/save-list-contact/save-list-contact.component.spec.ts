@@ -6,7 +6,7 @@ describe('SaveListContactComponent', () => {
   let component: SaveListContactComponent;
   let fixture: ComponentFixture<SaveListContactComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [SaveListContactComponent],
     }).compileComponents();

@@ -6,7 +6,7 @@ describe('SecurityComponent', () => {
   let component: SecurityComponent;
   let fixture: ComponentFixture<SecurityComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [SecurityComponent],
     }).compileComponents();

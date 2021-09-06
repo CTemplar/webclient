@@ -6,7 +6,7 @@ describe('SpinnerImageComponent', () => {
   let component: SpinnerImageComponent;
   let fixture: ComponentFixture<SpinnerImageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [SpinnerImageComponent],
     }).compileComponents();

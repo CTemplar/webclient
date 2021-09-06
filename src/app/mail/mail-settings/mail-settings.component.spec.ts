@@ -6,7 +6,7 @@ describe('MailSettingsComponent', () => {
   let component: MailSettingsComponent;
   let fixture: ComponentFixture<MailSettingsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [MailSettingsComponent],
     }).compileComponents();

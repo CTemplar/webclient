@@ -6,7 +6,7 @@ describe('PagesDonateComponent', () => {
   let component: PagesDonateComponent;
   let fixture: ComponentFixture<PagesDonateComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [PagesDonateComponent],
     }).compileComponents();

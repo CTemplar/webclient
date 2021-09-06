@@ -6,7 +6,7 @@ describe('GenericFolderComponent', () => {
   let component: GenericFolderComponent;
   let fixture: ComponentFixture<GenericFolderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [GenericFolderComponent],
     }).compileComponents();

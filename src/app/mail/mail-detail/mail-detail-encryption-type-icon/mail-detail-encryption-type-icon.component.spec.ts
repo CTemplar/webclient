@@ -6,7 +6,7 @@ describe('MailDetailEncryptionTypeIconComponent', () => {
   let component: MailDetailEncryptionTypeIconComponent;
   let fixture: ComponentFixture<MailDetailEncryptionTypeIconComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [MailDetailEncryptionTypeIconComponent],
     }).compileComponents();

@@ -6,7 +6,7 @@ describe('UsersSignInComponent', () => {
   let component: UsersSignInComponent;
   let fixture: ComponentFixture<UsersSignInComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UsersSignInComponent],
     }).compileComponents();

@@ -6,7 +6,7 @@ describe('MailHeaderComponent', () => {
   let component: MailHeaderComponent;
   let fixture: ComponentFixture<MailHeaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [MailHeaderComponent],
     }).compileComponents();

@@ -6,7 +6,7 @@ describe('UserAccountInitDialogComponent', () => {
   let component: UserAccountInitDialogComponent;
   let fixture: ComponentFixture<UserAccountInitDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UserAccountInitDialogComponent],
     }).compileComponents();

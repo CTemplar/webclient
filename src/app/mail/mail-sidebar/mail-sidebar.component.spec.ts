@@ -6,7 +6,7 @@ describe('MailSidebarComponent', () => {
   let component: MailSidebarComponent;
   let fixture: ComponentFixture<MailSidebarComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [MailSidebarComponent],
     }).compileComponents();

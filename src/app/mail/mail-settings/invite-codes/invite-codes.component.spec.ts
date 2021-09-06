@@ -6,7 +6,7 @@ describe('InviteCodesComponent', () => {
   let component: InviteCodesComponent;
   let fixture: ComponentFixture<InviteCodesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [InviteCodesComponent],
     }).compileComponents();

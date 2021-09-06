@@ -6,7 +6,7 @@ describe('ReceiverEmailChipComponent', () => {
   let component: ReceiverEmailChipComponent;
   let fixture: ComponentFixture<ReceiverEmailChipComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [ReceiverEmailChipComponent],
     }).compileComponents();

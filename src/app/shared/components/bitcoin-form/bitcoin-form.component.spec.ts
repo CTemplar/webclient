@@ -6,7 +6,7 @@ describe('BitcoinFormComponent', () => {
   let component: BitcoinFormComponent;
   let fixture: ComponentFixture<BitcoinFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [BitcoinFormComponent],
     }).compileComponents();

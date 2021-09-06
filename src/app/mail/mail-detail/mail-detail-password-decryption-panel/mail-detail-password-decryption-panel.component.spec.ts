@@ -6,7 +6,7 @@ describe('MailDetailPasswordDecryptionPanelComponent', () => {
   let component: MailDetailPasswordDecryptionPanelComponent;
   let fixture: ComponentFixture<MailDetailPasswordDecryptionPanelComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [MailDetailPasswordDecryptionPanelComponent],
     }).compileComponents();

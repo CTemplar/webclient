@@ -6,7 +6,7 @@ describe('DisplayNameDialogComponent', () => {
   let component: DisplayNameDialogComponent;
   let fixture: ComponentFixture<DisplayNameDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [DisplayNameDialogComponent],
     }).compileComponents();

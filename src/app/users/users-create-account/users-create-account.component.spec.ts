@@ -6,7 +6,7 @@ describe('UsersCreateAccountComponent', () => {
   let component: UsersCreateAccountComponent;
   let fixture: ComponentFixture<UsersCreateAccountComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UsersCreateAccountComponent],
     }).compileComponents();
