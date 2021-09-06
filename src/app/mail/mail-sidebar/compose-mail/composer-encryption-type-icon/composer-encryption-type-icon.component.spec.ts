@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ComposerEncryptionTypeIconComponent } from './composer-encryption-type-icon.component';
 
@@ -9,6 +12,8 @@ describe('ComposerEncryptionTypeIconComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [ComposerEncryptionTypeIconComponent],
+      providers: [provideMockStore({})],
+      imports: [HttpClientModule, MatSnackBarModule],
     }).compileComponents();
   }));
 

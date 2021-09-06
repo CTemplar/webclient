@@ -1,5 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
+import { provideMockStore  } from '@ngrx/store/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
 
 import { UsersSignUpComponent } from './users-sign-up.component';
 
@@ -10,6 +13,8 @@ describe('UsersSignUpComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UsersSignUpComponent],
+      providers: [provideMockStore({})],
+      imports: [HttpClientModule, RouterTestingModule, MatSnackBarModule],
     }).compileComponents();
   }));
 

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore  } from '@ngrx/store/testing';
 
 import { MailHeaderComponent } from './mail-header.component';
@@ -11,6 +12,7 @@ describe('MailHeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MailHeaderComponent],
       providers: [provideMockStore({})],
+      imports: [RouterTestingModule],
     }).compileComponents();
   }));
 

@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { UsersBillingInfoComponent } from './users-billing-info.component';
 
@@ -9,6 +12,8 @@ describe('UsersBillingInfoComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UsersBillingInfoComponent],
+      providers: [provideMockStore({})],
+      imports: [HttpClientModule, MatSnackBarModule],
     }).compileComponents();
   }));
 

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { provideMockStore  } from '@ngrx/store/testing';
 
 import { FoldersComponent } from './folders.component';
@@ -11,6 +12,7 @@ describe('FoldersComponent', () => {
     TestBed.configureTestingModule({
       declarations: [FoldersComponent],
       providers: [provideMockStore({})],
+      imports: [MatSnackBarModule],
     }).compileComponents();
   }));
 

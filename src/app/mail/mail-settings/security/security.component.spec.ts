@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { provideMockStore  } from '@ngrx/store/testing';
 
 import { SecurityComponent } from './security.component';
@@ -11,6 +13,7 @@ describe('SecurityComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SecurityComponent],
       providers: [provideMockStore({})],
+      imports: [HttpClientModule, RouterTestingModule],
     }).compileComponents();
   }));
 

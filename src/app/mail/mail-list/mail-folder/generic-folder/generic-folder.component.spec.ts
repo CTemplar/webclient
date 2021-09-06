@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore  } from '@ngrx/store/testing';
 
 import { GenericFolderComponent } from './generic-folder.component';
@@ -11,6 +13,7 @@ describe('GenericFolderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [GenericFolderComponent],
       providers: [provideMockStore({})],
+      imports: [RouterTestingModule, HttpClientModule],
     }).compileComponents();
   }));
 

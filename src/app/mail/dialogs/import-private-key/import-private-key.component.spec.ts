@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
+import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 
 import { ImportPrivateKeyComponent } from './import-private-key.component';
@@ -10,6 +12,14 @@ describe('ImportPrivateKeyComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [ImportPrivateKeyComponent],
+      imports: [
+        NgbModule,
+      ],
+      providers: [
+        NgbActiveModal,
+        NgbModal,
+        provideMockStore,
+      ]
     }).compileComponents();
   }));
 

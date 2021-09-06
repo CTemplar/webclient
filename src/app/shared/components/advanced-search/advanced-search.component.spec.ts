@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore  } from '@ngrx/store/testing';
 
 import { AdvancedSearchComponent } from './advanced-search.component';
@@ -11,6 +12,7 @@ describe('AdvancedSearchComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [AdvancedSearchComponent],
       providers: [provideMockStore({})],
+      imports: [RouterTestingModule],
     }).compileComponents();
   });
 

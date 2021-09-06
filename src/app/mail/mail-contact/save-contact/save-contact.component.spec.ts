@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule, HttpClient } from '@angular/common/http'; 
 import { provideMockStore  } from '@ngrx/store/testing';
 
 import { SaveContactComponent } from './save-contact.component';
@@ -11,6 +13,7 @@ describe('SaveContactComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SaveContactComponent],
       providers: [provideMockStore({})],
+      imports: [HttpClientModule, RouterTestingModule],
     }).compileComponents();
   }));
 
