@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
 
 import { PagesDonateComponent } from './pages-donate.component';
 
@@ -9,6 +10,7 @@ describe('PagesDonateComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [PagesDonateComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
   }));
 

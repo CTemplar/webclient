@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
 
 import { InviteCodesComponent } from './invite-codes.component';
 
@@ -9,6 +10,7 @@ describe('InviteCodesComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [InviteCodesComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
   }));
 

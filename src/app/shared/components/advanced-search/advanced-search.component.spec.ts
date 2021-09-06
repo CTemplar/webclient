@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
 
 import { AdvancedSearchComponent } from './advanced-search.component';
 
@@ -9,6 +10,7 @@ describe('AdvancedSearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AdvancedSearchComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
   });
 

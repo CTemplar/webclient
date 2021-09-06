@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
 
 import { OrganizationUsersComponent } from './organization-users.component';
 
@@ -9,6 +10,7 @@ describe('OrganizationUsersComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [OrganizationUsersComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
   }));
 

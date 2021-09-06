@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
 
 import { SaveListContactComponent } from './save-list-contact.component';
 
@@ -9,6 +10,7 @@ describe('SaveListContactComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [SaveListContactComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
   }));
 

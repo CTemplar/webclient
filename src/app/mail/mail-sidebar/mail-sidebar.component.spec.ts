@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
 
 import { MailSidebarComponent } from './mail-sidebar.component';
 
@@ -9,6 +10,7 @@ describe('MailSidebarComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [MailSidebarComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
   }));
 

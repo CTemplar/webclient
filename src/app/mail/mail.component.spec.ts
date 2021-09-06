@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStore  } from '@ngrx/store/testing';
 
 import { MailComponent } from './mail.component';
 
@@ -9,6 +10,7 @@ describe('MailComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [MailComponent],
+      providers: [provideMockStore({})],
     }).compileComponents();
   }));
 
