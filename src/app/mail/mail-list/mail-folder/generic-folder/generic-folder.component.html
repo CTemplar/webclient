@@ -97,7 +97,7 @@
           </a>
         </li>
         <!-- decrypt all subjects -->
-        <li class="pr-0" *ngIf="!userState.settings.is_subject_auto_decrypt">
+        <li class="pr-0" *ngIf="!userState?.settings.is_subject_auto_decrypt">
           <a
             class="px-0"
             placement="top"
@@ -523,7 +523,7 @@
               <ng-template #fullWallProtection>
                 <img
                   *ngIf="
-                    (mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode;
+                    (mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState?.settings?.is_night_mode;
                     else fireWallIcon
                   "
                   src="assets/images/features-icon/tower.svg"
@@ -679,7 +679,7 @@
               <ng-template #fullWallProtection>
                 <img
                   *ngIf="
-                    (mail.is_protected || mail.sender === 'support@ctemplar.com') && !userState.settings.is_night_mode;
+                    (mail?.is_protected || mail?.sender === 'support@ctemplar.com') && !userState?.settings?.is_night_mode;
                     else fireWallIcon
                   "
                   src="assets/images/features-icon/tower.svg"

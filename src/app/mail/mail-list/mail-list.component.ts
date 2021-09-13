@@ -37,7 +37,7 @@ export class MailListComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.customFolders = user.customFolders;
+        this.customFolders = user?.customFolders;
       });
   }
 }

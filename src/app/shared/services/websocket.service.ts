@@ -28,14 +28,14 @@ export class WebsocketService {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
-        this.userId = userState.id ? userState.id : this.userId;
+        this.userId = userState?.id ?? this.userId;
       });
 
     this.store
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        this.isAuthenticated = authState.isAuthenticated;
+        this.isAuthenticated = authState?.isAuthenticated;
       });
   }
 

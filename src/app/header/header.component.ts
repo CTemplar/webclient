@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((data: AuthState) => {
-        this.isLoggedIn$.next(data.isAuthenticated);
+        this.isLoggedIn$.next(data?.isAuthenticated);
       });
   }
 

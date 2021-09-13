@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UseCacheDialogComponent } from './use-cache-dialog.component';
 
 describe('UseCacheDialogComponent', () => {
@@ -9,6 +9,7 @@ describe('UseCacheDialogComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UseCacheDialogComponent],
+      imports: [NgbActiveModal]
     }).compileComponents();
   }));
 

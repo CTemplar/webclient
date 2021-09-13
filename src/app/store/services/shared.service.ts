@@ -44,7 +44,7 @@ export class SharedService {
     this.store
       .select(state => state.user)
       .subscribe((user: UserState) => {
-        this.username = user.username;
+        this.username = user?.username;
       });
   }
 

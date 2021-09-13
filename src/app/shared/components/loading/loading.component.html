@@ -18,7 +18,7 @@
 >
   <div>
     <img class="logo" style="width: 400px; height: 300px" [src]="loadingImage | safe: 'url'" />
-    <p class="quote">{{ quote.content }}</p>
-    <p class="author">{{ quote.author }}</p>
+    <p class="quote">{{ quote?.content }}</p>
+    <p class="author">{{ quote?.author }}</p>
   </div>
 </div>

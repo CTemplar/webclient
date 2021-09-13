@@ -1,9 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { provideMockStore  } from '@ngrx/store/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { OpenPgpService } from '../../../store/services';
 import { UsersBillingInfoComponent } from './users-billing-info.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('UsersBillingInfoComponent', () => {
   let component: UsersBillingInfoComponent;
@@ -12,8 +15,8 @@ describe('UsersBillingInfoComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UsersBillingInfoComponent],
-      providers: [provideMockStore({})],
-      imports: [HttpClientModule, MatSnackBarModule],
+      providers: [provideMockStore({}), OpenPgpService],
+      imports: [HttpClientModule, MatSnackBarModule, RouterTestingModule, FormsModule, ReactiveFormsModule, TranslateModule.forRoot()],
     }).compileComponents();
   }));
 

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore  } from '@ngrx/store/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MailFooterComponent } from './mail-footer.component';
 
@@ -11,6 +12,7 @@ describe('MailFooterComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MailFooterComponent],
       providers: [provideMockStore({})],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

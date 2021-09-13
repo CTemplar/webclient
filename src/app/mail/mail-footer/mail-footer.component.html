@@ -7,7 +7,7 @@
           <u [innerHTML]="'common.terms_and_privacy' | translate">Terms of Service</u>
         </a>
       </li>
-      <li *ngIf="!userState.isPrime">
+      <li *ngIf="!userState?.isPrime">
         <a routerLink="/mail/settings/dashboard-and-plans" class="text-primary">
           <u>{{ 'common.upgrade_account' | translate }}</u>
         </a>

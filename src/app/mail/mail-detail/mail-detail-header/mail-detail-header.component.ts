@@ -64,20 +64,22 @@ export class MailDetailHeaderComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.customFolders = user?.customFolders;
-        for (const folder of user?.customFolders) {
-          this.folderColors[folder.name] = folder.color;
+        this.customFolders = user?.customFolders ?? [];
+        for (const folder of this.customFolders) {
+          if (this.folderColors && folder.name) {
+            this.folderColors[folder.name] = folder?.color;
+          }
         }
         this.userState = user;
-        this.settings = this.userState.settings;
+        this.settings = this.userState?.settings;
       });
 
     this.store
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
-        this.currentMailbox = mailBoxesState.currentMailbox;
-        this.mailboxes = mailBoxesState.mailboxes;
+        this.currentMailbox = mailBoxesState?.currentMailbox;
+        this.mailboxes = mailBoxesState?.mailboxes;
       });
 
     /**
@@ -88,7 +90,7 @@ export class MailDetailHeaderComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts =
-          contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
+          contactsState?.emailContacts === undefined ? contactsState?.contacts : contactsState?.emailContacts;
       });
   }
 

@@ -176,17 +176,17 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
         if (this.isUpgradeAccount) {
-          this.upgradeAmount = userState.upgradeAmount;
-          this.payment = userState.payment_transaction;
+          this.upgradeAmount = userState?.upgradeAmount;
+          this.payment = userState?.payment_transaction;
         }
-        this.promoCode = userState.promoCode;
-        this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
+        this.promoCode = userState?.promoCode;
+        this.promoCode.new_amount = this.promoCode?.new_amount < 0 ? 0 : this.promoCode?.new_amount;
         this.isNeedPaymentInformationWithPromoCode = !(
-          this.promoCode.is_valid &&
-          this.promoCode.new_amount === 0 &&
-          this.promoCode.new_amount_btc === 0
+          this.promoCode?.is_valid &&
+          this.promoCode?.new_amount === 0 &&
+          this.promoCode?.new_amount_btc === 0
         );
-        this.isPrime = userState.isPrime;
+        this.isPrime = userState?.isPrime;
       });
 
     this.billingForm = this.formBuilder.group({
@@ -198,7 +198,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        this.signupState = authState.signupState;
+        this.signupState = authState?.signupState;
 
         const { queryParams } = this.activatedRoute.snapshot;
         this.planType = this.planType || this.signupState.plan_type || queryParams.plan || PlanType.PRIME;
@@ -216,9 +216,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         }
 
         this.authState = authState;
-        if (this.inProgress && !authState.inProgress) {
-          if (authState.errorMessage) {
-            this.errorMessage = authState.errorMessage;
+        if (this.inProgress && !authState?.inProgress) {
+          if (authState?.errorMessage) {
+            this.errorMessage = authState?.errorMessage;
           } else {
             this.closeBillingInfo.emit(true);
           }
@@ -226,7 +226,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         if (this.paymentMethod === PaymentMethod.STRIPE) {
           this.loadStripeScripts();
         }
-        this.inProgress = authState.inProgress;
+        this.inProgress = authState?.inProgress;
       });
     this.store
       .select(state => state.bitcoin)
@@ -235,9 +235,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.bitcoinState = bitcoinState;
         if (this.promoCode.is_valid) {
           this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
-          this.bitcoinState.bitcoinRequired = this.promoCode.new_amount_btc;
+          this.bitcoinState.bitcoinRequired = this.promoCode?.new_amount_btc;
         }
-        this.checkTransactionResponse = this.bitcoinState.checkTransactionResponse;
+        this.checkTransactionResponse = this.bitcoinState?.checkTransactionResponse;
 
         if (this.checkTransactionResponse && this.checkTransactionResponse.status === TransactionStatus.RECEIVED) {
           this.paymentSuccess = true;

@@ -159,7 +159,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         }
         this.setIsSelectAll();
         if (
-          (this.userState && this.userState.settings && this.userState.settings.is_subject_auto_decrypt) ||
+          (this.userState && this.userState?.settings && this.userState?.settings.is_subject_auto_decrypt) ||
           this.isEnabledToDecryptSubject
         ) {
           this.decryptAllSubjects();
@@ -174,20 +174,20 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.isConversationView = !(this.userState.settings && !this.userState.settings.is_conversation_mode);
+        this.isConversationView = !(this.userState?.settings && !this.userState?.settings?.is_conversation_mode);
         this.customFolders = user.customFolders;
         if (this.mailFolder === MailFolderType.SEARCH) {
           for (const folder of user.customFolders) {
             this.folderColors[folder.name] = folder.color;
           }
         }
-        if (this.fetchMails && this.userState.settings && user.settings.emails_per_page) {
-          this.LIMIT = user.settings.emails_per_page;
+        if (this.fetchMails && this.userState?.settings && user.settings?.emails_per_page) {
+          this.LIMIT = user?.settings.emails_per_page;
           if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isInitialized) {
             this.isInitialized = true;
             if (this.isNeedFetchMails()) {
               this.store.dispatch(
-                new GetMails({ limit: user.settings.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }),
+                new GetMails({ limit: user?.settings?.emails_per_page, offset: this.OFFSET, folder: this.mailFolder }),
               );
             }
             if (this.mailFolder === MailFolderType.OUTBOX) {
@@ -494,7 +494,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
       this.composeMailService.openComposeMailDialog({
         draft: mail,
-        isFullScreen: this.userState.settings.is_composer_full_screen,
+        isFullScreen: this.userState?.settings?.is_composer_full_screen,
       });
     } else {
       const queryParameters: any = {};

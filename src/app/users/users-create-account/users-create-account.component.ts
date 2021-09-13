@@ -113,8 +113,8 @@ export class UsersCreateAccountComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((state: AuthState) => {
         const { queryParams } = this.activatedRoute.snapshot;
-        this.selectedPlan = state.signupState.plan_type || queryParams.plan || PlanType.PRIME;
-        this.paymentType = state.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
+        this.selectedPlan = state?.signupState?.plan_type || queryParams.plan || PlanType.PRIME;
+        this.paymentType = state?.signupState?.payment_type || queryParams.billing || PaymentType.ANNUALLY;
         if (Object.keys(queryParams).length > 0 && !queryParams.billing) {
           if (!Object.values(PlanType).includes(this.selectedPlan)) {
             this.selectedPlan = PlanType.FREE;
@@ -131,7 +131,7 @@ export class UsersCreateAccountComponent implements OnInit {
         } else if (Object.keys(queryParams).length === 0) {
           this.router.navigateByUrl(`/create-account?plan=${this.selectedPlan}&billing=${this.paymentType}`);
         }
-        this.errorMessage = state.errorMessage;
+        this.errorMessage = state?.errorMessage;
       });
 
     setTimeout(() => this.store.dispatch(new FinalLoading({ loadingState: false })));
@@ -272,13 +272,13 @@ export class UsersCreateAccountComponent implements OnInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (this.signupInProgress$.value && !authState.inProgress) {
-          if (authState.errorMessage) {
-            this.notificationService.showSnackBar(`Failed to create account.${authState.errorMessage}`);
+        if (this.signupInProgress$.value && !authState?.inProgress) {
+          if (authState?.errorMessage) {
+            this.notificationService.showSnackBar(`Failed to create account.${authState?.errorMessage}`);
           }
           this.signupInProgress$.next(false);
         }
-        this.signupState$.next(authState.signupState);
+        this.signupState$.next(authState?.signupState);
       });
   }
 

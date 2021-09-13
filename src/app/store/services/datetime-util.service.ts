@@ -32,8 +32,8 @@ export class DateTimeUtilService {
     this.store
       .select(state => state.user)
       .subscribe((user: UserState) => {
-        if (user.settings && user.settings.timezone !== this.timezone) {
-          this.timezone = user.settings.timezone;
+        if (user?.settings && user?.settings?.timezone !== this.timezone) {
+          this.timezone = user?.settings?.timezone;
           if (this.timezone) {
             moment.tz.setDefault(this.timezone);
           } else {

@@ -101,7 +101,7 @@ export class OrganizationUsersComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.customDomains = user.customDomains
+        this.customDomains = user?.customDomains
           .filter(item => item.is_domain_verified && item.is_mx_verified)
           .map(item => item.domain);
         if (this.customDomains.length > 0) {
@@ -114,16 +114,16 @@ export class OrganizationUsersComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((organizationState: OrganizationState) => {
         this.organizationState = organizationState;
-        this.users = organizationState.users;
-        if (this.isAddingUserInProgress && !this.organizationState.isAddingUserInProgress) {
+        this.users = organizationState?.users;
+        if (this.isAddingUserInProgress && !this.organizationState?.isAddingUserInProgress) {
           this.isAddingUserInProgress = false;
-          if (this.organizationState.isError) {
-            this.errorMessage = this.organizationState.error;
+          if (this.organizationState?.isError) {
+            this.errorMessage = this.organizationState?.error;
           } else {
             this.closeAddUserModal();
           }
         }
-        if (this.isDeleteInProgress && !this.organizationState.isDeleteInProgress) {
+        if (this.isDeleteInProgress && !this.organizationState?.isDeleteInProgress) {
           this.isDeleteInProgress = false;
           this.cancelDelete();
         }

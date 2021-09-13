@@ -120,21 +120,21 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
-        this.isContactsEncrypted = userState.settings.is_contacts_encrypted; // set encryption from user settings
+        this.isContactsEncrypted = userState?.settings?.is_contacts_encrypted; // set encryption from user settings
       });
 
     this.store
       .select(state => state.contacts)
       .pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
-        if (this.inProgress && !contactsState.inProgress) {
+        if (this.inProgress && !contactsState?.inProgress) {
           this.inProgress = false;
-          if (!contactsState.isError && !this.advancedSettingsModalRef) {
+          if (!contactsState?.isError && !this.advancedSettingsModalRef) {
             this.userSaved?.emit();
           }
         }
-        this.advancedSettingInProgress = contactsState.advancedSettingInProgress;
-        this.selectedContactPulbicKeys = contactsState.selectedContactKeys;
+        this.advancedSettingInProgress = contactsState?.advancedSettingInProgress;
+        this.selectedContactPulbicKeys = contactsState?.selectedContactKeys;
 
         for (const key of this.selectedContactPulbicKeys) {
           this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails

@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SafePipe } from '../../pipes/safe.pipe';
-
+import { SharedModule } from '../../shared.module'
 import { LoadingComponent } from './loading.component';
 
 describe('LoadingComponent', () => {
@@ -10,7 +9,7 @@ describe('LoadingComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [LoadingComponent],
-      imports: [SafePipe]
+      imports: [SharedModule]
     }).compileComponents();
   }));
 

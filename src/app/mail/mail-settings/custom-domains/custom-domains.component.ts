@@ -82,12 +82,12 @@ export class CustomDomainsComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        if (!user.inProgress) {
-          this.settings = user.settings;
-          this.domains = user.customDomains;
-          this.newDomain = user.newCustomDomain;
-          this.newDomainError = user.newCustomDomainError;
-          this.currentStep = user.currentCreationStep;
+        if (!user?.inProgress) {
+          this.settings = user?.settings;
+          this.domains = user?.customDomains;
+          this.newDomain = user?.newCustomDomain;
+          this.newDomainError = user?.newCustomDomainError;
+          this.currentStep = user?.currentCreationStep;
           this.prepareMapForDomainAlias(this.domains, this.mailboxes);
         }
       });
@@ -100,7 +100,7 @@ export class CustomDomainsComponent implements OnInit {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailboxesState: MailBoxesState) => {
-        this.mailboxes = mailboxesState.mailboxes;
+        this.mailboxes = mailboxesState?.mailboxes;
         this.prepareMapForDomainAlias(this.domains, this.mailboxes);
       });
 

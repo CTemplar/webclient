@@ -30,9 +30,9 @@ export class UsersService {
   constructor(private http: HttpClient, private router: Router, private store: Store<AppState>) {
     this.store
       .select(state => state.auth)
-      .pipe(distinctUntilChanged((previous, current) => previous.isAuthenticated === current.isAuthenticated))
+      .pipe(distinctUntilChanged((previous, current) => previous?.isAuthenticated === current?.isAuthenticated))
       .subscribe((authState: AuthState) => {
-        if (authState.isAuthenticated && this.getUserKey()) {
+        if (authState?.isAuthenticated && this.getUserKey()) {
           this.store.dispatch(new LogInSuccess({}));
         }
       });

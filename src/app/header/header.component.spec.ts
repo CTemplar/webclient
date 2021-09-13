@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore  } from '@ngrx/store/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { HeaderComponent } from './header.component';
@@ -14,7 +15,7 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HeaderComponent],
       providers: [provideMockStore({})],
-      imports: [RouterTestingModule, HttpClientModule, MatSnackBarModule],
+      imports: [RouterTestingModule, HttpClientModule, MatSnackBarModule, TranslateModule.forRoot()],
     }).compileComponents();
   }));
 

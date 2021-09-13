@@ -3,6 +3,7 @@ import { provideMockStore  } from '@ngrx/store/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { UsersSignUpComponent } from './users-sign-up.component';
 
@@ -14,7 +15,7 @@ describe('UsersSignUpComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UsersSignUpComponent],
       providers: [provideMockStore({})],
-      imports: [HttpClientModule, RouterTestingModule, MatSnackBarModule],
+      imports: [HttpClientModule, RouterTestingModule, MatSnackBarModule, TranslateModule.forRoot()],
     }).compileComponents();
   }));
 

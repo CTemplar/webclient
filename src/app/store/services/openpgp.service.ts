@@ -131,7 +131,7 @@ export class OpenPgpService {
     this.store
       .select(state => state.mailboxes)
       .subscribe((mailBoxesState: MailBoxesState) => {
-        if (mailBoxesState.mailboxes.length > 0) {
+        if (mailBoxesState?.mailboxes?.length > 0) {
           this.mailboxes = mailBoxesState.mailboxes;
           this.privateKeys = this.privateKeys || {};
           this.publicKeys = this.publicKeys || {};
@@ -161,22 +161,22 @@ export class OpenPgpService {
             this.decryptAllPrivateKeys();
           }
         }
-        this.decryptInProgress = mailBoxesState.decryptKeyInProgress;
-        this.mailboxKeysInProgress = mailBoxesState.mailboxKeyInProgress;
+        this.decryptInProgress = mailBoxesState?.decryptKeyInProgress;
+        this.mailboxKeysInProgress = mailBoxesState?.mailboxKeyInProgress;
       });
 
     this.store
       .select((state: AppState) => state.auth)
       .subscribe((authState: AuthState) => {
-        if (this.isAuthenticated && !authState.isAuthenticated) {
+        if (this.isAuthenticated && !authState?.isAuthenticated) {
           this.clearData();
         }
-        this.isAuthenticated = authState.isAuthenticated;
+        this.isAuthenticated = authState?.isAuthenticated;
       });
     this.store
       .select((state: AppState) => state.user)
       .subscribe((userState: UserState) => {
-        this.userSettings = userState.settings;
+        this.userSettings = userState?.settings;
       });
   }
 

@@ -91,7 +91,7 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
     private router: Router,
     private openPgpService: OpenPgpService,
   ) {
-    document.querySelector('#main').classList.add('visible-signin');
+    document.querySelector('#main')?.classList?.add('visible-signin');
   }
 
   ngOnInit() {
@@ -129,21 +129,21 @@ export class UsersSignInComponent implements OnDestroy, OnInit, AfterViewInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        this.isLoading = !authState.isAuthenticated ? authState.inProgress : false;
-        this.errorMessage = authState.errorMessage;
-        this.isRecoveryCodeSent = authState.isRecoveryCodeSent;
-        this.resetPasswordErrorMessage = authState.resetPasswordErrorMessage;
+        this.isLoading = !authState?.isAuthenticated ? authState?.inProgress : false;
+        this.errorMessage = authState?.errorMessage;
+        this.isRecoveryCodeSent = authState?.isRecoveryCodeSent;
+        this.resetPasswordErrorMessage = authState?.resetPasswordErrorMessage;
         if (
           this.isRecoverFormSubmitted &&
-          this.authState.inProgress &&
-          !authState.inProgress &&
-          !authState.resetPasswordErrorMessage
+          this.authState?.inProgress &&
+          !authState?.inProgress &&
+          !authState?.resetPasswordErrorMessage
         ) {
           this.resetModalRef.dismiss();
         }
-        if (authState.auth2FA.show2FALogin) {
+        if (authState?.auth2FA?.show2FALogin) {
           setTimeout(() => {
-            this.otpInput.nativeElement.focus();
+            this.otpInput?.nativeElement.focus();
           }, 200);
         }
         this.authState = authState;

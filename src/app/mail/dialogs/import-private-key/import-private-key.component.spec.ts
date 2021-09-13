@@ -1,9 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore  } from '@ngrx/store/testing';
 import { NgbActiveModal, NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { StoreModule } from '@ngrx/store';
+import { OpenPgpService } from '../../../store/services';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ImportPrivateKeyComponent } from './import-private-key.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ImportPrivateKeyComponent', () => {
   let component: ImportPrivateKeyComponent;
@@ -14,11 +18,16 @@ describe('ImportPrivateKeyComponent', () => {
       declarations: [ImportPrivateKeyComponent],
       imports: [
         NgbModule,
+        HttpClientModule,
+        RouterTestingModule,
+        MatSnackBarModule,
+        TranslateModule.forRoot()
       ],
       providers: [
         NgbActiveModal,
         NgbModal,
-        provideMockStore,
+        OpenPgpService,
+        provideMockStore({}),
       ]
     }).compileComponents();
   }));

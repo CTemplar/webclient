@@ -10,7 +10,7 @@ import { SpinnerService } from '../services/spinner.service';
 export class SpinnerComponent implements OnInit, OnDestroy {
   private isShowing = false;
 
-  @Input() name: string;
+  @Input() name: string = 'Loading...';
 
   @Input() group: string;
 

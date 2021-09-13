@@ -21,7 +21,7 @@
           required
           #contactName="ngModel"
           [(ngModel)]="newContactModel.name"
-          [placeholder]="'contacts.contact_name' | translate"
+          [placeholder]="'contacts?.contact_name' | translate"
           type="text"
         />
       </div>
@@ -60,7 +60,7 @@
           <i
             class="fas fa-cogs advanced-settings-icon cursor-pointer"
             ngbTooltip="Advanced Settings"
-            *ngIf="!internalUser && !contactEmail.errors && newContactModel.id"
+            *ngIf="!internalUser && !contactEmail?.errors && newContactModel?.id"
             (click)="onShowAdvancedSettings()"
             [disabled]="inProgress"
           ></i>

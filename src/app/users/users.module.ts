@@ -40,7 +40,7 @@ import { UseCacheDialogComponent } from './dialogs/use-cache-dialog/use-cache-di
     NgbModule,
     ReactiveFormsModule,
     SharedModule,
-    TranslateModule,
+    TranslateModule.forRoot(),
     UsersRoutingModule,
     CKEditorModule,
     MatCheckboxModule,

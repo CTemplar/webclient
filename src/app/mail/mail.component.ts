@@ -82,9 +82,9 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
-        if (userState.isLoaded && !this.isLoadedData) {
+        if (userState?.isLoaded && !this.isLoadedData) {
           // Initialize Sentry according to user's setting after login
-          if (userState.settings.is_enable_report_bugs) {
+          if (userState?.settings?.is_enable_report_bugs) {
             Sentry.init({
               dsn: SENTRY_DSN,
               enabled: true,
@@ -113,7 +113,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
           }
         }
         if (userState.autoresponder) {
-          this.autoresponder = userState.autoresponder;
+          this.autoresponder = userState?.autoresponder;
           this.autoresponder_status = !!(
             this.autoresponder.autoresponder_active ||
             (this.autoresponder.vacationautoresponder_active &&

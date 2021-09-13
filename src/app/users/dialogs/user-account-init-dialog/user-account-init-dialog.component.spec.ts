@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserAccountInitDialogComponent } from './user-account-init-dialog.component';
 
 describe('UserAccountInitDialogComponent', () => {
@@ -9,6 +9,7 @@ describe('UserAccountInitDialogComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UserAccountInitDialogComponent],
+      imports: [NgbActiveModal]
     }).compileComponents();
   }));
 

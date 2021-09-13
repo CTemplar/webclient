@@ -3,8 +3,8 @@
     class="ui-body is-xs bg-faded cursor-pointer mail-header"
     *ngIf="
       isShowTrashRelatedChildren ||
-      (mailFolder !== mailFolderTypes.TRASH && mail.folder !== mailFolderTypes.TRASH) ||
-      (mailFolder === mailFolderTypes.TRASH && mail.folder === mailFolderTypes.TRASH)
+      (mailFolder !== mailFolderTypes.TRASH && mail?.folder !== mailFolderTypes.TRASH) ||
+      (mailFolder === mailFolderTypes.TRASH && mail?.folder === mailFolderTypes.TRASH)
     "
     (click)="onClick.emit()"
   >
@@ -12,7 +12,7 @@
       <div class="col-8">
         <div class="mailbox-sender-content">
           <ul class="sender-content-list list-styled">
-            <li id="{{ mail.id }}-mail-from" class="font-weight-bold">
+            <li id="{{ mail?.id }}-mail-from" class="font-weight-bold">
               {{ 'settings.compose.from' | translate }}
               <span class="text-secondary"> </span>
               <app-receiver-email-chip
@@ -31,7 +31,7 @@
               </span>
 
               <i
-                *ngIf="mail.is_verified"
+                *ngIf="mail?.is_verified"
                 class="fa fa-check-circle verified-sender"
                 ngbTooltip="{{ 'mail_header.verified_user' | translate }}"
               ></i>

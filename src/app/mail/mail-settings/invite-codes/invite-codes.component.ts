@@ -31,9 +31,9 @@ export class InviteCodesComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
-        this.inviteCodes = userState.inviteCodes;
-        this.inProgress = userState.inProgress;
-        this.isPrime = userState.isPrime;
+        this.inviteCodes = userState?.inviteCodes;
+        this.inProgress = userState?.inProgress;
+        this.isPrime = userState?.isPrime;
         if (this.isPrime && !this.isLoaded) {
           this.isLoaded = true;
           this.store.dispatch(new GetInviteCodes());

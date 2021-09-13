@@ -85,8 +85,8 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
     if (predefinedFolderName) {
       return predefinedFolderName;
     }
-    const selectedCustomFolder = this.customFolders.find(folder => this.folder === folder.name);
-    return selectedCustomFolder ? selectedCustomFolder.name : '';
+    const selectedCustomFolder = this.customFolders?.find(folder => this.folder === folder.name);
+    return selectedCustomFolder?.name ?? '';
   }
 
   constructor(
@@ -105,7 +105,7 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.customFolders = user.customFolders;
+        this.customFolders = user?.customFolders;
       });
 
     /**
@@ -116,20 +116,20 @@ export class AdvancedSearchComponent implements OnInit, OnChanges {
       .pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts = [];
-        if (contactsState.emailContacts === undefined) {
-          for (const x of contactsState.contacts) {
+        if (contactsState?.emailContacts === undefined) {
+          for (const x of contactsState?.contacts ?? []) {
             this.contacts.push({
-              name: x.name,
-              email: x.email,
-              display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name),
+              name: x.name ?? '',
+              email: x.email ?? '',
+              display: EmailFormatPipe.transformToFormattedEmail(x.email ?? '', x.name ?? ''),
             });
           }
         } else {
-          for (const x of contactsState.emailContacts) {
+          for (const x of contactsState?.emailContacts) {
             this.contacts.push({
-              name: x.name,
-              email: x.email,
-              display: EmailFormatPipe.transformToFormattedEmail(x.email, x.name),
+              name: x.name ?? '',
+              email: x.email ?? '',
+              display: EmailFormatPipe.transformToFormattedEmail(x.email ?? '', x.name ?? ''),
             });
           }
         }

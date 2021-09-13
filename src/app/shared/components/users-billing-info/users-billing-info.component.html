@@ -390,7 +390,7 @@
                 <div
                   class="form-group text-center mt-3 mt-sm-4 mb-0"
                   [ngbTooltip]="
-                    paymentMethod === paymentMethodType.BITCOIN && !authState.isAuthenticated && !paymentSuccess
+                    paymentMethod === paymentMethodType.BITCOIN && !authState?.isAuthenticated && !paymentSuccess
                       ? ('billing_info.pay_to_proceed' | translate)
                       : ''
                   "
@@ -401,7 +401,7 @@
                     role="button"
                     [disabled]="
                       inProgress ||
-                      (paymentMethod === paymentMethodType.BITCOIN && authState.isAuthenticated && !paymentSuccess) ||
+                      (paymentMethod === paymentMethodType.BITCOIN && authState?.isAuthenticated && !paymentSuccess) ||
                       paymentMethod === paymentMethodType.MONERO
                     "
                     (click)="submitForm()"

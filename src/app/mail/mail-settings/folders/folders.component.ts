@@ -53,7 +53,7 @@ export class FoldersComponent implements OnInit {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.store.dispatch(new GetCustomFolderMessageCount());
-        if (user.inProgress) {
+        if (user?.inProgress) {
           this.reorderInProgress = true;
           return;
         }
@@ -61,7 +61,9 @@ export class FoldersComponent implements OnInit {
           this.reorderInProgress = false;
           this.reorder = false;
         }
-        this.folders = [...user.customFolders];
+        if (user?.customFolders) {
+          this.folders = [...user?.customFolders];
+        }
       });
     /**
      * Add message count on each custom folder
@@ -71,7 +73,7 @@ export class FoldersComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        this.folders = this.mergeById(this.folders, this.mailState.customFolderMessageCount);
+        this.folders = this.mergeById(this.folders, this.mailState?.customFolderMessageCount);
       });
   }
 

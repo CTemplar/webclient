@@ -28,12 +28,12 @@ export class AutocryptProcessService {
     this.store
       .select(state => state.mailboxes)
       .subscribe((mailBoxesState: MailBoxesState) => {
-        this.mailboxes = mailBoxesState.mailboxes;
+        this.mailboxes = mailBoxesState?.mailboxes;
       });
     this.store
       .select(state => state.contacts)
       .subscribe((contactsState: ContactsState) => {
-        this.contacts = contactsState.contacts;
+        this.contacts = contactsState?.contacts;
       });
   }
 
