@@ -341,10 +341,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response: ComposeMailState) => {
         const draft = response.drafts[this.draftId];
         if (draft) {
-          this.draftMail = draft.draft;
-          this.inProgress = draft.inProgress;
+          this.draftMail = draft?.draft;
+          this.inProgress = draft?.inProgress;
           if (draft.isProcessingAttachments !== undefined) {
-            this.isProcessingAttachments = draft.isProcessingAttachments;
+            this.isProcessingAttachments = draft?.isProcessingAttachments;
             if (!this.isProcessingAttachments && this.closeConfirmModalRef) {
               this.closeConfirmModalRef.dismiss();
             }
@@ -389,18 +389,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.settings = user.settings;
-        this.night_mode = this.settings.is_night_mode;
-        this.blacklist = this.userState.blackList;
-        this.whitelist = this.userState.whiteList;
+        this.settings = user?.settings;
+        this.night_mode = this.settings?.is_night_mode;
+        this.blacklist = this.userState?.blackList;
+        this.whitelist = this.userState?.whiteList;
         // Set html/plain version from user's settings.
         if (
           (this.action === 'FORWARD' && this.is_html === undefined) ||
           (this.draftMail && this.draftMail.is_html === null)
         ) {
-          this.draftMail.is_html = !this.settings.is_html_disabled;
+          this.draftMail.is_html = !this.settings?.is_html_disabled;
         }
-        if (user.settings.is_contacts_encrypted) {
+        if (user?.settings?.is_contacts_encrypted) {
           this.contacts = [];
         }
       });

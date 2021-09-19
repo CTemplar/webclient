@@ -68,7 +68,11 @@ export class ImportPrivateKeyComponent implements OnInit {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
-        if (
+        if (!mailBoxesState) {
+          return;
+        }
+        
+        if (          
           !mailBoxesState.mailboxKeyInProgress &&
           this.mailboxKeyInProgress$.value &&
           !mailBoxesState.mailboxKeyFailure

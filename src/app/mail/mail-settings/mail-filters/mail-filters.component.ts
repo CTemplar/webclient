@@ -77,20 +77,20 @@ export class MailFiltersComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((userState: UserState) => {
-        this.filters = userState.filters;
-        this.customFolders = userState.customFolders;
+        this.filters = userState?.filters;
+        this.customFolders = userState?.customFolders;
         if (
           this.userState &&
-          this.userState.inProgress &&
+          this.userState?.inProgress &&
           this.customFilterModalRef &&
-          !userState.inProgress &&
-          !userState.filtersError
+          !userState?.inProgress &&
+          !userState?.filtersError
         ) {
           this.customFilterModalRef.dismiss();
         }
-        this.errorMessage = userState.filtersError;
+        this.errorMessage = userState?.filtersError;
         this.userState = userState;
-        this.inProgress = this.userState.inProgress;
+        this.inProgress = this.userState?.inProgress;
       });
 
     this.createFilterForm = this.formBuilder.group({

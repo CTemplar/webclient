@@ -139,17 +139,17 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .select(state => state.webSocket)
       .pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
-        if (webSocketState.message && !webSocketState.isClosed) {
-          if (webSocketState.message.mail) {
+        if (webSocketState?.message && !webSocketState?.isClosed) {
+          if (webSocketState?.message?.mail) {
             this.store.dispatch(
               new GetMailsSuccess({
                 limit: this.EMAIL_LIMIT,
                 offset: 0,
-                folder: webSocketState.message.folder,
-                folders: webSocketState.message.folders,
+                folder: webSocketState?.message?.folder,
+                folders: webSocketState?.message?.folders,
                 read: false,
-                mails: [webSocketState.message.mail],
-                total_mail_count: webSocketState.message.total_count,
+                mails: [webSocketState?.message?.mail],
+                total_mail_count: webSocketState?.message?.total_count,
                 is_from_socket: true,
               }),
             );
@@ -157,12 +157,12 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
               webSocketState.message.folder !== MailFolderType.SPAM &&
               this.notificationsPermission === this.notificationPermissionType.GRANTED
             ) {
-              this.showNotification(webSocketState.message.mail, webSocketState.message.folder);
+              this.showNotification(webSocketState?.message?.mail, webSocketState?.message?.folder);
             }
             this.updateUnreadCount(webSocketState);
           } else if (webSocketState.message.is_outbox_mail_sent) {
             this.store.dispatch(
-              new GetUnreadMailsCountSuccess({ ...webSocketState.message.unread_count, updateUnreadCount: true }),
+              new GetUnreadMailsCountSuccess({ ...webSocketState?.message?.unread_count, updateUnreadCount: true }),
             );
             if (this.mailState.currentFolder === MailFolderType.OUTBOX) {
               this.store.dispatch(new GetMails({ limit: this.LIMIT, offset: 0, folder: MailFolderType.OUTBOX }));
@@ -202,14 +202,14 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.currentPlan = user.settings.plan_type || PlanType.FREE;
-        this.EMAIL_LIMIT = this.userState.settings.emails_per_page ? this.userState.settings.emails_per_page : 20;
-        this.customFolders = user.customFolders;
+        this.currentPlan = user?.settings?.plan_type || PlanType.FREE;
+        this.EMAIL_LIMIT = this.userState?.settings?.emails_per_page ? this.userState?.settings?.emails_per_page : 20;
+        this.customFolders = user?.customFolders;
         if (this.breakpointsService.isSM() || this.breakpointsService.isXS()) {
-          this.LIMIT = this.customFolders.length;
+          this.LIMIT = this.customFolders?.length;
         }
-        this.themeToggleService.handleCustomCss(user.settings.theme);
-        if (user.settings) {
+        this.themeToggleService.handleCustomCss(user?.settings?.theme);
+        if (user?.settings) {
           setTimeout(() => {
             this.isloading = false;
           }, 1000);
@@ -220,7 +220,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailboxes: MailBoxesState) => {
-        this.currentMailbox = mailboxes.currentMailbox;
+        this.currentMailbox = mailboxes?.currentMailbox;
       });
 
     this.store
@@ -228,8 +228,8 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        this.starredCount = this.mailState.starredFolderCount ? this.mailState.starredFolderCount : 0;
-        this.currentFolder = mailState.currentFolder;
+        this.starredCount = this.mailState?.starredFolderCount ? this.mailState?.starredFolderCount : 0;
+        this.currentFolder = mailState?.currentFolder;
         this.updateTitle();
       });
     /**
@@ -270,15 +270,15 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   updateTitle(title: string = null) {
     // Set tab title
     if (!title) {
-      title = `${this.mailState.currentFolder ? this.capitalize(this.mailState.currentFolder) : ''} `;
+      title = `${this.mailState?.currentFolder ? this.capitalize(this.mailState?.currentFolder) : ''} `;
       if (
-        this.mailState.currentFolder &&
-        this.mailState.unreadMailsCount[this.mailState.currentFolder] &&
+        this.mailState?.currentFolder &&
+        this.mailState?.unreadMailsCount[this.mailState?.currentFolder] &&
         (this.mailState.currentFolder === 'inbox' ||
-          this.customFolders.some(folder => this.mailState.currentFolder === folder.name))
+          this.customFolders.some(folder => this.mailState?.currentFolder === folder.name))
       ) {
-        title += `(${this.mailState.unreadMailsCount[this.mailState.currentFolder]}) - `;
-      } else if (this.mailState.currentFolder) {
+        title += `(${this.mailState?.unreadMailsCount[this.mailState?.currentFolder]}) - `;
+      } else if (this.mailState?.currentFolder) {
         title += ' - ';
       }
       title += 'CTemplar: Armored Email';
@@ -337,7 +337,7 @@ export class MailSidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   showNotification(mail: Mail, folder: string) {
     let title = mail.sender_display_name ? mail.sender_display_name : mail.sender_display.name;
     if (mail.children?.length > 0) {
-      const lastMail = mail.children[mail.children.length - 1];
+      const lastMail = mail.children[mail.children?.length - 1];
       title = lastMail.sender_display_name ? lastMail.sender_display_name : lastMail.sender_display.name;
     }
     const options = new PushNotificationOptions();

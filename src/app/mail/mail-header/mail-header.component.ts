@@ -82,12 +82,12 @@ export class MailHeaderComponent implements OnInit {
      * Change language with user's setting language
      */
     this.store
-      .select(state => state.user)
+      .select(state => state?.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.isDarkMode$.next(user.settings.is_night_mode);
-        if (user.settings.language) {
-          const language = this.languages.find(item => item.name === user.settings.language);
+        this.isDarkMode$.next(user?.settings?.is_night_mode);
+        if (user?.settings?.language) {
+          const language = this.languages.find(item => item.name === user?.settings?.language);
           if (this.selectedLanguage.name !== language.name || !this.isSetLanguage) {
             this.isSetLanguage = true;
             this.translate.use(language.locale);
@@ -110,7 +110,7 @@ export class MailHeaderComponent implements OnInit {
       });
 
     this.store
-      .select(state => state.search)
+      .select(state => state?.search)
       .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.searchInput.setValue('', { emitEvent: false, emitModelToViewChange: true, emitViewToModelChange: false });

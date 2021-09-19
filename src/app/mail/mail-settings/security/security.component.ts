@@ -111,9 +111,9 @@ export class SecurityComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.isContactsEncrypted = user.settings.is_contacts_encrypted;
-        this.settings$.next(user.settings);
-        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
+        this.isContactsEncrypted = user?.settings?.is_contacts_encrypted;
+        this.settings$.next(user?.settings);
+        this.askLocalCache = user?.settings.use_local_cache && user?.settings?.use_local_cache === 'ASK';
       });
 
     /**
@@ -123,16 +123,16 @@ export class SecurityComponent implements OnInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        this.auth2FA = authState.auth2FA;
-        if (this.passwordChangeInProgress && !authState.passwordChangeInProgress) {
+        this.auth2FA = authState?.auth2FA;
+        if (this.passwordChangeInProgress && !authState?.passwordChangeInProgress) {
           this.changePasswordModalRef.dismiss();
-          if (authState.isChangePasswordError) {
+          if (authState?.isChangePasswordError) {
             this.openPgpService.decryptAllPrivateKeys(undefined, this.changePasswordForm.value.password);
           } else {
             this.openPgpService.clearData();
           }
         }
-        this.passwordChangeInProgress = authState.passwordChangeInProgress;
+        this.passwordChangeInProgress = authState?.passwordChangeInProgress;
       });
 
     this.store
@@ -170,7 +170,7 @@ export class SecurityComponent implements OnInit {
    * Update anti phishing status
    */
   updateAntiPhishing(status: boolean) {
-    if (this.settings$.value.is_anti_phishing_enabled !== status) {
+    if (this.settings$.value?.is_anti_phishing_enabled !== status) {
       this.settings$.value.anti_phishing_phrase =
         getCryptoRandom().toString(36).slice(2, 5) + getCryptoRandom().toString(36).slice(2, 5);
       this.settingsService.updateSettings(this.settings$.value, 'is_anti_phishing_enabled', status);
@@ -212,7 +212,7 @@ export class SecurityComponent implements OnInit {
 
   // == Open decrypt contacts confirmation NgbModal
   openDecryptContactsModal() {
-    if (!this.settings$.value.is_contacts_encrypted) {
+    if (!this.settings$.value?.is_contacts_encrypted) {
       return;
     }
     this.isContactsEncrypted = false;

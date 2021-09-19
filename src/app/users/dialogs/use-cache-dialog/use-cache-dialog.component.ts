@@ -29,8 +29,8 @@ export class UseCacheDialogComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache !== 'ASK';
-        this.settings = user.settings;
+        this.askLocalCache = user?.settings?.use_local_cache && user?.settings?.use_local_cache !== 'ASK';
+        this.settings = user?.settings;
       });
   }
 

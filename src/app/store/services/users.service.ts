@@ -373,7 +373,7 @@ export class UsersService {
   updateOrganizationUser(data: any): Observable<any> {
     return this.http.post<any>(`${apiUrl}auth/update-user/`, {
       user_id: data.user_id,
-      recovery_email: data.recovery_email,
+      recovery_email: data?.recovery_email,
     });
   }
 

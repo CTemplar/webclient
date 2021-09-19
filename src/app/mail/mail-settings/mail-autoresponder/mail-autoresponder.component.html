@@ -145,13 +145,13 @@
       <div class="form-group">
         <button
           (click)="save()"
-          [disabled]="userState.inProgress"
+          [disabled]="userState?.inProgress"
           class="btn btn-secondary btn-sm"
           [translate]="'common.save'"
         >
           Save
         </button>
-        <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
+        <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
       </div>
     </div>
   </div>

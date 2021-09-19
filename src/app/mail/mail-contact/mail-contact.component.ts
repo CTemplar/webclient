@@ -149,7 +149,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
       .pipe(untilDestroyed(this))
       .subscribe((state: UserState) => {
         this.userState = state;
-        this.currentPlan = state.settings.plan_type || PlanType.FREE;
+        this.currentPlan = state?.settings?.plan_type || PlanType.FREE;
       });
     /**
      * Get contacts status from Store
@@ -159,9 +159,9 @@ export class MailContactComponent implements OnInit, AfterViewInit {
       .pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contactsState = contactsState;
-        this.inProgress = contactsState.inProgress;
-        this.MAX_EMAIL_PAGE_LIMIT = contactsState.totalContacts;
-        if (this.contactsCount === contactsState.contacts.length + this.selectedContacts.length) {
+        this.inProgress = contactsState?.inProgress;
+        this.MAX_EMAIL_PAGE_LIMIT = contactsState?.totalContacts;
+        if (this.contactsCount === contactsState?.contacts?.length + this.selectedContacts.length) {
           this.selectedContacts = [];
           this.contactsCount = null;
         }
@@ -170,10 +170,10 @@ export class MailContactComponent implements OnInit, AfterViewInit {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
-        if (mailBoxesState.currentMailbox) {
-          this.currentMailbox = mailBoxesState.currentMailbox;
-        } else if (mailBoxesState.mailboxes.length > 0) {
-          [this.currentMailbox] = mailBoxesState.mailboxes;
+        if (mailBoxesState?.currentMailbox) {
+          this.currentMailbox = mailBoxesState?.currentMailbox;
+        } else if (mailBoxesState?.mailboxes?.length > 0) {
+          [this.currentMailbox] = mailBoxesState?.mailboxes;
         }
       });
   }
@@ -281,10 +281,12 @@ export class MailContactComponent implements OnInit, AfterViewInit {
       );
     } else {
       const receiverEmails = this.selectedContacts.map(contact => contact.email);
-      this.composeMailService.openComposeMailDialog({
-        receivers: receiverEmails,
-        isFullScreen: this.userState.settings.is_composer_full_screen,
-      });
+      if (this.userState) {
+        this.composeMailService.openComposeMailDialog({
+          receivers: receiverEmails,
+          isFullScreen: this.userState?.settings?.is_composer_full_screen,
+        });
+      }
     }
   }
 

@@ -7,6 +7,7 @@ import { UsersCreateAccountComponent } from './users-create-account.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 describe('UsersCreateAccountComponent', () => {
   let component: UsersCreateAccountComponent;
@@ -15,7 +16,7 @@ describe('UsersCreateAccountComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UsersCreateAccountComponent],
-      imports: [FormsModule, ReactiveFormsModule, RouterTestingModule, HttpClientModule, MatSnackBarModule, TranslateModule.forRoot()],
+      imports: [FormsModule, ReactiveFormsModule, MatCheckboxModule, RouterTestingModule, HttpClientModule, MatSnackBarModule, TranslateModule.forRoot()],
       providers: [provideMockStore({})],
     }).compileComponents();
   }));

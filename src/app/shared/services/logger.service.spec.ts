@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { LoggerService } from './logger.service';
 
 describe('LoggerService', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    declarations: [LoggerService],
+  beforeEach(() => TestBed.configureTestingModule({    
+    providers: [LoggerService]
   }));
 
   it('should be created', () => {

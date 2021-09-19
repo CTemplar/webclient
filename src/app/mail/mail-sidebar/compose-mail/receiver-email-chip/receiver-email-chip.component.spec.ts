@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReceiverEmailChipComponent } from './receiver-email-chip.component';
 import { NgbNavModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { EmailFormatPipe } from '../../../../shared/pipes/email-formatting.pipe';
 
 describe('ReceiverEmailChipComponent', () => {
   let component: ReceiverEmailChipComponent;
@@ -11,9 +12,9 @@ describe('ReceiverEmailChipComponent', () => {
 
   beforeEach((() => {
     TestBed.configureTestingModule({
-      declarations: [ReceiverEmailChipComponent],
-      providers: [provideMockStore({})],
-      imports: [HttpClientModule, MatSnackBarModule, NgbNavModule, NgbPopover],
+      declarations: [NgbPopover, EmailFormatPipe, ReceiverEmailChipComponent],
+      providers: [provideMockStore({}), NgbPopover, EmailFormatPipe],
+      imports: [HttpClientModule, MatSnackBarModule, NgbNavModule],
     }).compileComponents();
   }));
 

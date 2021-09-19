@@ -60,7 +60,7 @@ export class ReplySecureMessageComponent implements OnInit {
       .select(state => state.secureMessage)
       .pipe(untilDestroyed(this))
       .subscribe((state: SecureMessageState) => {
-        this.inProgress = state.inProgress || state.isEncryptionInProgress;
+        this.inProgress = state?.inProgress || state.isEncryptionInProgress;
         if (this.secureMessageState) {
           if (this.secureMessageState.getUserKeyInProgress && !state.getUserKeyInProgress) {
             const keys = [
@@ -74,7 +74,7 @@ export class ReplySecureMessageComponent implements OnInit {
             this.store.dispatch(
               new SendSecureMessageReply({ hash: this.hash, secret: this.secret, message: this.message }),
             );
-          } else if (this.secureMessageState.inProgress && !state.inProgress && !state.errorMessage) {
+          } else if (this.secureMessageState?.inProgress && !state?.inProgress && !state?.errorMessage) {
             this.replySuccess.emit(true);
           }
         }

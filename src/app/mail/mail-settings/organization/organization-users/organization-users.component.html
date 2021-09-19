@@ -67,7 +67,7 @@
             </div>
             <div class="col-3 text-dark col-item">
               <div *ngIf="!user.isEditing">
-                {{ user.recovery_email }}
+                {{ user?.recovery_email }}
               </div>
               <div *ngIf="user.isEditing">
                 <input
@@ -195,7 +195,7 @@
                       </div>
                     </div>
 
-                    <ng-container *ngIf="newAddressOptions.inProgress; else showIcons">
+                    <ng-container *ngIf="newAddressOptions?.inProgress; else showIcons">
                       <app-loading-spinner class="username-availability-spinner" [showSpinner]="true">
                       </app-loading-spinner>
                     </ng-container>

@@ -127,10 +127,10 @@
       <button class="btn btn-default btn-sm" type="reset" (click)="d()">
         <span [translate]="'common.cancel'">Cancel</span>
       </button>
-      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState.inProgress">
+      <button class="btn btn-secondary btn-sm" type="submit" [disabled]="userState?.inProgress">
         <span [translate]="'billing_info.submit'">Submit</span>
       </button>
-      <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
+      <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </div>
   </form>
   <!-- when verification code is sent to provided email address -->
@@ -219,12 +219,12 @@
         <button
           class="btn btn-secondary btn-sm"
           type="submit"
-          [disabled]="userState.inProgress"
+          [disabled]="userState?.inProgress"
           [translate]="'billing_info.submit'"
         >
           Submit
         </button>
-        <app-loading-spinner [showSpinner]="userState.inProgress"></app-loading-spinner>
+        <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
       </div>
     </form>
   </ng-template> </ng-template

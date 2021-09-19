@@ -163,7 +163,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
-  selectedThemeName: string = 'default';
+  selectedThemeName = 'default';
 
   constructor(
     private modalService: NgbModal,
@@ -205,25 +205,25 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         this.userState = user;
-        this.WhitelistItems = user.whiteList;
-        this.BlacklistItems = user.blackList;
-        this.settings = user.settings;
-        this.notificationEmail = user.settings.notification_email;
-        this.timeZoneFilter.setValue(user.settings.timezone);
+        this.WhitelistItems = user?.whiteList;
+        this.BlacklistItems = user?.blackList;
+        this.settings = user?.settings;
+        this.notificationEmail = user?.settings?.notification_email;
+        this.timeZoneFilter.setValue(user?.settings?.timezone);
         this.cdr.detectChanges();
-        this.payment = user.payment_transaction;
-        this.cards = user.cards;
-        this.isLifeTimePrime = user.isLifeTimePrime;
-        this.invoices = user.invoices;
-        this.userPlanType = user.settings.plan_type || PlanType.FREE;
-        if (SharedService.PRICING_PLANS && user.settings.plan_type) {
+        this.payment = user?.payment_transaction;
+        this.cards = user?.cards;
+        this.isLifeTimePrime = user?.isLifeTimePrime;
+        this.invoices = user?.invoices;
+        this.userPlanType = user?.settings?.plan_type || PlanType.FREE;
+        if (SharedService.PRICING_PLANS && user?.settings?.plan_type) {
           this.currentPlan = SharedService.PRICING_PLANS[this.userPlanType];
         }
-        if (user.settings.language) {
-          this.selectedLanguage = this.languages.find(item => item.name === user.settings.language);
+        if (user?.settings?.language) {
+          this.selectedLanguage = this.languages.find(item => item.name === user?.settings?.language);
         }
-        if (user.settings.autosave_duration !== 'none' && user.settings.autosave_duration) {
-          const duration = Number(user.settings.autosave_duration);
+        if (user?.settings?.autosave_duration !== 'none' && user?.settings?.autosave_duration) {
+          const duration = Number(user?.settings?.autosave_duration);
           // convert duration to m:s format (1m = 60000ms, 1s = 1000ms)
           const newDuration = duration >= 60_000 ? `${duration / 60_000}m` : `${duration / 1000}s`;
           this.autosave_duration = newDuration;
@@ -231,14 +231,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
           this.autosave_duration = 'none';
         }
         // Custom Theme
-        this.selectedThemeName = CUSTOM_THEMES.find(t => t.value === this.settings.theme)?.name ?? '';
+        this.selectedThemeName = CUSTOM_THEMES.find(t => t.value === this.settings?.theme)?.name ?? '';
       });
 
     this.store
       .select(state => state.timezone)
       .pipe(untilDestroyed(this))
       .subscribe((timezonesState: TimezonesState) => {
-        this.timezones = timezonesState.timezones;
+        this.timezones = timezonesState?.timezones;
       });
 
     this.deleteAccountInfoForm = this.formBuilder.group({
@@ -263,11 +263,11 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       .select(state => state.mail)
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
-        if (mailState.currentSettingsTab) {
-          if (this.selectedTabQueryParams === mailState.currentSettingsTab) {
+        if (mailState?.currentSettingsTab) {
+          if (this.selectedTabQueryParams === mailState?.currentSettingsTab) {
             return;
           }
-          this.selectedTabQueryParams = mailState.currentSettingsTab;
+          this.selectedTabQueryParams = mailState?.currentSettingsTab;
           this.changeUrlParams();
           this.navSet.select(this.selectedTabQueryParams);
           this.cdr.detectChanges();
@@ -316,7 +316,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   onAddNewCard() {
-    if (this.userState.inProgress) {
+    if (this.userState?.inProgress) {
       return;
     }
     this.isAddNewCard = true;
@@ -328,14 +328,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   onDeleteCard(card: CardState) {
-    if (this.userState.inProgress) {
+    if (this.userState?.inProgress) {
       return;
     }
     this.store.dispatch(new CardDelete(card.id));
   }
 
   onMakePrimaryCard(card: CardState) {
-    if (this.userState.inProgress) {
+    if (this.userState?.inProgress) {
       return;
     }
     this.store.dispatch(new CardMakePrimary(card.id));
@@ -360,14 +360,14 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   searchWhitelist() {
     this.WhitelistItems = this.searchWhitelistInput.value
-      ? this.userState.whiteList.filter(item => item.email.includes(this.searchWhitelistInput.value))
-      : this.userState.whiteList;
+      ? this.userState?.whiteList.filter(item => item.email.includes(this.searchWhitelistInput.value))
+      : this.userState?.whiteList;
   }
 
   searchBlacklist() {
     this.BlacklistItems = this.searchBlacklistInput.value
-      ? this.userState.blackList.filter(item => item.email.includes(this.searchBlacklistInput.value))
-      : this.userState.blackList;
+      ? this.userState?.blackList.filter(item => item.email.includes(this.searchBlacklistInput.value))
+      : this.userState?.blackList;
   }
 
   moveToBlacklist(id: number, name: string, email: string) {
@@ -425,7 +425,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     }
     if (key === 'notification_email' && value !== '' && !this.validateEmail(value)) {
       this.store.dispatch(new SnackPush({ message: `"${value}" is not valid email address.` }));
-      this.notificationEmail = this.userState.settings.notification_email;
+      this.notificationEmail = this.userState?.settings?.notification_email;
     } else {
       this.settingsService.updateSettings(this.settings, key, value);
     }
@@ -469,7 +469,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   confirmDeleteAccount() {
     const data = {
       ...this.deleteAccountInfoForm.value,
-      username: this.userState.username,
+      username: this.userState?.username,
     };
     this.store.dispatch(new DeleteAccount(data));
     this.confirmDeleteAccountModalRef.dismiss();
@@ -692,7 +692,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   onSetDarkMode(isDarkMode: boolean) {
-    if (!isDarkMode && this.settings.theme) {
+    if (!isDarkMode && this.settings?.theme) {
       this.settingsService.updateSettings({
         ...this.settings,
         is_night_mode: isDarkMode,

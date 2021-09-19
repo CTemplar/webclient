@@ -104,7 +104,7 @@ export class OrganizationUsersComponent implements OnInit {
         this.customDomains = user?.customDomains
           .filter(item => item.is_domain_verified && item.is_mx_verified)
           .map(item => item.domain);
-        if (this.customDomains.length > 0) {
+        if (this.customDomains?.length > 0) {
           this.addUserForm.get('domain').setValue(this.customDomains[0]);
         }
       });
@@ -206,7 +206,7 @@ export class OrganizationUsersComponent implements OnInit {
   }
 
   openConfirmDeleteModal(user: OrganizationUser) {
-    if (!this.organizationState.inProgress) {
+    if (!this.organizationState?.inProgress) {
       this.selectedUser = user;
       this.confirmDeleteModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,

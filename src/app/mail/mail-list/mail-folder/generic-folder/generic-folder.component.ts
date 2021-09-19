@@ -141,15 +141,15 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
         this.mailState = mailState;
-        this.showProgress = !mailState.loaded || mailState.inProgress;
+        this.showProgress = !mailState?.loaded || mailState?.inProgress;
         if (this.fetchMails) {
-          this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
-          this.mails = [...mailState.mails];
+          this.MAX_EMAIL_PAGE_LIMIT = mailState?.total_mail_count;
+          this.mails = [...mailState?.mails];
           if (this.mails.length > 0) {
             this.getMailReceiverList();
           }
         }
-        if (this.mailState.isMailsMoved) {
+        if (this.mailState?.isMailsMoved) {
           this.store.dispatch(new RevertMailsMoved());
           this.refresh();
         }
@@ -159,7 +159,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         }
         this.setIsSelectAll();
         if (
-          (this.userState && this.userState?.settings && this.userState?.settings.is_subject_auto_decrypt) ||
+          (this.userState && this.userState?.settings && this.userState?.settings?.is_subject_auto_decrypt) ||
           this.isEnabledToDecryptSubject
         ) {
           this.decryptAllSubjects();
@@ -175,13 +175,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       .subscribe((user: UserState) => {
         this.userState = user;
         this.isConversationView = !(this.userState?.settings && !this.userState?.settings?.is_conversation_mode);
-        this.customFolders = user.customFolders;
+        this.customFolders = user?.customFolders;
         if (this.mailFolder === MailFolderType.SEARCH) {
-          for (const folder of user.customFolders) {
+          for (const folder of user?.customFolders) {
             this.folderColors[folder.name] = folder.color;
           }
         }
-        if (this.fetchMails && this.userState?.settings && user.settings?.emails_per_page) {
+        if (this.fetchMails && this.userState?.settings && user?.settings?.emails_per_page) {
           this.LIMIT = user?.settings.emails_per_page;
           if (this.LIMIT && this.mailFolder !== MailFolderType.SEARCH && !this.isInitialized) {
             this.isInitialized = true;
@@ -508,15 +508,13 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
             queryParams: queryParameters,
           },
         );
+      } else if (this.isKeyDownCtrlBtn) {
+        window.open(`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`, '_blank');
       } else {
-        if (this.isKeyDownCtrlBtn) {
-          window.open(`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`, '_blank');
-        } else {
-          this.store.dispatch(new GetMailDetailSuccess(mail));
-          this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
-            queryParams: queryParameters,
-          });
-        }
+        this.store.dispatch(new GetMailDetailSuccess(mail));
+        this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
+          queryParams: queryParameters,
+        });
       }
     }
   }
@@ -663,7 +661,8 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
           if (currentMail.id !== selectedMail.id && currentMail.marked) {
             if (closestIndex === -1) {
               return index;
-            } else if (Math.abs(closestIndex - selectedMailIndex) > Math.abs(index - selectedMailIndex)) {
+            }
+            if (Math.abs(closestIndex - selectedMailIndex) > Math.abs(index - selectedMailIndex)) {
               return index;
             }
           }

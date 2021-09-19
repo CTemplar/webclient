@@ -136,13 +136,15 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
         this.advancedSettingInProgress = contactsState?.advancedSettingInProgress;
         this.selectedContactPulbicKeys = contactsState?.selectedContactKeys;
 
-        for (const key of this.selectedContactPulbicKeys) {
-          this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails
-            ? key.parsed_emails.includes(this.selectedContact.email)
-            : false;
-          this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(
-            key.public_key,
-          )}`;
+        if (this.selectedContactPulbicKeys !== null && this.selectedContactPulbicKeys !== undefined) {
+          for (const key of this.selectedContactPulbicKeys) {
+            this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails
+              ? key.parsed_emails.includes(this.selectedContact.email)
+              : false;
+            this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(
+              key.public_key,
+            )}`;
+          }
         }
       });
   }

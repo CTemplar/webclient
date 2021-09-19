@@ -58,7 +58,7 @@
           <a routerLink="/mail/draft/page/1" class="mailbox-sidebar-nav-link" (click)="toggleMenu()">
             <i class="icon icon-draft"></i>
             <span class="mailbox-sidebar-nav-label">{{ 'mail_sidebar.draft' | translate }}</span>
-            <span *ngIf="mailState?.unreadMailsCount?.draft" class="badge">
+            <span *ngIf="mailState?.unreadMailsCount && mailState?.unreadMailsCount?.draft" class="badge">
               {{ mailState?.unreadMailsCount?.draft }}
             </span>
           </a>
@@ -186,8 +186,8 @@
             </a>
           </div>
         </li>
-        <li class="mailbox-sidebar-nav-item" *ngIf="customFolders.length > 3">
-          <a (click)="toggleDisplayLimit(customFolders.length)" class="mailbox-sidebar-nav-link">
+        <li class="mailbox-sidebar-nav-item" *ngIf="customFolders?.length > 3">
+          <a (click)="toggleDisplayLimit(customFolders?.length)" class="mailbox-sidebar-nav-link">
             <i class="icon icon-more ml-1"></i>
             <span class="mailbox-sidebar-nav-label text-capitalize">
               {{

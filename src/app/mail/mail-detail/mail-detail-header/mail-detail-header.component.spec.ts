@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore  } from '@ngrx/store/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MomentDatePipe } from '../../../shared/pipes/moment-date.pipe';
 
 import { MailDetailHeaderComponent } from './mail-detail-header.component';
 
@@ -10,8 +11,8 @@ describe('MailDetailHeaderComponent', () => {
 
   beforeEach((() => {
     TestBed.configureTestingModule({
-      declarations: [MailDetailHeaderComponent],
-      providers: [provideMockStore({}), TranslateService],
+      declarations: [MomentDatePipe, MailDetailHeaderComponent],
+      providers: [provideMockStore({}), MomentDatePipe, TranslateService],
       imports: [TranslateModule.forRoot()]
     }).compileComponents();
   }));

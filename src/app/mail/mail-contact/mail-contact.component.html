@@ -46,18 +46,18 @@
     <div class="mailbox-sidebar-footer text-center">
       <div class="mailbox-sidebar-footer-text mb-0 mb-md-1 visible-in-sm">
         <span>{{ 'mail_sidebar.used' | translate }}</span>
-        <div class="text-white mt-1">{{ userState.settings?.used_storage | filesize }}</div>
+        <div class="text-white mt-1">{{ userState?.settings?.used_storage | filesize }}</div>
       </div>
       <div class="mailbox-sidebar-footer-text mb-1 hidden-in-sm">
         <span>{{ 'common.used_storage' | translate }}</span
-        >: {{ userState.settings?.used_storage | filesize }}
+        >: {{ userState?.settings?.used_storage | filesize }}
         <span>{{ 'settings.of' | translate }}</span>
-        {{ userState.settings.allocated_storage | filesize }}
+        {{ userState?.settings?.allocated_storage | filesize }}
       </div>
       <a
         routerLink="/mail/settings/dashboard-and-plans"
         class="btn-link text-white hidden-in-sm"
-        *ngIf="!userState.isPrime"
+        *ngIf="!userState?.isPrime"
       >
         <small>
           <u>{{ 'common.upgrade_account' | translate }}</u>
@@ -155,7 +155,7 @@
                   <i class="icon icon-chevron-left"></i>
                 </button>
                 <button
-                  [disabled]="LIMIT > contactsState.contacts.length"
+                  [disabled]="LIMIT > contactsState?.contacts.length"
                   role="button"
                   class="mail-nav-control-next"
                   (click)="nextPage()"
@@ -203,7 +203,7 @@
             <ng-container *ngIf="!isMobile">
               <tr
                 class="mail-list-row is-unread"
-                *ngFor="let contact of contactsState.contacts"
+                *ngFor="let contact of contactsState?.contacts"
                 [class.active-contact]="selectedContact == contact"
               >
                 <td (click)="checkContact(contact)">
@@ -275,7 +275,7 @@
             <ng-container *ngIf="isMobile">
               <tr
                 class="mail-list-row is-unread"
-                *ngFor="let contact of contactsState.contacts"
+                *ngFor="let contact of contactsState?.contacts"
                 [class.active-contact]="selectedContact == contact"
               >
                 <td (click)="checkContact(contact)">

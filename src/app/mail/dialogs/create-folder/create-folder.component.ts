@@ -49,7 +49,7 @@ export class CreateFolderComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        if (this.userState && this.userState.inProgress && !user.inProgress) {
+        if (this.userState && this.userState?.inProgress && !user?.inProgress) {
           if (this.callback) {
             this.callback.self[this.callback.method](this.customFolderForm.value.folderName);
           }

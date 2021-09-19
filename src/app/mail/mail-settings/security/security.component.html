@@ -48,7 +48,7 @@
           <div class="col-sm-7 col-md-5">
             <div class="row row-sm">
               <a
-                *ngIf="!(settings$ | async).enable_2fa"
+                *ngIf="!(settings$ | async)?.enable_2fa"
                 (click)="get2FASecret(); auth2FAForm = { auth2FAStep: 1, enable_2fa: true }"
                 href="javascript:void(0);"
                 class="col-12 text-uppercase btn-link"
@@ -59,7 +59,7 @@
                 </strong>
               </a>
               <a
-                *ngIf="(settings$ | async).enable_2fa"
+                *ngIf="(settings$ | async)?.enable_2fa"
                 (click)="disable2FA()"
                 href="javascript:void(0);"
                 class="col-12 text-uppercase btn-link"
@@ -81,7 +81,7 @@
               Recovery email
             </label>
           </div>
-          <form class="col-sm-7 col-md-5" autocomplete="off">
+          <form class="col-sm-7 col-md-5" autocomplete="off" *ngIf="settings$?.value?.recovery_email">
             <input
               class="form-control form-control-sm"
               id="recoveryMail"
@@ -319,7 +319,7 @@
                     name="[phishingProtection]"
                     type="radio"
                     (click)="updateAntiPhishing(true)"
-                    [checked]="(settings$ | async).is_anti_phishing_enabled"
+                    [checked]="(settings$ | async)?.is_anti_phishing_enabled"
                   />
                   <label for="phishingProtection1" [translate]="'common.enabled'">Enabled</label>
                 </div>
@@ -332,7 +332,7 @@
                     name="[phishingProtection]"
                     type="radio"
                     (click)="updateAntiPhishing(false)"
-                    [checked]="!(settings$ | async).is_anti_phishing_enabled"
+                    [checked]="!(settings$ | async)?.is_anti_phishing_enabled"
                   />
                   <label for="phishingProtection2" [translate]="'common.disabled'">Disabled</label>
                 </div>
@@ -340,7 +340,7 @@
             </div>
           </div>
         </div>
-        <div class="row align-items-center my-3" *ngIf="(settings$ | async).is_anti_phishing_enabled">
+        <div class="row align-items-center my-3" *ngIf="(settings$ | async)?.is_anti_phishing_enabled">
           <div class="col-sm-3">
             <label class="form-label mb-sm-0" [translate]="'settings.security.phishing_phrase_title'">
               Anti Phishing Phrase

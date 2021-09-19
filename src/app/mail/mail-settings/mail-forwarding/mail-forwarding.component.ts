@@ -50,15 +50,15 @@ export class MailForwardingComponent implements OnInit {
         this.errorMessage = user.emailForwardingErrorMessage;
         if (
           this.isCodeFormSubmitted &&
-          this.userState.inProgress &&
-          !user.inProgress &&
-          !user.emailForwardingErrorMessage
+          this.userState?.inProgress &&
+          !user?.inProgress &&
+          !user?.emailForwardingErrorMessage
         ) {
           this.addAddressModalRef.dismiss();
           this.isCodeFormSubmitted = false;
         }
         this.userState = user;
-        this.settings = user.settings;
+        this.settings = user?.settings;
       });
     this.emailForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(VALID_EMAIL_REGEX)]],

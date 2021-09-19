@@ -69,6 +69,10 @@ export class ComposeMailService {
     this.store
       .select((state: AppState) => state.composeMail)
       .subscribe((response: ComposeMailState) => {
+        if (!response?.drafts) {
+          return;
+        }
+
         Object.keys(response.drafts).forEach((key: any) => {
           const { usersKeys, drafts } = response;
           const draftMail: Draft = drafts[key];
@@ -254,7 +258,7 @@ export class ComposeMailService {
     this.store
       .select((state: AppState) => state.contacts)
       .subscribe((contactsState: ContactsState) => {
-        this.contacts = contactsState.contacts;
+        this.contacts = contactsState?.contacts;
       });
   }
 

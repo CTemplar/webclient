@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CookieLawModule } from 'angular2-cookie-law';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
@@ -86,6 +86,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MessageDecryptService,
     AutocryptProcessService,
     ElectronService,
+    TranslateService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CancelPendingRequestInterceptor, multi: true },
     { provide: ErrorHandler, useFactory: errorHandlerFactory, deps: [] },

@@ -163,7 +163,7 @@ export class AddressesSignatureComponent implements OnInit {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailboxesState: MailBoxesState) => {
-        if (mailboxesState.isUpdatingOrder) {
+        if (mailboxesState && mailboxesState.isUpdatingOrder) {
           this.reorderInProgress = true;
           return;
         }
@@ -173,15 +173,15 @@ export class AddressesSignatureComponent implements OnInit {
         }
         if (
           this.mailBoxesState &&
-          this.mailBoxesState.inProgress &&
-          !mailboxesState.inProgress &&
+          this.mailBoxesState?.inProgress &&
+          !mailboxesState?.inProgress &&
           this.newAddressOptions.isBusy
         ) {
           this.onDiscardNewAddress();
         }
         this.mailBoxesState = mailboxesState;
-        this.mailboxes = mailboxesState.mailboxes;
-        if (this.mailboxes.length > 0) {
+        this.mailboxes = mailboxesState?.mailboxes;
+        if (this.mailboxes?.length > 0) {
           if (this.aliasKeyExpandedStatus.length === 0) {
             this.aliasKeyExpandedStatus = Array.from({ length: this.mailboxes.length }, () => false);
           }
@@ -206,32 +206,34 @@ export class AddressesSignatureComponent implements OnInit {
             if (this.setPrimaryKeyConfirmModalRef) this.setPrimaryKeyConfirmModalRef.dismiss();
           }
         }
-        this.mailboxKeyInProgress = mailboxesState.mailboxKeyInProgress;
-        this.mailboxKeysMap = mailboxesState.mailboxKeysMap;
-        if (this.inProgress && !mailboxesState.inProgress) {
+        this.mailboxKeyInProgress = mailboxesState?.mailboxKeyInProgress;
+        this.mailboxKeysMap = mailboxesState?.mailboxKeysMap;
+        if (this.inProgress && !mailboxesState?.inProgress) {
           if (this.setAutocryptConfirmModalRef) {
             this.setAutocryptConfirmModalRef.dismiss();
           } else if (this.manageMailboxModalRef) {
             this.manageMailboxModalRef.dismiss();
           }
         }
-        this.inProgress = mailboxesState.inProgress;
+        this.inProgress = mailboxesState?.inProgress;
       });
 
-    /**
-     * Set customeDomains list from user's state
-     */
-    this.store
-      .select(state => state.user)
-      .pipe(untilDestroyed(this))
-      .subscribe((user: UserState) => {
-        this.userState = user;
-        this.settings = user.settings;
-        this.customDomains = user.customDomains
-          .filter(item => item.is_domain_verified && item.is_mx_verified)
-          .map(item => item.domain);
-        this.customDomains = [PRIMARY_DOMAIN, ...this.customDomains];
-      });
+    if (this.customDomains !== undefined && this.customDomains !== null) {
+      /**
+       * Set customeDomains list from user's state
+       */
+      this.store
+        .select(state => state.user)
+        .pipe(untilDestroyed(this))
+        .subscribe((user: UserState) => {
+          this.userState = user;
+          this.settings = user?.settings;
+          this.customDomains = user?.customDomains
+            .filter(item => item?.is_domain_verified && item?.is_mx_verified)
+            .map(item => item?.domain);
+          this.customDomains = [PRIMARY_DOMAIN, ...this.customDomains];
+        });
+    }
 
     this.newAddressForm = this.formBuilder.group({
       username: [

@@ -180,12 +180,14 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           this.payment = userState?.payment_transaction;
         }
         this.promoCode = userState?.promoCode;
-        this.promoCode.new_amount = this.promoCode?.new_amount < 0 ? 0 : this.promoCode?.new_amount;
-        this.isNeedPaymentInformationWithPromoCode = !(
-          this.promoCode?.is_valid &&
-          this.promoCode?.new_amount === 0 &&
-          this.promoCode?.new_amount_btc === 0
-        );
+        if (this.promoCode) {
+          this.promoCode.new_amount = this.promoCode?.new_amount < 0 ? 0 : this.promoCode?.new_amount;
+          this.isNeedPaymentInformationWithPromoCode = !(
+            this.promoCode?.is_valid &&
+            this.promoCode?.new_amount === 0 &&
+            this.promoCode?.new_amount_btc === 0
+          );
+        }
         this.isPrime = userState?.isPrime;
       });
 
@@ -201,18 +203,18 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.signupState = authState?.signupState;
 
         const { queryParams } = this.activatedRoute.snapshot;
-        this.planType = this.planType || this.signupState.plan_type || queryParams.plan || PlanType.PRIME;
+        this.planType = this.planType || this.signupState?.plan_type || queryParams.plan || PlanType.PRIME;
         this.paymentType =
-          this.paymentType || this.signupState.payment_type || queryParams.billing || PaymentType.ANNUALLY;
-        this.paymentMethod = this.paymentMethod || this.signupState.payment_method || PaymentMethod.STRIPE;
-        this.currency = this.currency || this.signupState.currency || 'USD';
-        if (!this.promoCode.value) {
+          this.paymentType || this.signupState?.payment_type || queryParams.billing || PaymentType.ANNUALLY;
+        this.paymentMethod = this.paymentMethod || this.signupState?.payment_method || PaymentMethod.STRIPE;
+        this.currency = this.currency || this.signupState?.currency || 'USD';
+        if (this.promoCode?.value !== undefined && this.promoCode?.value !== null && !this.promoCode?.value) {
           this.promoCode.value = queryParams[PROMO_CODE_KEY] || localStorage.getItem(PROMO_CODE_KEY);
           this.validatePromoCode();
         }
 
-        if (SharedService.PRICING_PLANS && (this.signupState.plan_type || this.planType)) {
-          this.currentPlan = SharedService.PRICING_PLANS[this.signupState.plan_type || this.planType];
+        if (SharedService.PRICING_PLANS && (this.signupState?.plan_type || this.planType)) {
+          this.currentPlan = SharedService.PRICING_PLANS[this.signupState?.plan_type || this.planType];
         }
 
         this.authState = authState;
@@ -233,13 +235,13 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((bitcoinState: BitcoinState) => {
         this.bitcoinState = bitcoinState;
-        if (this.promoCode.is_valid) {
-          this.promoCode.new_amount = this.promoCode.new_amount < 0 ? 0 : this.promoCode.new_amount;
+        if (this.promoCode?.is_valid && this.promoCode?.new_amount) {
+          this.promoCode.new_amount = this.promoCode?.new_amount < 0 ? 0 : this.promoCode?.new_amount;
           this.bitcoinState.bitcoinRequired = this.promoCode?.new_amount_btc;
         }
         this.checkTransactionResponse = this.bitcoinState?.checkTransactionResponse;
 
-        if (this.checkTransactionResponse && this.checkTransactionResponse.status === TransactionStatus.RECEIVED) {
+        if (this.checkTransactionResponse && this.checkTransactionResponse?.status === TransactionStatus.RECEIVED) {
           this.paymentSuccess = true;
         }
       });
@@ -478,8 +480,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       return;
     }
     const data: any = { from_address: this.bitcoinState.newWalletAddress };
-    if (this.promoCode && this.promoCode.is_valid && this.promoCode.value) {
-      data.promo_code = this.promoCode.value;
+    if (this.promoCode && this.promoCode?.is_valid && this.promoCode?.value) {
+      data.promo_code = this.promoCode?.value;
     }
     // check after every one minute
     this.store.dispatch(new CheckTransaction(data));
@@ -516,7 +518,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   selectPaymentType(paymentType: PaymentType) {
     this.paymentType = paymentType;
     this.getUpgradeAmount();
-    if (this.promoCode.is_valid) {
+    if (this.promoCode?.is_valid) {
       this.validatePromoCode();
     }
   }
@@ -572,12 +574,12 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   validatePromoCode() {
-    if (this.promoCode.value) {
+    if (this.promoCode?.value) {
       this.store.dispatch(
         new ValidatePromoCode({
           plan_type: this.planType,
           payment_type: this.paymentType,
-          promo_code: this.promoCode.value,
+          promo_code: this.promoCode?.value,
         }),
       );
     }

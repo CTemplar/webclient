@@ -58,7 +58,7 @@ export class SaveListContactComponent implements OnInit {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((state: UserState) => {
-        if (this.inProgress && !state.inProgress) {
+        if (this.inProgress && !state?.inProgress) {
           this.inProgress = false;
           if (!state.isError) {
             this.notificationService.showSnackBar(

@@ -50,11 +50,11 @@
                               <div class="info-list-text info-list-label" [translate]="'settings.username'">
                                 Username
                               </div>
-                              <div class="info-list-text info-list-val">{{ userState.username }}</div>
+                              <div class="info-list-text info-list-val">{{ userState?.username }}</div>
                             </li>
                             <li class="info-list-item">
                               <div class="info-list-text info-list-label">Recovery Email</div>
-                              <div class="info-list-text info-list-val" *ngIf="userState.isLoaded">
+                              <div class="info-list-text info-list-val" *ngIf="userState?.isLoaded">
                                 <div class="row" *ngIf="isEditingRecoveryEmail; else recoveryEmailTemplate">
                                   <form autocomplete="off" class="col-10">
                                     <input
@@ -74,9 +74,9 @@
                                   </a>
                                 </div>
                                 <ng-template #recoveryEmailTemplate class="-align-right">
-                                  <div class="row" *ngIf="settings.recovery_email; else addRecoveryEmailTemplate">
+                                  <div class="row" *ngIf="settings?.recovery_email; else addRecoveryEmailTemplate">
                                     <div class="col-10 info-list-text info-list-val">
-                                      {{ settings.recovery_email }}
+                                      {{ settings?.recovery_email }}
                                     </div>
                                     <a class="col-2" (click)="toggleRecoveyEmailEdit()">
                                       <u>Edit</u>
@@ -93,8 +93,8 @@
                             <li class="info-list-item">
                               <div class="info-list-text info-list-label" [translate]="'settings.domains'">Domains</div>
                               <div class="info-list-text info-list-val">
-                                <span *ngIf="userState.isPrime">{{ settings?.domain_count }}</span>
-                                <span *ngIf="!userState.isPrime" [translate]="'settings.none'">None</span>
+                                <span *ngIf="userState?.isPrime">{{ settings?.domain_count }}</span>
+                                <span *ngIf="!userState?.isPrime" [translate]="'settings.none'">None</span>
                               </div>
                             </li>
                             <li class="info-list-item align-items-start">
@@ -103,7 +103,7 @@
                               </div>
                               <div class="info-list-text info-list-val">
                                 <div
-                                  *ngIf="userState.isPrime"
+                                  *ngIf="userState?.isPrime"
                                   class="ng-tooltips-holder d-inline-block"
                                   placement="top"
                                 >
@@ -111,7 +111,7 @@
                                     {{ settings?.email_count }}
                                   </div>
                                 </div>
-                                <div *ngIf="!userState.isPrime" class="d-inline-block">
+                                <div *ngIf="!userState?.isPrime" class="d-inline-block">
                                   <div class="info-list-val-text" [translate]="'settings.address_one'">One</div>
                                 </div>
                               </div>
@@ -127,10 +127,10 @@
                                   <div
                                     class="progress-bar"
                                     role="progressbar"
-                                    [style.width.%]="(settings.used_storage / settings.allocated_storage) * 100"
-                                    [attr.aria-valuenow]="settings.used_storage"
+                                    [style.width.%]="(settings?.used_storage / settings?.allocated_storage) * 100"
+                                    [attr.aria-valuenow]="settings?.used_storage"
                                     aria-valuemin="0"
-                                    [attr.aria-valuemax]="settings.allocated_storage"
+                                    [attr.aria-valuemax]="settings?.allocated_storage"
                                   ></div>
                                 </div>
                               </div>
@@ -218,7 +218,7 @@
                               <a
                                 *ngIf="
                                   !isLifeTimePrime &&
-                                  (!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin)
+                                  (!settings?.recurrence_billing || payment?.payment_method === paymentMethod?.bitcoin)
                                 "
                                 [ngbTooltip]="'settings.extend_billing_cycle' | translate"
                                 class="float-right"
@@ -247,7 +247,7 @@
                                       type="radio"
                                       [disabled]="isLifeTimePrime"
                                       (click)="updateSettings('recurrence_billing', true)"
-                                      [checked]="settings.recurrence_billing && !isLifeTimePrime"
+                                      [checked]="settings?.recurrence_billing && !isLifeTimePrime"
                                     />
                                     <label for="enableRecurringBilling" [translate]="'common.yes'">Yes</label>
                                   </div>
@@ -261,7 +261,7 @@
                                       type="radio"
                                       [disabled]="isLifeTimePrime"
                                       (click)="updateSettings('recurrence_billing', false)"
-                                      [checked]="!settings.recurrence_billing || isLifeTimePrime"
+                                      [checked]="!settings?.recurrence_billing || isLifeTimePrime"
                                     />
                                     <label for="disableRecurringBilling" [translate]="'common.no'">No</label>
                                   </div>
@@ -374,14 +374,14 @@
             [showCurrentPlan]="true"
             [userPlanType]="userPlanType"
             [isLifetimePrime]="isLifeTimePrime"
-            [selectedCurrency]="payment.currency"
-            [paymentType]="payment.payment_type"
+            [selectedCurrency]="payment?.currency"
+            [paymentType]="payment?.payment_type"
             [paymentMethod]="
-              payment.payment_method === 'stripe'
+              payment?.payment_method === 'stripe'
                 ? paymentMethod.STRIPE
-                : payment.payment_method === 'bitcoin'
+                : payment?.payment_method === 'bitcoin'
                 ? paymentMethod.BITCOIN
-                : payment.payment_method
+                : payment?.payment_method
             "
             [openBillingInfoInModal]="true"
           >
@@ -1346,8 +1346,8 @@
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
             <div class="form-content-holder">
-              <span>{{ userState.settings.referral_code }}</span>
-              <button mat-icon-button (click)="copyToClipboard(userState.settings.referral_code)" class="copy-btn">
+              <span>{{ userState?.settings?.referral_code }}</span>
+              <button mat-icon-button (click)="copyToClipboard(userState?.settings?.referral_code)" class="copy-btn">
                 <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
               </button>
             </div>

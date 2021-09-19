@@ -33,7 +33,7 @@ export class ThemeToggleService {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        const isDarkMode = user.settings.is_night_mode;
+        const isDarkMode = user?.settings?.is_night_mode;
         if (this.isDarkMode !== isDarkMode) {
           this.isDarkMode = isDarkMode;
           this.updateTheme(this.isDarkMode);
@@ -69,7 +69,9 @@ export class ThemeToggleService {
 
   public handleCustomCss(theme: string) {
     if (!theme || theme === 'default') {
-      document.querySelector('#ctemplar-custom-css').innerHTML = '';
+      if (document.querySelector('#ctemplar-custom-css')?.innerHTML) {
+        document.querySelector('#ctemplar-custom-css').innerHTML = '';
+      }
     } else {
       fetch(`assets/theme/${theme}.css`)
         .then(response => response.text())

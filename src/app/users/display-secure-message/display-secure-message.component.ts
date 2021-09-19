@@ -64,7 +64,7 @@ export class DisplaySecureMessageComponent implements OnInit {
   // TODO: Merge with mail-detail and compose-mail components
   decryptAttachment(attachment: Attachment) {
     if (this.decryptedAttachments[attachment.id]) {
-      if (!this.decryptedAttachments[attachment.id].inProgress) {
+      if (!this.decryptedAttachments[attachment.id]?.inProgress) {
         this.downloadAttachment(this.decryptedAttachments[attachment.id]);
       }
     } else {

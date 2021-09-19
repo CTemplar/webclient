@@ -165,11 +165,11 @@ export class UsersCreateAccountComponent implements OnInit {
     }
 
     if (
-      this.signupState$.value.usernameExists !== false ||
+      this.signupState$.value?.usernameExists !== false ||
       this.signupForm.invalid ||
       !this.isConfirmedPrivacy ||
       (!this.isRecoveryEmail &&
-        (!this.signupForm.get('recoveryEmail').value || this.signupForm.get('recoveryEmail').invalid))
+        (!this.signupForm.get('moreInfoCheckbox').value || this.signupForm.get('moreInfoCheckbox').invalid))
     ) {
       return;
     }

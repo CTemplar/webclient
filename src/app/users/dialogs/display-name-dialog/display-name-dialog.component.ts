@@ -45,19 +45,19 @@ export class DisplayNameDialogComponent implements OnInit, OnDestroy {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailboxesState: MailBoxesState) => {
-        this.inProgress = mailboxesState.inProgress;
-        this.selectedMailbox = mailboxesState.currentMailbox;
+        this.inProgress = mailboxesState?.inProgress;
+        this.selectedMailbox = mailboxesState?.currentMailbox;
         if (this.selectedMailbox) {
           this.email = this.selectedMailbox.email;
-        } else if (mailboxesState.mailboxes && mailboxesState.mailboxes[0]) {
-          this.email = mailboxesState.mailboxes[0].email;
+        } else if (mailboxesState?.mailboxes && mailboxesState?.mailboxes[0]) {
+          this.email = mailboxesState?.mailboxes[0]?.email;
         }
       });
     this.store
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        this.recoveryKey = authState.recovery_key;
+        this.recoveryKey = authState?.recovery_key;
       });
   }
 

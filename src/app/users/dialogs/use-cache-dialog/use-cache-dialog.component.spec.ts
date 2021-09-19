@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UseCacheDialogComponent } from './use-cache-dialog.component';
+import { StoreModule ,Store, StateObservable, ActionsSubject, ReducerManager, ReducerManagerDispatcher  } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('UseCacheDialogComponent', () => {
   let component: UseCacheDialogComponent;
@@ -9,7 +11,8 @@ describe('UseCacheDialogComponent', () => {
   beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [UseCacheDialogComponent],
-      imports: [NgbActiveModal]
+      providers: [NgbActiveModal, Store, StateObservable, ActionsSubject, ReducerManager, ReducerManagerDispatcher],
+      imports: [StoreModule.forRoot({}), TranslateModule.forRoot()]
     }).compileComponents();
   }));
 

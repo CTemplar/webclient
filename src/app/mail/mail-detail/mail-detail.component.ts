@@ -238,13 +238,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((webSocketState: WebSocketState) => {
         if (
-          webSocketState.message &&
-          !webSocketState.isClosed &&
+          webSocketState?.message &&
+          !webSocketState?.isClosed &&
           this.mail &&
-          (webSocketState.message.id === this.mail.id || webSocketState.message.parent_id === this.mail.id)
+          (webSocketState?.message?.id === this.mail.id || webSocketState?.message?.parent_id === this.mail.id)
         ) {
-          this.store.dispatch(new GetMailDetailSuccess(webSocketState.message.mail));
-          if (!webSocketState.message.mail.read) {
+          this.store.dispatch(new GetMailDetailSuccess(webSocketState?.message?.mail));
+          if (!webSocketState?.message?.mail?.read) {
             this.markAsRead(this.mail.id);
           }
         }
@@ -256,8 +256,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .select(state => state.mail)
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
-        this.mails = [...mailState.mails];
-        if (this.shouldChangeMail && mailState.loaded) {
+        if (mailState?.mails !== undefined && mailState?.mails !== null) {
+          this.mails = [...mailState?.mails];
+        }
+
+        if (this.shouldChangeMail && mailState?.loaded) {
           if (this.shouldChangeMail === 1) {
             this.mail.id = this.mails[this.mails.length - 1].id;
             this.changeMail(this.mails.length - 1);
@@ -267,18 +270,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
           this.shouldChangeMail = 0;
         }
-        if (mailState.mailDetail && mailState.noUnreadCountChange) {
-          this.mail = mailState.mailDetail;
+        if (mailState?.mailDetail && mailState?.noUnreadCountChange) {
+          this.mail = mailState?.mailDetail;
           // Setting the password encryption mail or not
           this.isPasswordEncrypted[this.mail.id] = !!this.mail.encryption;
           if (!this.isPasswordEncrypted[this.mail.id] && this.mail.is_subject_encrypted) {
             this.scrambleText('subject-scramble');
           }
 
-          this.mail.has_children = this.mail.has_children || (this.mail.children && this.mail.children.length > 0);
-          const decryptedContent = mailState.decryptedContents[this.mail.id];
-          if (this.mail.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
-            this.decryptedContents[this.mail.id] = this.mail.content;
+          this.mail.has_children = this.mail?.has_children || (this.mail?.children && this.mail?.children?.length > 0);
+          const decryptedContent = mailState?.decryptedContents[this.mail.id];
+          if (this.mail?.folder === MailFolderType.OUTBOX && !this.mail.is_encrypted) {
+            this.decryptedContents[this.mail?.id] = this.mail?.content;
           } else {
             // Do decrypt, if not has children && needed
             if (
@@ -286,7 +289,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               !this.mail.has_children &&
               this.mail.content !== undefined &&
               !this.isDecrypting[this.mail.id] &&
-              (!decryptedContent || (!decryptedContent.inProgress && decryptedContent.content === undefined))
+              (!decryptedContent || (!decryptedContent?.inProgress && decryptedContent.content === undefined))
             ) {
               this.isDecrypting[this.mail.id] = true;
               this.messageDecryptService.decryptMessage(this.mail).subscribe(
@@ -298,7 +301,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               );
             }
             // If done to decrypt, or already existed decrypted content
-            if (decryptedContent && !decryptedContent.inProgress && decryptedContent.content !== undefined) {
+            if (decryptedContent && !decryptedContent?.inProgress && decryptedContent.content !== undefined) {
               if (this.mail.is_html) {
                 const replacedContentWithAnchorTag = decryptedContent.content.replace(
                   /<a /g,
@@ -390,7 +393,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 !this.isPasswordEncrypted[this.mail.id] &&
                 !this.isDecrypting[this.mail.id] &&
                 this.mail.content &&
-                (!decryptedContent || (!decryptedContent.inProgress && !decryptedContent.content && this.mail.content))
+                (!decryptedContent || (!decryptedContent?.inProgress && !decryptedContent.content && this.mail.content))
               ) {
                 this.isDecrypting[this.mail.id] = true;
                 this.messageDecryptService
@@ -405,11 +408,11 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           } else if (!this.mail.has_children && this.mailExpandedStatus[this.mail.id] === undefined)
             this.mailExpandedStatus[this.mail.id] = true;
         }
-        if (mailState.mailDetailLoaded) {
+        if (mailState?.mailDetailLoaded) {
           this.progressBar = true;
         }
-        if (this.mails.length > 0 && this.mail && mailState.loaded) {
-          this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
+        if (this.mails.length > 0 && this.mail && mailState?.loaded) {
+          this.MAX_EMAIL_PAGE_LIMIT = mailState?.total_mail_count;
           this.currentMailIndex = this.mails.findIndex(item => item.id === this.mail.id);
           this.currentMailNumber = this.EMAILS_PER_PAGE * (this.page - 1) + this.currentMailIndex + 1 || '-';
         }
@@ -433,8 +436,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .select(state => state.mailboxes)
       .pipe(untilDestroyed(this))
       .subscribe((mailBoxesState: MailBoxesState) => {
-        this.currentMailbox = mailBoxesState.currentMailbox;
-        this.mailboxes = mailBoxesState.mailboxes;
+        this.currentMailbox = mailBoxesState?.currentMailbox;
+        this.mailboxes = mailBoxesState?.mailboxes;
       });
     /**
      * Get folder and page from route
@@ -453,16 +456,18 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .select(state => state.user)
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
-        this.customFolders = user.customFolders;
-        for (const folder of user.customFolders) {
-          this.folderColors[folder.name] = folder.color;
+        this.customFolders = user?.customFolders;
+        if (user?.customFolders !== undefined && user?.customFolders !== null) {
+          for (const folder of user?.customFolders) {
+            this.folderColors[folder.name] = folder.color;
+          }
         }
         this.userState = user;
-        this.isDarkMode = this.userState.settings.is_night_mode;
-        this.isConversationView = this.userState.settings.is_conversation_mode;
-        this.EMAILS_PER_PAGE = user.settings.emails_per_page;
-        this.disableExternalImages = this.userState.settings.is_disable_loading_images;
-        this.includeOriginMessage = this.userState.settings.include_original_message;
+        this.isDarkMode = this.userState?.settings?.is_night_mode;
+        this.isConversationView = this.userState?.settings?.is_conversation_mode;
+        this.EMAILS_PER_PAGE = user?.settings?.emails_per_page;
+        this.disableExternalImages = this.userState?.settings?.is_disable_loading_images;
+        this.includeOriginMessage = this.userState?.settings?.include_original_message;
       });
 
     this.isMobile = window.innerWidth <= 768;
@@ -478,7 +483,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .pipe(untilDestroyed(this))
       .subscribe((contactsState: ContactsState) => {
         this.contacts =
-          contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
+          contactsState?.emailContacts === undefined ? contactsState?.contacts : contactsState?.emailContacts;
       });
   }
 
@@ -644,7 +649,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       if (
         !this.isDecrypting[child.id] &&
         (!childDecryptedContent ||
-          (!childDecryptedContent.inProgress && !childDecryptedContent.content && child.content))
+          (!childDecryptedContent?.inProgress && !childDecryptedContent.content && child.content))
       ) {
         this.isDecrypting[child.id] = true;
         if (child.encryption_type === PGPEncryptionType.PGP_MIME) {
@@ -673,7 +678,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.decryptedContents[child.id] = child.content;
     } else {
       const childDecryptedContent = mailState.decryptedContents[child.id];
-      if (childDecryptedContent && !childDecryptedContent.inProgress && childDecryptedContent.content) {
+      if (childDecryptedContent && !childDecryptedContent?.inProgress && childDecryptedContent.content) {
         if (child.is_html) {
           const replacedChildContentWithAnchorTag = childDecryptedContent.content.replace(
             /<a /g,
@@ -763,7 +768,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   decryptAttachment(attachment: Attachment, mail: Mail) {
     if (attachment.is_encrypted) {
       if (this.decryptedAttachments[attachment.id]) {
-        if (!this.decryptedAttachments[attachment.id].inProgress) {
+        if (!this.decryptedAttachments[attachment.id]?.inProgress) {
           this.downloadAttachment(this.decryptedAttachments[attachment.id]);
         }
       } else {
@@ -906,7 +911,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailService.openComposeMailDialog({
       draft: { ...newMail },
       action: MailAction.REPLY,
-      isFullScreen: this.userState.settings.is_composer_full_screen,
+      isFullScreen: this.userState?.settings?.is_composer_full_screen,
     });
   }
 
@@ -981,7 +986,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailService.openComposeMailDialog({
       draft: { ...newMail },
       action: MailAction.REPLY_ALL,
-      isFullScreen: this.userState.settings.is_composer_full_screen,
+      isFullScreen: this.userState?.settings?.is_composer_full_screen,
     });
   }
 
@@ -1031,7 +1036,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     this.composeMailService.openComposeMailDialog({
       draft: { ...this.currentForwardingNewEmail },
       action: MailAction.REPLY_ALL,
-      isFullScreen: this.userState.settings.is_composer_full_screen,
+      isFullScreen: this.userState?.settings?.is_composer_full_screen,
     });
   }
 
@@ -1418,7 +1423,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         this.composeMailService.openComposeMailDialog(
           {
             draft: { ...mail },
-            isFullScreen: this.userState.settings.is_composer_full_screen,
+            isFullScreen: this.userState?.settings?.is_composer_full_screen,
           },
           onHide$,
         );

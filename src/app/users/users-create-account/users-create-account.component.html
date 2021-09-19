@@ -82,13 +82,13 @@
                       <i
                         class="fas fa-check green"
                         *ngIf="
-                          (signupState$ | async).usernameExists === false && !signupForm.controls['username'].errors
+                          (signupState$ | async)?.usernameExists === false && !signupForm.controls['username'].errors
                         "
                       ></i>
                       <i
                         class="fas fa-times text-danger"
                         *ngIf="
-                          (signupState$ | async).usernameExists === true ||
+                          (signupState$ | async)?.usernameExists === true ||
                           (signupForm.controls['username'].errors &&
                             (signupForm.controls['username'].touched || submitted))
                         "
@@ -126,7 +126,7 @@
                     </ng-template>
                   </ng-container>
                   <ng-template #usernameExistsBlock>
-                    <span *ngIf="(signupState$ | async).usernameExists === true" class="validate-message"
+                    <span *ngIf="(signupState$ | async)?.usernameExists === true" class="validate-message"
                       >Username already exists.
                     </span>
                   </ng-template>
@@ -237,7 +237,7 @@
                       <mat-checkbox
                         type="checkbox"
                         id="moreInfoCheckbox"
-                        name="isRecoveryEmail"
+                        name="moreInfoCheckbox"
                         [(ngModel)]="isRecoveryEmail"
                         [ngModelOptions]="{ standalone: true }"
                       >

@@ -112,7 +112,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
             this.store.dispatch(new GetDomainsSuccess([]));
           }
         }
-        if (userState.autoresponder) {
+        if (userState?.autoresponder) {
           this.autoresponder = userState?.autoresponder;
           this.autoresponder_status = !!(
             this.autoresponder.autoresponder_active ||
@@ -123,12 +123,12 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
               this.currentDate >= this.autoresponder.start_date)
           );
         }
-        if (userState.has_notification && this.canLoadNotification) {
+        if (userState?.has_notification && this.canLoadNotification) {
           this.store.dispatch(new GetNotification());
           this.canLoadNotification = false;
         }
-        if (userState.notifications) {
-          this.notificationMessage = userState.notifications[0].message;
+        if (userState?.notifications) {
+          this.notificationMessage = userState?.notifications[0].message;
         }
       });
 

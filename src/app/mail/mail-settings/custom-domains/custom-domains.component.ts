@@ -137,7 +137,7 @@ export class CustomDomainsComponent implements OnInit {
       this.isEditing = true;
       this.newDomain = domain;
       this.isAddingNewDomain = true;
-    } else if (!this.userState.inProgress) {
+    } else if (!this.userState?.inProgress) {
       this.currentStep = 0;
       domain = {};
       this.newDomain = domain;
@@ -183,7 +183,7 @@ export class CustomDomainsComponent implements OnInit {
   }
 
   openConfirmDeleteModal(domain: Domain) {
-    if (!this.userState.inProgress) {
+    if (!this.userState?.inProgress) {
       this.newDomain = domain;
       this.confirmModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,

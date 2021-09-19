@@ -72,9 +72,9 @@ export class UserAccountInitDialogComponent implements OnInit {
       .select(state => state.auth)
       .pipe(untilDestroyed(this))
       .subscribe((authState: AuthState) => {
-        if (this.signupState && this.signupState.inProgress && !authState.signupState.inProgress) {
-          if (authState.errorMessage || this.step === 4) {
-            this.isDisplayNameOpened = authState.errorMessage ? true : this.isDisplayNameOpened;
+        if (this.signupState && this.signupState?.inProgress && !authState?.signupState?.inProgress) {
+          if (authState?.errorMessage || this.step === 4) {
+            this.isDisplayNameOpened = authState?.errorMessage ? true : this.isDisplayNameOpened;
             this.close();
           } else {
             this.isAccountCreationComplete = true;
@@ -83,7 +83,7 @@ export class UserAccountInitDialogComponent implements OnInit {
             }, 5000);
           }
         }
-        this.signupState = { ...authState.signupState };
+        this.signupState = { ...authState?.signupState };
       });
     setTimeout(() => {
       this.close();
