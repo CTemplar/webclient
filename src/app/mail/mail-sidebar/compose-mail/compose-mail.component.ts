@@ -600,7 +600,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.composerEditorElementRef?.nativeElement?.querySelector('.ck-editor__editable')?.ckeditorInstance;
     }
     const toolbarContainer = document.querySelector('#toolbar');
-    toolbarContainer.append(editor.ui.view.toolbar.element);
+    toolbarContainer.replaceWith(editor.ui.view.toolbar.element);
     // need to change text to html contents
     if (this.mailData.content) {
       editor.setData(this.formatContent(this.mailData.content));
