@@ -2,6 +2,9 @@
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
       <strong [translate]="'settings.filters.name'">Filters</strong>
+      <a ngbTooltip="Learn more" target="_blank" rel="noreferrer noopener" class="learn-more-info-icon" href="https://ctemplar.com/help"
+        ><i class="far fa-question-circle"></i>
+      </a>
       <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </h5>
   </header>
