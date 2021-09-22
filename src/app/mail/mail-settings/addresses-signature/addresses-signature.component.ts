@@ -354,6 +354,9 @@ export class AddressesSignatureComponent implements OnInit {
 
   updateDefaultEmailAddress(selectedMailbox: Mailbox) {
     this.store.dispatch(new SetDefaultMailbox(selectedMailbox));
+    const primaryMailbox = this.mailboxes.find((mailbox: Mailbox) => mailbox.is_default === true);
+    this.updateMailboxSettings(selectedMailbox, 'is_default', true);
+    this.updateMailboxSettings(primaryMailbox, 'is_default', false);
   }
 
   onSelectedMailboxForKeyChanged(mailbox: Mailbox) {
