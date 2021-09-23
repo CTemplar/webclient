@@ -10,20 +10,22 @@
     <div class="nav" [ngbNavItem]="'dashboard-and-plans'">
       <a ngbNavLink class="nav-link" [translate]="'settings.dashboard_plans'"> Dashboard & Plans </a>
       <ng-template ngbNavContent>
+        <div class="anchor-links">
+          <a (click)="onAnchoredLink('plan-details')">Plan Details</a>
+          <a (click)="onAnchoredLink('my-subscription')">My Subscription</a>
+          <a (click)="onAnchoredLink('account-type')">Account Type</a>
+        </div>
         <!-- Overview Section -->
         <section class="mailbox-section mt-4">
           <div class="mailbox-section-body pt-0">
             <div class="desc-card-holder mt-sm-3 mt-md-0">
               <!--START Plan details -->
-              <div class="mb-4 row plan-details">
+              <div id="plan-details" class="mb-4 row plan-details">
                 <div class="col-12">
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
-                        <strong [translate]="'settings.plan_details'">Plan Details</strong>
-                        <a ngbTooltip="Learn more" target="_blank" rel="noreferrer noopener" class="learn-more-info-icon" href="https://ctemplar.com/help"
-                          ><i class="far fa-question-circle"></i>
-                        </a>
+                        <strong [translate]="'settings.plan_details'">Plan Details</strong>                        
                       </h5>                        
                     </div>
                     <div class="desc-card-body">
@@ -146,15 +148,12 @@
                 </div>
               </div>
               <!--END Plan details -->
-              <div class="row">
+              <div id="my-subscription" class="row">
                 <div class="col-md-6">
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
-                        <strong [translate]="'settings.my_subscription'"> My Subscription </strong>
-                        <a ngbTooltip="Learn more" target="_blank" rel="noreferrer noopener" class="learn-more-info-icon" href="https://ctemplar.com/help"
-                          ><i class="far fa-question-circle"></i>
-                        </a>
+                        <strong [translate]="'settings.my_subscription'"> My Subscription </strong>                        
                       </h5>
                     </div>
                     <div class="desc-card-body">
@@ -368,7 +367,7 @@
           </div>
         </section>
         <!-- Account Type Section -->
-        <section class="mailbox-section" #targetUpgrade>
+        <section id="account-type" class="mailbox-section" #targetUpgrade>
           <div class="ui-header ui-header-bordered position-relative">
             <h5 class="ui-header-subtitle text-dark mb-0">
               <strong [translate]="'settings.account_type'">Account Type</strong>
