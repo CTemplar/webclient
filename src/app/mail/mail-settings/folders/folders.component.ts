@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Store } from '@ngrx/store';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -36,6 +36,8 @@ export class FoldersComponent implements OnInit {
   private unmodifiedFolders: Array<Folder>;
 
   private mailState: MailState;
+
+  @Output() onAnchored = new EventEmitter<any>();
 
   constructor(
     private store: Store<AppState>,
@@ -175,5 +177,9 @@ export class FoldersComponent implements OnInit {
     this.folders.forEach((folder: Folder, index) => {
       folder.sort_order = index + 1;
     });
+  }
+
+  onAnchoredLink(id: string) {
+    this.onAnchored.emit(id);
   }
 }

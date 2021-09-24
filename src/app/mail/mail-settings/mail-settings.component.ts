@@ -163,7 +163,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
-  selectedThemeName: string = 'default';
+  selectedThemeName = 'default';
 
   constructor(
     private modalService: NgbModal,
@@ -705,9 +705,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   onAnchoredLink(fragment: string): void {
     this.router.navigate([], { fragment }).then(() => {
-      // eslint-disable-next-line unicorn/prefer-query-selector
-      const element = document.getElementById(fragment);
-      if (element !== undefined) element.scrollIntoView();
+      document.querySelector(`#${fragment}`).scrollIntoView();
     });
   }
 }

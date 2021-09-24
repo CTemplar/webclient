@@ -18,6 +18,7 @@ import {
   UpdateOrganizationUser,
 } from '../../../../store/organization.store';
 import { MoveTab, SnackErrorPush } from '../../../../store/actions';
+import { Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -69,6 +70,7 @@ export class OrganizationUsersComponent implements OnInit {
     private openPgpService: OpenPgpService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -265,5 +267,11 @@ export class OrganizationUsersComponent implements OnInit {
       return;
     }
     input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  onAnchoredLink(fragment: string): void {
+    this.router.navigate([], { fragment }).then(() => {
+      document.querySelector(`#${fragment}`).scrollIntoView();
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
@@ -24,6 +24,8 @@ export class InviteCodesComponent implements OnInit {
 
   isLoaded: boolean;
 
+  @Output() onAnchored = new EventEmitter<any>();
+
   constructor(private store: Store<AppState>, private sharedService: SharedService) {}
 
   ngOnInit() {
@@ -47,5 +49,9 @@ export class InviteCodesComponent implements OnInit {
 
   copyToClipboard(value: string) {
     this.sharedService.copyToClipboard(value);
+  }
+
+  onAnchoredLink() {
+    this.onAnchored.emit();
   }
 }

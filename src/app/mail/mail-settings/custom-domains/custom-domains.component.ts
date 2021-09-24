@@ -58,6 +58,8 @@ export class CustomDomainsComponent implements OnInit {
 
   private confirmModalRef: NgbModalRef;
 
+  @Output() onAnchored = new EventEmitter<any>();
+
   constructor(
     config: NgbDropdownConfig,
     private modalService: NgbModal,
@@ -204,5 +206,9 @@ export class CustomDomainsComponent implements OnInit {
 
   gotoPricingPlans() {
     this.onGotoTab.emit('dashboard-and-plans');
+  }
+
+  onAnchoredLink(id: string) {
+    this.onAnchored.emit(id);
   }
 }

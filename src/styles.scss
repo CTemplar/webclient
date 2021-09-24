@@ -767,7 +767,8 @@ button.ctemplar-blockquote-toggle ~ * {
     margin-bottom: 0;
   }
 }
-
-// .ck-content pre {
-//   padding: 0
-// }
+.anchor {
+  margin-right: 10px;
+  display: inline-block;
+  transform: translateY(1px);
+}

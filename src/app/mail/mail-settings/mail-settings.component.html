@@ -9,12 +9,7 @@
     <!-- Dashboard and Plans -->
     <div class="nav" [ngbNavItem]="'dashboard-and-plans'">
       <a ngbNavLink class="nav-link" [translate]="'settings.dashboard_plans'"> Dashboard & Plans </a>
-      <ng-template ngbNavContent>
-        <div class="anchor-links">
-          <a (click)="onAnchoredLink('plan-details')">Plan Details</a>
-          <a (click)="onAnchoredLink('my-subscription')">My Subscription</a>
-          <a (click)="onAnchoredLink('account-type')">Account Type</a>
-        </div>
+      <ng-template ngbNavContent>        
         <!-- Overview Section -->
         <section class="mailbox-section mt-4">
           <div class="mailbox-section-body pt-0">
@@ -25,6 +20,10 @@
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
+                        <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('plan-details')">
+                          <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                          </svg>
+                        </a>
                         <strong [translate]="'settings.plan_details'">Plan Details</strong>                        
                       </h5>                        
                     </div>
@@ -153,6 +152,10 @@
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
+                        <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('my-subscription')">
+                          <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                          </svg>
+                        </a>
                         <strong [translate]="'settings.my_subscription'"> My Subscription </strong>                        
                       </h5>
                     </div>
@@ -370,15 +373,11 @@
         <section id="account-type" class="mailbox-section" #targetUpgrade>
           <div class="ui-header ui-header-bordered position-relative">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.account_type'">Account Type</strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('account-type')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.account_type'">Account Type</strong>              
             </h5>
           </div>
           <app-pricing-plans
@@ -408,18 +407,14 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.general'">General</a>
       <ng-template ngbNavContent>
         <!-- General Settings -->
-        <section class="mailbox-section">
+        <section id="general-settings" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.general_settings'"> General Settings </strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('general-settings')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.general_settings'"> General Settings </strong>              
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -716,18 +711,14 @@
         </section>
 
         <!-- Composer Settings -->
-        <section class="mailbox-section">
+        <section id="composer-settings" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.composer_settings'"> Composer </strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('composer-settings')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.composer_settings'"> Composer </strong>
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -1055,18 +1046,14 @@
         </section>
 
         <!-- Appreance Section -->
-        <section class="mailbox-section">
+        <section id="appearance" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.appearance'">Appearance</strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('appearance')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.appearance'">Appearance</strong>
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -1293,18 +1280,14 @@
         </section>
 
         <!-- Notification Section -->
-        <section class="mailbox-section">
+        <section id="notification" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.notifications'">Notifications</strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('notification')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.notifications'">Notifications</strong>
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -1383,18 +1366,14 @@
         <!-- Notification Section Ends -->
 
         <!-- Referral Code Section -->
-        <section class="mailbox-section">
+        <section id="referral-code" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.referral_code'">Referral Code</strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('referral-code')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.referral_code'">Referral Code</strong>              
             </h5>
           </header>
           <div class="mailbox-section-body mailbox-section-body-sm">
@@ -1413,14 +1392,18 @@
         </section>
         <!-- Referral Code Section Ends -->
 
-        <section class="mailbox-section">
-          <app-invite-codes></app-invite-codes>
+        <section id="invitation-codes" class="mailbox-section">
+          <app-invite-codes (onAnchored)="onAnchoredLink('invitation-codes')"></app-invite-codes>
         </section>
 
         <!-- Delete account settings -->
-        <section class="mailbox-section">
+        <section id="delete-account" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('delete-account')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
+              </a>
               <strong [translate]="'settings.delete_account'"> Delete Account </strong>
             </h5>
           </header>
@@ -1455,21 +1438,17 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.filters.title'">Filters & Blocked Addresses</a>
       <ng-template ngbNavContent>
         <!-- Custom filters -->
-        <app-mail-filters></app-mail-filters>
+        <app-mail-filters id="filters" (onAnchored)="onAnchoredLink('filters')"></app-mail-filters>
 
         <!-- Whitelist settings -->
-        <section class="mailbox-section">
+        <section id="whitelist" class="mailbox-section">
           <header class="ui-header ui-header-bordered whitelist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.whitelist.name'">Whitelist</strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('whitelist')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.whitelist.name'">Whitelist</strong>
             </h5>
             <a
               href="javascript:void(0);"
@@ -1552,18 +1531,14 @@
         </section>
 
         <!-- Blacklist settings -->
-        <section class="mailbox-section">
+        <section id="blacklist" class="mailbox-section">
           <header class="ui-header ui-header-bordered blacklist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <strong [translate]="'settings.blacklist.name'">Blacklist</strong>
-              <a
-                ngbTooltip="Learn more"
-                target="_blank"
-                rel="noreferrer noopener"
-                class="learn-more-info-icon"
-                href="https://ctemplar.com/help"
-                ><i class="far fa-question-circle"></i>
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('blacklist')">
+                <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+                </svg>
               </a>
+              <strong [translate]="'settings.blacklist.name'">Blacklist</strong>
             </h5>
             <a
               href="javascript:void(0);"
@@ -1651,7 +1626,7 @@
     <div class="nav" [ngbNavItem]="'addresses-and-signatures'">
       <a ngbNavLink class="nav-link" [translate]="'settings.signs_and_aliases'">Signatures & Aliases</a>
       <ng-template ngbNavContent>
-        <app-addresses-signature></app-addresses-signature>
+        <app-addresses-signature (onAnchored)="onAnchoredLink($event)"></app-addresses-signature>
       </ng-template>
     </div>
 
@@ -1659,7 +1634,7 @@
     <div class="nav" [ngbNavItem]="'folders'">
       <a ngbNavLink class="nav-link" [translate]="'page_pricing.folders'">Folders</a>
       <ng-template ngbNavContent>
-        <app-folders></app-folders>
+        <app-folders (onAnchored)="onAnchoredLink($event)"></app-folders>
       </ng-template>
     </div>
 
@@ -1667,7 +1642,7 @@
     <div class="nav" [ngbNavItem]="'security'">
       <a ngbNavLink class="nav-link" [translate]="'home_header.security'">Security</a>
       <ng-template ngbNavContent>
-        <app-settings-security></app-settings-security>
+        <app-settings-security (onAnchored)="onAnchoredLink($event)"></app-settings-security>
       </ng-template>
     </div>
 
@@ -1675,7 +1650,7 @@
     <div class="nav" [ngbNavItem]="'domains-and-users'">
       <a ngbNavLink class="nav-link" [translate]="'settings.domains_and_users.title'">Domains & Users</a>
       <ng-template ngbNavContent>
-        <app-custom-domains (onGotoTab)="navSet.select($event)"></app-custom-domains>
+        <app-custom-domains (onGotoTab)="navSet.select($event)" (onAnchored)="onAnchoredLink($event)"></app-custom-domains>
       </ng-template>
     </div>
 
@@ -1683,8 +1658,8 @@
     <div class="nav" [ngbNavItem]="'forwarding-and-auto-responder'">
       <a ngbNavLink class="nav-link" [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</a>
       <ng-template ngbNavContent>
-        <app-mail-forwarding></app-mail-forwarding>
-        <app-mail-autoresponder></app-mail-autoresponder>
+        <app-mail-forwarding (onAnchored)="onAnchoredLink($event)"></app-mail-forwarding>
+        <app-mail-autoresponder (onAnchored)="onAnchoredLink($event)"></app-mail-autoresponder>
       </ng-template>
     </div>
   </div>
