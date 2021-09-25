@@ -600,6 +600,11 @@ blockquote,
 .dropup .dropdown-menu {
   bottom: unset !important;
   transition: inherit;
+  width: 400px;
+  padding: 0.625rem 0.75rem;
+  @media (max-width: 560px) {
+    width: 300px;
+  }
 }
 
 // Overriding global styles

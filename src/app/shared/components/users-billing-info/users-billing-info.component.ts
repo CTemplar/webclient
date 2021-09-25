@@ -161,8 +161,8 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     let year = new Date().getFullYear();
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < 11; index++) {
+    this.years.push(year);
+    for (let index = 0; index < 10; index += 1) {
       this.years.push((year += 1));
     }
     this.store.dispatch(new ClearPromoCode());

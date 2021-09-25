@@ -402,7 +402,7 @@
                 *ngIf="!reorder && !mailbox?.inProgress"
                 class="col setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
               >
-                <li *ngIf="false">
+                <li *ngIf="mailbox.is_enabled && !mailbox.is_default">
                   <button type="button" role="button" class="btn-link" (click)="updateDefaultEmailAddress(mailbox)">
                     <span [translate]="'settings.make_default'">Make Default</span>
                   </button>

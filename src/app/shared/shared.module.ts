@@ -37,6 +37,11 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinner.component';
 import { ThemeToggleService } from './services/theme-toggle-service';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   imports: [
@@ -48,6 +53,7 @@ import { AdvancedSearchComponent } from './components/advanced-search/advanced-s
     MatIconModule,
     NgbModule,
     MatCheckboxModule,
+    NgxMaskModule.forRoot(maskConfig),
   ],
   declarations: [
     SpinnerComponent,
@@ -104,6 +110,7 @@ import { AdvancedSearchComponent } from './components/advanced-search/advanced-s
     EmailFormatPipe,
     CircleBarSpinnerComponent,
     AdvancedSearchComponent,
+    NgxMaskModule,
   ],
   providers: [
     SpinnerService,

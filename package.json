@@ -1,6 +1,6 @@
 {
   "name": "ctemplar",
-  "version": "2.5.49",
+  "version": "2.5.51",
   "license": "Apache",
   "main": "electron-main.js",
   "description": "Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.",
@@ -60,6 +60,7 @@
     "mimemessage": "^1.0.5",
     "moment-timezone": "^0.5.27",
     "ngx-chips": "^2.1.0",
+    "ngx-mask": "^12.0.0",
     "node-notifier": "^9.0.1",
     "openpgp": "4.10.4",
     "postal-mime": "^1.0.12",

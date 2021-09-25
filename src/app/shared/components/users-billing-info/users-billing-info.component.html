@@ -252,6 +252,7 @@
                     id="cardNumber"
                     name="cardNumber"
                     class="form-control number"
+                    [mask]="'0000 0000 0000 0000'"
                     [ngClass]="{
                       error:
                         cardNumberFormControl.invalid && (cardNumberFormControl.dirty || cardNumberFormControl.touched),
