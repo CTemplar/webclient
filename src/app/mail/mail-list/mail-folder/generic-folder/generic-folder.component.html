@@ -390,7 +390,7 @@
                     <span [translate]="'mail_sidebar.draft'" class="text-danger">Draft</span>
                   </ng-conatiner>
                   <ng-template #nonDraftMail>
-                    <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{
+                    <label [ngbTooltip]="getMailSenderReceiverInfo(mail)" placement="right">{{
                       getMailSenderReceiverInfo(mail)
                     }}</label>
                   </ng-template>
@@ -596,7 +596,7 @@
                     <span [translate]="'mail_sidebar.draft'" class="text-danger">Draft</span>
                   </ng-conatiner>
                   <ng-template #nonDraftMail>
-                    <label [ngbTooltip]="getMailSenderReceiverInfo(mail, true)" placement="right">{{
+                    <label [ngbTooltip]="getMailSenderReceiverInfo(mail)" placement="right">{{
                       getMailSenderReceiverInfo(mail)
                     }}</label>
                   </ng-template>

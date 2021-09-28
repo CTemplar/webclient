@@ -730,7 +730,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
    * @params Mail, isToolTip
    * @returns {String} The list of email or name for sender, receiver
    */
-  getMailSenderReceiverInfo(mail: Mail, isTooltip = false) {
+  getMailSenderReceiverInfo(mail: Mail) {
     let info = '';
     switch (this.mailFolder) {
       case this.mailFolderTypes.DRAFT: {
@@ -738,15 +738,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
         break;
       }
-      case this.mailFolderTypes.INBOX: {
-        // info = isTooltip
-        //   ? mail.sender_display_name
-        //     ? mail.sender_display_name
-        //     : mail.sender_display.email
-        //   : mail.sender_display_name
-        //   ? mail.sender_display_name
-        //   : mail.sender_display.name;
-
+      case this.mailFolderTypes.INBOX: {        
         const participantList: any = Object.values(mail.participants);
         info = participantList.join(',  ');
 
@@ -769,19 +761,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       default: {
         // For Search, All Emails, Custom Folders
         switch (mail.folder) {
-          case MailFolderType.INBOX:
-            // info = isTooltip
-            //   ? mail.sender_display_name
-            //     ? mail.sender_display_name
-            //     : mail.sender_display.email
-            //   : mail.sender_display_name
-            //   ? mail.sender_display_name
-            //   : mail.sender_display.name;
-
+          case MailFolderType.INBOX:        
             const participantList: any = Object.values(mail.participants);
             info = participantList.join(',  ');
             break;
-
           case MailFolderType.SENT:
           case MailFolderType.OUTBOX:
             info = mail.receiver_list;
@@ -813,13 +796,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
             } else {
               const participants: any = Object.values(mail.participants);
               info = participants.join(',  ');
-              // info = isTooltip
-              //   ? mail.sender_display_name
-              //     ? mail.sender_display_name
-              //     : mail.sender_display.email
-              //   : mail.sender_display_name
-              //   ? mail.sender_display_name
-              //   : mail.sender_display.name;
             }
             break;
         }
