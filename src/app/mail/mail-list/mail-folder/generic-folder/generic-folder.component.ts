@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -738,13 +739,16 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         break;
       }
       case this.mailFolderTypes.INBOX: {
-        info = isTooltip
-          ? mail.sender_display_name
-            ? mail.sender_display_name
-            : mail.sender_display.email
-          : mail.sender_display_name
-          ? mail.sender_display_name
-          : mail.sender_display.name;
+        // info = isTooltip
+        //   ? mail.sender_display_name
+        //     ? mail.sender_display_name
+        //     : mail.sender_display.email
+        //   : mail.sender_display_name
+        //   ? mail.sender_display_name
+        //   : mail.sender_display.name;
+
+        const participantList: any = Object.values(mail.participants);
+        info = participantList.join(',  ');
 
         break;
       }
@@ -766,13 +770,16 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         // For Search, All Emails, Custom Folders
         switch (mail.folder) {
           case MailFolderType.INBOX:
-            info = isTooltip
-              ? mail.sender_display_name
-                ? mail.sender_display_name
-                : mail.sender_display.email
-              : mail.sender_display_name
-              ? mail.sender_display_name
-              : mail.sender_display.name;
+            // info = isTooltip
+            //   ? mail.sender_display_name
+            //     ? mail.sender_display_name
+            //     : mail.sender_display.email
+            //   : mail.sender_display_name
+            //   ? mail.sender_display_name
+            //   : mail.sender_display.name;
+
+            const participantList: any = Object.values(mail.participants);
+            info = participantList.join(',  ');
             break;
 
           case MailFolderType.SENT:
@@ -804,18 +811,21 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
                 info = `${info}, bcc: ${bcc}`;
               }
             } else {
-              info = isTooltip
-                ? mail.sender_display_name
-                  ? mail.sender_display_name
-                  : mail.sender_display.email
-                : mail.sender_display_name
-                ? mail.sender_display_name
-                : mail.sender_display.name;
+              const participants: any = Object.values(mail.participants);
+              info = participants.join(',  ');
+              // info = isTooltip
+              //   ? mail.sender_display_name
+              //     ? mail.sender_display_name
+              //     : mail.sender_display.email
+              //   : mail.sender_display_name
+              //   ? mail.sender_display_name
+              //   : mail.sender_display.name;
             }
             break;
         }
       }
     }
+
     return info;
   }
 
@@ -843,3 +853,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     }
   }
 }
+function value(arg0: ([key, value]: [string, unknown]) => string, value: any) {
+  throw new Error('Function not implemented.');
+}
+
