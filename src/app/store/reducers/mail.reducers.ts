@@ -1,6 +1,6 @@
 import { MailActions, MailActionTypes } from '../actions';
 import { FolderState, MailState, PGPEncryptionType, SecureContent } from '../datatypes';
-import { Attachment, EmailDisplay, Mail, MailFolderType } from '../models';
+import { Attachment, EmailDisplay, Mail, MailFolderType, OrderBy } from '../models';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 
 /**
@@ -226,6 +226,7 @@ export function reducer(
     folderMap: new Map(),
     pageLimit: 20,
     decryptedAttachmentsMap: new Map(),
+    orderBy: OrderBy.ASC,
   },
   action: MailActions,
 ): MailState {
@@ -328,6 +329,13 @@ export function reducer(
       return {
         ...state,
         canGetUnreadCount: false,
+      };
+    }
+
+    case MailActionTypes.REVERT_CHILD_MAIL_ORDER: {
+      return {
+        ...state,
+        orderBy: action.payload.orderBy,
       };
     }
 
