@@ -380,6 +380,7 @@
     "no_header": "Nu există header-uri",
     "incoming_head": "Header-uri de intrare",
     "show_plain_text": "Afișează textul simplu",
+    "auto_read_email": "Citirea automată a e-mailului",
     "show_rich_text": "Afișează textul bogat"
   },
   "mail_dialogs": {

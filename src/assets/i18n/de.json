@@ -378,6 +378,7 @@
     "no_header": "Keine Header verfügbar",
     "incoming_head": "Eingehende Header",
     "show_plain_text": "Reintext anzeigen",
+    "auto_read_email": "E-Mails automatisch lesen",
     "show_rich_text": "Rich-Text anzeigen"
   },
   "mail_dialogs": {

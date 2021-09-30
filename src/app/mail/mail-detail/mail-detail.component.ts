@@ -213,6 +213,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   currentOrderBy = OrderBy.ASC;
 
+  isAutoReadMode = true;
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -344,10 +346,16 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 this.scrollTo(document.querySelector('.last-child'));
               }
               // Mark mail as read
-              if (!this.mail.read && !this.markedAsRead) {
-                this.markedAsRead = false;
-                this.markAsRead(this.mail.id, false, false);
-              }
+              setTimeout(() => {
+                if (!this.mail.read && !this.markedAsRead) {
+                  this.markedAsRead = true;
+                  if (this.isAutoReadMode) {
+                    this.markAsRead(this.mail.id, true);
+                  } else {
+                    this.markAsRead(this.mail.id, false, false);
+                  }
+                }
+              }, 2000);
             }
           }
           if (!this.mailOptions[this.mail.id]) {
@@ -463,6 +471,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.folderColors[folder.name] = folder.color;
         }
         this.userState = user;
+        this.isAutoReadMode = this.userState.settings.auto_read;
         this.isDarkMode = this.userState.settings.is_night_mode;
         this.isConversationView = this.userState.settings.is_conversation_mode;
         this.EMAILS_PER_PAGE = user.settings.emails_per_page;
@@ -811,9 +820,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   markAsRead(mailID: number, isLocalUpdate = false, read = true) {
     this.store.dispatch(new ReadMail({ ids: mailID.toString(), read, isLocalUpdate }));
-    // if (!read) {
-    //   this.goBack();
-    // }
+    if (!read && this.isAutoReadMode) {
+      this.goBack();
+    }
   }
 
   showIncomingHeaders(mail: Mail) {

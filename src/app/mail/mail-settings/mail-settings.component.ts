@@ -405,6 +405,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.updateSettings('show_plain_text', is_showplaintext_mode);
   }
 
+  updateAutoReadMode(auto_read_mode: boolean) {
+    this.updateSettings('auto_read', auto_read_mode);
+  }
+
   /**
    * convert m:s format to milliseconds and update settings
    */

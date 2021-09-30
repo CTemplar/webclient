@@ -202,6 +202,7 @@
     "show_headers": "Mostrar Cabeçalhos",
     "show_trimmed": "Mostrar conteúdo cortado",
     "show_plain_text": "Mostrar Apenas Texto",
+    "auto_read_email": "Leitura automática de e-mail",
     "show_rich_text": "Mostrar Texto Formatado"
   },
   "mail_dialogs": {
