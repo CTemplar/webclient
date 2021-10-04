@@ -738,7 +738,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
         break;
       }
-      case this.mailFolderTypes.INBOX: {        
+      case this.mailFolderTypes.INBOX: {
         const participantList: any = Object.values(mail.participants);
         info = participantList.join(',  ');
 
@@ -761,7 +761,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       default: {
         // For Search, All Emails, Custom Folders
         switch (mail.folder) {
-          case MailFolderType.INBOX:        
+          case MailFolderType.INBOX:
             const participantList: any = Object.values(mail.participants);
             info = participantList.join(',  ');
             break;
@@ -832,4 +832,3 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 function value(arg0: ([key, value]: [string, unknown]) => string, value: any) {
   throw new Error('Function not implemented.');
 }
-
