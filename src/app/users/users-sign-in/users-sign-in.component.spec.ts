@@ -5,9 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersSignInComponent } from './users-sign-in.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
-import {MockStore, provideMockStore} from '@ngrx/store/testing';
-import { LogIn } from '../../store/actions';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { LogIn, LogInFailure, LogInSuccess } from '../../store/actions';
 import { Store } from '@ngrx/store';
+
 const initialState : any= {
   isAuthenticated: false,
   user: null,
@@ -31,7 +32,7 @@ describe('UsersSignInComponent', () => {
   let component: UsersSignInComponent;
   let fixture: ComponentFixture<UsersSignInComponent>;
 
-  let store: MockStore;
+  let mockStore: MockStore;
 
   const mockData = {
     username: 'superdev',
@@ -49,10 +50,12 @@ describe('UsersSignInComponent', () => {
         MatSnackBarModule,
         RouterTestingModule,
       ],
-      providers: [provideMockStore({initialState})],
+      providers: [
+        provideMockStore({initialState})
+      ],
     }).compileComponents();
 
-    store = TestBed.inject(MockStore);
+    mockStore = TestBed.inject(MockStore);
   }));
 
   beforeEach(() => {
@@ -118,18 +121,32 @@ describe('UsersSignInComponent', () => {
     expect(usernameInput.errors).toBeNull();
   });
 
-  // it('should dispatch Login action when login button is clicked', fakeAsync(() => {
-  //   const loginButton = fixture?.debugElement?.query(By.css('#login-button'))?.nativeElement;
-  //   loginButton?.click();
-  //   component?.login(mockData, component.otp);    
+  it('should dispatch Login action when login button is clicked', fakeAsync(() => {
+    const loginButton = fixture?.debugElement?.query(By.css('#login-button'))?.nativeElement;
+    loginButton?.click();
+    // component?.login(mockData, component.otp);    
+    expect(component.login).toHaveBeenCalledTimes(1)
+            
+    // this works as expected, tests are passing
+    const expectedAction = new LogIn(mockData);
+    const dispatchSpy = spyOn(mockStore, 'dispatch').and.callThrough();
+    mockStore.dispatch(expectedAction);
 
-  //   expect(component.loginForm.valid).toBeFalsy();
-  //   component.loginForm.controls['username'].setValue(mockData.username);
-  //   component.loginForm.controls['password'].setValue(mockData.password);
-  //   expect(component.loginForm.valid).toBeTruthy();
+    //Act
+    fixture.detectChanges();
+    
+    //Assert
+    expect(dispatchSpy).toHaveBeenCalledWith(expectedAction)
 
-  //   const action = new LogIn(mockData);
-  //   const dispatchSpy = spyOn(store, 'dispatch').withArgs(action).and.callThrough();
-  //   expect(dispatchSpy).toHaveBeenCalledWith(action);
-  // }));  
+    // Act - test success
+    mockStore.dispatch(new LogInSuccess([]));
+    fixture.detectChanges();
+
+    // Act - test failure
+    mockStore.dispatch(new LogInFailure([]));
+    fixture.detectChanges();
+        
+    // Assert
+    expect(component.authState).not.toBeNull();
+  }));  
 });

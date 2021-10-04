@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -23,6 +23,7 @@ import {
   GetMails,
   MoveMail,
   ReadMail,
+  RevertChildMailOrder,
   SendMail,
   SnackErrorPush,
   StarMail,
@@ -42,7 +43,7 @@ import {
   StringBooleanMappedType,
   UserState,
 } from '../../store/datatypes';
-import { Attachment, Folder, Mail, Mailbox, MailFolderType, Unsubscribe } from '../../store/models';
+import { Attachment, Folder, Mail, Mailbox, MailFolderType, OrderBy, Unsubscribe } from '../../store/models';
 import {
   ElectronService,
   LOADING_IMAGE,
@@ -210,6 +211,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   isElectron = false;
 
+  currentOrderBy = OrderBy.ASC;
+
   constructor(
     private route: ActivatedRoute,
     private activatedRoute: ActivatedRoute,
@@ -225,6 +228,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private electronService: ElectronService,
     private translate: TranslateService,
     private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -256,10 +260,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .select(state => state.mail)
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
-        if (mailState?.mails !== undefined && mailState?.mails !== null) {
-          this.mails = [...mailState?.mails];
-        }
-
+        this.currentOrderBy = mailState?.orderBy;
+        const mailStateMails: Mail[] = mailState?.mails || [];
+        this.mails = [...mailStateMails];
         if (this.shouldChangeMail && mailState?.loaded) {
           if (this.shouldChangeMail === 1) {
             this.mail.id = this.mails[this.mails.length - 1].id;
@@ -343,8 +346,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
               // Mark mail as read
               if (!this.mail.read && !this.markedAsRead) {
-                this.markedAsRead = true;
-                this.markAsRead(this.mail.id, true);
+                this.markedAsRead = false;
+                this.markAsRead(this.mail.id, false, false);
               }
             }
           }
@@ -811,9 +814,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   markAsRead(mailID: number, isLocalUpdate = false, read = true) {
     this.store.dispatch(new ReadMail({ ids: mailID.toString(), read, isLocalUpdate }));
-    if (!read) {
-      this.goBack();
-    }
+    // if (!read) {
+    //   this.goBack();
+    // }
   }
 
   showIncomingHeaders(mail: Mail) {
@@ -1182,6 +1185,32 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.router.navigateByUrl(`/mail/${this.mailFolder}/page/${this.page}`);
     }, wait);
+  }
+
+  ascSort(newChildArray: Mail[]) {
+    return newChildArray.sort((a, b) => {
+      return <any>new Date(a.created_at) - <any>new Date(b.created_at);
+    });
+  }
+
+  descSort(newChildArray: Mail[]) {
+    return newChildArray.sort((a, b) => {
+      return <any>new Date(b.created_at) - <any>new Date(a.created_at);
+    });
+  }
+
+  revertOrderMails() {
+    const newChildArray = this.mail.children.map(a => ({ ...a }));
+    let sortedChildren: Mail[] = [];
+    if (this.currentOrderBy === OrderBy.ASC) {
+      sortedChildren = this.descSort(newChildArray);
+      this.store.dispatch(new RevertChildMailOrder({ orderBy: OrderBy.DESC }));
+    } else {
+      sortedChildren = this.ascSort(newChildArray);
+      this.store.dispatch(new RevertChildMailOrder({ orderBy: OrderBy.ASC }));
+    }
+
+    this.mail.children = sortedChildren;
   }
 
   openCreateFolderDialog() {

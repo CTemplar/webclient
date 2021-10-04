@@ -212,6 +212,7 @@
         </strong>
       </h5>
       <div class="icon-holder is-floated right y-center">
+        <i class="fas fa-sort cursor-pointer" (click)="revertOrderMails()"></i>
         <img
           *ngIf="
             (mail?.is_protected || mail?.sender === 'support@ctemplar.com') && !userState?.settings?.is_night_mode;

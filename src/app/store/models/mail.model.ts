@@ -118,6 +118,10 @@ export enum MailFolderType {
   SEARCH = 'search',
 }
 
+export enum OrderBy {
+  ASC = 'asc',
+  DESC = 'desc',
+}
 export interface Attachment {
   id?: number;
   attachmentId?: number;
