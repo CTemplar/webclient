@@ -345,7 +345,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                 }, 3000);
                 this.scrollTo(document.querySelector('.last-child'));
               }
-              // Mark mail as read
+
               setTimeout(() => {
                 if (!this.mail.read && !this.markedAsRead) {
                   this.markedAsRead = true;
@@ -355,7 +355,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                     this.markAsRead(this.mail.id, false, false);
                   }
                 }
-              }, 2000);
+              });
             }
           }
           if (!this.mailOptions[this.mail.id]) {
