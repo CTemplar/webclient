@@ -772,3 +772,7 @@ button.ctemplar-blockquote-toggle ~ * {
   display: inline-block;
   transform: translateY(1px);
 }
+.link-icon {
+  font-size: 1rem;
+  color: var(--text-dark);
+}
