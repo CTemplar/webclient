@@ -163,7 +163,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   isEditingRecoveryEmail: boolean;
 
-  selectedThemeName: string = 'default';
+  selectedThemeName = 'default';
 
   constructor(
     private modalService: NgbModal,
@@ -701,5 +701,11 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     } else {
       this.updateSettings('is_night_mode', isDarkMode);
     }
+  }
+
+  onAnchoredLink(fragment: string): void {
+    this.router.navigate([], { fragment }).then(() => {
+      document.querySelector(`#${fragment}`).scrollIntoView();
+    });
   }
 }

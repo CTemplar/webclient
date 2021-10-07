@@ -1143,7 +1143,12 @@
     </div> </ng-template
   ><!-- /.Close Confirm modal ends -->
   <ng-template #learnMore let-link="link">
-    <a ngbTooltip="Learn more" target="_blank" rel="noreferrer noopener" class="learn-more-info-icon" [href]="link"
+    <a
+      ngbTooltip="Learn more"
+      target="_blank"
+      rel="noreferrer noopener"
+      class="learn-more-info-icon position-absolute"
+      [href]="link"
       ><i class="far fa-question-circle"></i>
     </a>
   </ng-template>

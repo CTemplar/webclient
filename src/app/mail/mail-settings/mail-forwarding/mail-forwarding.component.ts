@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -38,6 +38,8 @@ export class MailForwardingComponent implements OnInit {
   private addAddressModalRef: NgbModalRef;
 
   private confirmDeleteAddressModalRef: NgbModalRef;
+
+  @Output() onAnchored = new EventEmitter<any>();
 
   constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
 
@@ -119,5 +121,9 @@ export class MailForwardingComponent implements OnInit {
 
   changeKeepCopy() {
     this.store.dispatch(new SettingsUpdate(this.settings));
+  }
+
+  onAnchoredLink(id: string) {
+    this.onAnchored.emit(id);
   }
 }

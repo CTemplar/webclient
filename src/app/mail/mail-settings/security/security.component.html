@@ -1,6 +1,9 @@
-<section class="mailbox-section">
+<section id="security-settings" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('security-settings')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.security_settings'"> Security Settings </strong>
     </h5>
   </header>
@@ -119,8 +122,11 @@
     </div>
   </div>
 
-  <header class="ui-header ui-header-bordered">
+  <header id="encryption" class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('encryption')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.compose.encryption'">Encryption</strong>
     </h5>
   </header>
@@ -209,8 +215,11 @@
     </div>
   </div>
 
-  <header class="ui-header ui-header-bordered">
+  <header id="local-storage" class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('local-storage')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.security.local_storage'">Local Storage</strong>
     </h5>
   </header>
@@ -296,8 +305,11 @@
     </div>
   </div>
 
-  <header class="ui-header ui-header-bordered">
+  <header id="phishing-protection" class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('phishing-protection')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.security.phishing_protection'"> Phishing Protection </strong>
     </h5>
   </header>
