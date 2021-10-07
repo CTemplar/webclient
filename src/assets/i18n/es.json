@@ -620,6 +620,7 @@
     "no_header": "No headers available",
     "incoming_head": "Incoming Headers",
     "show_plain_text": "Show Plain Text",
+    "auto_read_email": "Auto read email",
     "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {

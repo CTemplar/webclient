@@ -614,6 +614,7 @@
     "no_header": "没有可用页眉",
     "incoming_head": "即将推出的页眉",
     "show_plain_text": "显示纯文本",
+    "auto_read_email": "自动阅读电子邮件 ",
     "show_rich_text": "显示丰富文本"
   },
   "mail_dialogs": {

@@ -711,6 +711,7 @@
     "incoming_head": "En-têtes entrants",
     "delete_this_message": "Supprimer ce message",
     "show_plain_text": "Show Plain Text",
+    "auto_read_email": "E-mail à lecture automatique",
     "show_rich_text": "Show Rich Text"
   },
   "mail_dialogs": {

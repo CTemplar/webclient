@@ -380,6 +380,7 @@
     "no_header": "Nie ma dostępnych nagłówków",
     "incoming_head": "Nagłówki przychodzące",
     "show_plain_text": "Pokaż pismo zwykłe",
+    "auto_read_email": "Automatycznie przeczytaj e-mail",
     "show_rich_text": "Pokaż pismo bogate"
   },
   "mail_dialogs": {
