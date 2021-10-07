@@ -1,4 +1,7 @@
 {
+  "app": {
+    "cookie_law": "Cookies are required to use CTemplar. Please enable them in your browser."
+  },
   "contacts": {
     "new_contact": "НОВЫЙ КОНТАКТ",
     "notify_contacts": "УВЕДОМЛЕНИЕ О КОНТАКТАХ",

@@ -1,4 +1,7 @@
 {
+  "app": {
+    "cookie_law": "Cookies are required to use CTemplar. Please enable them in your browser."
+  },
   "contacts": {
     "notify_contacts_title": "Kontakte über meine neue E-Mail-Adresse benachrichtigen",
     "notify_contacts_description": {

@@ -1,4 +1,7 @@
 {
+  "app": {
+    "cookie_law": "Cookies are required to use CTemplar. Please enable them in your browser."
+  },
   "account_init": {
     "acc_creation_complete": "Criação da conta em user&apos;s browser concluída",
     "account_creation": "Criação da conta em user&apos;s browser initiated",

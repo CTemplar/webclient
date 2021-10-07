@@ -1,4 +1,7 @@
 {
+  "app": {
+    "cookie_law": "Cookies are required to use CTemplar. Please enable them in your browser."
+  },
   "contacts": {
     "new_contact": "NEW CONTACT",
     "notify_contacts": "NOTIFY CONTACTS",
@@ -728,10 +731,16 @@
     "password_required": "A password is required.",
     "reset_password": "Reset Password",
     "create_account": "Create Account",
-    "remember_me": "Remember me on this device"
+    "remember_me": "Remember me on this device",
+    "two_factor_authenticiation": "2 Factor Authentication",
+    "ie_has_limited_support": "IE has limited support. For better experience use Chrome, Firefox, Safari, Opera, Edge etc.",
+    "recovery_email_invalid": "The recovery email is invalid.",
+    "agree_condition": "Please agree to above condition to reset your password.",
+    "recovery_code_required": "A recovery code is required."
   },
   "create_account": {
     "name": "Create your account",
+    "plan": "Plan",
     "take_back_liberty": "Take Back Your Liberty!",
     "class_encrypted_email": "Best in class encrypted email <br/> Account creation in only minutes",
     "username_and_domain": "Username and domain",
@@ -743,6 +752,8 @@
     "choose_password": "Choose Password",
     "confirm_password": "Confirm Password",
     "passwords_not_match": "Passwords do not match.",
+    "password_length_validation_error": "The password must be between 8 and 128 characters.",
+    "password_string_validation_error": "The password must be between 8 and 128 characters.",
     "checking_box": "By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable.",
     "password_connected": "Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.",
     "more_info": "More info",
