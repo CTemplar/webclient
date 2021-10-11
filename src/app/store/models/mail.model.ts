@@ -58,6 +58,7 @@ export interface Mail {
   reply_to_display?: Array<EmailDisplay>;
   email_display_name_map?: any;
   sign?: string;
+  participants?: any;
 }
 
 export class EncryptionNonCTemplar {
@@ -118,6 +119,10 @@ export enum MailFolderType {
   SEARCH = 'search',
 }
 
+export enum OrderBy {
+  ASC = 'asc',
+  DESC = 'desc',
+}
 export interface Attachment {
   id?: number;
   attachmentId?: number;

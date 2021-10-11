@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -69,6 +69,8 @@ export class MailFiltersComponent implements OnInit {
   private unmodifiedFilters: Array<Filter>;
 
   inProgress = false;
+
+  @Output() onAnchored = new EventEmitter<any>();
 
   constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
 
@@ -307,5 +309,9 @@ export class MailFiltersComponent implements OnInit {
     this.filters.forEach((filter: Filter, index: number) => {
       filter.priority_order = index + 1;
     });
+  }
+
+  onAnchoredLink() {
+    this.onAnchored.emit();
   }
 }

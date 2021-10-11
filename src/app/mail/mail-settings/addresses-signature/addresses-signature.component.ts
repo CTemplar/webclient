@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, take } from 'rxjs/operators';
@@ -143,6 +143,8 @@ export class AddressesSignatureComponent implements OnInit {
   public CKEDITOR_TOOLBAR_ITEMS = CKEDITOR_TOOLBAR_ITEMS;
 
   signatureEditorInstance: any;
+
+  @Output() onAnchored = new EventEmitter<any>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -675,5 +677,9 @@ export class AddressesSignatureComponent implements OnInit {
       return;
     }
     input.type = input.type === 'password' ? 'text' : 'password';
+  }
+
+  onAnchoredLink(id: string) {
+    this.onAnchored.emit(id);
   }
 }

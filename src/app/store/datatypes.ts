@@ -302,6 +302,8 @@ export class Settings {
 
   show_plain_text?: boolean;
 
+  auto_read?: boolean;
+
   is_hard_wrap?: boolean;
 
   plain_text_font?: string;
@@ -388,6 +390,7 @@ export interface MailState {
   mailMap: any;
   folderMap: Map<string, FolderState>;
   pageLimit?: number;
+  orderBy?: any;
   /**
    * TODO - should be updated so as to contain all of decrypted attachments
    * currently it stores only PGP/MIME message's attachment
