@@ -116,17 +116,23 @@
                             signupForm.controls['username'].errors.minlength ||
                             signupForm.controls['username'].errors.maxlength
                           "
+                          [translate]="'create_account.username_requirements_length'"
                         >
                           The username must be between 4 and 64 characters.
                         </ng-container>
                       </ng-template>
                     </span>
                     <ng-template #usernameRequiredError>
-                      <span class="validate-message">The username is required.</span>
+                      <span class="validate-message" [translate]="'create_account.username_requirements_char'"
+                        >The username is required.</span
+                      >
                     </ng-template>
                   </ng-container>
                   <ng-template #usernameExistsBlock>
-                    <span *ngIf="(signupState$ | async).usernameExists === true" class="validate-message"
+                    <span
+                      *ngIf="(signupState$ | async).usernameExists === true"
+                      class="validate-message"
+                      [translate]="'create_account.username_exist'"
                       >Username already exists.
                     </span>
                   </ng-template>
@@ -137,7 +143,12 @@
                   <strong [translate]="'settings.password'">Password</strong>
                 </h3>
                 <div class="form-group">
-                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose Password</label>
+                  <label
+                    for="choosePassword"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    [translate]="'create_account.choose_password'"
+                    >Choose Password</label
+                  >
                   <div class="input-group">
                     <input
                       #input
@@ -173,7 +184,9 @@
                     class="validate-message"
                   >
                     <ng-container *ngIf="signupForm.controls['password'].errors.required">
-                      <p class="validate-error-message">The password is required.</p>
+                      <p class="validate-error-message" [translate]="'create_account.password_required'">
+                        The password is required.
+                      </p>
                     </ng-container>
                     <ng-container
                       *ngIf="

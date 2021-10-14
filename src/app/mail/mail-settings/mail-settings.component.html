@@ -70,7 +70,7 @@
                                     />
                                   </form>
                                   <a class="col-2 align-self-center -underline" (click)="toggleRecoveyEmailEdit()">
-                                    <u>Save</u>
+                                    <u [translate]="'common.save'">Save</u>
                                   </a>
                                 </div>
                                 <ng-template #recoveryEmailTemplate class="-align-right">
@@ -79,12 +79,12 @@
                                       {{ settings.recovery_email }}
                                     </div>
                                     <a class="col-2" (click)="toggleRecoveyEmailEdit()">
-                                      <u>Edit</u>
+                                      <u [translate]="'common.edit'">Edit</u>
                                     </a>
                                   </div>
                                   <ng-template #addRecoveryEmailTemplate>
                                     <a (click)="toggleRecoveyEmailEdit()">
-                                      <u>Add</u>
+                                      <u [translate]="'settings.add'">Add</u>
                                     </a>
                                   </ng-template>
                                 </ng-template>
@@ -540,7 +540,9 @@
                     class="col-sm-3"
                     ngbTooltip="Enabling this option would include original message text when you reply"
                   >
-                    <label class="form-label mb-0">Include original message text</label>
+                    <label class="form-label mb-0" [translate]="'settings.include_original_text'"
+                      >Include original message text</label
+                    >
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -577,7 +579,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3" ngbTooltip="Help to report bugs automatically by enabling this option">
-                    <label class="form-label mb-0">Report bugs</label>
+                    <label class="form-label mb-0" [translate]="'settings.report_bugs'">Report bugs</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -614,7 +616,9 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0">Universal Spam Filter</label>
+                    <label class="form-label mb-0" [translate]="'settings.universal_spam_filter'"
+                      >Universal Spam Filter</label
+                    >
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -706,7 +710,9 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0">Default composer size</label>
+                    <label class="form-label mb-0" [translate]="'settings.default_composer_size'"
+                      >Default composer size</label
+                    >
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -720,7 +726,7 @@
                             (click)="updateSettings('is_composer_full_screen', false)"
                             [checked]="!settings.is_composer_full_screen"
                           />
-                          <label for="composersize1">Small pop-up</label>
+                          <label for="composersize1" [translate]="'settings.small_pop_up'">Small pop-up</label>
                         </div>
                       </div>
                       <div class="col-6 flex-auto-col">
@@ -733,7 +739,7 @@
                             (click)="updateSettings('is_composer_full_screen', true)"
                             [checked]="settings.is_composer_full_screen"
                           />
-                          <label for="composersize2">Full screen</label>
+                          <label for="composersize2" [translate]="'settings.full_screen'">Full screen</label>
                         </div>
                       </div>
                     </div>
@@ -1087,7 +1093,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0">Dark mode</label>
+                    <label class="form-label mb-0" [translate]="'settings.dark_mode'">Dark mode</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">
@@ -1124,7 +1130,7 @@
               <div class="form-content-row">
                 <div class="row align-items-center">
                   <div class="col-sm-3">
-                    <label class="form-label mb-0">Conversation View</label>
+                    <label class="form-label mb-0" [translate]="'settings.conversation_view'">Conversation View</label>
                   </div>
                   <div class="col-sm-7 col-md-5">
                     <div class="row row-sm">

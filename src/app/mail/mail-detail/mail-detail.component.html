@@ -244,8 +244,8 @@
     </div>
     <div class="spam_reason row" *ngIf="isExistExternalImage && disableExternalImages">
       <div class="col pt-1">
-        <span class="text-warning">Warning:</span>
-        This email contains external images, which have been blocked.
+        <span class="text-warning">{{ 'mail_detail.warning' | translate }}:</span>
+        {{ 'mail_detail.contain_external_blocked' | translate }}
       </div>
       <div>
         <button
@@ -253,7 +253,7 @@
           (click)="disableExternalImages = false; isExistExternalImage = false"
           ngbTooltip="Load external images"
         >
-          Load
+          {{ 'mail_detail.load' | translate }}
         </button>
       </div>
     </div>
@@ -280,7 +280,7 @@
     </div>
     <div class="spam_reason row" *ngIf="isContainTrashRelatedChildren && !isShowTrashRelatedChildren">
       <div class="col pt-1">
-        <span class="text-warning">Information:</span>
+        <span class="text-warning" [translate]="'mail_detail.information'">Information:</span>
         {{
           mailFolder === mailFolderTypes.TRASH
             ? 'This conversation contains non-trash messages.'
@@ -288,7 +288,13 @@
         }}
       </div>
       <div>
-        <button class="mark_not_spam btn btn-outline-warning" (click)="onShowTrashRelatedChildren()">Load</button>
+        <button
+          class="mark_not_spam btn btn-outline-warning"
+          (click)="onShowTrashRelatedChildren()"
+          [translate]="'mail_detail.load'"
+        >
+          Load
+        </button>
       </div>
     </div>
   </section>

@@ -240,7 +240,7 @@
                       *ngIf="contact.is_encrypted && !contact.name; else contactName"
                       class="badge badge-warning mr-2 p-1"
                     >
-                      **Encrypted**
+                      **{{ 'contact.encrypted' | translate }}**
                     </span>
                     <ng-template #contactName>
                       <span ngbTooltip="{{ contact.name }}">{{ contact.name }}</span>
@@ -256,7 +256,7 @@
                             *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
                             class="badge badge-warning mr-2 p-1"
                           >
-                            **Encrypted**
+                            **{{ 'contact.encrypted' | translate }}**
                           </span>
                           <ng-template #contactEmail>
                             <span class="d-inline-block text-truncate mail-contact-email-field">{{
@@ -297,7 +297,7 @@
                       *ngIf="contact.is_encrypted && !contact.name; else contactName"
                       class="badge badge-warning mr-2 p-1"
                     >
-                      **Encrypted**
+                      **{{ 'contact.encrypted' | translate }}**
                     </span>
                     <ng-template #contactName>
                       <span ngbTooltip="{{ contact.name }}">{{ contact.name }}</span>
@@ -311,7 +311,7 @@
                             *ngIf="contact.is_encrypted && !contact.email; else contactEmail"
                             class="badge badge-warning mr-2 p-1"
                           >
-                            **Encrypted**
+                            **{{ 'contact.encrypted' | translate }}**
                           </span>
                           <ng-template #contactEmail>
                             <span class="d-inline-block text-truncate mail-contact-email-field">{{
@@ -504,7 +504,7 @@
       <span class="text-small">{{ 'contacts.notify_contacts_description.after' | translate }}</span>
       <span class="text-small">
         <a target="_blank" href="https://ctemplar.com/help/change-of-email-address-notice/" rel="noreferrer noopener"
-          >Learn more</a
+          >{{ 'mail_header.learn_more' | translate }}</a
         ></span
       >
     </div>
