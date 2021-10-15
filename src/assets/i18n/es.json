@@ -23,6 +23,7 @@
     "details": "Datos de contacto",
     "phone2": "Teléfono2",
     "encryption": "Encriptación",
+    "publickey": "Public Key",
     "address": "Dirección",
     "note": "Nota",
     "save": {

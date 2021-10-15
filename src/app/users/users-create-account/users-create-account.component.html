@@ -197,7 +197,7 @@
                       <p class="validate-error-message">The password must be between 8 and 128 characters.</p>
                     </ng-container>
                     <ng-container *ngIf="signupForm.controls['password'].errors.pattern">
-                      <p class="validate-error-message">
+                      <p class="validate-error-message" [translate]="'account_init.password_criteria_msg'">
                         The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1
                         special character.
                       </p>
@@ -205,7 +205,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up"
+                  <label
+                    for="confirmPassword"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    [translate]="'create_account.confirm_password'"
                     >Confirm Password</label
                   >
                   <div
@@ -298,6 +301,7 @@
                   "
                   class="l-alert l-alert-danger"
                   role="alert"
+                  [translate]="'account_init.agree_terms_msg'"
                 >
                   Please agree to above terms or enter recovery email.
                 </div>

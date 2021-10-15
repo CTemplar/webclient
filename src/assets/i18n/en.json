@@ -816,7 +816,9 @@
     "username_requirements_char": "The username is required.",
     "username_exist.": "Username already exists.",
     "choose_password": "Choose Password",
-    "password_required": "The password is required"
+    "password_required": "The password is required",
+    "money_back_guarantee": "14 Day Money back Guarantee (Cryptocurrency excluded)",
+    "pricing_explained": "Pricing explained"
   },
   "billing_info": {
     "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",
@@ -856,7 +858,11 @@
     "max_strength": "Welcome to your Maximum strength mailbox",
     "welcome_to": "Welcome to CTemplar",
     "backup_your_recovery_key": "Backup Your Recovery Key",
-    "temp_store_local_storage": "We provide a feature to temporarily store some decrypted data on your local storage for improved speed. If you trust your device, you can safely enable this feature."
+    "temp_store_local_storage": "We provide a feature to temporarily store some decrypted data on your local storage for improved speed. If you trust your device, you can safely enable this feature.",
+    "temporary_store_decrypted_data": "Temporary store decrypted data",
+    "account_creation_completed": "Account Creation in User's Browser Completed",
+    "password_criteria_msg": "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character.",
+    "agree_terms_msg": "Please agree to above terms or enter recovery email."
   },
   "mail_detail": {
     "encrypted": "Encrypted at rest with zero-access",
