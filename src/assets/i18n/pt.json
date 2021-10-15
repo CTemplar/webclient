@@ -176,11 +176,6 @@
     "payments": "Pagamentos",
     "add_new_method": "Adicionar novo método",
 
-
-    
-    
-    
-    
     "keys": {
       "name": "Chaves",
       "info": "Baixe sua chave PGP para usar com outros serviços compatíveis com ela. Somente mensagens recebidas no formato OpenPGP inline são suportadas atualmente.",
@@ -224,7 +219,7 @@
       "name_on_card": "Nome no cartão",
       "card_number": "Número do cartão",
       "expiry_date": "Data de expiração:",
-      "security_code": "Código de segurança:",
+      "security_code": "Código de segurança:"
     },
     "add": "Adicionar",
     "type": "Tipo",
@@ -699,7 +694,7 @@
     "privacy_policy": "Política de privacidade",
     "our_address": "Nosso endereço",
     "all_rights_reserved": "Todos os direitos reservados",
-    "software_systems": "Templar Software Systems Ltd., uma Empresa de Seychelles com Sociedade Limitada",
+    "software_systems": "Templar Software Systems Ltd., uma Empresa de Seychelles com Sociedade Limitada"
   },
   "page_pricing": {
     "do_not_show_ads": "<p>CTemplar é o email mais seguro & privado do mundo! Baseado numa análise de especificações técnicas. <br>**CTemplar não pode ser usado para enviar spam ou emails em massa.</p>",
@@ -762,9 +757,9 @@
     "2fa_security": "2FA security",
     "support_custom_domains": "Suporte a múltiplos usuários sob domínios personalizados",
     "remote_encrypted_link": "Remote encrypted link",
-    "mails_of_custom_dom": "Capture todos os emails de um domínio personalizado",
+    "mails_of_custom_dom": "Capture todos os emails de um domínio personalizado"
   },
-  
+
   "login": {
     "name": "entrar",
     "user_login": "Iniciar seção",
@@ -843,7 +838,7 @@
     "submit": "Enviar",
     "send_exactly": "ENVIE EXATAMENTE",
     "donation_amount": "Quantia",
-    "pay_to_proceed": "Para proceder, por favor pague",
+    "pay_to_proceed": "Para proceder, por favor pague"
   },
 
   "account_init": {
