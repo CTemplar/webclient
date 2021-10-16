@@ -175,12 +175,6 @@
     "email_required": "O email é necessário.",
     "payments": "Pagamentos",
     "add_new_method": "Adicionar novo método",
-
-
-    
-    
-    
-    
     "keys": {
       "name": "Chaves",
       "info": "Baixe sua chave PGP para usar com outros serviços compatíveis com ela. Somente mensagens recebidas no formato OpenPGP inline são suportadas atualmente.",
@@ -224,7 +218,7 @@
       "name_on_card": "Nome no cartão",
       "card_number": "Número do cartão",
       "expiry_date": "Data de expiração:",
-      "security_code": "Código de segurança:",
+      "security_code": "Código de segurança:"
     },
     "add": "Adicionar",
     "type": "Tipo",
