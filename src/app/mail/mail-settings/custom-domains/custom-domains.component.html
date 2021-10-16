@@ -1,5 +1,5 @@
 <!-- Custom Domain Section -->
-<section class="mailbox-section mt-4">
+<section id="domains" class="mailbox-section mt-4">
   <div class="mailbox-section-body pt-0">
     <div class="desc-card-holder mt-sm-3 mt-md-0">
       <div class="row">
@@ -9,17 +9,11 @@
             <div class="desc-card">
               <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                 <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block">
+                  <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('domains')">
+                    <i class="fas fa-link link-icon"></i>
+                  </a>
                   <strong [translate]="'settings.domains'">Domains</strong>
                 </h5>
-                <a
-                  href="{{ primaryWebsite }}/help/answer/add-a-domain/"
-                  ngbTooltip="Learn more"
-                  class="learn-more-info-icon"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="far fa-question-circle"></i>
-                </a>
               </div>
               <div class="desc-card-body bg-faded domain-body">
                 <button

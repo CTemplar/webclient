@@ -896,7 +896,6 @@
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Подтвердить включение вложений",
     "show_plain_text": "Показать простой текст",
-    "show_rich_text": "Показать текст с дополнительными функциями",
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",
@@ -913,7 +912,9 @@
     "load": "Load",
     "message_expired": "This message has expired",
     "decrypt_message": "Decrypt Message",
-    "information": "Information"
+    "information": "Information",
+    "auto_read_email": "Автоматическое чтение электронной почты",
+    "show_rich_text": "Показать текст с дополнительными функциями"
   },
   "mail_dialogs": {
     "payment_failed": "Платеж не прошел",

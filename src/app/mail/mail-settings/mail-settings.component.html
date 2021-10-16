@@ -15,11 +15,14 @@
           <div class="mailbox-section-body pt-0">
             <div class="desc-card-holder mt-sm-3 mt-md-0">
               <!--START Plan details -->
-              <div class="mb-4 row plan-details">
+              <div id="plan-details" class="mb-4 row plan-details">
                 <div class="col-12">
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
+                        <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('plan-details')">
+                          <i class="fas fa-link link-icon"></i>
+                        </a>
                         <strong [translate]="'settings.plan_details'">Plan Details</strong>
                       </h5>
                     </div>
@@ -143,11 +146,14 @@
                 </div>
               </div>
               <!--END Plan details -->
-              <div class="row">
+              <div id="my-subscription" class="row">
                 <div class="col-md-6">
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
+                        <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('my-subscription')">
+                          <i class="fas fa-link link-icon"></i>
+                        </a>
                         <strong [translate]="'settings.my_subscription'"> My Subscription </strong>
                       </h5>
                     </div>
@@ -362,9 +368,12 @@
           </div>
         </section>
         <!-- Account Type Section -->
-        <section class="mailbox-section" #targetUpgrade>
+        <section id="account-type" class="mailbox-section" #targetUpgrade>
           <div class="ui-header ui-header-bordered position-relative">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('account-type')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.account_type'">Account Type</strong>
             </h5>
           </div>
@@ -395,9 +404,12 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.general'">General</a>
       <ng-template ngbNavContent>
         <!-- General Settings -->
-        <section class="mailbox-section">
+        <section id="general-settings" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('general-settings')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.general_settings'"> General Settings </strong>
             </h5>
           </header>
@@ -694,14 +706,54 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'mail_detail.auto_read_email'">Auto read email</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showAutoReadMode1"
+                            name="[showAutoReadMode1]"
+                            type="radio"
+                            (click)="updateAutoReadMode(true)"
+                            [checked]="settings.auto_read"
+                          />
+                          <label for="showAutoReadMode1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="showAutoReadMode2"
+                            name="[showAutoReadMode2]"
+                            type="radio"
+                            (click)="updateAutoReadMode(false)"
+                            [checked]="!settings.auto_read"
+                          />
+                          <label for="showAutoReadMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         <!-- Composer Settings -->
-        <section class="mailbox-section">
+        <section id="composer-settings" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('composer-settings')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.composer_settings'"> Composer </strong>
             </h5>
           </header>
@@ -1032,9 +1084,12 @@
         </section>
 
         <!-- Appreance Section -->
-        <section class="mailbox-section">
+        <section id="appearance" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('appearance')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.appearance'">Appearance</strong>
             </h5>
           </header>
@@ -1262,9 +1317,12 @@
         </section>
 
         <!-- Notification Section -->
-        <section class="mailbox-section">
+        <section id="notification" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('notification')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.notifications'">Notifications</strong>
             </h5>
           </header>
@@ -1344,9 +1402,12 @@
         <!-- Notification Section Ends -->
 
         <!-- Referral Code Section -->
-        <section class="mailbox-section">
+        <section id="referral-code" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('referral-code')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.referral_code'">Referral Code</strong>
             </h5>
           </header>
@@ -1366,14 +1427,17 @@
         </section>
         <!-- Referral Code Section Ends -->
 
-        <section class="mailbox-section">
-          <app-invite-codes></app-invite-codes>
+        <section id="invitation-codes" class="mailbox-section">
+          <app-invite-codes (onAnchored)="onAnchoredLink('invitation-codes')"></app-invite-codes>
         </section>
 
         <!-- Delete account settings -->
-        <section class="mailbox-section">
+        <section id="delete-account" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('delete-account')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.delete_account'"> Delete Account </strong>
             </h5>
           </header>
@@ -1408,12 +1472,15 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.filters.title'">Filters & Blocked Addresses</a>
       <ng-template ngbNavContent>
         <!-- Custom filters -->
-        <app-mail-filters></app-mail-filters>
+        <app-mail-filters id="filters" (onAnchored)="onAnchoredLink('filters')"></app-mail-filters>
 
         <!-- Whitelist settings -->
-        <section class="mailbox-section">
+        <section id="whitelist" class="mailbox-section">
           <header class="ui-header ui-header-bordered whitelist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('whitelist')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.whitelist.name'">Whitelist</strong>
             </h5>
             <a
@@ -1497,9 +1564,12 @@
         </section>
 
         <!-- Blacklist settings -->
-        <section class="mailbox-section">
+        <section id="blacklist" class="mailbox-section">
           <header class="ui-header ui-header-bordered blacklist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
+              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('blacklist')">
+                <i class="fas fa-link link-icon"></i>
+              </a>
               <strong [translate]="'settings.blacklist.name'">Blacklist</strong>
             </h5>
             <a
@@ -1588,7 +1658,7 @@
     <div class="nav" [ngbNavItem]="'addresses-and-signatures'">
       <a ngbNavLink class="nav-link" [translate]="'settings.signs_and_aliases'">Signatures & Aliases</a>
       <ng-template ngbNavContent>
-        <app-addresses-signature></app-addresses-signature>
+        <app-addresses-signature (onAnchored)="onAnchoredLink($event)"></app-addresses-signature>
       </ng-template>
     </div>
 
@@ -1596,7 +1666,7 @@
     <div class="nav" [ngbNavItem]="'folders'">
       <a ngbNavLink class="nav-link" [translate]="'page_pricing.folders'">Folders</a>
       <ng-template ngbNavContent>
-        <app-folders></app-folders>
+        <app-folders (onAnchored)="onAnchoredLink($event)"></app-folders>
       </ng-template>
     </div>
 
@@ -1604,7 +1674,7 @@
     <div class="nav" [ngbNavItem]="'security'">
       <a ngbNavLink class="nav-link" [translate]="'home_header.security'">Security</a>
       <ng-template ngbNavContent>
-        <app-settings-security></app-settings-security>
+        <app-settings-security (onAnchored)="onAnchoredLink($event)"></app-settings-security>
       </ng-template>
     </div>
 
@@ -1612,7 +1682,10 @@
     <div class="nav" [ngbNavItem]="'domains-and-users'">
       <a ngbNavLink class="nav-link" [translate]="'settings.domains_and_users.title'">Domains & Users</a>
       <ng-template ngbNavContent>
-        <app-custom-domains (onGotoTab)="navSet.select($event)"></app-custom-domains>
+        <app-custom-domains
+          (onGotoTab)="navSet.select($event)"
+          (onAnchored)="onAnchoredLink($event)"
+        ></app-custom-domains>
       </ng-template>
     </div>
 
@@ -1620,8 +1693,8 @@
     <div class="nav" [ngbNavItem]="'forwarding-and-auto-responder'">
       <a ngbNavLink class="nav-link" [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</a>
       <ng-template ngbNavContent>
-        <app-mail-forwarding></app-mail-forwarding>
-        <app-mail-autoresponder></app-mail-autoresponder>
+        <app-mail-forwarding (onAnchored)="onAnchoredLink($event)"></app-mail-forwarding>
+        <app-mail-autoresponder (onAnchored)="onAnchoredLink($event)"></app-mail-autoresponder>
       </ng-template>
     </div>
   </div>

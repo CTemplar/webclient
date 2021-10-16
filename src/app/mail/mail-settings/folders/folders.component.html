@@ -1,6 +1,9 @@
-<section class="mailbox-section">
+<section id="folders" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('folders')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'page_pricing.folders'">Folders</strong>
       <app-loading-spinner [showSpinner]="userState?.inProgress && folders.length === 0"></app-loading-spinner>
     </h5>

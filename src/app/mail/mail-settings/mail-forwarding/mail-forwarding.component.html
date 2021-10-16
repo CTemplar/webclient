@@ -1,6 +1,9 @@
-<section class="mailbox-section">
+<section id="forwarding" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('forwarding')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.forwarding.title'">Forwarding</strong>
       <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     </h5>

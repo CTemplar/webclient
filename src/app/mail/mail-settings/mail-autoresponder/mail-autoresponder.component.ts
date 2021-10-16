@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgbDatepicker, NgbDateStruct, NgbModal, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -40,6 +40,8 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
   endDate: NgbDateStruct;
 
   errorMessage: string;
+
+  @Output() onAnchored = new EventEmitter<any>();
 
   constructor(
     private store: Store<AppState>,
@@ -131,5 +133,9 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
       }
     }
     this.store.dispatch(new SaveAutoResponder(this.autoresponder));
+  }
+
+  onAnchoredLink(id: string) {
+    this.onAnchored.emit(id);
   }
 }

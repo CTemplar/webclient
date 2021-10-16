@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -91,6 +91,8 @@ export class SecurityComponent implements OnInit {
   resetRecoveryKeyErrorMessage = '';
 
   newResetRecoverKey = '';
+
+  @Output() onAnchored = new EventEmitter<any>();
 
   constructor(
     private store: Store<AppState>,
@@ -416,5 +418,9 @@ export class SecurityComponent implements OnInit {
     } else {
       this.resetRecoveryKeyModalRef.close();
     }
+  }
+
+  onAnchoredLink(id: string) {
+    this.onAnchored.emit(id);
   }
 }

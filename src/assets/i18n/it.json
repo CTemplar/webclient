@@ -896,6 +896,7 @@
     "confirm_forward_attach": "Conferma inoltro allegati",
     "confirm_include_attach": "Conferma inclusione allegati",
     "show_plain_text": "Mostra testo semplice",
+    "auto_read_email": "E-mail di lettura automatica",
     "show_rich_text": "Mostra testo complesso",
     "password_encryption_message_desc": "Questo messaggio è stato crittografato con la password. Inserisci la password che hai impostato prima.",
     "password_hint": "Suggerimento password: ",

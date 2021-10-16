@@ -1,7 +1,10 @@
 <!-- Signature Section -->
-<section class="mailbox-section">
+<section id="signature" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('signature')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.signature'">Signature</strong>
     </h5>
   </header>
@@ -176,9 +179,12 @@
 </section>
 
 <!-- Aliases Section -->
-<section class="mailbox-section">
+<section id="aliases" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('aliases')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.addresses'">Aliases</strong>
     </h5>
   </header>
@@ -465,9 +471,12 @@
 </section>
 
 <!-- Keys Section -->
-<section class="mailbox-section">
+<section id="keys" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
+      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('aliases')">
+        <i class="fas fa-link link-icon"></i>
+      </a>
       <strong [translate]="'settings.keys.name'">Keys</strong>
     </h5>
   </header>
