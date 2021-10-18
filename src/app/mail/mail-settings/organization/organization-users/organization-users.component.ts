@@ -81,8 +81,8 @@ export class OrganizationUsersComponent implements OnInit {
           [
             Validators.required,
             Validators.pattern(/^\w+([.-]?\w+)*$/),
-            Validators.maxLength(128),
-            Validators.minLength(1),
+            Validators.maxLength(64),
+            Validators.minLength(4),
           ],
         ],
         domain: ['', Validators.required],

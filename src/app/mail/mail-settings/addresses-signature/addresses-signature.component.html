@@ -281,68 +281,53 @@
                       ></i>
                     </ng-template>
                   </div>
-                  <ng-container
-                    *ngIf="
-                      newAddressForm.controls['username'].errors &&
-                        (newAddressForm.controls['username'].touched || newAddressOptions.isSubmitted);
-                      else usernameExistsBlock
-                    "
-                  >
+                  <ng-container>
+                    <!-- Required validating -->
                     <span
                       class="validate-message"
-                      *ngIf="newAddressForm.controls['username'].errors; else usernameRequiredError"
+                      [translate]="'settings.username_required'"
+                      *ngIf="
+                        (newAddressForm.controls['username'].touched || newAddressOptions.isSubmitted) &&
+                        newAddressForm.controls['username'].errors &&
+                        newAddressForm.controls['username'].errors.required
+                      "
                     >
-                      <ng-container
-                        *ngIf="newAddressForm.controls['username'].errors.pattern; else usernameLengthBlock"
-                      >
-                        <span [translate]="'settings.username_allowed_chars'">
-                          The username must start with a letter and end with a letter or number.It may only contain
-                        </span>
-                        <em>a-z</em>, <em>A-Z</em>, <em>0-9</em> or <em>._-</em>
-                        <span
-                          [translate]="'settings.username_minlen'"
-                          *ngIf="!isCustomDomainSelected; else customDomainsUserNameMinLenBlock"
-                        >
-                          ‌characters, and minimum length is 2 characters.
-                        </span>
-                        <ng-template #customDomainsUserNameMinLenBlock>
-                          <span>‌characters, and minimum length is 1 character.</span>
-                        </ng-template>
-                      </ng-container>
-                      <ng-template #usernameLengthBlock>
-                        <ng-container
-                          *ngIf="
-                            newAddressForm.controls['username'].errors.minlength ||
-                            newAddressForm.controls['username'].errors.maxlength
-                          "
-                        >
-                          <span
-                            [translate]="'settings.username_chars'"
-                            *ngIf="!isCustomDomainSelected; else customDomainsUserNameLenBlock"
-                          >
-                            The username must be between 2 and 64 characters.
-                          </span>
-                          <ng-template #customDomainsUserNameLenBlock>
-                            <span>The username must be between 1 and 64 characters.</span>
-                          </ng-template>
-                        </ng-container>
-                      </ng-template>
+                      The username is required.
                     </span>
-                    <ng-template #usernameRequiredError>
-                      <span class="validate-message" [translate]="'settings.username_required'">
-                        The username is required.
-                      </span>
-                    </ng-template>
-                  </ng-container>
-                  <ng-template #usernameExistsBlock>
+                    <!-- Pattern validating -->
                     <span
-                      *ngIf="newAddressOptions.usernameExists === true"
                       class="validate-message"
+                      [translate]="'settings.username_allowed_chars'"
+                      *ngIf="
+                        (newAddressForm.controls['username'].touched || newAddressOptions.isSubmitted) &&
+                        newAddressForm.controls['username'].errors &&
+                        newAddressForm.controls['username'].errors.pattern
+                      "
+                    >
+                      The username must start with a letter and end with a letter or number.It may only contain a-z,
+                      A-Z, 0-9 or ._-
+                    </span>
+                    <!-- Min, Max length validating -->
+                    <span
+                      class="validate-message"
+                      [translate]="'settings.username_chars'"
+                      *ngIf="
+                        (newAddressForm.controls['username'].touched || newAddressOptions.isSubmitted) &&
+                        newAddressForm.controls['username'].errors &&
+                        (newAddressForm.controls['username'].errors.minlength ||
+                          newAddressForm.controls['username'].errors.maxlength)
+                      "
+                    >
+                      The username must be between 3 and 64 characters.
+                    </span>
+                    <span
+                      class="validate-message"
+                      *ngIf="newAddressOptions.usernameExists === true"
                       [translate]="'settings.alias_exist'"
                     >
                       Email alias already exists.
                     </span>
-                  </ng-template>
+                  </ng-container>
                 </div>
               </div>
               <div class="col-sm-2">
