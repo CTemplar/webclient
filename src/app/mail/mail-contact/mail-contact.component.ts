@@ -11,6 +11,7 @@ import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { ContactFolderType, Mailbox } from '../../store/models';
 import { OpenPgpService } from '../../store/services';
+import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 export enum ContactsProviderType {
   GOOGLE = <any>'GOOGLE',
@@ -102,6 +103,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     config: NgbDropdownConfig,
     @Inject(DOCUMENT) private document: Document,
     private cdr: ChangeDetectorRef,
+    private userSelectManageService: UserSelectManageService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
@@ -113,6 +115,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     this.activatedRoute.queryParams.pipe(untilDestroyed(this)).subscribe(parameters => {
       this.searchText = parameters.search || '';
       this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
+      this.userSelectManageService.updateUserSelectPossiblilityState(true);
     });
 
     this.isMobile = window.innerWidth <= 768;

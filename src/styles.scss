@@ -781,3 +781,11 @@ button.ctemplar-blockquote-toggle ~ * {
   font-size: 1rem;
   color: var(--text-dark);
 }
+
+.disable-user-select {
+  -moz-user-select:none;
+  -khtml-user-select: none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}

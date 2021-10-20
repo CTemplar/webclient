@@ -54,6 +54,7 @@ import {
 } from '../../store/services';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
 
@@ -231,6 +232,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
+    private userSelectManageService: UserSelectManageService,
   ) {}
 
   ngOnInit() {
@@ -458,6 +460,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       this.disableMoveTo = this.mailFolder === MailFolderType.OUTBOX || this.mailFolder === MailFolderType.DRAFT;
       this.page = +parameters.page;
       this.getMailDetail(id);
+      this.userSelectManageService.updateUserSelectPossiblilityState(true);
     });
     /**
      * Get user settings
