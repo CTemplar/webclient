@@ -38,6 +38,8 @@ import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinn
 import { ThemeToggleService } from './services/theme-toggle-service';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { KeyManageService } from './services/key-manage.service';
+import { UserSelectManageService } from './services/user-select-manage.service';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -83,34 +85,38 @@ const maskConfig: Partial<IConfig> = {
     AdvancedSearchComponent,
   ],
   exports: [
+    // Modules
     TranslateModule,
+    TagInputModule,
+    MatIconModule,
+    NgxMaskModule,
+    // Directives
+    ClickOutsideDirective,
+    IsIeDirective,
+    // Pipes
+    EmailFormatPipe,
+    SafePipe,
+    LastActionPipe,
+    FilenamePipe,
+    FilesizePipe,
+    RemainingTimePipe,
+    MomentDatePipe,
+    CreditCardNumberPipe,
+    // Components
     SpinnerComponent,
+    LineBreakToBrTag,
     LoadingComponent,
     SpinnerImageComponent,
     LoadingSpinnerComponent,
-    SafePipe,
-    LastActionPipe,
-    TagInputModule,
     ProgressBarComponent,
-    FilenamePipe,
-    MatIconModule,
     PricingPlansComponent,
     UsersBillingInfoComponent,
-    FilesizePipe,
-    RemainingTimePipe,
-    ClickOutsideDirective,
+    CircleBarSpinnerComponent,
+    AdvancedSearchComponent,
     CountdownTimerComponent,
-    IsIeDirective,
-    MomentDatePipe,
     StripeFormComponent,
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
-    CreditCardNumberPipe,
-    LineBreakToBrTag,
-    EmailFormatPipe,
-    CircleBarSpinnerComponent,
-    AdvancedSearchComponent,
-    NgxMaskModule,
   ],
   providers: [
     SpinnerService,
@@ -122,6 +128,8 @@ const maskConfig: Partial<IConfig> = {
     LineBreakToBrTag,
     EmailFormatPipe,
     ThemeToggleService,
+    KeyManageService,
+    UserSelectManageService,
   ],
   entryComponents: [CreateFolderComponent, PaymentFailureNoticeComponent],
 })
