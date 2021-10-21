@@ -39,11 +39,10 @@ import {
 import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
+import { KEY_LEFT_CONTROL, KEY_SHIFT } from '../../../../shared/config';
+import { KeyManageService } from '../../../../shared/services/key-manage.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
-
-const KEY_LEFT_CONTROL = 'ControlLeft';
-const KEY_SHIFT = 'ShiftLeft';
 
 @UntilDestroy()
 @Component({
@@ -131,6 +130,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     private authService: UsersService,
     private modalService: NgbModal,
     private translate: TranslateService,
+    private keyManageService: KeyManageService,
   ) {}
 
   ngOnInit() {
@@ -229,6 +229,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     this.folderName = this.translate.instant(getMailFolderName(this.mailFolder));
 
     window.removeEventListener('beforeunload', this.authService.onBeforeLoader, true);
+
+    this.keyManageService.ctrlAKeyTrigger$.pipe(untilDestroyed(this)).subscribe(() => {
+      this.markAllMails(true);
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -511,6 +515,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         );
       } else {
         if (this.isKeyDownCtrlBtn) {
+          if (this.userState?.settings?.auto_read) {
+            const ids = [mail.id].join(',');
+            this.store.dispatch(new ReadMail({ ids, read: true, folder: this.mailFolder }));
+          }
           window.open(`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`, '_blank');
         } else {
           this.store.dispatch(new GetMailDetailSuccess(mail));
@@ -823,7 +831,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       this.isKeyDownCtrlBtn &&
       (!this.composeMailService.componentRefList || this.composeMailService.componentRefList.length === 0)
     ) {
-      this.markAllMails(true);
+      // this.markAllMails(true);
     } else if (event.code === KEY_SHIFT) {
       this.isKeyDownShiftBtn = false;
     }

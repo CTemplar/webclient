@@ -1,4 +1,8 @@
-<div class="mailbox-content-outer">
+<div
+  #mailboxContentOuter
+  class="mailbox-content-outer"
+  [ngClass]="!(isEnalbedUserSelect$ | async) ? 'disable-user-select' : ''"
+>
   <app-mail-sidebar></app-mail-sidebar>
   <div class="banner row ml-lg-5 -align-center" *ngIf="autoresponder_status">
     <p>

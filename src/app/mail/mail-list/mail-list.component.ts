@@ -5,6 +5,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 import { AppState, UserState } from '../../store/datatypes';
 import { Folder, MailFolderType } from '../../store/models';
+import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 @UntilDestroy()
 @Component({
@@ -21,7 +22,11 @@ export class MailListComponent implements OnInit {
 
   private page = 1;
 
-  constructor(public route: ActivatedRoute, private store: Store<AppState>) {}
+  constructor(
+    public route: ActivatedRoute,
+    private store: Store<AppState>,
+    private userSelectManageService: UserSelectManageService,
+  ) {}
 
   ngOnInit() {
     /**
@@ -31,6 +36,7 @@ export class MailListComponent implements OnInit {
     this.route.params.pipe(untilDestroyed(this)).subscribe(parameters => {
       this.mailFolder = parameters.folder as MailFolderType;
       this.page = +parameters.page;
+      this.userSelectManageService.updateUserSelectPossiblilityState(false);
     });
 
     this.store

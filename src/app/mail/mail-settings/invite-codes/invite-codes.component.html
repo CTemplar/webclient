@@ -20,24 +20,26 @@
                 (click)="generateCode()"
                 class="btn btn-sm btn-secondary"
               >
-                <span>Generate a code</span>
+                <span [translate]="'settings.generate_code'">Generate a code</span>
               </button>
             </div>
             <app-loading-spinner class="loading-spinner" [showSpinner]="inProgress"></app-loading-spinner>
           </div>
           <div>
-            <div *ngIf="!isPrime" class="l-alert text-dark">
+            <div *ngIf="!isPrime" class="l-alert text-dark" [translate]="'settings.paid_customers_generate_invitation'">
               Note: Only paid customers can generate invitation codes.
             </div>
             <div *ngIf="inviteCodes?.length > 0">
               <ul class="ui-list ui-list-styled list-styled users-list">
                 <li class="ui-list-item ui-list-item-xs-full">
                   <div class="row row-xs align-items-center">
-                    <div class="col-6 font-weight-bold col-item">Code</div>
+                    <div class="col-6 font-weight-bold col-item" [translate]="'settings.code'">Code</div>
                     <div class="col-3 col-item">
-                      <div class="form-label mb-0 font-weight-bold">Expiration date</div>
+                      <div class="form-label mb-0 font-weight-bold" [translate]="'settings.expiration_date'">
+                        Expiration date
+                      </div>
                     </div>
-                    <div class="col-3 font-weight-bold col-item">Is Used ?</div>
+                    <div class="col-3 font-weight-bold col-item" [translate]="'settings.is_used'">Is Used ?</div>
                   </div>
                 </li>
 

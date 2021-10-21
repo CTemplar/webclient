@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h3 class="modal-title w-100 text-dark" id="createFoldersModalLabel">
-    <strong>Import Private Key</strong>
+    <strong [translate]="'settings.keys.import_private_key'">Import Private Key</strong>
   </h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onHide()">
     <span aria-hidden="true">&times;</span>
@@ -29,12 +29,14 @@
     </div>
     <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.SELECT_PRIVATE_KEY">
       <div class="mb-1">
-        <p class="text-holder text-medium text-danger">
+        <p class="text-holder text-medium text-danger" [translate]="'settings.keys.msg_import_private_key'">
           Are you sure to import the private key? Please be ensure the private key is secure.
         </p>
       </div>
       <div>
-        <p class="text-holder text-dark text-medium">Please select a private key to import</p>
+        <p class="text-holder text-dark text-medium" [translate]="'settings.keys.msg_select_private_key'">
+          Please select a private key to import
+        </p>
       </div>
       <div class="form-content-row mt-1">
         <input
@@ -58,7 +60,9 @@
     </div>
     <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.INPUT_PRIVATE_KEY_PASSWORD">
       <div class="mb-2">
-        <p class="text-holder text-medium">Please input the password of private key that you selected.</p>
+        <p class="text-holder text-medium" [translate]="'settings.keys.msg_input_private_key_password'">
+          Please input the password of private key that you selected.
+        </p>
       </div>
       <div class="pl-2 pt-2 mb-3" *ngIf="currentFile">
         <i class="fas fa-file-alt font-italic ml-2 mr-2"></i>
@@ -86,14 +90,18 @@
             </div>
           </div>
           <div class="col-sm-12 errors-field" *ngIf="decryptError">
-            <span class="validate-message mt-3">Incorrect Passphrase</span>
+            <span class="validate-message mt-3" [translate]="'settings.keys.incorrect_passpharse'"
+              >Incorrect Passphrase</span
+            >
           </div>
         </div>
       </div>
     </div>
     <div class="mb-1" *ngIf="currentStep === ImportPrivateKeyStep.INPUT_USER_PASSWORD">
       <div class="mb-3">
-        <p class="text-holder text-dark text-medium">Please enter your account password to continue</p>
+        <p class="text-holder text-dark text-medium" [translate]="'settings.keys.msg_enter_account_password'">
+          Please enter your account password to continue
+        </p>
       </div>
       <div class="form-content-row mt-2">
         <div class="row align-items-center">
@@ -118,7 +126,7 @@
             </div>
           </div>
           <div class="col-sm-12 errors-field" *ngIf="mailboxKeyFailure$ | async">
-            <span class="validate-message mt-3">Incorrect Password</span>
+            <span class="validate-message mt-3" [translate]="'incorrect_password'">Incorrect Password</span>
           </div>
         </div>
       </div>
@@ -139,6 +147,7 @@
           inProgress ||
           (mailboxKeyInProgress$ | async)
         "
+        [translate]="'settings.next'"
       >
         Next
       </button>

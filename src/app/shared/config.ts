@@ -232,3 +232,7 @@ export const CKEDITOR_TOOLBAR_ITEMS = [
 ];
 
 export const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,})');
+
+// Keys
+export const KEY_LEFT_CONTROL = 'ControlLeft';
+export const KEY_SHIFT = 'ShiftLeft';
