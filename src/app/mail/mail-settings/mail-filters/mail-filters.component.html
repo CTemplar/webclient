@@ -16,7 +16,7 @@
         *ngIf="!inSetPriority && filters?.length > 1"
         [ngbTooltip]="'settings.reorder_addresses' | translate"
       >
-        <span>Set Priority</span>
+        <span [translate]="'settings.set_priority'">Set Priority</span>
       </button>
       <ng-container *ngTemplateOutlet="setPriorityButtons"></ng-container>
       <ul cdkDropList class="ui-list ui-list-styled list-styled" (cdkDropListDropped)="onFilterDrop($event)">
@@ -85,7 +85,7 @@
   <div *ngIf="inSetPriority" class="mb-2">
     <app-loading-spinner [showSpinner]="userState?.inProgress"></app-loading-spinner>
     <button class="btn btn-sm btn-secondary mr-1" [disabled]="userState?.inProgress" (click)="savePriority()">
-      <span>Save Priority</span>
+      <span [translate]="'settings.save_priority'">Save Priority</span>
     </button>
     <button class="btn btn-sm btn-primary" [disabled]="userState?.inProgress" (click)="cancelSetPriority()">
       <span [translate]="'common.cancel'">Cancel</span>
