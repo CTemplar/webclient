@@ -18,10 +18,10 @@
             <strong [translate]="'login.user_login'" *showInIE="false">User Login</strong>
           </h1>
           <h2 *ngIf="authState.auth2FA.show2FALogin" class="l-block-title text-white text-uppercase">
-            <strong>2 Factor Authentication</strong>
+            <strong [translate]="'login.two_factor_authenticiation'">2 Factor Authentication</strong>
           </h2>
           <h4 class="l-block-title text-white">
-            <strong *showInIE="true"
+            <strong *showInIE="true" [translate]="'login.ie_has_limited_support'"
               >IE has limited support. For better experience use Chrome, Firefox, Safari, Opera, Edge etc.</strong
             >
           </h4>
@@ -138,11 +138,6 @@
             <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">
               {{ errorMessage }}
             </div>
-            <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-warning my-2">
-              <small>
-                We are under DDOS attack and had to disable the Sign In. Please, wait until the service is restored.
-              </small>
-            </div>
             <div class="form-group form-user-actions mt-4 pt-sm-2">
               <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">
                 <span [translate]="'login.name'">Login</span>
@@ -242,7 +237,7 @@
 <ng-template #resetPasswordModal let-c="close" let-d="dismiss">
   <div class="modal-header text-center justify-content-center">
     <h3 class="modal-title w-100 text-dark" id="resetPasswordModalLabel">
-      <strong>Reset Password</strong>
+      <strong [translate]="'login.reset_password'">Reset Password</strong>
     </h3>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
       <span aria-hidden="true">&times;</span>
@@ -320,7 +315,9 @@
                   id="recovery-email-valid"
                   class="validate-message"
                 >
-                  <span *ngIf="recoverPasswordForm.controls['recovery_email'].errors.email"
+                  <span
+                    *ngIf="recoverPasswordForm.controls['recovery_email'].errors.email"
+                    [translate]="'login.recovery_email_invalid'"
                     >The recovery email is invalid.</span
                   >
                 </span>
@@ -350,6 +347,7 @@
                 *ngIf="isConfirmedPrivacy !== null && !isConfirmedPrivacy"
                 class="l-alert l-alert-danger mb-4"
                 role="alert"
+                [translate]="'login.agree_condition'"
               >
                 Please agree to above condition to reset your password.
               </div>
@@ -360,6 +358,7 @@
                   role="button"
                   type="submit"
                   [disabled]="isLoading"
+                  [translate]="'login.reset_password'"
                 >
                   Reset Password
                 </button>
@@ -374,7 +373,7 @@
                 role="button"
               >
                 <small>
-                  <u>Already have the code</u>
+                  <u [translate]="'settings.forwarding.code_message'">Already have the code</u>
                 </small>
               </a>
             </div>
@@ -405,7 +404,11 @@
                   id="reset-code-valid"
                   class="validate-message"
                 >
-                  <span *ngIf="resetPasswordForm.controls['code'].errors.required">A recovery code is required.</span>
+                  <span
+                    *ngIf="resetPasswordForm.controls['code'].errors.required"
+                    [translate]="'login.recovery_code_required'"
+                    >A recovery code is required.</span
+                  >
                 </span>
               </div>
               <div class="form-group">
@@ -423,7 +426,11 @@
                   id="username-valid"
                   class="validate-message"
                 >
-                  <span *ngIf="resetPasswordForm.controls['username'].errors.required">A username is required.</span>
+                  <span
+                    *ngIf="resetPasswordForm.controls['username'].errors.required"
+                    [translate]="'settings.username_required'"
+                    >A username is required.</span
+                  >
                 </span>
               </div>
 
@@ -467,10 +474,12 @@
                       resetPasswordForm.controls['password'].errors.maxlength
                     "
                   >
-                    <p class="validate-error-message">The password must be between 8 and 128 characters.</p>
+                    <p class="validate-error-message" [translate]="'create_account.password_length_validation_error'">
+                      The password must be between 8 and 128 characters.
+                    </p>
                   </ng-container>
                   <ng-container *ngIf="resetPasswordForm.controls['password'].errors.pattern">
-                    <p class="validate-error-message">
+                    <p class="validate-error-message" [translate]="'create_account.password_string_validation_error'">
                       The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special
                       character.
                     </p>
@@ -521,6 +530,7 @@
                   role="button"
                   type="submit"
                   [disabled]="isGeneratingKeys"
+                  [translate]="'billing_info.submit'"
                 >
                   Submit
                 </button>

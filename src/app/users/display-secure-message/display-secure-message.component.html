@@ -1,7 +1,7 @@
 <div class="l-block-body px-xs">
   <div id="secure-message-card" class="ui-card">
     <div class="ui-card-header bg-primary text-sm-center">
-      <h6 class="ui-card-title mb-0 fw-light text-white pr-4 px-sm-0">
+      <h6 class="ui-card-title mb-0 fw-light text-white pr-4 px-sm-0" [translate]="'encryption.expiring_in'">
         Expiring in
         <strong>
           <app-countdown-timer [duration]="expiryDurationInSeconds" (finished)="onExpired()"></app-countdown-timer>
@@ -21,7 +21,8 @@
             >
           </h5>
           <button class="btn btn-disabled btn-sm btn-reply ml-sm-auto" role="button" (click)="onReply()">
-            <i class="icon icon-reply mr-2"></i><strong>Reply Securely</strong>
+            <i class="icon icon-reply mr-2"></i
+            ><strong [translate]="'encryption.reply_securely'">Reply Securely</strong>
           </button>
         </div>
         <div class="msg-reply-address-row">

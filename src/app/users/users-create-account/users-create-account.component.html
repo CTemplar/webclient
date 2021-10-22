@@ -24,7 +24,7 @@
         </div>
         <div class="ml-1 row selected-plan">
           <h3 class="mt-3 text-dark">
-            <strong>Plan : {{ this.selectedPlan | uppercase }}</strong>
+            <strong>{{ 'create_account.plan' | translate }} : {{ this.selectedPlan | uppercase }}</strong>
           </h3>
         </div>
         <div class="form">
@@ -116,17 +116,23 @@
                             signupForm.controls['username'].errors.minlength ||
                             signupForm.controls['username'].errors.maxlength
                           "
+                          [translate]="'create_account.username_requirements_length'"
                         >
                           The username must be between 4 and 64 characters.
                         </ng-container>
                       </ng-template>
                     </span>
                     <ng-template #usernameRequiredError>
-                      <span class="validate-message">The username is required.</span>
+                      <span class="validate-message" [translate]="'create_account.username_requirements_char'"
+                        >The username is required.</span
+                      >
                     </ng-template>
                   </ng-container>
                   <ng-template #usernameExistsBlock>
-                    <span *ngIf="(signupState$ | async).usernameExists === true" class="validate-message"
+                    <span
+                      *ngIf="(signupState$ | async).usernameExists === true"
+                      class="validate-message"
+                      [translate]="'create_account.username_exist'"
                       >Username already exists.
                     </span>
                   </ng-template>
@@ -137,7 +143,12 @@
                   <strong [translate]="'settings.password'">Password</strong>
                 </h3>
                 <div class="form-group">
-                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up">Choose Password</label>
+                  <label
+                    for="choosePassword"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    [translate]="'create_account.choose_password'"
+                    >Choose Password</label
+                  >
                   <div class="input-group">
                     <input
                       #input
@@ -173,7 +184,9 @@
                     class="validate-message"
                   >
                     <ng-container *ngIf="signupForm.controls['password'].errors.required">
-                      <p class="validate-error-message">The password is required.</p>
+                      <p class="validate-error-message" [translate]="'create_account.password_required'">
+                        The password is required.
+                      </p>
                     </ng-container>
                     <ng-container
                       *ngIf="
@@ -184,7 +197,7 @@
                       <p class="validate-error-message">The password must be between 8 and 128 characters.</p>
                     </ng-container>
                     <ng-container *ngIf="signupForm.controls['password'].errors.pattern">
-                      <p class="validate-error-message">
+                      <p class="validate-error-message" [translate]="'account_init.password_criteria_msg'">
                         The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1
                         special character.
                       </p>
@@ -192,7 +205,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up"
+                  <label
+                    for="confirmPassword"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    [translate]="'create_account.confirm_password'"
                     >Confirm Password</label
                   >
                   <div
@@ -285,6 +301,7 @@
                   "
                   class="l-alert l-alert-danger"
                   role="alert"
+                  [translate]="'account_init.agree_terms_msg'"
                 >
                   Please agree to above terms or enter recovery email.
                 </div>

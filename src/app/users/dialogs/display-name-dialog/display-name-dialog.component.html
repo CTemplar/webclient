@@ -1,5 +1,7 @@
 <div class="modal-header justify-content-sm-center align-items-center">
-  <h3 class="modal-title w-100 text-dark title"><strong>Welcome to CTemplar</strong></h3>
+  <h3 class="modal-title w-100 text-dark title">
+    <strong [translate]="'account_init.welcome_to'">Welcome to CTemplar</strong>
+  </h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -7,8 +9,8 @@
 <form [formGroup]="changeDisplayNameForm">
   <div class="modal-body bg-faded">
     <div class="mb-4 text-holder text-dark text-medium">
-      <h4 class="font-weight-bold">Backup Your Recovery Key</h4>
-      <p>
+      <h4 class="font-weight-bold" [translate]="'account_init.backup_your_recovery_key'">Backup Your Recovery Key</h4>
+      <p [translate]="'settings.recovery_key_save_safe'">
         Please save this recovery key in a safe place, if you forget your password, you can use it to reset your
         password even if you don't remember your recovery email.
         <a href="https://ctemplar.com/help/answer/what-is-a-recovery-key/" target="_blank" rel="noopener noreferrer"
@@ -16,7 +18,7 @@
         >
       </p>
       <div class="bg-white px-3 py-3">
-        <span class="text-dark"><b>Recovery key: </b>{{ recoveryKey }}</span>
+        <span class="text-dark"><b [translate]="'settings.recovery_key'">Recovery key: </b>{{ recoveryKey }}</span>
         <button mat-icon-button (click)="copyToClipboard(recoveryKey)" class="copy-btn">
           <i class="fas fa-copy font-20px" ngbTooltip="Copy to clipboard"></i>
         </button>

@@ -133,9 +133,12 @@
 
         &.active,
         &:active {
-          background: #8b9095;
+          background: #8b9095 !important;
           border-color: #8b9095;
           color: #fafafa;
+        }
+        &:hover {
+          color: #777 !important;
         }
       }
     }

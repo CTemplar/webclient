@@ -1,4 +1,7 @@
 {
+  "app": {
+    "cookie_law": "Cookies are required to use CTemplar. Please enable them in your browser."
+  },
   "contacts": {
     "new_contact": "NEW CONTACT",
     "notify_contacts": "NOTIFY CONTACTS",
@@ -62,7 +65,8 @@
       "key_assign_warn1": "This key is NOT assigned to ",
       "key_assign_warn2": "Assigned User: ",
       "remove_public_key": "Remove Public Key"
-    }
+    },
+    "encrypted": "Encrypted"
   },
   "common": {
     "name": "Name",
@@ -194,7 +198,15 @@
       "update_primary_key": "Update Primary Key",
       "update_primary_key_desc": "After changed the primary key, all of messages with this alias will be encrypted with this key. Primary key will always be placed in the top of the key list. Are you sure you want to continue?",
       "make_as_primary": "Make as Primary",
-      "select_mailbox_import_key_for": "Please select a mailbox that you want to import key for:"
+      "select_mailbox_import_key_for": "Please select a mailbox that you want to import key for:",
+      "import_private_key": "Import Private Key",
+      "msg_import_private_key": "Are you sure to import the private key? Please be ensure the private key is secure.",
+      "msg_select_private_key": "Please select a private key to import",
+      "msg_input_private_key_password": "Please input the password of private key that you selected.",
+      "incorrect_passpharse": "Incorrect Passphrase",
+      "msg_enter_account_password": "Please enter your account password to continue",
+      "incorrect_password": "Incorrect Password",
+      "primary_key_desc": "After changed the primary key, all of messages with this alias will be encrypted with this key. Primary key will always be placed in the top of the key list. Are you sure you want to continue?"
     },
     "download_public_key": "Download public key",
     "download_private_key": "Download private key",
@@ -570,7 +582,31 @@
     "referral_code": "Referral Code",
     "get_one_month_prime_membership": "Get one month of Prime membership free for every Prime sign up made using your referral code.",
     "plain_text_hard_wrap": "Plain text hard wrap",
-    "plain_text_hard_wrap_desc": "Email contents will be hard wrapped when you send plain text email."
+    "plain_text_hard_wrap_desc": "Email contents will be hard wrapped when you send plain text email.",
+    "default": "Default",
+    "enter_password": "Please enter your account password to continue",
+    "generate_code": "Generate a code",
+    "paid_customers_generate_invitation": "Note: Only paid customers can generate invitation codes.",
+    "code": "Code",
+    "is_used": "Is Used ?",
+    "timezone": "Timezone",
+    "set_priority": "Set Priority",
+    "save_priority": "Save Priority",
+    "recovery_key": "Recovery key",
+    "reset_recovery_key": "Reset Recovery Key",
+    "password_requirement_length": "The password must be between 8 and 128 characters.",
+    "password_requirement_char": "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character.",
+    "note": "Note",
+    "backup_your_recovery_key": "Backup Your Recovery Key",
+    "recovery_key_save_safe": "Please save this recovery key in a safe place, if you forget your password, you can use it to reset your password even if you don't remember your recovery email.",
+    "include_original_text": "Include original message text",
+    "report_bugs": "Report bugs",
+    "universal_spam_filter": "Universal Spam Filter",
+    "default_composer_size": "Default composer size",
+    "small_pop_up": "Small pop-up",
+    "full_screen": "Full screen",
+    "dark_mode": "Dark mode",
+    "conversation_view": "Conversation View"
   },
   "mail_sidebar": {
     "unread": "Unread",
@@ -728,10 +764,16 @@
     "password_required": "A password is required.",
     "reset_password": "Reset Password",
     "create_account": "Create Account",
-    "remember_me": "Remember me on this device"
+    "remember_me": "Remember me on this device",
+    "two_factor_authenticiation": "2 Factor Authentication",
+    "ie_has_limited_support": "IE has limited support. For better experience use Chrome, Firefox, Safari, Opera, Edge etc.",
+    "recovery_email_invalid": "The recovery email is invalid.",
+    "agree_condition": "Please agree to above condition to reset your password.",
+    "recovery_code_required": "A recovery code is required."
   },
   "create_account": {
     "name": "Create your account",
+    "plan": "Plan",
     "take_back_liberty": "Take Back Your Liberty!",
     "class_encrypted_email": "Best in class encrypted email <br/> Account creation in only minutes",
     "username_and_domain": "Username and domain",
@@ -740,9 +782,10 @@
     "go_to_create_address": "Create an address.",
     "new_email_address": "This will be your new CTemplar email address.",
     "choose_username": "Choose username",
-    "choose_password": "Choose Password",
     "confirm_password": "Confirm Password",
     "passwords_not_match": "Passwords do not match.",
+    "password_length_validation_error": "The password must be between 8 and 128 characters.",
+    "password_string_validation_error": "The password must be between 8 and 128 characters.",
     "checking_box": "By checking this box you understand that If you lose your password and do not set a recovery email your account will not be recoverable.",
     "password_connected": "Your password is connected to your encryption key, if you change your password then you will be issued a new encryption key and ALL contents of your account will be lost except for your email address.",
     "more_info": "More info",
@@ -768,7 +811,14 @@
     "insert_valid_inviteCode": "Please enter a valid invite code format.",
     "referral_code": "Referral code (optional)",
     "referral_code_explanation": "If you have a referral code, please input it. You can get a referral code from any existing customer.",
-    "failed_generate_code": "Failed to generate keys."
+    "failed_generate_code": "Failed to generate keys.",
+    "username_requirements_length": "The username must be between 4 and 64 characters.",
+    "username_requirements_char": "The username is required.",
+    "username_exist.": "Username already exists.",
+    "choose_password": "Choose Password",
+    "password_required": "The password is required",
+    "money_back_guarantee": "14 Day Money back Guarantee (Cryptocurrency excluded)",
+    "pricing_explained": "Pricing explained"
   },
   "billing_info": {
     "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",
@@ -805,7 +855,14 @@
     "mailbox_saved": "Mailbox sent and saved to Icelandic server",
     "secured_with_hash": "Mailbox secured with user&apos;s hash & Salted value.",
     "encypt_secure": "Encrypted, Secure & Anonymous",
-    "max_strength": "Welcome to your Maximum strength mailbox"
+    "max_strength": "Welcome to your Maximum strength mailbox",
+    "welcome_to": "Welcome to CTemplar",
+    "backup_your_recovery_key": "Backup Your Recovery Key",
+    "temp_store_local_storage": "We provide a feature to temporarily store some decrypted data on your local storage for improved speed. If you trust your device, you can safely enable this feature.",
+    "temporary_store_decrypted_data": "Temporary store decrypted data",
+    "account_creation_completed": "Account Creation in User's Browser Completed",
+    "password_criteria_msg": "The password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number and 1 special character.",
+    "agree_terms_msg": "Please agree to above terms or enter recovery email."
   },
   "mail_detail": {
     "encrypted": "Encrypted at rest with zero-access",
@@ -848,7 +905,16 @@
     "unsubscribe": "Unsubscribe",
     "unsubscribe_description": "Are you sure you'd like to stop receiving similar messages?",
     "failed_unsubscribe": "Failed to unsubscribe.",
-    "success_unsubscribe": "Success to unsubscribe."
+    "success_unsubscribe": "Success to unsubscribe.",
+    "unable_decrypt_message": "Unable to decrypt the message.",
+    "error": "Error",
+    "decrypt": "Decrypt",
+    "contain_external_blocked": "This email contains external images, which have been blocked.",
+    "warning": "Warning",
+    "load": "Load",
+    "message_expired": "This message has expired",
+    "decrypt_message": "Decrypt Message",
+    "information": "Information"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",
@@ -864,6 +930,8 @@
       "autocrypt_encrypt": "Autocrypt Encrypted Message",
       "autocrypt_discourage": "Autocrypt Encrypted Message, please be ensure recipient is available to decrypt your message",
       "autocrypt_non_encrypt": "Autocrypt Enabled, message would not be encrypted"
-    }
+    },
+    "expiring_in": "Expiring in",
+    "reply_securely": "Reply Securely"
   }
 }

@@ -13,7 +13,7 @@ import {
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { formatDate } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as Sentry from '@sentry/browser';
 
 import {
@@ -35,7 +35,10 @@ import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
-import { SENTRY_DSN } from '../shared/config';
+import { SENTRY_DSN, KEY_LEFT_CONTROL } from '../shared/config';
+import { KeyManageService } from '../shared/services/key-manage.service';
+import { UserSelectManageService } from '../shared/services/user-select-manage.service';
+import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -48,6 +51,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('input') input: ElementRef;
 
   @ViewChild('composeMailContainer', { read: ViewContainerRef }) composeMailContainer: ViewContainerRef;
+
+  @ViewChild('mailboxContentOuter') mailboxContentOuter: any;
 
   private isLoadedData: boolean;
 
@@ -63,17 +68,30 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   notificationMessage: string;
 
+  isKeyDownCtrlBtn = false;
+
+  isEnalbedUserSelect$ = new BehaviorSubject<boolean>(false);
+
   constructor(
     private store: Store<AppState>,
     private sharedService: SharedService,
     private composeMailService: ComposeMailService,
     private router: Router,
     private cdr: ChangeDetectorRef,
+    private keyManageService: KeyManageService,
+    private userSelectManageService: UserSelectManageService,
   ) {
     this.currentDate = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
   ngOnInit() {
+    this.userSelectManageService.userSelectPosibilityState$.pipe(untilDestroyed(this)).subscribe(isPossible => {
+      if (isPossible) {
+        this.mailboxContentOuter?.nativeElement.classList.remove('disable-user-select');
+      } else {
+        this.mailboxContentOuter?.nativeElement.classList.add('disable-user-select');
+      }
+    });
     this.store.dispatch(new AccountDetailsGet());
     /**
      * Get user's state from store
@@ -159,5 +177,25 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   navigateToPage(path: string) {
     this.router.navigateByUrl(path);
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    if (event.code === KEY_LEFT_CONTROL || event.metaKey) {
+      this.isKeyDownCtrlBtn = false;
+    } else if (
+      event.code === 'KeyA' &&
+      this.isKeyDownCtrlBtn &&
+      (!this.composeMailService.componentRefList || this.composeMailService.componentRefList.length === 0)
+    ) {
+      this.keyManageService.onPressCtrlAKey();
+    }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.code === KEY_LEFT_CONTROL || event.metaKey) {
+      this.isKeyDownCtrlBtn = true;
+    }
   }
 }
