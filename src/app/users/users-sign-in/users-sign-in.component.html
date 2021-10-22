@@ -138,11 +138,6 @@
             <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-danger">
               {{ errorMessage }}
             </div>
-            <div *ngIf="errorMessage" class="login-form__failed l-alert l-alert-warning my-2">
-              <small>
-                We are under DDOS attack and had to disable the Sign In. Please, wait until the service is restored.
-              </small>
-            </div>
             <div class="form-group form-user-actions mt-4 pt-sm-2">
               <button class="btn btn-gradient-primary btn-lg login-btn" role="button" type="submit">
                 <span [translate]="'login.name'">Login</span>
