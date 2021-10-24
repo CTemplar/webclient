@@ -609,7 +609,7 @@
   },
   "mail_sidebar": {
     "unread": "Ungelesen",
-    "all_E-Mails": "Alle E-Mails",
+    "all_emails": "Alle E-Mails",
     "inbox": "Posteingang",
     "draft": "Entwürfe",
     "sent": "Gesendet",
