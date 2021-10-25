@@ -142,6 +142,8 @@ export class AddressesSignatureComponent implements OnInit {
 
   signatureEditorInstance: any;
 
+  isCustomDomainSelected = false;
+
   @Output() onAnchored = new EventEmitter<any>();
 
   constructor(
@@ -271,6 +273,31 @@ export class AddressesSignatureComponent implements OnInit {
 
   onDomainChange(customDomain: string) {
     this.newAddressForm.get('username').reset();
+    if (customDomain !== PRIMARY_DOMAIN) {
+      this.isCustomDomainSelected = true;
+      this.newAddressForm
+        .get('username')
+        .setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-z]*([\da-z]*[._-]?[\da-z]+)+$/i),
+          Validators.minLength(1),
+          Validators.maxLength(64),
+        ]);
+      this.newAddressForm.get('domain').setValidators([Validators.required]);
+      this.newAddressForm.get('username').updateValueAndValidity();
+    } else {
+      this.isCustomDomainSelected = false;
+      this.newAddressForm
+        .get('username')
+        .setValidators([
+          Validators.required,
+          Validators.pattern(/^[a-z]+([\da-z]*[._-]?[\da-z]+)+$/i),
+          Validators.minLength(4),
+          Validators.maxLength(64),
+        ]);
+      this.newAddressForm.get('domain').setValidators([Validators.required]);
+      this.newAddressForm.get('username').updateValueAndValidity();
+    }
     this.newAddressForm.get('domain').setValue(customDomain);
   }
 
