@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { provideMockStore, MockStore  } from '@ngrx/store/testing';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersSignInComponent } from './users-sign-in.component';
@@ -9,39 +9,41 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 describe('UsersSignInComponent', () => {
   let component: UsersSignInComponent;
   let fixture: ComponentFixture<UsersSignInComponent>;
-  
+
   let store: MockStore;
 
-  beforeEach((() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UsersSignInComponent],
       imports: [FormsModule, ReactiveFormsModule, HttpClientModule, MatSnackBarModule, RouterTestingModule],
-      providers: [provideMockStore({
-        initialState: {
-          auth: {
-            isAuthenticated: false,
-            user: null,
-            errorMessage: null,
-            inProgress: false,
-            signupState: {
-              username: null,
-              password: null,
-              recaptcha: null,
-              currency: 'USD',
+      providers: [
+        provideMockStore({
+          initialState: {
+            auth: {
+              isAuthenticated: false,
+              user: null,
+              errorMessage: null,
+              inProgress: false,
+              signupState: {
+                username: null,
+                password: null,
+                recaptcha: null,
+                currency: 'USD',
+              },
+              resetPasswordErrorMessage: null,
+              isRecoveryCodeSent: false,
+              captcha: {},
+              auth2FA: {},
+              saveDraftOnLogout: false,
+              passwordChangeInProgress: false,
             },
-            resetPasswordErrorMessage: null,
-            isRecoveryCodeSent: false,
-            captcha: {},
-            auth2FA: {},
-            saveDraftOnLogout: false,
-            passwordChangeInProgress: false,
           },
-        }
-      })]
+        }),
+      ],
     }).compileComponents();
 
     store = TestBed.inject(MockStore);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersSignInComponent);
