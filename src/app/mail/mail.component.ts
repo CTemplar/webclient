@@ -35,7 +35,7 @@ import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
 import { GetOrganizationUsers } from '../store/organization.store';
-import { SENTRY_DSN, KEY_LEFT_CONTROL } from '../shared/config';
+import { SENTRY_DSN, KEY_LEFT_CONTROL, KEY_LEFT_COMMAND } from '../shared/config';
 import { KeyManageService } from '../shared/services/key-manage.service';
 import { UserSelectManageService } from '../shared/services/user-select-manage.service';
 import { BehaviorSubject } from 'rxjs';
@@ -181,7 +181,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
-    if (event.code === KEY_LEFT_CONTROL || event.metaKey) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_LEFT_COMMAND) {
       this.isKeyDownCtrlBtn = false;
     } else if (
       event.code === 'KeyA' &&
@@ -194,7 +194,7 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    if (event.code === KEY_LEFT_CONTROL || event.metaKey) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_LEFT_COMMAND) {
       this.isKeyDownCtrlBtn = true;
     }
   }

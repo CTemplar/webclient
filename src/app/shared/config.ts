@@ -236,3 +236,4 @@ export const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!
 // Keys
 export const KEY_LEFT_CONTROL = 'ControlLeft';
 export const KEY_SHIFT = 'ShiftLeft';
+export const KEY_LEFT_COMMAND = 'OSLeft';

@@ -39,7 +39,7 @@ import {
 import { OpenPgpService, SharedService, UsersService } from '../../../../store/services';
 import { ComposeMailService } from '../../../../store/services/compose-mail.service';
 import { ClearSearch } from '../../../../store/actions/search.action';
-import { KEY_LEFT_CONTROL, KEY_SHIFT } from '../../../../shared/config';
+import { KEY_LEFT_COMMAND, KEY_LEFT_CONTROL, KEY_SHIFT } from '../../../../shared/config';
 import { KeyManageService } from '../../../../shared/services/key-manage.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
@@ -815,7 +815,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    if (event.code === KEY_LEFT_CONTROL) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_LEFT_COMMAND) {
       this.isKeyDownCtrlBtn = true;
     } else if (event.code === KEY_SHIFT) {
       this.isKeyDownShiftBtn = true;
@@ -824,7 +824,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
-    if (event.code === KEY_LEFT_CONTROL) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_LEFT_COMMAND) {
       this.isKeyDownCtrlBtn = false;
     } else if (
       event.code === 'KeyA' &&
