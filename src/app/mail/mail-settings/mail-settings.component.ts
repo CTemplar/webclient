@@ -55,6 +55,7 @@ import {
   BACKGROUNDS,
   DEFAULT_FONT_SIZE,
 } from '../../shared/config';
+import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 @UntilDestroy()
 @Component({
@@ -170,14 +171,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     config: NgbDropdownConfig,
     private store: Store<AppState>,
     private formBuilder: FormBuilder,
-    private openPgpService: OpenPgpService,
     private settingsService: MailSettingsService,
     private pushNotificationService: PushNotificationService,
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private sharedService: SharedService,
-    private creditcardnumber: CreditCardNumberPipe,
+    private userSelectManageService: UserSelectManageService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
@@ -249,6 +249,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       if (parameters.id !== 'undefined') {
         this.store.dispatch(new MoveTab(parameters.id));
       }
+      this.userSelectManageService.updateUserSelectPossiblilityState(true);
     });
 
     this.timeZoneFilteredOptions = this.timeZoneFilter.valueChanges.pipe(
