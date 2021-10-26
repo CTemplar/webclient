@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h3 class="modal-title w-100 text-dark">
+    <strong>We need your help</strong>
+  </h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+      <div class="form-group">
+        Will you take a moment of your time to write down some anonymous feedback about CTemplar?
+      </div>
+      <div class="bottom-view">
+        <div class="mb-3">
+          <textarea
+            class="form-control form-control-sm resize-off"
+            id="contactAddress"
+            [placeholder]="'Feedback'"
+            name="feedback"
+            formControlName="feedback"
+            rows="3"
+          ></textarea>
+          <span *ngIf="feedbackForm.controls['feedback'].errors?.required && showFormError" class="validate-message">
+            Please input your feedback
+          </span>
+        </div>
+        <div class="form-group text-right mb-0">
+          <button type="button" (click)="activeModal.dismiss()" class="btn btn-secondary btn-sm mr-2" role="button">
+            Skip
+          </button>
+          <button type="submit" class="btn btn-danger btn-sm" role="button">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
