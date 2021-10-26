@@ -193,37 +193,43 @@
                       role="button"
                       [disabled]="!condition.parameter"
                     >
-                      {{ filterConditionChoices[condition.condition] }}
+                      {{ condition.condition_text }}
                     </button>
                     <div ngbDropdownMenu aria-labelledby="filterConditionDropdownMenuBtn-{{ i }}">
-                      <a (click)="condition.condition = filterCondition.CONTAINS" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.CONTAINS, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.contains'">Contains</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.DOES_NOT_CONTAIN" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.DOES_NOT_CONTAIN, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.not_contains'">Does Not Contain</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.STARTSWITH" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.STARTSWITH, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.starts_with'">Startswith</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.DOES_NOT_STARTSWITH" class="dropdown-item">
+                      <a
+                        (click)="onSelectAdvancedCondition(filterCondition.DOES_NOT_STARTSWITH, i)"
+                        class="dropdown-item"
+                      >
                         <span [translate]="'settings.filters.not_startswith'">Does Not Startswith</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.ENDSWITH" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.ENDSWITH, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.endswith'">Endswith</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.DOES_NOT_ENDSWITH" class="dropdown-item">
+                      <a
+                        (click)="onSelectAdvancedCondition(filterCondition.DOES_NOT_ENDSWITH, i)"
+                        class="dropdown-item"
+                      >
                         <span [translate]="'settings.filters.not_endswith'">Does Not Endswith</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.EXACTLY" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.EXACTLY, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.exactly'">Exactly</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.DOES_NOT_EXACTLY" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.DOES_NOT_EXACTLY, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.not_exactly'">Does Not Exactly Match</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.MATCH" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.MATCH, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.pattern'">Match</span>
                       </a>
-                      <a (click)="condition.condition = filterCondition.DOES_NOT_MATCH" class="dropdown-item">
+                      <a (click)="onSelectAdvancedCondition(filterCondition.DOES_NOT_MATCH, i)" class="dropdown-item">
                         <span [translate]="'settings.filters.not_pattern'">Does Not Match</span>
                       </a>
                     </div>

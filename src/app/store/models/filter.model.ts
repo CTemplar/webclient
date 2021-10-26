@@ -14,6 +14,7 @@ export interface FilterConditionObject {
   id?: number;
   parameter?: FilterParameter;
   condition?: FilterCondition;
+  condition_text?: string;
   filter_text?: string;
 }
 
