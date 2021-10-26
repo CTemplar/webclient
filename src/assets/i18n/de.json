@@ -448,7 +448,7 @@
       "send_response": "Antwort nur an Personen in meiner Kontaktliste schicken"
     },
     "billing_information": "Rechnungsinformationen",
-    "annually": "Jährlich",
+    "annually": "jährlich",
     "required_field": "Erforderliches Feld",
     "date": "Datum",
     "zip_postal": "PLZ / Postleitzahl",
@@ -609,7 +609,7 @@
   },
   "mail_sidebar": {
     "unread": "Ungelesen",
-    "all_E-Mails": "Alle E-Mails",
+    "all_emails": "Alle E-Mails",
     "inbox": "Posteingang",
     "draft": "Entwürfe",
     "sent": "Gesendet",
