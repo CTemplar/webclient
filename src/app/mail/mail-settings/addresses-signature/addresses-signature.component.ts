@@ -101,8 +101,6 @@ export class AddressesSignatureComponent implements OnInit {
 
   signatureChanged: Subject<string> = new Subject<string>();
 
-  isCustomDomainSelected: boolean;
-
   aliasKeyExpandedStatus: Array<boolean> = [];
 
   selectedMailboxForAddNewKey: Mailbox;
@@ -143,6 +141,8 @@ export class AddressesSignatureComponent implements OnInit {
   public CKEDITOR_TOOLBAR_ITEMS = CKEDITOR_TOOLBAR_ITEMS;
 
   signatureEditorInstance: any;
+
+  isCustomDomainSelected = false;
 
   @Output() onAnchored = new EventEmitter<any>();
 
@@ -287,19 +287,17 @@ export class AddressesSignatureComponent implements OnInit {
       this.newAddressForm.get('username').updateValueAndValidity();
     } else {
       this.isCustomDomainSelected = false;
-
       this.newAddressForm
         .get('username')
         .setValidators([
           Validators.required,
           Validators.pattern(/^[a-z]+([\da-z]*[._-]?[\da-z]+)+$/i),
-          Validators.minLength(1),
+          Validators.minLength(4),
           Validators.maxLength(64),
         ]);
       this.newAddressForm.get('domain').setValidators([Validators.required]);
       this.newAddressForm.get('username').updateValueAndValidity();
     }
-
     this.newAddressForm.get('domain').setValue(customDomain);
   }
 

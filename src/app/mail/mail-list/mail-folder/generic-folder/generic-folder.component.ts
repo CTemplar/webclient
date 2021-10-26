@@ -507,12 +507,20 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         if (this.searchText) {
           queryParameters.search = this.searchText;
         }
-        this.router.navigate(
-          [`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.parent ? mail.parent : mail.id],
-          {
-            queryParams: queryParameters,
-          },
-        );
+
+        if (this.isKeyDownCtrlBtn) {
+          window.open(
+            `/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.parent ? mail.parent : mail.id}`,
+            '_blank',
+          );
+        } else {
+          this.router.navigate(
+            [`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.parent ? mail.parent : mail.id],
+            {
+              queryParams: queryParameters,
+            },
+          );
+        }
       } else {
         if (this.isKeyDownCtrlBtn) {
           if (this.userState?.settings?.auto_read) {
