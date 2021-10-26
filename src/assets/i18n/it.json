@@ -814,7 +814,7 @@
     "failed_generate_code": "Failed to generate keys.",
     "username_requirements_length": "The username must be between 4 and 64 characters.",
     "username_requirements_char": "The username is required.",
-    "username_exist.": "Username already exists.",
+    "username_exist": "Username already exists.",
     "choose_password": "Scegli password",
     "password_required": "The password is required",
     "money_back_guarantee": "14 Day Money back Guarantee (Cryptocurrency excluded)",
