@@ -606,7 +606,12 @@
     "small_pop_up": "Small pop-up",
     "full_screen": "Full screen",
     "dark_mode": "Dark mode",
-    "conversation_view": "Conversation View"
+    "conversation_view": "Conversation View",
+    "feedback_desc": "Will you take a moment of your time to jot down some feedback about CTemplar?",
+    "input_feedback": "Please input your feedback",
+    "skip": "Skip",
+    "send": "Send",
+    "feedback": "Feedback"
   },
   "mail_sidebar": {
     "unread": "Non letto",

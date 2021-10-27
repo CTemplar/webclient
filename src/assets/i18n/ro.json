@@ -818,7 +818,12 @@
     "choose_password": "Choose Password",
     "password_required": "The password is required",
     "money_back_guarantee": "14 Day Money back Guarantee (Cryptocurrency excluded)",
-    "pricing_explained": "Pricing explained"
+    "pricing_explained": "Pricing explained",
+    "feedback_desc": "Will you take a moment of your time to jot down some feedback about CTemplar?",
+    "input_feedback": "Please input your feedback",
+    "skip": "Skip",
+    "send": "Send",
+    "feedback": "Feedback"
   },
   "billing_info": {
     "pending_payment_alert": "Your payment is pending, But still you can create a free account and your account would be upgraded to premium after payment is verified",

@@ -19,6 +19,7 @@ import { DisplayNameDialogComponent } from './dialogs/display-name-dialog/displa
 import { ReplySecureMessageComponent } from './reply-secure-message/reply-secure-message.component';
 import { UserAccountInitDialogComponent } from './dialogs/user-account-init-dialog/user-account-init-dialog.component';
 import { UseCacheDialogComponent } from './dialogs/use-cache-dialog/use-cache-dialog.component';
+import { SendFeedbackDialogComponent } from './dialogs/send-feedback-dialog/send-feedback-dialog.component';
 
 @NgModule({
   entryComponents: [DisplayNameDialogComponent, UserAccountInitDialogComponent],
@@ -32,6 +33,7 @@ import { UseCacheDialogComponent } from './dialogs/use-cache-dialog/use-cache-di
     UsersSignInComponent,
     UsersSignUpComponent,
     UseCacheDialogComponent,
+    SendFeedbackDialogComponent,
   ],
   imports: [
     CommonModule,
