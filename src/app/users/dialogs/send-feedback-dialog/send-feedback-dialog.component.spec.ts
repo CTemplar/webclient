@@ -8,9 +8,8 @@ describe('SendFeedbackDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SendFeedbackDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [SendFeedbackDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

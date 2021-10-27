@@ -264,9 +264,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       .select(state => state.mail)
       .pipe(untilDestroyed(this))
       .subscribe((mailState: MailState) => {
-        this.currentOrderBy = mailState.orderBy;
-        this.mails = [...mailState.mails];
-        if (this.shouldChangeMail && mailState.loaded) {
+        this.currentOrderBy = mailState?.orderBy;
+        this.mails = [...mailState?.mails];
+        if (this.shouldChangeMail && mailState?.loaded) {
           if (this.shouldChangeMail === 1) {
             this.mail.id = this.mails[this.mails.length - 1].id;
             this.changeMail(this.mails.length - 1);
@@ -1209,7 +1209,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   }
 
   revertOrderMails() {
-    const newChildArray = this.mail.children.map(a => ({ ...a }));
+    const newChildArray = this.mail.children.map(child => ({ ...child }));
     let sortedChildren: Mail[] = [];
     if (this.currentOrderBy === OrderBy.ASC) {
       sortedChildren = this.descSort(newChildArray);
