@@ -901,6 +901,8 @@
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Confirm Include Attachments",
     "show_plain_text": "Show Plain Text",
+    "auto_read_email": "Auto read email",
+    "show_rich_text": "Show Rich Text",
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",
@@ -917,9 +919,7 @@
     "load": "Load",
     "message_expired": "This message has expired",
     "decrypt_message": "Decrypt Message",
-    "information": "Information",
-    "auto_read_email": "Auto read email",
-    "show_rich_text": "Show Rich Text"
+    "information": "Information"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

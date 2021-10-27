@@ -901,8 +901,8 @@
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Confirm Include Attachments",
     "show_plain_text": "Afișează textul simplu",
-    "auto_read_email": "Auto read email",
-    "show_rich_text": "Show Rich Text",
+    "auto_read_email": "Citirea automată a e-mailului",
+    "show_rich_text": "Afișează textul bogat",
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",
@@ -920,6 +920,7 @@
     "message_expired": "This message has expired",
     "decrypt_message": "Decrypt Message",
     "information": "Information"
+  },
   "mail_dialogs": {
     "payment_failed": "Plată eșuată",
     "payment_message": "Nu a reușit plata dvs. Vă rugăm să plătiți factura pentru a folosi serviciul CTemplar în continuare.",
