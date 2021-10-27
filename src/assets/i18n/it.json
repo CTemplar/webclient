@@ -93,6 +93,9 @@
     "continue_to_link": "Continua al collegamento",
     "dont_ask_use_local_cache": "Don't ask any more",
     "sign_message": "Sign message"
+    "monthly": "monthly",
+    "yearly": "yearly",
+    "unlimited": "Unlimited"
   },
   "settings": {
     "dashboard": "Scrivania",
@@ -158,6 +161,7 @@
     "load_embedded_content": "Carica contenuto incorporato",
     "only_images": "Solo immagini",
     "show_snippets": "Mostra snippet",
+    "select_theme": "Please select theme",
     "whitelist": {
       "name": "Whitelist",
       "info": "I messaggi dei contatti nella whitelist andranno sempre nella <strong>cartella in arrivo</strong>. Segnare un messaggio come non spam aggiunge l'indirizzo nella whitelist",
@@ -192,6 +196,7 @@
       "add_new_key": "Add New Key",
       "add_new_key_mailbox_desc": "Please select a mailbox that you want to add new key",
       "add_new_key_keytype_desc": "Please select a key type",
+      "import_key": "Import Key",
       "delete_key_title": "Are you sure to delete this key?",
       "delete_key_desc": "After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.",
       "delete_key_confirm": "Yes, I am sure",
