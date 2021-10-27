@@ -15,6 +15,8 @@ export enum ThemeMode {
   providedIn: 'root',
 })
 export class ThemeToggleService {
+  public theme$ = new BehaviorSubject<ThemeMode>(ThemeMode.LIGHT);
+
   private readonly LIGHT_THEME_CLASS_NAME = 'theme-light';
 
   private readonly DARK_THEME_CLASS_NAME = 'theme-dark';
@@ -23,7 +25,7 @@ export class ThemeToggleService {
 
   private isForceLightMode = false;
 
-  public theme$ = new BehaviorSubject<ThemeMode>(ThemeMode.LIGHT);
+  private selectedCustomTheme = '';
 
   constructor(private store: Store<AppState>) {
     /**
@@ -34,6 +36,7 @@ export class ThemeToggleService {
       .pipe(untilDestroyed(this))
       .subscribe((user: UserState) => {
         const isDarkMode = user.settings.is_night_mode;
+        this.selectedCustomTheme = user.settings.theme;
         if (this.isDarkMode !== isDarkMode) {
           this.isDarkMode = isDarkMode;
           this.updateTheme(this.isDarkMode);
@@ -56,11 +59,13 @@ export class ThemeToggleService {
   public forceLightModeTheme() {
     this.isForceLightMode = true;
     this.updateTheme(false);
+    this.handleCustomCss('default');
   }
 
   public forceDarkModeTheme() {
     this.isForceLightMode = false;
     this.updateTheme(true);
+    this.handleCustomCss(this.selectedCustomTheme);
   }
 
   public getIsForceLightMode() {
