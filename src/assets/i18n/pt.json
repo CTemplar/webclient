@@ -93,6 +93,9 @@
     "continue_to_link": "Continue to link",
     "dont_ask_use_local_cache": "Don't ask any more",
     "sign_message": "Sign message"
+    "monthly": "monthly",
+    "yearly": "yearly",
+    "unlimited": "Unlimited"
   },
   "settings": {
     "dashboard": "Painel",
@@ -158,6 +161,7 @@
     "load_embedded_content": "Carregar conteúdo incorporado",
     "only_images": "Somente imagens",
     "show_snippets": "Mostrar trechos",
+    "select_theme": "Please select theme",
     "whitelist": {
       "name": "Lista branca",
       "info": "Mensagens de contatos da lista branca sempre vão para sua <strong>caixa de entrada</strong>. Marcar uma mensagem como não spam também adiciona o endereço a lista branca.",
@@ -192,6 +196,7 @@
       "add_new_key": "Add New Key",
       "add_new_key_mailbox_desc": "Please select a mailbox that you want to add new key",
       "add_new_key_keytype_desc": "Please select a key type",
+      "import_key": "Import Key",
       "delete_key_title": "Are you sure to delete this key?",
       "delete_key_desc": "After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.",
       "delete_key_confirm": "Yes, I am sure",
@@ -900,6 +905,7 @@
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Confirme a inclusão de anexos",
     "show_plain_text": "Mostrar Apenas Texto",
+    "auto_read_email": "Auto read email",
     "show_rich_text": "Mostrar Texto Formatado",
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",

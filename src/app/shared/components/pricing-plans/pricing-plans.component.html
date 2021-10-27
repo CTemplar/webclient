@@ -208,7 +208,10 @@
                     <!--<div>${{plan.annually_price/12}}/m billed as <br>${{plan.annually_price}}/y</div>-->
                     <div class="mt-3">
                       <span [translate]="'page_pricing.billed_as'">Billed </span>
-                      {{ selectedPaymentType === paymentTypeEnum.MONTHLY ? 'monthly' : 'yearly' }}
+                      {{
+                        (selectedPaymentType === paymentTypeEnum.MONTHLY ? 'common.monthly' : 'common.yearly')
+                          | translate
+                      }}
                     </div>
                   </div>
                   <ng-template #freePlan>
@@ -255,7 +258,7 @@
               <div class="px-2 py-3 plan-sub-item">{{ plan.gb }}GB</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.aliases }}</div>
               <div class="px-2 py-3 plan-sub-item">{{ plan.custom_domains }}</div>
-              <div class="px-2 py-3 plan-sub-item">Unlimited</div>
+              <div class="px-2 py-3 plan-sub-item">{{ 'common.unlimited' | translate }}</div>
               <h3 class="heading mt-4"></h3>
               <ng-container
                 *ngTemplateOutlet="featureIcon; context: { value: plan.encryption_in_transit }"

@@ -92,7 +92,10 @@
     "account_password": "Ihr Kontokennwort",
     "continue_to_link": "Weiter zum Link",
     "dont_ask_use_local_cache": "Nicht mehr Fragen.",
-    "sign_message": "Nachricht signieren"
+    "sign_message": "Nachricht signieren",
+    "monthly": "monthly",
+    "yearly": "yearly",
+    "unlimited": "Unlimited"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -158,6 +161,7 @@
     "load_embedded_content": "Eingebettete Inhalte laden",
     "only_images": "Nur Fotos",
     "show_snippets": "Schnipsel anzeigen",
+    "select_theme": "Please select theme",
     "whitelist": {
       "name": "Whitelist",
       "info": "Nachrichten von Kontakten in der Whitelist gehen immer in den <strong>Posteingangsordner</strong>. Das Markieren einer Nachricht als kein Spam fügt die Adresse zur Whitelist hinzu",
@@ -192,6 +196,7 @@
       "add_new_key": "Neuen Schlüssel hinzufügen",
       "add_new_key_mailbox_desc": "Bitte wählen Sie eine Postfach aus, zu der Sie einen neuen Schlüssel hinzufügen möchten",
       "add_new_key_keytype_desc": "Bitte wählen Sie einen Schlüsseltyp",
+      "import_key": "Import Key",
       "delete_key_title": "Sind Sie sicher, dass Sie diesen Schlüssel löschen wollen?",
       "delete_key_desc": "Nachdem Sie diesen Schlüssel gelöscht haben, können Sie keine Nachricht mehr entschlüsseln, die mit diesem Schlüssel verschlüsselt wurde. Dies kann zu Datenverlusten führen.",
       "delete_key_confirm": "Ja, ich bin sicher",
@@ -335,7 +340,8 @@
       "delete_message": " Sind Sie sicher, dass Sie den Filter löschen möchten?",
       "text_or_pattern": "Text oder Muster",
       "select_folder": "Ordner auswählen",
-      "select_condition": "Bedingung auswählen"
+      "select_condition": "Bedingung auswählen",
+      "add_confition": "Add Condition"
     },
     "save_order": "Auftrag speichern",
     "delete_folder_message": "Sind Sie sicher, dass Sie den Ordner löschen möchten?",
@@ -898,6 +904,8 @@
     "confirm_forward_attach": "Weiterleitung von Anhängen bestätigen",
     "confirm_include_attach": "Eingebetteten Anhänge bestätigen",
     "show_plain_text": "Reintext anzeigen",
+    "auto_read_email": "Auto read email",
+    "show_rich_text": "Show Rich Text",
     "password_encryption_message_desc": "Diese Nachricht wurde mit einem Passwort verschlüsselt. Bitte geben Sie das Passwort ein, das Sie zuvor festgelegt haben.",
     "password_hint": "Kennwort Hinweis: ",
     "download_attachments": "Herrunterladen aller Anhänge",

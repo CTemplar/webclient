@@ -93,6 +93,9 @@
     "continue_to_link": "Continue to link",
     "dont_ask_use_local_cache": "Don't ask any more",
     "sign_message": "Sign message"
+    "monthly": "monthly",
+    "yearly": "yearly",
+    "unlimited": "Unlimited"
   },
   "settings": {
     "dashboard": "Панель управления",
@@ -158,6 +161,7 @@
     "load_embedded_content": "Загружать встроенные данные",
     "only_images": "Только изображения",
     "show_snippets": "Показывать фрагменты",
+    "select_theme": "Please select theme",
     "whitelist": {
       "name": "Белый список",
       "info": "Сообщения, отправленные контактами из Белого списка всегда попадают в папку <strong>Входящие</strong>. Помечая сообщение как “не спам”, вы добавляете его отправителей в Белый список",
@@ -192,6 +196,7 @@
       "add_new_key": "Add New Key",
       "add_new_key_mailbox_desc": "Please select a mailbox that you want to add new key",
       "add_new_key_keytype_desc": "Please select a key type",
+      "import_key": "Import Key",
       "delete_key_title": "Are you sure to delete this key?",
       "delete_key_desc": "After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.",
       "delete_key_confirm": "Yes, I am sure",
@@ -896,6 +901,8 @@
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Подтвердить включение вложений",
     "show_plain_text": "Показать простой текст",
+    "auto_read_email": "Автоматическое чтение электронной почты",
+    "show_rich_text": "Показать текст с дополнительными функциями"
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",
@@ -912,9 +919,7 @@
     "load": "Load",
     "message_expired": "This message has expired",
     "decrypt_message": "Decrypt Message",
-    "information": "Information",
-    "auto_read_email": "Автоматическое чтение электронной почты",
-    "show_rich_text": "Показать текст с дополнительными функциями"
+    "information": "Information"
   },
   "mail_dialogs": {
     "payment_failed": "Платеж не прошел",
