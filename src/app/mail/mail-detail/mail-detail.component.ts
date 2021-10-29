@@ -15,6 +15,7 @@ import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 import {
+  BlackListDeleteLocal,
   ClearMailDetail,
   DeleteMail,
   DeleteMailForAll,
@@ -1138,9 +1139,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         allowUndo: true,
       }),
     );
-    setTimeout(() => {
-      this.store.dispatch(new WhiteListAdd({ name: mail.sender, email: mail.sender }));
-    }, 2000);
+    const participants = [...mail.receiver, ...mail.cc, ...mail.bcc, mail.sender];
+    this.store.dispatch(new BlackListDeleteLocal(participants));
     this.goBack();
   }
 
