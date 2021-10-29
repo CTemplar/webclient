@@ -137,8 +137,10 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
         this.selectedContactPulbicKeys = contactsState.selectedContactKeys;
 
         for (const key of this.selectedContactPulbicKeys) {
-          this.keyMatchStatusForEmail[key.fingerprint] = key.parsed_emails
-            ? key.parsed_emails.includes(this.selectedContact.email)
+          let parsedEmails = key.parsed_emails;
+          parsedEmails = parsedEmails?.map(pe => pe.toLowerCase());
+          this.keyMatchStatusForEmail[key.fingerprint] = parsedEmails
+            ? parsedEmails.includes(this.selectedContact.email.toLowerCase())
             : false;
           this.downloadUrls[key.fingerprint] = `data:application/octet-stream;charset=utf-8;base64,${btoa(
             key.public_key,
