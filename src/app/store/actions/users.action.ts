@@ -32,6 +32,7 @@ export enum UsersActionTypes {
   BLACKLIST_ADD_ERROR = '[Users] BlackList_Add_ERROR',
   BLACKLIST_DELETE = '[Users] BlackList_Delete',
   BLACKLIST_DELETE_SUCCESS = '[Users] BlackList_Delete_Success',
+  BLACKLIST_DELETE_LOCAL = '[Users] BlackList_Delete_Local',
   ACCOUNT_DETAILS_GET = '[Users] ACCOUNT_DETAILS_GET',
   ACCOUNT_DETAILS_GET_SUCCESS = '[Users] ACCOUNT_DETAILS_GET_SUCCESS',
   SNACK_PUSH = '[Snacks] Push',
@@ -278,6 +279,12 @@ export class BlackListDeleteSuccess implements Action {
   readonly type = UsersActionTypes.BLACKLIST_DELETE_SUCCESS;
 
   constructor(public payload: any) {}
+}
+
+export class BlackListDeleteLocal implements Action {
+  readonly type = UsersActionTypes.BLACKLIST_DELETE_LOCAL;
+
+  constructor(public payload: string[]) {}
 }
 
 export class AccountDetailsGet implements Action {
@@ -728,6 +735,7 @@ export type UsersActionAll =
   | BlackListAddError
   | BlackListDelete
   | BlackListDeleteSuccess
+  | BlackListDeleteLocal
   | AccountDetailsGet
   | AccountDetailsGetSuccess
   | SnackPush
