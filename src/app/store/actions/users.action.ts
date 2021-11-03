@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Settings } from '../datatypes';
+import { FeedbackType, Settings } from '../datatypes';
 import { Folder } from '../models';
 import { Filter } from '../models/filter.model';
 
@@ -105,6 +105,7 @@ export enum UsersActionTypes {
   INVITE_CODE_GENERATE_FAILURE = '[USER] INVITE CODE GENERATE FAILURE',
   GET_NOTIFICATION = '[USER] GET NOTIFICATION',
   GET_NOTIFICATION_SUCCESS = '[USER] GET NOTIFICATION SUCCESS',
+  SEND_FEEDBACK = '[USER] SEND FEEDBACK',
 }
 
 export class GetNotification implements Action {
@@ -707,6 +708,12 @@ export class GenerateInviteCodeFailure implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SendFeedback implements Action {
+  readonly type = UsersActionTypes.SEND_FEEDBACK;
+
+  constructor(public payload: { message: string; feedback_type: FeedbackType }) {}
+}
+
 export type UsersActionAll =
   | Accounts
   | AccountsReadSuccess
@@ -807,4 +814,5 @@ export type UsersActionAll =
   | GenerateInviteCodeSuccess
   | GenerateInviteCodeFailure
   | GetNotification
-  | GetNotificationSuccess;
+  | GetNotificationSuccess
+  | SendFeedback;

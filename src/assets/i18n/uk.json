@@ -823,7 +823,12 @@
     "choose_password": "Обрати пароль",
     "password_required": "The password is required",
     "money_back_guarantee": "14 Day Money back Guarantee (Cryptocurrency excluded)",
-    "pricing_explained": "Pricing explained"
+    "pricing_explained": "Pricing explained",
+    "feedback_desc": "Will you take a moment of your time to jot down some feedback about CTemplar?",
+    "input_feedback": "Please input your feedback",
+    "skip": "Skip",
+    "send": "Send",
+    "feedback": "Feedback"
   },
   "billing_info": {
     "pending_payment_alert": "Вашу оплату ще не здійснено. Ви все одно можете створити безкоштовний обліковий запис; після підтвердження оплати ви автоматично перейдете на преміум-план.",

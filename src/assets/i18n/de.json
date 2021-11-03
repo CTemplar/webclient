@@ -611,7 +611,12 @@
     "small_pop_up": "Kleines Pop-up",
     "full_screen": "Vollbild",
     "dark_mode": "Dunkler Modus",
-    "conversation_view": "Konversationsansicht"
+    "conversation_view": "Konversationsansicht",
+    "feedback_desc": "Will you take a moment of your time to jot down some feedback about CTemplar?",
+    "input_feedback": "Please input your feedback",
+    "skip": "Skip",
+    "send": "Send",
+    "feedback": "Feedback"
   },
   "mail_sidebar": {
     "unread": "Ungelesen",
@@ -819,7 +824,7 @@
     "failed_generate_code": "Die Schlüsselgenerierung ist fehlgeschlagen.",
     "username_requirements_length": "Der Benutzername muss zwischen 4 und 64 Zeichen lang sein.",
     "username_requirements_char": "Der Nutzername ist erforderlich.",
-    "username_exist.": "Der Benutzername existiert bereits.",
+    "username_exist": "Der Benutzername existiert bereits.",
     "choose_password": "Kennwort wählen",
     "password_required": "Das Kennwort ist erforderlich",
     "money_back_guarantee": "14 Tage Geld-zurück-Garantie (Kryptowährungen ausgeschlossen)",

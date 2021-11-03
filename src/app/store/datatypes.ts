@@ -879,3 +879,8 @@ export interface MoveMailActionPayloadType {
   shouldDeleteFolder?: boolean;
   folderToDelete?: Folder;
 }
+
+export enum FeedbackType {
+  ACCOUNT_DELETE = 'ACCOUNT_DELETE',
+  STOP_AUTO_RENEWAL = 'STOP_AUTO_RENEWAL',
+}

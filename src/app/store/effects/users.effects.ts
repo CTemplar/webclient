@@ -106,6 +106,7 @@ import {
   CardReadSuccess,
   CardMakePrimary,
   CardMakePrimarySuccess,
+  SendFeedback,
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
@@ -819,6 +820,18 @@ export class UsersEffects {
       return this.userService.getUserNotifications().pipe(
         switchMap(response => of(new GetNotificationSuccess(response))),
         catchError(() => of(new SnackErrorPush({ message: 'Failed to get user notifications.' }))),
+      );
+    }),
+  );
+
+  @Effect()
+  SendFeedback: Observable<any> = this.actions.pipe(
+    ofType(UsersActionTypes.SEND_FEEDBACK),
+    map((action: SendFeedback) => action.payload),
+    switchMap(payload => {
+      return this.userService.sendFeedback(payload).pipe(
+        switchMap(() => of(new SnackPush({ message: 'Thank you for your feedback' }))),
+        catchError(() => of(new SnackPush({ message: 'Thank you for your feedback' }))),
       );
     }),
   );
