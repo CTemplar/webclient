@@ -17,6 +17,8 @@ import { Mail } from '../../../store/models';
 import { ComposeMailComponent } from '../compose-mail/compose-mail.component';
 import { AppState, MailAction } from '../../../store/datatypes';
 import { SetIsComposerPopUp } from '../../../store/actions';
+import { ComposeMailService } from '../../../store/services/compose-mail.service';
+import { UserSelectManageService } from '../../../shared/services/user-select-manage.service';
 
 @UntilDestroy()
 @Component({
@@ -55,7 +57,12 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
 
   isPopupClosed: boolean;
 
-  constructor(private modalService: NgbModal, private cdr: ChangeDetectorRef, private store: Store<AppState>) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private store: Store<AppState>,
+    private composeService: ComposeMailService,
+    private userSelectManageService: UserSelectManageService,
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -125,6 +132,8 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     if (this.isFullScreen) {
       this.isFullScreen = false;
     }
+    const isAllMinimized = this.composeService.componentRefList.every(c => c.instance.isMinimized);
+    this.userSelectManageService.updateUserSelectPossiblilityState(!isAllMinimized);
   }
 
   toggleFullScreen() {
