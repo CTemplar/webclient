@@ -97,6 +97,15 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
       return { ...state, inProgress: true, isError: false, error: '' };
     }
 
+    case UsersActionTypes.BLACKLIST_DELETE_LOCAL: {
+      const { blackList } = state;
+      const newBlackList = blackList.filter(b => !action.payload.some(p => p === b.email));
+      return {
+        ...state,
+        blackList: newBlackList,
+      };
+    }
+
     case UsersActionTypes.WHITELIST_ADD_SUCCESS: {
       if (!state.whiteList) {
         state.whiteList = [];

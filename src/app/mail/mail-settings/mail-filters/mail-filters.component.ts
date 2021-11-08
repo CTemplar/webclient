@@ -15,6 +15,8 @@ import {
   FilterConditionObject,
   FilterParameter,
 } from '../../../store/models/filter.model';
+import { TranslateService } from '@ngx-translate/core';
+import { SharedService } from '../../../store/services';
 
 @UntilDestroy()
 @Component({
@@ -72,7 +74,12 @@ export class MailFiltersComponent implements OnInit {
 
   @Output() onAnchored = new EventEmitter<any>();
 
-  constructor(private store: Store<AppState>, private formBuilder: FormBuilder, private modalService: NgbModal) {}
+  constructor(
+    private store: Store<AppState>,
+    private formBuilder: FormBuilder,
+    private modalService: NgbModal,
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit() {
     this.store
@@ -313,5 +320,12 @@ export class MailFiltersComponent implements OnInit {
 
   onAnchoredLink() {
     this.onAnchored.emit();
+  }
+
+  onSelectAdvancedCondition(condition: string, conditionIndex: number) {
+    this.createFilterData.conditions[conditionIndex].condition = condition as FilterCondition;
+    this.translate
+      .get(`settings.filters.${condition}`)
+      .subscribe(value => (this.createFilterData.conditions[conditionIndex].condition_text = value));
   }
 }

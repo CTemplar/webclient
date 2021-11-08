@@ -28,8 +28,9 @@ import { Attachment } from '../models';
 import { MailService } from './mail.service';
 import { OpenPgpService } from './openpgp.service';
 import { MessageBuilderService } from './message.builder.service';
-import { AutocryptProcessService } from './autocrypt.process.service';
 import { getCryptoRandom, SharedService } from './shared.service';
+import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
+import { AutocryptProcessService } from './autocrypt.process.service';
 
 @Injectable({
   providedIn: 'root',
@@ -63,8 +64,9 @@ export class ComposeMailService {
     private mailService: MailService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private messageBuilderService: MessageBuilderService,
-    private autocryptProcessService: AutocryptProcessService,
     private sharedService: SharedService,
+    private userSelectManageService: UserSelectManageService,
+    private autocryptProcessService: AutocryptProcessService,
   ) {
     this.store
       .select((state: AppState) => state.composeMail)
@@ -180,10 +182,8 @@ export class ComposeMailService {
                       signFlag,
                     );
                   } else {
-                    const determinedAutocryptStatus = autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(
-                      draftMail,
-                      usersKeys,
-                    );
+                    const determinedAutocryptStatus =
+                      this.autocryptProcessService.decideAutocryptDefaultEncryptionWithDraft(draftMail, usersKeys);
                     if (determinedAutocryptStatus.encryptTotally) {
                       this.buildPGPMimeMessageAndEncrypt(draftMail.id, publicKeys);
                     } else if (determinedAutocryptStatus.senderAutocryptEnabled) {
@@ -674,6 +674,7 @@ export class ComposeMailService {
           newComponentReference.instance.isFullScreen = true;
         }
       });
+      this.userSelectManageService.updateUserSelectPossiblilityState(true);
     } else {
       // display error message when user open more than 5 composer
       this.store.dispatch(new SnackPush({ message: 'Maximum composer reached.', duration: 5000 }));

@@ -93,6 +93,9 @@
     "continue_to_link": "Continue to link",
     "dont_ask_use_local_cache": "Don't ask any more",
     "sign_message": "Sign message"
+    "monthly": "monthly",
+    "yearly": "yearly",
+    "unlimited": "Unlimited"
   },
   "settings": {
     "dashboard": "Panel de control",
@@ -158,6 +161,7 @@
     "load_embedded_content": "Cargar contenido integrado",
     "only_images": "Solo imágenes",
     "show_snippets": "Mostrar snippets",
+    "select_theme": "Please select theme",
     "whitelist": {
       "name": "Lista de aprobación",
       "info": "Los mensajes de los contactos en la lista de aprobación siempre irán a la <strong>bandeja de entrada</strong>. Al marcar un mensaje como no spam, la dirección se agregará a la lista de aprobación",
@@ -192,6 +196,7 @@
       "add_new_key": "Add New Key",
       "add_new_key_mailbox_desc": "Please select a mailbox that you want to add new key",
       "add_new_key_keytype_desc": "Please select a key type",
+      "import_key": "Import Key",
       "delete_key_title": "Are you sure to delete this key?",
       "delete_key_desc": "After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.",
       "delete_key_confirm": "Yes, I am sure",
@@ -606,7 +611,12 @@
     "small_pop_up": "Small pop-up",
     "full_screen": "Full screen",
     "dark_mode": "Dark mode",
-    "conversation_view": "Conversation View"
+    "conversation_view": "Conversation View",
+    "feedback_desc": "Will you take a moment of your time to jot down some feedback about CTemplar?",
+    "input_feedback": "Please input your feedback",
+    "skip": "Skip",
+    "send": "Send",
+    "feedback": "Feedback"
   },
   "mail_sidebar": {
     "unread": "Unread",
@@ -814,7 +824,7 @@
     "failed_generate_code": "Failed to generate keys.",
     "username_requirements_length": "The username must be between 4 and 64 characters.",
     "username_requirements_char": "The username is required.",
-    "username_exist.": "Username already exists.",
+    "username_exist": "Username already exists.",
     "choose_password": "Choose Password",
     "password_required": "The password is required",
     "money_back_guarantee": "14 Day Money back Guarantee (Cryptocurrency excluded)",
@@ -896,6 +906,8 @@
     "confirm_forward_attach": "Confirm Forward Attachments",
     "confirm_include_attach": "Confirmar incluir archivos adjuntos",
     "show_plain_text": "Show Plain Text",
+    "auto_read_email": "Auto read email",
+    "show_rich_text": "Show Rich Text",
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",
@@ -912,9 +924,7 @@
     "load": "Load",
     "message_expired": "This message has expired",
     "decrypt_message": "Decrypt Message",
-    "information": "Information",
-    "auto_read_email": "Auto read email",
-    "show_rich_text": "Show Rich Text"
+    "information": "Information"
   },
   "mail_dialogs": {
     "payment_failed": "Payment Failed",

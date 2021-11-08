@@ -18,7 +18,7 @@ import {
   REMEMBER_ME,
   NOT_FIRST_LOGIN,
 } from '../../shared/config';
-import { AppState, AutoResponder, Contact, Settings, AuthState, Domain } from '../datatypes';
+import { AppState, AutoResponder, Contact, Settings, AuthState, Domain, FeedbackType } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
 @Injectable({
@@ -106,7 +106,6 @@ export class UsersService {
   }
 
   signOut() {
-    this.router.navigateByUrl('/signin');
     localStorage.removeItem('token_expiration');
     localStorage.removeItem('user_key');
     localStorage.removeItem('ctemplar_mail');
@@ -114,6 +113,7 @@ export class UsersService {
     localStorage.removeItem(PROMO_CODE_KEY);
     localStorage.removeItem(REMEMBER_ME);
     localStorage.removeItem(NOT_FIRST_LOGIN);
+    this.router.navigateByUrl('/signin');
   }
 
   expireSession() {
@@ -529,6 +529,10 @@ export class UsersService {
 
   contactBulkUpdateKeys(data: any) {
     return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
+  }
+
+  sendFeedback(data: { message: string; feedback_type: FeedbackType }) {
+    return this.http.post<any>(`${apiUrl}feedback/`, data);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

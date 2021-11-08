@@ -92,7 +92,10 @@
     "account_password": "Your account password",
     "continue_to_link": "Continue to link",
     "dont_ask_use_local_cache": "Don't ask any more",
-    "sign_message": "Sign message"
+    "sign_message": "Sign message",
+    "monthly": "monthly",
+    "yearly": "yearly",
+    "unlimited": "Unlimited"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -158,6 +161,7 @@
     "load_embedded_content": "Load embedded content",
     "only_images": "Only images",
     "show_snippets": "Show snippets",
+    "select_theme": "Please select theme",
     "whitelist": {
       "name": "Whitelist",
       "info": "Messages from contacts in the whitelist always go to <strong>Inbox folder</strong>. Marking a message as not spam adds the address to the Whitelist",
@@ -192,6 +196,7 @@
       "add_new_key": "Add New Key",
       "add_new_key_mailbox_desc": "Please select a mailbox that you want to add new key",
       "add_new_key_keytype_desc": "Please select a key type",
+      "import_key": "Import Key",
       "delete_key_title": "Are you sure to delete this key?",
       "delete_key_desc": "After deleted this key, you will not be able to decrypt any message that was encrypted with this key. It may lead to data loss.",
       "delete_key_confirm": "Yes, I am sure",
@@ -463,9 +468,9 @@
     "make_default": "Make Default",
     "primary": "Primary",
     "alias_exist": "Email alias already exists.",
-    "username_chars": "The username must be between 2 and 64 characters.",
-    "username_allowed_chars": "The username must start with a letter and end with a letter or number. It may only contain",
-    "username_minlen": "characters, and the minimum length is 2 characters.",
+    "username_chars": "The username must be between 4 and 64 characters.",
+    "username_allowed_chars": "The username must start with a letter and end with a letter or number. It may only contain a-z, A-Z, 0-9 or ._- and minimum length is 4 characters.",
+    "username_minlen": "characters, and the minimum length is 4 characters.",
     "reorder": "Reorder",
     "conversations": " conversations )",
     "conversation": " conversation )",
@@ -606,7 +611,12 @@
     "small_pop_up": "Small pop-up",
     "full_screen": "Full screen",
     "dark_mode": "Dark mode",
-    "conversation_view": "Conversation View"
+    "conversation_view": "Conversation View",
+    "feedback_desc": "Will you take a moment of your time to jot down some feedback about CTemplar?",
+    "input_feedback": "Please input your feedback",
+    "skip": "Skip",
+    "send": "Send",
+    "feedback": "Feedback"
   },
   "mail_sidebar": {
     "unread": "Unread",
@@ -814,7 +824,7 @@
     "failed_generate_code": "Failed to generate keys.",
     "username_requirements_length": "The username must be between 4 and 64 characters.",
     "username_requirements_char": "The username is required.",
-    "username_exist.": "Username already exists.",
+    "username_exist": "Username already exists.",
     "choose_password": "Choose Password",
     "password_required": "The password is required",
     "money_back_guarantee": "14 Day Money back Guarantee (Cryptocurrency excluded)",

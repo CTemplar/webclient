@@ -49,14 +49,21 @@ import {
   GetMailboxes,
   RefreshToken,
 } from '../actions';
-import { PlanType, SignupState } from '../datatypes';
+import { FeedbackType, PlanType, SignupState } from '../datatypes';
 import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { SendFeedbackDialogComponent } from '../../users/dialogs/send-feedback-dialog/send-feedback-dialog.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthEffects {
-  constructor(private actions: Actions, private authService: UsersService, private router: Router) {}
+  constructor(
+    private actions: Actions,
+    private authService: UsersService,
+    private router: Router,
+    private modalService: NgbModal,
+  ) {}
 
   @Effect()
   LogIn: Observable<any> = this.actions.pipe(
@@ -195,6 +202,9 @@ export class AuthEffects {
       }
       return this.authService.upgradeAccount(payload).pipe(
         switchMap(response => {
+          if (payload.plan_type === PlanType.FREE) {
+            this.openFeedbackDialog(FeedbackType.STOP_AUTO_RENEWAL);
+          }
           return of(
             new UpgradeAccountSuccess(response),
             new AccountDetailsGet(),
@@ -244,9 +254,14 @@ export class AuthEffects {
     map((action: DeleteAccount) => action.payload),
     switchMap(payload => {
       return this.authService.deleteAccount(payload).pipe(
-        switchMap(() =>
-          of(new DeleteAccountSuccess(), new SnackPush({ message: 'Account deleted successfully.' }), new Logout()),
-        ),
+        switchMap(() => {
+          this.openFeedbackDialog(FeedbackType.ACCOUNT_DELETE);
+          return of(
+            new DeleteAccountSuccess(),
+            new SnackPush({ message: 'Account deleted successfully.' }),
+            new Logout(),
+          );
+        }),
         catchError(errorResponse =>
           of(
             new DeleteAccountFailure(errorResponse.error),
@@ -355,4 +370,15 @@ export class AuthEffects {
       );
     }),
   );
+
+  private openFeedbackDialog(feedbackType: FeedbackType) {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    };
+    const modalRef = this.modalService.open(SendFeedbackDialogComponent, ngbModalOptions);
+    modalRef.componentInstance.feedbackType = feedbackType;
+  }
 }

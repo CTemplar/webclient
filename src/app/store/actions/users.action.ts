@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Settings } from '../datatypes';
+import { FeedbackType, Settings } from '../datatypes';
 import { Folder } from '../models';
 import { Filter } from '../models/filter.model';
 
@@ -32,6 +32,7 @@ export enum UsersActionTypes {
   BLACKLIST_ADD_ERROR = '[Users] BlackList_Add_ERROR',
   BLACKLIST_DELETE = '[Users] BlackList_Delete',
   BLACKLIST_DELETE_SUCCESS = '[Users] BlackList_Delete_Success',
+  BLACKLIST_DELETE_LOCAL = '[Users] BlackList_Delete_Local',
   ACCOUNT_DETAILS_GET = '[Users] ACCOUNT_DETAILS_GET',
   ACCOUNT_DETAILS_GET_SUCCESS = '[Users] ACCOUNT_DETAILS_GET_SUCCESS',
   SNACK_PUSH = '[Snacks] Push',
@@ -104,6 +105,7 @@ export enum UsersActionTypes {
   INVITE_CODE_GENERATE_FAILURE = '[USER] INVITE CODE GENERATE FAILURE',
   GET_NOTIFICATION = '[USER] GET NOTIFICATION',
   GET_NOTIFICATION_SUCCESS = '[USER] GET NOTIFICATION SUCCESS',
+  SEND_FEEDBACK = '[USER] SEND FEEDBACK',
 }
 
 export class GetNotification implements Action {
@@ -278,6 +280,12 @@ export class BlackListDeleteSuccess implements Action {
   readonly type = UsersActionTypes.BLACKLIST_DELETE_SUCCESS;
 
   constructor(public payload: any) {}
+}
+
+export class BlackListDeleteLocal implements Action {
+  readonly type = UsersActionTypes.BLACKLIST_DELETE_LOCAL;
+
+  constructor(public payload: string[]) {}
 }
 
 export class AccountDetailsGet implements Action {
@@ -700,6 +708,12 @@ export class GenerateInviteCodeFailure implements Action {
   constructor(public payload?: any) {}
 }
 
+export class SendFeedback implements Action {
+  readonly type = UsersActionTypes.SEND_FEEDBACK;
+
+  constructor(public payload: { message: string; feedback_type: FeedbackType }) {}
+}
+
 export type UsersActionAll =
   | Accounts
   | AccountsReadSuccess
@@ -728,6 +742,7 @@ export type UsersActionAll =
   | BlackListAddError
   | BlackListDelete
   | BlackListDeleteSuccess
+  | BlackListDeleteLocal
   | AccountDetailsGet
   | AccountDetailsGetSuccess
   | SnackPush
@@ -799,4 +814,5 @@ export type UsersActionAll =
   | GenerateInviteCodeSuccess
   | GenerateInviteCodeFailure
   | GetNotification
-  | GetNotificationSuccess;
+  | GetNotificationSuccess
+  | SendFeedback;

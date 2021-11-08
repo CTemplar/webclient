@@ -12,6 +12,7 @@ import { Folder } from '../models';
 import { AppState, GlobalPublicKey, PricingPlan, UserState } from '../datatypes';
 
 import { NotificationService } from './notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,7 @@ export class SharedService {
     private modalService: NgbModal,
     private notificationService: NotificationService,
     private store: Store<AppState>,
+    private translate: TranslateService,
   ) {
     /**
      * Get user's settings
@@ -109,6 +111,16 @@ export class SharedService {
       this.paymentFailureModalRef.result.then(() => {
         this.paymentFailureModalRef = undefined;
       });
+    }
+  }
+
+  getTranslation(str: string) {
+    const currentLang = this.translate.currentLang;
+    const returnValue = this.translate.translations[currentLang][str];
+    if (returnValue === undefined) {
+      return this.translate.translations.en[str];
+    } else {
+      return returnValue;
     }
   }
 
