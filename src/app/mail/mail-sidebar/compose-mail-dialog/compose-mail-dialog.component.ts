@@ -107,6 +107,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     } else if (this.composeMail.draftMail) {
       this.discardEmail();
     }
+    this.updateUserSelectHandler();
   }
 
   subjectChanged($event: string) {
@@ -132,8 +133,7 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     if (this.isFullScreen) {
       this.isFullScreen = false;
     }
-    const isAllMinimized = this.composeService.componentRefList.every(c => c.instance.isMinimized);
-    this.userSelectManageService.updateUserSelectPossiblilityState(!isAllMinimized);
+    this.updateUserSelectHandler();
   }
 
   toggleFullScreen() {
@@ -142,6 +142,11 @@ export class ComposeMailDialogComponent implements OnInit, AfterViewInit {
     if (this.isMinimized) {
       this.isMinimized = false;
     }
+  }
+
+  private updateUserSelectHandler() {
+    const isAllMinimized = this.composeService.componentRefList.every(c => c.instance.isMinimized);
+    this.userSelectManageService.updateUserSelectPossiblilityState(!isAllMinimized);
   }
 
   private hideMailComposeDialog() {
