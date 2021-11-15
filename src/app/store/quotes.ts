@@ -53,7 +53,8 @@ export const quotes = [
     author: '- Johann Wolfgang von Goethe -',
   },
   {
-    content: 'The disappearance of a sense of morality is the most far-reaching consequence of submission to a system of authority.',
+    content:
+      'The disappearance of a sense of morality is the most far-reaching consequence of submission to a system of authority.',
     author: '- Stanley Milgram -',
   },
   {
@@ -69,11 +70,13 @@ export const quotes = [
     author: '- Stephen King -',
   },
   {
-    content: 'They who can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety.',
+    content:
+      'They who can give up essential liberty to obtain a little temporary safety deserve neither liberty nor safety.',
     author: '- Benjamin Franklin -',
   },
   {
-    content: 'A people that elect corrupt politicians, imposters, thieves and traitors are not victims, but accomplices.',
+    content:
+      'A people that elect corrupt politicians, imposters, thieves and traitors are not victims, but accomplices.',
     author: '- George Orwell -',
   },
   {
@@ -85,7 +88,8 @@ export const quotes = [
     author: '- William Binney, Whistleblower -',
   },
   {
-    content: 'Encryption works. Properly implemented strong crypto systems are one of the few things that you can rely on.',
+    content:
+      'Encryption works. Properly implemented strong crypto systems are one of the few things that you can rely on.',
     author: '- Edward Snowden -',
   },
   {
@@ -101,7 +105,8 @@ export const quotes = [
     author: '- Martin Luther King Jr. -',
   },
   {
-    content: 'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.',
+    content:
+      'Darkness cannot drive out darkness: only light can do that. Hate cannot drive out hate: only love can do that.',
     author: '- Martin Luther King Jr. -',
   },
   {
@@ -129,7 +134,8 @@ export const quotes = [
     author: '- Voltaire -',
   },
   {
-    content: 'There is no greater tyranny than that which is perpetrated under the shield of the law and in the name of justice.',
+    content:
+      'There is no greater tyranny than that which is perpetrated under the shield of the law and in the name of justice.',
     author: '- Charles-Louis de Secondat, baron de La Brède et de Montesquieu -',
   },
   {
@@ -173,7 +179,8 @@ export const quotes = [
     author: '- John F. Kennedy -',
   },
   {
-    content: 'If you become a target, they will retroactively analyze every phone call, every email, every financial transaction, everything electronic that you’ve ever done.',
+    content:
+      'If you become a target, they will retroactively analyze every phone call, every email, every financial transaction, everything electronic that you’ve ever done.',
     author: '- William Binney, Whistleblower -',
   },
   {
@@ -201,11 +208,13 @@ export const quotes = [
     author: '- Julian Assange -',
   },
   {
-    content: "All administrations, governments, officials lie and nothing they say is to be believed. That's a pretty good rule.",
+    content:
+      "All administrations, governments, officials lie and nothing they say is to be believed. That's a pretty good rule.",
     author: '- Daniel Ellsberg, Whistleblower -',
   },
   {
-    content: 'Power is a thing of perception. They don/t need to be able to kill you. They just need you to think they are able to kill you.',
+    content:
+      'Power is a thing of perception. They don/t need to be able to kill you. They just need you to think they are able to kill you.',
     author: '- Julian Assange -',
   },
   {
@@ -221,7 +230,8 @@ export const quotes = [
     author: '- Julian Assange -',
   },
   {
-    content: 'The world’s entire scientific and cultural heritage, is being digitized and locked up by a handful of private corporations.',
+    content:
+      'The world’s entire scientific and cultural heritage, is being digitized and locked up by a handful of private corporations.',
     author: '- Aaron Swartz, Reddit Co-Founder -',
   },
   {
@@ -257,7 +267,8 @@ export const quotes = [
     author: '- William O. Douglas -',
   },
   {
-    content: "There will come a time when it isn't 'They're spying on me through my phone' anymore. Eventually, it will be 'My phone is spying on me'.",
+    content:
+      "There will come a time when it isn't 'They're spying on me through my phone' anymore. Eventually, it will be 'My phone is spying on me'.",
     author: '- William O. Douglas -',
   },
   {
@@ -265,11 +276,12 @@ export const quotes = [
     author: '- Philip Wyeth -',
   },
   {
-    content: "The most dangerous and powerful people in the world do not carry guns or shoot missiles, they write code to surveil and suppress the opposing views.",
+    content:
+      'The most dangerous and powerful people in the world do not carry guns or shoot missiles, they write code to surveil and suppress the opposing views.',
     author: '- Olawale Daniel -',
   },
   {
-    content: "The death of privacy means the death of human freedom.",
+    content: 'The death of privacy means the death of human freedom.',
     author: '- Gabriel Custodiet -',
   },
 ];
