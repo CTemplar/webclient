@@ -8,9 +8,8 @@ describe('ExportMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExportMessageComponent ]
-    })
-    .compileComponents();
+      declarations: [ExportMessageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

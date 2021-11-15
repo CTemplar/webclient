@@ -100,6 +100,5 @@ export class MailDetailBodyComponent implements OnInit {
     this.exportMailService.exportMail(mail);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }
