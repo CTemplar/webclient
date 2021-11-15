@@ -99,6 +99,7 @@
             <a class="dropdown-item" *ngIf="!disableMoveTo" (click)="onMarkAsSpam.emit(mail)">
               {{ 'mail_detail.mark_as_spam' | translate }}
             </a>
+            <a class="dropdown-item" (click)="onExport(mail)"> Export </a>
             <a class="dropdown-item" (click)="onSwitchHtmlPlainTextMode.emit()" *ngIf="decryptedContentsPlain">
               {{
                 plainTextViewState

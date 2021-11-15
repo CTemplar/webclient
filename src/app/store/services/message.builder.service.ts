@@ -56,7 +56,7 @@ export class MessageBuilderService {
     return '';
   }
 
-  private async processAttachments(attachments: Array<Attachment>): Promise<any> {
+  public async processAttachments(attachments: Attachment[]): Promise<any> {
     const attachmentsEntities: any[] = [];
 
     for (const attachment of attachments) {
@@ -82,5 +82,41 @@ export class MessageBuilderService {
       reader.addEventListener('error', reject);
       reader.readAsArrayBuffer(file);
     });
+  }
+
+  public async buildEmlData(
+    mailData: SecureContent,
+    decryptedAttachments: any,
+    isHtml: boolean,
+    isBase64EncodeForBody = false,
+  ) {
+    const message = mimemessage.factory({
+      contentType: EmailContentType.MULTIPART_MIXED,
+      body: [],
+    });
+    // Content Body
+    const content = isHtml
+      ? isBase64EncodeForBody
+        ? btoa(unescape(encodeURIComponent(mailData.content)))
+        : mailData.content
+      : (isBase64EncodeForBody ? btoa(unescape(encodeURIComponent(mailData.content_plain))) : mailData.content_plain) ||
+        '';
+    const contentEntity = mimemessage.factory({
+      contentType: isHtml ? EmailContentType.TEXT_HTML_CHARSET_UTF8 : EmailContentType.PLAIN_TEXT_CHARSET_UTF8,
+      body: content,
+    });
+    if (isBase64EncodeForBody) {
+      contentEntity.header('Content-Transfer-Encoding', 'base64');
+    }
+    let attachmentsEntities = '';
+    if (decryptedAttachments) {
+      let attachments: Attachment[] = [];
+      Object.keys(decryptedAttachments).forEach(key => {
+        attachments.push(decryptedAttachments[key]);
+      });
+      attachmentsEntities = await this.processAttachments(attachments);
+    }
+    message.body = attachmentsEntities ? [contentEntity, ...attachmentsEntities] : [contentEntity];
+    return message.toString();
   }
 }
