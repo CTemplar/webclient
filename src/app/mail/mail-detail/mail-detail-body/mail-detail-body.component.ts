@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { Attachment, Mail, MailFolderType } from '../../../store/models';
-import { LOADING_IMAGE } from '../../../store/services';
+import { ExportMailService, LOADING_IMAGE } from '../../../store/services';
 
 @UntilDestroy()
 @Component({
@@ -94,5 +94,12 @@ export class MailDetailBodyComponent implements OnInit {
 
   loadingImage = LOADING_IMAGE;
 
-  ngOnInit(): void {}
+  constructor(private exportMailService: ExportMailService) {}
+
+  onExport(mail: Mail) {
+    this.exportMailService.exportMail(mail);
+  }
+
+  ngOnInit(): void {
+  }
 }

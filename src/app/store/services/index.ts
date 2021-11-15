@@ -12,3 +12,7 @@ export * from './message.builder.service';
 export * from './message.decrypt.service';
 export * from './autocrypt.process.service';
 export * from './electron.service';
+export * from './export-mail.service';
+export * from './compose-mail.service';
+export * from './timezone.service';
+export * from './datetime-util.service';
