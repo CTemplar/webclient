@@ -21,20 +21,12 @@ export const quotes = [
     author: "- Templar's honor code -",
   },
   {
-    content: 'In a time of universal deceit, telling the truth is a revolutionary act.',
-    author: '- George Orwell -',
-  },
-  {
     content: 'The essence of government is control, or the attempt to control.',
     author: '- Benjamin Tucker -',
   },
   {
     content: 'You are not what you were born, but what you have it in yourself to be.',
     author: '- Godfrey of Ibelin -',
-  },
-  {
-    content: 'It is a kingdom of conscience, or nothing.',
-    author: '- Balian of Ibelin -',
   },
   {
     content: 'But man is not made for defeat. A man can be destroyed but not defeated.',
@@ -61,22 +53,9 @@ export const quotes = [
     author: '- Johann Wolfgang von Goethe -',
   },
   {
-    content: 'The further a society drifts from truth, the more it will hate those who speak it.',
-    author: '- George Orwell -',
-  },
-  {
     content:
       'The disappearance of a sense of morality is the most far-reaching consequence of submission to a system of authority.',
     author: '- Stanley Milgram -',
-  },
-  {
-    content: 'It is dangerous to be right when the government is wrong.',
-    author: '- Voltaire -',
-  },
-  {
-    content:
-      'There is no greater tyranny than that which is perpetrated under the shield of the law and in the name of justice.',
-    author: '- Charles-Louis de Secondat -',
   },
   {
     content: 'All human beings have three lives: public, private, and secret.',
@@ -89,10 +68,6 @@ export const quotes = [
   {
     content: 'No one likes to see a government folder with their name on it.',
     author: '- Stephen King -',
-  },
-  {
-    content: 'You assist an evil system most by following its orders and decrees.',
-    author: '- Mahatma Gandhi -',
   },
   {
     content:
@@ -135,10 +110,6 @@ export const quotes = [
     author: '- Martin Luther King Jr. -',
   },
   {
-    content: 'Keep your face always toward the sunshine - and shadows will fall behind you.',
-    author: '- Walt Whitman -',
-  },
-  {
     content: 'Conformity is the jailer of freedom and the enemy of growth.',
     author: '- John F. Kennedy -',
   },
@@ -159,7 +130,7 @@ export const quotes = [
     author: '- Julian Assange -',
   },
   {
-    content: 'It is dangerous to be right when the government is wrong.',
+    content: 'It is dangerous to be right in matters on which the established authorities are wrong.',
     author: '- Voltaire -',
   },
   {
@@ -259,10 +230,6 @@ export const quotes = [
     author: '- Julian Assange -',
   },
   {
-    content: 'If liberty means anything at all, it means the right to tell people what they do not want to hear.',
-    author: '- George Orwell -',
-  },
-  {
     content:
       'The world’s entire scientific and cultural heritage, is being digitized and locked up by a handful of private corporations.',
     author: '- Aaron Swartz, Reddit Co-Founder -',
@@ -282,5 +249,39 @@ export const quotes = [
   {
     content: 'In a gentle way, you can shake the world.',
     author: '- Mahatma Gandhi -',
+  },
+  {
+    content: 'Blind belief in authority is the greatest enemy of truth.',
+    author: '- Albert Einstein -',
+  },
+  {
+    content: "People can tell you to keep your mouth shut, but that doesn't stop you from having your own opinion.",
+    author: '- Anne Frank -',
+  },
+  {
+    content: 'Few are those who see with their own eyes and feel with their own hearts.',
+    author: '- Albert Einstein -',
+  },
+  {
+    content: 'The right to be let alone is indeed the beginning of all freedom.',
+    author: '- William O. Douglas -',
+  },
+  {
+    content:
+      "There will come a time when it isn't 'They're spying on me through my phone' anymore. Eventually, it will be 'My phone is spying on me'.",
+    author: '- William O. Douglas -',
+  },
+  {
+    content: "Why should everything that happens be the entire world's business?",
+    author: '- Philip Wyeth -',
+  },
+  {
+    content:
+      'The most dangerous and powerful people in the world do not carry guns or shoot missiles, they write code to surveil and suppress the opposing views.',
+    author: '- Olawale Daniel -',
+  },
+  {
+    content: 'The death of privacy means the death of human freedom.',
+    author: '- Gabriel Custodiet -',
   },
 ];
