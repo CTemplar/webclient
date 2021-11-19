@@ -909,8 +909,8 @@
     "confirm_forward_attach": "Weiterleitung von Anhängen bestätigen",
     "confirm_include_attach": "Eingebetteten Anhänge bestätigen",
     "show_plain_text": "Reintext anzeigen",
-    "auto_read_email": "Auto read email",
-    "show_rich_text": "Show Rich Text",
+    "auto_read_email": "E-Mails automatisch lesen",
+    "show_rich_text": "Rich-Text anzeigen",
     "password_encryption_message_desc": "Diese Nachricht wurde mit einem Passwort verschlüsselt. Bitte geben Sie das Passwort ein, das Sie zuvor festgelegt haben.",
     "password_hint": "Kennwort Hinweis: ",
     "download_attachments": "Herrunterladen aller Anhänge",
@@ -927,9 +927,7 @@
     "load": "Laden",
     "message_expired": "Diese Nachricht ist abgelaufen",
     "decrypt_message": "Nachricht entschlüsseln",
-    "information": "Informationen",
-    "auto_read_email": "E-Mails automatisch lesen",
-    "show_rich_text": "Rich-Text anzeigen"
+    "information": "Informationen"
   },
   "mail_dialogs": {
     "payment_failed": "Zahlung fehlgeschlagen",
