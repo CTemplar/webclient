@@ -427,6 +427,9 @@
       "domain_verification_message": "Domain verification failed, please add above TXT record in your host DNS and try again. DNS records can take several hours to update. Once domain is verified, you can proceed to next step.",
       "domain_deletion_message": "All the associated data of this domain, including messages, will also be deleted."
     },
+    "organizer": {
+      "title": "Organizer"
+    },
     "forwarding": {
       "title": "Forwarding",
       "auto_forward": "You can automatically forward your messages to another address.",

@@ -1,0 +1,29 @@
+<div class="stepper-form">
+  <div *ngIf="domains?.length > 0; else noDomains">
+    <div class="d-flex justify-content-start">
+      <span class="organization-stepper-desc"
+        >You have {{ domains.length }} custom domains:
+        <span *ngFor="let domain of domains; let i = index" class="font-weight-bold">
+          {{ domain.domain }}
+          <span class="font-weight-normal" *ngIf="i < domains.length - 1"> and </span>
+        </span>
+      </span>
+      <button class="btn btn-sm btn-outline-secondary ml-4">
+        <span class="text-small">ADD NEW DOMAIN</span>
+      </button>
+    </div>
+    <span class="organization-stepper-desc">These domains will be included to your organization.</span>
+    <button class="btn btn-sm btn-secondary mt-3" (click)="next.emit()">
+      <span class="text-small">NEXT</span>
+    </button>
+  </div>
+  <ng-template #noDomains>
+    <div class="mb-4">
+      <span class="organization-stepper-desc">You have no custom domains</span>
+      <span class="organization-stepper-desc">You need set up domain to create organization</span>
+    </div>
+    <button class="btn btn-sm btn-secondary">
+      <span class="text-small">ADD CUSTOM DOMAIN</span>
+    </button>
+  </ng-template>
+</div>

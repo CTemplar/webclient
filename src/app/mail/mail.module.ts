@@ -49,6 +49,12 @@ import { MailDetailHeaderComponent } from './mail-detail/mail-detail-header/mail
 import { MailDetailBodyComponent } from './mail-detail/mail-detail-body/mail-detail-body.component';
 import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-detail-password-decryption-panel/mail-detail-password-decryption-panel.component';
 import { ExportMessageComponent } from './dialogs/export-message/export-message.component';
+import { OrganizerComponent } from './mail-settings/organizer/organizer.component';
+import { CreateOrganizerComponent } from './mail-settings/organizer/create-organizer/create-organizer.component';
+import { DomainSectionComponent } from './mail-settings/organizer/create-organizer/domain-section/domain-section.component';
+import { OrganizationBriefSectionComponent } from './mail-settings/organizer/create-organizer/organization-brief-section/organization-brief-section.component';
+import { PasswordSectionComponent } from './mail-settings/organizer/create-organizer/password-section/password-section.component';
+import { AllocateStorageSectionComponent } from './mail-settings/organizer/create-organizer/allocate-storage-section/allocate-storage-section.component';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -84,6 +90,12 @@ import { ExportMessageComponent } from './dialogs/export-message/export-message.
     MailDetailBodyComponent,
     MailDetailPasswordDecryptionPanelComponent,
     ExportMessageComponent,
+    OrganizerComponent,
+    CreateOrganizerComponent,
+    DomainSectionComponent,
+    OrganizationBriefSectionComponent,
+    PasswordSectionComponent,
+    AllocateStorageSectionComponent,
   ],
   imports: [
     CommonModule,

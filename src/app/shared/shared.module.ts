@@ -6,6 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { TagInputModule } from 'ngx-chips';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
@@ -40,6 +41,7 @@ import { AdvancedSearchComponent } from './components/advanced-search/advanced-s
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { KeyManageService } from './services/key-manage.service';
 import { UserSelectManageService } from './services/user-select-manage.service';
+import { SliderComponent } from './slider/slider.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -56,6 +58,7 @@ const maskConfig: Partial<IConfig> = {
     NgbModule,
     MatCheckboxModule,
     NgxMaskModule.forRoot(maskConfig),
+    NgxSliderModule,
   ],
   declarations: [
     SpinnerComponent,
@@ -83,6 +86,7 @@ const maskConfig: Partial<IConfig> = {
     EmailFormatPipe,
     CircleBarSpinnerComponent,
     AdvancedSearchComponent,
+    SliderComponent,
   ],
   exports: [
     // Modules
@@ -117,6 +121,7 @@ const maskConfig: Partial<IConfig> = {
     StripeFormComponent,
     CreateFolderComponent,
     PaymentFailureNoticeComponent,
+    SliderComponent,
   ],
   providers: [
     SpinnerService,

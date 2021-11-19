@@ -35,7 +35,8 @@
   color: $brand-danger;
 }
 
-app-custom-domains {
+app-custom-domains,
+app-organizer {
   .mat-stepper-vertical,
   .mat-stepper-horizontal {
     font-family: 'Lato', Helvetica, Arial, sans-serif;
@@ -259,4 +260,13 @@ app-compose-mail {
   .hg-button {
     color: black !important;
   }
+}
+
+.organization-stepper-desc {
+  font-family: Lato;
+  font-size: 14px;
+  line-height: 40px;
+  letter-spacing: 0.2px;
+  color: rgba(0, 0, 0, 0.87);
+  display: block;
 }

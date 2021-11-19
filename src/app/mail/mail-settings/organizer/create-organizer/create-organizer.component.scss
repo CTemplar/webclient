@@ -1,0 +1,55 @@
+@import '~styles/base/variables';
+@import '~styles/vendors/include-media/include-media';
+@import '~styles/config/include-media-config';
+@import '~styles/vendors/ceaser/ceaser-easing';
+@import '~styles/theme-variables-collection';
+@import '~styles/themes';
+
+.stepper-form {
+  padding: 1.5625rem 1.875rem 2.5rem 1.875rem;
+  font-size: 0.875rem;
+  background-color: var(--bg-faded);
+
+  .domain-input {
+    width: 28.125rem;
+    padding: 0.75rem 0.8125rem;
+    @include media('<=sm') {
+      width: 100%;
+    }
+  }
+
+  @include media('<=sm') {
+    padding: 0;
+  }
+}
+
+.record-status {
+  border-radius: 14px;
+  background-color: #3ab05d;
+}
+
+.green {
+  color: #3ab05d !important;
+}
+
+.copy-btn {
+  float: right !important;
+  margin-top: -10px;
+}
+
+.warning {
+  font-size: 0.75rem;
+
+  .warning-text {
+    color: #e55747;
+  }
+}
+
+.reverify-domain {
+  padding-right: 3px;
+  vertical-align: text-bottom;
+}
+
+i.fas.fa-copy {
+  font-size: 20px;
+}

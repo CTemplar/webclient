@@ -1,0 +1,23 @@
+<div class="stepper-form">
+  <form [formGroup]="organizationForm">
+    <span class="organization-stepper-desc mb-3">Pick a name for your organization</span>
+    <input
+      class="text-dark form-control"
+      id="organizationNameInput"
+      type="text"
+      placeholder="Example Inc"
+      formControlName="organizationName"
+    />
+    <span
+      *ngIf="
+        organizationForm.controls['organizationName'].errors.required &&
+        organizationForm.controls['organizationName'].touched
+      "
+      class="validate-message d-block"
+      >Organization name is required</span
+    >
+    <button type="submit" class="btn btn-sm btn-secondary mt-3" (click)="next.emit()">
+      <span class="text-small">NEXT</span>
+    </button>
+  </form>
+</div>

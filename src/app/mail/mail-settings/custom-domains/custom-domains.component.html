@@ -889,8 +889,8 @@
 
 <ng-template #nextButton>
   <div class="mt-3 mt-sm-4">
-    <button class="btn btn-sm btn-secondary mr-2" *ngIf="currentStep > 1" (click)="verifyDomain(newDomain?.id)">
-      <span [translate]="'settings.verify'">Verify</span>
+    <button class="btn btn-outline-secondary mr-3" (click)="finishCreatingOrganization()">
+      <span class="text-small" [translate]="'common.cancel'">Cancel</span>
     </button>
 
     <button class="btn btn-sm btn-secondary" (click)="verifyDomain(newDomain?.id, true)">

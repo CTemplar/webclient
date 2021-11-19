@@ -1,0 +1,21 @@
+@import '../../../styles/base/variables';
+
+::ng-deep .custom-slider .ngx-slider .ngx-slider-pointer {
+    background-color: $brand-primary;
+}
+
+::ng-deep .custom-slider .ngx-slider .ngx-slider-pointer.ngx-slider-active::after {
+    background-color: #fff;
+}
+
+::ng-deep .custom-slider .ngx-slider .ngx-slider-bar {
+    background-color: #d0d0d0;
+}
+
+::ng-deep .custom-slider .ngx-slider .ngx-slider-selection {
+    background: $brand-primary;
+}
+
+::ng-deep .custom-slider .ngx-slider .ngx-slider-span .ngx-slider-bubble .ngx-slider-limit {
+    top: 10px;
+}

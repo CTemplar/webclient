@@ -1689,6 +1689,14 @@
       </ng-template>
     </div>
 
+    <!-- Organizer -->
+    <div class="nav" [ngbNavItem]="'organizer'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.organizer.title'">Organizer</a>
+      <ng-template ngbNavContent>
+        <app-organizer (onGotoTab)="navSet.select($event)" (onAnchored)="onAnchoredLink($event)"></app-organizer>
+      </ng-template>
+    </div>
+
     <!-- Forwarding and auto responder -->
     <div class="nav" [ngbNavItem]="'forwarding-and-auto-responder'">
       <a ngbNavLink class="nav-link" [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</a>
