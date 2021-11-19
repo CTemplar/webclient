@@ -48,6 +48,7 @@ import { ImportPrivateKeyComponent } from './dialogs/import-private-key/import-p
 import { MailDetailHeaderComponent } from './mail-detail/mail-detail-header/mail-detail-header.component';
 import { MailDetailBodyComponent } from './mail-detail/mail-detail-body/mail-detail-body.component';
 import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-detail-password-decryption-panel/mail-detail-password-decryption-panel.component';
+import { ExportMessageComponent } from './dialogs/export-message/export-message.component';
 
 @NgModule({
   entryComponents: [ComposeMailDialogComponent],
@@ -82,6 +83,7 @@ import { MailDetailPasswordDecryptionPanelComponent } from './mail-detail/mail-d
     MailDetailHeaderComponent,
     MailDetailBodyComponent,
     MailDetailPasswordDecryptionPanelComponent,
+    ExportMessageComponent,
   ],
   imports: [
     CommonModule,

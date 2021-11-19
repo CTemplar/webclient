@@ -92,7 +92,7 @@
     "account_password": "Your account password",
     "continue_to_link": "Continue to link",
     "dont_ask_use_local_cache": "Don't ask any more",
-    "sign_message": "Sign message"
+    "sign_message": "Sign message",
     "monthly": "monthly",
     "yearly": "yearly",
     "unlimited": "Unlimited"
@@ -907,7 +907,7 @@
     "confirm_include_attach": "Confirm Include Attachments",
     "show_plain_text": "Показати простий текст",
     "auto_read_email": "Автоматичне читання електронної пошти",
-    "show_rich_text": "Показати текст з додатковими функціями"
+    "show_rich_text": "Показати текст з додатковими функціями",
     "password_encryption_message_desc": "This message has been encrypted with password. Please enter the password that you set before.",
     "password_hint": "Password Hint: ",
     "download_attachments": "Download All Attachments",

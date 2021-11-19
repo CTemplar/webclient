@@ -5,6 +5,7 @@ interface NodeModule {
 
 declare module 'cssfilter';
 declare module 'bcryptjs';
+declare module 'eml-format';
 
 declare module '@ckeditor/ckeditor5-build-decoupled-document' {
   const DecoupledEditorBuild: any;

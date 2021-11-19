@@ -53,8 +53,7 @@ import {
   OpenPgpService,
   SharedService,
 } from '../../store/services';
-import { ComposeMailService } from '../../store/services/compose-mail.service';
-import { DateTimeUtilService } from '../../store/services/datetime-util.service';
+import { ComposeMailService, DateTimeUtilService } from '../../store/services';
 import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
@@ -258,6 +257,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
         }
       });
+
     /**
      * Get mails from DB
      */
@@ -350,7 +350,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
 
               setTimeout(() => {
-                if (!this.mail.read && !this.markedAsRead) {
+                if (!this.mail?.read && !this.markedAsRead) {
                   this.markedAsRead = true;
                   if (this.isAutoReadMode) {
                     this.markAsRead(this.mail.id, true);
