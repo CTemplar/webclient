@@ -350,7 +350,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               }
 
               setTimeout(() => {
-                if (!this.mail.read && !this.markedAsRead) {
+                if (!this.mail?.read && !this.markedAsRead) {
                   this.markedAsRead = true;
                   if (this.isAutoReadMode) {
                     this.markAsRead(this.mail.id, true);
