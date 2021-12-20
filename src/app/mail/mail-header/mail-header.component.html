@@ -12,7 +12,7 @@
         <div>
           <div class="form-group mb-0 position-relative">
             <input
-              class="form-control form-control-sm"
+              class="form-control form-control-sm search-input"
               type="text"
               [formControl]="searchInput"
               (keyup.enter)="search()"
@@ -22,7 +22,7 @@
               <i class="fas fa-times"></i>
             </button>
             <button class="btn btn-sm btn-secondary search-btn" (click)="search()" role="button">
-              <i class="icon icon-search"></i>
+              <i class="fas fa-search"></i>
             </button>
             <!--            <button class="btn btn-sm btn-secondary search-btn advanced-search-btn" (click)="openAdvancedSearchModal()" role="button">-->
             <!--              <i class="fas fa-angle-down"></i>-->
@@ -177,7 +177,7 @@
                       <i class="fas fa-times"></i>
                     </button>
                     <button class="btn btn-sm btn-secondary search-btn" (click)="search()" role="button">
-                      <i class="icon icon-search"></i>
+                      <i class="fas fa-search"></i>
                     </button>
                   </div>
                 </form>

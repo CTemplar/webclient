@@ -163,7 +163,8 @@
             type="text"
             placeholder="YYYY-MM-DD"
             aria-describedby="startDateToggle"
-            [disabled]="true"
+            [readonly]="true"
+            (click)="isShowStartDate = !isShowStartDate"
           />
           <span
             class="input-group-addon date-toggle bg-white mt-1 cursor-pointer"
@@ -180,7 +181,7 @@
           [(ngModel)]="startDate"
           *ngIf="isShowStartDate"
           [maxDate]="endDate ? endDate : calendar.getToday()"
-          class="bg-white ng-datepicker ng-datepicker-265 advanced-search-date-picker"
+          class="bg-white ng-datepicker ng-datepicker-265 advanced-search-date-picker position-absolute"
         >
         </ngb-datepicker>
       </div>
@@ -197,7 +198,8 @@
             type="text"
             placeholder="YYYY-MM-DD"
             aria-describedby="endDateToggle"
-            [disabled]="true"
+            [readonly]="true"
+            (click)="isShowEndDate = !isShowEndDate"
           />
           <span
             class="input-group-addon date-toggle bg-white mt-1 cursor-pointer"
@@ -215,7 +217,7 @@
           *ngIf="isShowEndDate"
           [maxDate]="calendar.getToday()"
           [minDate]="startDate ? startDate : null"
-          class="bg-white ng-datepicker ng-datepicker-265 advanced-search-date-picker"
+          class="bg-white ng-datepicker ng-datepicker-265 advanced-search-date-picker position-absolute"
         >
         </ngb-datepicker>
       </div>
