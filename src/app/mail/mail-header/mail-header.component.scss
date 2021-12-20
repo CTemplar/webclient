@@ -236,6 +236,11 @@
     }
   }
 
+  .search-input {
+    border-radius: 0;
+    width: calc(100% - 32px); // to offset the width of .advanced-search-btn so that border focus is visible
+  }
+
   .search-btn {
     position: absolute;
     top: 0;
