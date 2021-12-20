@@ -238,7 +238,7 @@
 
   .search-input {
     border-radius: 0;
-    width: calc(100% - 32px); // to offset the width of .advanced-search-btn so that border focus is visible
+    width: calc(100% - 31px); // to offset the width of .advanced-search-btn so that border focus is visible
   }
 
   .search-btn {
@@ -262,6 +262,7 @@
       width: 30px;
       height: 32px;
       min-width: 30px;
+      border-left-width: 0;
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
       &::before {
