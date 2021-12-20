@@ -24,7 +24,7 @@ export class ClickOutsideDirective {
     if (!clickedInside) {
       // #1477 in cases like datepicker where we rely on this directive to close popup,
       // click outside is triggered as soon as the popup is opened and
-      // it closes immediately. we are skipping the first outside click 
+      // it closes immediately. we are skipping the first outside click
       // which is actually trigger that opened the popup
       if (!this.skipFirst || this.canEmit) {
         this.clickOutside.emit(event);
