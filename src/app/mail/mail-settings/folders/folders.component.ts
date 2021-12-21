@@ -182,6 +182,6 @@ export class FoldersComponent implements OnInit {
   onAnchoredLink(id: string) {
     // this.onAnchored.emit(id);
     const elmnt = document.getElementById(id);
-    elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    elmnt.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 }

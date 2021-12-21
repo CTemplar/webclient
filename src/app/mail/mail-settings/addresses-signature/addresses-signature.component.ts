@@ -679,6 +679,6 @@ export class AddressesSignatureComponent implements OnInit {
 
   onAnchoredLink(id: string) {
     const elmnt = document.getElementById(id);
-    elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    elmnt.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 }

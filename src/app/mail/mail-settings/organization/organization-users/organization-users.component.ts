@@ -274,6 +274,6 @@ export class OrganizationUsersComponent implements OnInit {
     //   document.querySelector(`#${fragment}`).scrollIntoView();
     // });
     const elmnt = document.getElementById(id);
-    elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    elmnt.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 }
