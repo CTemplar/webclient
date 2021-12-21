@@ -231,7 +231,7 @@ export const CKEDITOR_TOOLBAR_ITEMS = [
   'removeformat',
 ];
 
-export const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$');
+export const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[W]).{8,}$');
 
 // Keys
 export const KEY_LEFT_CONTROL = 'ControlLeft';
