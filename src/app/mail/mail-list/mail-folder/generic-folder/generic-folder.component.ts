@@ -489,6 +489,15 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     return `/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`;
   }
 
+  openDraftMail(mail: Mail) {
+    if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
+      this.composeMailService.openComposeMailDialog({
+        draft: mail,
+        isFullScreen: this.userState.settings.is_composer_full_screen,
+      });
+    }
+  }
+
   /**
    * @description
    * Prime Users - Can create as many folders as they want
