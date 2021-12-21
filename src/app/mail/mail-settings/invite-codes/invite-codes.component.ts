@@ -53,5 +53,7 @@ export class InviteCodesComponent implements OnInit {
 
   onAnchoredLink() {
     this.onAnchored.emit();
+    // const elmnt = document.getElementById(id);
+    // elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 }

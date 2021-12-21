@@ -269,9 +269,11 @@ export class OrganizationUsersComponent implements OnInit {
     input.type = input.type === 'password' ? 'text' : 'password';
   }
 
-  onAnchoredLink(fragment: string): void {
-    this.router.navigate([], { fragment }).then(() => {
-      document.querySelector(`#${fragment}`).scrollIntoView();
-    });
+  onAnchoredLink(id: string): void {
+    // this.router.navigate([], { fragment }).then(() => {
+    //   document.querySelector(`#${fragment}`).scrollIntoView();
+    // });
+    const elmnt = document.getElementById(id);
+    elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 }

@@ -708,9 +708,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onAnchoredLink(fragment: string): void {
-    this.router.navigate([], { fragment }).then(() => {
-      document.querySelector(`#${fragment}`).scrollIntoView();
-    });
+  // onAnchoredLink(fragment: string): void {
+    // this.router.navigate([], { fragment }).then(() => {
+    //   document.querySelector(`#${fragment}`).scrollIntoView();
+    // });
+  // }
+  onAnchoredLink(id: string): void {
+    const elmnt = document.getElementById(id);
+    elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 }
