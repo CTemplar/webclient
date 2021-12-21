@@ -131,7 +131,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     private modalService: NgbModal,
     private translate: TranslateService,
     private keyManageService: KeyManageService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     /**
