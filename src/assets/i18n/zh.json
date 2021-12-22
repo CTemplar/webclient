@@ -107,6 +107,7 @@
     "compose_size": "Default composing size",
     "compose_autosave_duration": "邮件撰写自动保存时间",
     "ask_local_cache": "Ask to use local cache",
+    "warn_external_link": "Warn before opening External Links",
     "plain_text_font": "Default plain text font",
     "overview": "总览",
     "username": "用户名",
