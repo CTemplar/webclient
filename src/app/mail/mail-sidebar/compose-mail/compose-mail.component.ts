@@ -495,7 +495,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               // this.subjectChanged.emit(this.subject);
               this.subjectChanged.emit(decryptedContent.subject);
               this.mailData.subject = decryptedContent.subject;
-              // console.log("1")
+     
             }
             this.addDecryptedContent();
           }
@@ -965,11 +965,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onFromChanged(mailbox: Mailbox, oldMailbox: Mailbox) {
     // when user change current mailbox on From field of Compose window
     // if (oldMailbox === mailbox) {
-    //   console.log("122")
+    
     //   return;
     // }
     this.selectedMailbox = mailbox;
-    console.log(this.selectedMailbox, '2');
+    
     this.oldMailbox = oldMailbox;
     this.isSignatureAdded = false;
     this.updateSignature();
@@ -1226,13 +1226,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.receiver.map((receiver: any) => receiver.email.toLowerCase()),
       ...this.mailData.cc.map((cc: any) => cc.email.toLowerCase()),
       ...this.mailData.bcc.map((bcc: any) => bcc.email.toLowerCase()),
-      // ...this.mailData.subject.map((subject: any) => subject.email.toLowerCase()),
     ];
+    // Subject Waning Message 
     if (this.mailData.subject.length === 0) {
-      // console.log("log111")
+     
       this.store.dispatch(new SnackErrorPush({ message: 'Subject Line is empty.' }));
       return;
     }
+    // END here 
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return;
@@ -1288,7 +1289,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length === 0) ||
         (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))
     ) {
-      console.log('2');
+      
       // show message to confirm without subject and content
       this.confirmModalRef = this.modalService.open(this.confirmationModal, {
         centered: true,
@@ -1360,7 +1361,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   updateSignature() {
     if (!this.isSignatureAdded) {
-      console.log('3');
+     
       if (this.settings && !this.draftMail.is_html) {
         // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
@@ -1609,8 +1610,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.bcc.length > 0 ||
       this.mailData.subject.length > 0
     ) {
-      console.log('3');
-      // this.store.dispatch(new SnackErrorPush({ message: 'Heloo' }));
+    
       return true;
     }
     if (!this.draftMail.is_html) {
