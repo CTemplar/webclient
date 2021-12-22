@@ -107,6 +107,7 @@
     "compose_size": "Varsayılan yazı boyutu",
     "compose_autosave_duration": "Otomatik kaydetme aralığı oluştur",
     "ask_local_cache": "Yerel önbelleği kullanmayı isye",
+    "warn_external_link": "Warn before opening External Links",
     "plain_text_font": "Varsayılan düz metin yazı tipi",
     "overview": "Genel bakış",
     "username": "Kullanıcı adı",

@@ -317,6 +317,44 @@
   </header>
   <div class="mailbox-section-body mailbox-section-body-sm">
     <div class="form-content-holder">
+      <!-- Warn before opening external links -->
+      <div class="form-content-row">
+        <div class="row align-items-center">
+          <div class="col-sm-3">
+            <label class="form-label mb-0" [translate]="'settings.warn_external_link'">Warn before opening External Links</label>
+          </div>
+          <div class="col-sm-7 col-md-5">
+            <div class="row row-sm">
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="warnExternalLinkEnable"
+                    name="[warnExternalLink]"
+                    type="radio"
+                    (click)="updateSettings('warn_external_link', true)"
+                    [checked]="warnExternalLink"
+                  />
+                  <label for="warnExternalLinkEnable" [translate]="'common.enabled'">Enabled</label>
+                </div>
+              </div>
+              <div class="col-6 flex-auto-col">
+                <div class="fancy-field-group">
+                  <input
+                    class="d-none fancy-field-control fancy-field-control-sm"
+                    id="warnExternalLinkDisable"
+                    name="[warnExternalLink]"
+                    type="radio"
+                    (click)="updateSettings('warn_external_link', false)"
+                    [checked]="!warnExternalLink"
+                  />
+                  <label for="warnExternalLinkDisable" [translate]="'common.disabled'">Disabled</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Anti Phishing -->
       <div class="form-content-row">
         <div class="row align-items-center">

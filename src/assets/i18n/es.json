@@ -107,6 +107,7 @@
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Intervalo de guardado",
     "ask_local_cache": "Ask to use local cache",
+    "warn_external_link": "Warn before opening External Links",
     "plain_text_font": "Default plain text font",
     "overview": "Visión general",
     "username": "Nombre de usuario",

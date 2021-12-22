@@ -298,6 +298,8 @@ export class Settings {
 
   use_local_cache?: string;
 
+  warn_external_link?: boolean;
+
   referral_code?: string;
 
   show_plain_text?: boolean;
