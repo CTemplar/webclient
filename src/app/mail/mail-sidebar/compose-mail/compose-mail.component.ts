@@ -495,7 +495,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
               // this.subjectChanged.emit(this.subject);
               this.subjectChanged.emit(decryptedContent.subject);
               this.mailData.subject = decryptedContent.subject;
-     
             }
             this.addDecryptedContent();
           }
@@ -965,11 +964,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onFromChanged(mailbox: Mailbox, oldMailbox: Mailbox) {
     // when user change current mailbox on From field of Compose window
     // if (oldMailbox === mailbox) {
-    
+
     //   return;
     // }
     this.selectedMailbox = mailbox;
-    
+
     this.oldMailbox = oldMailbox;
     this.isSignatureAdded = false;
     this.updateSignature();
@@ -1227,13 +1226,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.cc.map((cc: any) => cc.email.toLowerCase()),
       ...this.mailData.bcc.map((bcc: any) => bcc.email.toLowerCase()),
     ];
-    // Subject Waning Message 
+    // Subject Waning Message
     if (this.mailData.subject.length === 0) {
-     
       this.store.dispatch(new SnackErrorPush({ message: 'Subject Line is empty.' }));
       return;
     }
-    // END here 
+    // END here
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return;
@@ -1289,7 +1287,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length === 0) ||
         (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))
     ) {
-      
       // show message to confirm without subject and content
       this.confirmModalRef = this.modalService.open(this.confirmationModal, {
         centered: true,
@@ -1361,7 +1358,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   updateSignature() {
     if (!this.isSignatureAdded) {
-     
       if (this.settings && !this.draftMail.is_html) {
         // add plaintext signature and return if plain text mode
         this.isSignatureAdded = true;
@@ -1610,7 +1606,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mailData.bcc.length > 0 ||
       this.mailData.subject.length > 0
     ) {
-    
       return true;
     }
     if (!this.draftMail.is_html) {
