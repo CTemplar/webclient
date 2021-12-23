@@ -963,10 +963,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onFromChanged(mailbox: Mailbox, oldMailbox: Mailbox) {
     // when user change current mailbox on From field of Compose window
-    // if (oldMailbox === mailbox) {
-
-    //   return;
-    // }
+    if (oldMailbox === mailbox) {
+      return;
+    }
     this.selectedMailbox = mailbox;
 
     this.oldMailbox = oldMailbox;
