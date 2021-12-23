@@ -1224,6 +1224,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.cc.map((cc: any) => cc.email.toLowerCase()),
       ...this.mailData.bcc.map((bcc: any) => bcc.email.toLowerCase()),
     ];
+    // Subject Waning Message
+    if (this.mailData.subject.length === 0) {
+      this.store.dispatch(new SnackErrorPush({ message: 'Subject Line is empty.' }));
+      return;
+    }
+    // END here
     if (receivers.length === 0) {
       this.store.dispatch(new SnackErrorPush({ message: 'Please enter receiver email.' }));
       return;
