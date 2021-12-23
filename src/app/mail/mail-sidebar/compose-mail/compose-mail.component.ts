@@ -65,8 +65,6 @@ import { DateTimeUtilService } from '../../../store/services/datetime-util.servi
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 
-
-
 const updatedSizes = SIZES.map(size => {
   return `${size}px`;
 });
@@ -308,7 +306,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // composerEditor: any;
 
-  displayStyle = "none";
+  displayStyle = 'none';
 
   constructor(
     private modalService: NgbModal,
@@ -1217,10 +1215,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   */
 
   openPopup() {
-    this.displayStyle = "block";
+    this.displayStyle = 'block';
   }
   closePopup() {
-    this.displayStyle = "none";
+    this.displayStyle = 'none';
   }
 
   /**
@@ -1241,10 +1239,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     ];
     // Subject Waning Message
     if (this.mailData.subject.length === 0 && receivers.length > 0) {
-        this.confirmSubjectModalRef = this.modalService.open(this.subjectConfirmationModal, {
-          centered: true,
-          windowClass: 'modal-sm users-action-modal',
-        });
+      this.confirmSubjectModalRef = this.modalService.open(this.subjectConfirmationModal, {
+        centered: true,
+        windowClass: 'modal-sm users-action-modal',
+      });
       return;
     }
     // END here
