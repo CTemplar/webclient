@@ -504,6 +504,8 @@
       "self_dest_email": "Selbstzerstörende Em-Mail",
       "confirm_send": "Senden bestätigen",
       "confirm_close": "Bestätigen Schließen",
+      "confirm_delete_draft_title": "Confirm Delete Draft",
+      "confirm_delete_draft_message": "Are you sure you want to discard this mail?",
       "send_without_all": "Sind Sie sicher, dass Sie diese Nachricht ohne Betreff oder Textinhalt senden möchten?",
       "close_during_uploading": "Sind Sie sicher, dass Sie schließen wollen? Der Upload- und Verschlüsselungsprozess geht verloren, wenn Sie die Seite schließen, während die Anhänge hochgeladen werden.",
       "email_deleted": "Die E-Mail wird zum gewählten Zeitpunkt zerstört",

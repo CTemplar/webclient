@@ -654,7 +654,7 @@
             <li class="pl-0">
               <button
                 role="button"
-                (click)="discardEmail()"
+                (click)="openConfirmDeleteDraftModal()"
                 [disabled]="!draftMail.id || isUploadingAttachment || isDownloadingAttachmentCounter > 0"
                 class="actions-btn mail-garbage-btn border-radius-l-0"
                 placement="top"
@@ -1152,4 +1152,32 @@
       ><i class="far fa-question-circle"></i>
     </a>
   </ng-template>
+  <!-- Discard Mail Confirm modal -->
+  <ng-template #confirmDeleteDraftModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h3 class="modal-title w-100 text-dark">
+        <strong [translate]="'settings.compose.confirm_delete_draft_title'">Confirm Delete Draft</strong>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body bg-faded">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">
+          <span [translate]="'settings.compose.confirm_delete_draft_message'">
+            Are you sure you want to discard this mail?</span
+          >
+        </div>
+        <div class="form-group text-right mb-0">
+          <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button">
+            <span [translate]="'common.cancel'">Cancel</span>
+          </button>
+          <button (click)="discardEmail()" class="btn btn-danger btn-sm" role="button">
+            <span [translate]="'settings.compose.confirm'">Confirm</span>
+          </button>
+        </div>
+      </div>
+    </div> </ng-template
+  ><!-- /.Close Confirm modal ends -->
 </div>

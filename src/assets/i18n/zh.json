@@ -504,6 +504,8 @@
       "self_dest_email": "自毁邮件",
       "confirm_send": "确认发送",
       "confirm_close": "Confirm Close",
+      "confirm_delete_draft_title": "Confirm Delete Draft",
+      "confirm_delete_draft_message": "Are you sure you want to discard this mail?",
       "send_without_all": "您确定发送这条无主题或正文的消息？",
       "close_during_uploading": "Are you sure to close? Upload and encryption process will be lost if you close while attachments upload are processing.",
       "email_deleted": "将在选定的日期时间删除邮件",
