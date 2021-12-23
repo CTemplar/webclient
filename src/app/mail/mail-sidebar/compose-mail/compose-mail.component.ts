@@ -65,6 +65,8 @@ import { DateTimeUtilService } from '../../../store/services/datetime-util.servi
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
 
+
+
 const updatedSizes = SIZES.map(size => {
   return `${size}px`;
 });
@@ -154,9 +156,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('confirmationModal') confirmationModal: any;
 
+  @ViewChild('subjectConfirmationModal') subjectConfirmationModal: any;
+
   @ViewChild('closeConfirmationModal') closeConfirmationModal: any;
 
   confirmModalRef: NgbModalRef;
+
+  confirmSubjectModalRef: NgbModalRef;
 
   closeConfirmModalRef: NgbModalRef;
 
@@ -301,6 +307,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   clonedContacts: any[] = [];
 
   // composerEditor: any;
+
+  displayStyle = "none";
 
   constructor(
     private modalService: NgbModal,
@@ -1208,6 +1216,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   */
 
+  openPopup() {
+    this.displayStyle = "block";
+  }
+  closePopup() {
+    this.displayStyle = "none";
+  }
+
   /**
    * Check exceptions and validations of subject and receiver before send mail
    */
@@ -1225,8 +1240,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       ...this.mailData.bcc.map((bcc: any) => bcc.email.toLowerCase()),
     ];
     // Subject Waning Message
-    if (this.mailData.subject.length === 0) {
-      this.store.dispatch(new SnackErrorPush({ message: 'Subject Line is empty.' }));
+    if (this.mailData.subject.length === 0 && receivers.length > 0) {
+        this.confirmSubjectModalRef = this.modalService.open(this.subjectConfirmationModal, {
+          centered: true,
+          windowClass: 'modal-sm users-action-modal',
+        });
       return;
     }
     // END here
@@ -1298,6 +1316,53 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // Newly Added Code
+  sendEmails() {
+    if (this.confirmSubjectModalRef) {
+      this.confirmSubjectModalRef.dismiss();
+    }
+    let receivers: string[] = [
+      ...this.mailData.receiver.map((receiver: any) => receiver.display.toLowerCase()),
+      ...this.mailData.cc.map((cc: any) => cc.display.toLowerCase()),
+      ...this.mailData.bcc.map((bcc: any) => bcc.display.toLowerCase()),
+    ];
+    receivers = receivers.filter(
+      email =>
+        !this.usersKeys.has(email.toLowerCase()) ||
+        (!this.usersKeys.get(email.toLowerCase()).key && !this.usersKeys.get(email.toLowerCase()).isFetching),
+    );
+
+    if (!this.draftMail?.is_html && this.settings.is_hard_wrap) {
+      // mail content hard wrap
+      this.mailData.content = this.mailData.content.replace(
+        new RegExp(`(?![^\\n]{1,${80}}$)([^\\n]{1,${80}})\\s`, 'g'),
+        '$1\n',
+      );
+    }
+    this.isMailSent = true;
+    this.setMailData(true, false);
+    this.inProgress = true;
+    this.store.dispatch(
+      new GetUsersKeys({
+        draftId: this.draftId,
+        emails: receivers,
+        draft: {
+          ...this.draft,
+          isMailDetailPage: this.isMailDetailPage,
+          isSaving: false,
+          shouldSave: false,
+          shouldSend: true,
+          draft: { ...this.draftMail },
+        },
+      }),
+    );
+    const message = this.delayedDelivery.value || this.deadManTimer.value ? 'Scheduling mail...' : 'Sending mail...';
+
+    this.store.dispatch(new SnackPush({ message, duration: 120_000 }));
+    this.resetValues();
+    this.hide.emit();
+  }
+  // End here
   sendEmail() {
     if (this.confirmModalRef) {
       this.confirmModalRef.dismiss();
