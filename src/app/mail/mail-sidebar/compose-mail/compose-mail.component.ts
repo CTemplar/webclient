@@ -156,6 +156,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('closeConfirmationModal') closeConfirmationModal: any;
 
+  @ViewChild('confirmDeleteDraftModal') confirmDeleteDraftModal: any;
+
   confirmModalRef: NgbModalRef;
 
   closeConfirmModalRef: NgbModalRef;
@@ -251,6 +253,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private deadManTimerModalRef: NgbModalRef;
 
   private encryptionModalRef: NgbModalRef;
+
+  private confirmDeleteDraftModalRef: NgbModalRef;
 
   private defaultLocale = 'US International';
 
@@ -1160,6 +1164,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.draftMail && this.draftMail.id) {
       this.store.dispatch(new DeleteMail({ ids: [this.draftMail.id].join(','), folder: this.draftMail.folder }));
     }
+    this.closeConfirmDeleteDraftModal();
     this.hide.emit();
     this.resetValues();
   }
@@ -1445,6 +1450,17 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   closeEncryptionModal() {
     this.encryptionModalRef.dismiss();
+  }
+
+  openConfirmDeleteDraftModal() {
+    this.confirmDeleteDraftModalRef = this.modalService.open(this.confirmDeleteDraftModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    });
+  }
+
+  closeConfirmDeleteDraftModal() {
+    this.confirmDeleteDraftModalRef?.dismiss();
   }
   /**
    * End Modal

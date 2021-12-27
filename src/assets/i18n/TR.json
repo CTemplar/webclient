@@ -504,6 +504,8 @@
       "self_dest_email": "Kendi Kendini Yok Eden E-mail",
       "confirm_send": "Göndermeyi Onayla",
       "confirm_close": "Kapatmayı Onayla",
+      "confirm_delete_draft_title": "Confirm Delete Draft",
+      "confirm_delete_draft_message": "Are you sure you want to discard this mail?",
       "send_without_all": "Bu iletiyi konu veya gövde olmadan göndermek istediğinizden emin misiniz?",
       "close_during_uploading": "Kapatacağından emin misin? Ekleri karşıya yükleme işlemi sırasında kapatırsanız karşıya yükleme ve şifreleme işlemi kaybolur.",
       "email_deleted": "Seçilen Tarih ve Satte E-mail Silinecek",

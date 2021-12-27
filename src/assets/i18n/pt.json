@@ -504,6 +504,8 @@
       "self_dest_email": "Auto Destruir Email",
       "confirm_send": "Confirmar Envio",
       "confirm_close": "Confirm Close",
+      "confirm_delete_draft_title": "Confirm Delete Draft",
+      "confirm_delete_draft_message": "Are you sure you want to discard this mail?",
       "send_without_all": "Tem a certeza que quer enviar esta mensagem sem assunto ou texto? ",
       "close_during_uploading": "Are you sure to close? Upload and encryption process will be lost if you close while attachments upload are processing.",
       "email_deleted": "O Email será eliminado na data selecionada",
