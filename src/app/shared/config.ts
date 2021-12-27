@@ -232,7 +232,7 @@ export const CKEDITOR_TOOLBAR_ITEMS = [
 ];
 
 export const passwordRegex = new RegExp(
-  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[*.!@$%^&(){}[\\\]:;<>«»,.?\/~_+\-=| ]).{8,}$',  // prettier-ignore
+  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[*.!@$%^&(){}[\\\]:;<>«»,.?\/~_+\-=| ]).{8,}$', // prettier-ignore
 );
 
 // Keys
