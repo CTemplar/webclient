@@ -49,6 +49,11 @@ export class AppComponent implements OnInit {
         this.isMailStaff = !!event.url.includes('/mail');
       });
 
+    // Listen to changes in fragment and scroll to the target anchor if found
+    this.activatedRoute.fragment.pipe(filter(Boolean)).subscribe(fragment => {
+      document.querySelector(`#${fragment}`)?.scrollIntoView();
+    });
+
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');
     setTimeout(() => {
