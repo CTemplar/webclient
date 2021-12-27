@@ -59,6 +59,7 @@ $variables: (
   --close-color: ($close-color, $close-color-dark),
   --modal-header-background: ($modal-header-background-light, $modal-header-background-dark),
   --modal-divider-color: ($modal-divider-color-light, $modal-divider-color-dark),
+  --modal-text-highlight: ($modal-divider-color-light, $brand-faded-dark),
   // Buttons - Reply, Forward...
   --btn-user-action-background: ($btn-user-action-background-light, $btn-user-action-background-dark),
   --btn-user-action-color: ($btn-user-action-color-light, $btn-user-action-color-dark),

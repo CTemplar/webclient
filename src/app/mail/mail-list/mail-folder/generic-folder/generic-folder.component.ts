@@ -145,7 +145,10 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         this.showProgress = !mailState.loaded || mailState.inProgress;
         if (this.fetchMails) {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
-          this.mails = [...mailState.mails];
+          this.mails = [...mailState.mails].map(mail => {
+            mail.mailLink = this.getMailLink(mail);
+            return mail;
+          });
           if (this.mails.length > 0) {
             this.getMailReceiverList();
           }
@@ -469,46 +472,29 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     this.isDeleteDraftClicked = true;
   }
 
-  openMail(mail: Mail) {
+  // Unable to open emails with Control + Click or Right Click (UPDATED) #1323
+  /**
+   * @description Generates the mail deep link based on the current folder
+   * and this is added to routerlink which would handle ctrl+click, right-click->new tab, middle-click
+   * @param  {Mail} mail
+   * @returns string
+   */
+  getMailLink(mail: Mail): string {
+    if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
+      return undefined;
+    }
+    if (this.mailFolder === MailFolderType.SEARCH) {
+      return `/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.parent ? mail.parent : mail.id}`;
+    }
+    return `/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`;
+  }
+
+  openDraftMail(mail: Mail) {
     if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
       this.composeMailService.openComposeMailDialog({
         draft: mail,
         isFullScreen: this.userState.settings.is_composer_full_screen,
       });
-    } else {
-      const queryParameters: any = {};
-      if (this.mailFolder === MailFolderType.SEARCH) {
-        if (this.searchText) {
-          queryParameters.search = this.searchText;
-        }
-
-        if (this.isKeyDownCtrlBtn) {
-          window.open(
-            `/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.parent ? mail.parent : mail.id}`,
-            '_blank',
-          );
-        } else {
-          this.router.navigate(
-            [`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.parent ? mail.parent : mail.id],
-            {
-              queryParams: queryParameters,
-            },
-          );
-        }
-      } else {
-        if (this.isKeyDownCtrlBtn) {
-          if (this.userState?.settings?.auto_read) {
-            const ids = [mail.id].join(',');
-            this.store.dispatch(new ReadMail({ ids, read: true, folder: this.mailFolder }));
-          }
-          window.open(`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`, '_blank');
-        } else {
-          this.store.dispatch(new GetMailDetailSuccess(mail));
-          this.router.navigate([`/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/`, mail.id], {
-            queryParams: queryParameters,
-          });
-        }
-      }
     }
   }
 

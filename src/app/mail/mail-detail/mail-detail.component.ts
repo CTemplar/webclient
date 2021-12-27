@@ -116,6 +116,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   externalLinkChecked = true;
 
+  externalLinkToOpen: string;
+
   currentMailIndex: number;
 
   currentMailNumber: any;
@@ -326,7 +328,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   this.decryptedContents[this.mail.id] = plainContent;
                 }
               }
-              if (this.externalLinkChecked) {
+              // warn_external_link !== false will default to enable (Changes to the "external link open confirmation" popup #64)
+              if (this.externalLinkChecked && this.userState?.settings?.warn_external_link !== false) {
                 this.confirmExternalLinks();
               }
               if (this.mail.is_subject_encrypted) {
@@ -533,6 +536,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           if (link.innerHTML && link.getAttribute('href')) {
             link.addEventListener('click', event => {
               event.preventDefault();
+              this.externalLinkToOpen = link.getAttribute('href');
               this.externalLinkConfirmModalRef = this.modalService.open(this.externalLinkConfirmModal, {
                 centered: true,
                 windowClass: 'modal-sm users-action-modal',
@@ -546,6 +550,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
                   anchorLink.click();
                 }
                 this.externalLinkConfirmModalRef = null;
+                this.externalLinkToOpen = null;
               });
             });
           }

@@ -376,7 +376,8 @@
             <!-- Sender Name -->
             <td class="mail-from-name">
               <a
-                (click)="openMail(mail)"
+                (click)="openDraftMail(mail)"
+                [routerLink]="mail.mailLink"
                 class="text-danger display-emails"
                 [ngClass]="{ 'text-dark': mailFolder !== mailFolderTypes.DRAFT }"
               >
@@ -414,7 +415,7 @@
             </td>
             <!-- Subject -->
             <td class="mail-inbox-message d-md-block">
-              <a (click)="openMail(mail)" class="text-dark">
+              <a (click)="openDraftMail(mail)" [routerLink]="mail.mailLink" class="text-dark">
                 <span class="mail-subject">
                   <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
                     <span class="badge badge-warning mr-2 p-1" *ngIf="mail.destruct_date">
@@ -582,7 +583,8 @@
             <td class="mail-from-name">
               <!-- Sender Name -->
               <a
-                (click)="openMail(mail)"
+                (click)="openDraftMail(mail)"
+                [routerLink]="mail.mailLink"
                 class="text-danger display-emails"
                 [ngClass]="{ 'text-dark': mailFolder !== mailFolderTypes.DRAFT }"
               >
@@ -607,7 +609,7 @@
                 <i *ngIf="mail.is_verified" class="fa fa-check-circle verified-sender"></i>
               </a>
               <span class="mail-inbox-message d-md-block">
-                <a (click)="openMail(mail)" class="text-dark">
+                <a (click)="openDraftMail(mail)" [routerLink]="mail.mailLink" class="text-dark">
                   <span class="mail-subject">
                     <ng-container *ngIf="mailFolder === mailFolderTypes.SENT || mailFolder === mailFolderTypes.INBOX">
                       <span class="badge badge-warning mr-2 p-1" *ngIf="mail.destruct_date">

@@ -59,6 +59,7 @@ export interface Mail {
   email_display_name_map?: any;
   sign?: string;
   participants?: any;
+  mailLink?: string; // set in UI for generating the mail's deep-link
 }
 
 export class EncryptionNonCTemplar {
