@@ -41,7 +41,6 @@ export class ExportMailService {
   }
 
   exportMail(mail: Mail) {
-    debugger;
     if (mail && this.decryptedContent[mail.id]) {
       if (mail.attachments?.length > 0) {
         this.decryptAttachments(mail);
