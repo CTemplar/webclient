@@ -223,9 +223,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
             this.closeBillingInfo.emit(true);
           }
         }
-        if (this.paymentMethod === PaymentMethod.STRIPE) {
-          this.loadStripeScripts();
-        }
+        this.loadPaymentMethod();
         this.inProgress = authState.inProgress;
       });
     this.store
@@ -260,6 +258,25 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       this.seconds = (3600 - t) % 60;
       this.minutes = (3600 - t - this.seconds) / 60;
     });
+  }
+
+  private loadPaymentMethod(): void {
+    switch (this.paymentMethod) {
+      case PaymentMethod.STRIPE: {
+        this.loadStripeScripts();
+        break;
+      }
+      case PaymentMethod.BITCOIN: {
+        this.selectBitcoinMethod();
+        break;
+      }
+      case PaymentMethod.MONERO: {
+        this.selectMoneroMethod();
+        break;
+      }
+      default:
+        break;
+    }
   }
 
   private loadStripeScripts() {
@@ -318,7 +335,11 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   getUpgradeAmount() {
-    if (this.isUpgradeAccount) {
+    // No need to call prorated API if payment method is not Strip,
+    // since BTC wallet api gives the calculated amount and
+    // renewal automatically adjusts the time period
+    // https://github.com/CTemplar/support/issues/374#issuecomment-985983674
+    if (this.isUpgradeAccount && this.paymentMethod === PaymentMethod.STRIPE) {
       this.store.dispatch(
         new GetUpgradeAmount({
           plan_type: this.planType,
