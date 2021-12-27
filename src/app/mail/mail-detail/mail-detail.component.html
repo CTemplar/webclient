@@ -512,6 +512,9 @@
       <div class="form-group">
         {{ 'mail_detail.confirm_external_link' | translate }}
       </div>
+      <div class="mb-2 external-link-preview" [title]="externalLinkToOpen">
+        {{ externalLinkToOpen }}
+      </div>
       <div class="form-group text-right mb-0">
         <button
           type="button"

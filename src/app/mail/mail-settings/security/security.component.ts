@@ -82,6 +82,8 @@ export class SecurityComponent implements OnInit {
 
   askLocalCache: boolean;
 
+  warnExternalLink: boolean;
+
   userPasswordForResetRecoveryKey = '';
 
   ResetRecoveryKeyStep = ResetRecoveryKeyStep;
@@ -116,6 +118,7 @@ export class SecurityComponent implements OnInit {
         this.isContactsEncrypted = user.settings.is_contacts_encrypted;
         this.settings$.next(user.settings);
         this.askLocalCache = user.settings.use_local_cache && user.settings.use_local_cache === 'ASK';
+        this.warnExternalLink = user.settings.warn_external_link;
       });
 
     /**

@@ -120,3 +120,14 @@
     line-height: 1.5;
   }
 }
+
+.external-link-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+  padding: 0.2rem 0.5rem;
+  background: var(--modal-text-highlight);
+  font-weight: bold;
+}
