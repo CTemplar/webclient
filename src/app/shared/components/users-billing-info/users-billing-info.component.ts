@@ -335,7 +335,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
   }
 
   getUpgradeAmount() {
-    // No need to call prorated API if payment method is not Strip,
+    // No need to call prorated API if payment method is not Stripe,
     // since BTC wallet api gives the calculated amount and
     // renewal automatically adjusts the time period
     // https://github.com/CTemplar/support/issues/374#issuecomment-985983674
