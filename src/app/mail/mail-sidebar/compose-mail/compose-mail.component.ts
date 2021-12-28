@@ -130,6 +130,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('composerEditorElementRef', { read: ElementRef, static: false }) composerEditorElementRef: any;
 
+  @ViewChild('subjectInput') subjectInput: ElementRef;
+
   @ViewChild('attachmentHolder') attachmentHolder: any;
 
   @ViewChild('toolbar') toolbar: any;
@@ -1278,13 +1280,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 100);
       return;
     }
-    if (
-      this.mailData.subject === '' &&
-      ((this.draftMail.is_html &&
-        this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length === 0) ||
-        (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))
-    ) {
-      // show message to confirm without subject and content
+    // Check if the subject or body is empty and show a warning
+    if (this.isMailSubjectEmpty() || this.isMailBodyEmpty()) {
       this.confirmModalRef = this.modalService.open(this.confirmationModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
@@ -1294,6 +1291,25 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       //   this.addHyperLink();
       // }
       this.sendEmail();
+    }
+  }
+
+  isMailSubjectEmpty() {
+    return this.mailData.subject === '';
+  }
+
+  isMailBodyEmpty() {
+    const bodyLength = this.draftMail.is_html
+      ? this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length
+      : this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length;
+    return bodyLength === 0;
+  }
+
+  onCancelEmptyMailContentClick() {
+    this.confirmModalRef?.dismiss();
+    this.isPreparingToSendEmail = false;
+    if (this.isMailSubjectEmpty()) {
+      setTimeout(() => this.subjectInput?.nativeElement?.focus());
     }
   }
 
