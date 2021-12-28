@@ -178,8 +178,4 @@ export class FoldersComponent implements OnInit {
       folder.sort_order = index + 1;
     });
   }
-
-  onAnchoredLink(id: string) {
-    this.onAnchored.emit(id);
-  }
 }

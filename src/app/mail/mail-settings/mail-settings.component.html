@@ -1428,7 +1428,7 @@
         <!-- Referral Code Section Ends -->
 
         <section id="invitation-codes" class="mailbox-section">
-          <app-invite-codes (onAnchored)="onAnchoredLink('invitation-codes')"></app-invite-codes>
+          <app-invite-codes></app-invite-codes>
         </section>
 
         <!-- Delete account settings -->
@@ -1472,7 +1472,7 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.filters.title'">Filters & Blocked Addresses</a>
       <ng-template ngbNavContent>
         <!-- Custom filters -->
-        <app-mail-filters id="filters" (onAnchored)="onAnchoredLink('filters')"></app-mail-filters>
+        <app-mail-filters id="filters"></app-mail-filters>
 
         <!-- Whitelist settings -->
         <section id="whitelist" class="mailbox-section">
@@ -1658,7 +1658,7 @@
     <div class="nav" [ngbNavItem]="'addresses-and-signatures'">
       <a ngbNavLink class="nav-link" [translate]="'settings.signs_and_aliases'">Signatures & Aliases</a>
       <ng-template ngbNavContent>
-        <app-addresses-signature (onAnchored)="onAnchoredLink($event)"></app-addresses-signature>
+        <app-addresses-signature></app-addresses-signature>
       </ng-template>
     </div>
 
@@ -1666,7 +1666,7 @@
     <div class="nav" [ngbNavItem]="'folders'">
       <a ngbNavLink class="nav-link" [translate]="'page_pricing.folders'">Folders</a>
       <ng-template ngbNavContent>
-        <app-folders (onAnchored)="onAnchoredLink($event)"></app-folders>
+        <app-folders></app-folders>
       </ng-template>
     </div>
 
@@ -1674,7 +1674,7 @@
     <div class="nav" [ngbNavItem]="'security'">
       <a ngbNavLink class="nav-link" [translate]="'home_header.security'">Security</a>
       <ng-template ngbNavContent>
-        <app-settings-security (onAnchored)="onAnchoredLink($event)"></app-settings-security>
+        <app-settings-security></app-settings-security>
       </ng-template>
     </div>
 
@@ -1684,7 +1684,6 @@
       <ng-template ngbNavContent>
         <app-custom-domains
           (onGotoTab)="navSet.select($event)"
-          (onAnchored)="onAnchoredLink($event)"
         ></app-custom-domains>
       </ng-template>
     </div>
@@ -1693,8 +1692,8 @@
     <div class="nav" [ngbNavItem]="'forwarding-and-auto-responder'">
       <a ngbNavLink class="nav-link" [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</a>
       <ng-template ngbNavContent>
-        <app-mail-forwarding (onAnchored)="onAnchoredLink($event)"></app-mail-forwarding>
-        <app-mail-autoresponder (onAnchored)="onAnchoredLink($event)"></app-mail-autoresponder>
+        <app-mail-forwarding></app-mail-forwarding>
+        <app-mail-autoresponder></app-mail-autoresponder>
       </ng-template>
     </div>
   </div>

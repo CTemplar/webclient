@@ -676,8 +676,4 @@ export class AddressesSignatureComponent implements OnInit {
     }
     input.type = input.type === 'password' ? 'text' : 'password';
   }
-
-  onAnchoredLink(id: string) {
-    this.onAnchored.emit(id);
-  }
 }

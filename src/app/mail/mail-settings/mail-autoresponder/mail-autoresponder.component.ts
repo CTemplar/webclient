@@ -134,8 +134,4 @@ export class MailAutoresponderComponent implements OnInit, OnDestroy {
     }
     this.store.dispatch(new SaveAutoResponder(this.autoresponder));
   }
-
-  onAnchoredLink(id: string) {
-    this.onAnchored.emit(id);
-  }
 }

@@ -318,10 +318,6 @@ export class MailFiltersComponent implements OnInit {
     });
   }
 
-  onAnchoredLink() {
-    this.onAnchored.emit();
-  }
-
   onSelectAdvancedCondition(condition: string, conditionIndex: number) {
     this.createFilterData.conditions[conditionIndex].condition = condition as FilterCondition;
     this.translate
