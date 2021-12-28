@@ -1356,40 +1356,54 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   updateSignature() {
     if (!this.isSignatureAdded) {
       if (this.settings && !this.draftMail.is_html) {
-        // add plaintext signature and return if plain text mode
-        this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : '';
-        if (this.selectedMailbox.signature) {
-          this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}${this.mailData.content}`;
-        }
-        return;
+        this.updatePlainTextSignature();
+      } else {
+        this.updateHtmlSignature();
       }
-      /**
-       * add html signature if html version
-       */
-      let content: string;
-      let oldSig: string;
-      let newSig: string;
-      if (this.composerEditorInstance) {
-        content = this.composerEditorInstance?.getData() || '';
-        content = content.replace(/\n\n/g, '<br>');
-        if (this.oldMailbox && this.oldMailbox.signature) {
-          // update signature from old to new if signature is updated
-          oldSig = this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length));
-          if (this.selectedMailbox.signature) {
-            newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-            content = content.replace(new RegExp(`${oldSig}$`), newSig);
-          } else {
-            content = content.replace(new RegExp(`${oldSig}$`), '');
-          }
-          this.composerEditorInstance?.setData(content);
-        } else if (this.selectedMailbox && this.selectedMailbox.signature) {
-          // add two lines and signature after message content with html format
+    }
+  }
+
+  private updatePlainTextSignature() {
+    this.isSignatureAdded = true;
+    this.mailData.content = this.mailData.content ? this.mailData.content : '';
+    if (this.oldMailbox && this.oldMailbox.signature) {
+      const previousSignature = this.getPlainText(
+        this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length)) || '',
+      );
+      const currentSignature = this.getPlainText(
+        this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length)) || '',
+      );
+      this.mailData.content = this.mailData.content.replace(new RegExp(`${previousSignature}$`), currentSignature);
+    } else if (this.selectedMailbox.signature) {
+      this.mailData.content = `${this.mailData.content.trimEnd()}\n\n${this.getPlainText(
+        this.selectedMailbox.signature,
+      )}`;
+    }
+  }
+
+  private updateHtmlSignature() {
+    let content: string;
+    let oldSig: string;
+    let newSig: string;
+    if (this.composerEditorInstance) {
+      content = this.composerEditorInstance?.getData() || '';
+      content = content.replace(/\n\n/g, '<br>');
+      if (this.oldMailbox && this.oldMailbox.signature) {
+        // update signature from old to new if signature is updated
+        oldSig = this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length));
+        if (this.selectedMailbox.signature) {
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-          content = `<br>${newSig}${content}`;
-          this.isSignatureAdded = true;
-          this.composerEditorInstance?.setData(content);
+          content = content.replace(new RegExp(`${oldSig}$`), newSig);
+        } else {
+          content = content.replace(new RegExp(`${oldSig}$`), '');
         }
+        this.composerEditorInstance?.setData(content);
+      } else if (this.selectedMailbox && this.selectedMailbox.signature) {
+        // add two lines and signature after message content with html format
+        newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
+        content = `<br>${newSig}${content}`;
+        this.isSignatureAdded = true;
+        this.composerEditorInstance?.setData(content);
       }
     }
   }
