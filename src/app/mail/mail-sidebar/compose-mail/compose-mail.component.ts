@@ -1393,15 +1393,15 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         oldSig = this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length));
         if (this.selectedMailbox.signature) {
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-          content = content.replace(new RegExp(`${oldSig}$`), newSig);
+          content = content.replace(new RegExp(`(<p><br>&nbsp;</p>)?${oldSig}$`), `<br>${newSig}`);
         } else {
-          content = content.replace(new RegExp(`${oldSig}$`), '');
+          content = content.replace(new RegExp(`(<p><br>&nbsp;</p>)?${oldSig}$`), '');
         }
         this.composerEditorInstance?.setData(content);
       } else if (this.selectedMailbox && this.selectedMailbox.signature) {
         // add two lines and signature after message content with html format
         newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-        content = `<br>${newSig}${content}`;
+        content = `${content}<br>${newSig}`;
         this.isSignatureAdded = true;
         this.composerEditorInstance?.setData(content);
       }
