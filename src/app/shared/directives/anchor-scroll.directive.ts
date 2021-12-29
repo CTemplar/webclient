@@ -10,7 +10,7 @@ export class AnchorScrollDirective implements AfterViewInit {
   @Input()
   fragment: string;
 
-  // wait for DOM to be ready for scrolling. 
+  // wait for DOM to be ready for scrolling.
   // Also this directive executing means that our target anchor is also ready
   ngAfterViewInit(): void {
     if (this.route?.snapshot?.fragment === this.fragment) {
