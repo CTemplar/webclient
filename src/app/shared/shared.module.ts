@@ -24,6 +24,7 @@ import { PricingPlansComponent } from './components/pricing-plans/pricing-plans.
 import { FilesizePipe } from './pipes/filesize.pipe';
 import { RemainingTimePipe } from './pipes/remaining-time.pipe';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { AnchorScrollDirective } from './directives/anchor-scroll.directive';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { BrowserDetectorService } from './services/browser-detector.service';
 import { IsIeDirective } from './directives/is-ie.directive';
@@ -70,6 +71,7 @@ const maskConfig: Partial<IConfig> = {
     FilesizePipe,
     RemainingTimePipe,
     ClickOutsideDirective,
+    AnchorScrollDirective,
     CountdownTimerComponent,
     IsIeDirective,
     MomentDatePipe,
@@ -93,6 +95,7 @@ const maskConfig: Partial<IConfig> = {
     // Directives
     ClickOutsideDirective,
     IsIeDirective,
+    AnchorScrollDirective,
     // Pipes
     EmailFormatPipe,
     SafePipe,
