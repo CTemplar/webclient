@@ -707,5 +707,4 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       this.updateSettings('is_night_mode', isDarkMode);
     }
   }
-
 }
