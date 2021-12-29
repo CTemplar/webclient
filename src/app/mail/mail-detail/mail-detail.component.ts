@@ -1497,13 +1497,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.mailService.unsubscribe(data).subscribe(
             () => {
               this.store.dispatch(
-                new SnackErrorPush({ message: this.translate.instant('mail-detail.success_unsubscribe') }),
+                new SnackErrorPush({ message: this.translate.instant('mail_detail.success_unsubscribe') }),
               );
             },
             (errorResponse: any) =>
               this.store.dispatch(
                 new SnackErrorPush({
-                  message: errorResponse.error || this.translate.instant('mail-detail.failed_unsubscribe'),
+                  message: errorResponse.error || this.translate.instant('mail_detail.failed_unsubscribe'),
                 }),
               ),
           );
