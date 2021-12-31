@@ -95,7 +95,8 @@
     "sign_message": "Nachricht signieren",
     "monthly": "monthly",
     "yearly": "yearly",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "Der Benutzername muss mit einem Buchstaben anfangen und mit einem Buchstaben oder einer Zahl enden. Er darf nur folgendes enthalten",
     "username_minlen": "Zeichen, Mindestlänge sind 2 Zeichen.",
     "reorder": "Neu anordnen",
-    "conversations": " Unterhaltungen )",
-    "conversation": " Unterhaltung )",
+    "conversations": "Unterhaltungen",
+    "conversation": "Unterhaltung",
     "reorder_addresses": "Aliase neu anordnen",
     "sort_with_alphabetic": "Sortieren in alphabetischer Reihenfolge",
     "sort_with_analphabetic": "Sortieren in alphabetischer Reihenfolge",

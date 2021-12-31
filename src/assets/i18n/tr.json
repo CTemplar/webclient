@@ -95,7 +95,8 @@
     "sign_message": "Mesajı imzala",
     "monthly": "aylık",
     "yearly": "sınırsız",
-    "unlimited": "Sınırsız"
+    "unlimited": "Sınırsız",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "Gösterge paneli",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "Kullanıcı adı bir harfle başlamalı ve bir harf veya sayı ile bitmelidir. Yalnızca a-z, A-Z, 0-9 veya bunlarıda içerebilir._- ve en az 4 karakterli olmalıdır.",
     "username_minlen": "Uygun olan karekterli içermeli ve en az 4 karakterli olmak zorundadır.",
     "reorder": "Sırala",
-    "conversations": " Diyaloglar )",
-    "conversation": " Diyalog )",
+    "conversations": "Diyaloglar",
+    "conversation": "Diyalog",
     "reorder_addresses": "Takma adları yeniden sırala",
     "sort_with_alphabetic": "Alfabetik sıraya göre sırala",
     "sort_with_analphabetic": "Rastgele Sırala",

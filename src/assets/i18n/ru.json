@@ -95,7 +95,8 @@
     "sign_message": "Sign message",
     "monthly": "monthly",
     "yearly": "yearly",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "Панель управления",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "Имя пользователя должно начинаться с буквы и заканчиваться буквой или цифрой. Оно может содержать только",
     "username_minlen": "символы, а минимальная длина - 2 символа.",
     "reorder": "Изменение порядка",
-    "conversations": " беседы )",
-    "conversation": " беседы )",
+    "conversations": "беседы",
+    "conversation": "беседы",
     "reorder_addresses": "Изменить порядок псевдонимов",
     "sort_with_alphabetic": "Sort into alphabetic order",
     "sort_with_analphabetic": "Sort into analphabetic order",
