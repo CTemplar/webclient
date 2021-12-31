@@ -892,6 +892,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           }
         } else {
           for (let childIndex = mail.children.length; childIndex > 0; childIndex -= 1) {
+            // Skip draft mails while going up the thread until a mail is found
+            // Replies add myself as recipient in these two cases and it should not #1461
+            if (
+              this.mailFolder !== MailFolderType.DRAFT &&
+              mail.children[childIndex - 1].folder === MailFolderType.DRAFT
+            ) {
+              continue;
+            }
             if (
               (this.mailFolder === MailFolderType.TRASH &&
                 mail.children[childIndex - 1].folder === MailFolderType.TRASH) ||
@@ -1497,13 +1505,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           this.mailService.unsubscribe(data).subscribe(
             () => {
               this.store.dispatch(
-                new SnackErrorPush({ message: this.translate.instant('mail-detail.success_unsubscribe') }),
+                new SnackErrorPush({ message: this.translate.instant('mail_detail.success_unsubscribe') }),
               );
             },
             (errorResponse: any) =>
               this.store.dispatch(
                 new SnackErrorPush({
-                  message: errorResponse.error || this.translate.instant('mail-detail.failed_unsubscribe'),
+                  message: errorResponse.error || this.translate.instant('mail_detail.failed_unsubscribe'),
                 }),
               ),
           );
