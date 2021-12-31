@@ -160,6 +160,7 @@ export const LANGUAGES: Language[] = [
   { name: 'Romanian', locale: 'ro' },
   { name: 'Russian', locale: 'ru' },
   { name: 'Spanish', locale: 'es' },
+  { name: 'Turkish', locale: 'tr' },
   { name: 'Ukrainian', locale: 'uk' },
 ];
 
