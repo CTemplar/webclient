@@ -13,14 +13,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: true
-
-      - name: Install Node.js, NPM and Yarn
-        uses: actions/cache@v1
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: '15'
+          cache: 'npm'
 
       - name: Install and build Angular
         run: |
