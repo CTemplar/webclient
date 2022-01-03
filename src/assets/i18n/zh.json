@@ -47,6 +47,7 @@
     "import_f_drive": "Import from Drive",
     "export_csv": "Export as CSV",
     "export_vcf": "Export as VCF",
+    "export_failure": "Failed to export contacts.",
     "contact_name": "联系人姓名",
     "type_email": "输入邮箱",
     "a_note": "备注",

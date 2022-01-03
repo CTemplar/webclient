@@ -47,6 +47,7 @@
     "import_f_drive": "Import from Drive",
     "export_csv": "Export as CSV",
     "export_vcf": "Export as VCF",
+    "export_failure": "Failed to export contacts.",
     "contact_name": "Nom du contact",
     "type_email": "Type E-mail",
     "a_note": "A noter",

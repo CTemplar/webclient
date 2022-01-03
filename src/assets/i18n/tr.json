@@ -47,6 +47,7 @@
     "import_f_drive": "Drive'dan içe aktar",
     "export_csv": "Export as CSV",
     "export_vcf": "Export as VCF",
+    "export_failure": "Failed to export contacts.",
     "contact_name": "Kişi Adı",
     "type_email": "E-mail Girin",
     "a_note": "Bir not",
