@@ -894,4 +894,4 @@ export enum FeedbackType {
   STOP_AUTO_RENEWAL = 'STOP_AUTO_RENEWAL',
 }
 
-export type ExportContactType = 'csv' | 'vcf';
+export type ExportContactsFileFormat = 'csv' | 'vcf';

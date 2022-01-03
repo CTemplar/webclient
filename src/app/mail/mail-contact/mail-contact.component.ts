@@ -13,7 +13,7 @@ import {
   PlanType,
   UserState,
   MailBoxesState,
-  ExportContactType,
+  ExportContactsFileFormat,
   ExportContactResponse,
 } from '../../store/datatypes';
 import {
@@ -348,8 +348,8 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     });
   }
 
-  exportContacts(type: ExportContactType) {
-    this.store.dispatch(new ContactExport(type));
+  exportContacts(fileFormat: ExportContactsFileFormat) {
+    this.store.dispatch(new ContactExport(fileFormat));
   }
 
   closeExportContactsModal() {

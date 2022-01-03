@@ -26,7 +26,7 @@ import {
   AuthState,
   Domain,
   FeedbackType,
-  ExportContactType,
+  ExportContactsFileFormat,
 } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
@@ -370,8 +370,8 @@ export class UsersService {
     return this.http.request(request);
   }
 
-  exportContacts(type: ExportContactType) {
-    return this.http.get<any>(`${apiUrl}users/export-contacts/?format=${type}`);
+  exportContacts(fileFormat: ExportContactsFileFormat) {
+    return this.http.get<any>(`${apiUrl}users/export-contacts/?file_format=${fileFormat}`);
   }
 
   checkUsernameAvailability(username: string): Observable<any> {
