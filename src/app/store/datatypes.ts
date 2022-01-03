@@ -204,6 +204,7 @@ export interface ContactsState {
   contactsToDecrypt: Contact[];
   loaded: boolean;
   selectedContactKeys: ContactKey[];
+  exportedContacts: ExportContactResponse;
 }
 
 export interface EmailContact {
@@ -870,6 +871,12 @@ export interface ImportContactResponse {
   fail_count?: number;
 }
 
+export interface ExportContactResponse {
+  status?: boolean;
+  name?: string;
+  data?: string;
+}
+
 export interface MoveMailActionPayloadType {
   ids: number;
   folder: MailFolderType;
@@ -886,3 +893,5 @@ export enum FeedbackType {
   ACCOUNT_DELETE = 'ACCOUNT_DELETE',
   STOP_AUTO_RENEWAL = 'STOP_AUTO_RENEWAL',
 }
+
+export type ExportContactType = 'csv' | 'vcf';

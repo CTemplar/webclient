@@ -162,6 +162,19 @@ export class SharedService {
     a.remove();
   }
 
+  downloadBase64ContentAsFile(data: string, name: string) {
+    const href = `data:application/octet-stream;base64,${data}`;
+
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = href;
+    a.download = name;
+
+    document.body.append(a);
+    a.click();
+    a.remove();
+  }
+
   arrayBufferToBase64(buffer: ArrayBuffer) {
     let binary = '';
     const bytes = new Uint8Array(buffer);

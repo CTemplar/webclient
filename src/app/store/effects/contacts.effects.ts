@@ -39,6 +39,9 @@ import {
   ContactBulkUpdateKeysSuccess,
   ContactBulkUpdateKeysFailure,
   GetUsersKeys,
+  ContactExport,
+  ContactExportSuccess,
+  ContactExportFailure,
 } from '../actions';
 import { Contact, ImportContactResponse } from '../datatypes';
 
@@ -174,6 +177,25 @@ export class ContactsEffects {
           return of(
             new SnackErrorPush({ message: 'Failed to import contacts.' }),
             new ContactImportFailure(error.error),
+          );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  ContactExport: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_EXPORT),
+    map((action: ContactExport) => action.payload),
+    switchMap(payload => {
+      return this.userService.exportContacts(payload).pipe(
+        switchMap(event => {
+          return of(new ContactExportSuccess(event));
+        }),
+        catchError(error => {
+          return of(
+            new SnackErrorPush({ message: 'Failed to export contacts.' }),
+            new ContactExportFailure(error?.detail),
           );
         }),
       );
