@@ -141,6 +141,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
       this.userSelectManageService.updateUserSelectPossiblilityState(true);
     });
 
+    // When exported contacts data is available, download it
     this.store
       .select(state => state.contacts.exportedContacts)
       .pipe(untilDestroyed(this), filter(Boolean))

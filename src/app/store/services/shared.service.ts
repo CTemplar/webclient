@@ -162,6 +162,7 @@ export class SharedService {
     a.remove();
   }
 
+  // Triggers a downloads for base64 encoded file with given name with extension
   downloadBase64ContentAsFile(data: string, name: string) {
     const href = `data:application/octet-stream;base64,${data}`;
 
