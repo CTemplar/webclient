@@ -190,13 +190,10 @@ export class ContactsEffects {
     switchMap(payload => {
       return this.userService.exportContacts(payload).pipe(
         switchMap(event => {
-          return of(new ContactExportSuccess(event));
+          return event.status ? of(new ContactExportSuccess(event)) : of(new ContactExportFailure(event));
         }),
         catchError(error => {
-          return of(
-            new SnackErrorPush({ message: 'Failed to export contacts.' }),
-            new ContactExportFailure(error?.detail),
-          );
+          return of(new SnackErrorPush({ message: 'Failed to export contacts.' }), new ContactExportFailure(error));
         }),
       );
     }),
