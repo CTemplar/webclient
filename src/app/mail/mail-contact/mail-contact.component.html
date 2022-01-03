@@ -124,12 +124,12 @@
             ><i class="icon icon-garbage"></i
           ></a>
         </li>
-        <li class="pl-0" ngbTooltip="Import contacts">
+        <li class="pl-0" [ngbTooltip]="'contacts.import_contacts' | translate">
           <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()">
             <i class="svg-inline--fa fa-2x fas fa-upload"></i>
           </a>
         </li>
-        <li class="pl-0" ngbTooltip="Export contacts">
+        <li class="pl-0" [ngbTooltip]="'contacts.export_contacts' | translate">
           <a class="no-icon text-grey-dark-500" (click)="openExportContactsModal()">
             <i class="svg-inline--fa fa-2x fas fa-download"></i>
           </a>
