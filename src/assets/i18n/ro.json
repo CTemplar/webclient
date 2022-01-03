@@ -37,6 +37,7 @@
       "message": "Are you sure, you want to delete "
     },
     "import_contacts": "Importă contacte",
+    "export_contacts": "Export Contacts",
     "select_csv": "Alege un fișier CSV de la unul dintre acești furnizori",
     "select_vcf": "Select a VCF file",
     "import_f_google": "Importă din Google",
@@ -44,6 +45,8 @@
     "import_f_outlook": "Importă din Outlook",
     "import_f_other": "Importă dintr-o altă sursă",
     "import_f_drive": "Import from Drive",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
     "contact_name": "Nume de contact",
     "type_email": "Adresă e-mail",
     "a_note": "Un bilet",

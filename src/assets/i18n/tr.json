@@ -37,6 +37,7 @@
       "message": "Silmek istediğine emin misin? "
     },
     "import_contacts": "Kişileri İçe Aktar",
+    "export_contacts": "Export Contacts",
     "select_csv": "Aşağıdaki sağlayıcılardan birinden bir CSV dosyası seçin.",
     "select_vcf": "Bir VCF dosyası seçin",
     "import_f_google": "Google'dan içe aktar",
@@ -44,6 +45,8 @@
     "import_f_outlook": "Outlook'tan içe aktar",
     "import_f_other": "Diğerlerinden içe aktar",
     "import_f_drive": "Drive'dan içe aktar",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
     "contact_name": "Kişi Adı",
     "type_email": "E-mail Girin",
     "a_note": "Bir not",

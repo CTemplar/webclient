@@ -37,6 +37,7 @@
       "message": "Êtes-vous sûr de vouloir supprimer"
     },
     "import_contacts": "Importer des contacts",
+    "export_contacts": "Export Contacts",
     "select_csv": "Pour importer des contacts, sélectionnez un fichier CSV parmi les choix suivants :",
     "select_vcf": "Select a VCF file",
     "import_f_google": "Importer depuis Google",
@@ -44,6 +45,8 @@
     "import_f_outlook": "Importer depuis Outlook",
     "import_f_other": "Importer (Autre)",
     "import_f_drive": "Import from Drive",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
     "contact_name": "Nom du contact",
     "type_email": "Type E-mail",
     "a_note": "A noter",

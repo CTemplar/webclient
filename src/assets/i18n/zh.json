@@ -37,6 +37,7 @@
       "message": "您确定要删除吗 "
     },
     "import_contacts": "导入联系人",
+    "export_contacts": "Export Contacts",
     "select_csv": "从以下的供应商中选择一个CSV文件。",
     "select_vcf": "Select a VCF file",
     "import_f_google": "从Google导入",
@@ -44,6 +45,8 @@
     "import_f_outlook": "从Outlook导入",
     "import_f_other": "从其他地方导入",
     "import_f_drive": "Import from Drive",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
     "contact_name": "联系人姓名",
     "type_email": "输入邮箱",
     "a_note": "备注",

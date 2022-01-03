@@ -37,6 +37,7 @@
       "message": "Вы уверены, что хотите удалить "
     },
     "import_contacts": "Импортировать Контакты",
+    "export_contacts": "Export Contacts",
     "select_csv": "Выберите файл CSV в одном из следующих источников.",
     "select_vcf": "Select a VCF file",
     "import_f_google": "Импортировать из Google",
@@ -44,6 +45,8 @@
     "import_f_outlook": "Импортировать из Outlook",
     "import_f_other": "Импортировать из Другого источника",
     "import_f_drive": "Import from Drive",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
     "contact_name": "Имя контакта",
     "type_email": "Введите Имейл",
     "a_note": "Заметка",
