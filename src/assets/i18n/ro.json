@@ -95,7 +95,8 @@
     "sign_message": "Sign message",
     "monthly": "monthly",
     "yearly": "yearly",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "Numele trebuie să se înceapă cu o literă. Poate conține numai",
     "username_minlen": "caractere alfanumerice.",
     "reorder": "Reordinează",
-    "conversations": " conversații )",
-    "conversation": " conversație )",
+    "conversations": "conversații",
+    "conversation": "conversație",
     "reorder_addresses": "Reordinează pseudonimele",
     "sort_with_alphabetic": "Sort into alphabetic order",
     "sort_with_analphabetic": "Sort into analphabetic order",

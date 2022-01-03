@@ -707,10 +707,4 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       this.updateSettings('is_night_mode', isDarkMode);
     }
   }
-
-  onAnchoredLink(fragment: string): void {
-    this.router.navigate([], { fragment }).then(() => {
-      document.querySelector(`#${fragment}`).scrollIntoView();
-    });
-  }
 }

@@ -2,7 +2,7 @@
 <section id="signature" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
-      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('signature')">
+      <a class="anchor" aria-hidden="true" routerLink="." fragment="signature" anchorScroll>
         <i class="fas fa-link link-icon"></i>
       </a>
       <strong [translate]="'settings.signature'">Signature</strong>
@@ -182,7 +182,7 @@
 <section id="aliases" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
-      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('aliases')">
+      <a class="anchor" aria-hidden="true" routerLink="." fragment="aliases" anchorScroll>
         <i class="fas fa-link link-icon"></i>
       </a>
       <strong [translate]="'settings.addresses'">Aliases</strong>
@@ -459,7 +459,7 @@
 <section id="keys" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
-      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('aliases')">
+      <a class="anchor" aria-hidden="true" routerLink="." fragment="keys" anchorScroll>
         <i class="fas fa-link link-icon"></i>
       </a>
       <strong [translate]="'settings.keys.name'">Keys</strong>

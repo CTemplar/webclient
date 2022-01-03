@@ -50,8 +50,4 @@ export class InviteCodesComponent implements OnInit {
   copyToClipboard(value: string) {
     this.sharedService.copyToClipboard(value);
   }
-
-  onAnchoredLink() {
-    this.onAnchored.emit();
-  }
 }

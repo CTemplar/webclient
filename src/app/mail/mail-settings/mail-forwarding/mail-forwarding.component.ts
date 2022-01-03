@@ -122,8 +122,4 @@ export class MailForwardingComponent implements OnInit {
   changeKeepCopy() {
     this.store.dispatch(new SettingsUpdate(this.settings));
   }
-
-  onAnchoredLink(id: string) {
-    this.onAnchored.emit(id);
-  }
 }

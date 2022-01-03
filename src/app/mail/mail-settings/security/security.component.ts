@@ -422,8 +422,4 @@ export class SecurityComponent implements OnInit {
       this.resetRecoveryKeyModalRef.close();
     }
   }
-
-  onAnchoredLink(id: string) {
-    this.onAnchored.emit(id);
-  }
 }

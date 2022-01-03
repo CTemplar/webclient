@@ -207,8 +207,4 @@ export class CustomDomainsComponent implements OnInit {
   gotoPricingPlans() {
     this.onGotoTab.emit('dashboard-and-plans');
   }
-
-  onAnchoredLink(id: string) {
-    this.onAnchored.emit(id);
-  }
 }

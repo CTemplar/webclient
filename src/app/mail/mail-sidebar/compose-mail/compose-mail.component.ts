@@ -130,6 +130,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('composerEditorElementRef', { read: ElementRef, static: false }) composerEditorElementRef: any;
 
+  @ViewChild('subjectInput') subjectInput: ElementRef;
+
   @ViewChild('attachmentHolder') attachmentHolder: any;
 
   @ViewChild('toolbar') toolbar: any;
@@ -1278,13 +1280,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }, 100);
       return;
     }
-    if (
-      this.mailData.subject === '' &&
-      ((this.draftMail.is_html &&
-        this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length === 0) ||
-        (!this.draftMail.is_html && this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length === 0))
-    ) {
-      // show message to confirm without subject and content
+    // Check if the subject or body is empty and show a warning
+    if (this.isMailSubjectEmpty() || this.isMailBodyEmpty()) {
       this.confirmModalRef = this.modalService.open(this.confirmationModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
@@ -1294,6 +1291,25 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       //   this.addHyperLink();
       // }
       this.sendEmail();
+    }
+  }
+
+  isMailSubjectEmpty() {
+    return this.mailData.subject === '';
+  }
+
+  isMailBodyEmpty() {
+    const bodyLength = this.draftMail.is_html
+      ? this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length
+      : this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length;
+    return bodyLength === 0;
+  }
+
+  onCancelEmptyMailContentClick() {
+    this.confirmModalRef?.dismiss();
+    this.isPreparingToSendEmail = false;
+    if (this.isMailSubjectEmpty()) {
+      setTimeout(() => this.subjectInput?.nativeElement?.focus());
     }
   }
 
@@ -1356,40 +1372,54 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   updateSignature() {
     if (!this.isSignatureAdded) {
       if (this.settings && !this.draftMail.is_html) {
-        // add plaintext signature and return if plain text mode
-        this.isSignatureAdded = true;
-        this.mailData.content = this.mailData.content ? this.mailData.content : '';
-        if (this.selectedMailbox.signature) {
-          this.mailData.content = `\n\n${this.getPlainText(this.selectedMailbox.signature)}${this.mailData.content}`;
-        }
-        return;
+        this.updatePlainTextSignature();
+      } else {
+        this.updateHtmlSignature();
       }
-      /**
-       * add html signature if html version
-       */
-      let content: string;
-      let oldSig: string;
-      let newSig: string;
-      if (this.composerEditorInstance) {
-        content = this.composerEditorInstance?.getData() || '';
-        content = content.replace(/\n\n/g, '<br>');
-        if (this.oldMailbox && this.oldMailbox.signature) {
-          // update signature from old to new if signature is updated
-          oldSig = this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length));
-          if (this.selectedMailbox.signature) {
-            newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-            content = content.replace(new RegExp(`${oldSig}$`), newSig);
-          } else {
-            content = content.replace(new RegExp(`${oldSig}$`), '');
-          }
-          this.composerEditorInstance?.setData(content);
-        } else if (this.selectedMailbox && this.selectedMailbox.signature) {
-          // add two lines and signature after message content with html format
+    }
+  }
+
+  private updatePlainTextSignature() {
+    this.isSignatureAdded = true;
+    this.mailData.content = this.mailData.content ? this.mailData.content : '';
+    if (this.oldMailbox && this.oldMailbox.signature) {
+      const previousSignature = this.getPlainText(
+        this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length)) || '',
+      );
+      const currentSignature = this.getPlainText(
+        this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length)) || '',
+      );
+      this.mailData.content = this.mailData.content.replace(new RegExp(`${previousSignature}$`), currentSignature);
+    } else if (this.selectedMailbox.signature) {
+      this.mailData.content = `${this.mailData.content.trimEnd()}\n\n${this.getPlainText(
+        this.selectedMailbox.signature,
+      )}`;
+    }
+  }
+
+  private updateHtmlSignature() {
+    let content: string;
+    let oldSig: string;
+    let newSig: string;
+    if (this.composerEditorInstance) {
+      content = this.composerEditorInstance?.getData() || '';
+      content = content.replace(/\n\n/g, '<br>');
+      if (this.oldMailbox && this.oldMailbox.signature) {
+        // update signature from old to new if signature is updated
+        oldSig = this.oldMailbox.signature.slice(0, Math.max(0, this.oldMailbox.signature.length));
+        if (this.selectedMailbox.signature) {
           newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-          content = `<br>${newSig}${content}`;
-          this.isSignatureAdded = true;
-          this.composerEditorInstance?.setData(content);
+          content = content.replace(new RegExp(`(<p>&nbsp;</p>)?${oldSig}$`), `<p>&nbsp;</p>${newSig}`);
+        } else {
+          content = content.replace(new RegExp(`(<p>&nbsp;</p>)?${oldSig}$`), '');
         }
+        this.composerEditorInstance?.setData(content);
+      } else if (this.selectedMailbox && this.selectedMailbox.signature) {
+        // add two lines and signature after message content with html format
+        newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
+        content = `${content}<p>&nbsp;</p>${newSig}`;
+        this.isSignatureAdded = true;
+        this.composerEditorInstance?.setData(content);
       }
     }
   }

@@ -20,7 +20,7 @@
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
-                        <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('plan-details')">
+                        <a class="anchor" aria-hidden="true" routerLink="." fragment="plan-details" anchorScroll>
                           <i class="fas fa-link link-icon"></i>
                         </a>
                         <strong [translate]="'settings.plan_details'">Plan Details</strong>
@@ -151,7 +151,7 @@
                   <div class="desc-card">
                     <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
                       <h5 class="ui-header-subtitle text-dark mb-0">
-                        <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('my-subscription')">
+                        <a class="anchor" aria-hidden="true" routerLink="." fragment="my-subscription" anchorScroll>
                           <i class="fas fa-link link-icon"></i>
                         </a>
                         <strong [translate]="'settings.my_subscription'"> My Subscription </strong>
@@ -371,7 +371,7 @@
         <section id="account-type" class="mailbox-section" #targetUpgrade>
           <div class="ui-header ui-header-bordered position-relative">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('account-type')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="account-type" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.account_type'">Account Type</strong>
@@ -407,7 +407,7 @@
         <section id="general-settings" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('general-settings')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="general-settings" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.general_settings'"> General Settings </strong>
@@ -751,7 +751,7 @@
         <section id="composer-settings" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('composer-settings')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="composer-settings" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.composer_settings'"> Composer </strong>
@@ -1087,7 +1087,7 @@
         <section id="appearance" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('appearance')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="appearance" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.appearance'">Appearance</strong>
@@ -1320,7 +1320,7 @@
         <section id="notification" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('notification')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="notification" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.notifications'">Notifications</strong>
@@ -1405,7 +1405,7 @@
         <section id="referral-code" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('referral-code')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="referral-code" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.referral_code'">Referral Code</strong>
@@ -1428,14 +1428,14 @@
         <!-- Referral Code Section Ends -->
 
         <section id="invitation-codes" class="mailbox-section">
-          <app-invite-codes (onAnchored)="onAnchoredLink('invitation-codes')"></app-invite-codes>
+          <app-invite-codes></app-invite-codes>
         </section>
 
         <!-- Delete account settings -->
         <section id="delete-account" class="mailbox-section">
           <header class="ui-header ui-header-bordered">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('delete-account')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="delete-account" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.delete_account'"> Delete Account </strong>
@@ -1472,13 +1472,13 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.filters.title'">Filters & Blocked Addresses</a>
       <ng-template ngbNavContent>
         <!-- Custom filters -->
-        <app-mail-filters id="filters" (onAnchored)="onAnchoredLink('filters')"></app-mail-filters>
+        <app-mail-filters id="filters"></app-mail-filters>
 
         <!-- Whitelist settings -->
         <section id="whitelist" class="mailbox-section">
           <header class="ui-header ui-header-bordered whitelist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('whitelist')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="whitelist" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.whitelist.name'">Whitelist</strong>
@@ -1529,14 +1529,7 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="
-                          setting-actions-list
-                          d-flex
-                          align-items-center
-                          justify-content-end
-                          list-styled
-                          text-right
-                        "
+                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
                       >
                         <li>
                           <a (click)="moveToBlacklist(item.id, item.name, item.email)" role="button">
@@ -1567,7 +1560,7 @@
         <section id="blacklist" class="mailbox-section">
           <header class="ui-header ui-header-bordered blacklist-header">
             <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('blacklist')">
+              <a class="anchor" aria-hidden="true" routerLink="." fragment="blacklist" anchorScroll>
                 <i class="fas fa-link link-icon"></i>
               </a>
               <strong [translate]="'settings.blacklist.name'">Blacklist</strong>
@@ -1618,14 +1611,7 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="
-                          setting-actions-list
-                          d-flex
-                          align-items-center
-                          justify-content-end
-                          list-styled
-                          text-right
-                        "
+                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
                       >
                         <li>
                           <a (click)="moveToWhitelist(item.id, item.name, item.email)" role="button">
@@ -1658,7 +1644,7 @@
     <div class="nav" [ngbNavItem]="'addresses-and-signatures'">
       <a ngbNavLink class="nav-link" [translate]="'settings.signs_and_aliases'">Signatures & Aliases</a>
       <ng-template ngbNavContent>
-        <app-addresses-signature (onAnchored)="onAnchoredLink($event)"></app-addresses-signature>
+        <app-addresses-signature></app-addresses-signature>
       </ng-template>
     </div>
 
@@ -1666,7 +1652,7 @@
     <div class="nav" [ngbNavItem]="'folders'">
       <a ngbNavLink class="nav-link" [translate]="'page_pricing.folders'">Folders</a>
       <ng-template ngbNavContent>
-        <app-folders (onAnchored)="onAnchoredLink($event)"></app-folders>
+        <app-folders></app-folders>
       </ng-template>
     </div>
 
@@ -1674,7 +1660,7 @@
     <div class="nav" [ngbNavItem]="'security'">
       <a ngbNavLink class="nav-link" [translate]="'home_header.security'">Security</a>
       <ng-template ngbNavContent>
-        <app-settings-security (onAnchored)="onAnchoredLink($event)"></app-settings-security>
+        <app-settings-security></app-settings-security>
       </ng-template>
     </div>
 
@@ -1682,10 +1668,7 @@
     <div class="nav" [ngbNavItem]="'domains-and-users'">
       <a ngbNavLink class="nav-link" [translate]="'settings.domains_and_users.title'">Domains & Users</a>
       <ng-template ngbNavContent>
-        <app-custom-domains
-          (onGotoTab)="navSet.select($event)"
-          (onAnchored)="onAnchoredLink($event)"
-        ></app-custom-domains>
+        <app-custom-domains (onGotoTab)="navSet.select($event)"></app-custom-domains>
       </ng-template>
     </div>
 
@@ -1693,8 +1676,8 @@
     <div class="nav" [ngbNavItem]="'forwarding-and-auto-responder'">
       <a ngbNavLink class="nav-link" [translate]="'settings.forwarding_and_autores'">Forwarding & Autoresponder</a>
       <ng-template ngbNavContent>
-        <app-mail-forwarding (onAnchored)="onAnchoredLink($event)"></app-mail-forwarding>
-        <app-mail-autoresponder (onAnchored)="onAnchoredLink($event)"></app-mail-autoresponder>
+        <app-mail-forwarding></app-mail-forwarding>
+        <app-mail-autoresponder></app-mail-autoresponder>
       </ng-template>
     </div>
   </div>

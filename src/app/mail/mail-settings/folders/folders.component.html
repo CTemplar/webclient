@@ -1,7 +1,7 @@
 <section id="folders" class="mailbox-section">
   <header class="ui-header ui-header-bordered">
     <h5 class="ui-header-subtitle text-dark mb-0">
-      <a class="anchor" aria-hidden="true" (click)="onAnchoredLink('folders')">
+      <a class="anchor" aria-hidden="true" routerLink="." fragment="folders" anchorScroll>
         <i class="fas fa-link link-icon"></i>
       </a>
       <strong [translate]="'page_pricing.folders'">Folders</strong>
@@ -54,19 +54,26 @@
               <div class="drag-drop-handle" cdkDragHandle *ngIf="reorder">
                 <i class="fas fa-arrows-alt-v"></i>
               </div>
-              <span>
+              <span class="mr-2">
                 <i class="folder-color-box icon" [style.background]="folder.color"></i>
               </span>
-              <span class="folder-name">{{ folder.name }} ( </span>
-              <span *ngIf="folder.conversation_count" class="folder-messages-counts">{{
-                folder.conversation_count
-              }}</span>
-              <span [translate]="'settings.conversations'" *ngIf="folder.conversation_count > 1; else elseConversation">
-                conversations)</span
-              >
-              <ng-template #elseConversation>
-                <span [translate]="'settings.conversation'"> conversation)</span>
-              </ng-template>
+              <span class="folder-name mr-2">{{ folder.name }}</span>
+              <!-- Show conversation count 0: empty, 1:singular and 1+:plural -->
+              <span
+                >(
+                <span *ngIf="folder.conversation_count; else zeroConversation" class="folder-messages-counts">
+                  <span>{{ folder.conversation_count }} </span>
+                  <span
+                    [translate]="'settings.conversations'"
+                    *ngIf="folder.conversation_count > 1; else singleConversation"
+                    >conversations</span
+                  >
+                  <ng-template #singleConversation
+                    ><span [translate]="'settings.conversation'">conversation</span></ng-template
+                  >
+                </span>
+                <ng-template #zeroConversation><span [translate]="'common.empty'">empty</span></ng-template> )
+              </span>
             </div>
             <div class="col-2 col-sm-4">
               <div align="right" *ngIf="reorder">
