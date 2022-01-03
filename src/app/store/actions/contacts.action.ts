@@ -15,6 +15,9 @@ export enum ContactsActionTypes {
   CONTACT_IMPORT = '[Contacts] Contact Import',
   CONTACT_IMPORT_SUCCESS = '[Contacts] Contact Import Success',
   CONTACT_IMPORT_FAILURE = '[Contacts] Contact Import Failure',
+  CONTACT_EXPORT = '[Contacts] Contact Export',
+  CONTACT_EXPORT_SUCCESS = '[Contacts] Contact Export Success',
+  CONTACT_EXPORT_FAILURE = '[Contacts] Contact Export Failure',
   CONTACT_DECRYPT_SUCCESS = '[Contacts] Contact_Decrypt_Success',
   GET_EMAIL_CONTACTS = '[Contacts] GET EMAIL CONTACTS',
   GET_EMAIL_CONTACTS_SUCCESS = '[Contacts] GET EMAIL CONTACTS SUCCESS',
@@ -117,6 +120,24 @@ export class ContactImportSuccess implements Action {
 
 export class ContactImportFailure implements Action {
   readonly type = ContactsActionTypes.CONTACT_IMPORT_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
+export class ContactExport implements Action {
+  readonly type = ContactsActionTypes.CONTACT_EXPORT;
+
+  constructor(public payload: any) {}
+}
+
+export class ContactExportSuccess implements Action {
+  readonly type = ContactsActionTypes.CONTACT_EXPORT_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class ContactExportFailure implements Action {
+  readonly type = ContactsActionTypes.CONTACT_EXPORT_FAILURE;
 
   constructor(public payload: any) {}
 }
@@ -241,6 +262,9 @@ export type ContactsActionAll =
   | ContactImport
   | ContactImportSuccess
   | ContactImportFailure
+  | ContactExport
+  | ContactExportSuccess
+  | ContactExportFailure
   | ContactDecryptSuccess
   | GetEmailContacts
   | GetEmailContactsSuccess

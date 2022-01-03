@@ -37,6 +37,7 @@
       "message": "Are you sure, you want to delete "
     },
     "import_contacts": "استيراد جهات الاتصال",
+    "export_contacts": "Export Contacts",
     "select_csv": ".قم باختيار ملف CSV من أحد الخيارات التالية",
     "select_vcf": "Select a VCF file",
     "import_f_google": "الاستيراد من غوغل",
@@ -44,6 +45,9 @@
     "import_f_outlook": "الاستيراد من آوت لوك",
     "import_f_other": "الاستيراد من جهة أخرى",
     "import_f_drive": "Import from Drive",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
+    "export_failure": "Failed to export contacts.",
     "contact_name": "اسم جهة الاتصال",
     "type_email": "اكتب رسالة بريد إلكتروني",
     "a_note": "ملاحظة",

@@ -406,8 +406,11 @@
 ::ng-deep .mat-checkbox .mat-checkbox-background {
   border: var(--width-0-2) solid var(--mat-checkbox-border-color);
 }
-.mailbox-actionbar-menu .fa-upload {
-  font-size: 16px;
+.mailbox-actionbar-menu {
+  .fa-upload,
+  .fa-download {
+    font-size: 16px;
+  }
 }
 
 .icon-star {

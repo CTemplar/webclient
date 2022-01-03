@@ -37,6 +37,7 @@
       "message": "Sind Sie sicher, dass Sie das Löschen wollen "
     },
     "import_contacts": "Kontakte importieren",
+    "export_contacts": "Export Contacts",
     "select_csv": "Wählen Sie eine CSV-Datei von einem der folgenden Anbieter.",
     "select_vcf": "Wählen Sie eine VCF Datei",
     "import_f_google": "Von Google importieren",
@@ -44,6 +45,9 @@
     "import_f_outlook": "Von Outlook importieren",
     "import_f_other": "Von Sonstigem importieren",
     "import_f_drive": "Vom Laufwerk importieren",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
+    "export_failure": "Failed to export contacts.",
     "contact_name": "Kontaktname",
     "type_email": "E-Mail eingeben",
     "a_note": "Eine Notiz",

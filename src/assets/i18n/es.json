@@ -37,6 +37,7 @@
       "message": "¿De verdad lo deseas borrar?"
     },
     "import_contacts": "Importar contactos",
+    "export_contacts": "Export Contacts",
     "select_csv": "Selecciona un archivo CSV de uno de los siguientes proveedores.",
     "select_vcf": "Select a VCF file",
     "import_f_google": "Importar desde Google",
@@ -44,6 +45,9 @@
     "import_f_outlook": "Importar desde Outlook",
     "import_f_other": "Importar desde otro",
     "import_f_drive": "Import from Drive",
+    "export_csv": "Export as CSV",
+    "export_vcf": "Export as VCF",
+    "export_failure": "Failed to export contacts.",
     "contact_name": "Nombre del Contacto",
     "type_email": "Tipo de correo",
     "a_note": "Una nota",
