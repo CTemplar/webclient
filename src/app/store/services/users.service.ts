@@ -18,7 +18,16 @@ import {
   REMEMBER_ME,
   NOT_FIRST_LOGIN,
 } from '../../shared/config';
-import { AppState, AutoResponder, Contact, Settings, AuthState, Domain, FeedbackType } from '../datatypes';
+import {
+  AppState,
+  AutoResponder,
+  Contact,
+  Settings,
+  AuthState,
+  Domain,
+  FeedbackType,
+  ExportContactType,
+} from '../datatypes';
 import { Filter } from '../models/filter.model';
 
 @Injectable({
@@ -359,6 +368,10 @@ export class UsersService {
     const request = new HttpRequest('POST', `${apiUrl}users/bulk-contact/create/`, formData);
 
     return this.http.request(request);
+  }
+
+  exportContacts(type: ExportContactType) {
+    return this.http.get<any>(`${apiUrl}users/export-contacts/?format=${type}`);
   }
 
   checkUsernameAvailability(username: string): Observable<any> {
