@@ -95,7 +95,8 @@
     "sign_message": "Sign message",
     "monthly": "monthly",
     "yearly": "yearly",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "Scrivania",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "Il nome utente deve iniziare con una lettera e finire con una lettera o un numero.Può contenere solo",
     "username_minlen": "caratteri, e la lunghezza minima è di 2 caratteri.",
     "reorder": "Riordine",
-    "conversations": " conversazioni )",
-    "conversation": " conversazione )",
+    "conversations": "conversazioni",
+    "conversation": "conversazione",
     "reorder_addresses": "Riordine alias",
     "sort_with_alphabetic": "Ordina in ordine alfabetico",
     "sort_with_analphabetic": "Ordina in ordine non alfabetico",

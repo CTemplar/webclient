@@ -95,7 +95,8 @@
     "sign_message": "Sign message",
     "monthly": "monthly",
     "yearly": "yearly",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "Painel",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "O nome de utilizador tem de começar com uma letra e acabar com uma letra ou número. So pode conter",
     "username_minlen": "carateres, e o tem de ter pelo menos 2 carateres.",
     "reorder": "Reordenar",
-    "conversations": " Conversas )",
-    "conversation": " Conversa )",
+    "conversations": "Conversas",
+    "conversation": "Conversa",
     "reorder_addresses": "Reordenar apelidos",
     "sort_with_alphabetic": "Sort into alphabetic order",
     "sort_with_analphabetic": "Sort into analphabetic order",

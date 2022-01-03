@@ -95,7 +95,8 @@
     "sign_message": "Sign message",
     "monthly": "monthly",
     "yearly": "yearly",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "控制面板",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "用户名必须以字母开头，以字母或数字结尾，只能包含",
     "username_minlen": "字符，最小长度为2个字符。",
     "reorder": "重新排序",
-    "conversations": "对话)",
-    "conversation": "对话)",
+    "conversations": "对话",
+    "conversation": "对话",
     "reorder_addresses": "重新排序别名",
     "sort_with_alphabetic": "Sort into alphabetic order",
     "sort_with_analphabetic": "Sort into analphabetic order",

@@ -95,7 +95,8 @@
     "sign_message": "Sign message",
     "monthly": "monthly",
     "yearly": "yearly",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "empty": "empty"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -473,8 +474,8 @@
     "username_allowed_chars": "The username must start with a letter and end with a letter or number. It may only contain a-z, A-Z, 0-9 or ._- and minimum length is 4 characters.",
     "username_minlen": "characters, and the minimum length is 4 characters.",
     "reorder": "Reorder",
-    "conversations": " conversations )",
-    "conversation": " conversation )",
+    "conversations": "conversations",
+    "conversation": "conversation",
     "reorder_addresses": "Reorder aliases",
     "sort_with_alphabetic": "Sort into alphabetic order",
     "sort_with_analphabetic": "Sort into analphabetic order",
