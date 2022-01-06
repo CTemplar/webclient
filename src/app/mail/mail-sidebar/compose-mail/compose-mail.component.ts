@@ -169,7 +169,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   _htmlQuotedMailContent: string;
 
   public set htmlQuotedMailContent(value: string) {
-    if (!this._htmlQuotedMailContent) { // store the initial HTML quoted mails
+    if (!this._htmlQuotedMailContent) {
+      // store the initial HTML quoted mails
       this._htmlQuotedMailContent = value;
     }
   }
@@ -299,7 +300,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private oldMailbox: Mailbox;
 
   isPreparingToSendEmail = false;
-  
+
   textModeSwitching = false;
 
   /**
@@ -625,7 +626,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.mailData.content) {
       // if we are initializing the editor due to switch from plain to html
       // replace the plain text quoted mail with the one we saved earlier in htmlQuotedMailContent
-      if(this.textModeSwitching && this.htmlQuotedMailContent) { 
+      if (this.textModeSwitching && this.htmlQuotedMailContent) {
         this.textModeSwitching = false;
         let content = this.formatContent(this.mailData.content);
         const quoteIndex = content.indexOf('---------- Original Message ----------');
