@@ -60,6 +60,7 @@ export interface Mail {
   sign?: string;
   participants?: any;
   mailLink?: string; // set in UI for generating the mail's deep-link
+  htmlQuotedMailContent?: string; // the initial quoted mails in HTML format
 }
 
 export class EncryptionNonCTemplar {

@@ -166,6 +166,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   draftId: number;
 
+  _htmlQuotedMailContent: string;
+
+  public set htmlQuotedMailContent(value: string) {
+    if (!this._htmlQuotedMailContent) { // store the initial HTML quoted mails
+      this._htmlQuotedMailContent = value;
+    }
+  }
+
+  public get htmlQuotedMailContent(): string {
+    return this._htmlQuotedMailContent;
+  }
+
   usersKeys: Map<string, GlobalPublicKey> = new Map();
 
   colors = COLORS;
@@ -287,6 +299,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private oldMailbox: Mailbox;
 
   isPreparingToSendEmail = false;
+  
+  textModeSwitching = false;
 
   /**
    * Decide to set html or plaintext mode with this variable
@@ -609,7 +623,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     toolbarContainer.replaceWith(editor.ui.view.toolbar.element);
     // need to change text to html contents
     if (this.mailData.content) {
-      editor.setData(this.formatContent(this.mailData.content));
+      // if we are initializing the editor due to switch from plain to html
+      // replace the plain text quoted mail with the one we saved earlier in htmlQuotedMailContent
+      if(this.textModeSwitching && this.htmlQuotedMailContent) { 
+        this.textModeSwitching = false;
+        let content = this.formatContent(this.mailData.content);
+        const quoteIndex = content.indexOf('---------- Original Message ----------');
+        content = content.slice(0, quoteIndex);
+        content = `${content}${this.htmlQuotedMailContent}`;
+        editor.setData(content);
+      } else {
+        editor.setData(this.formatContent(this.mailData.content));
+      }
     }
     this.updateSignature();
     editor.editing.view.focus();
@@ -763,8 +788,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.composerEditorInstance?.setData(this.decryptedContent);
   }
 
-  setHtmlEditor(value: boolean) {
+  setHtmlEditor(value: boolean, fromSwitching = false) {
     this.draftMail.is_html = value;
+    this.textModeSwitching = fromSwitching;
     if (value) {
       this.cdr.detectChanges();
     }
@@ -1715,6 +1741,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.is_subject_encrypted = true;
     this.draftMail.content = this.draftMail.is_html ? this.composerEditorInstance?.getData() : this.mailData.content;
     this.draftMail.send = shouldSend;
+    this.htmlQuotedMailContent = this.draftMail.htmlQuotedMailContent;
 
     if (this.action) {
       this.draftMail.last_action = this.action;
