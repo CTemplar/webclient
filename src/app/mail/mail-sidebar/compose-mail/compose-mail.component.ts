@@ -14,7 +14,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
-import { Subject, Subscription } from 'rxjs';
+import { of, Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
@@ -1887,6 +1887,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     this.onFilesSelected(event.dataTransfer.files);
+  }
+
+  // when user does 'copy link address',
+  // remove the mailto: prefix before adding receiver
+  // ignore for autocomplete
+  beforeAddReceiver(tag: any) {
+    return of(typeof tag === 'string' ? tag?.replace(/^mailto:/i, '') : tag);
   }
 
   onAddingReceiver(tag: any, data: any[]) {
