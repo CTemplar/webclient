@@ -14,7 +14,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
-import { Subject, Subscription } from 'rxjs';
+import { of, Subject, Subscription } from 'rxjs';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
@@ -166,6 +166,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   draftId: number;
 
+  _htmlQuotedMailContent: string;
+
+  public set htmlQuotedMailContent(value: string) {
+    if (!this._htmlQuotedMailContent) {
+      // store the initial HTML quoted mails
+      this._htmlQuotedMailContent = value;
+    }
+  }
+
+  public get htmlQuotedMailContent(): string {
+    return this._htmlQuotedMailContent;
+  }
+
   usersKeys: Map<string, GlobalPublicKey> = new Map();
 
   colors = COLORS;
@@ -287,6 +300,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private oldMailbox: Mailbox;
 
   isPreparingToSendEmail = false;
+
+  textModeSwitching = false;
 
   /**
    * Decide to set html or plaintext mode with this variable
@@ -609,7 +624,18 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     toolbarContainer.replaceWith(editor.ui.view.toolbar.element);
     // need to change text to html contents
     if (this.mailData.content) {
-      editor.setData(this.formatContent(this.mailData.content));
+      // if we are initializing the editor due to switch from plain to html
+      // replace the plain text quoted mail with the one we saved earlier in htmlQuotedMailContent
+      if (this.textModeSwitching && this.htmlQuotedMailContent) {
+        this.textModeSwitching = false;
+        let content = this.formatContent(this.mailData.content);
+        const quoteIndex = content.indexOf('---------- Original Message ----------');
+        content = content.slice(0, quoteIndex);
+        content = `${content}${this.htmlQuotedMailContent}`;
+        editor.setData(content);
+      } else {
+        editor.setData(this.formatContent(this.mailData.content));
+      }
     }
     this.updateSignature();
     editor.editing.view.focus();
@@ -763,8 +789,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.composerEditorInstance?.setData(this.decryptedContent);
   }
 
-  setHtmlEditor(value: boolean) {
+  setHtmlEditor(value: boolean, fromSwitching = false) {
     this.draftMail.is_html = value;
+    this.textModeSwitching = fromSwitching;
     if (value) {
       this.cdr.detectChanges();
     }
@@ -1715,6 +1742,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.draftMail.is_subject_encrypted = true;
     this.draftMail.content = this.draftMail.is_html ? this.composerEditorInstance?.getData() : this.mailData.content;
     this.draftMail.send = shouldSend;
+    this.htmlQuotedMailContent = this.draftMail.htmlQuotedMailContent;
 
     if (this.action) {
       this.draftMail.last_action = this.action;
@@ -1859,6 +1887,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     this.onFilesSelected(event.dataTransfer.files);
+  }
+
+  // when user does 'copy link address',
+  // remove the mailto: prefix before adding receiver
+  // ignore for autocomplete
+  beforeAddReceiver(tag: any) {
+    return of(typeof tag === 'string' ? tag?.replace(/^mailto:/i, '') : tag);
   }
 
   onAddingReceiver(tag: any, data: any[]) {

@@ -4,13 +4,31 @@ import { Store } from '@ngrx/store';
 import { NgbDropdownConfig, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
-import { AppState, Contact, ContactsState, PlanType, UserState, MailBoxesState } from '../../store/datatypes';
-import { ContactDelete, ContactImport, ContactsGet, SnackErrorPush, ContactNotify, ContactAdd } from '../../store';
+import {
+  AppState,
+  Contact,
+  ContactsState,
+  PlanType,
+  UserState,
+  MailBoxesState,
+  ExportContactsFileFormat,
+  ExportContactResponse,
+} from '../../store/datatypes';
+import {
+  ContactDelete,
+  ContactImport,
+  ContactsGet,
+  SnackErrorPush,
+  ContactNotify,
+  ContactAdd,
+  ContactExport,
+} from '../../store';
 import { BreakpointsService } from '../../store/services/breakpoint.service';
 import { ComposeMailService } from '../../store/services/compose-mail.service';
 import { ContactFolderType, Mailbox } from '../../store/models';
-import { OpenPgpService } from '../../store/services';
+import { OpenPgpService, SharedService } from '../../store/services';
 import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 export enum ContactsProviderType {
@@ -29,6 +47,8 @@ export enum ContactsProviderType {
 })
 export class MailContactComponent implements OnInit, AfterViewInit {
   @ViewChild('importContactsModal') importContactsModal: any;
+
+  @ViewChild('exportContactsModal') exportContactsModal: any;
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
 
@@ -85,6 +105,8 @@ export class MailContactComponent implements OnInit, AfterViewInit {
 
   private importContactsModalRef: NgbModalRef;
 
+  private exportContactsModalRef: NgbModalRef;
+
   private notifyContactsModalRef: NgbModalRef;
 
   private searchText: string;
@@ -104,6 +126,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     @Inject(DOCUMENT) private document: Document,
     private cdr: ChangeDetectorRef,
     private userSelectManageService: UserSelectManageService,
+    private sharedService: SharedService,
   ) {
     // customize default values of dropdowns used by this component tree
     config.autoClose = true;
@@ -117,6 +140,14 @@ export class MailContactComponent implements OnInit, AfterViewInit {
       this.store.dispatch(new ContactsGet({ limit: 20, offset: 0, q: this.searchText }));
       this.userSelectManageService.updateUserSelectPossiblilityState(true);
     });
+
+    // When exported contacts data is available, download it
+    this.store
+      .select(state => state.contacts.exportedContacts)
+      .pipe(untilDestroyed(this), filter(Boolean))
+      .subscribe((contacts: ExportContactResponse) => {
+        this.downloadExportedContacts(contacts);
+      });
 
     this.isMobile = window.innerWidth <= 768;
   }
@@ -309,6 +340,26 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     if (this.importContactsModalRef) {
       this.importContactsModalRef.close();
     }
+  }
+
+  openExportContactsModal() {
+    this.exportContactsModalRef = this.modalService.open(this.exportContactsModal, {
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    });
+  }
+
+  exportContacts(fileFormat: ExportContactsFileFormat) {
+    this.store.dispatch(new ContactExport(fileFormat));
+  }
+
+  closeExportContactsModal() {
+    this.exportContactsModalRef?.close();
+  }
+
+  downloadExportedContacts({ data, name }: ExportContactResponse) {
+    this.sharedService.downloadBase64ContentAsFile(data, name);
+    this.closeExportContactsModal();
   }
 
   cancelNotifyContacts() {

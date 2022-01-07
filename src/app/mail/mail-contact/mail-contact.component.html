@@ -124,9 +124,14 @@
             ><i class="icon icon-garbage"></i
           ></a>
         </li>
-        <li class="pl-0" ngbTooltip="Import contacts">
+        <li class="pl-0" [ngbTooltip]="'contacts.import_contacts' | translate">
           <a class="no-icon text-grey-dark-500" (click)="openImportContactsModal()">
             <i class="svg-inline--fa fa-2x fas fa-upload"></i>
+          </a>
+        </li>
+        <li class="pl-0" [ngbTooltip]="'contacts.export_contacts' | translate">
+          <a class="no-icon text-grey-dark-500" (click)="openExportContactsModal()">
+            <i class="svg-inline--fa fa-2x fas fa-download"></i>
           </a>
         </li>
         <li *ngIf="inProgress">
@@ -485,6 +490,41 @@
     </div>
   </div> </ng-template
 ><!-- /.import contacts modal ends -->
+
+<!-- export contacts modal -->
+<ng-template #exportContactsModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title w-100 text-dark">
+      <strong>{{ 'contacts.export_contacts' | translate }}</strong>
+    </h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body bg-faded">
+    <div class="mail-actions-form-holder modal-mail-actions-form-holder text-center">
+      <div class="form-group">
+        <button
+          type="button"
+          (click)="exportContacts('csv')"
+          class="btn btn-success btn-sm col col-sm-7 mt-2"
+          role="button"
+        >
+          {{ 'contacts.export_csv' | translate }}
+        </button>
+        <br />
+        <button
+          type="button"
+          (click)="exportContacts('vcf')"
+          class="btn btn-success btn-sm col col-sm-7 mt-2"
+          role="button"
+        >
+          {{ 'contacts.export_vcf' | translate }}
+        </button>
+      </div>
+    </div>
+  </div> </ng-template
+><!-- /.export contacts modal ends -->
 
 <!-- Notify Contacts Modal -->
 <ng-template #notifyContactsModal let-c="close" let-d="dismiss">

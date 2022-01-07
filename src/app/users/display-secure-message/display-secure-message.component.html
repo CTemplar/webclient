@@ -44,7 +44,7 @@
           <div>
             <ul class="list-style-none mt-3">
               <ng-container *ngFor="let attachment of message.attachments">
-                <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline">
+                <li class="download-attachment-wrapper mr-1" *ngIf="!attachment.is_inline || !mail.is_html">
                   <app-progress-bar [active]="decryptedAttachments[attachment.id]?.inProgress"></app-progress-bar>
                   <a
                     *ngIf="!attachment.is_encrypted; else encryptedAttachment"

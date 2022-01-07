@@ -9,6 +9,7 @@ export const initialState: ContactsState = {
   loaded: false,
   contactsToDecrypt: [],
   selectedContactKeys: [],
+  exportedContacts: null,
 };
 
 export function reducer(state = initialState, action: ContactsActionAll): ContactsState {
@@ -105,6 +106,18 @@ export function reducer(state = initialState, action: ContactsActionAll): Contac
 
     case ContactsActionTypes.CONTACT_IMPORT_FAILURE: {
       return { ...state, inProgress: false };
+    }
+
+    case ContactsActionTypes.CONTACT_EXPORT: {
+      return { ...state, inProgress: true, exportedContacts: null };
+    }
+
+    case ContactsActionTypes.CONTACT_EXPORT_SUCCESS: {
+      return { ...state, inProgress: false, exportedContacts: action.payload };
+    }
+
+    case ContactsActionTypes.CONTACT_EXPORT_FAILURE: {
+      return { ...state, inProgress: false, exportedContacts: null };
     }
 
     case ContactsActionTypes.GET_EMAIL_CONTACTS: {

@@ -867,6 +867,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
+    newMail.htmlQuotedMailContent = newMail.content;
     newMail.mailbox = this.mailboxes.find(mailbox => allRecipients.has(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
     if (mail.reply_to && mail.reply_to.length > 0) {
@@ -950,6 +951,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       subject: `Re: ${mail.subject}`,
       parentId: this.mail.id,
       content: this.getMessageHistory(previousMails),
+      htmlQuotedMailContent: this.getMessageHistory(previousMails),
       selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
     let parentId = this.mail.id;
@@ -959,6 +961,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.subject = `Re: ${mail.subject}`;
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
+    newMail.htmlQuotedMailContent = newMail.content;
     newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
 

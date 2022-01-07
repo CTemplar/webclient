@@ -57,9 +57,10 @@
           [separatorKeys]="[',']"
           [separatorKeyCodes]="[13]"
           [(inputText)]="inputTextValue"
+          [onAdding]="beforeAddReceiver"
           (onAdd)="onAddingReceiver($event, mailData.receiver)"
           (onRemove)="handleRemoveRecipient('receiver')"
-          [addOnPaste]="true"
+          [addOnPaste]="false"
           (onTagEdited)="onTagEdited($event)"
           (click)="onClick()"
           #input
@@ -121,9 +122,10 @@
           [separatorKeys]="[',']"
           [separatorKeyCodes]="[13]"
           [(inputText)]="ccInputTextValue"
+          [onAdding]="beforeAddReceiver"
           (onAdd)="onAddingReceiver($event, mailData.cc)"
           (onRemove)="handleRemoveRecipient('ccReceiver')"
-          [addOnPaste]="true"
+          [addOnPaste]="false"
           (onTagEdited)="ccOnTagEdited($event)"
           (click)="onCcClick()"
           #ccInput
@@ -179,9 +181,10 @@
           [separatorKeys]="[',']"
           [separatorKeyCodes]="[13]"
           [(inputText)]="bccInputTextValue"
+          [onAdding]="beforeAddReceiver"
           (onAdd)="onAddingReceiver($event, mailData.bcc)"
           (onRemove)="handleRemoveRecipient('bccReceiver')"
-          [addOnPaste]="true"
+          [addOnPaste]="false"
           (onTagEdited)="bccOnTagEdited($event)"
           (click)="onBccClick()"
           #bccInput
@@ -570,7 +573,7 @@
                 <div ngbDropdownMenu class="dropdown-menu-right text-center" aria-labelledby="btn_more">
                   <button
                     class="dropdown-item dropdown-menu-item"
-                    (click)="setHtmlEditor(true)"
+                    (click)="setHtmlEditor(true, true)"
                     [disabled]="draftMail.is_html || pgpEncryptionType === 'PGP_INLINE'"
                   >
                     <div class="row-item">
@@ -582,7 +585,7 @@
                   </button>
                   <button
                     class="dropdown-item dropdown-menu-item"
-                    (click)="setHtmlEditor(false)"
+                    (click)="setHtmlEditor(false, true)"
                     [disabled]="!draftMail.is_html"
                   >
                     <div class="row-item">

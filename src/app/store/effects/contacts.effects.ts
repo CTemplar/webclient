@@ -4,6 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of, EMPTY } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
+import { TranslateService } from '@ngx-translate/core';
 import { OpenPgpService, UsersService } from '../services';
 import {
   Accounts,
@@ -39,6 +40,9 @@ import {
   ContactBulkUpdateKeysSuccess,
   ContactBulkUpdateKeysFailure,
   GetUsersKeys,
+  ContactExport,
+  ContactExportSuccess,
+  ContactExportFailure,
 } from '../actions';
 import { Contact, ImportContactResponse } from '../datatypes';
 
@@ -46,7 +50,12 @@ import { Contact, ImportContactResponse } from '../datatypes';
   providedIn: 'root',
 })
 export class ContactsEffects {
-  constructor(private actions: Actions, private openPgpService: OpenPgpService, private userService: UsersService) {}
+  constructor(
+    private actions: Actions,
+    private openPgpService: OpenPgpService,
+    private userService: UsersService,
+    private translate: TranslateService,
+  ) {}
 
   @Effect()
   Contact: Observable<any> = this.actions.pipe(
@@ -174,6 +183,25 @@ export class ContactsEffects {
           return of(
             new SnackErrorPush({ message: 'Failed to import contacts.' }),
             new ContactImportFailure(error.error),
+          );
+        }),
+      );
+    }),
+  );
+
+  @Effect()
+  ContactExport: Observable<any> = this.actions.pipe(
+    ofType(ContactsActionTypes.CONTACT_EXPORT),
+    map((action: ContactExport) => action.payload),
+    switchMap(payload => {
+      return this.userService.exportContacts(payload).pipe(
+        switchMap(event => {
+          return event.status ? of(new ContactExportSuccess(event)) : of(new ContactExportFailure(event));
+        }),
+        catchError(error => {
+          return of(
+            new SnackErrorPush({ message: this.translate.instant('contacts.export_failure') }),
+            new ContactExportFailure(error),
           );
         }),
       );
