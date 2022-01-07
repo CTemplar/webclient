@@ -1893,7 +1893,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   // remove the mailto: prefix before adding receiver
   // ignore for autocomplete
   beforeAddReceiver(tag: any) {
-    return of(typeof tag === 'string' ? tag?.replace(/^mailto:/, '') : tag);
+    return of(typeof tag === 'string' ? tag?.replace(/^mailto:/i, '') : tag);
   }
 
   onAddingReceiver(tag: any, data: any[]) {
