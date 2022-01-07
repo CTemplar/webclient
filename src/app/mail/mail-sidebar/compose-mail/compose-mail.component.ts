@@ -1891,8 +1891,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // when user does 'copy link address',
   // remove the mailto: prefix before adding receiver
+  // ignore for autocomplete
   beforeAddReceiver(tag: any) {
-    return of(tag?.replace(/^mailto:/, ''));
+    return of(typeof tag === 'string' ? tag?.replace(/^mailto:/, '') : tag);
   }
 
   onAddingReceiver(tag: any, data: any[]) {
