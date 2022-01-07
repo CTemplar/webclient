@@ -765,7 +765,8 @@ export function reducer(
           .map((mail: any) => mailMap[mail.parent]) // get the parent
           .filter((parent: any) => parent.children_folder_info) // ignore if children_folder_info is unavailable
           .forEach((parent: any) => {
-            parent.children_folder_info = { // update children_folder_info
+            parent.children_folder_info = {
+              // update children_folder_info
               trash_children_count: parent.children_folder_info.trash_children_count + 1,
               non_trash_children_count: Math.max(parent.children_folder_info.non_trash_children_count - 1, 0),
             };
