@@ -755,6 +755,23 @@ export function reducer(
           folderMap.set(key, folderInfo);
         }
       }
+
+      // when the mail is deleted from draft,
+      // update the thread count of the parent if available
+      // Message thread count does not auto-update #1566
+      if (action.payload.folder === MailFolderType.DRAFT) {
+        Object.values(mailMap)
+          .filter((mail: any) => mail.parent && mailMap[mail.parent]) // check if there's a parent
+          .map((mail: any) => mailMap[mail.parent]) // get the parent
+          .filter((parent: any) => parent.children_folder_info) // ignore if children_folder_info is unavailable
+          .forEach((parent: any) => {
+            parent.children_folder_info = { // update children_folder_info
+              trash_children_count: parent.children_folder_info.trash_children_count + 1,
+              non_trash_children_count: Math.max(parent.children_folder_info.non_trash_children_count - 1, 0),
+            };
+          });
+      }
+
       const mails = prepareMails(state.currentFolder, folderMap, mailMap);
       const currentMailFolder = folderMap.get(state.currentFolder);
       state.total_mail_count = currentMailFolder ? currentMailFolder.total_mail_count : 0;
