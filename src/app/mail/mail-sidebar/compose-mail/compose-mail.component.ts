@@ -604,7 +604,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * Unless, just create content
    */
   initializeComposeMail() {
-    if (this.draftMail.is_html === false) {
+    if (this.draftMail?.is_html === false) {
       // display mail content and change from html to text if html version
       let content = this.composerEditorInstance?.getData() || this.mailData.content || '';
       if (content) {
@@ -682,7 +682,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * @private
    */
   private formatContent(content: string) {
-    if (this.draftMail.is_html) {
+    if (this.draftMail?.is_html) {
       const allowedTags = new Set([
         'a',
         'b',
@@ -767,7 +767,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // action is existed MEANS this compose is either REPLY or REPLY_ALL or FORWARD
     // this.draftMail.content would not be encrypted, but PURE
     if (this.action) {
-      this.mailData.content = this.draftMail.content;
+      this.mailData.content = this.draftMail?.content;
     }
     if (this.mailData.cc.length > 0) {
       this.options.isCcVisible = true;
@@ -782,7 +782,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addDecryptedContent() {
-    if (!this.draftMail.is_html) {
+    if (!this.draftMail?.is_html) {
       this.mailData.content = this.getPlainText(this.decryptedContent);
       return;
     }
@@ -930,7 +930,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
                 // if attachment is encrypted, update draft attachment with decrypted attachment
                 const fileInfo = { attachment, type: response.file_type };
                 this.openPgpService
-                  .decryptAttachment(this.draftMail.mailbox, response.data, fileInfo)
+                  .decryptAttachment(this.draftMail?.mailbox, response.data, fileInfo)
                   .subscribe(decryptedAttachment => {
                     this.store.dispatch(
                       new UpdateDraftAttachment({
@@ -1039,7 +1039,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onFilesSelected(files: FileList) {
     this.isProcessingAttachments = true;
-    if ((!this.draftMail || !this.draftMail.id) && !this.draft.isSaving) {
+    if ((!this.draftMail || !this.draftMail?.id) && !this.draft.isSaving) {
       this.updateEmail();
     }
     // eslint-disable-next-line no-plusplus
@@ -1059,14 +1059,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         name: file.name,
         size: this.filesizePipe.transform(file.size),
         attachmentId: performance.now() + Math.floor(getCryptoRandom() * 1000),
-        message: this.draftMail.id,
+        message: this.draftMail?.id,
         is_inline: isInline,
         is_encrypted: !isInline,
         inProgress: false,
         actual_size: file.size,
       };
       this.attachments.push(attachment);
-      if (!this.draftMail.id) {
+      if (!this.draftMail?.id) {
         this.attachmentsQueue.push(attachment);
       } else {
         this.encryptAttachment(attachment);
@@ -1191,7 +1191,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isSavedInDraft = true;
     if (this.draftMail && this.draftMail.id) {
-      this.store.dispatch(new DeleteMail({ ids: [this.draftMail.id].join(','), folder: this.draftMail.folder }));
+      this.store.dispatch(new DeleteMail({ ids: [this.draftMail?.id].join(','), folder: this.draftMail?.folder }));
     }
     this.closeConfirmDeleteDraftModal();
     this.hide.emit();
@@ -1326,7 +1326,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   isMailBodyEmpty() {
-    const bodyLength = this.draftMail.is_html
+    const bodyLength = this.draftMail?.is_html
       ? this.getPlainText(this.composerEditorInstance?.getData()).replace(/ /g, '').replace(/\n/g, '').length
       : this.mailData.content.replace(/ /g, '').replace(/\n/g, '').length;
     return bodyLength === 0;
@@ -1398,7 +1398,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   updateSignature() {
     if (!this.isSignatureAdded) {
-      if (this.settings && !this.draftMail.is_html) {
+      if (this.settings && !this.draftMail?.is_html) {
         this.updatePlainTextSignature();
       } else {
         this.updateHtmlSignature();
@@ -1673,7 +1673,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
       return true;
     }
-    if (!this.draftMail.is_html) {
+    if (!this.draftMail?.is_html) {
       if (
         this.mailData.content.length > 1 &&
         this.mailData.content.replace(/(^[\t ]*\n)/gm, '') !== this.getPlainText(this.selectedMailbox.signature)
@@ -1710,7 +1710,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   private updateEmail() {
     this.inProgress = true;
     this.setMailData(false, true);
-    this.openPgpService.encrypt(this.draftMail.mailbox, this.draftId, new SecureContent(this.draftMail), []);
+    this.openPgpService.encrypt(this.draftMail?.mailbox, this.draftId, new SecureContent(this.draftMail), []);
   }
 
   /**
@@ -2008,9 +2008,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           : isPGPMime
           ? PGPEncryptionType.PGP_MIME
           : null;
-        if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail.is_html) {
+        if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail?.is_html) {
           this.setHtmlEditor(false);
-        } else if (this.pgpEncryptionType === PGPEncryptionType.PGP_MIME && !this.draftMail.is_html) {
+        } else if (this.pgpEncryptionType === PGPEncryptionType.PGP_MIME && !this.draftMail?.is_html) {
           this.setHtmlEditor(true);
         }
       }
