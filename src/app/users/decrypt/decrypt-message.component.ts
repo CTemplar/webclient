@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -57,6 +57,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private openPgpService: OpenPgpService,
     private dateTimeUtilService: DateTimeUtilService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -110,7 +111,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
       timer(0, 1000) // start a 1 second interval timer
         .pipe(
           untilDestroyed(this),
-          takeWhile(() => expiryDurationInSeconds > 0 && !this.decryptedContent), // countdown to zero or right password entered
+          takeWhile(() => expiryDurationInSeconds >= 0 && !this.decryptedContent), // countdown to zero or right password entered
           tap(() => {
             expiryDurationInSeconds -= 1;
           }),
@@ -119,6 +120,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           // when timer reached zero
           this.isMessageExpired = true;
+          this.cdr.detectChanges();
         });
     }
   }
