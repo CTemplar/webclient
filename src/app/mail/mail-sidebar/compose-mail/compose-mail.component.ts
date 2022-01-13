@@ -15,7 +15,7 @@ import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import { of, Subject, Subscription } from 'rxjs';
-import { debounceTime, finalize } from 'rxjs/operators';
+import { debounceTime, filter, finalize, pairwise } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -160,6 +160,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('confirmDeleteDraftModal') confirmDeleteDraftModal: any;
 
+  @ViewChild('warningMixedContactsModal') warningMixedContactsModal: any;
+
   confirmModalRef: NgbModalRef;
 
   closeConfirmModalRef: NgbModalRef;
@@ -218,6 +220,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   datePickerMinDate: NgbDateStruct;
 
   valueChanged$: Subject<any> = new Subject<any>();
+
+  isMixedContacts$: Subject<boolean> = new Subject<boolean>();
 
   inProgress: boolean;
 
@@ -534,6 +538,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.isSelfDestructionEnable(); // check self destruction is possible or not
     this.initializeAutoSave(); // start auto save function
+    this.setupMixedContactModal();
   }
 
   ngAfterViewInit() {
@@ -2003,11 +2008,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           return false;
         });
-        this.pgpEncryptionType = isPGPInline
+
+        const isMixedContacts = this.isMixedContacts(localReceivers);
+        this.isMixedContacts$.next(isMixedContacts);
+        const pgpEncryptionType = isPGPInline
           ? PGPEncryptionType.PGP_INLINE
           : isPGPMime
           ? PGPEncryptionType.PGP_MIME
           : null;
+        this.pgpEncryptionType = isMixedContacts ? null : pgpEncryptionType;
+
         if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail?.is_html) {
           this.setHtmlEditor(false);
         } else if (this.pgpEncryptionType === PGPEncryptionType.PGP_MIME && !this.draftMail?.is_html) {
@@ -2015,6 +2025,56 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
+  }
+
+  setupMixedContactModal() {
+    this.isMixedContacts$
+      .pipe(
+        debounceTime(500),
+        pairwise(),
+        filter(([previous, current]) => !previous && current)
+      )
+      .subscribe(() => {
+        // Show MixedContacts modal
+        this.modalService.open(this.warningMixedContactsModal, {
+          centered: true,
+          windowClass: 'modal-sm users-action-modal',
+        });
+      });
+  }
+
+  isMixedContacts(localReceivers: string[]): boolean {
+    const contacts: any[] = localReceivers.map((rec: string) => {
+      const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
+      const contact = this.contactsState?.contacts?.find(x => x.email === rec);
+      return { keyInfo, contact };
+    });
+
+    // check if all are internal
+    const isAllInternal = contacts.every(c => c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey);
+    if (isAllInternal) return false;
+
+    // check if all are internal + non-encrypted external
+    const isInternal_NonEncExternal = contacts.every(
+      c => (c.keyInfo.isExistKey && c.keyInfo.isCTemplarKey) || !c.contact.enabled_encryption,
+    );
+    if (isInternal_NonEncExternal) return false;
+
+    const externalContacts = contacts.filter(c => !(c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey));
+
+    // check if both encrypted external + non-encrypted external are present
+    const isEncExternal_NonEncExternal =
+      externalContacts.some(c => c?.contact?.enabled_encryption) &&
+      externalContacts.some(c => !c?.contact?.enabled_encryption);
+    if (isEncExternal_NonEncExternal) return true;
+
+    // check if all external are encrypted and different type
+    const isAllExternalEncDifferentType =
+      externalContacts.some(c => c.encryption_type === PGPEncryptionType.PGP_INLINE) &&
+      externalContacts.some(c => c.encryption_type === PGPEncryptionType.PGP_MIME); //TODO verify logic for PGP_MIME
+    if (isAllExternalEncDifferentType) return true;
+
+    return false;
   }
 
   // TODO should be moved to template
