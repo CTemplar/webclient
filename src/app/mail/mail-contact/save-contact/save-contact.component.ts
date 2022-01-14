@@ -37,6 +37,7 @@ import {
 import { OpenPgpService, SharedService } from '../../../store/services';
 import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
 
+const ALLOWED_KEYTYPES = ['RSA1024', 'RSA2048', 'RSA4096', 'ECC'];
 @UntilDestroy()
 @Component({
   selector: 'app-save-contact',
@@ -206,7 +207,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
               this.isImportingKey = false;
               const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
               if (newKeyInfo) {
-                if (newKeyInfo.key_type === 'RSA4096' || newKeyInfo.key_type === 'ECC') {
+                if (ALLOWED_KEYTYPES.includes(newKeyInfo.key_type)) {
                   if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
                     for (const key of this.selectedContactPulbicKeys) {
                       if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
