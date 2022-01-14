@@ -16,6 +16,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
 
 import {
+  ALLOWED_PGP_KEYTYPES_FOR_CONTACTS,
   AppState,
   AutocryptPreferEncryptType,
   Contact,
@@ -37,7 +38,6 @@ import {
 import { OpenPgpService, SharedService } from '../../../store/services';
 import { getEmailDomain, PRIMARY_WEBSITE } from '../../../shared/config';
 
-const ALLOWED_KEYTYPES = ['RSA1024', 'RSA2048', 'RSA4096', 'ECC'];
 @UntilDestroy()
 @Component({
   selector: 'app-save-contact',
@@ -207,7 +207,7 @@ export class SaveContactComponent implements OnInit, AfterViewInit {
               this.isImportingKey = false;
               const newKeyInfo = this.getMailboxKeyModelFromParsedInfo({ ...keyInfo, public_key: result });
               if (newKeyInfo) {
-                if (ALLOWED_KEYTYPES.includes(newKeyInfo.key_type)) {
+                if (ALLOWED_PGP_KEYTYPES_FOR_CONTACTS.includes(newKeyInfo.key_type)) {
                   if (this.selectedContactPulbicKeys && this.selectedContactPulbicKeys.length > 0) {
                     for (const key of this.selectedContactPulbicKeys) {
                       if (key.fingerprint === newKeyInfo.fingerprint && key.id) {
