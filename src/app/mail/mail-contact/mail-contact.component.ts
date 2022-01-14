@@ -442,5 +442,7 @@ export class MailContactComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSave() {}
+  onSave() {
+    this.destroySplitContactLayout();
+  }
 }
