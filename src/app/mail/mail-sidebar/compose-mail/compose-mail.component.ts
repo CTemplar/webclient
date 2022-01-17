@@ -2056,7 +2056,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // check if all are internal + non-encrypted external
     const isInternal_NonEncExternal = contacts.every(
-      c => (c.keyInfo.isExistKey && c.keyInfo.isCTemplarKey) || !c.contact.enabled_encryption,
+      c => (c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey) || !c?.contact?.enabled_encryption,
     );
     if (isInternal_NonEncExternal) return false;
 
@@ -2070,8 +2070,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // check if all external are encrypted and different type
     const isAllExternalEncDifferentType =
-      externalContacts.some(c => c.encryption_type === PGPEncryptionType.PGP_INLINE) &&
-      externalContacts.some(c => c.encryption_type === PGPEncryptionType.PGP_MIME); //TODO verify logic for PGP_MIME
+      externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_INLINE) &&
+      externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_MIME); //TODO verify logic for PGP_MIME
     if (isAllExternalEncDifferentType) return true;
 
     return false;
