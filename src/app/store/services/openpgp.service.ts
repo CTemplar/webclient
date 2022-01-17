@@ -811,7 +811,8 @@ export class OpenPgpService {
                 is_encrypted: true,
                 starred: event.data.starred,
               },
-              event.data?.email) // send the plaintext email for subsequent api calls that require email so that we dont wait for decryption again
+              event.data?.email,
+            ), // send the plaintext email for subsequent api calls that require email so that we dont wait for decryption again
           );
         }
       } else if (event.data.decryptJson) {
