@@ -804,12 +804,14 @@ export class OpenPgpService {
       } else if (event.data.encryptJson) {
         if (event.data.isAddContact) {
           this.store.dispatch(
-            new ContactAdd({
-              id: event.data.id,
-              encrypted_data: event.data.encryptedContent,
-              is_encrypted: true,
-              starred: event.data.starred,
-            }),
+            new ContactAdd(
+              {
+                id: event.data.id,
+                encrypted_data: event.data.encryptedContent,
+                is_encrypted: true,
+                starred: event.data.starred,
+              },
+              event.data?.email) // send the plaintext email for subsequent api calls that require email so that we dont wait for decryption again
           );
         }
       } else if (event.data.decryptJson) {
