@@ -100,7 +100,8 @@
     "monthly": "aylık",
     "yearly": "sınırsız",
     "unlimited": "Sınırsız",
-    "empty": "empty"
+    "empty": "empty",
+    "ok": "Ok"
   },
   "settings": {
     "dashboard": "Gösterge paneli",
@@ -562,7 +563,8 @@
       "text_to_display": "Görüntülenecek metin",
       "link_to": "Bağlantı ile",
       "expiry_time_message": "Son kullanma süresi en az 1 saat en fazla 5 gün olmalıdır.",
-      "invalid_email_format": "Geçersiz e-mail formatı"
+      "invalid_email_format": "Geçersiz e-mail formatı",
+      "mixed_contacts_warning_message": "End to End Encryption will be disabled because one or more participants doesn't support encryption."
     },
     "of": "of",
     "not_with_free_acc": "Bu Özellik Ücretsiz Hesapla kullanılamaz",
