@@ -36,8 +36,9 @@ body {
     }
   }
   #main.visible-signin {
-    height: 70vh;
-    min-height: 680px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
 
   // == inner page app outer
