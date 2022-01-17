@@ -100,7 +100,8 @@
     "monthly": "monthly",
     "yearly": "yearly",
     "unlimited": "Unlimited",
-    "empty": "empty"
+    "empty": "empty",
+    "ok": "Ok"
   },
   "settings": {
     "dashboard": "Panel de control",
@@ -562,7 +563,8 @@
       "text_to_display": "Text to display",
       "link_to": "Link to",
       "expiry_time_message": "Expiry time should be minimum 1 hour and maximum 5 days.",
-      "invalid_email_format": "Invalid email format"
+      "invalid_email_format": "Invalid email format",
+      "mixed_contacts_warning_message": "End to End Encryption will be disabled because one or more participants doesn't support encryption."
     },
     "of": "of",
     "not_with_free_acc": "Feature not available with Free Account",

@@ -832,6 +832,9 @@ export enum PGPKeyType {
   ECC = 'ECC',
 }
 
+// PGP Key types that are allowed to be imported for contacts
+export const ALLOWED_PGP_KEYTYPES_FOR_CONTACTS = ['RSA1024', 'RSA2048', 'RSA4096', 'ECC'];
+
 // Email Builder - Content Type
 export enum EmailContentType {
   TEXT_HTML = 'text/html',

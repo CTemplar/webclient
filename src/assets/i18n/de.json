@@ -100,7 +100,8 @@
     "monthly": "monthly",
     "yearly": "yearly",
     "unlimited": "Unlimited",
-    "empty": "empty"
+    "empty": "empty",
+    "ok": "Ok"
   },
   "settings": {
     "dashboard": "Dashboard",
@@ -562,7 +563,8 @@
       "text_to_display": "Anzuzeigender Text",
       "link_to": "Link zu",
       "expiry_time_message": "Die Verfallszeit sollte mindestens 1 Stunde und höchstens 5 Tage betragen.",
-      "invalid_email_format": "Ungültiges E-Mail-Format"
+      "invalid_email_format": "Ungültiges E-Mail-Format",
+      "mixed_contacts_warning_message": "End to End Encryption will be disabled because one or more participants doesn't support encryption."
     },
     "of": "of",
     "not_with_free_acc": "Funktion nicht für kostenlose Konten verfügbar",

@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
+import { filter, takeWhile, tap } from 'rxjs/operators';
 
 import { GetMessage } from '../../store/actions';
 import { AppState, SecureContent, SecureMessageState } from '../../store/datatypes';
@@ -47,6 +48,8 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
 
   password = '';
 
+  expiryDurationInSeconds: number;
+
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
@@ -54,6 +57,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private openPgpService: OpenPgpService,
     private dateTimeUtilService: DateTimeUtilService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -84,6 +88,7 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
           this.isMessageExpired = true;
         }
 
+        this.startExpiryTimer(state);
         this.message$.next(state.message);
         if (state.decryptedContent) {
           if (state.decryptedContent.content) {
@@ -95,6 +100,29 @@ export class DecryptMessageComponent implements OnInit, OnDestroy {
           }
         }
       });
+  }
+
+  startExpiryTimer(state: SecureMessageState) {
+    if (!this.message$.value && state.message) {
+      let expiryDurationInSeconds = this.dateTimeUtilService.getDiffFromCurrentDateTime(
+        state.message.encryption.expires,
+        'seconds',
+      );
+      timer(0, 1000) // start a 1 second interval timer
+        .pipe(
+          untilDestroyed(this),
+          takeWhile(() => expiryDurationInSeconds >= 0 && !this.decryptedContent), // countdown to zero or right password entered
+          tap(() => {
+            expiryDurationInSeconds -= 1;
+          }),
+          filter(() => expiryDurationInSeconds === 0),
+        )
+        .subscribe(() => {
+          // when timer reached zero
+          this.isMessageExpired = true;
+          this.cdr.detectChanges();
+        });
+    }
   }
 
   ngOnDestroy() {

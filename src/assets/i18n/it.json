@@ -100,7 +100,8 @@
     "monthly": "monthly",
     "yearly": "yearly",
     "unlimited": "Unlimited",
-    "empty": "empty"
+    "empty": "empty",
+    "ok": "Ok"
   },
   "settings": {
     "dashboard": "Scrivania",
@@ -562,7 +563,8 @@
       "text_to_display": "Testo da visualizzare",
       "link_to": "Collegamento a",
       "expiry_time_message": "Il tempo di scadenza dovrebbe essere minimo di 1 ora e massimo di 5 giorni.",
-      "invalid_email_format": "Formato email non valido"
+      "invalid_email_format": "Formato email non valido",
+      "mixed_contacts_warning_message": "End to End Encryption will be disabled because one or more participants doesn't support encryption."
     },
     "of": "di",
     "not_with_free_acc": "Caratteristica non disponibile con l'account Free",
