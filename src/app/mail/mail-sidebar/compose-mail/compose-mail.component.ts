@@ -2032,7 +2032,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(
         debounceTime(500),
         pairwise(),
-        filter(([previous, current]) => !previous && current)
+        filter(([previous, current]) => !previous && current),
       )
       .subscribe(() => {
         // Show MixedContacts modal

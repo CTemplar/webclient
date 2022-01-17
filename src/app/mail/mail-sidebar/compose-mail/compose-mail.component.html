@@ -1193,26 +1193,26 @@
   <!-- Mixed Contacts Warning modal -->
   <ng-template #warningMixedContactsModal let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h3 class="modal-title w-100 text-dark">
-            <strong [translate]="'settings.warning'">Warning</strong>
-        </h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
+      <h3 class="modal-title w-100 text-dark">
+        <strong [translate]="'settings.warning'">Warning</strong>
+      </h3>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="d()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body bg-faded">
-        <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-            <div class="form-group">
-                <span [translate]="'settings.compose.mixed_contacts_warning_message'">
+      <div class="mail-actions-form-holder modal-mail-actions-form-holder">
+        <div class="form-group">
+          <span [translate]="'settings.compose.mixed_contacts_warning_message'">
             End to End Encryption will be disabled because one or more participants doesn't support encryption.</span
           >
         </div>
         <div class="form-group text-right mb-0">
           <button (click)="d()" class="btn btn-secondary btn-sm mr-2" role="button">
             <span [translate]="'common.ok'">Ok</span>
-                </button>
-            </div>
+          </button>
         </div>
+      </div>
     </div>
   </ng-template>
   <!-- /.Mixed Contacts Warning modal ends -->
