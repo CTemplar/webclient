@@ -1990,32 +1990,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         // Set Editor style with encryption type
         // If all receiver is based on PGP Inline, Plain Text Editor
         // If PGP Mime or null, Do Nothing
-        const isPGPInline = localReceivers.every(rec => {
-          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
-            const contactInfo: Contact = this.contactsState?.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_INLINE) {
-              return true;
-            }
-          }
-          return false;
-        });
-        const isPGPMime = localReceivers.every(rec => {
-          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
-            const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_MIME) {
-              return true;
-            }
-          }
-          return false;
-        });
-
+        const pgpEncryptionType = this.getPGPEncryptionMethod(localReceivers);
         const isMixedContacts = this.isMixedContacts(localReceivers);
         this.isMixedContacts$.next(isMixedContacts);
-        const pgpEncryptionType = isPGPInline
-          ? PGPEncryptionType.PGP_INLINE
-          : isPGPMime
-          ? PGPEncryptionType.PGP_MIME
-          : null;
         this.pgpEncryptionType = isMixedContacts ? null : pgpEncryptionType;
 
         if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail?.is_html) {
@@ -2025,6 +2002,56 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
+  }
+
+  private getPGPEncryptionMethod(localReceivers: string[]): PGPEncryptionType {
+    // PGP_INLINE if,
+    // 1. we have internal contacts + external contacts, or just all external contacts. (TODO: or just all internal contacts)
+    // 2. and all the external contacts have encryption enabled and set to PGP_INLINE.
+    const internalContacts = localReceivers.filter(c => {
+      const keyInfo = this.sharedService.parseUserKey(this.usersKeys, c);
+      return keyInfo?.isExistKey && keyInfo?.isCTemplarKey;
+    });
+    const isPGPInline = localReceivers.every(rec => {
+      if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
+        const contactInfo: Contact = this.contactsState?.contacts.find((contact: Contact) => contact.email === rec);
+        if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_INLINE) {
+          return true;
+        }
+      }
+      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_INLINE
+      if (internalContacts.length !== localReceivers.length) {
+        const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
+        if (keyInfo?.isExistKey && keyInfo?.isCTemplarKey) {
+          return true;
+        }
+      }
+      return false;
+    });
+    const isPGPMime = localReceivers.every(rec => {
+      if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
+        const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
+        if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_MIME) {
+          return true;
+        }
+      }
+      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_MIME
+      if (internalContacts.length !== localReceivers.length) {
+        const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
+        if (keyInfo?.isExistKey && keyInfo?.isCTemplarKey) {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    if (isPGPInline) {
+      return PGPEncryptionType.PGP_INLINE;
+    }
+    if (isPGPMime) {
+      return PGPEncryptionType.PGP_MIME;
+    }
+    return null;
   }
 
   setupMixedContactModal() {
@@ -2049,7 +2076,6 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       const contact = this.contactsState?.contacts?.find(x => x.email === rec);
       return { keyInfo, contact };
     });
-
     // check if all are internal
     const isAllInternal = contacts.every(c => c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey);
     if (isAllInternal) return false;
@@ -2061,6 +2087,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (isInternal_NonEncExternal) return false;
 
     const externalContacts = contacts.filter(c => !(c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey));
+
+    // check if mix of internal and all external are same encryption type
+    const isAllExternalEncSameType =
+      externalContacts.every(
+        c => c?.contact?.enabled_encryption && c?.contact?.encryption_type === PGPEncryptionType.PGP_INLINE,
+      ) ||
+      externalContacts.every(
+        c => c?.contact?.enabled_encryption && c?.contact?.encryption_type === PGPEncryptionType.PGP_MIME,
+      );
+    if (isAllExternalEncSameType) return false;
 
     // check if both encrypted external + non-encrypted external are present
     const isEncExternal_NonEncExternal =
