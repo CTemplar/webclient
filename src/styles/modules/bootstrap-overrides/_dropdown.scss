@@ -17,7 +17,7 @@
   visibility: hidden;
   transform: translateY(10px);
   transition: all ceaser($easeInOutQuint) 0.35s;
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 
 .show > .dropdown-menu {
