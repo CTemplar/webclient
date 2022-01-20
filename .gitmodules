@@ -1,6 +1,3 @@
 [submodule "src/assets/theme"]
 	path = src/assets/theme
 	url = https://github.com/CTemplar/webclient-themes.git
-[submodule "assets/theme"]
-	path = assets/theme
-	url = https://github.com/CTemplar/webclient-themes.git
