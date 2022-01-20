@@ -43,6 +43,7 @@ import {
   ContactExport,
   ContactExportSuccess,
   ContactExportFailure,
+  ContactAdd,
 } from '../actions';
 import { Contact, ImportContactResponse } from '../datatypes';
 
@@ -90,7 +91,7 @@ export class ContactsEffects {
   @Effect()
   ContactAdd: Observable<any> = this.actions.pipe(
     ofType(ContactsActionTypes.CONTACT_ADD),
-    switchMap((action: Accounts) =>
+    switchMap((action: ContactAdd) =>
       this.userService.addContact(action.payload).pipe(
         switchMap(contact => {
           contact.isUpdating = action.payload.id;
@@ -103,7 +104,7 @@ export class ContactsEffects {
             new ContactAddSuccess(contact),
             // new MatchContactUserKeys({ ...contact, contactAdd: true }),
             new GetUsersKeys({
-              emails: [contact.email],
+              emails: contact.is_encrypted ? [action.plainTextEmail] : [contact.email],
             }),
             new SnackPush({ message: `Contact ${action.payload.id ? 'updated' : 'saved'} successfully.` }),
           );

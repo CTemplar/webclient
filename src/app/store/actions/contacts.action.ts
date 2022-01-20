@@ -61,7 +61,7 @@ export class ContactGetFailure implements Action {
 export class ContactAdd implements Action {
   readonly type = ContactsActionTypes.CONTACT_ADD;
 
-  constructor(public payload: any) {}
+  constructor(public payload: any, public plainTextEmail?: string) {}
 }
 
 export class ContactAddSuccess implements Action {
