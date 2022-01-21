@@ -185,6 +185,16 @@ export interface AdvancedSearchQueryParameters {
   size_operator?: string;
 }
 
+export interface ReceiversInfo {
+  localReceiver: string;
+  isCTemplarKey: boolean;
+  isExistKey: boolean;
+  isInternal: boolean;
+  isExternal: boolean;
+  enabled_encryption: boolean;
+  encryption_type: PGPEncryptionType;
+}
+
 export function getMailFolderName(folderType: MailFolderType) {
   switch (folderType) {
     case MailFolderType.ALL_EMAILS:
