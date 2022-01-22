@@ -952,7 +952,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       parentId: this.mail.id,
       content: this.getMessageHistory(previousMails),
       htmlQuotedMailContent: this.getMessageHistory(previousMails),
-      selectedMailbox: this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email)),
     };
     let parentId = this.mail.id;
     if (!this.isConversationView && this.mail.parent) {
@@ -962,10 +961,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     newMail.parent = parentId;
     newMail.content = this.getMessageHistory(previousMails);
     newMail.htmlQuotedMailContent = newMail.content;
-    newMail.mailbox = this.mailboxes.find(mailbox => mail.receiver.includes(mailbox.email))?.id;
     newMail.is_html = mail.is_html;
 
-    let newReceivers;
+    let newReceivers: Set<string>;
     if (mainReply && mail.children?.length > 0) {
       // set reciever with it with the reciever and sender of latest child that is not on Trash
       if (this.isShowTrashRelatedChildren) {
@@ -975,7 +973,6 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           ...mail.children[mail.children.length - 1].cc,
           ...mail.children[mail.children.length - 1].bcc,
         ]);
-        newReceivers.delete(this.currentMailbox?.email);
       } else {
         for (let childIndex = mail.children.length; childIndex > 0; childIndex -= 1) {
           if (
@@ -989,16 +986,23 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               ...mail.children[childIndex - 1].cc,
               ...mail.children[childIndex - 1].bcc,
             ]);
-            newReceivers.delete(this.currentMailbox?.email);
             break;
           }
         }
       }
     } else {
       newReceivers = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
-      newReceivers.delete(this.currentMailbox?.email);
     }
+
+    // Set the selected mailbox and drafts's mailbox from the list of mailboxes
+    // use the mailbox that is part of current the drafts' receivers giving priority to the current mailbox
+    const selectedMailbox = newReceivers.has(this.currentMailbox.email)
+      ? this.currentMailbox
+      : this.mailboxes.find(mailbox => newReceivers.has(mailbox.email));
+    this.composeMailData[mail.id].selectedMailbox = selectedMailbox;
+    newReceivers.delete(selectedMailbox?.email);
     newMail.receiver = newReceivers ? [...newReceivers] : [];
+    newMail.mailbox = selectedMailbox?.id;
 
     this.selectedMailToInclude = mail;
     newMail.last_action = MailAction.REPLY_ALL;
