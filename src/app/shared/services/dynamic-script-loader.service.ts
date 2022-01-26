@@ -5,6 +5,7 @@ import { AppConfig } from '../../../environments/environment';
 interface Scripts {
   name: string;
   src: string;
+  sri?: string;
 }
 
 export const ScriptStore: Scripts[] = [{ name: 'stripe', src: 'https://js.stripe.com/v2/' }];
@@ -19,14 +20,23 @@ export class DynamicScriptLoaderService {
 
   constructor() {
     if (AppConfig.production) {
-      ScriptStore.push({ name: 'stripe-key', src: 'assets/js/stripe-key.js' });
+      ScriptStore.push({
+        name: 'stripe-key',
+        src: 'assets/js/stripe-key.js',
+        sri: 'sha384-JDGkVN7k9z4zrfIU9vxsCnmRQmovcRLzQW5RgRyNwjxtyaQSGYYttwXnqE8HvmtZ',
+      });
     } else {
-      ScriptStore.push({ name: 'stripe-key', src: 'assets/js/stripe-test-key.js' });
+      ScriptStore.push({
+        name: 'stripe-key',
+        src: 'assets/js/stripe-test-key.js',
+        sri: 'sha384-eRbJtkTTlr+WrFY9Rzm8tcQOKkGgqHlk002ZR4S50s4CMM78iNIR/F/Sv38Opr02',
+      });
     }
     ScriptStore.forEach((script: any) => {
       this.scripts[script.name] = {
         loaded: false,
         src: script.src,
+        sri: script.sri,
       };
     });
   }
@@ -40,10 +50,15 @@ export class DynamicScriptLoaderService {
   loadScript(name: string) {
     return new Promise(resolve => {
       if (!this.scripts[name].loaded) {
-        const script = document.createElement('script');
+        const script: HTMLScriptElement = document.createElement('script');
         script.type = 'text/javascript';
         script.src = this.scripts[name].src;
         script.id = name;
+        // Add Subresource Integrity (SRI) if found
+        if (this.scripts[name].sri) {
+          script.integrity = this.scripts[name].sri;
+          script.crossOrigin = 'anonymous';
+        }
 
         script.addEventListener('load', () => {
           this.scripts[name].loaded = true;
