@@ -15,7 +15,7 @@ import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import { of, Subject, Subscription } from 'rxjs';
-import { debounceTime, filter, finalize, pairwise } from 'rxjs/operators';
+import { debounceTime, filter, finalize, pairwise, withLatestFrom } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -433,12 +433,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     /**
-     * Get user's contacts from store.
+     * Get user's contacts from store (contact and mail boxes) .
      */
     this.store
       .select((state: AppState) => state.contacts)
-      .pipe(untilDestroyed(this))
-      .subscribe((contactsState: ContactsState) => {
+      .pipe(untilDestroyed(this), withLatestFrom(this.store.select(state => state.mailboxes)))
+      .subscribe(([contactsState, mailBoxesState]: [ContactsState, MailBoxesState]) => {
         this.contacts = [];
         if (contactsState.emailContacts === undefined) {
           for (const x of contactsState.contacts) {
@@ -457,6 +457,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           }
         }
+        mailBoxesState?.mailboxes?.forEach(m => {
+          this.contacts.push({
+            name: m.display_name,
+            email: m.email,
+            display: EmailFormatPipe.transformToFormattedEmail(m.email, m.display_name),
+          });
+        });
         this.clonedContacts =
           contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
         this.contactsState = contactsState;
