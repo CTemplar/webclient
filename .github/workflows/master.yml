@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-        with:
-          submodules: true
           
       - name: Setup Node.js
         uses: actions/setup-node@v2
