@@ -23,13 +23,13 @@ export class DynamicScriptLoaderService {
       ScriptStore.push({
         name: 'stripe-key',
         src: 'assets/js/stripe-key.js',
-        sri: 'sha384-3ZBePXfjqgenQl/uMO2cCB5c3l8LpWDyz9AnBZb8k3Oh9YRv8OHSCoaGcwsxIF7Y sha384-JDGkVN7k9z4zrfIU9vxsCnmRQmovcRLzQW5RgRyNwjxtyaQSGYYttwXnqE8HvmtZ',
+        sri: 'sha384-aBGfLiD/BctqwvvHykCsbNdXCL0MRjUJKJs2bekbaz7fx8W9aw5gjsYvWrfjkfkY sha384-JDGkVN7k9z4zrfIU9vxsCnmRQmovcRLzQW5RgRyNwjxtyaQSGYYttwXnqE8HvmtZ',
       });
     } else {
       ScriptStore.push({
         name: 'stripe-key',
         src: 'assets/js/stripe-test-key.js',
-        sri: 'sha384-aBGfLiD/BctqwvvHykCsbNdXCL0MRjUJKJs2bekbaz7fx8W9aw5gjsYvWrfjkfkY sha384-eRbJtkTTlr+WrFY9Rzm8tcQOKkGgqHlk002ZR4S50s4CMM78iNIR/F/Sv38Opr02',
+        sri: 'sha384-3ZBePXfjqgenQl/uMO2cCB5c3l8LpWDyz9AnBZb8k3Oh9YRv8OHSCoaGcwsxIF7Y sha384-eRbJtkTTlr+WrFY9Rzm8tcQOKkGgqHlk002ZR4S50s4CMM78iNIR/F/Sv38Opr02',
       });
     }
     ScriptStore.forEach((script: any) => {
