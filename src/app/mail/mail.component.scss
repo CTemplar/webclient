@@ -334,10 +334,10 @@
     line-height: 1.25rem;
     text-align: center;
     opacity: 0;
+    transition: transform 0.4s;
     transition-property: opacity;
     transition-duration: 0.2s;
     transition-timing-function: linear;
-    transition: transform 0.4s;
     a {
       color: #fff;
     }
@@ -388,9 +388,9 @@
   }
 
   > .badge-hover-action {
+    transition: transform 0.4s;
     transition-duration: 0.2s;
     transition-timing-function: linear;
-    transition: transform 0.4s;
   }
 
   .mailbox-sidebar-nav-label {
