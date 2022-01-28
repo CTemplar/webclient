@@ -15,7 +15,7 @@ import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import { of, Subject, Subscription } from 'rxjs';
-import { debounceTime, filter, finalize, pairwise } from 'rxjs/operators';
+import { debounceTime, filter, finalize, pairwise, withLatestFrom } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -59,7 +59,7 @@ import {
   BlackList,
   WhiteList,
 } from '../../../store/datatypes';
-import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType } from '../../../store/models';
+import { Attachment, EncryptionNonCTemplar, Mail, Mailbox, MailFolderType, ReceiversInfo } from '../../../store/models';
 import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } from '../../../store/services';
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
@@ -255,6 +255,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   bccIsPasted = false;
 
+  receiversInfo: ReceiversInfo[] = [];
+
   private isMailSent = false;
 
   private isSavedInDraft = false;
@@ -431,12 +433,12 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     /**
-     * Get user's contacts from store.
+     * Get user's contacts from store (contact and mail boxes) .
      */
     this.store
       .select((state: AppState) => state.contacts)
-      .pipe(untilDestroyed(this))
-      .subscribe((contactsState: ContactsState) => {
+      .pipe(untilDestroyed(this), withLatestFrom(this.store.select(state => state.mailboxes)))
+      .subscribe(([contactsState, mailBoxesState]: [ContactsState, MailBoxesState]) => {
         this.contacts = [];
         if (contactsState.emailContacts === undefined) {
           for (const x of contactsState.contacts) {
@@ -455,6 +457,13 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
             });
           }
         }
+        mailBoxesState?.mailboxes?.forEach(m => {
+          this.contacts.push({
+            name: m.display_name,
+            email: m.email,
+            display: EmailFormatPipe.transformToFormattedEmail(m.email, m.display_name),
+          });
+        });
         this.clonedContacts =
           contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
         this.contactsState = contactsState;
@@ -633,10 +642,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       // replace the plain text quoted mail with the one we saved earlier in htmlQuotedMailContent
       if (this.textModeSwitching && this.htmlQuotedMailContent) {
         this.textModeSwitching = false;
-        let content = this.formatContent(this.mailData.content);
+        let { content } = this.mailData;
         const quoteIndex = content.indexOf('---------- Original Message ----------');
-        content = content.slice(0, quoteIndex);
-        content = `${content}${this.htmlQuotedMailContent}`;
+        const currentContent = this.formatContent(content.slice(0, quoteIndex), true);
+        content = `${currentContent}${this.htmlQuotedMailContent}`;
         editor.setData(content);
       } else {
         editor.setData(this.formatContent(this.mailData.content));
@@ -686,7 +695,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param content
    * @private
    */
-  private formatContent(content: string) {
+  private formatContent(content: string, preserveNewLines = false) {
     if (this.draftMail?.is_html) {
       const allowedTags = new Set([
         'a',
@@ -717,6 +726,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         'i',
         'blockquote',
       ]);
+      if (preserveNewLines) {
+        content = content.replace(/\n|\r|\r\n/g, '<br>'); // preserve newlines as <br>
+      }
       // @ts-ignore
       const xssValue = xss(content, {
         onTag: (tag: string, html: string, options: any) => {
@@ -1423,9 +1435,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       );
       this.mailData.content = this.mailData.content.replace(new RegExp(`${previousSignature}$`), currentSignature);
     } else if (this.selectedMailbox.signature) {
-      this.mailData.content = `${this.mailData.content.trimEnd()}\n\n${this.getPlainText(
+      this.mailData.content = `\n\n${this.getPlainText(
         this.selectedMailbox.signature,
-      )}`;
+      )}${this.mailData.content.trimEnd()}`;
     }
   }
 
@@ -1449,7 +1461,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (this.selectedMailbox && this.selectedMailbox.signature) {
         // add two lines and signature after message content with html format
         newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-        content = `${content}<p>&nbsp;</p>${newSig}`;
+        content = `<p>&nbsp;</p>${newSig}${content}`;
         this.isSignatureAdded = true;
         this.composerEditorInstance?.setData(content);
       }
@@ -1959,6 +1971,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       localReceivers,
       this.usersKeys,
     );
+    this.updateReceiversInfo();
     if (localReceivers.length > 0) {
       for (const rec of localReceivers) {
         const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
@@ -1990,33 +2003,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         // Set Editor style with encryption type
         // If all receiver is based on PGP Inline, Plain Text Editor
         // If PGP Mime or null, Do Nothing
-        const isPGPInline = localReceivers.every(rec => {
-          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
-            const contactInfo: Contact = this.contactsState?.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_INLINE) {
-              return true;
-            }
-          }
-          return false;
-        });
-        const isPGPMime = localReceivers.every(rec => {
-          if (this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching) {
-            const contactInfo: Contact = this.contactsState.contacts.find((contact: Contact) => contact.email === rec);
-            if (contactInfo?.enabled_encryption && contactInfo?.encryption_type === PGPEncryptionType.PGP_MIME) {
-              return true;
-            }
-          }
-          return false;
-        });
-
-        const isMixedContacts = this.isMixedContacts(localReceivers);
+        const pgpEncryptionType = this.getPGPEncryptionMethod();
+        const isMixedContacts = this.isMixedContacts();
         this.isMixedContacts$.next(isMixedContacts);
-        const pgpEncryptionType = isPGPInline
-          ? PGPEncryptionType.PGP_INLINE
-          : isPGPMime
-          ? PGPEncryptionType.PGP_MIME
-          : null;
         this.pgpEncryptionType = isMixedContacts ? null : pgpEncryptionType;
+
+        // if encryption is set to PGP_INLINE or PGP_MIME and we have at least one external with PGP enabled
+        this.draftMail.is_encrypted = this.pgpEncryptionType
+          ? !this.receiversInfo.some(c => c?.isExternal)
+          : !!this.pgpEncryptionType;
+        this.draftMail.encryption_type = this.pgpEncryptionType;
 
         if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail?.is_html) {
           this.setHtmlEditor(false);
@@ -2025,6 +2021,45 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
+  }
+
+  private getPGPEncryptionMethod(): PGPEncryptionType {
+    // PGP_INLINE if,
+    // 1. we have internal contacts + external contacts, or just all external contacts. (TODO: or just all internal contacts)
+    // 2. and all the external contacts have encryption enabled and set to PGP_INLINE.
+    const internalContacts = this.receiversInfo.filter(rec => rec.isInternal);
+    const isPGPInline = this.receiversInfo.every(rec => {
+      if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_INLINE) {
+        return true;
+      }
+      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_INLINE
+      if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
+        return true;
+      }
+      return false;
+    });
+
+    // PGP_MIME if,
+    // 1. we have internal contacts + external contacts, or just all external contacts. (TODO: or just all internal contacts)
+    // 2. and all the external contacts have encryption enabled and set to PGP_MIME.
+    const isPGPMime = this.receiversInfo.every(rec => {
+      if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_MIME) {
+        return true;
+      }
+      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_MIME
+      if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
+        return true;
+      }
+      return false;
+    });
+
+    if (isPGPInline) {
+      return PGPEncryptionType.PGP_INLINE;
+    }
+    if (isPGPMime) {
+      return PGPEncryptionType.PGP_MIME;
+    }
+    return null;
   }
 
   setupMixedContactModal() {
@@ -2043,29 +2078,28 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  isMixedContacts(localReceivers: string[]): boolean {
-    const contacts: any[] = localReceivers.map((rec: string) => {
-      const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
-      const contact = this.contactsState?.contacts?.find(x => x.email === rec);
-      return { keyInfo, contact };
-    });
-
+  isMixedContacts(): boolean {
     // check if all are internal
-    const isAllInternal = contacts.every(c => c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey);
+    const isAllInternal = this.receiversInfo.every(c => c?.isInternal);
     if (isAllInternal) return false;
 
     // check if all are internal + non-encrypted external
-    const isInternal_NonEncExternal = contacts.every(
-      c => (c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey) || !c?.contact?.enabled_encryption,
+    const isInternal_NonEncExternal = this.receiversInfo.every(
+      c => c?.isInternal || (c?.isExternal && !c?.enabled_encryption),
     );
     if (isInternal_NonEncExternal) return false;
 
-    const externalContacts = contacts.filter(c => !(c?.keyInfo?.isExistKey && c?.keyInfo?.isCTemplarKey));
+    const externalContacts = this.receiversInfo.filter(c => c?.isExternal);
+
+    // check if mix of internal and all external are same encryption type
+    const isAllExternalEncSameType =
+      externalContacts.every(c => c?.enabled_encryption && c?.encryption_type === PGPEncryptionType.PGP_INLINE) ||
+      externalContacts.every(c => c?.enabled_encryption && c?.encryption_type === PGPEncryptionType.PGP_MIME);
+    if (isAllExternalEncSameType) return false;
 
     // check if both encrypted external + non-encrypted external are present
     const isEncExternal_NonEncExternal =
-      externalContacts.some(c => c?.contact?.enabled_encryption) &&
-      externalContacts.some(c => !c?.contact?.enabled_encryption);
+      externalContacts.some(c => c?.enabled_encryption) && externalContacts.some(c => !c?.enabled_encryption);
     if (isEncExternal_NonEncExternal) return true;
 
     // check if all external are encrypted and different type
@@ -2075,6 +2109,29 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     if (isAllExternalEncDifferentType) return true;
 
     return false;
+  }
+
+  updateReceiversInfo() {
+    const localReceivers: string[] = [
+      ...this.mailData.receiver.map((receiver: any) => receiver.email),
+      ...this.mailData.cc.map((cc: any) => cc.email),
+      ...this.mailData.bcc.map((bcc: any) => bcc.email),
+    ];
+    this.receiversInfo = localReceivers
+      .filter(rec => this.usersKeys.has(rec) && !this.usersKeys.get(rec).isFetching)
+      .map(rec => {
+        const keyInfo = this.sharedService.parseUserKey(this.usersKeys, rec);
+        const contact = this.contactsState?.contacts?.find(x => x.email === rec);
+        return {
+          localReceiver: rec,
+          isExistKey: keyInfo?.isExistKey,
+          isCTemplarKey: keyInfo?.isCTemplarKey,
+          isInternal: keyInfo?.isExistKey && keyInfo?.isCTemplarKey,
+          isExternal: !(keyInfo?.isExistKey && keyInfo?.isCTemplarKey),
+          enabled_encryption: contact?.enabled_encryption,
+          encryption_type: contact?.encryption_type,
+        };
+      });
   }
 
   // TODO should be moved to template
