@@ -194,12 +194,12 @@
         <table class="table mail-contact">
           <thead class="mail-contact-header border-bottom-0 hidden-xs-down">
             <tr>
-              <th></th>
-              <th></th>
-              <th>
+              <th id="contact-check"></th>
+              <th id="contact-star"></th>
+              <th id="contact-name">
                 <strong>{{ 'common.name' | translate }}</strong>
               </th>
-              <th>
+              <th id="contact-email">
                 <strong>{{ 'common.email' | translate }}</strong>
               </th>
             </tr>
@@ -211,7 +211,7 @@
                 *ngFor="let contact of contactsState.contacts"
                 [class.active-contact]="selectedContact == contact"
               >
-                <td (click)="checkContact(contact)">
+                <td (click)="checkContact(contact)" headers="contact-check">
                   <div class="mail-list-col-item mail-checkbox">
                     <mat-checkbox
                       [(ngModel)]="contact.markForDelete"
@@ -224,7 +224,7 @@
                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                   </div>
                 </td>
-                <td>
+                <td headers="contact-star">
                   <a
                     [ngbTooltip]="
                       contact.starred ? ('mail_list.remove_star' | translate) : ('mail_list.start_message' | translate)
@@ -239,7 +239,7 @@
                     <i class="icon icon-star-filled" [ngClass]="{ 'icon-star': !contact.starred }"></i>
                   </a>
                 </td>
-                <td (click)="editContact(contact, addUserContent)">
+                <td (click)="editContact(contact, addUserContent)" headers="contact-name">
                   <div class="mail-list-col-item mail-from-name cursor-pointer">
                     <span
                       *ngIf="contact.is_encrypted && !contact.name; else contactName"
@@ -252,7 +252,7 @@
                     </ng-template>
                   </div>
                 </td>
-                <td (click)="editContact(contact, addUserContent)">
+                <td (click)="editContact(contact, addUserContent)" headers="contact-email">
                   <div class="mail-contact-col-lg cursor-pointer">
                     <div class="mail-desc">
                       <p>
@@ -283,7 +283,7 @@
                 *ngFor="let contact of contactsState.contacts"
                 [class.active-contact]="selectedContact == contact"
               >
-                <td (click)="checkContact(contact)">
+                <td (click)="checkContact(contact)" headers="contact-check">
                   <div class="mail-list-col-item mail-checkbox">
                     <mat-checkbox
                       [(ngModel)]="contact.markForDelete"
@@ -296,7 +296,7 @@
                     <label [attr.for]="contact.id" class="fancy-field-empty"></label>
                   </div>
                 </td>
-                <td (click)="editContact(contact, addUserContent)">
+                <td (click)="editContact(contact, addUserContent)" headers="contact-name">
                   <div class="mail-list-col-item cursor-pointer">
                     <span
                       *ngIf="contact.is_encrypted && !contact.name; else contactName"
@@ -328,7 +328,7 @@
                     </div>
                   </div>
                 </td>
-                <td>
+                <td headers="contact-star">
                   <a
                     (click)="contact.isDecryptedFrontend && toggleStarred(contact)"
                     [ngClass]="{ 'is-fav': contact.starred }"
