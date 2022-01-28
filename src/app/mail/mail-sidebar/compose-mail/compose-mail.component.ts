@@ -642,10 +642,10 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       // replace the plain text quoted mail with the one we saved earlier in htmlQuotedMailContent
       if (this.textModeSwitching && this.htmlQuotedMailContent) {
         this.textModeSwitching = false;
-        let content = this.formatContent(this.mailData.content);
+        let { content } = this.mailData;
         const quoteIndex = content.indexOf('---------- Original Message ----------');
-        content = content.slice(0, quoteIndex);
-        content = `${content}${this.htmlQuotedMailContent}`;
+        const currentContent = this.formatContent(content.slice(0, quoteIndex), true);
+        content = `${currentContent}${this.htmlQuotedMailContent}`;
         editor.setData(content);
       } else {
         editor.setData(this.formatContent(this.mailData.content));
@@ -695,7 +695,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param content
    * @private
    */
-  private formatContent(content: string) {
+  private formatContent(content: string, preserveNewLines = false) {
     if (this.draftMail?.is_html) {
       const allowedTags = new Set([
         'a',
@@ -726,6 +726,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         'i',
         'blockquote',
       ]);
+      if (preserveNewLines) {
+        content = content.replace(/\n|\r|\r\n/g, '<br>'); // preserve newlines as <br>
+      }
       // @ts-ignore
       const xssValue = xss(content, {
         onTag: (tag: string, html: string, options: any) => {
@@ -1432,9 +1435,9 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       );
       this.mailData.content = this.mailData.content.replace(new RegExp(`${previousSignature}$`), currentSignature);
     } else if (this.selectedMailbox.signature) {
-      this.mailData.content = `${this.mailData.content.trimEnd()}\n\n${this.getPlainText(
+      this.mailData.content = `\n\n${this.getPlainText(
         this.selectedMailbox.signature,
-      )}`;
+      )}${this.mailData.content.trimEnd()}`;
     }
   }
 
@@ -1458,7 +1461,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (this.selectedMailbox && this.selectedMailbox.signature) {
         // add two lines and signature after message content with html format
         newSig = this.selectedMailbox.signature.slice(0, Math.max(0, this.selectedMailbox.signature.length));
-        content = `${content}<p>&nbsp;</p>${newSig}`;
+        content = `<p>&nbsp;</p>${newSig}${content}`;
         this.isSignatureAdded = true;
         this.composerEditorInstance?.setData(content);
       }
