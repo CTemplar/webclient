@@ -2009,9 +2009,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pgpEncryptionType = isMixedContacts ? null : pgpEncryptionType;
 
         // if encryption is set to PGP_INLINE or PGP_MIME and we have at least one external with PGP enabled
-        this.draftMail.is_encrypted = this.pgpEncryptionType
-          ? !this.receiversInfo.some(c => c?.isExternal)
-          : !!this.pgpEncryptionType;
+        this.draftMail.is_encrypted = !(this.pgpEncryptionType || this.receiversInfo.some(c => c?.isExternal));
         this.draftMail.encryption_type = this.pgpEncryptionType;
 
         if (this.pgpEncryptionType === PGPEncryptionType.PGP_INLINE && this.draftMail?.is_html) {
