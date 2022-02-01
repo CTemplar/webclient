@@ -147,6 +147,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
           this.MAX_EMAIL_PAGE_LIMIT = mailState.total_mail_count;
           this.mails = [...mailState.mails].map(mail => {
             mail.mailLink = this.getMailLink(mail);
+            mail.participantsInfo = this.getParticipantsInfo(mail);
             return mail;
           });
           if (this.mails.length > 0) {
@@ -489,6 +490,18 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     return `/mail/${this.mailFolder}/page/${this.PAGE + 1}/message/${mail.id}`;
   }
 
+  // generate the Participants Info to show in the first column of inbox and tooltip
+  getParticipantsInfo(mail: Mail): string {
+    const participants = Object.values(mail?.participants);
+    if (
+      (this.mailFolder === MailFolderType.DRAFT || mail.folder === MailFolderType.DRAFT) &&
+      participants.length === 0
+    ) {
+      return this.translate.instant('mail_sidebar.draft');
+    }
+    return participants?.join(', ');
+  }
+
   openDraftMail(mail: Mail) {
     if (this.mailFolder === MailFolderType.DRAFT && !mail.has_children) {
       this.composeMailService.openComposeMailDialog({
@@ -752,86 +765,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     return !currentFolderMap || !currentFolderMap.mails || currentFolderMap.mails.length === 0;
   }
 
-  /**
-   * @name getMailSenderReceiverInfo
-   * @description Function to get tooltip, receiver, sender info.
-   * @params Mail, isToolTip
-   * @returns {String} The list of email or name for sender, receiver
-   */
-  getMailSenderReceiverInfo(mail: Mail) {
-    let info = '';
-    switch (this.mailFolder) {
-      case this.mailFolderTypes.DRAFT: {
-        info = 'Draft';
-
-        break;
-      }
-      case this.mailFolderTypes.INBOX: {
-        const participantList: any = Object.values(mail.participants);
-        info = participantList.join(',  ');
-
-        break;
-      }
-      case this.mailFolderTypes.SENT:
-      case this.mailFolderTypes.OUTBOX: {
-        info = mail.receiver_list;
-        if (mail.cc_display?.length > 0) {
-          const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-          info = `${info}, ${cc}`;
-        }
-        if (mail.bcc_display?.length > 0) {
-          const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-          info = `${info}, bcc: ${bcc}`;
-        }
-
-        break;
-      }
-      default: {
-        // For Search, All Emails, Custom Folders
-        switch (mail.folder) {
-          case MailFolderType.INBOX:
-            const participantList: any = Object.values(mail.participants);
-            info = participantList.join(',  ');
-            break;
-          case MailFolderType.SENT:
-          case MailFolderType.OUTBOX:
-            info = mail.receiver_list;
-            if (mail.cc_display?.length > 0) {
-              const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-              info = `${info}, ${cc}`;
-            }
-            if (mail.bcc_display?.length > 0) {
-              const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-              info = `${info}, bcc: ${bcc}`;
-            }
-            break;
-
-          case MailFolderType.DRAFT:
-            info = 'Draft';
-            break;
-
-          default:
-            if (mail.send) {
-              info = mail.receiver_list;
-              if (mail.cc_display?.length > 0) {
-                const cc = mail.cc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-                info = `${info}, ${cc}`;
-              }
-              if (mail.bcc_display?.length > 0) {
-                const bcc = mail.bcc_display.map((item: EmailDisplay) => item.name ?? item.email).join(', ');
-                info = `${info}, bcc: ${bcc}`;
-              }
-            } else {
-              const participants: any = Object.values(mail.participants);
-              info = participants.join(',  ');
-            }
-            break;
-        }
-      }
-    }
-
-    return info;
-  }
 
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
@@ -856,7 +789,4 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
       this.isKeyDownShiftBtn = false;
     }
   }
-}
-function value(arg0: ([key, value]: [string, unknown]) => string, value: any) {
-  throw new Error('Function not implemented.');
 }
