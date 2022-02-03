@@ -11,6 +11,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CookieLawModule } from 'angular2-cookie-law';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
+import { PlatformModule } from '@angular/cdk/platform';
 import { AppComponent } from './app.component';
 import { AppStoreModule } from './store/store.module';
 import { FooterModule } from './footer/footer.module';
@@ -70,6 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     UsersModule,
     CookieLawModule,
     CKEditorModule,
+    PlatformModule,
   ],
   providers: [
     AuthGuard,
