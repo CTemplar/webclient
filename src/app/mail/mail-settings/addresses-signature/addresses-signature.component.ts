@@ -7,6 +7,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { ChangeEvent } from '@ckeditor/ckeditor5-angular';
 import { TranslateService } from '@ngx-translate/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import * as DecoupledEditor from '../../../../assets/js/ckeditor-build/ckeditor';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
@@ -399,6 +400,13 @@ export class AddressesSignatureComponent implements OnInit {
     this.mailboxes[index - 1].sort_order = sortOrder;
     this.mailboxes.sort((a, b) => {
       return a.sort_order - b.sort_order;
+    });
+  }
+
+  onAliasDrop(event: CdkDragDrop<Mailbox[]>) {
+    moveItemInArray(this.mailboxes, event.previousIndex, event.currentIndex);
+    this.mailboxes.forEach((folder: Mailbox, index) => {
+      folder.sort_order = index + 1;
     });
   }
 
