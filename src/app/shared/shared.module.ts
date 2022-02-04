@@ -6,6 +6,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { TagInputModule } from 'ngx-chips';
+import { PlatformModule } from '@angular/cdk/platform';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { CreateFolderComponent } from '../mail/dialogs/create-folder/create-folder.component';
 import { PaymentFailureNoticeComponent } from '../mail/dialogs/payment-failure-notice/payment-failure-notice.component';
@@ -38,7 +40,6 @@ import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinner.component';
 import { ThemeToggleService } from './services/theme-toggle-service';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
-import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { KeyManageService } from './services/key-manage.service';
 import { UserSelectManageService } from './services/user-select-manage.service';
 
@@ -57,6 +58,7 @@ const maskConfig: Partial<IConfig> = {
     NgbModule,
     MatCheckboxModule,
     NgxMaskModule.forRoot(maskConfig),
+    PlatformModule,
   ],
   declarations: [
     SpinnerComponent,
