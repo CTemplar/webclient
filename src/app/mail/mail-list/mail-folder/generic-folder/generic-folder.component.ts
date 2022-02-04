@@ -765,7 +765,6 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
     return !currentFolderMap || !currentFolderMap.mails || currentFolderMap.mails.length === 0;
   }
 
-
   @HostListener('window:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     if (event.code === KEY_LEFT_CONTROL) {
