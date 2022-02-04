@@ -382,11 +382,11 @@
                 [ngClass]="{ 'text-dark': mailFolder !== mailFolderTypes.DRAFT }"
               >
                 <label [ngbTooltip]="mail?.participantsInfo" placement="right">
-                  {{mail?.participantsInfo}}
+                  {{ mail?.participantsInfo }}
                 </label>
-                  <span *ngIf="mail.thread_count > 1 && isConversationView" class="email-child-count">
-                    ({{ mail.thread_count }})
-                  </span>
+                <span *ngIf="mail.thread_count > 1 && isConversationView" class="email-child-count">
+                  ({{ mail.thread_count }})
+                </span>
                 <span class="position-relative" *ngIf="mailFolder !== mailFolderTypes.DRAFT">
                   <i
                     *ngIf="mail.last_action_thread"
@@ -576,12 +576,12 @@
                 class="text-danger display-emails"
                 [ngClass]="{ 'text-dark': mailFolder !== mailFolderTypes.DRAFT }"
               >
-                    <label [ngbTooltip]="mail?.participantsInfo" placement="right">
-                      {{mail?.participantsInfo}}
-                    </label>
-                  <span *ngIf="mail.thread_count > 1 && isConversationView" class="email-child-count">
-                    ({{ mail.thread_count }})
-                  </span>
+                <label [ngbTooltip]="mail?.participantsInfo" placement="right">
+                  {{ mail?.participantsInfo }}
+                </label>
+                <span *ngIf="mail.thread_count > 1 && isConversationView" class="email-child-count">
+                  ({{ mail.thread_count }})
+                </span>
                 <i *ngIf="mail.is_verified" class="fa fa-check-circle verified-sender"></i>
               </a>
               <span class="mail-inbox-message d-md-block">
