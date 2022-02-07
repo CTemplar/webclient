@@ -14,6 +14,7 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
+import { scrollIntoView } from '../../shared/util/dom-utils';
 import {
   BlackListDeleteLocal,
   ClearMailDetail,
@@ -1358,7 +1359,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   scrollTo(elementReference: any) {
     if (elementReference) {
       setTimeout(() => {
-        elementReference.scrollIntoView({ behavior: 'smooth' });
+        scrollIntoView(elementReference);
       }, 100);
     }
   }
