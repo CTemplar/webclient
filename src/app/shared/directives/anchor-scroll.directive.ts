@@ -1,5 +1,6 @@
 import { Directive, Input, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { scrollIntoView } from '../util/dom-utils';
 
 @Directive({
   selector: 'a[anchorScroll]',
@@ -15,7 +16,7 @@ export class AnchorScrollDirective implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.route?.snapshot?.fragment === this.fragment) {
       setTimeout(() => {
-        document.querySelector(`#${this.fragment}`)?.scrollIntoView();
+        scrollIntoView(document.querySelector(`#${this.fragment}`));
       });
     }
   }

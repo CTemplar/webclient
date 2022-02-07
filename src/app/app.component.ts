@@ -10,6 +10,7 @@ import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes, QuoteType } from './store/quotes';
 import { FinalLoading } from './store';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
+import { scrollIntoView } from './shared/util/dom-utils';
 
 @UntilDestroy()
 @Component({
@@ -51,7 +52,7 @@ export class AppComponent implements OnInit {
 
     // Listen to changes in fragment and scroll to the target anchor if found
     this.activatedRoute.fragment.pipe(filter(Boolean)).subscribe(fragment => {
-      document.querySelector(`#${fragment}`)?.scrollIntoView();
+      scrollIntoView(document.querySelector(`#${fragment}`));
     });
 
     // this language will be used as a fallback when a translation isn't found in the current language

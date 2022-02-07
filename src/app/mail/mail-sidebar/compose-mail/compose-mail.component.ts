@@ -64,6 +64,7 @@ import { AutocryptProcessService, MailService, SharedService, getCryptoRandom } 
 import { DateTimeUtilService } from '../../../store/services/datetime-util.service';
 import { OpenPgpService } from '../../../store/services/openpgp.service';
 import { MailboxSettingsUpdate } from '../../../store/actions/mail.actions';
+import { scrollIntoView } from '../../../shared/util/dom-utils';
 
 const updatedSizes = SIZES.map(size => {
   return `${size}px`;
@@ -1068,7 +1069,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   uploadAttachment(file: File, isInline = false) {
     if (this.checkAttachmentSizeLimit(file)) {
-      this.attachmentHolder.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      scrollIntoView(this.attachmentHolder.nativeElement);
       const attachment: Attachment = {
         draftId: this.draftId,
         document: file,
