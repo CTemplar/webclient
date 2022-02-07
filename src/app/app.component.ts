@@ -4,14 +4,12 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs/operators';
-import { Platform } from '@angular/cdk/platform';
 
 import { SharedService, getCryptoRandom } from './store/services';
 import { AppState, AuthState, LoadingState } from './store/datatypes';
 import { quotes, QuoteType } from './store/quotes';
 import { FinalLoading } from './store';
 import { PROMO_CODE_KEY, REFFERAL_CODE_KEY, REFFERAL_ID_KEY } from './shared/config';
-import { scrollIntoView } from './shared/util/dom-utils';
 
 @UntilDestroy()
 @Component({
@@ -40,7 +38,6 @@ export class AppComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private store: Store<AppState>,
     private translate: TranslateService,
-    private platform: Platform,
   ) {
     this.store.dispatch(new FinalLoading({ loadingState: true }));
     this.router.events
@@ -54,7 +51,7 @@ export class AppComponent implements OnInit {
 
     // Listen to changes in fragment and scroll to the target anchor if found
     this.activatedRoute.fragment.pipe(filter(Boolean)).subscribe(fragment => {
-      scrollIntoView(fragment, this.platform.FIREFOX, -60);
+      document.querySelector(`#${fragment}`)?.scrollIntoView();
     });
 
     // this language will be used as a fallback when a translation isn't found in the current language
