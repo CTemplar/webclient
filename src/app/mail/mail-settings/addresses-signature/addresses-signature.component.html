@@ -195,7 +195,7 @@
         <div class="col-6">
           <button
             type="button"
-            *ngIf="mailboxes?.length < settings?.email_count"
+            *ngIf="mailboxes?.length < settings?.email_count && !reorder"
             (click)="onAddNewAddress()"
             class="btn btn-sm btn-secondary"
           >
@@ -206,7 +206,7 @@
           <button
             class="btn btn-sm btn-secondary"
             (click)="startReorder()"
-            *ngIf="!reorder && mailboxes?.length > 1"
+            *ngIf="!reorder && mailboxes?.length > 1 && !newAddressOptions.isAddingNew"
             [ngbTooltip]="'settings.reorder_addresses' | translate"
             [translate]="'settings.reorder'"
           >
@@ -357,7 +357,11 @@
             </div>
           </form>
         </li>
-        <li class="ui-list-item ui-list-item-xs-full" *ngFor="let mailbox of mailboxes; let i = index">
+      </ul>
+      <ul cdkDropList [cdkDropListDisabled]="!reorder"
+      (cdkDropListDropped)="onAliasDrop($event)" class="ui-list ui-list-styled list-styled addresses-list">
+        <li cdkDrag cdkDragHandle
+        class="ui-list-item ui-list-item-xs-full" [class.alias-drag-handle]="reorder" *ngFor="let mailbox of mailboxes; let i = index">
           <div class="row row-xs align-items-center">
             <div class="col-10 col-sm-8">
               <div class="form-label text-dark mb-0">
@@ -371,24 +375,6 @@
               </div>
             </div>
             <div class="col-2 col-sm-4 row">
-              <!-- Reorder Action - Sort Up, Sort Down -->
-              <div class="col" align="right" *ngIf="reorder">
-                <i
-                  class="fas fa-chevron-up cursor-pointer mr-2"
-                  [class.hidden]="i === 0"
-                  [ngbTooltip]="'settings.move_up' | translate"
-                  (click)="sortUp(i)"
-                >
-                </i>
-                <i
-                  class="fas fa-chevron-down cursor-pointer"
-                  [class.hidden]="i === mailboxes.length - 1"
-                  [ngbTooltip]="'settings.move_down' | translate"
-                  (click)="sortDown(i)"
-                >
-                </i>
-              </div>
-              <!-- Reorder Action - Sort Up, Sort Down -->
               <ul
                 *ngIf="!reorder && !mailbox.inProgress"
                 class="col setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
