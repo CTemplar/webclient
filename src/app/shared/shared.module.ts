@@ -35,6 +35,7 @@ import { StripeFormComponent } from './components/stripe-form/stripe-form.compon
 import { BitcoinFormComponent } from './components/bitcoin-form/bitcoin-form.component';
 import { LastActionPipe } from './pipes/last-action.pipe';
 import { CreditCardNumberPipe } from './pipes/creditcard-number.pipe';
+import { FixOutlookQuotesPipe } from './pipes/fix-outlook-quotes.pipe';
 import { EmailFormatPipe } from './pipes/email-formatting.pipe';
 import { LineBreakToBrTag } from './pipes/replace-linebreak-brtag.pipe';
 import { CircleBarSpinnerComponent } from './circle-bar-spinner/circle-bar-spinner.component';
@@ -83,6 +84,7 @@ const maskConfig: Partial<IConfig> = {
     PaymentFailureNoticeComponent,
     LastActionPipe,
     CreditCardNumberPipe,
+    FixOutlookQuotesPipe,
     LineBreakToBrTag,
     EmailFormatPipe,
     CircleBarSpinnerComponent,
@@ -107,6 +109,7 @@ const maskConfig: Partial<IConfig> = {
     RemainingTimePipe,
     MomentDatePipe,
     CreditCardNumberPipe,
+    FixOutlookQuotesPipe,
     // Components
     SpinnerComponent,
     LineBreakToBrTag,
