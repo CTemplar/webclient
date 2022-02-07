@@ -358,10 +358,19 @@
           </form>
         </li>
       </ul>
-      <ul cdkDropList [cdkDropListDisabled]="!reorder"
-      (cdkDropListDropped)="onAliasDrop($event)" class="ui-list ui-list-styled list-styled addresses-list">
-        <li cdkDrag cdkDragHandle
-        class="ui-list-item ui-list-item-xs-full" [class.alias-drag-handle]="reorder" *ngFor="let mailbox of mailboxes; let i = index">
+      <ul
+        cdkDropList
+        [cdkDropListDisabled]="!reorder"
+        (cdkDropListDropped)="onAliasDrop($event)"
+        class="ui-list ui-list-styled list-styled addresses-list"
+      >
+        <li
+          cdkDrag
+          cdkDragHandle
+          class="ui-list-item ui-list-item-xs-full"
+          [class.alias-drag-handle]="reorder"
+          *ngFor="let mailbox of mailboxes; let i = index"
+        >
           <div class="row row-xs align-items-center">
             <div class="col-10 col-sm-8">
               <div class="form-label text-dark mb-0">
