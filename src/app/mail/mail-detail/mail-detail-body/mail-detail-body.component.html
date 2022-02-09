@@ -116,7 +116,7 @@
           <div *ngIf="plainTextViewState; then plainBlock; else htmlBlock"></div>
           <ng-template #htmlBlock>
             <div
-              class="msg-reply-content text-dark"
+              class="msg-reply-content"
               [style.white-space]="isDecryptingError ? 'break-spaces' : ''"
               id="{{ mail?.id }}-raw-mail-content"
               [innerHTML]="
@@ -128,7 +128,7 @@
           </ng-template>
           <ng-template #plainBlock>
             <div
-              class="msg-reply-content text-dark"
+              class="msg-reply-content"
               id="{{ mail?.id }}-raw-mail-content"
               [innerHTML]="decryptedContentsPlain | linebreaktobrtag | safe: 'sanitize':disableExternalImages"
               [ngStyle]="{ 'font-family': plainTextFont ? plainTextFont : 'monospace' }"
