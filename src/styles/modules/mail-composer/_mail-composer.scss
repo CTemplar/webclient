@@ -357,7 +357,7 @@ a {
 }
 
 .mail-compose-editable-box {
-  background: var(--bg-color-mail-content);
+  background: var(--bg-white);
 
   &[contenteditable]:focus {
     outline: 0;
@@ -370,8 +370,7 @@ a {
   .ql-editor {
     min-height: 385.867px;
     line-height: inherit;
-    color: var(--text-color-mail-content);
-    background: var(--bg-color-mail-content);
+    color: var(--text-color-black-white);
 
     blockquote,
     .blockquote {
@@ -865,8 +864,7 @@ a {
 
 .ck-content {
   font-size: 14px;
-  color: var(--text-color-mail-content);
-  background: var(--bg-color-mail-content);
+  color: var(--text-color-black-white);
   p {
     margin-bottom: 0;
   }
