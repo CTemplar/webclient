@@ -16,7 +16,7 @@ export const quotes = [
     content: 'Safeguard the helpless',
     author: "- Templar's honor code -",
   },
-  {
+a  {
     content: 'Do no wrong.',
     author: "- Templar's honor code -",
   },
@@ -253,10 +253,6 @@ export const quotes = [
   {
     content: 'Blind belief in authority is the greatest enemy of truth.',
     author: '- Albert Einstein -',
-  },
-  {
-    content: "People can tell you to keep your mouth shut, but that doesn't stop you from having your own opinion.",
-    author: '- Anne Frank -',
   },
   {
     content: 'Few are those who see with their own eyes and feel with their own hearts.',
