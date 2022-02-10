@@ -56,6 +56,7 @@ import {
   DEFAULT_FONT_SIZE,
 } from '../../shared/config';
 import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
+import { scrollIntoView } from '../../shared/util/dom-utils';
 
 @UntilDestroy()
 @Component({
@@ -489,7 +490,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   scroll(element: HTMLElement) {
-    element.scrollIntoView({ behavior: 'smooth' });
+    scrollIntoView(element);
   }
 
   testNotification() {

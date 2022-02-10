@@ -31,7 +31,7 @@
         *ngIf="!sortedWithAlphabetic && folders?.length > 1"
         [ngbTooltip]="'settings.sort_with_alphabetic' | translate"
       >
-        <em class="fas fa-long-arrow-alt-down cursor-pointer"></em>
+        <em class="fas fa-sort-alpha-down cursor-pointer"></em>
       </button>
       <button
         class="sort-alphabetic-btn btn btn-sm float-right"
@@ -39,21 +39,19 @@
         *ngIf="sortedWithAlphabetic && folders?.length > 1"
         [ngbTooltip]="'settings.sort_with_analphabetic' | translate"
       >
-        <em class="fas fa-long-arrow-alt-up cursor-pointer"></em>
+        <em class="fas fa-sort-alpha-up cursor-pointer"></em>
       </button>
       <app-loading-spinner class="float-right" [showSpinner]="reorderInProgress && !reorder"></app-loading-spinner>
       <ng-container *ngTemplateOutlet="reorderButtons"></ng-container>
       <ul
         cdkDropList
+        [cdkDropListDisabled]="!reorder"
         class="ui-list ui-list-styled list-styled folders-list"
         (cdkDropListDropped)="onFolderDrop($event)"
       >
         <li *ngFor="let folder of folders; let i = index" class="ui-list-item ui-list-item-xs-full" cdkDrag>
-          <div class="row row-xs align-items-center folder-item">
+          <div cdkDragHandle [class.folder-drag-handle]="reorder" class="row row-xs align-items-center folder-item">
             <div class="col-10 col-sm-8 show-ellipses">
-              <div class="drag-drop-handle" cdkDragHandle *ngIf="reorder">
-                <i class="fas fa-arrows-alt-v"></i>
-              </div>
               <span class="mr-2">
                 <i class="folder-color-box icon" [style.background]="folder.color"></i>
               </span>
@@ -74,43 +72,6 @@
                 </span>
                 <ng-template #zeroConversation><span [translate]="'common.empty'">empty</span></ng-template> )
               </span>
-            </div>
-            <div class="col-2 col-sm-4">
-              <div align="right" *ngIf="reorder">
-                <i
-                  class="fas fa-chevron-up cursor-pointer mr-2"
-                  [class.hidden]="i === 0"
-                  [ngbTooltip]="'settings.move_up' | translate"
-                  (click)="sortUp(i)"
-                >
-                </i>
-                <i
-                  class="fas fa-chevron-down cursor-pointer"
-                  [class.hidden]="i === folders.length - 1"
-                  [ngbTooltip]="'settings.move_down' | translate"
-                  (click)="sortDown(i)"
-                >
-                </i>
-              </div>
-              <ul
-                *ngIf="!reorder"
-                class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
-              >
-                <li>
-                  <a role="button" (click)="addFolder(folder, true)" [ngbTooltip]="'settings.edit_folder' | translate">
-                    <i class="icon icon-edit"></i>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    role="button"
-                    (click)="showConfirmationModal(folder)"
-                    [ngbTooltip]="'settings.delete_folder' | translate"
-                  >
-                    <i class="icon icon-garbage"></i>
-                  </a>
-                </li>
-              </ul>
             </div>
           </div>
         </li>

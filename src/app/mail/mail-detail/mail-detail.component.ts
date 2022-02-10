@@ -14,6 +14,8 @@ import { PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
+import { scrollIntoView } from '../../shared/util/dom-utils';
+import { intersection, difference } from '../../shared/util/utils';
 import {
   BlackListDeleteLocal,
   ClearMailDetail,
@@ -952,6 +954,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     const newMail: Mail = {
       content: '',
     };
+    let cc: string[] = [];
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
     this.composeMailData[mail.id] = {
       subject: `Re: ${mail.subject}`,
@@ -979,6 +982,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
           ...mail.children[mail.children.length - 1].cc,
           ...mail.children[mail.children.length - 1].bcc,
         ]);
+        cc = [...mail.children[mail.children.length - 1].cc];
       } else {
         for (let childIndex = mail.children.length; childIndex > 0; childIndex -= 1) {
           if (
@@ -992,12 +996,14 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               ...mail.children[childIndex - 1].cc,
               ...mail.children[childIndex - 1].bcc,
             ]);
+            cc = [...mail.children[childIndex - 1].cc];
             break;
           }
         }
       }
     } else {
       newReceivers = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
+      cc = [...mail.cc];
     }
 
     // Set drafts's mailbox from the list of available mailboxes
@@ -1007,7 +1013,10 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       : this.mailboxes.find(mailbox => newReceivers.has(mailbox.email));
     this.composeMailData[mail.id].selectedMailbox = selectedMailbox;
     newReceivers.delete(selectedMailbox?.email);
-    newMail.receiver = newReceivers ? [...newReceivers] : [];
+
+    const newReceiversArray = newReceivers ? [...newReceivers] : [];
+    newMail.cc = intersection(newReceiversArray, cc);
+    newMail.receiver = difference(newReceiversArray, cc);
     newMail.mailbox = selectedMailbox?.id;
 
     this.selectedMailToInclude = mail;
@@ -1358,7 +1367,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
   scrollTo(elementReference: any) {
     if (elementReference) {
       setTimeout(() => {
-        elementReference.scrollIntoView({ behavior: 'smooth' });
+        scrollIntoView(elementReference);
       }, 100);
     }
   }

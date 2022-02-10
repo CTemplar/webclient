@@ -155,6 +155,7 @@ export const LANGUAGES: Language[] = [
   { name: 'French', locale: 'fr' },
   { name: 'German', locale: 'de' },
   { name: 'Italian', locale: 'it' },
+  { name: 'Japanese', locale: 'ja' },
   { name: 'Polish', locale: 'pl' },
   { name: 'Portuguese', locale: 'pt' },
   { name: 'Romanian', locale: 'ro' },

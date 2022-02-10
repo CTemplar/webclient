@@ -59,8 +59,10 @@ export interface Mail {
   email_display_name_map?: any;
   sign?: string;
   participants?: any;
+
   mailLink?: string; // set in UI for generating the mail's deep-link
   htmlQuotedMailContent?: string; // the initial quoted mails in HTML format
+  participantsInfo?: string; // set in UI for generating the mail's sender/receiver info
 }
 
 export class EncryptionNonCTemplar {
