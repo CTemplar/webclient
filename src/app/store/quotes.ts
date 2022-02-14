@@ -16,7 +16,7 @@ export const quotes = [
     content: 'Safeguard the helpless',
     author: "- Templar's honor code -",
   },
-a  {
+  {
     content: 'Do no wrong.',
     author: "- Templar's honor code -",
   },
