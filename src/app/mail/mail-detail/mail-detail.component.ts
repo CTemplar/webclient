@@ -1462,7 +1462,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       `To: ${toHeaderString}</br>`;
 
     if (mail.cc.length > 0) {
-      content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
+      const ccContent =
+        mail.cc_display?.length > 0
+          ? mail.cc_display
+              .map(cc =>
+                xss.escapeHtml(
+                  EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name, true, mail.is_html !== false),
+                ),
+              )
+              .join(', ')
+          : mail.cc.join(', ');
+      content += `CC: ${ccContent}</br>`;
     }
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
     content = SafePipe.sanitizeEmail(content, this.disableExternalImages);
