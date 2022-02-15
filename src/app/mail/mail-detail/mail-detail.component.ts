@@ -1443,11 +1443,13 @@ export class MailDetailComponent implements OnInit, OnDestroy {
         : mail.receiver.join(', ');
     let content =
       `</br>---------- Forwarded message ----------</br>` +
-      `From: ${EmailFormatPipe.transformToFormattedEmail(
-        mail.sender_display.email,
-        xss.escapeHtml(mail.sender_display.name),
-        true,
-        mail.is_html !== false,
+      `From: ${xss.escapeHtml(
+        EmailFormatPipe.transformToFormattedEmail(
+          mail.sender_display.email,
+          xss.escapeHtml(mail.sender_display.name),
+          true,
+          mail.is_html !== false,
+        ),
       )}</br>` +
       `Date: ${
         mail.sent_at
