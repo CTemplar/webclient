@@ -1437,7 +1437,9 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       mail.receiver_display?.length > 0
         ? mail.receiver_display
             .map(receiver =>
-              EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true, mail.is_html !== false),
+              xss.escapeHtml(
+                EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true, mail.is_html !== false),
+              ),
             )
             .join(', ')
         : mail.receiver.join(', ');
