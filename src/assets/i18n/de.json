@@ -334,6 +334,7 @@
       "contains": "enthält",
       "not_contains": "enthält nicht",
       "starts_with": "beginnt mit",
+      "startswith": "beginnt mit",
       "not_startswith": "beginnt nich tmit",
       "endswith": "endet mit",
       "not_endswith": "endet nicht mit",

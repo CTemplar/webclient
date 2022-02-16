@@ -334,6 +334,7 @@
       "contains": "içeriyorsa",
       "not_contains": "içermiyorsa",
       "starts_with": "ile başlıyorsa",
+      "startswith": "ile başlıyorsa",
       "not_startswith": "ile başlamıyorsa",
       "endswith": "bu şekilde bitiyorsa",
       "not_endswith": "bu şekilde bitmiyorsa",
