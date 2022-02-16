@@ -171,6 +171,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
   _htmlQuotedMailContent: string;
 
+  analyzeUsersKeysWithContact$ = new Subject<boolean>();
+
   public set htmlQuotedMailContent(value: string) {
     if (!this._htmlQuotedMailContent) {
       // store the initial HTML quoted mails
@@ -391,7 +393,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.draft = draft;
         this.usersKeys = response.usersKeys;
-        this.analyzeUsersKeysWithContact();
+        this.analyzeUsersKeysWithContact$.next(true);
         const receivers = this.draftMail?.receiver;
         if (receivers && receivers.length > 0) {
           const receiversToFetchKey = receivers
@@ -468,7 +470,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         this.clonedContacts =
           contactsState.emailContacts === undefined ? contactsState.contacts : contactsState.emailContacts;
         this.contactsState = contactsState;
-        this.analyzeUsersKeysWithContact();
+        this.analyzeUsersKeysWithContact$.next(true);
         this.loadEmailContacts();
       });
 
@@ -510,7 +512,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           this.selectedMailbox = mailBoxesState.currentMailbox;
         }
         this.mailBoxesState = mailBoxesState;
-        this.analyzeUsersKeysWithContact();
+        this.analyzeUsersKeysWithContact$.next(true);
       });
 
     /**
@@ -535,6 +537,11 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
       });
+
+    // debounce the calls to analyzeUsersKeysWithContact to avoid switch between PGP_INLINE and PGP_MIME
+    this.analyzeUsersKeysWithContact$.pipe(debounceTime(500)).subscribe(() => {
+      this.analyzeUsersKeysWithContact();
+    });
 
     const now = new Date();
     this.datePickerMinDate = {
@@ -838,7 +845,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
     }
     this.isSelfDestructionEnable();
-    this.analyzeUsersKeysWithContact();
+    this.analyzeUsersKeysWithContact$.next(true);
   }
 
   validateEmail(email: string) {
@@ -854,19 +861,19 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   onTagEdited($event: any) {
     this.mailData.receiver[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
-    this.analyzeUsersKeysWithContact();
+    this.analyzeUsersKeysWithContact$.next(true);
   }
 
   ccOnTagEdited($event: any) {
     this.mailData.cc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
-    this.analyzeUsersKeysWithContact();
+    this.analyzeUsersKeysWithContact$.next(true);
   }
 
   bccOnTagEdited($event: any) {
     this.mailData.bcc[$event.index] = { display: $event.display, value: $event.value, email: $event.value };
     this.isSelfDestructionEnable();
-    this.analyzeUsersKeysWithContact();
+    this.analyzeUsersKeysWithContact$.next(true);
   }
   /**
    * End Tag editing
@@ -1022,7 +1029,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSignatureAdded = false;
     this.updateSignature();
     this.valueChanged$.next(this.selectedMailbox);
-    this.analyzeUsersKeysWithContact();
+    this.analyzeUsersKeysWithContact$.next(true);
   }
 
   onImagesSelected(files: FileList) {
@@ -1951,7 +1958,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       );
     }
     this.valueChanged$.next(data);
-    this.analyzeUsersKeysWithContact();
+    this.analyzeUsersKeysWithContact$.next(true);
     this.isSelfDestructionEnable();
   }
 
