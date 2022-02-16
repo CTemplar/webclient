@@ -174,7 +174,7 @@
                       role="button"
                       [disabled]="!condition.parameter"
                     >
-                      {{ condition.condition_text }}
+                      {{  condition.condition ? (('settings.filters.' + condition.condition) | translate) : '' }}
                     </button>
                     <div ngbDropdownMenu aria-labelledby="filterConditionDropdownMenuBtn-{{ i }}">
                       <a (click)="onSelectAdvancedCondition(filterCondition.CONTAINS, i)" class="dropdown-item">
