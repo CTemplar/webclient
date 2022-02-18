@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ImportPrivateKeyComponent } from './import-private-key.component';
 
@@ -6,7 +6,7 @@ describe('ImportPrivateKeyComponent', () => {
   let component: ImportPrivateKeyComponent;
   let fixture: ComponentFixture<ImportPrivateKeyComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ImportPrivateKeyComponent],
     }).compileComponents();

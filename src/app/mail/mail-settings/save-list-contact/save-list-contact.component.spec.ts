@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SaveListContactComponent } from './save-list-contact.component';
 
@@ -6,7 +6,7 @@ describe('SaveListContactComponent', () => {
   let component: SaveListContactComponent;
   let fixture: ComponentFixture<SaveListContactComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SaveListContactComponent],
     }).compileComponents();
