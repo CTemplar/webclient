@@ -334,6 +334,7 @@
       "contains": "含む",
       "not_contains": "含まない",
       "starts_with": "～で始まる",
+      "startswith": "～で始まる",
       "not_startswith": "～で始まらない",
       "endswith": "～で終わる",
       "not_endswith": "～で終わらない",

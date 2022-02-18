@@ -1437,17 +1437,21 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       mail.receiver_display?.length > 0
         ? mail.receiver_display
             .map(receiver =>
-              EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true, mail.is_html !== false),
+              xss.escapeHtml(
+                EmailFormatPipe.transformToFormattedEmail(receiver.email, receiver.name, true, mail.is_html !== false),
+              ),
             )
             .join(', ')
         : mail.receiver.join(', ');
     let content =
       `</br>---------- Forwarded message ----------</br>` +
-      `From: ${EmailFormatPipe.transformToFormattedEmail(
-        mail.sender_display.email,
-        xss.escapeHtml(mail.sender_display.name),
-        true,
-        mail.is_html !== false,
+      `From: ${xss.escapeHtml(
+        EmailFormatPipe.transformToFormattedEmail(
+          mail.sender_display.email,
+          xss.escapeHtml(mail.sender_display.name),
+          true,
+          mail.is_html !== false,
+        ),
       )}</br>` +
       `Date: ${
         mail.sent_at
@@ -1458,7 +1462,17 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       `To: ${toHeaderString}</br>`;
 
     if (mail.cc.length > 0) {
-      content += `CC: ${mail.cc.map(cc => `< ${cc} >`).join(', ')}</br>`;
+      const ccContent =
+        mail.cc_display?.length > 0
+          ? mail.cc_display
+              .map(cc =>
+                xss.escapeHtml(
+                  EmailFormatPipe.transformToFormattedEmail(cc.email, cc.name, true, mail.is_html !== false),
+                ),
+              )
+              .join(', ')
+          : mail.cc.join(', ');
+      content += `CC: ${ccContent}</br>`;
     }
     content += `</br>${this.decryptedContents[mail.id]}</br>`;
     content = SafePipe.sanitizeEmail(content, this.disableExternalImages);

@@ -114,7 +114,7 @@ export class SafePipe implements PipeTransform {
         return this.sanitizer.bypassSecurityTrustUrl(value);
       case 'sanitize':
         // Move style from style tag to inline style
-        value = juice(value);
+        value = juice(value, { preserveFontFaces: false, preserveMediaQueries: false });
         // Sanitize Mail
         value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
@@ -365,7 +365,7 @@ export class SafePipe implements PipeTransform {
    * @returns sanitized content
    */
   static sanitizeEmail(value: string, disableExternalImages: boolean) {
-    value = juice(value);
+    value = juice(value, { preserveFontFaces: false, preserveMediaQueries: false });
     // Sanitize Mail
     value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
     return value;
