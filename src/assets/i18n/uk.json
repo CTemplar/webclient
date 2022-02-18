@@ -334,6 +334,7 @@
       "contains": "Contains",
       "not_contains": "Does Not Contain",
       "starts_with": "починається з",
+      "startswith": "починається з",
       "not_startswith": "Does Not Starts With",
       "endswith": "Ends With",
       "not_endswith": "Does Not Ends With",
