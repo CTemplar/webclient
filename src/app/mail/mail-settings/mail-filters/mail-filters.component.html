@@ -19,8 +19,19 @@
         <span [translate]="'settings.set_priority'">Set Priority</span>
       </button>
       <ng-container *ngTemplateOutlet="setPriorityButtons"></ng-container>
-      <ul cdkDropList [cdkDropListDisabled]="!inSetPriority" class="ui-list ui-list-styled list-styled" (cdkDropListDropped)="onFilterDrop($event)">
-        <li *ngFor="let filter of filters; let i = index" class="ui-list-item ui-list-item-xs-full" [class.filter-drag-handle]="inSetPriority" cdkDrag cdkDragHandle>
+      <ul
+        cdkDropList
+        [cdkDropListDisabled]="!inSetPriority"
+        class="ui-list ui-list-styled list-styled"
+        (cdkDropListDropped)="onFilterDrop($event)"
+      >
+        <li
+          *ngFor="let filter of filters; let i = index"
+          class="ui-list-item ui-list-item-xs-full"
+          [class.filter-drag-handle]="inSetPriority"
+          cdkDrag
+          cdkDragHandle
+        >
           <div class="row row-xs align-items-center filter-item">
             <div class="col-10 col-sm-8 show-ellipses">
               <span>
@@ -174,7 +185,7 @@
                       role="button"
                       [disabled]="!condition.parameter"
                     >
-                      {{  condition.condition ? (('settings.filters.' + condition.condition) | translate) : '' }}
+                      {{ condition.condition ? ('settings.filters.' + condition.condition | translate) : '' }}
                     </button>
                     <div ngbDropdownMenu aria-labelledby="filterConditionDropdownMenuBtn-{{ i }}">
                       <a (click)="onSelectAdvancedCondition(filterCondition.CONTAINS, i)" class="dropdown-item">
