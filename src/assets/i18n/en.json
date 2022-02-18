@@ -334,6 +334,7 @@
       "contains": "contains",
       "not_contains": "doesn't contain",
       "starts_with": "starts with",
+      "startswith": "starts with",
       "not_startswith": "doesn't start with",
       "endswith": "ends with",
       "not_endswith": "doesn't end with",

@@ -665,6 +665,7 @@ export class GenericFolderComponent implements OnInit, AfterViewInit {
         this.advancedSearchQuery.size = parameters.size;
         this.advancedSearchQuery.size_operator = parameters.size_operator;
         this.advancedSearchQuery.exact = parameters.exact;
+        this.advancedSearchQuery.have_attachment = parameters.have_attachment;
         this.store.dispatch(
           new GetMails({
             forceReload: true,

@@ -255,10 +255,6 @@ export const quotes = [
     author: '- Albert Einstein -',
   },
   {
-    content: "People can tell you to keep your mouth shut, but that doesn't stop you from having your own opinion.",
-    author: '- Anne Frank -',
-  },
-  {
     content: 'Few are those who see with their own eyes and feel with their own hearts.',
     author: '- Albert Einstein -',
   },
