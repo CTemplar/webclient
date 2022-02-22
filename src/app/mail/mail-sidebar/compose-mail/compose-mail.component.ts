@@ -520,7 +520,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
 
     combineLatest(
       this.store.select((state: AppState) => state.mailboxes),
-      this.store.select((state: AppState) => state.user)
+      this.store.select((state: AppState) => state.user),
     )
       .pipe(untilDestroyed(this))
       .subscribe(([mailBoxesState, userState]: [MailBoxesState, UserState]) => {
