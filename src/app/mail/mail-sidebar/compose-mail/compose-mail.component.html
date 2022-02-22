@@ -597,12 +597,12 @@
                   </button>
                   <button
                     class="dropdown-item dropdown-menu-item dropdown-menu-item-attach"
-                    (click)="onClickAttachPublicKey(!selectedMailbox?.is_attach_public_key)"
+                    (click)="onClickAttachPublicKey(!isAttachPublicKey)"
                   >
                     <div class="row-item">
                       <div class="check-box">
                         <i
-                          *ngIf="selectedMailbox?.is_attach_public_key"
+                          *ngIf="isAttachPublicKey"
                           class="fa fa-check text-black-50 ng-star-inserted"
                         ></i>
                       </div>
