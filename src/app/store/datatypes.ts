@@ -314,6 +314,8 @@ export class Settings {
   universal_spam_filter?: string;
 
   theme?: string;
+
+  attach_public_key?: boolean;
 }
 
 export interface Invoice {
