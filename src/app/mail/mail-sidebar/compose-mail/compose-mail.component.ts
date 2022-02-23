@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
 import { of, Subject, Subscription } from 'rxjs';
 import { debounceTime, filter, finalize, pairwise, withLatestFrom } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -239,6 +240,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   showEncryptFormErrors: boolean;
 
   isTrialPrimeFeaturesAvailable = false;
+
+  isAttachPublicKey = false;
 
   mailBoxesState: MailBoxesState;
 
@@ -513,6 +516,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.mailBoxesState = mailBoxesState;
         this.analyzeUsersKeysWithContact$.next(true);
+      });
+
+    combineLatest(
+      this.store.select((state: AppState) => state.mailboxes),
+      this.store.select((state: AppState) => state.user),
+    )
+      .pipe(untilDestroyed(this))
+      .subscribe(([mailBoxesState, userState]: [MailBoxesState, UserState]) => {
+        this.isAttachPublicKey =
+          userState?.settings?.attach_public_key && mailBoxesState?.currentMailbox?.is_attach_public_key;
       });
 
     /**
@@ -1025,6 +1038,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.selectedMailbox = mailbox;
+    this.isAttachPublicKey = this.userState?.settings?.attach_public_key && this.selectedMailbox?.is_attach_public_key;
     this.oldMailbox = oldMailbox;
     this.isSignatureAdded = false;
     this.updateSignature();
@@ -1303,22 +1317,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // Attach public key if needed
-    const publicKeyFileName = `publickey-${this.selectedMailbox.email}.asc`;
-    if (
-      !this.selectedMailbox.is_pgp_sign &&
-      this.selectedMailbox.is_attach_public_key &&
-      !this.attachments.some(a => a.name === publicKeyFileName)
-    ) {
-      const publicKeyFile = new File([this.selectedMailbox.public_key], publicKeyFileName);
-      this.isProcessingAttachments = true;
-      this.uploadAttachment(publicKeyFile, false);
-
-      setTimeout(() => {
-        this.isPreparingToSendEmail = false;
-        this.sendEmailCheck();
-      }, 500);
-      return;
-    }
+    this.draftMail.attach_public_key = this.isAttachPublicKey;
 
     if (
       receivers.some(
@@ -2149,10 +2148,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onClickAttachPublicKey(isEnabled: boolean) {
-    if (this.selectedMailbox) {
-      this.selectedMailbox.is_attach_public_key = isEnabled;
-      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailbox));
-    }
+    this.isAttachPublicKey = isEnabled;
   }
 
   onClickSignMessage(isEnabled: boolean) {
