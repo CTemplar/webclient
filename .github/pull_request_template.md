@@ -1,1 +1,1 @@
-Fixes task (link or #num): 
+Fixes task (link or #num):
