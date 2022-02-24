@@ -2033,30 +2033,34 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // 1. we have internal contacts + external contacts, or just all external contacts. (TODO: or just all internal contacts)
     // 2. and all the external contacts have encryption enabled and set to PGP_INLINE.
     const internalContacts = this.receiversInfo.filter(rec => rec.isInternal);
-    const isPGPInline = this.receiversInfo.every(rec => {
-      if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_INLINE) {
-        return true;
-      }
-      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_INLINE
-      if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
-        return true;
-      }
-      return false;
-    });
+    const isPGPInline =
+      this.receiversInfo.length > 0 &&
+      this.receiversInfo.every(rec => {
+        if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_INLINE) {
+          return true;
+        }
+        // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_INLINE
+        if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
+          return true;
+        }
+        return false;
+      });
 
     // PGP_MIME if,
     // 1. we have internal contacts + external contacts, or just all external contacts. (TODO: or just all internal contacts)
     // 2. and all the external contacts have encryption enabled and set to PGP_MIME.
-    const isPGPMime = this.receiversInfo.every(rec => {
-      if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_MIME) {
-        return true;
-      }
-      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_MIME
-      if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
-        return true;
-      }
-      return false;
-    });
+    const isPGPMime =
+      this.receiversInfo.length > 0 &&
+      this.receiversInfo.every(rec => {
+        if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_MIME) {
+          return true;
+        }
+        // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_MIME
+        if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
+          return true;
+        }
+        return false;
+      });
 
     if (isPGPInline) {
       return PGPEncryptionType.PGP_INLINE;
