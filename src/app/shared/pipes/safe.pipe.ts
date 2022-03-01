@@ -103,6 +103,14 @@ export class SafePipe implements PipeTransform {
     pre: ['style', 'class'],
   };
 
+  static juiceConfig = {
+    preserveFontFaces: false,
+    preserveImportant: false,
+    preserveMediaQueries: false,
+    preserveKeyFrames: false,
+    preservePseudos: false,
+  };
+
   constructor(private sanitizer: DomSanitizer) {}
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -114,7 +122,7 @@ export class SafePipe implements PipeTransform {
         return this.sanitizer.bypassSecurityTrustUrl(value);
       case 'sanitize':
         // Move style from style tag to inline style
-        value = juice(value, { preserveFontFaces: false, preserveMediaQueries: false });
+        value = juice(value, SafePipe.juiceConfig);
         // Sanitize Mail
         value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
         return this.sanitizer.bypassSecurityTrustHtml(value);
@@ -365,7 +373,7 @@ export class SafePipe implements PipeTransform {
    * @returns sanitized content
    */
   static sanitizeEmail(value: string, disableExternalImages: boolean) {
-    value = juice(value, { preserveFontFaces: false, preserveMediaQueries: false });
+    value = juice(value, SafePipe.juiceConfig);
     // Sanitize Mail
     value = SafePipe.processSanitizationForEmail(value, disableExternalImages);
     return value;
