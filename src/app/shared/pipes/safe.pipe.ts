@@ -139,7 +139,7 @@ export class SafePipe implements PipeTransform {
     return xss(value, {
       whiteList: SafePipe.allowedTags,
       stripIgnoreTag: true,
-      stripIgnoreTagBody: ['script', 'style'],
+      stripIgnoreTagBody: ['script', 'style', 'head'],
       onTag: (tag: string, html: string, options: any) => {
         if (!options.isWhite) return;
         if (!(options && options.isClosing === true)) {
@@ -251,7 +251,7 @@ export class SafePipe implements PipeTransform {
     value = xss(value, {
       whiteList: SafePipe.allowedTags,
       stripIgnoreTag: true,
-      stripIgnoreTagBody: ['script', 'style'],
+      stripIgnoreTagBody: ['script', 'style', 'head'],
       // eslint-disable-next-line consistent-return
       onIgnoreTagAttr: (tag: string, name: string, attribute: string) => {
         if (name !== 'class') {
@@ -282,7 +282,7 @@ export class SafePipe implements PipeTransform {
     value = xss(value, {
       whiteList: SafePipe.allowedTags,
       stripIgnoreTag: true,
-      stripIgnoreTagBody: ['script', 'style'],
+      stripIgnoreTagBody: ['script', 'style', 'head'],
       // eslint-disable-next-line consistent-return
       onIgnoreTagAttr: (tag: string, name: string, attribute: string) => {
         if (name !== 'class') {
