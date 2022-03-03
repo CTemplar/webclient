@@ -861,7 +861,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: '',
     };
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
-    const allRecipients = new Set([...mail.receiver, mail.sender, mail.cc, mail.bcc]);
+    const allRecipients = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
     let parentId = this.mail.id;
     if (!this.isConversationView && this.mail.parent) {
       parentId = this.mail.parent;
