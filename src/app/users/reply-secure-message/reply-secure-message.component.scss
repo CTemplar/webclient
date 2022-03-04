@@ -179,6 +179,10 @@
   line-height: 1.71;
 }
 
+.typo-actions-dropdown-menu {
+  overflow: visible;
+}
+
 // == Typo dropdown
 .typo-actions-dropdown-menu.left {
   left: -5.25rem !important;
@@ -205,6 +209,10 @@
       }
     }
   }
+}
+
+.mail-comopser-typo-actions-holder {
+  padding: 0;
 }
 
 @include media('<=sm') {
