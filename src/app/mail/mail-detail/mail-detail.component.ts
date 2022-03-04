@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { PRIMARY_WEBSITE } from '../../shared/config';
+import { KEY_LEFT_CONTROL, KEY_RIGHT_CONTROL, PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
@@ -54,8 +54,10 @@ import {
   MessageDecryptService,
   OpenPgpService,
   SharedService,
+  PrintMailService,
+  ComposeMailService,
+  DateTimeUtilService,
 } from '../../store/services';
-import { ComposeMailService, DateTimeUtilService } from '../../store/services';
 import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
@@ -190,6 +192,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private shouldChangeMail = 0;
 
+  private isKeyDownCtrlBtn = false;
+
   /**
    * @var isShowTrashRelatedChildren
    * @description
@@ -233,6 +237,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private mailService: MailService,
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
+    private printMailService: PrintMailService,
     private translate: TranslateService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
@@ -1559,5 +1564,21 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new ClearMailDetail(this.mail || {}));
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_RIGHT_CONTROL || event.metaKey) {
+      this.isKeyDownCtrlBtn = false;
+    } else if (event.code === 'KeyP' && this.isKeyDownCtrlBtn && this.electronService.isElectron) {
+      this.printMailService.printAllMailsOnElectron(this.mail, this.decryptedContents);
+    }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_RIGHT_CONTROL || event.metaKey) {
+      this.isKeyDownCtrlBtn = true;
+    }
   }
 }
