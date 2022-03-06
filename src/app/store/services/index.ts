@@ -16,3 +16,4 @@ export * from './export-mail.service';
 export * from './compose-mail.service';
 export * from './timezone.service';
 export * from './datetime-util.service';
+export * from './print-mail.service';
