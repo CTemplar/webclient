@@ -239,4 +239,5 @@ export const passwordRegex = new RegExp(
 
 // Keys
 export const KEY_LEFT_CONTROL = 'ControlLeft';
+export const KEY_RIGHT_CONTROL = 'ControlRight';
 export const KEY_SHIFT = 'ShiftLeft';
