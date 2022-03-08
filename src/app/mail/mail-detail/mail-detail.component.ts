@@ -1088,7 +1088,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     this.composeMailService.openComposeMailDialog({
       draft: { ...this.currentForwardingNewEmail },
-      action: MailAction.REPLY_ALL,
+      action: MailAction.FORWARD,
       isFullScreen: this.userState.settings.is_composer_full_screen,
     });
   }
