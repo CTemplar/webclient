@@ -745,6 +745,7 @@
   .mobiledOptionsDropdown {
     padding: 0.75rem 0.938rem;
     background: var(--brand-faded);
+    overflow: visible;
     &.dropdown-menu {
       margin-top: 1px;
       right: 0;
@@ -756,7 +757,7 @@
     }
 
     .dropdown-menu {
-      top: 42px !important;
+      top: 1rem !important;
       left: -67px !important;
     }
   }
