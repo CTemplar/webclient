@@ -197,6 +197,10 @@ export class UsersService {
     return this.userKey || localStorage.getItem('user_key');
   }
 
+  shouldRemember(): string {
+    return localStorage.getItem(REMEMBER_ME);
+  }
+
   getNecessaryTokenUrl(url: string) {
     url = url.replace(apiUrl, '');
     const authenticatedUrls: string[] = [
