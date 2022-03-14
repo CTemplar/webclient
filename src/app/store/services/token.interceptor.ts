@@ -17,6 +17,7 @@ import {
   StopGettingUnreadMailsCount,
   SetAuthenticatedState,
   ClearMailsOnLogout,
+  RefreshToken,
 } from '../actions';
 import { AppState, AuthState } from '../datatypes';
 import { apiUrl } from '../../shared/config';
@@ -32,7 +33,12 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private isAuthenticated = false;
 
-  constructor(private injector: Injector, private store: Store<AppState>, private websocketService: WebsocketService) {
+  constructor(
+    private injector: Injector,
+    private store: Store<AppState>,
+    private websocketService: WebsocketService,
+    private usersService: UsersService,
+  ) {
     this.store
       .select(state => state.auth)
       .pipe()
@@ -65,12 +71,15 @@ export class TokenInterceptor implements HttpInterceptor {
         }
       }),
       catchError((error: any) => {
+        const { status, url } = error;
         if (error instanceof HttpErrorResponse) {
-          if (error.status === 401 && !error.url.includes('auth/sign-out')) {
+          if (status === 401 && this.usersService.shouldRemember() && !url.includes('auth/refresh')) {
+            this.store.dispatch(new RefreshToken());
+          } else if (status === 401 && !url.includes('auth/sign-out')) {
             this.websocketService.disconnect();
             this.store.dispatch(new ClearMailsOnLogout());
             this.store.dispatch(new Logout({ session_expired: true }));
-          } else if (error.status === 423) {
+          } else if (status === 423) {
             this.store.dispatch(new StopGettingUnreadMailsCount());
             this.store.dispatch(new PaymentFailure());
           }

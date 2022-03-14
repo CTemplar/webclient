@@ -1843,6 +1843,9 @@ readers do not read off random characters that represent icons */
 .#{$fa-css-prefix}-reddit:before {
   content: fa-content($fa-var-reddit);
 }
+.#{$fa-css-prefix}-mastodon:before {
+  content: fa-content($fa-var-mastodon);
+}
 .#{$fa-css-prefix}-reddit-alien:before {
   content: fa-content($fa-var-reddit-alien);
 }
