@@ -1,5 +1,0 @@
-{
-  "hooks": {
-    "pre-commit": "tsc && ./node_modules/.bin/lint-staged"
-  }
-}
