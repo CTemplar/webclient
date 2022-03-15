@@ -1790,13 +1790,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.checkInlineAttachments();
     if (!shouldSend) {
       this.draftMail.folder = this.draftMail.folder ? this.draftMail.folder : MailFolderType.DRAFT;
+      const { htmlQuotedMailContent, ...draftToSend } = this.draftMail;
       this.store.dispatch(
         new UpdateLocalDraft({
           ...this.draft,
           isMailDetailPage: this.isMailDetailPage,
           shouldSave,
           shouldSend,
-          draft: { ...this.draftMail },
+          draft: draftToSend,
         }),
       );
     } else {
