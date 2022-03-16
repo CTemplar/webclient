@@ -316,6 +316,8 @@ export class Settings {
   theme?: string;
 
   attach_public_key?: boolean;
+
+  enable_mass_mailing?: boolean;
 }
 
 export interface Invoice {

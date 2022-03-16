@@ -411,6 +411,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.updateSettings('auto_read', auto_read_mode);
   }
 
+  updateEnableMassMailing(enable_mass_mailing: boolean) {
+    this.updateSettings('enable_mass_mailing', enable_mass_mailing);
+  }
+
   /**
    * convert m:s format to milliseconds and update settings
    */
