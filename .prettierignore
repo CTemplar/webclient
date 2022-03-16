@@ -2,3 +2,9 @@
 src/assets/static/pgp-worker.js
 src/assets/js/ckeditor-build/ckeditor.js
 src/assets/js/ckeditor-build/ckeditor.js.map
+package-lock.json
+yarn.lock
+node_modules
+node_modules/*
+e2e/*
+dist/*
