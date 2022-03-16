@@ -110,6 +110,7 @@
     "compose_font": "Carattere di composizione predefinito",
     "compose_color": "Colore di composizione predefinito",
     "compose_background": "Sfondo di composizione predefinito",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "Dimensione di composizione predefinito",
     "compose_autosave_duration": "Intervallo di salvattagio di composizione",
     "ask_local_cache": "Ask to use local cache",
