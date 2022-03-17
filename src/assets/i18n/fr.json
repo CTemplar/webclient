@@ -110,6 +110,7 @@
     "compose_font": "Police d’écriture par défaut",
     "compose_color": "Default composing color",
     "compose_background": "Default composing background",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Composing autosave interval",
     "ask_local_cache": "Ask to use local cache",

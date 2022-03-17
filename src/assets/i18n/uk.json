@@ -110,6 +110,7 @@
     "compose_font": "Шрифт за замовчуванням для створення листів",
     "compose_color": "Default composing color",
     "compose_background": "Default composing background",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Тривалість автозбереження при створенні листа",
     "ask_local_cache": "Ask to use local cache",
