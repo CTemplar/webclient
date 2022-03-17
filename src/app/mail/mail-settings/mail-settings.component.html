@@ -743,6 +743,43 @@
                   </div>
                 </div>
               </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.receive_newsletter'">Receive Ctemplar newsletter</label>
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="enableMassMailing1"
+                            name="[enableMassMailing]"
+                            type="radio"
+                            (click)="updateEnableMassMailing(true)"
+                            [checked]="settings.enable_mass_mailing"
+                          />
+                          <label for="enableMassMailing1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="enableMassMailing2"
+                            name="[enableMassMailing]"
+                            type="radio"
+                            (click)="updateEnableMassMailing(false)"
+                            [checked]="!settings.enable_mass_mailing"
+                          />
+                          <label for="enableMassMailing2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -110,6 +110,7 @@
     "compose_font": "Varsayılan yazı tipi",
     "compose_color": "Varsayılan yazı rengi",
     "compose_background": "Varsayılan arka plan",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "Varsayılan yazı boyutu",
     "compose_autosave_duration": "Otomatik kaydetme aralığı oluştur",
     "ask_local_cache": "Yerel önbelleği kullanmayı isye",
