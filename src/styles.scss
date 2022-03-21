@@ -789,3 +789,10 @@ button.ctemplar-blockquote-toggle ~ * {
   -ms-user-select: none;
   user-select: none;
 }
+.theme-dark {
+  .show_gmail_extra * {
+    color: #fff !important;
+    background: 0 0 !important;
+    border: transparent !important
+  }
+}
