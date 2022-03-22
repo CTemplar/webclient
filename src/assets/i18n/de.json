@@ -110,6 +110,7 @@
     "compose_font": "Standardschriftart für Mails",
     "compose_color": "Standardschriffarbe für Mails",
     "compose_background": "Standardhintergrund für Mails",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "Standardschriftgröße für Mails",
     "compose_autosave_duration": "Zeitspanne für Auto-Speicherung der Mails",
     "ask_local_cache": "Anfrage zur Verwendung des lokalen Cache",

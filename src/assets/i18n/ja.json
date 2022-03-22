@@ -110,6 +110,7 @@
     "compose_font": "新規メール作成画面のフォント",
     "compose_color": "新規メール作成画面の文字色",
     "compose_background": "新規メール作成画面の背景",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "新規メール作成画面の文字サイズ",
     "compose_autosave_duration": "新規メール作成画面の自動保存間隔",
     "ask_local_cache": "ローカルキャッシュを使用するよう要求する",

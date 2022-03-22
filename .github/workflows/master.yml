@@ -69,6 +69,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
           
       - name: Setup Node.js
         uses: actions/setup-node@v2

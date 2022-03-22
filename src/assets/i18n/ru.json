@@ -110,6 +110,7 @@
     "compose_font": "Шрифт по умолчанию для создания писем",
     "compose_color": "Default composing color",
     "compose_background": "Default composing background",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Продолжительность автосохранения при создании письма ",
     "ask_local_cache": "Ask to use local cache",

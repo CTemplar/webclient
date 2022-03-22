@@ -110,6 +110,7 @@
     "compose_font": "Tipo de letra predefinido para compor emails",
     "compose_color": "Default composing color",
     "compose_background": "Default composing background",
+    "receive_newsletter": "Receive Ctemplar newsletter",
     "compose_size": "Default composing size",
     "compose_autosave_duration": "Duração do guardar automático enquanto compõe um email",
     "ask_local_cache": "Ask to use local cache",

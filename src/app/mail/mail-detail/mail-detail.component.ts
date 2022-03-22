@@ -31,7 +31,6 @@ import {
   SnackErrorPush,
   StarMail,
   WebSocketState,
-  WhiteListAdd,
 } from '../../store';
 import {
   AppState,
@@ -882,7 +881,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       : this.mailboxes.find(mailbox => allRecipients.has(mailbox.email));
     newMail.mailbox = selectedMailbox?.id;
     newMail.is_html = mail.is_html;
-    if (mail.reply_to && mail.reply_to.length > 0) {
+    if (mail.reply_to && mail.reply_to.length > 0 && !mail?.children?.length) {
       newMail.receiver = mail.reply_to;
     } else {
       let newReceivers: Set<string>;
@@ -911,6 +910,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.mailFolder !== MailFolderType.DRAFT &&
               mail.children[childIndex - 1].folder === MailFolderType.DRAFT
             ) {
+              // eslint-disable-next-line no-continue
               continue;
             }
             if (

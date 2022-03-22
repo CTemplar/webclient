@@ -12,6 +12,7 @@ test.ts
 protractor.conf.js
 patch-webpack.js
 electron-main.js
+package.json
 
 # spec
 **/*.spec.ts
