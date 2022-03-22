@@ -548,8 +548,8 @@ export class UsersService {
     return this.http.post<any>(`${apiUrl}users/contact-key-bulk-update/`, { contact_key_list: data });
   }
 
-  sendFeedback(data: { message: string; feedback_type: FeedbackType }) {
-    return this.http.post<any>(`${apiUrl}feedback/`, data);
+  sendFeedback(message: string, feedback_type: FeedbackType) {
+    return this.http.post<any>(`${apiUrl}feedback/`, { message, feedback_type });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

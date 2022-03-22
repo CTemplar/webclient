@@ -245,6 +245,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.deleteAccountInfoForm = this.formBuilder.group({
       contact_email: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       password: ['', [Validators.required]],
+      feedback: '',
     });
     this.route.params.subscribe(parameters => {
       if (parameters.id !== 'undefined') {
@@ -461,10 +462,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.deleteAccountOptions.showErrors = true;
     if (this.deleteAccountInfoForm.valid) {
       this.deleteAccountInfoModalRef.dismiss();
-      this.confirmDeleteAccountModalRef = this.modalService.open(this.confirmDeleteAccountModal, {
-        centered: true,
-        windowClass: 'modal-sm',
-      });
+      this.confirmDeleteAccount();
     }
   }
 
@@ -482,7 +480,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       username: this.userState.username,
     };
     this.store.dispatch(new DeleteAccount(data));
-    this.confirmDeleteAccountModalRef.dismiss();
   }
 
   requestNotificationPermission() {
