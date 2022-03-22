@@ -311,6 +311,7 @@
     "delete_account": "Supprimer mon compte",
     "delete_account_perm": "SUPPRIMER MON COMPTE DEFINITIVEMENT",
     "delete_account_guide": "Si vous supprimez définitivement votre compte, toutes vos données seront perdues. Dans 2 mois, le nom d’utilisateur sera à nouveau disponible pour un nouvel utilisateur.",
+    "delete_account_feedback_label": "We are sorry to let you go. Please take a moment and tell us (anonymously) the reasons you have decided to leave us.",
     "current_password": "Votre mot de passe actuel",
     "password_req": "Votre mot de passe actuel est requis.",
     "provide_email": "Indiquer une adresse mail au cas où nous aurions besoin de vous contacter.",
