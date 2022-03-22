@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of, EMPTY } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { UsersService } from '../services';
 import {
@@ -200,24 +200,29 @@ export class AuthEffects {
       if (payload.plan_type === PlanType.FREE) {
         payload = { plan_type: PlanType.FREE };
       }
-      return this.authService.upgradeAccount(payload).pipe(
-        switchMap(response => {
-          if (payload.plan_type === PlanType.FREE) {
-            this.openFeedbackDialog(FeedbackType.STOP_AUTO_RENEWAL);
-          }
-          return of(
-            new UpgradeAccountSuccess(response),
-            new AccountDetailsGet(),
-            new GetInvoices(),
-            new GetMailboxes(),
+      const feedback$ =
+        payload.plan_type === PlanType.FREE
+          ? this.openFeedbackDialog(FeedbackType.STOP_AUTO_RENEWAL).dismissed
+          : of({});
+      return feedback$.pipe(
+        switchMap(() => {
+          return this.authService.upgradeAccount(payload).pipe(
+            switchMap(response => {
+              return of(
+                new UpgradeAccountSuccess(response),
+                new AccountDetailsGet(),
+                new GetInvoices(),
+                new GetMailboxes(),
+              );
+            }),
+            catchError(error =>
+              of(
+                new UpgradeAccountFailure(error.error),
+                new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' }),
+              ),
+            ),
           );
         }),
-        catchError(error =>
-          of(
-            new UpgradeAccountFailure(error.error),
-            new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' }),
-          ),
-        ),
       );
     }),
   );
@@ -376,7 +381,7 @@ export class AuthEffects {
     }),
   );
 
-  private openFeedbackDialog(feedbackType: FeedbackType) {
+  private openFeedbackDialog(feedbackType: FeedbackType): NgbModalRef {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
@@ -385,5 +390,6 @@ export class AuthEffects {
     };
     const modalReference = this.modalService.open(SendFeedbackDialogComponent, ngbModalOptions);
     modalReference.componentInstance.feedbackType = feedbackType;
+    return modalReference;
   }
 }

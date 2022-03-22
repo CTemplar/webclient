@@ -9,25 +9,18 @@
 <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
   <div class="modal-body bg-faded">
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
-      <div class="form-group" [translate]="'settings.feedback_desc'">
-        Will you take a moment of your time to jot down some feedback about CTemplar?
+      <div class="form-group" [translate]="'settings.stop_renewal_feedback_label'">
+        Are you sure to disable the membership auto-renewal? If so, please take a moment and tell us (anonymously) the reasons of your decision to help us improve.
       </div>
       <div class="bottom-view">
         <div class="mb-3">
           <textarea
             class="form-control form-control-sm resize-off"
             id="contactAddress"
-            name="feedback"
-            formControlName="feedback"
+            name="message"
+            formControlName="message"
             rows="3"
           ></textarea>
-          <span
-            *ngIf="feedbackForm.controls['feedback'].errors?.required && showFormError"
-            class="validate-message"
-            [translate]="'settings.input_feedback'"
-          >
-            Please input your feedback
-          </span>
         </div>
         <div class="form-group text-right mb-0">
           <button
