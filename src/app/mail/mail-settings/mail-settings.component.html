@@ -266,7 +266,7 @@
                                       name="recurringBilling"
                                       type="radio"
                                       [disabled]="isLifeTimePrime"
-                                      (click)="updateSettings('recurrence_billing', false)"
+                                      (click)="getFeedbackAndUpdateBilling(false)"
                                       [checked]="!settings.recurrence_billing || isLifeTimePrime"
                                     />
                                     <label for="disableRecurringBilling" [translate]="'common.no'">No</label>
