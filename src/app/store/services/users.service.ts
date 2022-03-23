@@ -115,13 +115,8 @@ export class UsersService {
   }
 
   signOut() {
-    localStorage.removeItem('token_expiration');
-    localStorage.removeItem('user_key');
-    localStorage.removeItem('ctemplar_mail');
-    sessionStorage.removeItem('ctemplar_mail');
-    localStorage.removeItem(PROMO_CODE_KEY);
-    localStorage.removeItem(REMEMBER_ME);
-    localStorage.removeItem(NOT_FIRST_LOGIN);
+    this.userKey = null;
+    localStorage.clear();
     this.router.navigateByUrl('/signin');
   }
 
