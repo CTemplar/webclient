@@ -311,6 +311,7 @@
     "delete_account": "アカウントの削除",
     "delete_account_perm": "アカウントを永久に削除する",
     "delete_account_guide": "アカウントを永久に削除した場合、メールボックスのデータはすべて失われます。ユーザー名は、削除から12ヶ月後に他のユーザーが使用できる状態になります。",
+    "delete_account_feedback_label": "We are sorry to let you go. Please take a moment and tell us (anonymously) the reasons you have decided to leave us.",
     "current_password": "現在のパスワード",
     "password_req": "現在のパスワードは必須です。",
     "provide_email": "連絡が必要になる場合がありますので、メールアドレスをご登録ください。",

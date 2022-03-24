@@ -266,7 +266,7 @@
                                       name="recurringBilling"
                                       type="radio"
                                       [disabled]="isLifeTimePrime"
-                                      (click)="updateSettings('recurrence_billing', false)"
+                                      (click)="getFeedbackAndUpdateBilling(false)"
                                       [checked]="!settings.recurrence_billing || isLifeTimePrime"
                                     />
                                     <label for="disableRecurringBilling" [translate]="'common.no'">No</label>
@@ -1804,6 +1804,20 @@
                   Your current password is required.
                 </span>
               </span>
+            </div>
+            <div class="form-group form-group-sm">
+              <label for="deleteAccountFeedback" [translate]="'settings.delete_account_feedback_label'"
+              class="d-block text-muted text-left">We are sorry to let you go. Please take a moment and tell us (anonymously) the reasons you have decided to leave us.</label>
+              <textarea
+                class="form-control text-dark resize-off"
+                id="deleteAccountFeedback"
+                autocomplete="off"
+                [placeholder]="'settings.feedback' | translate"
+                type="text"
+                name="deleteAccountFeedback"
+                formControlName="feedback"
+                rows="4"
+              ></textarea>
             </div>
           </div>
         </div>

@@ -1,6 +1,12 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbDropdownConfig, NgbModal, NgbModalRef, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownConfig,
+  NgbModal,
+  NgbModalOptions,
+  NgbModalRef,
+  NgbNavChangeEvent,
+} from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as moment from 'moment-timezone';
@@ -38,6 +44,7 @@ import {
   TimezonesState,
   UserState,
   CardState,
+  FeedbackType,
 } from '../../store/datatypes';
 import { OpenPgpService, SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
@@ -57,6 +64,7 @@ import {
 } from '../../shared/config';
 import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 import { scrollIntoView } from '../../shared/util/dom-utils';
+import { SendFeedbackDialogComponent } from '../../users/dialogs/send-feedback-dialog/send-feedback-dialog.component';
 
 @UntilDestroy()
 @Component({
@@ -245,6 +253,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.deleteAccountInfoForm = this.formBuilder.group({
       contact_email: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
       password: ['', [Validators.required]],
+      feedback: '',
     });
     this.route.params.subscribe(parameters => {
       if (parameters.id !== 'undefined') {
@@ -415,6 +424,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.updateSettings('enable_mass_mailing', enable_mass_mailing);
   }
 
+  getFeedbackAndUpdateBilling(recurrence_billing: boolean) {
+    const feedback$ = this.openFeedbackDialog(FeedbackType.STOP_AUTO_RENEWAL).dismissed;
+    feedback$.subscribe(() => {
+      this.updateSettings('recurrence_billing', recurrence_billing);
+    });
+  }
+
   /**
    * convert m:s format to milliseconds and update settings
    */
@@ -461,10 +477,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     this.deleteAccountOptions.showErrors = true;
     if (this.deleteAccountInfoForm.valid) {
       this.deleteAccountInfoModalRef.dismiss();
-      this.confirmDeleteAccountModalRef = this.modalService.open(this.confirmDeleteAccountModal, {
-        centered: true,
-        windowClass: 'modal-sm',
-      });
+      this.confirmDeleteAccount();
     }
   }
 
@@ -482,7 +495,6 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       username: this.userState.username,
     };
     this.store.dispatch(new DeleteAccount(data));
-    this.confirmDeleteAccountModalRef.dismiss();
   }
 
   requestNotificationPermission() {
@@ -711,5 +723,17 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
     } else {
       this.updateSettings('is_night_mode', isDarkMode);
     }
+  }
+
+  private openFeedbackDialog(feedbackType: FeedbackType): NgbModalRef {
+    const ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      centered: true,
+      windowClass: 'modal-sm users-action-modal',
+    };
+    const modalReference = this.modalService.open(SendFeedbackDialogComponent, ngbModalOptions);
+    modalReference.componentInstance.feedbackType = feedbackType;
+    return modalReference;
   }
 }

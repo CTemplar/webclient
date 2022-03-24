@@ -828,10 +828,10 @@ export class UsersEffects {
   SendFeedback: Observable<any> = this.actions.pipe(
     ofType(UsersActionTypes.SEND_FEEDBACK),
     map((action: SendFeedback) => action.payload),
-    switchMap(payload => {
-      return this.userService.sendFeedback(payload).pipe(
+    switchMap(({ message, feedback_type }) => {
+      return this.userService.sendFeedback(message, feedback_type).pipe(
         switchMap(() => of(new SnackPush({ message: 'Thank you for your feedback' }))),
-        catchError(() => of(new SnackPush({ message: 'Thank you for your feedback' }))),
+        catchError(() => of(new SnackPush({ message: 'Failed to submit feedback' }))),
       );
     }),
   );
