@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle */
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -14,7 +16,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
-import { of, Subject, Subscription } from 'rxjs';
+import { of, Subject, Subscription, combineLatest } from 'rxjs';
 import { debounceTime, filter, finalize, pairwise, withLatestFrom } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
@@ -239,6 +241,8 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   showEncryptFormErrors: boolean;
 
   isTrialPrimeFeaturesAvailable = false;
+
+  isAttachPublicKey = false;
 
   mailBoxesState: MailBoxesState;
 
@@ -513,6 +517,16 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.mailBoxesState = mailBoxesState;
         this.analyzeUsersKeysWithContact$.next(true);
+      });
+
+    combineLatest(
+      this.store.select((state: AppState) => state.mailboxes),
+      this.store.select((state: AppState) => state.user),
+    )
+      .pipe(untilDestroyed(this))
+      .subscribe(([mailBoxesState, userState]: [MailBoxesState, UserState]) => {
+        this.isAttachPublicKey =
+          userState?.settings?.attach_public_key && mailBoxesState?.currentMailbox?.is_attach_public_key;
       });
 
     /**
@@ -1025,6 +1039,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.selectedMailbox = mailbox;
+    this.isAttachPublicKey = this.userState?.settings?.attach_public_key && this.selectedMailbox?.is_attach_public_key;
     this.oldMailbox = oldMailbox;
     this.isSignatureAdded = false;
     this.updateSignature();
@@ -1303,22 +1318,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     // Attach public key if needed
-    const publicKeyFileName = `publickey-${this.selectedMailbox.email}.asc`;
-    if (
-      !this.selectedMailbox.is_pgp_sign &&
-      this.selectedMailbox.is_attach_public_key &&
-      !this.attachments.some(a => a.name === publicKeyFileName)
-    ) {
-      const publicKeyFile = new File([this.selectedMailbox.public_key], publicKeyFileName);
-      this.isProcessingAttachments = true;
-      this.uploadAttachment(publicKeyFile, false);
-
-      setTimeout(() => {
-        this.isPreparingToSendEmail = false;
-        this.sendEmailCheck();
-      }, 500);
-      return;
-    }
+    this.draftMail.attach_public_key = this.isAttachPublicKey;
 
     if (
       receivers.some(
@@ -1791,13 +1791,14 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.checkInlineAttachments();
     if (!shouldSend) {
       this.draftMail.folder = this.draftMail.folder ? this.draftMail.folder : MailFolderType.DRAFT;
+      const { htmlQuotedMailContent, ...draftToSend } = this.draftMail;
       this.store.dispatch(
         new UpdateLocalDraft({
           ...this.draft,
           isMailDetailPage: this.isMailDetailPage,
           shouldSave,
           shouldSend,
-          draft: { ...this.draftMail },
+          draft: draftToSend,
         }),
       );
     } else {
@@ -2034,30 +2035,34 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // 1. we have internal contacts + external contacts, or just all external contacts. (TODO: or just all internal contacts)
     // 2. and all the external contacts have encryption enabled and set to PGP_INLINE.
     const internalContacts = this.receiversInfo.filter(rec => rec.isInternal);
-    const isPGPInline = this.receiversInfo.every(rec => {
-      if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_INLINE) {
-        return true;
-      }
-      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_INLINE
-      if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
-        return true;
-      }
-      return false;
-    });
+    const isPGPInline =
+      this.receiversInfo.length > 0 &&
+      this.receiversInfo.every(rec => {
+        if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_INLINE) {
+          return true;
+        }
+        // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_INLINE
+        if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
+          return true;
+        }
+        return false;
+      });
 
     // PGP_MIME if,
     // 1. we have internal contacts + external contacts, or just all external contacts. (TODO: or just all internal contacts)
     // 2. and all the external contacts have encryption enabled and set to PGP_MIME.
-    const isPGPMime = this.receiversInfo.every(rec => {
-      if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_MIME) {
-        return true;
-      }
-      // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_MIME
-      if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
-        return true;
-      }
-      return false;
-    });
+    const isPGPMime =
+      this.receiversInfo.length > 0 &&
+      this.receiversInfo.every(rec => {
+        if (rec?.enabled_encryption && rec?.encryption_type === PGPEncryptionType.PGP_MIME) {
+          return true;
+        }
+        // not all receivers are internal and the contact without encryption from above block is internal, then go ahead with PGP_MIME
+        if (internalContacts.length !== this.receiversInfo.length && rec.isInternal) {
+          return true;
+        }
+        return false;
+      });
 
     if (isPGPInline) {
       return PGPEncryptionType.PGP_INLINE;
@@ -2111,7 +2116,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // check if all external are encrypted and different type
     const isAllExternalEncDifferentType =
       externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_INLINE) &&
-      externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_MIME); //TODO verify logic for PGP_MIME
+      externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_MIME); // TODO verify logic for PGP_MIME
     if (isAllExternalEncDifferentType) return true;
 
     return false;
@@ -2149,10 +2154,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onClickAttachPublicKey(isEnabled: boolean) {
-    if (this.selectedMailbox) {
-      this.selectedMailbox.is_attach_public_key = isEnabled;
-      this.store.dispatch(new MailboxSettingsUpdate(this.selectedMailbox));
-    }
+    this.isAttachPublicKey = isEnabled;
   }
 
   onClickSignMessage(isEnabled: boolean) {

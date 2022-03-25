@@ -234,9 +234,10 @@ export const CKEDITOR_TOOLBAR_ITEMS = [
 ];
 
 export const passwordRegex = new RegExp(
-  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[*.!@$%^&(){}[\\\]:;<>«»,.?\/~_+\-=| ]).{8,}$', // prettier-ignore
+  '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[*.!@$%^&(){}[\\]:;<>«»,.?/~_+-=| ]).{8,}$', // prettier-ignore
 );
 
 // Keys
 export const KEY_LEFT_CONTROL = 'ControlLeft';
+export const KEY_RIGHT_CONTROL = 'ControlRight';
 export const KEY_SHIFT = 'ShiftLeft';

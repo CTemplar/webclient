@@ -2,7 +2,7 @@
 name: Bug report
 about: Report here if you found something isn't working as expected.
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 ---
 
@@ -10,15 +10,11 @@ assignees: ''
 
 Include, at least, your web browser version and the operative system.
 
-### Steps to reproduce
+### Picture, video or steps to reproduce
 
 1. Tell us how to reproduce this issue, step by step.
 2. You can include media content like images or videos.
 
-### Expected behavior
+### Explanation
 
-Tell us what should happen.
-
-### Actual behavior
-
-Tell us what happens instead.
+Tell us any extra details.

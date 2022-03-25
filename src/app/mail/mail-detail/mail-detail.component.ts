@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { PRIMARY_WEBSITE } from '../../shared/config';
+import { KEY_LEFT_CONTROL, KEY_RIGHT_CONTROL, PRIMARY_WEBSITE } from '../../shared/config';
 import { FilenamePipe } from '../../shared/pipes/filename.pipe';
 import { EmailFormatPipe } from '../../shared/pipes/email-formatting.pipe';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
@@ -31,7 +31,6 @@ import {
   SnackErrorPush,
   StarMail,
   WebSocketState,
-  WhiteListAdd,
 } from '../../store';
 import {
   AppState,
@@ -54,8 +53,10 @@ import {
   MessageDecryptService,
   OpenPgpService,
   SharedService,
+  PrintMailService,
+  ComposeMailService,
+  DateTimeUtilService,
 } from '../../store/services';
-import { ComposeMailService, DateTimeUtilService } from '../../store/services';
 import { UserSelectManageService } from '../../shared/services/user-select-manage.service';
 
 declare let Scrambler: (argument0: { target: string; random: number[]; speed: number; text: string }) => void;
@@ -190,6 +191,8 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   private shouldChangeMail = 0;
 
+  private isKeyDownCtrlBtn = false;
+
   /**
    * @var isShowTrashRelatedChildren
    * @description
@@ -233,6 +236,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     private mailService: MailService,
     private messageDecryptService: MessageDecryptService,
     private electronService: ElectronService,
+    private printMailService: PrintMailService,
     private translate: TranslateService,
     private sanitizer: DomSanitizer,
     private cdr: ChangeDetectorRef,
@@ -861,7 +865,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       content: '',
     };
     const previousMails = this.getPreviousMail(index, isChildMail, mainReply);
-    const allRecipients = new Set([...mail.receiver, mail.sender, mail.cc, mail.bcc]);
+    const allRecipients = new Set([...mail.receiver, mail.sender, ...mail.cc, ...mail.bcc]);
     let parentId = this.mail.id;
     if (!this.isConversationView && this.mail.parent) {
       parentId = this.mail.parent;
@@ -877,7 +881,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
       : this.mailboxes.find(mailbox => allRecipients.has(mailbox.email));
     newMail.mailbox = selectedMailbox?.id;
     newMail.is_html = mail.is_html;
-    if (mail.reply_to && mail.reply_to.length > 0) {
+    if (mail.reply_to && mail.reply_to.length > 0 && !mail?.children?.length) {
       newMail.receiver = mail.reply_to;
     } else {
       let newReceivers: Set<string>;
@@ -906,6 +910,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
               this.mailFolder !== MailFolderType.DRAFT &&
               mail.children[childIndex - 1].folder === MailFolderType.DRAFT
             ) {
+              // eslint-disable-next-line no-continue
               continue;
             }
             if (
@@ -1083,7 +1088,7 @@ export class MailDetailComponent implements OnInit, OnDestroy {
     }
     this.composeMailService.openComposeMailDialog({
       draft: { ...this.currentForwardingNewEmail },
-      action: MailAction.REPLY_ALL,
+      action: MailAction.FORWARD,
       isFullScreen: this.userState.settings.is_composer_full_screen,
     });
   }
@@ -1559,5 +1564,21 @@ export class MailDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new ClearMailDetail(this.mail || {}));
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_RIGHT_CONTROL || event.metaKey) {
+      this.isKeyDownCtrlBtn = false;
+    } else if (event.code === 'KeyP' && this.isKeyDownCtrlBtn && this.electronService.isElectron) {
+      this.printMailService.printAllMailsOnElectron(this.mail, this.decryptedContents);
+    }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    if (event.code === KEY_LEFT_CONTROL || event.code === KEY_RIGHT_CONTROL || event.metaKey) {
+      this.isKeyDownCtrlBtn = true;
+    }
   }
 }

@@ -1,5 +1,1 @@
-Fixes #
-
-### Changes description
-
--
+Fixes task (link or #num):

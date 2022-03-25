@@ -266,7 +266,7 @@
                                       name="recurringBilling"
                                       type="radio"
                                       [disabled]="isLifeTimePrime"
-                                      (click)="updateSettings('recurrence_billing', false)"
+                                      (click)="getFeedbackAndUpdateBilling(false)"
                                       [checked]="!settings.recurrence_billing || isLifeTimePrime"
                                     />
                                     <label for="disableRecurringBilling" [translate]="'common.no'">No</label>
@@ -737,6 +737,45 @@
                             [checked]="!settings.auto_read"
                           />
                           <label for="showAutoReadMode2" [translate]="'common.disabled'">Disabled</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-content-row">
+                <div class="row align-items-center">
+                  <div class="col-sm-3">
+                    <label class="form-label mb-0" [translate]="'settings.receive_newsletter'"
+                      >Receive Ctemplar newsletter</label
+                    >
+                  </div>
+                  <div class="col-sm-7 col-md-5">
+                    <div class="row row-sm">
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="enableMassMailing1"
+                            name="[enableMassMailing]"
+                            type="radio"
+                            (click)="updateEnableMassMailing(true)"
+                            [checked]="settings.enable_mass_mailing"
+                          />
+                          <label for="enableMassMailing1" [translate]="'common.enabled'">Enabled</label>
+                        </div>
+                      </div>
+                      <div class="col-6 flex-auto-col">
+                        <div class="fancy-field-group">
+                          <input
+                            class="d-none fancy-field-control fancy-field-control-sm"
+                            id="enableMassMailing2"
+                            name="[enableMassMailing]"
+                            type="radio"
+                            (click)="updateEnableMassMailing(false)"
+                            [checked]="!settings.enable_mass_mailing"
+                          />
+                          <label for="enableMassMailing2" [translate]="'common.disabled'">Disabled</label>
                         </div>
                       </div>
                     </div>
@@ -1765,6 +1804,25 @@
                   Your current password is required.
                 </span>
               </span>
+            </div>
+            <div class="form-group form-group-sm">
+              <label
+                for="deleteAccountFeedback"
+                [translate]="'settings.delete_account_feedback_label'"
+                class="d-block text-muted text-left"
+                >We are sorry to let you go. Please take a moment and tell us (anonymously) the reasons you have decided
+                to leave us.</label
+              >
+              <textarea
+                class="form-control text-dark resize-off"
+                id="deleteAccountFeedback"
+                autocomplete="off"
+                [placeholder]="'settings.feedback' | translate"
+                type="text"
+                name="deleteAccountFeedback"
+                formControlName="feedback"
+                rows="4"
+              ></textarea>
             </div>
           </div>
         </div>
