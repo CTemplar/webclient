@@ -6,11 +6,13 @@ describe('FoldersComponent', () => {
   let component: FoldersComponent;
   let fixture: ComponentFixture<FoldersComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [FoldersComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [FoldersComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FoldersComponent);

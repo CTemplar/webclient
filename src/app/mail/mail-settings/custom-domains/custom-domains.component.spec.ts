@@ -6,11 +6,13 @@ describe('CustomDomainsComponent', () => {
   let component: CustomDomainsComponent;
   let fixture: ComponentFixture<CustomDomainsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [CustomDomainsComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CustomDomainsComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomDomainsComponent);

@@ -6,11 +6,13 @@ describe('MailDetailDecryptionErrorComponent', () => {
   let component: MailDetailDecryptionErrorComponent;
   let fixture: ComponentFixture<MailDetailDecryptionErrorComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MailDetailDecryptionErrorComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MailDetailDecryptionErrorComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MailDetailDecryptionErrorComponent);

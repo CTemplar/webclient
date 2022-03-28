@@ -6,11 +6,13 @@ describe('UsersSignUpComponent', () => {
   let component: UsersSignUpComponent;
   let fixture: ComponentFixture<UsersSignUpComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UsersSignUpComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UsersSignUpComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UsersSignUpComponent);

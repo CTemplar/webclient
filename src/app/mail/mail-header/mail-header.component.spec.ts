@@ -6,11 +6,13 @@ describe('MailHeaderComponent', () => {
   let component: MailHeaderComponent;
   let fixture: ComponentFixture<MailHeaderComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MailHeaderComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MailHeaderComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MailHeaderComponent);

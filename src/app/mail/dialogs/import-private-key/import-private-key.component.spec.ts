@@ -6,11 +6,13 @@ describe('ImportPrivateKeyComponent', () => {
   let component: ImportPrivateKeyComponent;
   let fixture: ComponentFixture<ImportPrivateKeyComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ImportPrivateKeyComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ImportPrivateKeyComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ImportPrivateKeyComponent);

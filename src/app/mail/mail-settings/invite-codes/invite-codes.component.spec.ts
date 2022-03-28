@@ -6,11 +6,13 @@ describe('InviteCodesComponent', () => {
   let component: InviteCodesComponent;
   let fixture: ComponentFixture<InviteCodesComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [InviteCodesComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [InviteCodesComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InviteCodesComponent);

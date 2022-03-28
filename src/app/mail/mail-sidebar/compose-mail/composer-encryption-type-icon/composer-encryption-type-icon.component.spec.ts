@@ -6,11 +6,13 @@ describe('ComposerEncryptionTypeIconComponent', () => {
   let component: ComposerEncryptionTypeIconComponent;
   let fixture: ComponentFixture<ComposerEncryptionTypeIconComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ComposerEncryptionTypeIconComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ComposerEncryptionTypeIconComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ComposerEncryptionTypeIconComponent);

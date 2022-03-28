@@ -6,11 +6,13 @@ describe('CircleBarSpinnerComponent', () => {
   let component: CircleBarSpinnerComponent;
   let fixture: ComponentFixture<CircleBarSpinnerComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [CircleBarSpinnerComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CircleBarSpinnerComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CircleBarSpinnerComponent);
