@@ -6,11 +6,13 @@ describe('PagesDonateComponent', () => {
   let component: PagesDonateComponent;
   let fixture: ComponentFixture<PagesDonateComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [PagesDonateComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PagesDonateComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PagesDonateComponent);

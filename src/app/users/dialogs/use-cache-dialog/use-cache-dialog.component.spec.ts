@@ -6,11 +6,13 @@ describe('UseCacheDialogComponent', () => {
   let component: UseCacheDialogComponent;
   let fixture: ComponentFixture<UseCacheDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [UseCacheDialogComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [UseCacheDialogComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UseCacheDialogComponent);

@@ -6,11 +6,13 @@ describe('SpinnerImageComponent', () => {
   let component: SpinnerImageComponent;
   let fixture: ComponentFixture<SpinnerImageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [SpinnerImageComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SpinnerImageComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SpinnerImageComponent);

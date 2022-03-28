@@ -6,11 +6,13 @@ describe('OrganizationUsersComponent', () => {
   let component: OrganizationUsersComponent;
   let fixture: ComponentFixture<OrganizationUsersComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [OrganizationUsersComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [OrganizationUsersComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrganizationUsersComponent);

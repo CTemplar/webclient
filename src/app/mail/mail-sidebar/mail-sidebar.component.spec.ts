@@ -6,11 +6,13 @@ describe('MailSidebarComponent', () => {
   let component: MailSidebarComponent;
   let fixture: ComponentFixture<MailSidebarComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [MailSidebarComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MailSidebarComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MailSidebarComponent);

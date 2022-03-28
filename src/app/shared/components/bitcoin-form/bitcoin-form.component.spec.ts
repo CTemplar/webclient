@@ -6,11 +6,13 @@ describe('BitcoinFormComponent', () => {
   let component: BitcoinFormComponent;
   let fixture: ComponentFixture<BitcoinFormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [BitcoinFormComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [BitcoinFormComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BitcoinFormComponent);
