@@ -28,7 +28,6 @@ import {
   ClearMailsOnConversationModeChange,
   GetUnreadMailsCount,
 } from '../../store/actions';
-import { CreditCardNumberPipe } from '../../shared/pipes/creditcard-number.pipe';
 import {
   AppState,
   AuthState,
@@ -46,7 +45,7 @@ import {
   CardState,
   FeedbackType,
 } from '../../store/datatypes';
-import { OpenPgpService, SharedService } from '../../store/services';
+import { SharedService } from '../../store/services';
 import { MailSettingsService } from '../../store/services/mail-settings.service';
 import { PushNotificationOptions, PushNotificationService } from '../../shared/services/push-notification.service';
 import {
