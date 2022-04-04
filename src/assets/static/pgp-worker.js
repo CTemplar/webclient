@@ -2,6 +2,8 @@ self.window = { crypto: self.crypto }; // to make UMD bundles work
 
 importScripts('openpgp.min.js');
 var openpgp = window.openpgp;
+// Set encryption algorithm explicitly to AES256
+openpgp.config.encryption_cipher = openpgp.enums.symmetric.aes256;
 
 var decryptedAllPrivKeys = {};
 var decryptedSecureMsgPrivKeyObj;
