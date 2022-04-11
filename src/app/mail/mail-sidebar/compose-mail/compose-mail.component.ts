@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle */
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -14,9 +16,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { NgbDateStruct, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import * as parseEmail from 'email-addresses';
-import { of, Subject, Subscription } from 'rxjs';
+import { of, Subject, Subscription, combineLatest } from 'rxjs';
 import { debounceTime, filter, finalize, pairwise, withLatestFrom } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import * as xss from 'xss';
 
@@ -2115,7 +2116,7 @@ export class ComposeMailComponent implements OnInit, AfterViewInit, OnDestroy {
     // check if all external are encrypted and different type
     const isAllExternalEncDifferentType =
       externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_INLINE) &&
-      externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_MIME); //TODO verify logic for PGP_MIME
+      externalContacts.some(c => c?.encryption_type === PGPEncryptionType.PGP_MIME); // TODO verify logic for PGP_MIME
     if (isAllExternalEncDifferentType) return true;
 
     return false;

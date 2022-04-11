@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import emlformat from 'eml-format';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppState, DecryptedContentState, EmailContentType, MailState } from '../datatypes';
-import { Attachment, Mail } from '../models';
-import { MailService, MessageBuilderService, OpenPgpService, SharedService } from '.';
-import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { Store } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+import { MailService, MessageBuilderService, OpenPgpService, SharedService } from '.';
 import { SnackErrorPush } from '..';
-import { threadId } from 'worker_threads';
+import { FilenamePipe } from '../../shared/pipes/filename.pipe';
+import { AppState, DecryptedContentState, MailState } from '../datatypes';
+import { Attachment, Mail } from '../models';
 
 @UntilDestroy()
 @Injectable({
@@ -92,17 +90,6 @@ export class ExportMailService {
   }
 
   private downloadEMLFile(mail: Mail) {
-    // this.buildEMLData(mail).then(emlData => {
-    //   emlformat.build(emlData, (error: any, eml: any) => {
-    //     if (error) {
-    //       return console.log(error);
-    //     }
-    //     const newDocument = new File([eml], `${this.decryptedSubject[mail.id]}.eml`, {
-    //       type: 'eml',
-    //     });
-    //     this.shareService.downloadFile(newDocument);
-    //   });
-    // });
     this.messageBuilderService
       .buildEmlData(this.decryptedContent[mail.id], this.decryptedAttachments, mail.is_html)
       .then(eml => {

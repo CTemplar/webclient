@@ -266,10 +266,6 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.loadStripeScripts();
         break;
       }
-      case PaymentMethod.BITCOIN: {
-        this.selectBitcoinMethod();
-        break;
-      }
       case PaymentMethod.MONERO: {
         this.selectMoneroMethod();
         break;

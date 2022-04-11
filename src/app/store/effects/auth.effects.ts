@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of, EMPTY } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { UsersService } from '../services';
 import {
@@ -51,7 +52,6 @@ import {
 } from '../actions';
 import { FeedbackType, PlanType, SignupState } from '../datatypes';
 import { SYNC_DATA_WITH_STORE, REMEMBER_ME, NOT_FIRST_LOGIN } from '../../shared/config';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { SendFeedbackDialogComponent } from '../../users/dialogs/send-feedback-dialog/send-feedback-dialog.component';
 
 @Injectable({
@@ -200,24 +200,29 @@ export class AuthEffects {
       if (payload.plan_type === PlanType.FREE) {
         payload = { plan_type: PlanType.FREE };
       }
-      return this.authService.upgradeAccount(payload).pipe(
-        switchMap(response => {
-          if (payload.plan_type === PlanType.FREE) {
-            this.openFeedbackDialog(FeedbackType.STOP_AUTO_RENEWAL);
-          }
-          return of(
-            new UpgradeAccountSuccess(response),
-            new AccountDetailsGet(),
-            new GetInvoices(),
-            new GetMailboxes(),
+      const feedback$ =
+        payload.plan_type === PlanType.FREE
+          ? this.openFeedbackDialog(FeedbackType.STOP_AUTO_RENEWAL).dismissed
+          : of({});
+      return feedback$.pipe(
+        switchMap(() => {
+          return this.authService.upgradeAccount(payload).pipe(
+            switchMap(response => {
+              return of(
+                new UpgradeAccountSuccess(response),
+                new AccountDetailsGet(),
+                new GetInvoices(),
+                new GetMailboxes(),
+              );
+            }),
+            catchError(error =>
+              of(
+                new UpgradeAccountFailure(error.error),
+                new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' }),
+              ),
+            ),
           );
         }),
-        catchError(error =>
-          of(
-            new UpgradeAccountFailure(error.error),
-            new SnackErrorPush({ message: 'Failed to upgrade account, please try again.' }),
-          ),
-        ),
       );
     }),
   );
@@ -253,26 +258,31 @@ export class AuthEffects {
     ofType(AuthActionTypes.DELETE_ACCOUNT),
     map((action: DeleteAccount) => action.payload),
     switchMap(payload => {
-      return this.authService.deleteAccount(payload).pipe(
+      const { feedback, ...deletePayload } = payload;
+      const feedback$ = feedback ? this.authService.sendFeedback(feedback, FeedbackType.ACCOUNT_DELETE) : of({});
+      return feedback$.pipe(
         switchMap(() => {
-          this.openFeedbackDialog(FeedbackType.ACCOUNT_DELETE);
-          return of(
-            new DeleteAccountSuccess(),
-            new SnackPush({ message: 'Account deleted successfully.' }),
-            new Logout(),
+          return this.authService.deleteAccount(deletePayload).pipe(
+            switchMap(() => {
+              return of(
+                new DeleteAccountSuccess(),
+                new SnackPush({ message: 'Account deleted successfully.' }),
+                new Logout(),
+              );
+            }),
+            catchError(errorResponse =>
+              of(
+                new DeleteAccountFailure(errorResponse.error),
+                new SnackErrorPush({
+                  message:
+                    errorResponse.error && errorResponse.error.detail
+                      ? errorResponse.error.detail
+                      : 'Failed to delete account, please try again.',
+                }),
+              ),
+            ),
           );
         }),
-        catchError(errorResponse =>
-          of(
-            new DeleteAccountFailure(errorResponse.error),
-            new SnackErrorPush({
-              message:
-                errorResponse.error && errorResponse.error.detail
-                  ? errorResponse.error.detail
-                  : 'Failed to delete account, please try again.',
-            }),
-          ),
-        ),
       );
     }),
   );
@@ -371,14 +381,15 @@ export class AuthEffects {
     }),
   );
 
-  private openFeedbackDialog(feedbackType: FeedbackType) {
+  private openFeedbackDialog(feedbackType: FeedbackType): NgbModalRef {
     const ngbModalOptions: NgbModalOptions = {
       backdrop: 'static',
       keyboard: false,
       centered: true,
       windowClass: 'modal-sm users-action-modal',
     };
-    const modalRef = this.modalService.open(SendFeedbackDialogComponent, ngbModalOptions);
-    modalRef.componentInstance.feedbackType = feedbackType;
+    const modalReference = this.modalService.open(SendFeedbackDialogComponent, ngbModalOptions);
+    modalReference.componentInstance.feedbackType = feedbackType;
+    return modalReference;
   }
 }

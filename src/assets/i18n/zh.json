@@ -311,6 +311,7 @@
     "delete_account": "删除账户",
     "delete_account_perm": "永久删除账户",
     "delete_account_guide": "如果您永久删除账户，您将失去您邮箱中的所有数据。12个月后，这个用户名将可以被任何选择它的人重新使用。",
+    "delete_account_feedback_label": "We are sorry to let you go. Please take a moment and tell us (anonymously) the reasons you have decided to leave us.",
     "current_password": "您当前的密码",
     "password_req": "您当前的密码为必填",
     "provide_email": "请提供一个邮箱地址，以便我们与您联系。",

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MailDetailHeaderComponent } from './mail-detail-header.component';
 
@@ -6,11 +6,13 @@ describe('MailDetailHeaderComponent', () => {
   let component: MailDetailHeaderComponent;
   let fixture: ComponentFixture<MailDetailHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MailDetailHeaderComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MailDetailHeaderComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MailDetailHeaderComponent);

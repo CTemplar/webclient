@@ -311,6 +311,7 @@
     "delete_account": "Apagar Conta",
     "delete_account_perm": "Apagar Permanentemente a Conta",
     "delete_account_guide": "Se apagar permanentemente a sua conta, irá perder todos os dados da sua caixa de entrada. Daqui a 12 meses, este nome de utilizador estará disponível para ser reutilizado por qualquer pessoa que o escolha.",
+    "delete_account_feedback_label": "We are sorry to let you go. Please take a moment and tell us (anonymously) the reasons you have decided to leave us.",
     "current_password": "A sua Palavra-passe Atual",
     "password_req": "A sua palavra-passe atual é requerida.",
     "provide_email": "Por favor indique um endereço de email para o caso de precisarmos de o(a) contactar.",

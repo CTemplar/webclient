@@ -311,6 +311,7 @@
     "delete_account": "Konto löschen",
     "delete_account_perm": "Konto permanent löschen",
     "delete_account_guide": "Wenn Sie Ihr Konto permanent löschen, verlieren Sie alle Daten in Ihrem Postfach. In 12 Monaten kann dieser Benutzername von anderen Benutzern ausgewählt werden.",
+    "delete_account_feedback_label": "We are sorry to let you go. Please take a moment and tell us (anonymously) the reasons you have decided to leave us.",
     "current_password": "Ihr aktuelles Passwort",
     "password_req": "Ihr aktuelles Passwort ist erforderlich.",
     "provide_email": "Bitte geben Sie eine E-Mail-Adresse an, falls wir Sie kontaktieren müssen.",

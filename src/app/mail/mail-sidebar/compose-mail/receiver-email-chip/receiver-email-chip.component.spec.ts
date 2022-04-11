@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ReceiverEmailChipComponent } from './receiver-email-chip.component';
 
@@ -6,11 +6,13 @@ describe('ReceiverEmailChipComponent', () => {
   let component: ReceiverEmailChipComponent;
   let fixture: ComponentFixture<ReceiverEmailChipComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ReceiverEmailChipComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ReceiverEmailChipComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReceiverEmailChipComponent);
