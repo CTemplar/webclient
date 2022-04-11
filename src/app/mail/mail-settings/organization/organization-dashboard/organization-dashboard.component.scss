@@ -1,0 +1,16 @@
+@import '~styles/base/variables';
+@import '~styles/vendors/include-media/include-media';
+@import '~styles/config/include-media-config';
+@import '~styles/vendors/ceaser/ceaser-easing';
+@import '~styles/theme-variables-collection';
+@import '~styles/themes';
+
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+.text-color-danger {
+  color: var(--text-danger);
+}

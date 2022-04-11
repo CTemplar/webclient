@@ -1,0 +1,89 @@
+<div class="desc-card">
+
+  <div class="desc-card-header ui-header ui-header-bordered border-all-corner border-bottom-0">
+    <h5 class="ui-header-subtitle text-dark mb-0 d-inline-block">
+      <strong [translate]="'settings.organization.general_information'">General Information</strong>
+    </h5>
+  </div>
+
+  <div class="desc-card-body bg-faded">
+    <form [formGroup]="organizationForm" (submit)="onSave($event)">
+    <div class="p-3">
+      <div class="row pb-4">
+        <div class="col-3">
+          <span class="text-capitalize font-weight-bold" [translate]="'common.name'">Name</span>
+        </div>
+        <div class="col-4">
+          <span *ngIf="mode === 'view'" class="col-2 text-dark font-weight-bold">{{organization?.name}}</span>
+
+          <ng-container *ngIf="mode === 'edit'">
+            <div>
+              <input class="text-dark form-control p-1" id="name" type="text"
+                placeholder="Organization Name" formControlName="name" #name />
+            </div>
+            <div *ngIf="organizationForm?.controls?.name?.touched && 
+            organizationForm?.controls?.name?.errors" class="l-alert l-alert-danger mt-3 d-flex flex-column">
+              <span [hidden]="!organizationForm?.controls?.name?.errors?.required"
+                [translate]="'settings.organization.name_is_required'">Organization name is required</span>
+              <span [hidden]="!organizationForm?.controls?.name?.errors?.pattern"
+                [translate]="'settings.organization.name_allowed_chars'">Organization name must start with a letter and
+                end with a letter or number.It may only contain a-z, A-Z, 0-9 or ._-</span>
+              <span
+                [hidden]="!(organizationForm?.controls?.name?.errors?.minlength || organizationForm?.controls?.name?.errors?.maxlength)"
+                [translate]="'settings.organization.name_length'">Organization name must be between 4 and 64
+                characters.</span>
+            </div>
+          </ng-container>
+          
+        </div>
+        <div class="col-2" *ngIf="mode === 'view'">
+          <span class="mr-4">
+            <i class="icon icon-edit cursor-pointer" title="Edit" (click)="onEditClick()"></i>
+          </span>
+          <span>
+            <i class="icon icon-garbage cursor-pointer text-color-danger" title="Edit" (click)="onDeleteClick()"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="row pb-4">
+        <div class="col-3">
+          <span class="text-capitalize font-weight-bold" [translate]="'settings.organization.number_of_users'">Number of users</span>
+        </div>
+        <div class="col-4">
+          <span class="col-2 text-dark font-weight-bold">{{organization?.user_count}}</span>
+        </div>
+        <div class="col-2">
+          <a class="cursor-pointer" (click)="gotoPricingPlans()">
+            <span [translate]="'settings.organization.upgrade'">upgrade</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="row pb-4">
+        <div class="col-3">
+          <span class="text-capitalize font-weight-bold" [translate]="'settings.organization.organization_storage'">Organization storage</span>
+        </div>
+        <div class="col-4">
+          <span class="col-2 text-dark font-weight-bold">{{organization?.storage | filesize}}</span>
+        </div>
+        <div class="col-2">
+          <a class="cursor-pointer" (click)="gotoPricingPlans()">
+            <span [translate]="'settings.organization.upgrade'">upgrade</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end btn-group-controls mt-3 p-2" *ngIf="mode === 'edit'">
+      <button class="btn btn-outline-secondary mr-3" (click)="onCancelClick()">
+        <span class="text-small" [translate]="'common.cancel'">Cancel</span>
+      </button>
+      <button class="btn btn-secondary" type="submit">
+        <span class="text-small" [translate]="'common.save'">Save</span>
+      </button>
+    </div>
+
+  </form>
+  </div>
+</div>

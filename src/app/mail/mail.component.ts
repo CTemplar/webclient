@@ -15,6 +15,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Sentry from '@sentry/browser';
+import { BehaviorSubject } from 'rxjs';
 
 import {
   AccountDetailsGet,
@@ -34,11 +35,10 @@ import { TimezoneGet } from '../store/actions/timezone.action';
 import { AppState, AutoResponder, UserState } from '../store/datatypes';
 import { SharedService } from '../store/services';
 import { ComposeMailService } from '../store/services/compose-mail.service';
-import { GetOrganizationUsers } from '../store/organization.store';
+import { GetOrganizationUsers } from '../store/actions/organization.action';
 import { SENTRY_DSN, KEY_LEFT_CONTROL } from '../shared/config';
 import { KeyManageService } from '../shared/services/key-manage.service';
 import { UserSelectManageService } from '../shared/services/user-select-manage.service';
-import { BehaviorSubject } from 'rxjs';
 
 @UntilDestroy()
 @Component({
