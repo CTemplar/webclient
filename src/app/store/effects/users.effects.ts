@@ -110,9 +110,9 @@ import {
 } from '../actions';
 import { Settings } from '../datatypes';
 import { NotificationService } from '../services/notification.service';
-import { GetOrganizationUsers } from '../organization.store';
 import { NOT_FIRST_LOGIN } from '../../shared/config';
 import { UseCacheDialogComponent } from '../../users/dialogs/use-cache-dialog/use-cache-dialog.component';
+import { GetOrganizationUsers } from '../actions/organization.action';
 
 @Injectable({
   providedIn: 'root',

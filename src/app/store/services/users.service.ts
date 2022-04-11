@@ -27,6 +27,7 @@ import {
   Domain,
   FeedbackType,
   ExportContactsFileFormat,
+  Organization,
 } from '../datatypes';
 import { Filter } from '../models/filter.model';
 
@@ -545,6 +546,26 @@ export class UsersService {
 
   sendFeedback(message: string, feedback_type: FeedbackType) {
     return this.http.post<any>(`${apiUrl}feedback/`, { message, feedback_type });
+  }
+
+  getOrganizations(limit = 0, offset = 0) {
+    const url = `${apiUrl}organisation/?limit=${limit}&offset=${offset}`;
+    return this.http.get<any>(url);
+  }
+
+  addOrganization(organization: Organization) {
+    const url = `${apiUrl}organisation/`;
+    return this.http.post<any>(url, organization);
+  }
+
+  updateOrganization(id: number, organization: Organization) {
+    const url = `${apiUrl}organisation/${id}/`;
+    return this.http.patch<any>(url, organization);
+  }
+
+  deleteOrganization(id: number) {
+    const url = `${apiUrl}organisation/${id}/`;
+    return this.http.delete<any>(url);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

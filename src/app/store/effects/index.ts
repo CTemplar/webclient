@@ -1,5 +1,4 @@
-import { OrganizationEffects } from '../organization.store';
-
+import { OrganizationEffects } from './organization.effects';
 import { ComposeMailEffects } from './compose-mail.effects';
 import { RouterEffects } from './router.effect';
 import { AuthEffects } from './auth.effects';
@@ -38,4 +37,4 @@ export * from './compose-mail.effects';
 export * from './secure-message.effects';
 export * from './donate.effects';
 export * from './contacts.effects';
-export { OrganizationEffects } from '../organization.store';
+export * from './organization.effects';
