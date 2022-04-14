@@ -6,7 +6,6 @@
   </div>
 
   <div class="desc-card-body bg-faded">
-
     <mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
       <ng-template matStepperIcon="edit">
         <i class="fa fa-check"></i>
@@ -26,20 +25,40 @@
               </span>
             </div>
             <div>
-              <input class="domain-input text-dark form-control" id="name" type="text"
-                placeholder="Organization Name" formControlName="name" #name />
+              <input
+                class="domain-input text-dark form-control"
+                id="name"
+                type="text"
+                placeholder="Organization Name"
+                formControlName="name"
+                #name
+              />
             </div>
-            <div *ngIf="organizationNameForm?.controls?.name?.touched && 
-            organizationNameForm?.controls?.name?.errors" class="l-alert l-alert-danger mt-3 d-flex flex-column">
-              <span [hidden]="!organizationNameForm?.controls?.name?.errors?.required"
-                [translate]="'settings.organization.name_is_required'">Organization name is required</span>
-              <span [hidden]="!organizationNameForm?.controls?.name?.errors?.pattern"
-                [translate]="'settings.organization.name_allowed_chars'">Organization name must start with a letter and
-                end with a letter or number.It may only contain a-z, A-Z, 0-9 or ._-</span>
+            <div
+              *ngIf="organizationNameForm?.controls?.name?.touched && organizationNameForm?.controls?.name?.errors"
+              class="l-alert l-alert-danger mt-3 d-flex flex-column"
+            >
               <span
-                [hidden]="!(organizationNameForm?.controls?.name?.errors?.minlength || organizationNameForm?.controls?.name?.errors?.maxlength)"
-                [translate]="'settings.organization.name_length'">Organization name must be between 4 and 64
-                characters.</span>
+                [hidden]="!organizationNameForm?.controls?.name?.errors?.required"
+                [translate]="'settings.organization.name_is_required'"
+                >Organization name is required</span
+              >
+              <span
+                [hidden]="!organizationNameForm?.controls?.name?.errors?.pattern"
+                [translate]="'settings.organization.name_allowed_chars'"
+                >Organization name must start with a letter and end with a letter or number.It may only contain a-z,
+                A-Z, 0-9 or ._-</span
+              >
+              <span
+                [hidden]="
+                  !(
+                    organizationNameForm?.controls?.name?.errors?.minlength ||
+                    organizationNameForm?.controls?.name?.errors?.maxlength
+                  )
+                "
+                [translate]="'settings.organization.name_length'"
+                >Organization name must be between 4 and 64 characters.</span
+              >
             </div>
             <div class="mt-3 mt-sm-4">
               <button class="btn btn-sm btn-secondary" (click)="gotoStep2()">
@@ -54,9 +73,7 @@
       <mat-step [stepControl]="domainNameForm">
         <form [formGroup]="domainNameForm">
           <ng-template matStepLabel>
-            <span class="font-weight-bold" [translate]="'settings.organization.domain_name'">
-              Domain Name
-            </span>
+            <span class="font-weight-bold" [translate]="'settings.organization.domain_name'"> Domain Name </span>
           </ng-template>
           <div class="stepper-form">
             <div class="py-3">
@@ -68,15 +85,21 @@
               <custom-dropdown class="domain-input" [options]="domainOptions" formControlName="custom_domain">
               </custom-dropdown>
             </div>
-            <div *ngIf="domainNameForm?.controls?.custom_domain?.touched 
-            && domainNameForm?.controls?.custom_domain?.errors" class="l-alert l-alert-danger mt-3 d-flex flex-column">
-              <span [hidden]="!domainNameForm?.controls?.custom_domain?.errors?.required"
-                [translate]="'settings.organization.domain_is_required'">Domain is required</span>
+            <div
+              *ngIf="
+                domainNameForm?.controls?.custom_domain?.touched && domainNameForm?.controls?.custom_domain?.errors
+              "
+              class="l-alert l-alert-danger mt-3 d-flex flex-column"
+            >
+              <span
+                [hidden]="!domainNameForm?.controls?.custom_domain?.errors?.required"
+                [translate]="'settings.organization.domain_is_required'"
+                >Domain is required</span
+              >
             </div>
           </div>
         </form>
       </mat-step>
-
     </mat-vertical-stepper>
     <div class="btn-group-controls mt-3">
       <button class="btn btn-outline-secondary mr-3" (click)="onCancelClick()">
