@@ -1,11 +1,5 @@
 <div class="mailbox-sub-content" #settingsContent>
-  <div
-    ngbNav
-    #navSet="ngbNav"
-    class="nav-tabs"
-    [(activeId)]="selectedTab"
-    (navChange)="navigateToTab($event)"
-  >
+  <div ngbNav #navSet="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" (navChange)="navigateToTab($event)">
     <!-- Dashboard and Plans -->
     <div class="nav" [ngbNavItem]="'dashboard-and-plans'">
       <a ngbNavLink class="nav-link" [translate]="'settings.dashboard_plans'"> Dashboard & Plans </a>
