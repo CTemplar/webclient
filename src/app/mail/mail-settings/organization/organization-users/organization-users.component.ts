@@ -5,6 +5,7 @@ import { debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 import { OrganizationUser } from '../../../../store/models';
 import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../../../shared/config';
@@ -14,11 +15,10 @@ import { OpenPgpService, UsersService } from '../../../../store/services';
 import {
   AddOrganizationUser,
   DeleteOrganizationUser,
-  OrganizationState,
   UpdateOrganizationUser,
-} from '../../../../store/organization.store';
+} from '../../../../store/actions/organization.action';
 import { MoveTab, SnackErrorPush } from '../../../../store/actions';
-import { Router } from '@angular/router';
+import { OrganizationState } from '../../../../store/reducers/organization.reducer';
 
 @UntilDestroy()
 @Component({

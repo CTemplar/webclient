@@ -2,8 +2,8 @@ import { ActionReducerMap } from '@ngrx/store';
 
 import { AppState } from '../datatypes';
 import * as webSocket from '../websocket.store';
-import * as organization from '../organization.store';
 
+import * as organization from './organization.reducer';
 import * as auth from './auth.reducers';
 import * as mail from './mail.reducers';
 import * as mailboxes from './mailboxes.reducers';

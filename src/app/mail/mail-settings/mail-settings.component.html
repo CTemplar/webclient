@@ -3,7 +3,7 @@
     ngbNav
     #navSet="ngbNav"
     class="nav-tabs"
-    [(activeId)]="selectedTabQueryParams"
+    [(activeId)]="selectedTab"
     (navChange)="navigateToTab($event)"
   >
     <!-- Dashboard and Plans -->
@@ -1708,6 +1708,14 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.domains_and_users.title'">Domains & Users</a>
       <ng-template ngbNavContent>
         <app-custom-domains (onGotoTab)="navSet.select($event)"></app-custom-domains>
+      </ng-template>
+    </div>
+
+    <!-- Organizations -->
+    <div class="nav" [ngbNavItem]="'organization'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.organization.title'">Organization</a>
+      <ng-template ngbNavContent>
+        <app-organization-dashboard (onGotoTab)="navSet.select($event)"></app-organization-dashboard>
       </ng-template>
     </div>
 

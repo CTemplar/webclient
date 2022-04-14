@@ -152,6 +152,8 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
 
   selectedTabQueryParams = 'dashboard-and-plans';
 
+  selectedTab = 'dashboard-and-plans';
+
   invoices: Invoice[];
 
   isLifeTimePrime = false;
@@ -255,8 +257,13 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
       feedback: '',
     });
     this.route.params.subscribe(parameters => {
-      if (parameters.id !== 'undefined') {
-        this.store.dispatch(new MoveTab(parameters.id));
+      let nextRoute = parameters.id;
+      if (this.router.url.includes('organization')) {
+        nextRoute += `/${parameters.mode ?? 'view'}`;
+        nextRoute += parameters.orgId ? `/${parameters.orgId}` : '';
+      }
+      if (nextRoute !== 'undefined') {
+        this.store.dispatch(new MoveTab(nextRoute));
       }
       this.userSelectManageService.updateUserSelectPossiblilityState(true);
     });
@@ -278,8 +285,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
             return;
           }
           this.selectedTabQueryParams = mailState.currentSettingsTab;
+          // eslint-disable-next-line prefer-destructuring
+          this.selectedTab = this.selectedTabQueryParams.split('/')[0];
           this.changeUrlParams();
-          this.navSet.select(this.selectedTabQueryParams);
+          this.navSet.select(this.selectedTab);
           this.cdr.detectChanges();
         }
       });
@@ -311,7 +320,7 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.navSet.select(this.selectedTabQueryParams);
+    this.navSet.select(this.selectedTab);
     this.cdr.detectChanges();
   }
 
@@ -322,7 +331,10 @@ export class MailSettingsComponent implements OnInit, AfterViewInit {
   }
 
   changeUrlParams() {
-    this.router.navigateByUrl(`/mail/settings/${this.selectedTabQueryParams}`);
+    const nextRoute = `/mail/settings/${this.selectedTabQueryParams}`;
+    if (this.router.url !== nextRoute) {
+      this.router.navigateByUrl(nextRoute);
+    }
   }
 
   onAddNewCard() {
