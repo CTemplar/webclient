@@ -476,6 +476,20 @@ blockquote,
   }
 }
 
+.mat-slider-thumb, .mat-slider-ticks-container {
+  background-color: var(--brand-gray) !important;
+}
+.mat-slider-thumb-label {
+  height: 35px;
+  width: 35px;
+  background-color: var(--brand-gray) !important;
+  color: var(--text-color-inverse) !important;
+}
+.mat-slider-thumb-label-text {
+  background-color: transparent !important;
+  color: var(--text-color-inverse) !important;
+}
+
 .show-ellipses {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -795,4 +809,8 @@ button.ctemplar-blockquote-toggle ~ * {
     background: 0 0 !important;
     border: transparent !important;
   }
+}
+
+.overflow-visible {
+  overflow: visible !important;
 }

@@ -7,11 +7,12 @@ import { filter } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 
 import { GetDomains, MoveTab } from '../../../../store/actions';
-import { AppState, AuthState, Settings, UserState, Organization } from '../../../../store/datatypes';
+import { AppState, AuthState, Settings, UserState, Organization, OrgUser } from '../../../../store/datatypes';
 import {
   AddOrganization,
   DeleteOrganization,
   GetOrganizations,
+  GetOrgUsers,
   UpdateOrganization,
 } from '../../../../store/actions/organization.action';
 
@@ -42,7 +43,11 @@ export class OrganizationDashboardComponent implements OnInit {
 
   currentOrganizations: Organization[] = [];
 
+  currentOrganizationsUsers: OrgUser[] = [];
+
   organizationOptions: any[] = [];
+
+  domainError: 'none' | 'empty' | 'unavailable';
 
   constructor(
     config: NgbDropdownConfig,
@@ -64,7 +69,6 @@ export class OrganizationDashboardComponent implements OnInit {
       .select(state => state.organization.selectedOrganization)
       .pipe(untilDestroyed(this), filter(Boolean))
       .subscribe((organization: Organization) => {
-        this.store.dispatch(new GetOrganizations());
         this.store.dispatch(new MoveTab(`organization/view/${organization.id}`));
       });
 
@@ -93,10 +97,25 @@ export class OrganizationDashboardComponent implements OnInit {
 
           this.organizationOptions = this.currentOrganizations.map(o => ({ label: o.name, value: o }));
           const { orgId } = routeParameters;
-          if (orgId) {
+          if (orgId && this.currentOrganizations?.length) {
             this.selectedOrganization = this.currentOrganizations.find(o => +o.id === +orgId);
+            this.store.dispatch(new GetOrgUsers(this.selectedOrganization.id));
+          }
+          this.domainError = 'none';
+          if (this.domainOptions.length === 0) {
+            this.domainError = 'empty';
+            if (this.organizationOptions.length > 0) {
+              this.domainError = 'unavailable';
+            }
           }
         }
+      });
+
+    this.store
+      .select(state => state.organization.orgUsers)
+      .pipe(untilDestroyed(this))
+      .subscribe((orgUsers: OrgUser[]) => {
+        this.currentOrganizationsUsers = orgUsers;
       });
   }
 
@@ -131,8 +150,13 @@ export class OrganizationDashboardComponent implements OnInit {
     this.store.dispatch(new MoveTab('dashboard-and-plans'));
   }
 
+  gotoCustomDomains() {
+    this.store.dispatch(new MoveTab('domains-and-users'));
+  }
+
   onChangeOrganization(organization: Organization) {
     this.selectedOrganization = organization;
+    this.store.dispatch(new GetOrgUsers(organization.id));
     this.store.dispatch(new MoveTab(`organization/view/${organization.id}`));
   }
 

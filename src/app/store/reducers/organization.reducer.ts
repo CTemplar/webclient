@@ -1,5 +1,5 @@
 import { OrganizationActionAll, OrganizationActionTypes } from '../actions/organization.action';
-import { Organization } from '../datatypes';
+import { Organization, OrgUser } from '../datatypes';
 import { OrganizationUser } from '../models';
 import { sortByString } from '../services';
 
@@ -7,6 +7,7 @@ export interface OrganizationState {
   organizations: Organization[];
   selectedOrganization: Organization;
   users: OrganizationUser[];
+  orgUsers: OrgUser[];
   inProgress?: boolean;
   isAddingUserInProgress?: boolean;
   isDeleteInProgress?: boolean;
@@ -16,6 +17,7 @@ export interface OrganizationState {
 
 const initialState: OrganizationState = {
   users: [],
+  orgUsers: [],
   organizations: [],
   selectedOrganization: null,
 };
@@ -71,6 +73,89 @@ export function reducer(state: OrganizationState = initialState, action: Organiz
       return { ...state, inProgress: false };
     }
 
+    case OrganizationActionTypes.GET_ORG_USERS: {
+      return { ...state, inProgress: true };
+    }
+
+    case OrganizationActionTypes.GET_ORG_USERS_SUCCESS: {
+      return {
+        ...state,
+        inProgress: false,
+        orgUsers: sortByString(action.payload, 'name'),
+      };
+    }
+
+    case OrganizationActionTypes.GET_ORG_USERS_FAILURE: {
+      return { ...state, inProgress: false };
+    }
+
+    case OrganizationActionTypes.ADD_ORG_USER: {
+      return { ...state, isAddingUserInProgress: true, isError: false };
+    }
+
+    case OrganizationActionTypes.ADD_ORG_USER_SUCCESS: {
+      return {
+        ...state,
+        isAddingUserInProgress: false,
+        orgUsers: sortByString([...state.orgUsers, { ...action.payload, user_email: action?.payload?.email }], 'name'),
+        isError: false,
+      };
+    }
+
+    case OrganizationActionTypes.ADD_ORG_USER_FAILURE: {
+      return { ...state, isAddingUserInProgress: false, error: action.payload, isError: true };
+    }
+
+    case OrganizationActionTypes.UPDATE_ORG_USER: {
+      return { ...state, isAddingUserInProgress: true, isError: false };
+    }
+
+    case OrganizationActionTypes.UPDATE_ORG_USER_SUCCESS: {
+      return {
+        ...state,
+        isAddingUserInProgress: false,
+        orgUsers: state.orgUsers.map(user => {
+          if (user.id === action.payload.id) {
+            user = action.payload;
+          }
+          return user;
+        }),
+        isError: false,
+      };
+    }
+
+    case OrganizationActionTypes.UPDATE_ORG_USER_FAILURE: {
+      return {
+        ...state,
+        isAddingUserInProgress: false,
+        orgUsers: state.orgUsers.map(user => {
+          if (user.id === action.payload?.unmodifiedUser?.id) {
+            user = action.payload.unmodifiedUser;
+          }
+          return user;
+        }),
+        error: action.payload.error,
+        isError: true,
+      };
+    }
+
+    case OrganizationActionTypes.DELETE_ORG_USER: {
+      return { ...state, isDeleteInProgress: true };
+    }
+
+    case OrganizationActionTypes.DELETE_ORG_USER_SUCCESS: {
+      return {
+        ...state,
+        isDeleteInProgress: false,
+        orgUsers: state.orgUsers.filter(user => user.id !== action.payload.id),
+      };
+    }
+
+    case OrganizationActionTypes.DELETE_ORG_USER_FAILURE: {
+      return { ...state, isDeleteInProgress: false };
+    }
+
+    /// //// CUSTOM DOMAIN USERS ///////
     case OrganizationActionTypes.GET_ORGANIZATION_USERS: {
       return { ...state, inProgress: true };
     }
