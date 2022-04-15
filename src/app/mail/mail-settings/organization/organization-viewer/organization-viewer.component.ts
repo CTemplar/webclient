@@ -32,15 +32,7 @@ export class OrganizationViewerComponent implements OnInit, OnChanges {
   initForm() {
     const { name } = this.organization;
     this.organizationForm = this.formBuilder.group({
-      name: [
-        name,
-        [
-          Validators.required,
-          Validators.pattern(/^[a-z]+([\da-z]*[._-]?[\da-z]+)+$/i),
-          Validators.minLength(4),
-          Validators.maxLength(64),
-        ],
-      ],
+      name: [name, [Validators.required, Validators.minLength(4), Validators.maxLength(64)]],
     });
   }
 
