@@ -34,10 +34,15 @@
                 #name
               />
             </div>
-            <div *ngIf="organizationNameForm?.controls?.name?.touched && 
-            organizationNameForm?.controls?.name?.errors" class="l-alert l-alert-danger mt-3 d-flex flex-column">
-              <span [hidden]="!organizationNameForm?.controls?.name?.errors?.required"
-                [translate]="'settings.organization.name_is_required'">Organization name is required</span>
+            <div
+              *ngIf="organizationNameForm?.controls?.name?.touched && organizationNameForm?.controls?.name?.errors"
+              class="l-alert l-alert-danger mt-3 d-flex flex-column"
+            >
+              <span
+                [hidden]="!organizationNameForm?.controls?.name?.errors?.required"
+                [translate]="'settings.organization.name_is_required'"
+                >Organization name is required</span
+              >
               <span
                 [hidden]="
                   !(
