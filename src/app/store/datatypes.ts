@@ -916,3 +916,26 @@ export interface Organization {
   storage?: number;
   user_count?: number;
 }
+
+export interface OrgUserRequest {
+  email: string;
+  password: string;
+  private_key: string;
+  public_key: string;
+  fingerprint: string;
+  name: string;
+  storage?: number;
+  role?: string;
+  is_private?: boolean;
+  organisation: number;
+}
+
+export interface OrgUser {
+  id: number;
+  user_email: string;
+  name: string;
+  storage: number;
+  role: string;
+  is_private: boolean;
+  organisation: number;
+}

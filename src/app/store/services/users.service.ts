@@ -92,8 +92,8 @@ export class UsersService {
     return username;
   }
 
-  private hashData(requestData: any, field = 'password'): string {
-    const username = requestData.username.toLowerCase();
+  private hashData(requestData: any, field = 'password', userNameField = 'username'): string {
+    const username = requestData[userNameField].toLowerCase();
     const salt = this.createSalt('$2a$10$', username);
     return bcrypt.hashSync(requestData[field], salt);
   }
@@ -566,6 +566,27 @@ export class UsersService {
   deleteOrganization(id: number) {
     const url = `${apiUrl}organisation/${id}/`;
     return this.http.delete<any>(url);
+  }
+
+  addOrgUser(data: any): Observable<any> {
+    const url = `${apiUrl}organisation/user/`;
+    data.password = this.hashData(data, 'password', 'email');
+    return this.http.post<any>(url, data);
+  }
+
+  updateOrgUser(id: number, data: any): Observable<any> {
+    const url = `${apiUrl}organisation/user/${id}/`;
+    return this.http.patch<any>(url, data);
+  }
+
+  deleteOrgUser(payload: any): Observable<any> {
+    const url = `${apiUrl}organisation/user/${payload?.id}/`;
+    return this.http.delete<any>(url);
+  }
+
+  getOrgUsers(id: number, limit = 0, offset = 0) {
+    const url = `${apiUrl}organisation/user/?org_id=${id}&limit=${limit}&offset=${offset}`;
+    return this.http.get<any>(url);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -464,8 +464,11 @@
       "delete_message": "Are you sure, you want to delete",
       "delete_warning": "All the associated data of this organization, including users and message, will also be deleted.",
       "premium_feature": "This is a premium feature, please",
-      "upgrade": "upgrade",
-      "use_feature": "in order to use this feature."
+      "upgrade": "Upgrade",
+      "private": "Private",
+      "use_feature": "in order to use this feature.",
+      "no_domains_message": "You need to add a custom domain before you can start adding organizations",
+      "unavailable_domains_message": "You have used up all your custom domains. Please add another domain to create an organization."
     },
     "forwarding": {
       "title": "Forwarding",

@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSliderModule } from '@angular/material/slider';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -103,6 +104,7 @@ import { ExportMessageComponent } from './dialogs/export-message/export-message.
     MatFormFieldModule,
     MatInputModule,
     MatStepperModule,
+    MatSliderModule,
     NgbModalModule,
     NgbModule,
     DragDropModule,

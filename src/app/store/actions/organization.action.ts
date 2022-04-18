@@ -31,6 +31,24 @@ export enum OrganizationActionTypes {
   DELETE_ORGANIZATION = '[ORGANIZATION] DELETE ORGANIZATION',
   DELETE_ORGANIZATION_SUCCESS = '[ORGANIZATION] DELETE ORGANIZATION SUCCESS',
   DELETE_ORGANIZATION_FAILURE = '[ORGANIZATION] DELETE ORGANIZATION FAILURE',
+
+  // Using ORG to differentiate the actions from those of custom domain
+  // TODO Refactor and rename to Organization after current actions are removed
+  GET_ORG_USERS = '[ORG] GET USERS',
+  GET_ORG_USERS_SUCCESS = '[ORG] GET USERS SUCCESS',
+  GET_ORG_USERS_FAILURE = '[ORG] GET USERS FAILURE',
+
+  ADD_ORG_USER = '[ORG] ADD USER',
+  ADD_ORG_USER_SUCCESS = '[ORG] ADD USER SUCCESS',
+  ADD_ORG_USER_FAILURE = '[ORG] ADD USER FAILURE',
+
+  DELETE_ORG_USER = '[ORG] DELETE USER',
+  DELETE_ORG_USER_SUCCESS = '[ORG] DELETE USER SUCCESS',
+  DELETE_ORG_USER_FAILURE = '[ORG] DELETE USER FAILURE',
+
+  UPDATE_ORG_USER = '[ORG] UPDATE USER',
+  UPDATE_ORG_USER_SUCCESS = '[ORG] UPDATE USER SUCCESS',
+  UPDATE_ORG_USER_FAILURE = '[ORG] UPDATE USER FAILURE',
 }
 
 export class GetOrganizationUsers implements Action {
@@ -175,6 +193,78 @@ export class DeleteOrganizationFailure implements Action {
   constructor(public payload: any) {}
 }
 
+export class GetOrgUsers implements Action {
+  readonly type = OrganizationActionTypes.GET_ORG_USERS;
+
+  constructor(public payload: number) {}
+}
+
+export class GetOrgUsersSuccess implements Action {
+  readonly type = OrganizationActionTypes.GET_ORG_USERS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetOrgUsersFailure implements Action {
+  readonly type = OrganizationActionTypes.GET_ORG_USERS_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
+export class AddOrgUser implements Action {
+  readonly type = OrganizationActionTypes.ADD_ORG_USER;
+
+  constructor(public payload: any) {}
+}
+
+export class AddOrgUserSuccess implements Action {
+  readonly type = OrganizationActionTypes.ADD_ORG_USER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class AddOrgUserFailure implements Action {
+  readonly type = OrganizationActionTypes.ADD_ORG_USER_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteOrgUser implements Action {
+  readonly type = OrganizationActionTypes.DELETE_ORG_USER;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteOrgUserSuccess implements Action {
+  readonly type = OrganizationActionTypes.DELETE_ORG_USER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteOrgUserFailure implements Action {
+  readonly type = OrganizationActionTypes.DELETE_ORG_USER_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateOrgUser implements Action {
+  readonly type = OrganizationActionTypes.UPDATE_ORG_USER;
+
+  constructor(public id: number, public payload: any, public unmodifiedUser: any) {}
+}
+
+export class UpdateOrgUserSuccess implements Action {
+  readonly type = OrganizationActionTypes.UPDATE_ORG_USER_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class UpdateOrgUserFailure implements Action {
+  readonly type = OrganizationActionTypes.UPDATE_ORG_USER_FAILURE;
+
+  constructor(public payload: any) {}
+}
+
 export type OrganizationActionAll =
   | GetOrganizationUsers
   | GetOrganizationUsersSuccess
@@ -199,4 +289,16 @@ export type OrganizationActionAll =
   | DeleteOrganizationFailure
   | GetOrganizations
   | GetOrganizationsSuccess
-  | GetOrganizationsFailure;
+  | GetOrganizationsFailure
+  | GetOrgUsers
+  | GetOrgUsersSuccess
+  | GetOrgUsersFailure
+  | AddOrgUser
+  | AddOrgUserSuccess
+  | AddOrgUserFailure
+  | DeleteOrgUser
+  | DeleteOrgUserSuccess
+  | DeleteOrgUserFailure
+  | UpdateOrgUser
+  | UpdateOrgUserSuccess
+  | UpdateOrgUserFailure;

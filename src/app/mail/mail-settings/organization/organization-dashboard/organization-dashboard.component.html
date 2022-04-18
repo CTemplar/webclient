@@ -1,7 +1,8 @@
 <section id="organizations" class="mailbox-section mt-4">
   <!-- non-prime members message -->
-  <div class="py-3 px-2 non-prime error-message" *ngIf="userState?.isPrime === false">
-    <span [translate]="'settings.organization.premium_feature'"> This is a premium feature,please</span>
+  <div class="py-3 px-2 non-prime error-message" *ngIf="userState?.isLoaded && userState?.isPrime === false">
+    <span [translate]="'settings.organization.premium_feature'">
+      This is a premium feature,please</span>
     <a class="cursor-pointer" (click)="gotoPricingPlans()">
       &nbsp;
       <span [translate]="'settings.organization.upgrade'">upgrade</span>
@@ -17,12 +18,33 @@
           <!-- Create Organization button -->
           <div *ngIf="mode === 'view'">
             <div class="p-3">
-              <button
-                class="btn btn-sm btn-secondary btn-add-organization text-small"
-                (click)="onCreateOrganizationClick()"
-              >
-                <span [translate]="'settings.organization.create_organization'">Create Organization</span>
-              </button>
+              <span [ngSwitch]="domainError">
+                <p *ngSwitchCase="'none'">
+                  <button class="btn btn-sm btn-secondary btn-add-organization text-small"
+                    (click)="onCreateOrganizationClick()">
+                    <span [translate]="'settings.organization.create_organization'">Create Organization</span>
+                  </button>
+                </p>
+                <p *ngSwitchCase="'empty'" >
+                  <span [translate]="'settings.organization.no_domains_message'">
+                    You need to add a custom domain before you can start adding organizations.
+                  </span>
+                  <a class="cursor-pointer ml-2" (click)="gotoCustomDomains()">
+                    <span [translate]="'settings.add_domain'">Add Domain</span>
+                  </a>
+                </p>
+                <p *ngSwitchCase="'unavailable'">
+                  <button disabled 
+                  class="btn btn-sm btn-secondary btn-add-organization text-small" 
+                  container="body"
+                  [ngbTooltip]="'settings.organization.unavailable_domains_message' | translate">
+                    <span [translate]="'settings.organization.create_organization'">Create Organization</span>
+                  </button>
+                  <a class="cursor-pointer ml-2" (click)="gotoCustomDomains()">
+                    <span [translate]="'settings.add_domain'">Add Domain</span>
+                  </a>
+                </p>
+              </span>
             </div>
 
             <!-- Select Organization -->
@@ -70,7 +92,10 @@
               ></app-organization-viewer>
             </div>
             <div class="mt-4">
-              <app-organization-users-list class="mt-3"></app-organization-users-list>
+              <app-organization-users-list class="mt-3" 
+              [users]="currentOrganizationsUsers"
+              [organization]="selectedOrganization"
+              (userAdded)="onUserAdded()"></app-organization-users-list>
             </div>
           </div>
         </div>
