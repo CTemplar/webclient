@@ -26,13 +26,18 @@
 
         <li class="ui-list-item ui-list-item-xs-full" *ngFor="let user of users">
           <div class="row row-xs align-items-center">
-            <div  class="col-2 text-dark col-item" [ngbTooltip]="user.name">
+            <div class="col-2 text-dark col-item" [ngbTooltip]="user.name">
               <div *ngIf="!user.isEditing">
                 {{ user.name }}
               </div>
               <div *ngIf="user.isEditing">
-                <input class="form-control text-dark p-1" [(ngModel)]="user.name" autofocus="autofocus" type="text"
-                name="name" />
+                <input
+                  class="form-control text-dark p-1"
+                  [(ngModel)]="user.name"
+                  autofocus="autofocus"
+                  type="text"
+                  name="name"
+                />
               </div>
             </div>
             <div class="col-4 col-item" [ngbTooltip]="user.user_email">
@@ -53,7 +58,7 @@
             <div class="col-3 col-item overflow-visible">
               <div class="form-label text-dark mb-0">
                 <div *ngIf="!user.isEditing">
-                  {{ user.storage | filesize:null:0 }}
+                  {{ user.storage | filesize: null:0 }}
                 </div>
                 <div *ngIf="user.isEditing">
                   <mat-slider
@@ -64,41 +69,53 @@
                     step="10485760"
                     min="104857600"
                     max="1073741824"
-                    aria-label="units"></mat-slider>
-                    {{user.storage | filesize:null:0}}
+                    aria-label="units"
+                  ></mat-slider>
+                  {{ user.storage | filesize: null:0 }}
                 </div>
               </div>
             </div>
             <div class="col-2 col-item">
               <div class="form-label text-dark mb-0">
                 <div *ngIf="!user.isEditing">
-                  {{ user.is_private ? 'Yes': 'No' }}
+                  {{ user.is_private ? 'Yes' : 'No' }}
                 </div>
                 <div *ngIf="user.isEditing">
-                  <mat-checkbox name="is_private" id="is_private" [(ngModel)]="user.is_private">
-                  </mat-checkbox>
+                  <mat-checkbox name="is_private" id="is_private" [(ngModel)]="user.is_private"> </mat-checkbox>
                 </div>
               </div>
             </div>
 
             <div class="col-1 text-right">
               <div *ngIf="!user.isEditing">
-                <a class="text-muted actions" 
-                  (click)="user.isEditing = true; startUpdatingUser(user)" [ngbTooltip]="'settings.edit' | translate">
+                <a
+                  class="text-muted actions"
+                  (click)="user.isEditing = true; startUpdatingUser(user)"
+                  [ngbTooltip]="'settings.edit' | translate"
+                >
                   <i class="icon icon-edit cursor-pointer"></i>
                 </a>
-                <a class="text-muted actions" [ngbTooltip]="'settings.delete' | translate"
-                  (click)="openConfirmDeleteModal(user)">
+                <a
+                  class="text-muted actions"
+                  [ngbTooltip]="'settings.delete' | translate"
+                  (click)="openConfirmDeleteModal(user)"
+                >
                   <i class="icon icon-garbage cursor-pointer text-color-danger"></i>
                 </a>
               </div>
               <div *ngIf="user.isEditing">
-                <a class="text-muted actions"  (click)="user.isEditing = false; updateUser(user)"
-                  [ngbTooltip]="'common.save' | translate">
+                <a
+                  class="text-muted actions"
+                  (click)="user.isEditing = false; updateUser(user)"
+                  [ngbTooltip]="'common.save' | translate"
+                >
                   <i class="icon icon-save-disk cursor-pointer"></i>
                 </a>
-                <a class="text-muted actions"  (click)="user.isEditing = false; cancelUpdateUser(user)"
-                  [ngbTooltip]="'common.cancel' | translate">
+                <a
+                  class="text-muted actions"
+                  (click)="user.isEditing = false; cancelUpdateUser(user)"
+                  [ngbTooltip]="'common.cancel' | translate"
+                >
                   <span class="cursor-pointer">&times;</span>
                 </a>
               </div>
@@ -127,14 +144,19 @@
         <div class="form">
           <form class="user-add-form" [formGroup]="addUserForm" #form="ngForm">
             <div>
-
               <div>
                 <label class="text-dark mb-0">
                   <strong [translate]="'common.name'">Name</strong>
                 </label>
                 <div class="form-group">
-                  <input class="form-control text-dark" id="name" [placeholder]="'common.name' | translate" type="email"
-                    name="name" formControlName="name" />
+                  <input
+                    class="form-control text-dark"
+                    id="name"
+                    [placeholder]="'common.name' | translate"
+                    type="email"
+                    name="name"
+                    formControlName="name"
+                  />
                 </div>
               </div>
 
@@ -143,38 +165,57 @@
                   <strong [translate]="'common.email'">Email</strong>
                 </label>
                 <div class="form-group position-relative">
-                  <div class="form-inline userame-field-group" [class.is-validate]="addUserForm.controls.username.invalid && addUserForm.controls.username.touched">
-                    <input class="form-control text-dark mb-3 mb-sm-0 username-container" id="username"
-                      [placeholder]="'create_account.choose_username' | translate" type="text" name="username"
-                      formControlName="username" />
+                  <div
+                    class="form-inline userame-field-group"
+                    [class.is-validate]="addUserForm.controls.username.invalid && addUserForm.controls.username.touched"
+                  >
+                    <input
+                      class="form-control text-dark mb-3 mb-sm-0 username-container"
+                      id="username"
+                      [placeholder]="'create_account.choose_username' | translate"
+                      type="text"
+                      name="username"
+                      formControlName="username"
+                    />
                     <span class="domain-separator text-center text-dark">@</span>
-                    <label class="text-dark mb-0"><strong>{{organization?.custom_domain_name}}</strong></label>
+                    <label class="text-dark mb-0"
+                      ><strong>{{ organization?.custom_domain_name }}</strong></label
+                    >
 
                     <ng-container *ngIf="newAddressOptions.inProgress; else showIcons">
                       <app-loading-spinner class="username-availability-spinner" [showSpinner]="true">
                       </app-loading-spinner>
                     </ng-container>
                     <ng-template #showIcons>
-                      <i class="fas fa-check green input-icon"
-                        *ngIf="newAddressOptions.usernameExists === false && !addUserForm.controls?.username.errors">
+                      <i
+                        class="fas fa-check green input-icon"
+                        *ngIf="newAddressOptions.usernameExists === false && !addUserForm.controls?.username.errors"
+                      >
                       </i>
-                      <i class="fas fa-times text-danger input-icon" *ngIf="
+                      <i
+                        class="fas fa-times text-danger input-icon"
+                        *ngIf="
                           newAddressOptions.usernameExists === true ||
                           (addUserForm.controls?.username.errors && addUserForm.controls?.username.touched)
-                        ">
+                        "
+                      >
                       </i>
                     </ng-template>
                   </div>
                   <span *ngIf="userExistError" class="validate-message">{{ userExistError }}</span>
-                  <ng-container *ngIf="
+                  <ng-container
+                    *ngIf="
                       addUserForm.controls?.username.errors && addUserForm.controls?.username.touched;
                       else usernameExistsBlock
-                    ">
+                    "
+                  >
                     <span class="validate-message" *ngIf="addUserForm.controls?.username.errors">
-                      <ng-container *ngIf="
+                      <ng-container
+                        *ngIf="
                           addUserForm.controls?.username.errors.maxlength ||
                           addUserForm.controls?.username.errors.minlength
-                        ">
+                        "
+                      >
                         <span [translate]="'settings.org_username_len'">
                           The username must be between 4 and 64 characters.
                         </span>
@@ -186,14 +227,20 @@
                         </span>
                       </ng-container>
                     </span>
-                    <span *ngIf="addUserForm.controls?.username.errors.required" class="validate-message"
-                      [translate]="'settings.username_required'">
+                    <span
+                      *ngIf="addUserForm.controls?.username.errors.required"
+                      class="validate-message"
+                      [translate]="'settings.username_required'"
+                    >
                       The username is required.
                     </span>
                   </ng-container>
                   <ng-template #usernameExistsBlock>
-                    <span *ngIf="newAddressOptions.usernameExists === true" class="validate-message"
-                      [translate]="'settings.username_exist'">
+                    <span
+                      *ngIf="newAddressOptions.usernameExists === true"
+                      class="validate-message"
+                      [translate]="'settings.username_exist'"
+                    >
                       Username already exists.
                     </span>
                   </ng-template>
@@ -205,27 +252,44 @@
                   <strong [translate]="'settings.password'">Password</strong>
                 </label>
                 <div class="form-group position-relative">
-                  <label for="choosePassword" class="d-block text-muted text-left hidden-sm-up"
-                    [translate]="'create_account.choose_password'">
+                  <label
+                    for="choosePassword"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    [translate]="'create_account.choose_password'"
+                  >
                     Choose Password
                   </label>
                   <div class="input-group">
-                    <input #input class="form-control border-right-0" id="choosePassword"
-                      [placeholder]="'create_account.choose_password' | translate" type="password"
-                      aria-describedby="passwordToggle" name="password" formControlName="password" />
-                    <span class="input-group-addon password-toggle bg-white text-muted" id="passwordToggle"
-                      (click)="togglePassword(input)">
+                    <input
+                      #input
+                      class="form-control border-right-0"
+                      id="choosePassword"
+                      [placeholder]="'create_account.choose_password' | translate"
+                      type="password"
+                      aria-describedby="passwordToggle"
+                      name="password"
+                      formControlName="password"
+                    />
+                    <span
+                      class="input-group-addon password-toggle bg-white text-muted"
+                      id="passwordToggle"
+                      (click)="togglePassword(input)"
+                    >
                       <i class="fa fa-eye"></i>
                       <i class="fa fa-eye-slash"></i>
                     </span>
                   </div>
-                  <i class="fas fa-check green password-ok input-icon" *ngIf="
+                  <i
+                    class="fas fa-check green password-ok input-icon"
+                    *ngIf="
                       addUserForm.controls?.password?.value?.length > 0 &&
                       addUserForm.controls?.password?.value?.length <= 128
-                    "></i>
-                  <div *ngIf="
-                      addUserForm.controls?.password.errors && addUserForm.controls?.password.touched
-                    " class="validate-message">
+                    "
+                  ></i>
+                  <div
+                    *ngIf="addUserForm.controls?.password.errors && addUserForm.controls?.password.touched"
+                    class="validate-message"
+                  >
                     <ng-container *ngIf="addUserForm.controls?.password.errors.required">
                       <span [translate]="'login.password_required'"> The password is required. </span>
                     </ng-container>
@@ -237,26 +301,47 @@
                   </div>
                 </div>
                 <div class="form-group position-relative">
-                  <label for="confirmPassword" class="d-block text-muted text-left hidden-sm-up"
-                    [translate]="'create_account.confirm_password'">
+                  <label
+                    for="confirmPassword"
+                    class="d-block text-muted text-left hidden-sm-up"
+                    [translate]="'create_account.confirm_password'"
+                  >
                     Confirm Password
                   </label>
-                  <div class="input-group" [ngClass]="{
+                  <div
+                    class="input-group"
+                    [ngClass]="{
                       'is-validate':
                         addUserForm.controls.confirmPwd.invalid && !addUserForm.controls.confirmPwd.pristine
-                    }">
-                    <input #input2 class="form-control border-right-0" id="confirmPassword"
-                      [placeholder]="'create_account.confirm_password' | translate" type="password"
-                      aria-describedby="cofirmpasswordToggle" name="confirmPwd" formControlName="confirmPwd" />
-                    <span class="input-group-addon password-toggle bg-white text-muted" id="cofirmpasswordToggle"
-                      (click)="togglePassword(input2)">
+                    }"
+                  >
+                    <input
+                      #input2
+                      class="form-control border-right-0"
+                      id="confirmPassword"
+                      [placeholder]="'create_account.confirm_password' | translate"
+                      type="password"
+                      aria-describedby="cofirmpasswordToggle"
+                      name="confirmPwd"
+                      formControlName="confirmPwd"
+                    />
+                    <span
+                      class="input-group-addon password-toggle bg-white text-muted"
+                      id="cofirmpasswordToggle"
+                      (click)="togglePassword(input2)"
+                    >
                       <i class="fa fa-eye"></i>
                       <i class="fa fa-eye-slash"></i>
                     </span>
                   </div>
-                  <i class="fas fa-check green password-ok input-icon"
-                    *ngIf="!addUserForm.controls?.confirmPwd.errors"></i>
-                  <span *ngIf="addUserForm.controls?.confirmPwd.errors && addUserForm.controls.confirmPwd.touched" class="validate-message">
+                  <i
+                    class="fas fa-check green password-ok input-icon"
+                    *ngIf="!addUserForm.controls?.confirmPwd.errors"
+                  ></i>
+                  <span
+                    *ngIf="addUserForm.controls?.confirmPwd.errors && addUserForm.controls.confirmPwd.touched"
+                    class="validate-message"
+                  >
                     <span [translate]="'create_account.passwords_not_match'">Passwords do not match.</span>
                   </span>
                 </div>
@@ -265,7 +350,12 @@
               <div>
                 <label class="text-dark mb-0">
                   <div class="fancy-field-group">
-                    <mat-checkbox name="is_private" id="is_private" formControlName="is_private" [translate]="'settings.organization.private'">
+                    <mat-checkbox
+                      name="is_private"
+                      id="is_private"
+                      formControlName="is_private"
+                      [translate]="'settings.organization.private'"
+                    >
                       Private
                     </mat-checkbox>
                   </div>
@@ -279,22 +369,28 @@
                 <div class="form-group">
                   <div class="fancy-field-group">
                     <mat-slider
-                    class="w-75"
-                    formControlName="storage"
-                    thumbLabel
-                    [displayWith]="formatStorageLabel"
-                    step="10485760"
-                    min="104857600"
-                    max="1073741824"
-                    aria-label="units"></mat-slider>
-                    {{addUserForm?.value?.storage | filesize}}
+                      class="w-75"
+                      formControlName="storage"
+                      thumbLabel
+                      [displayWith]="formatStorageLabel"
+                      step="10485760"
+                      min="104857600"
+                      max="1073741824"
+                      aria-label="units"
+                    ></mat-slider>
+                    {{ addUserForm?.value?.storage | filesize }}
                   </div>
                 </div>
               </div>
 
               <div class="form-group text-center pt-2">
-                <button class="btn btn-lg btn-secondary" [disabled]="isAddingUserInProgress" (click)="submitAddUser()"
-                  type="submit" role="button">
+                <button
+                  class="btn btn-lg btn-secondary"
+                  [disabled]="isAddingUserInProgress"
+                  (click)="submitAddUser()"
+                  type="submit"
+                  role="button"
+                >
                   <span [translate]="'settings.add_user'">Add User</span>
                 </button>
                 <app-loading-spinner [showSpinner]="isAddingUserInProgress"></app-loading-spinner>
@@ -309,8 +405,8 @@
         <!--User Add form END-->
       </div>
     </div>
-  </div>
-</ng-template><!-- Add User modal ends -->
+  </div> </ng-template
+><!-- Add User modal ends -->
 
 <!-- Confirm user delete modal -->
 <ng-template #confirmDeleteModal let-c="close" let-d="dismiss">
@@ -326,7 +422,7 @@
     <div class="mail-actions-form-holder modal-mail-actions-form-holder">
       <div class="form-group">
         <span [translate]="'contacts.delete.message'">Are you sure, you want to delete</span>
-        <strong>{{ userToDelete?.name }} ({{userToDelete?.user_email}})</strong>?<br />
+        <strong>{{ userToDelete?.name }} ({{ userToDelete?.user_email }})</strong>?<br />
         <span class="warning">
           <span class="warning-text" [translate]="'settings.warning'">Warning</span>:
           <span [translate]="'settings.associated_data'">
@@ -336,15 +432,25 @@
       </div>
       <div class="form-group text-right mb-0">
         <app-loading-spinner [showSpinner]="organizationState.isDeleteInProgress"></app-loading-spinner>
-        <button (click)="cancelDelete()" class="btn btn-secondary btn-sm mr-2"
-          [disabled]="organizationState.isDeleteInProgress" [translate]="'common.cancel'" role="button">
+        <button
+          (click)="cancelDelete()"
+          class="btn btn-secondary btn-sm mr-2"
+          [disabled]="organizationState.isDeleteInProgress"
+          [translate]="'common.cancel'"
+          role="button"
+        >
           <span [translate]="'common.cancel'">Cancel</span>
         </button>
-        <button (click)="confirmDelete()" class="btn btn-danger btn-sm" [translate]="'common.delete'"
-          [disabled]="organizationState.isDeleteInProgress" role="button">
+        <button
+          (click)="confirmDelete()"
+          class="btn btn-danger btn-sm"
+          [translate]="'common.delete'"
+          [disabled]="organizationState.isDeleteInProgress"
+          role="button"
+        >
           <span [translate]="'common.delete'">Delete</span>
         </button>
       </div>
     </div>
-  </div>
-</ng-template><!-- /.Confirm delete modal ends -->
+  </div> </ng-template
+><!-- /.Confirm delete modal ends -->
