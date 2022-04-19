@@ -109,6 +109,9 @@
     "**/*.{js,ts}": [
       "eslint --fix",
       "prettier --write"
+    ],
+    "**/*.{html,scss}": [
+      "prettier --write"
     ]
   }
 }
