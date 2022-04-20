@@ -177,6 +177,7 @@ export class UsersCreateAccountComponent implements OnInit {
     if (this.selectedPlan !== PlanType.FREE) {
       this.navigateToBillingPage();
     } else {
+      this.inviteCode = this.inviteCode.trim();
       const reg = /^\d{4}-\d{4,6}$/;
       if (this.inviteCode && reg.test(this.inviteCode)) {
         this.signupFormCompleted();
