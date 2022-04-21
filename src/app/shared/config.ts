@@ -45,6 +45,18 @@ export function getEmailDomain(): string {
   return 'dev.ctemplar.com';
 }
 
+export function getMatomoUrl(): string {
+  return 'https://traffic.ctemplar.net/';
+}
+
+export function getMatomoSiteID(): number {
+  return 2;
+}
+
+export function isMatomoEnabled(): boolean {
+  return AppConfig.production;
+}
+
 export const apiUrl = getBaseUrl();
 export const PRIMARY_DOMAIN = AppConfig.production ? 'ctemplar.com' : 'dev.ctemplar.com';
 export const PRIMARY_WEBSITE = 'https://ctemplar.com';
