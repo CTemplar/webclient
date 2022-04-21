@@ -40,7 +40,7 @@ import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { NotificationService } from './store/services/notification.service';
 import { TimezoneService } from './store/services/timezone.service';
 import { errorHandlerFactory } from './app.error-handler';
-import { getMatomoSiteID, getMatomoUrl } from './shared/config';
+import { getMatomoSiteID, getMatomoUrl, isMatomoEnabled } from './shared/config';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -76,6 +76,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxMatomoTrackerModule.forRoot({
       siteId: getMatomoSiteID(),
       trackerUrl: getMatomoUrl(),
+      trackAppInitialLoad: true,
+      disabled: !isMatomoEnabled(),
     }),
     NgxMatomoRouterModule,
   ],
