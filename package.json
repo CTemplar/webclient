@@ -47,6 +47,8 @@
     "@ngrx/router-store": "^10.1.2",
     "@ngrx/store": "^10.1.2",
     "@ngrx/store-devtools": "^10.1.2",
+    "@ngx-matomo/router": "^1.3.5",
+    "@ngx-matomo/tracker": "^1.3.5",
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "@sentry/browser": "^6.17.2",
