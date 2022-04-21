@@ -10,6 +10,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CookieLawModule } from 'angular2-cookie-law';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
+import { NgxMatomoRouterModule } from '@ngx-matomo/router';
 
 import { AppComponent } from './app.component';
 import { AppStoreModule } from './store/store.module';
@@ -38,6 +40,7 @@ import { DateTimeUtilService } from './store/services/datetime-util.service';
 import { NotificationService } from './store/services/notification.service';
 import { TimezoneService } from './store/services/timezone.service';
 import { errorHandlerFactory } from './app.error-handler';
+import { getMatomoSiteID, getMatomoUrl, isMatomoEnabled } from './shared/config';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -70,6 +73,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     UsersModule,
     CookieLawModule,
     CKEditorModule,
+    NgxMatomoTrackerModule.forRoot({
+      siteId: getMatomoSiteID(),
+      trackerUrl: getMatomoUrl(),
+      trackAppInitialLoad: true,
+      disabled: !isMatomoEnabled(),
+    }),
+    NgxMatomoRouterModule,
   ],
   providers: [
     AuthGuard,
