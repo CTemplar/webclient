@@ -7,7 +7,7 @@ import { Subscription, timer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { take } from 'rxjs/operators';
-import { MatomoTracker } from 'ngx-matomo';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 
 import {
   CheckTransaction,
