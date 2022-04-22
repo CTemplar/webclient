@@ -158,7 +158,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private ngzone: NgZone,
-    private matomoTracker: MatomoTracker
+    private matomoTracker: MatomoTracker,
   ) {}
 
   ngOnInit() {
