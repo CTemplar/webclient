@@ -390,7 +390,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         this.store.dispatch(new UpgradeAccount(this.getSignupData({ stripe_token })));
       } else {
         // Matomo events for new sign ups
-        this.matomoTracker.trackEvent('signup', 'stripe', this.planType, this.paymentType);
+        this.matomoTracker.trackEvent('signup', 'stripe', this.planType);
 
         this.inProgress = true;
         this.openAccountInitModal();
@@ -421,7 +421,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
         );
       } else {
         // Matomo events for new sign ups
-        this.matomoTracker.trackEvent('signup', 'bitcoin', this.planType, this.paymentType);
+        this.matomoTracker.trackEvent('signup', 'bitcoin', this.planType);
 
         this.inProgress = true;
         this.openAccountInitModal();
