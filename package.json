@@ -1,6 +1,6 @@
 {
   "name": "ctemplar",
-  "version": "2.5.74",
+  "version": "2.5.75",
   "license": "Apache",
   "main": "electron-main.js",
   "description": "Angular webclient (with Linux, macOS and Windows desktop clients) for CTemplar's encrypted email service.",
@@ -110,6 +110,9 @@
   "lint-staged": {
     "**/*.{js,ts}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{html,scss}": [
       "prettier --write"
     ]
   }

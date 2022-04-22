@@ -7,6 +7,7 @@ import { Subscription, timer } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { take } from 'rxjs/operators';
+import { MatomoTracker } from 'ngx-matomo';
 
 import {
   CheckTransaction,
@@ -157,6 +158,7 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private ngzone: NgZone,
+    private matomoTracker: MatomoTracker,
   ) {}
 
   ngOnInit() {
@@ -387,6 +389,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
       } else if (this.isUpgradeAccount) {
         this.store.dispatch(new UpgradeAccount(this.getSignupData({ stripe_token })));
       } else {
+        // Matomo events for new sign ups
+        this.matomoTracker.trackEvent('signup', 'stripe', this.planType, this.paymentType);
+
         this.inProgress = true;
         this.openAccountInitModal();
         this.openPgpService
@@ -415,6 +420,9 @@ export class UsersBillingInfoComponent implements OnDestroy, OnInit {
           new UpgradeAccount(this.getSignupData({ from_address: this.bitcoinState.newWalletAddress })),
         );
       } else {
+        // Matomo events for new sign ups
+        this.matomoTracker.trackEvent('signup', 'bitcoin', this.planType, this.paymentType);
+
         this.inProgress = true;
         this.openAccountInitModal();
         this.openPgpService

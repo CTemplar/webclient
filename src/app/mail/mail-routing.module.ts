@@ -18,6 +18,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'inbox/page/1', pathMatch: 'full' },
       { path: 'settings', component: MailSettingsComponent },
       { path: 'settings/:id', component: MailSettingsComponent },
+      { path: 'settings/:id/:mode', component: MailSettingsComponent },
+      { path: 'settings/:id/:mode/:orgId', component: MailSettingsComponent },
       { path: 'contacts', component: MailContactComponent },
       { path: ':folder/page/:page', component: MailListComponent },
       { path: ':folder/page/:page/message/:id', component: MailDetailComponent },

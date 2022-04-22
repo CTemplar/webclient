@@ -1,11 +1,5 @@
 <div class="mailbox-sub-content" #settingsContent>
-  <div
-    ngbNav
-    #navSet="ngbNav"
-    class="nav-tabs"
-    [(activeId)]="selectedTabQueryParams"
-    (navChange)="navigateToTab($event)"
-  >
+  <div ngbNav #navSet="ngbNav" class="nav-tabs" [(activeId)]="selectedTab" (navChange)="navigateToTab($event)">
     <!-- Dashboard and Plans -->
     <div class="nav" [ngbNavItem]="'dashboard-and-plans'">
       <a ngbNavLink class="nav-link" [translate]="'settings.dashboard_plans'"> Dashboard & Plans </a>
@@ -1708,6 +1702,14 @@
       <a ngbNavLink class="nav-link" [translate]="'settings.domains_and_users.title'">Domains & Users</a>
       <ng-template ngbNavContent>
         <app-custom-domains (onGotoTab)="navSet.select($event)"></app-custom-domains>
+      </ng-template>
+    </div>
+
+    <!-- Organizations -->
+    <div class="nav" [ngbNavItem]="'organization'">
+      <a ngbNavLink class="nav-link" [translate]="'settings.organization.title'">Organization</a>
+      <ng-template ngbNavContent>
+        <app-organization-dashboard (onGotoTab)="navSet.select($event)"></app-organization-dashboard>
       </ng-template>
     </div>
 

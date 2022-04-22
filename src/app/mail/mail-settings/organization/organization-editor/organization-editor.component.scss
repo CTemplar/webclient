@@ -1,0 +1,51 @@
+@import '~styles/base/variables';
+@import '~styles/vendors/include-media/include-media';
+@import '~styles/config/include-media-config';
+@import '~styles/vendors/ceaser/ceaser-easing';
+@import '~styles/theme-variables-collection';
+@import '~styles/themes';
+
+.stepper-form {
+  padding: 1.5625rem 1.875rem 2.5rem 1.875rem;
+  font-size: 0.875rem;
+  background-color: var(--bg-faded);
+
+  .domain-input {
+    width: 28.125rem;
+    padding: 0.75rem 0.8125rem;
+    @include media('<=sm') {
+      width: 100%;
+    }
+  }
+
+  @include media('<=sm') {
+    padding: 0;
+  }
+}
+
+.dropdown-toggle::before {
+  display: none;
+}
+
+.dropdown-toggle {
+  width: 100%;
+}
+
+.btn-group-controls {
+  display: flex;
+  justify-content: flex-end;
+
+  @include media('<ipad', '>sm') {
+    justify-content: flex-start;
+  }
+
+  @include media('<=sm') {
+    justify-content: center;
+  }
+}
+
+:host ::ng-deep {
+  .mat-vertical-stepper-content {
+    overflow: visible;
+  }
+}

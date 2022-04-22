@@ -1,49 +1,48 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 
-import { OrganizationUser } from '../../../../store/models';
-import { PRIMARY_WEBSITE, VALID_EMAIL_REGEX } from '../../../../shared/config';
+import { Organization, OrgUser, AppState, OrgUserRequest } from '../../../../store/datatypes';
 import { PasswordValidation } from '../../../../users/users-create-account/users-create-account.component';
-import { AppState, UserState } from '../../../../store/datatypes';
 import { OpenPgpService, UsersService } from '../../../../store/services';
-import {
-  AddOrganizationUser,
-  DeleteOrganizationUser,
-  UpdateOrganizationUser,
-} from '../../../../store/actions/organization.action';
-import { MoveTab, SnackErrorPush } from '../../../../store/actions';
+import { SnackErrorPush } from '../../../../store/actions';
 import { OrganizationState } from '../../../../store/reducers/organization.reducer';
+import { AddOrgUser, DeleteOrgUser, UpdateOrgUser } from '../../../../store/actions/organization.action';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-organization-users',
-  templateUrl: './organization-users.component.html',
-  styleUrls: ['./organization-users.component.scss'],
+  selector: 'app-organization-users-list',
+  templateUrl: './organization-users-list.component.html',
+  styleUrls: ['./organization-users-list.component.scss'],
 })
-export class OrganizationUsersComponent implements OnInit {
+export class OrganizationUsersListComponent {
+  @Input() users: OrgUser[] = [];
+
+  @Input() organization: Organization;
+
   @ViewChild('addUserModal') addUserModal: any;
 
   @ViewChild('confirmDeleteModal') confirmDeleteModal: any;
 
-  users: OrganizationUser[];
+  private addUserModalRef: NgbModalRef;
+
+  private confirmDeleteModalRef: NgbModalRef;
 
   addUserForm: FormGroup;
+
+  editUserForm: FormGroup;
+
+  unmodifiedUsers: { [key: number]: OrgUser } = {};
 
   errorMessage: any;
 
   userExistError: string;
 
-  submitted: boolean;
-
   organizationState: OrganizationState;
-
-  customDomains: string[];
 
   newAddressOptions = { usernameExists: false, inProgress: false };
 
@@ -51,15 +50,7 @@ export class OrganizationUsersComponent implements OnInit {
 
   isAddingUserInProgress: boolean;
 
-  userState: UserState;
-
-  selectedUser: OrganizationUser;
-
-  primaryWebsite = PRIMARY_WEBSITE;
-
-  private addUserModalRef: NgbModalRef;
-
-  private confirmDeleteModalRef: NgbModalRef;
+  userToDelete: OrgUser;
 
   private isDeleteInProgress: boolean;
 
@@ -70,14 +61,14 @@ export class OrganizationUsersComponent implements OnInit {
     private openPgpService: OpenPgpService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
-    private router: Router,
   ) {}
 
   ngOnInit() {
     this.addUserForm = this.formBuilder.group(
       {
+        name: null,
         username: [
-          '',
+          null,
           [
             Validators.required,
             Validators.pattern(/^\w+([.-]?\w+)*$/),
@@ -85,38 +76,23 @@ export class OrganizationUsersComponent implements OnInit {
             Validators.minLength(4),
           ],
         ],
-        domain: ['', Validators.required],
-        password: ['', [Validators.required, Validators.maxLength(128)]],
-        confirmPwd: ['', [Validators.required, Validators.maxLength(128)]],
-        recoveryEmail: ['', [Validators.pattern(VALID_EMAIL_REGEX)]],
+        password: [null, [Validators.required, Validators.maxLength(128)]],
+        confirmPwd: [null, [Validators.required, Validators.maxLength(128)]],
+        // recoveryEmail: [null, [Validators.pattern(VALID_EMAIL_REGEX)]],
+        is_private: false,
+        domain: this.organization?.custom_domain_name,
+        storage: 104_857_600,
       },
       {
         validator: PasswordValidation.MatchPassword,
       },
     );
 
-    /**
-     * Get user's custom domains
-     */
-    this.store
-      .select(state => state.user)
-      .pipe(untilDestroyed(this))
-      .subscribe((user: UserState) => {
-        this.userState = user;
-        this.customDomains = user.customDomains
-          .filter(item => item.is_domain_verified && item.is_mx_verified)
-          .map(item => item.domain);
-        if (this.customDomains.length > 0) {
-          this.addUserForm.get('domain').setValue(this.customDomains[0]);
-        }
-      });
-
     this.store
       .select(state => state.organization)
       .pipe(untilDestroyed(this))
       .subscribe((organizationState: OrganizationState) => {
         this.organizationState = organizationState;
-        this.users = organizationState.users;
         if (this.isAddingUserInProgress && !this.organizationState.isAddingUserInProgress) {
           this.isAddingUserInProgress = false;
           if (this.organizationState.isError) {
@@ -137,20 +113,12 @@ export class OrganizationUsersComponent implements OnInit {
   openAddUserModal() {
     this.errorMessage = null;
     this.isAddingUser = true;
-    this.addUserForm.get('domain').setValue(this.customDomains[0]);
     this.addUserModalRef = this.modalService.open(this.addUserModal, {
       centered: true,
       windowClass: 'modal-sm users-action-modal org-user-add-modal',
       backdrop: 'static',
     });
-    this.addUserModalRef.result.then(
-      () => {
-        this.addUserModalClosed();
-      },
-      () => {
-        this.addUserModalClosed();
-      },
-    );
+    this.addUserModalRef.result.then(this.addUserModalClosed, this.addUserModalClosed);
   }
 
   addUserModalClosed() {
@@ -158,16 +126,14 @@ export class OrganizationUsersComponent implements OnInit {
     this.isAddingUserInProgress = false;
     this.isAddingUser = false;
     this.newAddressOptions = { usernameExists: false, inProgress: false };
-    this.submitted = false;
   }
 
   closeAddUserModal() {
     this.addUserModalRef.close();
-    this.store.dispatch(new MoveTab('addresses-and-signatures'));
   }
 
   submitAddUser() {
-    this.submitted = true;
+    this.addUserForm.markAllAsTouched();
     this.errorMessage = null;
     if (this.addUserForm.invalid || this.newAddressOptions.usernameExists === true) {
       return;
@@ -186,12 +152,24 @@ export class OrganizationUsersComponent implements OnInit {
   }
 
   addNewUser() {
-    const user = new OrganizationUser({
+    const user: any = {
       ...this.addUserForm.value,
       ...this.openPgpService.getUserKeys(),
       username: this.getEmail(),
-    });
-    this.store.dispatch(new AddOrganizationUser(user));
+    };
+    const toSave: OrgUserRequest = {
+      email: user.username,
+      name: user.name,
+      fingerprint: user.fingerprint,
+      organisation: this.organization.id,
+      password: user.password,
+      public_key: user.public_key,
+      private_key: user.private_key,
+      is_private: user.is_private,
+      role: user.role,
+      storage: user.storage,
+    };
+    this.store.dispatch(new AddOrgUser(toSave));
   }
 
   generateKeyFailed() {
@@ -199,17 +177,29 @@ export class OrganizationUsersComponent implements OnInit {
     this.store.dispatch(new SnackErrorPush({ message: this.translate.instant('create_account.failed_generate_code') }));
   }
 
-  startUpdatingUser(user: OrganizationUser) {
-    user.unmodifiedUser = new OrganizationUser(user);
+  startUpdatingUser(user: OrgUser) {
+    this.unmodifiedUsers[user.id] = { ...user };
   }
 
-  updateUser(user: OrganizationUser) {
-    this.store.dispatch(new UpdateOrganizationUser(user));
+  updateUser(user: OrgUser) {
+    const toUpdate: OrgUserRequest = {
+      name: user.name,
+      storage: user.storage,
+      is_private: user.is_private,
+    } as OrgUserRequest;
+    this.store.dispatch(new UpdateOrgUser(user.id, toUpdate, this.unmodifiedUsers[user.id]));
   }
 
-  openConfirmDeleteModal(user: OrganizationUser) {
+  cancelUpdateUser(user: OrgUser) {
+    const unmodifiedUser = this.unmodifiedUsers[user.id];
+    user.name = unmodifiedUser.name;
+    user.storage = unmodifiedUser.storage;
+    user.is_private = unmodifiedUser.is_private;
+  }
+
+  openConfirmDeleteModal(user: OrgUser) {
     if (!this.organizationState.inProgress) {
-      this.selectedUser = user;
+      this.userToDelete = user;
       this.confirmDeleteModalRef = this.modalService.open(this.confirmDeleteModal, {
         centered: true,
         windowClass: 'modal-sm users-action-modal',
@@ -220,11 +210,11 @@ export class OrganizationUsersComponent implements OnInit {
 
   confirmDelete() {
     this.isDeleteInProgress = true;
-    this.store.dispatch(new DeleteOrganizationUser(this.selectedUser));
+    this.store.dispatch(new DeleteOrgUser(this.userToDelete));
   }
 
   cancelDelete() {
-    this.selectedUser = null;
+    this.userToDelete = null;
     this.confirmDeleteModalRef.close();
   }
 
@@ -268,4 +258,6 @@ export class OrganizationUsersComponent implements OnInit {
     }
     input.type = input.type === 'password' ? 'text' : 'password';
   }
+
+  formatStorageLabel = (value: number) => value / (1024 * 1024);
 }

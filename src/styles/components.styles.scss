@@ -35,7 +35,8 @@
   color: $brand-danger;
 }
 
-app-custom-domains {
+app-custom-domains,
+app-organization-dashboard {
   .mat-stepper-vertical,
   .mat-stepper-horizontal {
     font-family: 'Lato', Helvetica, Arial, sans-serif;

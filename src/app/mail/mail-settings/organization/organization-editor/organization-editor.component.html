@@ -1,0 +1,107 @@
+<div class="desc-card">
+  <div class="ml-3 my-3 my-sm-4">
+    <h3 class="ui-header-subtitle text-dark mb-0 d-inline-block">
+      <strong [translate]="'settings.organization.create_organization'">Create Organization</strong>
+    </h3>
+  </div>
+
+  <div class="desc-card-body bg-faded">
+    <mat-vertical-stepper [selectedIndex]="currentStep" #stepper>
+      <ng-template matStepperIcon="edit">
+        <i class="fa fa-check"></i>
+      </ng-template>
+      <!-- Organization Name -->
+      <mat-step [stepControl]="organizationNameForm">
+        <form [formGroup]="organizationNameForm">
+          <ng-template matStepLabel>
+            <span class="font-weight-bold" [translate]="'settings.organization.organization_name'">
+              Organization name
+            </span>
+          </ng-template>
+          <div class="stepper-form">
+            <div class="pb-3">
+              <span class="text-dark" [translate]="'settings.organization.new_organization_name_label'">
+                Give a name for your organization
+              </span>
+            </div>
+            <div>
+              <input
+                class="domain-input text-dark form-control"
+                id="name"
+                type="text"
+                placeholder="Organization Name"
+                formControlName="name"
+                #name
+              />
+            </div>
+            <div
+              *ngIf="organizationNameForm?.controls?.name?.touched && organizationNameForm?.controls?.name?.errors"
+              class="l-alert l-alert-danger mt-3 d-flex flex-column"
+            >
+              <span
+                [hidden]="!organizationNameForm?.controls?.name?.errors?.required"
+                [translate]="'settings.organization.name_is_required'"
+                >Organization name is required</span
+              >
+              <span
+                [hidden]="
+                  !(
+                    organizationNameForm?.controls?.name?.errors?.minlength ||
+                    organizationNameForm?.controls?.name?.errors?.maxlength
+                  )
+                "
+                [translate]="'settings.organization.name_length'"
+                >Organization name must be between 4 and 64 characters.</span
+              >
+            </div>
+            <div class="mt-3 mt-sm-4">
+              <button class="btn btn-sm btn-secondary" (click)="gotoStep2()">
+                <span [translate]="'settings.next'">Next</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Domain -->
+      <mat-step [stepControl]="domainNameForm">
+        <form [formGroup]="domainNameForm">
+          <ng-template matStepLabel>
+            <span class="font-weight-bold" [translate]="'settings.organization.domain_name'"> Domain Name </span>
+          </ng-template>
+          <div class="stepper-form">
+            <div class="py-3">
+              <span class="text-dark" [translate]="'settings.organization.new_organization_pick_domain'">
+                Pick a domain for your organization
+              </span>
+            </div>
+            <div>
+              <custom-dropdown class="domain-input" [options]="domainOptions" formControlName="custom_domain">
+              </custom-dropdown>
+            </div>
+            <div
+              *ngIf="
+                domainNameForm?.controls?.custom_domain?.touched && domainNameForm?.controls?.custom_domain?.errors
+              "
+              class="l-alert l-alert-danger mt-3 d-flex flex-column"
+            >
+              <span
+                [hidden]="!domainNameForm?.controls?.custom_domain?.errors?.required"
+                [translate]="'settings.organization.domain_is_required'"
+                >Domain is required</span
+              >
+            </div>
+          </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+    <div class="btn-group-controls mt-3">
+      <button class="btn btn-outline-secondary mr-3" (click)="onCancelClick()">
+        <span class="text-small" [translate]="'common.cancel'">Cancel</span>
+      </button>
+      <button *ngIf="currentStep === 1" class="btn btn-secondary" (click)="onSaveClick()">
+        <span class="text-small" [translate]="'common.save'">Save</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@ import { Filter } from './models/filter.model';
 import { SearchState } from './reducers/search.reducers';
 import { Folder } from './models/mail.model';
 import { WebSocketState } from './websocket.store';
-import { OrganizationState } from './organization.store';
+import { OrganizationState } from './reducers/organization.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -902,3 +902,40 @@ export enum FeedbackType {
 }
 
 export type ExportContactsFileFormat = 'csv' | 'vcf';
+
+export interface Organization {
+  id?: number;
+  name: string;
+  custom_domain: number; // custom domain id
+  custom_domain_name?: string; // custom domain url
+  password?: string;
+  private_key?: string;
+  public_key?: string;
+  fingerprint?: string;
+  key_type?: string;
+  storage?: number;
+  user_count?: number;
+}
+
+export interface OrgUserRequest {
+  email: string;
+  password: string;
+  private_key: string;
+  public_key: string;
+  fingerprint: string;
+  name: string;
+  storage?: number;
+  role?: string;
+  is_private?: boolean;
+  organisation: number;
+}
+
+export interface OrgUser {
+  id: number;
+  user_email: string;
+  name: string;
+  storage: number;
+  role: string;
+  is_private: boolean;
+  organisation: number;
+}

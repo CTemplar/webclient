@@ -1,0 +1,12 @@
+<div class="btn-dropdown btn-dropdown-select">
+  <div ngbDropdown class="dropdown-sm">
+    <button ngbDropdownToggle class="dropdown-toggle w-100" role="button">
+      {{ selectedOption === null ? 'Select' : selectedOption?.label }}
+    </button>
+    <div ngbDropdownMenu>
+      <a *ngFor="let option of options" (click)="changeSelectedOption(option)" class="dropdown-item">{{
+        option?.label
+      }}</a>
+    </div>
+  </div>
+</div>

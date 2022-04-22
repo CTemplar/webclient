@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSliderModule } from '@angular/material/slider';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -21,6 +22,10 @@ import { AddressesSignatureComponent } from './mail-settings/addresses-signature
 import { ComposeMailComponent } from './mail-sidebar/compose-mail/compose-mail.component';
 import { ComposeMailDialogComponent } from './mail-sidebar/compose-mail-dialog/compose-mail-dialog.component';
 import { CustomDomainsComponent } from './mail-settings/custom-domains/custom-domains.component';
+import { OrganizationDashboardComponent } from './mail-settings/organization/organization-dashboard/organization-dashboard.component';
+import { OrganizationEditorComponent } from './mail-settings/organization/organization-editor/organization-editor.component';
+import { OrganizationViewerComponent } from './mail-settings/organization/organization-viewer/organization-viewer.component';
+import { OrganizationUsersListComponent } from './mail-settings/organization/organization-users-list/organization-users-list.component';
 import { FoldersComponent } from './mail-settings/folders/folders.component';
 import { GenericFolderComponent } from './mail-list/mail-folder/generic-folder/generic-folder.component';
 import { InviteCodesComponent } from './mail-settings/invite-codes/invite-codes.component';
@@ -84,6 +89,10 @@ import { ExportMessageComponent } from './dialogs/export-message/export-message.
     MailDetailBodyComponent,
     MailDetailPasswordDecryptionPanelComponent,
     ExportMessageComponent,
+    OrganizationDashboardComponent,
+    OrganizationEditorComponent,
+    OrganizationViewerComponent,
+    OrganizationUsersListComponent,
   ],
   imports: [
     CommonModule,
@@ -95,6 +104,7 @@ import { ExportMessageComponent } from './dialogs/export-message/export-message.
     MatFormFieldModule,
     MatInputModule,
     MatStepperModule,
+    MatSliderModule,
     NgbModalModule,
     NgbModule,
     DragDropModule,
