@@ -1624,4 +1624,8 @@
   @include media('<=sm') {
     top: 3rem;
   }
+  .know-more {
+    text-shadow: none;
+    color: #143994;
+  }
 }
