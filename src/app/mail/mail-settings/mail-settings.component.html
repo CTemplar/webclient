@@ -30,15 +30,7 @@
                             <div>
                               <i class="far fa-credit-card"></i>
                             </div>
-                            <div>
-                              <a
-                                (click)="scroll(targetUpgrade)"
-                                class="btn btn-gradient-primary cursor-pointer"
-                                [translate]="'settings.upgrade'"
-                              >
-                                Upgrade
-                              </a>
-                            </div>
+                            <div></div>
                           </div>
                         </div>
                         <div class="col-md-7 col-sm user-details">
@@ -215,18 +207,6 @@
                               <span>{{
                                 isLifeTimePrime ? 'Never' : (payment.billing_cycle_ends | momentDate: 'mediumDate')
                               }}</span>
-                              <a
-                                *ngIf="
-                                  !isLifeTimePrime &&
-                                  (!settings.recurrence_billing || payment?.payment_method === paymentMethod.bitcoin)
-                                "
-                                [ngbTooltip]="'settings.extend_billing_cycle' | translate"
-                                class="float-right"
-                                (click)="renew()"
-                                [translate]="'settings.renew'"
-                              >
-                                Renew
-                              </a>
                             </div>
                           </li>
                           <li class="info-list-item">
@@ -360,35 +340,6 @@
               </div>
             </div>
           </div>
-        </section>
-        <!-- Account Type Section -->
-        <section id="account-type" class="mailbox-section" #targetUpgrade>
-          <div class="ui-header ui-header-bordered position-relative">
-            <h5 class="ui-header-subtitle text-dark mb-0">
-              <a class="anchor" aria-hidden="true" routerLink="." fragment="account-type" anchorScroll>
-                <i class="fas fa-link link-icon"></i>
-              </a>
-              <strong [translate]="'settings.account_type'">Account Type</strong>
-            </h5>
-          </div>
-          <app-pricing-plans
-            hideHeader="true"
-            blockGapsZero="true"
-            [showCurrentPlan]="true"
-            [userPlanType]="userPlanType"
-            [isLifetimePrime]="isLifeTimePrime"
-            [selectedCurrency]="payment.currency"
-            [paymentType]="payment.payment_type"
-            [paymentMethod]="
-              payment.payment_method === 'stripe'
-                ? paymentMethod.STRIPE
-                : payment.payment_method === 'bitcoin'
-                ? paymentMethod.BITCOIN
-                : payment.payment_method
-            "
-            [openBillingInfoInModal]="true"
-          >
-          </app-pricing-plans>
         </section>
       </ng-template>
     </div>
@@ -1562,7 +1513,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToBlacklist(item.id, item.name, item.email)" role="button">
@@ -1644,7 +1602,14 @@
                     </div>
                     <div class="col-2 col-sm-4">
                       <ul
-                        class="setting-actions-list d-flex align-items-center justify-content-end list-styled text-right"
+                        class="
+                          setting-actions-list
+                          d-flex
+                          align-items-center
+                          justify-content-end
+                          list-styled
+                          text-right
+                        "
                       >
                         <li>
                           <a (click)="moveToWhitelist(item.id, item.name, item.email)" role="button">

@@ -12,10 +12,9 @@ import { DecryptMessageComponent } from './decrypt/decrypt-message.component';
 const routes: Routes = [
   { path: '', redirectTo: 'signin', pathMatch: 'full' },
   { path: 'signin', component: UsersSignInComponent, canActivate: [AuthGuard] },
-  { path: 'signup', component: UsersSignUpComponent },
-  { path: 'create-account', component: UsersCreateAccountComponent },
   { path: 'billing-info', component: UsersBillingInfoComponent },
   { path: 'message/:hash/:secret/:senderId', component: DecryptMessageComponent },
+  { path: '**', redirectTo: 'signin' },
 ];
 
 @NgModule({

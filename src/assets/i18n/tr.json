@@ -989,5 +989,6 @@
     },
     "expiring_in": "Süresi doluyor",
     "reply_securely": "Güvenli Yanıtlayın"
-  }
+  },
+  "closure-message": "Notice: CTemplar email service will be shutting down on May 26th 2022"
 }

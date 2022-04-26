@@ -18,7 +18,6 @@ const routes: Routes = [
       { path: 'bitcoin', component: BitcoinFormComponent },
     ],
   },
-  { path: 'pricing', component: PricingPlansComponent },
 ];
 
 @NgModule({
