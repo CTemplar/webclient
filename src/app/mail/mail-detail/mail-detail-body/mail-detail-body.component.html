@@ -48,7 +48,18 @@
             id="messageReplyDropdownMenuButton"
           ></button>
           <div ngbDropdownMenu aria-labelledby="messageReplyDropdownMenuButton">
-            <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX"> </ng-container>
+            <ng-container *ngIf="mailFolder !== mailFolderTypes.OUTBOX">
+              <a class="dropdown-item" (click)="onReply.emit(); scrollToReplyAction.emit()">
+                {{ 'mail_detail.reply' | translate }}
+              </a>
+              <a
+                class="dropdown-item"
+                *ngIf="mail?.cc?.length || mail?.bcc?.length || mail?.receiver?.length > 1"
+                (click)="onReplyAll.emit(); scrollToReplyAction.emit()"
+              >
+                {{ 'mail_detail.reply_all' | translate }}
+              </a>
+            </ng-container>
             <a class="dropdown-item" *ngIf="mail?.delayed_delivery" (click)="onCancelSend.emit()">
               {{ 'mail_detail.cancel_send' | translate }}
             </a>
