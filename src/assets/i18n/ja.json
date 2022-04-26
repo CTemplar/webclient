@@ -989,5 +989,6 @@
     },
     "expiring_in": "期限",
     "reply_securely": "安全に返信する"
-  }
+  },
+  "closure-message": "Notice: CTemplar email service will be shutting down on May 26th 2022"
 }

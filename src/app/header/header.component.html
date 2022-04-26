@@ -93,17 +93,6 @@
                   >Security</a
                 >
               </li>
-              <li class="nav-item" routerLinkActive="active">
-                <a
-                  href="{{ primaryWebsite }}/pricing/"
-                  class="nav-link"
-                  (click)="closeMenu()"
-                  [translate]="'home_header.pricing'"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Pricing</a
-                >
-              </li>
               <li class="nav-item">
                 <a
                   href="{{ primaryWebsite }}/support/"
@@ -136,21 +125,12 @@
               </li>
               <li class="nav-item hidden-sm-up" routerLinkActive="active" *showInIE="false">
                 <a
-                  routerLink="/signup"
-                  *ngIf="!(isLoggedIn$ | async); else mobileLogoutLink"
+                  *ngIf="isLoggedIn$ | async"
                   class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn"
-                  (click)="closeMenu()"
-                  [translate]="'home_header.signup'"
-                  >Sign up</a
+                  (click)="closeMenu(); logout()"
+                  [translate]="'common.logout'"
+                  >Logout</a
                 >
-                <ng-template #mobileLogoutLink>
-                  <a
-                    class="nav-link nav-action-link btn btn-sm btn-gradient-primary signup-btn"
-                    (click)="closeMenu(); logout()"
-                    [translate]="'common.logout'"
-                    >Logout</a
-                  >
-                </ng-template>
               </li>
             </ul>
           </div>
@@ -180,22 +160,14 @@
               *showInIE="false"
             >
               <a
-                *ngIf="!(isLoggedIn$ | async); else logoutLink"
-                routerLink="/signup"
+                *ngIf="isLoggedIn$ | async"
+                routerLink="/signin"
+                (click)="logout()"
                 class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
-                [translate]="'home_header.signup'"
-                >Sign Up</a
+                [translate]="'common.logout'"
               >
-              <ng-template #logoutLink>
-                <a
-                  routerLink="/signin"
-                  (click)="logout()"
-                  class="user-actions-link btn btn-sm btn-gradient-primary signup-btn"
-                  [translate]="'common.logout'"
-                >
-                  Logout</a
-                >
-              </ng-template>
+                Logout</a
+              >
             </li>
             <li class="user-actions-item btn-dropdown" [hidden]="externalPageCallToAction">
               <div ngbDropdown placement="bottom-right" class="lang-selector-dropdown">

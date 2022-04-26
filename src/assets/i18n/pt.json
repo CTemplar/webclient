@@ -993,5 +993,6 @@
     },
     "expiring_in": "Expiring in",
     "reply_securely": "Reply Securely"
-  }
+  },
+  "closure-message": "Notice: CTemplar email service will be shutting down on May 26th 2022"
 }

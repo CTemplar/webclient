@@ -1607,3 +1607,25 @@
 .badge-position {
   right: 1.563rem !important;
 }
+
+.closure-message {
+  padding: 4px;
+  margin: 0;
+  border: 3px solid red;
+  border-radius: 2px;
+  background-color: #cd7d7d;
+  position: relative;
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2rem;
+  text-shadow: 5px 2px 11px #1d0c0c;
+
+  @include media('<=sm') {
+    top: 3rem;
+  }
+  .know-more {
+    text-shadow: none;
+    color: #143994;
+  }
+}
