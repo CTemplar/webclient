@@ -72,6 +72,8 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
 
   isEnalbedUserSelect$ = new BehaviorSubject<boolean>(false);
 
+  exportedDataLink: string;
+
   constructor(
     private store: Store<AppState>,
     private sharedService: SharedService,
@@ -109,6 +111,10 @@ export class MailComponent implements OnDestroy, OnInit, AfterViewInit {
             });
           }
           this.isLoadedData = true;
+          console.log('userState', userState);
+          if (userState?.export_zip_ready) {
+            this.exportedDataLink = `https://attachments.ctemplar.com/ctemplar/export-data/${userState?.user_uuid}.zip`;
+          }
           this.store.dispatch(new GetMailboxes());
           this.store.dispatch(new TimezoneGet());
 

@@ -99,7 +99,7 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
 
     case UsersActionTypes.BLACKLIST_DELETE_LOCAL: {
       const { blackList } = state;
-      const newBlackList = blackList.filter(b => !action.payload.some(p => p === b.email));
+      const newBlackList = blackList.filter(b => !action.payload.includes(b.email));
       return {
         ...state,
         blackList: newBlackList,
@@ -202,6 +202,8 @@ export function reducer(state = initialState, action: UsersActionAll): UserState
         autoresponder: action.payload.autoresponder,
         isLoaded: true,
         has_notification: action.payload.has_notification,
+        user_uuid: action.payload.user_uuid,
+        export_zip_ready: action.payload.export_zip_ready,
       };
     }
 
