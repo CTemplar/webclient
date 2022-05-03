@@ -167,6 +167,10 @@ export class UserState {
   notifications?: any;
 
   cards?: Array<CardState>;
+
+  export_zip_ready?: boolean;
+
+  user_uuid?: string;
 }
 
 export interface InviteCode {
